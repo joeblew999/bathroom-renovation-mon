@@ -1,0 +1,43 @@
+# Test, build and publish the quote to GitHub Pages on every push to main.
+# It runs the same mise tasks as on a Mac, so CI and local builds can't disagree.
+# Published at https://joeblew999.github.io/bathroom-renovation-mon/
+#   index.html                          the quote as a web page
+#   bathroom-renovation-quote.pdf       the same page as a PDF
+name: Publish the quote
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+      - run: mise run setup
+      - run: mise run test
+      - run: mise run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

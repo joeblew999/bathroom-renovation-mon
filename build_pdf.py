@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""Build one PDF for the builder: the phases and the materials, then the drawings.
+"""Build the quote: one web page and the same page as a PDF, into out/.
 
 One process, one straight line:
 
   1. load      project.load      read the five sources once, check them
   2. draw      draw_walls.draw_all   floor plan + wall elevations (warnings in red), as SVG text
   3. fill      tables.fill       the phases and the material list, references resolved
-  4. html      Markdown → HTML, drawings appended one per page
-  5. pdf       print with the pre-installed Chromium (Playwright)
+  4. html      Markdown → HTML, drawings appended one per page   → out/index.html
+  5. pdf       that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
-The PDF is the only file written; the Markdown source is never rewritten.
-(`mise run drawings` writes the drawings as .svg files, if you want them on their own.)
+These two files are the only output, always written together from the same page.
+out/ is not committed; the GitHub workflow builds it the same way and publishes it to
+GitHub Pages. The Markdown source is never rewritten.
 
 Bad data stops the build with one ERROR line naming the file and the problem.
 
-Usage:  python3 build_pdf.py [quote.md] [out.pdf]
+Usage:  python3 build_pdf.py [quote.md] [out-folder]
 """
 import sys
 from pathlib import Path
@@ -26,6 +27,8 @@ from draw_walls import draw_all
 from project import ProjectError, load
 from tables import fill
 
+PDF_NAME = "bathroom-renovation-quote.pdf"
+TITLE = "รายละเอียดหน้างานห้องน้ำใหม่ / New Bathroom Work Details"
 CSS = """
   @page { size: A4; margin: 14mm 12mm; }
   body { font-family: "Helvetica", "Arial", "Loma", "Sarabun", "Noto Sans Thai", sans-serif;
@@ -49,7 +52,9 @@ def html(doc, drawings):
     """The filled document plus the drawings (in the order given), one per page, as one HTML page."""
     body = markdown.markdown(doc, extensions=["tables", "sane_lists"])
     pages = "".join(f'<section class="drawing">{svg}</section>' for svg in drawings)
-    return f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body>{body}{pages}</body></html>'
+    return (f'<!doctype html><html lang="th"><head><meta charset="utf-8">'
+            f'<meta name="viewport" content="width=device-width, initial-scale=1">'
+            f'<title>{TITLE}</title><style>{CSS}</style></head><body>{body}{pages}</body></html>')
 
 
 def pdf(page_html, out):
@@ -62,25 +67,27 @@ def pdf(page_html, out):
         browser.close()
 
 
-def build(md, out):
-    """Run the whole pipeline. Returns the warnings. Raises ProjectError on bad data."""
+def build(md, out_dir):
+    """Run the whole pipeline. Returns the warnings. Raises ProjectError on bad data
+    (before anything is written)."""
     p = load(md)
-    drawings = draw_all(p)
-    doc = fill(p)
-    pdf(html(doc, drawings.values()), out)
+    page = html(fill(p), draw_all(p).values())
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "index.html").write_text(page, encoding="utf-8")
+    pdf(page, out_dir / PDF_NAME)
     return p.warnings()
 
 
 def main(argv):
     md = Path(argv[1] if len(argv) > 1 else "bathroom-renovation-quote.md")
-    out = Path(argv[2] if len(argv) > 2 else md.with_suffix(".pdf").name)
+    out = Path(argv[2] if len(argv) > 2 else "out")
     try:
         warnings = build(md, out)
     except ProjectError as e:
         sys.exit(f"ERROR: {e}")
     for where, w in warnings:
         print(f"WARNING ({where}): {w}")
-    print(f"Wrote {out} · {len(warnings)} warnings")
+    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} warnings")
 
 
 if __name__ == "__main__":

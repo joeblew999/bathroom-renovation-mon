@@ -8,15 +8,9 @@ floor plan from above. Warnings are shown in red under each elevation.
 
     drawings = draw_all(p)      # p = project.load(...)   ->  {file name: svg text}
 
-Pure: it reads and writes nothing; build_pdf.py (or main() here) writes the files.
-
-Usage:  python3 draw_walls.py [quote.md]
-Writes: floor-plan.svg, main-wall.svg, new-wall.svg, window-wall.svg
+Pure: it reads and writes nothing. build_pdf.py puts the drawings into the page.
 """
-import sys
 from html import escape
-
-from project import ProjectError, load
 
 S = 0.3                      # px per mm
 ACC = "#c0392b"
@@ -353,21 +347,3 @@ def draw_all(p):
     for wid, out in ELEVATIONS.items():
         drawings[out] = draw_wall(p, p.walls[wid])
     return drawings
-
-
-def main(argv):
-    try:
-        p = load(argv[1] if len(argv) > 1 else "bathroom-renovation-quote.md")
-        drawings = draw_all(p)
-    except ProjectError as e:
-        sys.exit(f"ERROR: {e}")
-    warnings = p.warnings()
-    for name, svg in drawings.items():
-        (p.md_path.parent / name).write_text(svg, encoding="utf-8")
-    for wall, w in warnings:
-        print(f"WARNING ({wall}): {w}")
-    print(f"Wrote {', '.join(drawings)} · {len(warnings)} warnings")
-
-
-if __name__ == "__main__":
-    main(sys.argv)

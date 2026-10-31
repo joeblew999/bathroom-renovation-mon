@@ -1,6 +1,6 @@
 # Bathroom renovation — project files
 
-The builder and family get one file: **bathroom-renovation-quote.pdf**, built from the sources below. Everything else is how it's made.
+The builder and family get the quote at **https://joeblew999.github.io/bathroom-renovation-mon/** — as a web page, with the PDF beside it (`bathroom-renovation-quote.pdf`). Both are built from the sources below; everything else is how it's made.
 
 ## Commands
 
@@ -10,7 +10,16 @@ All commands, and the tool versions they run with, are in `mise.toml`. To see th
 mise tasks
 ```
 
-First time on a machine: `mise run setup`. The built PDF and drawings are not committed; they are rebuilt from the sources.
+First time on a machine: `mise run setup`.
+
+## Output
+
+`mise run build` writes two files into `out/`, always together from the same page:
+
+- `out/index.html` — the quote as one web page (phases, materials, drawings)
+- `out/bathroom-renovation-quote.pdf` — that same page printed to A4
+
+Nothing else is ever written. `out/` is not committed: on every push to `main`, `.github/workflows/pages.yml` runs the same `mise run setup`, `mise run test` and `mise run build`, and publishes `out/` to GitHub Pages. If a test fails, nothing is published.
 
 ## Sources (edit these)
 
@@ -40,12 +49,12 @@ p = project.load(md)        read the five sources, check them, build      → Pr
 drawings = draw_all(p)      floor plan + three walls, warnings in red     → SVG text
 doc = fill(p)               the phases and the material list, every       → Markdown text
                             {phase:…} / {step:…} / {rule:…} filled in
-build_pdf: html → pdf       document, then the drawings full-page         → bathroom-renovation-quote.pdf
+build_pdf: html, pdf        document, then the drawings full-page         → out/index.html + out/…pdf
 ```
 
 - `project.py` is the only code that reads the sources, and the only code that knows a rule about the data: how phases and steps are numbered, how a price totals, which wall gets which tile, where each wall's x is measured from, and the design rules (joints, clashes, fixings, tile boxes).
 - `draw_walls.py` and `tables.py` only format the model into SVG and Markdown. They read and write nothing, and decide nothing about the data.
-- `build_pdf.py` writes the PDF, and nothing else.
+- `build_pdf.py` writes the web page and the PDF, and nothing else.
 - Bad data raises one `ProjectError` naming the file and the problem; the build prints it as `ERROR: …` and stops before writing anything.
 
 ## Checks (run on every build, in `project.py` at load)

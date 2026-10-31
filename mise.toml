@@ -9,10 +9,15 @@ _.python.venv = { path = ".venv", create = true, uv_create_args = ["--seed"] }  
 
 [tasks.setup]
 description = "Install the pinned Python packages and the Chromium that prints the PDF"
-run = ["python -m pip install -r requirements.txt", "python -m playwright install chromium"]
+run = [
+  "python -m pip install -r requirements.txt",
+  "python -m playwright install chromium",
+  # On the GitHub runner only: Chromium's Linux libraries and fonts (including the Thai font)
+  "if [ -n \"$CI\" ]; then python -m playwright install-deps chromium; fi",
+]
 
 [tasks.build]
-description = "Build bathroom-renovation-quote.pdf (the document, then the drawings)"
+description = "Build out/index.html and out/bathroom-renovation-quote.pdf (the same page, as web page and PDF)"
 run = "python build_pdf.py"
 
 [tasks.test]
@@ -22,7 +27,3 @@ run = "python test_pipeline.py"
 [tasks.check]
 description = "Print the tile counts, the still-to-buy total and any warnings, without building"
 run = "python tables.py"
-
-[tasks.drawings]
-description = "Write just the drawings, as .svg files"
-run = "python draw_walls.py"
