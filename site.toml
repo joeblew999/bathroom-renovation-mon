@@ -1,0 +1,115 @@
+# site.toml — the room, the design rules, the four walls, the tiles and every product size. Units: mm.
+# Read by project.py; the drawings, the checks and the tile counts are worked out from it.
+# Things that follow from these (the column, the door opening, the lintel, the window on
+# its wall, the door on the floor plan) are worked out in project.py, never typed here.
+
+# ---------- the room ----------
+[room]
+length = 3000              # along the main wall
+width = 1380               # along the new wall and the window wall
+ceiling = 2800
+
+[new_wall]
+length = 1300              # the rest of the room width is the existing column
+
+[door]
+width = 800                # opening, to suit the frame; hinged on the column side, opens in
+height = 2000
+
+[lintel]
+height = 200               # precast AAC, one block course high
+bearing = 150              # onto the wall; the column end sits in a shallow pocket
+
+[old_wall]
+step = 50                  # floor step, kept and moved to a floor-tile joint (layout.toml)
+
+[window]
+from_main_wall = 300
+width = 600
+sill = 1600                # bottom of the frame, no sill
+height = 400
+
+# ---------- rules ----------
+[rules]
+min_clear = 20             # every hole at least this far from a tile joint (or exactly on one)
+                           # — checked on the drawings; the tiling phase quotes it as {rule:min_clear}
+
+# ---------- the four walls ----------
+# Names used on every drawing, and which tile each wall gets (counted in the tile check).
+# Each wall's length, and which corner x is measured from, follow from the room (project.py).
+[walls.main_wall]
+th = "ผนังหลัก"
+en = "Main wall"
+tile = "grey"
+
+[walls.new_wall]
+th = "ผนังใหม่"
+en = "New wall"
+view_th = "ด้านในห้องน้ำ"   # drawn from inside the bathroom
+view_en = "bathroom side"
+tile = "white"
+
+[walls.window_wall]
+th = "ผนังหน้าต่าง"
+en = "Window wall"
+tile = "white"
+
+[walls.opposite_wall]
+th = "ผนังยาวตรงข้าม"
+en = "Opposite long wall"
+tile = "white"
+
+# ---------- tiles ----------
+[grey_tile]                # floor + main wall
+size = 500
+per_box = 4
+top = 2000
+
+[white_tile]               # the other 3 walls
+size = 600
+per_box = 4
+top = 1200
+
+# ---------- product sizes (layout.toml: product = "…"; w wide, h high, d deep) ----------
+[products.toilet]          # MOYA 323
+w = 375
+h = 700
+d = 690
+
+[products.basin]           # MOYA 179
+w = 600
+h = 130
+d = 310
+
+[products.mirror]
+w = 600
+h = 600
+
+[products.lamp]
+w = 92
+h = 265
+d = 106
+
+[products.roll_holder]
+w = 160
+h = 85
+d = 90
+
+[products.shelf]
+w = 620
+h = 145
+d = 230
+
+[products.shower]
+w = 220
+h = 830
+d = 510
+
+[products.heater]
+w = 220
+h = 400
+d = 100
+
+[products.drain]
+w = 100
+d = 100
