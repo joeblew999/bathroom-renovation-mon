@@ -1,0 +1,6 @@
+# Built output — always rebuilt from the sources with `mise run build`
+*.pdf
+*.svg
+# Tooling
+.venv/
+__pycache__/
