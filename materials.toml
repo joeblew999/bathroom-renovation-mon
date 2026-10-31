@@ -1,0 +1,497 @@
+# materials.toml — every material and its price. tables.py turns it into the material list
+# in the document, grouped by phase in working order.
+#
+# Each item: name = "ไทย / English" (as shown in the list); the name links to `link`
+#   phase = the id of the phase it is needed for (phases.toml) — the list is grouped by it
+#   on_site = true (already here: bought and delivered, or existing and reused) / false (still to buy)
+#   n + price   -> quantity × unit price (the total is worked out)
+#   qty + total -> a quantity in words and a lump-sum total
+#   approx = true -> shown as "ประมาณ / approx." and the still-to-buy total is rounded
+#   unit = shown after n, e.g. "กล่อง / boxes"
+#   tile = "grey" / "white" -> its boxes (`boxes`, or n) count in the tile check
+#   fallback = true -> listed but not added to the total
+# Items still to buy need n + price, or total. Name the product, not the job: how and
+# where it is used belongs in phases.toml, sizes of the room in site.toml.
+
+[[item]]
+phase = "strip_out"
+on_site = false
+name = "ผ้าใบ SPRING 2 × 3 ม. (คลุมพื้นห้องนั่งเล่น) / Tarpaulin SPRING 2 × 3 m (covers the living-room floor)"
+n = 1
+price = 109
+link = "https://www.homepro.co.th/p/1311465"
+
+[[item]]
+phase = "build"
+on_site = false
+name = "วงกบ AZLE UPVC 80 × 200 ซม. สีขาว / Frame AZLE UPVC 80 × 200 cm, white"
+qty = "1"
+total = 850
+link = "https://www.homepro.co.th/p/1014768"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "อิฐมวลเบา TPI 60 × 20 × 7.5 ซม. / TPI AAC block"
+n = 18
+price = 26
+link = "https://www.homepro.co.th/p/1110154"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "คานทับหลังสำเร็จรูป DIAMOND 20 × 150 × 7.5 ซม. ตัดให้ได้ความยาวที่หน้างาน / DIAMOND precast lintel 20 × 150 × 7.5 cm, cut to length on site"
+qty = "1"
+total = 400
+approx = true
+link = "https://www.homepro.co.th/p/1195815"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "ปูนก่ออิฐมวลเบา TPI M319 50 กก. (เหลือใช้อุดรอบวงกบและช่องทับหลัง) / TPI M319 block mortar (leftover for filling round the frame and the lintel pocket)"
+qty = "1 ถุง / bag"
+total = 200
+approx = true
+link = "https://www.homepro.co.th/p/1127448"
+
+[[item]]
+phase = "build"
+on_site = false
+name = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL 3.2 × 22 ซม. / AAC wall tie plate MEGA STEEL 3.2 × 22 cm"
+n = 8
+price = 6
+unit = "ชิ้น / pcs"
+link = "https://www.homepro.co.th/p/1110170"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "แผ่นยิปซัมทนชื้น DURAONE 9 มม. 120 × 240 ซม. (ฝ้าห้องน้ำ) / Moisture-resistant gypsum board DURAONE 9 mm, 120 × 240 cm (bathroom ceiling)"
+n = 2
+price = 245
+link = "https://www.homepro.co.th/p/1110611"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "ซีลาย SANKI 0.50–0.55 กก. ยาว 4 ม. ชุบสังกะสี ตัดได้ 2 ท่อนต่อเส้น / SANKI galvanised C-channel 0.50–0.55 kg, 4 m, cut 2 pieces per length"
+n = 4
+price = 29
+link = "https://www.homepro.co.th/p/1110231"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "ฉากซีลาย SANKI 0.20A ยาว 2.44 ม. (รอบห้อง) / SANKI wall angle 0.20A, 2.44 m (round the room)"
+n = 4
+price = 16
+link = "https://www.homepro.co.th/p/1110271"
+
+[[item]]
+on_site = false
+phase = "build"
+name = "สกรูไดร์วอลล์ TPI 6 × 1 นิ้ว สีดำ (ยึดแผ่นยิปซัมกับซีลาย) / TPI drywall screws 6 × 1\", black (board to C-channel)"
+qty = "1 กล่อง / box"
+total = 89
+link = "https://www.homepro.co.th/p/1110148"
+
+[[item]]
+phase = "build"
+on_site = false
+name = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 (50 ตัว — ฉากฝ้า และอุปกรณ์ในห้องน้ำ) / Wall plugs with screws BY TORA no. 7, 50 pcs (ceiling angle and fittings)"
+n = 1
+price = 65
+unit = "แพ็ก / pack"
+link = "https://www.homepro.co.th/p/1064892"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 8.5 4 นิ้ว 4 ม. (ท่อชักโครก) / Blue pipe Thai Pipe class 8.5, 4\", 4 m (toilet waste)"
+n = 1
+price = 799
+unit = "เส้น / length"
+link = "https://www.homepro.co.th/p/5563"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ข้องอ 45° ท่อน้ำไทย 4 นิ้ว (ไม่ใช้ข้องอ 90°) / 45° bend Thai Pipe 4\" (no tight 90° elbows)"
+n = 3
+price = 310.4
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/1136842"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ท่อประปา SCG ชั้น 8.5 1½ นิ้ว 2 ม. (ท่อน้ำทิ้งอ่าง) / Pipe SCG class 8.5, 1½\", 2 m (basin waste)"
+n = 1
+price = 99
+unit = "เส้น / length"
+link = "https://www.homepro.co.th/p/1104514"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ข้องอ 90° ท่อน้ำไทย 1½ นิ้ว / 90° elbow Thai Pipe 1½\""
+n = 4
+price = 29
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5614"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. (น้ำดีไปชักโครก สายฉีดชำระ อ่าง) / Blue pipe Thai Pipe class 13.5, ½\", 4 m (cold supply: toilet, bum gun, basin)"
+n = 2
+price = 69
+unit = "เส้น / lengths"
+link = "https://www.homepro.co.th/p/5556"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
+n = 10
+price = 6
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5569"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
+n = 2
+price = 8
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5570"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย ½ นิ้ว (จุดน้ำที่ผนัง ชักโครกและอ่าง) / Brass-thread elbow Thai Pipe ½\" (wall outlets: toilet and basin)"
+n = 2
+price = 35
+unit = "ตัว / pcs"
+approx = true
+link = "https://www.homepro.co.th/p/5577"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก. / PVC solvent cement Thai Pipe 250 g"
+n = 1
+price = 137.74
+link = "https://www.homepro.co.th/p/5672"
+
+[[item]]
+phase = "first_fix"
+on_site = false
+name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
+n = 2
+price = 27
+unit = "ม้วน / rolls"
+link = "https://www.homepro.co.th/p/1055229"
+
+[[item]]
+on_site = false
+phase = "first_fix"
+name = "สต็อปวาล์ว HOEN HT-011 (อ่างล้างหน้า) / Stop valve HOEN HT-011 (basin)"
+qty = "1"
+total = 155
+link = "https://www.homepro.co.th/p/1040989"
+
+[[item]]
+on_site = false
+phase = "first_fix"
+name = "สต็อปวาล์ว 2 ทาง HOEN HT-333 (หลังชักโครก: ทางหนึ่งไปชักโครก อีกทางไปสายฉีดชำระ) / 2-way stop valve HOEN HT-333 (behind the toilet: one outlet to the toilet, one to the bum gun)"
+qty = "1"
+total = 219
+link = "https://www.homepro.co.th/p/1041021"
+
+[[item]]
+on_site = false
+phase = "make_good"
+name = "ปูนก่อสำเร็จรูป TPI M300 50 กก. (งานอุดทั้งหมด) / TPI M300 ready-mix mortar (all the filling)"
+qty = "3 ถุง / bags"
+total = 450
+approx = true
+link = "https://www.homepro.co.th/p/1109515"
+
+[[item]]
+on_site = false
+phase = "make_good"
+name = "ปูนฉาบอิฐมวลเบา TPI M210 50 กก. (ผนังใหม่) / TPI M210 AAC plaster (new wall)"
+qty = "2 ถุง / bags"
+total = 300
+approx = true
+link = "https://www.homepro.co.th/p/1109616"
+
+[[item]]
+on_site = false
+phase = "make_good"
+name = "ปูนฉาบรอยต่อแผ่นยิปซัม DURAONE 1 กก. / DURAONE gypsum jointing compound, 1 kg"
+n = 2
+price = 16
+link = "https://www.homepro.co.th/p/1110109"
+
+[[item]]
+on_site = false
+phase = "make_good"
+name = "เทปปิดรอยต่อยิปซัม PYRAMID 1 นิ้ว (แพ็ก 3 ม้วน) / PYRAMID gypsum joint tape, 1\" (pack of 3)"
+qty = "1 แพ็ก / pack"
+total = 42
+link = "https://www.homepro.co.th/p/1024381"
+
+[[item]]
+phase = "paint_ceiling"
+on_site = true
+name = "สีขาวกึ่งเงา (สีเดิม) / White semi-gloss paint (the existing paint)"
+
+[[item]]
+on_site = false
+phase = "waterproof"
+name = "ซีเมนต์กันซึม จระเข้ FLEX SHIELD 20 กก. (ประมาณ 11.6 ตร.ม.) / Crocodile FLEX SHIELD 20 kg (about 11.6 m²)"
+qty = "1 ถุง / bag"
+total = 1990
+link = "https://www.homepro.co.th/p/271155"
+
+[[item]]
+phase = "waterproof"
+on_site = false
+name = "ตาข่ายไฟเบอร์ จระเข้ 0.2 × 10 ม. / Fibre mesh Crocodile 0.2 × 10 m"
+n = 1
+price = 179
+unit = "ม้วน / roll"
+link = "https://www.homepro.co.th/p/1271924"
+
+[[item]]
+phase = "tile"
+on_site = true
+name = "กระเบื้อง TARA สโตนบลาสด์ เทา 50 × 50 ซม. เฉด H07 × 2 กล่อง / TARA Stone Blast grey 500 × 500 mm, shade H07 × 2 boxes"
+total = 418
+link = "https://www.homepro.co.th/p/1292488"
+tile = "grey"
+boxes = 2
+
+[[item]]
+phase = "tile"
+on_site = true
+name = "กระเบื้องเทา TARA สโตนบลาสด์ 50 × 50 ซม. อีก 1 กล่อง — ตรวจว่าเป็นเฉด H07 / 1 more box of TARA Stone Blast grey tile — check it is shade H07"
+link = "https://www.homepro.co.th/p/1292488"
+tile = "grey"
+boxes = 1
+
+[[item]]
+phase = "tile"
+on_site = false
+name = "กระเบื้องเทา TARA สโตนบลาสด์ 50 × 50 ซม. ขอบตรง ผิวด้าน **เฉด H07 เท่านั้น** / Grey tile TARA Stone Blast 500 × 500 mm, rectified, matt, **shade H07 only**"
+n = 9
+price = 209
+unit = "กล่อง / boxes"
+tile = "grey"
+link = "https://www.homepro.co.th/p/1292488"
+
+[[item]]
+phase = "tile"
+on_site = false
+name = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว พอร์ซเลน 60 × 60 ซม. ขาวเรียบ ผิวมัน ขอบตรง — ออนไลน์แสดงสินค้าหมด (ลดราคามาก อาจเป็นสินค้าล้างสต็อก) ถามสต็อกที่สาขา ซื้อครบทีเดียว ล็อตเดียวกัน / White tile TARA Triple White New porcelain 600 × 600 mm, plain, glossy, rectified — out of stock online (heavily discounted, may be clearance); ask a branch and buy them all at once, same batch"
+n = 6
+price = 197
+unit = "กล่อง / boxes"
+tile = "white"
+link = "https://www.homepro.co.th/p/1076336"
+
+[[item]]
+phase = "tile"
+on_site = false
+name = "*ตัวสำรอง ถ้าไม่มีกระเบื้องขาวข้างบน: COTTO ไฮด์อเวย์ สโนว์ 30 × 60 ซม. ผิวด้าน ขอบตรง / Fallback if the white tile above is unavailable: COTTO Hyde Way Snow 300 × 600 mm, matt, rectified*"
+qty = "฿959 ต่อกล่อง 1.44 ตร.ม. / per 1.44 m² box"
+fallback = true
+link = "https://www.homepro.co.th/p/1235615"
+
+[[item]]
+on_site = false
+phase = "tile"
+name = "กาวซีเมนต์ จระเข้ ทอง 20 กก. (ปูทับกระเบื้องเดิมได้ กระเบื้องประมาณ 16 ตร.ม.) / Crocodile Gold tile adhesive 20 kg (suits tiling over old tiles; about 16 m² of tile)"
+n = 5
+price = 799
+link = "https://www.homepro.co.th/p/14428"
+
+[[item]]
+on_site = false
+phase = "tile"
+name = "คลิปปรับระดับ TARA DL-D01 1.5 มม. / TARA levelling clips 1.5 mm"
+n = 2
+price = 143
+link = "https://www.homepro.co.th/p/1092087"
+
+[[item]]
+on_site = false
+phase = "tile"
+name = "ลิ่มปรับระดับ TARA DL-D02 / TARA levelling wedges"
+qty = "1"
+total = 185
+link = "https://www.homepro.co.th/p/1092114"
+
+[[item]]
+on_site = false
+phase = "tile"
+name = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีเทาแกรนิต 1 กก. (กระเบื้องเทา) / Crocodile Premium Plus grout, granite grey (grey tiles)"
+n = 2
+price = 63
+link = "https://www.homepro.co.th/p/138786"
+
+[[item]]
+on_site = false
+phase = "tile"
+name = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีขาวไข่มุก 1 กก. (กระเบื้องขาว) / Crocodile Premium Plus grout, pearl white (white tiles)"
+n = 2
+price = 63
+link = "https://www.homepro.co.th/p/138771"
+
+[[item]]
+phase = "tile"
+on_site = false
+name = "จมูกบันไดอะลูมิเนียม HOME NAS-451510 1.5 ม. สีเงินเงา (ขั้นพื้น) / Aluminium step nosing HOME NAS-451510, 1.5 m, bright silver (floor step)"
+n = 1
+price = 357.93
+link = "https://www.homepro.co.th/p/1037342"
+
+[[item]]
+phase = "tile"
+on_site = true
+name = "ตะแกรงกันกลิ่นพลาสติกเหลี่ยม DEXZON 4 นิ้ว / Square anti-odour floor drain grate DEXZON 4\""
+total = 119
+link = "https://www.homepro.co.th/p/1240420"
+
+[[item]]
+phase = "paint_walls"
+on_site = false
+name = "กระดาษกาวย่น PACK IN 1 นิ้ว × 25 หลา / Masking tape PACK IN 1\" × 25 yd"
+n = 2
+price = 28
+unit = "ม้วน / rolls"
+link = "https://www.homepro.co.th/p/195720"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "ประตู AZLE WB2 UPVC 80 × 200 ซม. สีน้ำตาลอ่อน (ไม่เจาะรูลูกบิดมา รองรับลูกบิดทั่วไป ไม่รองรับกุญแจ Mortise) / Door AZLE WB2 UPVC 80 × 200 cm, light brown (undrilled, takes a standard knob, not a mortise lock)"
+qty = "1"
+total = 2085
+link = "https://www.homepro.co.th/p/1320577"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "ลูกบิดห้องน้ำ SOLEX 9500 SS-BK สเตนเลส / Bathroom knob SOLEX 9500 SS-BK, stainless"
+qty = "1"
+total = 399
+link = "https://www.homepro.co.th/p/89869"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "บานพับ YALE 4×3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น / Hinges YALE 4×3 inch, 304 stainless, pack of 3"
+qty = "1"
+total = 199
+link = "https://www.homepro.co.th/p/1123585"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ชักโครก 1 ชิ้น MOYA 323 3/6 ลิตร สีขาว / One-piece toilet MOYA 323, 3/6 L, white"
+total = 3490
+link = "https://www.homepro.co.th/p/1170662"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "สายฉีดชำระ (จากชักโครกเดิม) / Bum gun (from the old toilet)"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "สายน้ำดีสเตนเลส MOYA MY-SSB16 16 นิ้ว (ชักโครก อ่าง) / Stainless supply hose MOYA MY-SSB16, 16\" (toilet, basin)"
+n = 2
+price = 84
+unit = "เส้น / pcs"
+link = "https://www.homepro.co.th/p/1028199"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "อ่างล้างหน้าแขวน MOYA 179 สีขาว / Wall-hung basin MOYA 179, white"
+total = 1190
+link = "https://www.homepro.co.th/p/1249118"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ก๊อกอ่างล้างหน้า MOYA 832-1 / Basin faucet MOYA 832-1"
+total = 929
+link = "https://www.homepro.co.th/p/1254863"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ท่อน้ำทิ้งอ่างล้างหน้ากระปุก KARAT KA-02-112-50 25 ซม. / Basin bottle trap KARAT KA-02-112-50, 25 cm"
+total = 485
+link = "https://www.homepro.co.th/p/1225658"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "เครื่องทำน้ำอุ่นพร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์ / Water heater with its electrical box, cable and circuit breaker"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ชุดฝักบัว (Rain shower) / Shower unit with rain head"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "กระจกเงากลม MOYA HLP004 Ø 60 ซม. / Round mirror MOYA HLP004, 60 cm"
+total = 429
+link = "https://www.homepro.co.th/p/1319896"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ชั้นวางพร้อมราวแขวนผ้า LUZERN AS-5012S สีโครม / Shelf with towel rail LUZERN AS-5012S, chrome"
+total = 799
+link = "https://www.homepro.co.th/p/1215163"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "ที่ใส่กระดาษชำระ KARAT K-17053X เซรามิก สีขาวเงา (เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน) / Toilet roll holder KARAT K-17053X, glossy white ceramic (matches the white bum gun and lamps on the same wall)"
+qty = "1"
+total = 340
+link = "https://www.homepro.co.th/p/105587"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน รหัส 805.204.31 — เช็คสต็อกก่อนไป / IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens, article 805.204.31 — check stock before going"
+n = 2
+price = 1290
+link = "https://www.ikea.com/th/th/p/-80520431/"
+
+[[item]]
+phase = "fit_out"
+on_site = true
+name = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง / Switch-and-socket plate (light switch + 2 sockets)"
+
+[[item]]
+phase = "fit_out"
+on_site = false
+name = "ซิลิโคนไร้กรดกันเชื้อรา SIKA SIKASIL-129 300 มล. สีขาว / Anti-fungal neutral silicone SIKA SIKASIL-129, 300 ml, white"
+n = 1
+price = 139
+unit = "หลอด / tube"
+link = "https://www.homepro.co.th/p/1157215"

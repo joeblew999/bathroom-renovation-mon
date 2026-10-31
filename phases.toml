@@ -1,0 +1,240 @@
+# phases.toml — the work, phase by phase. tables.py turns it into the phases in the document.
+#
+# Phases and steps are numbered by their position here (phase 1, 2, … · step 1.1, 1.2, …).
+# Refer to them anywhere — this file, layout.toml notes, the document — by id:
+#   {phase:make_good}  -> 5        {step:clear_mark}  -> 1.8
+# and to a rule in site.toml [rules] the same way:  {rule:min_clear} -> 20
+# so inserting or moving a step renumbers every reference.
+#
+# Each phase: id, th, en, optional note_th / note_en.
+# Each step: id, th, en (the Thai and English text of the step).
+# What each phase needs is not listed here: each material in materials.toml names its phase,
+# and the material list is grouped by phase.
+#
+# Write what to do and in what order. Sizes and positions live in site.toml / layout.toml
+# and show on the drawings — don't copy them into the text; point to the drawing instead.
+# Numbers that are method (a 2–3 cm fall, 2 coats, 400 mm centres) belong here, once.
+
+[[phase]]
+id = "strip_out"
+th = "รื้อถอน"
+en = "Strip out"
+
+[[phase.step]]
+id = "isolate"
+th = "ปิดน้ำ และตัดไฟวงจรห้องน้ำ"
+en = "Turn off the water and isolate the bathroom circuits"
+
+[[phase.step]]
+id = "plate_off"
+th = "ถอดชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง และเบรกเกอร์เครื่องทำน้ำอุ่นที่ผนังประตูเดิม — เก็บไว้ใช้ต่อ · เก็บปลายสายให้ปลอดภัย"
+en = "Remove the switch-and-socket plate (light switch + 2 sockets) and the water-heater breaker from the old door wall — keep them for reuse · make the cable ends safe"
+
+[[phase.step]]
+id = "wall_out"
+th = "สกัดผนังประตูห้องน้ำเดิมออกทั้งผนัง พร้อมประตูและวงกบ — ห้องโล่ง รื้อฝ้าและขนเศษออกได้ง่าย"
+en = "Break out the whole old door wall, door and frame included — opens up the room, making the ceiling easier to take down and the debris easier to get out"
+
+[[phase.step]]
+id = "toilet_basin_out"
+th = "ถอดชักโครกและอ่างล้างหน้าเดิมออก อุดปลายท่อชั่วคราว · ถอดสายฉีดชำระเดิม — เก็บไว้ใช้ต่อ"
+en = "Remove the old toilet and basin, and cap the pipe ends temporarily · remove the existing bum gun — keep it for reuse"
+
+[[phase.step]]
+id = "heater_out"
+th = "ถอดเครื่องทำน้ำอุ่น ฝักบัว และกล่องไฟฟ้าออก — เก็บไว้ใช้ต่อ (วัดระยะรูยึดเครื่องทำน้ำอุ่นเก็บไว้) · ถอดสต็อปวาล์วที่จ่ายน้ำเข้าเครื่องทำน้ำอุ่น เก็บไว้ อุดปลายท่อ — ตำแหน่งท่อไม่ย้าย"
+en = "Remove the water heater, shower head and electrical box — keep them for reuse (measure the heater's fixing holes) · take off the stop tap that feeds the water heater, keep it, and cap the pipe — the pipe itself doesn't move"
+
+[[phase.step]]
+id = "ceiling_out"
+th = "ถอดโคมไฟเพดานเดิมและรื้อสายออกทั้งเส้น · รื้อฝ้าห้องน้ำออกทั้งหมด (แผ่นและโครง) รวมถึงแผ่นฝ้าห้องนั่งเล่นที่อยู่เลยแนวผนังใหม่ — ยกออกทั้งแผ่น ไม่ต้องตัด เพราะโครงฝ้าห้องนั่งเล่นตรงกับแนวผนังใหม่พอดี"
+en = "Remove the old ceiling light and pull out its cable · take down the whole bathroom ceiling (tiles and grid), plus the living-room ceiling tiles on the bathroom side of the new wall line — whole tiles lift out, no cutting, because the living-room grid lines up exactly with the new wall"
+
+[[phase.step]]
+id = "wall_tiles_off"
+th = "สกัดกระเบื้องผนังที่เหลือออก"
+en = "Chip off the remaining wall tiles"
+
+[[phase.step]]
+id = "clear_mark"
+th = "ขนเศษวัสดุไปทิ้งอย่างถูกต้อง (ช่างจ่ายค่าทิ้ง ไม่ทิ้งข้างถนน) ขูดหรือเจียรก้อนปูนเดิมออกจากผนัง ตรวจด้วยไม้บรรทัดยาว 2 ม. และทำเครื่องหมายจุดที่ไม่เรียบเกิน 3 มม. — อุดด้วย M300 ในขั้น {phase:make_good} หลังเซาะร่องเสร็จ (กระเบื้องขอบตรงร่องแคบจะเห็นทุกจุดที่ไม่เรียบ)"
+en = "Take the debris away and dispose of it properly (the builder pays the fee, no roadside dumping), scrape or grind the old mortar lumps off the walls, check with a 2 m straightedge and mark anywhere out by more than 3 mm — filled with M300 in phase {phase:make_good}, once the chasing is done (rectified tiles with tight joints show every bump)"
+
+[[phase]]
+id = "build"
+th = "ก่อผนังใหม่และทำฝ้า"
+en = "Build the new wall and ceiling"
+note_th = "ผนังใหม่ยังไม่ฉาบ — ฉาบหลังงานระบบ ในขั้น {phase:make_good} · ขนาดและตำแหน่งตามภาพผนังใหม่"
+note_en = "The new wall is not plastered yet — it is plastered after first fix, in phase {phase:make_good} · sizes and positions as on the new wall drawing"
+
+[[phase.step]]
+id = "wall"
+th = "ก่อผนังข้างประตูด้วยอิฐมวลเบาและปูนก่ออิฐมวลเบา ขึ้นถึงระดับหลังประตู เว้นช่องประตูระหว่างผนังกับเสา · ยึดเข้ากับผนังมุมเดิม (ไม่ใช่เสา) ด้วยเหล็กหนวดกุ้งเจาะเสียบทุก 2 แถว"
+en = "Build the wall beside the door in AAC block laid with AAC block mortar, up to the top of the door opening, leaving the opening between it and the column · tied into the existing corner wall (not the column) with steel ties drilled in every 2 courses"
+
+[[phase.step]]
+id = "lintel"
+th = "วางคานทับหลังสำเร็จรูปมวลเบาเหนือช่องประตู ตัดให้ได้ความยาวที่หน้างาน ปลายด้านหนึ่งสอดเข้าช่องตื้นที่สกัดในเสาเดิม (เสากว้างประมาณ 2 เท่าของความหนาอิฐ ระวังไม่ให้โดนเหล็กเสริม) อีกด้านวางบนผนัง · แล้วก่อเต็มความยาวผนังขึ้นถึงฝ้า"
+en = "Set the precast AAC lintel over the door opening, cut to length on site, one end in a shallow pocket cut in the existing column (the column is about twice the block width; keep clear of the reinforcement), the other end on the wall · then full-length courses up to the ceiling"
+
+[[phase.step]]
+id = "frame"
+th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา"
+en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall"
+
+[[phase.step]]
+id = "ceiling"
+th = "**ฝ้าฉาบเรียบใหม่:** ติดฉากริมเหล็กชุบสังกะสีรอบห้องที่ระดับฝ้าเดิม วางซีลายพาดขวางห้องบนฉากริมของผนังยาวทั้งสองด้าน ทุก 40 ซม. — ช่วงสั้น ไม่ต้องใช้ลวดแขวน · ยิงแผ่นยิปซัมทนชื้น 9 มม. เต็มฝ้า"
+en = "**New flush ceiling:** fix galvanised steel wall angle round the room at the old ceiling height, and lay C-channels across the room, resting on the wall angle on both long walls, at 400 mm centres — the span is short, so no hanger wire is needed · screw up the 9 mm moisture-resistant gypsum board over the whole ceiling"
+
+[[phase]]
+id = "mark"
+th = "ทำเครื่องหมายตำแหน่ง"
+en = "Mark positions"
+
+[[phase.step]]
+id = "mark"
+th = "ในห้องที่ผนังเสร็จแล้ว ช่างและเจ้าของบ้านทำเครื่องหมายทุกจุดตามผังพื้นและภาพผนัง รวมถึงผนังใหม่ด้านห้องนั่งเล่น — ต้องทำก่อนเดินท่อและสายไฟ"
+en = "In the finished room shell, the builder and homeowner mark every position from the floor plan and wall drawings, plus the living-room face of the new wall — before any pipes or cable go in"
+
+[[phase]]
+id = "first_fix"
+th = "งานระบบ"
+en = "First fix"
+
+[[phase.step]]
+id = "electrics"
+th = "**งานไฟฟ้าทั้งหมดครั้งเดียว:** เซาะช่องฝังชุดสวิตช์พร้อมปลั๊กและเบรกเกอร์ (ของเดิม) ในอิฐมวลเบาของผนังใหม่ (ยังไม่ฉาบ) ด้านห้องนั่งเล่น · เซาะร่องเดินสายโคมไฟจากสวิตช์ไปตามผนังหลัก ถึงโคมไฟดวงที่ 1 แล้วดวงที่ 2 เดินสายเส้นเดียวไม่มีจุดต่อ ต่อสายเฉพาะที่สวิตช์และที่โคมไฟ · เครื่องทำน้ำอุ่นเลื่อนเข้าหามุมผนังหน้าต่าง (ภาพผนังหลัก) ใช้สายเดิม (ถ้าไม่ถึง ต่อในกล่องไฟฟ้าเครื่องทำน้ำอุ่น ไม่ต่อในผนัง) · เก็บปลายสาย — วงจรเครื่องทำน้ำอุ่นเดิมมีกันดูด 30 mA แล้ว"
+en = "**All electrical work in one go:** cut recesses for the reused switch-and-socket plate and breaker into the bare blockwork of the new wall (not yet plastered), living-room side · chase the lamp cable from the switch along the main wall to lamp 1, then lamp 2 — one unbroken run, joints only at the switch and the lamps · the water heater moves towards the window-wall corner (main wall drawing), on its existing cable (if it doesn't reach, join it inside the heater's electrical box, never in the wall) · cap the ends — the heater circuit already has 30 mA earth-leakage protection"
+
+[[phase.step]]
+id = "plumbing"
+th = "**ประปา:** ผ่าพื้นจากตำแหน่งชักโครกเดิมไปตำแหน่งใหม่ วางท่อ 4 นิ้วลาดเอียง 2–3 ซม. ใช้ข้องอ 45° · เซาะร่องผนังหลักเพื่อฝังท่อน้ำดีไปชักโครก และอ่าง — จุดน้ำเครื่องทำน้ำอุ่นใช้ที่เดิม ไม่ย้าย (ชักโครกและสายฉีดชำระใช้จุดน้ำเดียวกันหลังชักโครก ด้วยสต็อปวาล์ว 2 ทาง — จุดน้ำออกจากผนังอยู่กึ่งกลางชักโครก ตรงแนวท่อโสโครกที่พื้น ความสูงตามแบบชักโครก เข้าถึงได้ทางช่องว่างด้านหลังชักโครก) และท่อน้ำทิ้งอ่าง 1½ นิ้ว — ตำแหน่งตามภาพผนังหลัก และแบบติดตั้งของอ่างและชักโครก (แนวท่อจริงจะระบุภายหลัง) · ท่อระบายน้ำพื้นใช้ท่อเดิม"
+en = "**Plumbing:** cut a trench from the old toilet position to the new one, lay the 4\" pipe falling 2–3 cm with 45° bends · cut chases in the main wall for the cold supply to the toilet, and basin — the water heater's supply stays where it is (the toilet and bum gun share one outlet behind the toilet, with a 2-way stop valve — the outlet comes out of the wall centred on the toilet, in line with the floor waste pipe, at the height on the toilet's diagram, reached through the gap at the back of the toilet), and for the 1½\" basin waste — positions from the main wall drawing and the basin and toilet installation diagrams (exact routes to be confirmed) · the floor drain keeps its existing pipe"
+
+[[phase.step]]
+id = "test"
+th = "เปิดน้ำดูทุกรอยต่อว่าไม่รั่วซึม และเปิดไฟดูว่าใช้ได้ — ห้ามปิดผนังหรือปูกระเบื้องจนกว่าไม่มีรั่ว"
+en = "Turn the water on and check every joint for drips, and switch on to check everything works — nothing is closed up or tiled until there are no leaks"
+
+[[phase]]
+id = "make_good"
+th = "เก็บงานและฉาบ"
+en = "Make good and plaster"
+
+[[phase.step]]
+id = "fill"
+th = "**เก็บงาน (อุดรูและร่องทั้งหมด):** ยึดท่อและกล่องในร่องให้แน่นก่อน แล้วอุดทุกจุดให้เสมอด้วยปูนสำเร็จรูป TPI M300 (ผสมน้ำอย่างเดียว) — ร่องท่อชักโครก รอยแหว่งและแนวผนังเดิมบนพื้น ให้เสมอผิวกระเบื้องพื้นเดิมแต่ละฝั่ง คงขั้นพื้นเดิมไว้ (ช่างปูกระเบื้องปรับตำแหน่งขั้นตอนปูพื้น ขั้น {phase:tile}) · รอยแหว่งที่ผนังข้างเคียงและเสา ตรงที่สกัดผนังประตูเดิมออก · ร่องในผนังเดิมและผนังใหม่ ร่องลึกอุด 2 ชั้น · จุดบนผนังเดิมที่ทำเครื่องหมายไว้ในขั้น {step:clear_mark} · ร่องที่อยู่เหนือแนวกระเบื้อง (ส่วนที่ทาสี) ปิดผิวบางๆ ด้วยปูนฉาบ M210 ที่เหลือ ให้เรียบพร้อมทาสี"
+en = "**Make good (fill all the holes and chases):** first fix the pipes and boxes firmly in their chases, then fill everything flush with TPI M300 ready-mix (just add water) — the toilet trench, pockets and old wall line in the floor, flush with the old floor tiles on each side, keeping the existing step (the tiler sets its final position when laying the floor, phase {phase:tile}) · the pockets and broken edges in the side walls and column where the old door wall came out · the chases in the existing and new walls, deep ones in 2 layers · the spots on the existing walls marked in step {step:clear_mark} · any chase above the tile line (painted area) gets a thin finishing coat of leftover M210 so it paints smooth"
+
+[[phase.step]]
+id = "plaster"
+th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา TPI M210 ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. สำหรับกระเบื้องขอบตรง แล้วปล่อยให้แห้ง"
+en = "**Plaster:** plaster both faces of the new wall with TPI M210 AAC plaster; check with a 2 m straightedge for the rectified tiles, then let it cure"
+
+[[phase.step]]
+id = "ceiling_joints"
+th = "**ฝ้า:** ฉาบรอยต่อทุกแนวและหัวสกรูด้วยเทปและปูนยาแนวให้เรียบ"
+en = "**Ceiling:** tape and fill every joint and screw head smooth"
+
+[[phase]]
+id = "paint_ceiling"
+th = "ทาสีฝ้า"
+en = "Paint the ceiling"
+
+[[phase.step]]
+id = "paint_ceiling"
+th = "ทาสีฝ้าด้วยสีขาวกึ่งเงาที่มีอยู่แล้ว (ไม่ใช้สีรองพื้น) — ก่อนปูกระเบื้อง ให้สีหยดลงบนพื้นผิวที่ยังไม่ปู"
+en = "Paint the ceiling with the existing white semi-gloss paint (no primer) — before tiling, so drips land on surfaces not yet tiled"
+
+[[phase]]
+id = "waterproof"
+th = "กันซึม"
+en = "Waterproof"
+
+[[phase.step]]
+id = "waterproof"
+th = "ทากันซึม FLEX SHIELD 2 รอบ: ทั้งพื้น (บนกระเบื้องเดิมที่ล้างและขัดผิวให้หยาบแล้ว) ผนังหลักทั้งด้าน และผนังอื่นสูงอย่างน้อย 30 ซม. — ไม่มีกระจกกั้นอาบน้ำ น้ำจะกระเด็นทั่วห้อง · ฝังเทปตาข่ายไฟเบอร์ในรอบแรกที่: รอยต่อผนังใหม่กับผนังเดิม เสา และพื้น (ห้องนั่งเล่นอยู่ด้านหลัง) / รอยต่อผนังหลักกับพื้นและมุมทั้งสอง (ห้องนอนอยู่ด้านหลัง) / รอบท่อระบายน้ำ / ขั้นพื้นทั้งแนว (มุมบนและล่าง) · รอให้แต่ละรอบแห้ง"
+en = "Apply FLEX SHIELD in 2 coats: the whole floor (over the degreased, roughened old tiles), the full main wall, and at least 30 cm up the other walls — there is no shower screen, so water splashes across the room · embed fibre mesh tape in the first coat at: the new wall's joints with the existing wall, column and floor (living room behind) / the main wall's joint with the floor and both its corners (bedroom behind) / around the drain / along the floor step (top and bottom edges) · let each coat dry"
+
+[[phase]]
+id = "tile"
+th = "ปูกระเบื้อง"
+en = "Tile"
+note_th = "**กระเบื้องทั้งหมดเป็นกระเบื้องขอบตรง (Rectified)** ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ กล่องไฟ สกรู) ห่างแนวยาแนวอย่างน้อย {rule:min_clear} มม. หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
+note_en = "**All tiles are rectified.** Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp boxes, screws) at least {rule:min_clear} mm off a joint, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
+
+[[phase.step]]
+id = "main_wall_tiles"
+th = "ผนังหลัก: กระเบื้องเทา ไม่ต้องตัด — กระเบื้องเทาทุกแผ่นทั้งพื้นและผนังหันทิศทางเดียวกัน (ดูลูกศรหลังแผ่น) ให้ลายต่อเนื่อง และแนวยาแนวผนังตรงกับแนวยาแนวพื้น · แถวกระเบื้องวัดจากพื้นต่ำ แถวล่างฝั่งอ่าง (ด้านสูงของขั้นพื้น) ตัดสั้นลงเท่าความสูงขั้น"
+en = "Main wall: grey tile, no cuts — every grey tile, floor and wall, facing the same direction (check the arrows on the back) so the pattern runs on, with the wall joints lined up with the floor joints · rows run level from the lower floor; on the basin side of the step (the higher floor) the bottom row is cut shorter by the step height"
+
+[[phase.step]]
+id = "white_tiles"
+th = "ผนังอีก 3 ด้าน: กระเบื้องขาว · ผนังด้านประตู: ผนังข้างประตูและหน้าเสาตัดจากกระเบื้อง 1 แผ่นต่อแถว · ถ้าใช้กระเบื้องตัวสำรอง ปูแนวนอน"
+en = "Other 3 walls: white tile · door end: the wall beside the door and the column face are both cut from one tile per row · the fallback tile, if used, is laid landscape"
+
+[[phase.step]]
+id = "floor_tiles"
+th = "พื้น: กระเบื้องเทาปูทับกระเบื้องพื้นเดิม (แน่นดี) 2 ระดับ: ฝั่งอ่าง (ด้านสูงของขั้นพื้น) ทับกระเบื้องเดิมฝั่งนั้น ฝั่งชักโครกและฝักบัวทับกระเบื้องห้องน้ำเดิม · วางกระเบื้องพื้นแห้งจากผนังใหม่ หาแนวยาแนวที่ใกล้ขั้นพื้นเดิมที่สุด แล้วเสริมผิวขั้นออกไปถึงแนวนั้นด้วยกาวซีเมนต์ขณะปู (ขยับเพียงเล็กน้อย) จึงไม่มีแผ่นตัดที่ขั้น · ผิวขั้นปิดด้วยแถบกระเบื้องเทาตัด และคิ้วกันขอบที่จมูกขั้น · แผ่นตัดตามผังพื้น · ใช้ความลาดเอียงเดิมลงท่อระบายน้ำ · ตั้งตะแกรง DEXZON บนท่อเดิมให้เสมอกระเบื้องใหม่ (พื้นสูงขึ้นประมาณ 12–15 มม.) · ปูพื้นเป็นอย่างสุดท้าย ห้ามเหยียบจนแห้ง แล้วยาแนว"
+en = "Floor: grey tile over the existing (solid) floor tiles on 2 levels: the basin end (the higher side of the step) over the old tiles on that side; the toilet and shower end over the old bathroom tiles · dry-lay the floor tiles from the new wall, find the joint nearest the existing step, and build the step face out to it in tile adhesive as you lay — a small move — so there are no cut tiles at the step · the step face is clad with a strip cut from grey tile, with an edge trim on the nosing · cuts as on the floor plan · keep the existing slope to the drain · set the DEXZON grate on the existing pipe, level with the new tiles (the floor rises about 12–15 mm) · floor last, keep off until set, then grout"
+
+[[phase]]
+id = "paint_walls"
+th = "ทาสีผนัง"
+en = "Paint walls"
+
+[[phase.step]]
+id = "paint"
+th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเดิมสภาพดี อุดรอยเล็กน้อย) — ติดเทปกันขอบกระเบื้อง และคลุมพื้นและกระเบื้องก่อน"
+en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls are in good condition, small patches only) — tape off the tile edges and cover the floor and tiles first"
+
+[[phase]]
+id = "fit_out"
+th = "ติดตั้งอุปกรณ์"
+en = "Fit out"
+
+[[phase.step]]
+id = "door"
+th = "ติดตั้งบานประตูใหม่ เจาะและติดตั้งลูกบิดห้องน้ำ"
+en = "Hang the new door, and drill and fit the bathroom knob"
+
+[[phase.step]]
+id = "toilet"
+th = "ติดตั้งชักโครกใหม่ และสายฉีดชำระเดิม ทั้งคู่ต่อจากสต็อปวาล์ว 2 ทางหลังชักโครก สายฉีดชำระเดินไปที่ขอแขวนระหว่างอ่างกับชักโครก"
+en = "Install the new toilet and refit the existing bum gun, both fed from the 2-way stop valve behind the toilet, with the bum gun hose running to its holder between the basin and the toilet"
+
+[[phase.step]]
+id = "basin"
+th = "ติดตั้งอ่างล้างหน้าแขวน — ยึดเข้ากับเนื้อผนังให้แน่น (ไม่ยึดแค่ปูนฉาบ)"
+en = "Install the wall-hung basin — fixed securely into the wall itself (not just the plaster)"
+
+[[phase.step]]
+id = "heater_shower"
+th = "ใส่สต็อปวาล์วเครื่องทำน้ำอุ่นกลับที่เดิม · ติดตั้งเครื่องทำน้ำอุ่นเดิมพร้อมกล่องไฟฟ้า และชุดฝักบัว ที่ผนังหลัก"
+en = "Refit the water heater's stop tap in its original place · refit the existing water heater with its electrical box, and the shower unit, on the main wall"
+
+[[phase.step]]
+id = "accessories"
+th = "ติดตั้งกระจก ชั้นวางพร้อมราวแขวนผ้า และที่ใส่กระดาษชำระ"
+en = "Install the mirror, the shelf with towel rail, and the toilet roll holder"
+
+[[phase.step]]
+id = "lamps"
+th = "ติดตั้งโคมไฟผนัง 2 ดวง ข้างกระจก"
+en = "Fit the 2 wall lamps either side of the mirror"
+
+[[phase.step]]
+id = "plate"
+th = "ติดตั้งชุดสวิตช์พร้อมปลั๊กเดิม (สวิตช์ควบคุมโคมไฟผนัง) และเบรกเกอร์เครื่องทำน้ำอุ่นเดิม ที่ผนังใหม่ด้านห้องนั่งเล่น"
+en = "Refit the existing switch-and-socket plate (the switch now controls the wall lamps) and the water-heater breaker on the living-room face of the new wall"
+
+[[phase]]
+id = "hand_over"
+th = "ทดสอบและส่งมอบ"
+en = "Test and hand over"
+
+[[phase.step]]
+id = "test_handover"
+th = "เปิดน้ำ ดูการระบายน้ำ เปิดโคมไฟ ลองปลั๊กทั้ง 2 ช่อง ลองเครื่องทำน้ำอุ่น และกดปุ่มทดสอบกันดูด · ทำความสะอาด · เจ้าของบ้านตรวจรับ"
+en = "Run the water and check the drain, try the lamps, both sockets and the heater, and press the earth-leakage test button · clean up · homeowner's inspection"
