@@ -154,8 +154,6 @@ en = "New wall"
 id = "door"
 th = "ประตู"
 en = "Door"
-note_th = "วงกบติดตั้งพร้อมผนังใหม่ · ประตู ลูกบิด และบานพับ ใช้ตอนติดตั้งอุปกรณ์ จึงซื้อทีหลังได้"
-note_en = "The frame goes in with the new wall · the door, knob and hinges are only needed at fit-out, so they can be bought later"
 
 [[group]]
 id = "new_ceiling"

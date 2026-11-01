@@ -382,6 +382,17 @@ TESTS = [
     ("document: each part's section goes where its marker is", {}, built(lambda p: p.work.render()[0])),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
+    ("links: a product needed in a phase that isn't in phases.toml",
+     lambda: (lambda pid: ({QUOTE: data(lambda d: d["needed_in"].update({pid: "no_such_phase"}))},
+                           f"[needed_in] {pid} = 'no_such_phase' — that phase isn't in phases.toml"))(
+         find(list(RAW[QUOTE].get("needed_in", {})), "[needed_in] link"))),
+    ("links: a product needed in a phase that isn't on the material list",
+     lambda: ({QUOTE: data(lambda d: d["needed_in"].update(no_such_product=RAW[PHASES]["phase"][0]["id"]))},
+              "[needed_in] no_such_product — that product isn't on the material list")),
+    ("links: the phase number follows when a phase is inserted",
+     lambda: (lambda pid, ph: ({PHASES: data(lambda d: d["phase"].insert(0, {"id": "inserted_test", "th": "ใหม่", "en": "New"}))},
+                               f"needed in phase {int(REAL.work.numbers[('phase', ph)]) + 1} — "))(
+         *find(list(RAW[QUOTE].get("needed_in", {}).items()), "[needed_in] link"))),
     ("notes: a note in one language only",
      {PHASES: data(lambda d: d["section"].pop("note_en"))}, "has a note in one language only"),
     ("materials: the prices date reaches the section note",

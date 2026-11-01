@@ -161,9 +161,11 @@ class Materials:
         """How many of one product the list has, bought or still to buy."""
         return sum(m.n for m in self.lines if m.entry.product.id == product_id and STATUS[m.status].shop)
 
-    def render(self):
+    def render(self, extra=None):
         """The section as Markdown lines: its heading and note, then the table — a heading row
-        (and its note) per group, then its lines."""
+        (and its note) per group, then its lines. `extra` = {product id: (Thai, English)}: a
+        note quote.py adds to that product's lines (this file never knows what it says)."""
+        extra = extra or {}
         L = self.labels
         th, en, nth, nen = self.section
         rows = [heading(2, th, en), ""] + ([*note(nth, nen), ""] if nth else [])
@@ -174,7 +176,7 @@ class Materials:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
                 if g.note_th:
                     rows.append(f"| {note_cell(g.note_th, g.note_en)} | | | |")
-            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
+            rows += [f"| {name_cell(m, extra.get(m.entry.product.id))} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
 
@@ -321,14 +323,17 @@ def site_cell(m, L):
     return L.both("buy") if m.status == "buy" else "✓"
 
 
-def name_cell(m):
-    """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
+def name_cell(m, extra=None):
+    """The name (linked to the shop's page), then its shop and SKU, then the note for this line,
+    then any `extra` (Thai, English) note."""
     p = m.entry
     name = md_cell(both(p.product.name_th, p.product.name_en))
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:
         name += f"<br>{note_cell(m.note_th, m.note_en)}"
+    if extra:
+        name += f"<br>{note_cell(*extra)}"
     return name
 
 

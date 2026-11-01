@@ -33,10 +33,11 @@ import materials
 import phases
 import products
 import room
-from common import DataError, both, cli, named, only, read_toml
+from common import DataError, Labels, both, cli, named, only, read_toml
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
 QUOTE = "quote.toml"
+LABELS = {"needed_in": ("number", "name")}
 STYLE = Path(__file__).with_name("style.css")      # the page's look: fonts, tables, page breaks
 
 
@@ -86,17 +87,33 @@ def fill(template, name, title, sections):
     return doc
 
 
-def load_title(path):
-    """The quote's title, from quote.toml: 'Thai / English'."""
-    raw = read_toml(path, "the quote's own content: its title")
-    only(QUOTE, "the file", raw, {"title"})
+def load_quote(path):
+    """quote.toml: the title ('Thai / English'), the [needed_in] links and the labels."""
+    raw = read_toml(path, "what belongs to the whole quote: its title and the links between parts")
+    only(QUOTE, "the file", raw, {"title", "needed_in", "labels"})
     only(QUOTE, "[title]", raw.get("title", {}), {"th", "en"})
     th, en, _, _ = named(QUOTE, "[title]", raw.get("title", {}))
-    return both(th, en)
+    return both(th, en), raw.get("needed_in", {}), Labels(QUOTE, raw.get("labels", {}), LABELS)
+
+
+def needed_in(links, labels, work, m):
+    """{product id: (Thai, English)} — "needed in phase N — name" for each [needed_in] link, after
+    checking both ends: the product is on the material list, the phase is in phases.toml."""
+    phase = {ph.id: ph for ph in work.phases}
+    out = {}
+    for pid, phase_id in links.items():
+        if pid not in m.products_used():
+            raise DataError(f"{QUOTE}: [needed_in] {pid} — that product isn't on the material list")
+        if phase_id not in phase:
+            raise DataError(f"{QUOTE}: [needed_in] {pid} = '{phase_id}' — that phase isn't in {phases.FILE}")
+        ph = phase[phase_id]
+        out[pid] = (labels.th("needed_in", number=ph.number, name=ph.th),
+                    labels.en("needed_in", number=ph.number, name=ph.en))
+    return out
 
 
 def assemble(md):
-    """Load the three parts next to `md`, check what they share, and fill the skeleton."""
+    """Load the parts next to `md`, check what connects them, and fill the template."""
     md = Path(md)
     if not md.exists():
         raise DataError(f"{md} not found")
@@ -108,8 +125,9 @@ def assemble(md):
     if unused:
         raise DataError(f"{products.FILE}: product '{unused[0]}' isn't on the material list or the drawings")
     tiles, tile_warnings = tile_check(m, r)
-    doc = fill(md.read_text(encoding="utf-8"), md.name, load_title(md.with_name(QUOTE)),
-               {"phases": work.render(), "materials": m.render()})
+    title, links, labels = load_quote(md.with_name(QUOTE))
+    doc = fill(md.read_text(encoding="utf-8"), md.name, title,
+               {"phases": work.render(), "materials": m.render(needed_in(links, labels, work, m))})
     return Quote(doc, r.render(), work, m, r, tiles, r.warnings() + tile_warnings)
 
 

@@ -1,7 +1,20 @@
-# quote.toml — the quote's own content: the content that belongs to the whole document, not to
-# one part. Each part's heading and note live in that part's file ([section] in phases.toml and
-# materials.toml); the template (bathroom-renovation-quote.md) holds layout only.
+# quote.toml — what belongs to the whole quote, not to one part: its title, and the links
+# between parts. Each part's own heading and note live in that part's file ([section] in
+# phases.toml and materials.toml); the template (bathroom-renovation-quote.md) holds layout only.
+# Only quote.py reads this file, and it checks both ends of every link.
 
 [title]
 th = "รายละเอียดหน้างานห้องน้ำใหม่"
 en = "New Bathroom Work Details"
+
+# Which phase a product is first needed in: product id (products.toml, and on the material list)
+# → phase id (phases.toml). Shown on that product's line in the material list, with the phase's
+# number and name — so inserting, renaming or removing a phase can't leave it out of date.
+[needed_in]
+door_frame = "build_wall"
+door = "fit_out"
+door_knob = "fit_out"
+hinges = "fit_out"
+
+[labels]
+needed_in = { th = "ใช้ในขั้น {number} — {name}", en = "needed in phase {number} — {name}" }
