@@ -9,7 +9,7 @@ nothing, writes nothing, and decides nothing about the data — numbers, totals 
 tile counts all come from the Project.
 
   generated:phases     the work by phase       p.phases
-  generated:list       the material list       p.materials, grouped by phase
+  generated:list       the material list       p.materials, as one list
 
 Usage:  python3 tables.py [quote.md]    (prints the tile counts, the still-to-buy total, warnings)
 """
@@ -28,17 +28,39 @@ def baht(v):
     return f"฿{v:,.0f}"
 
 
+def _n(v, unit):
+    return f"{v:g} {unit}" if unit else f"{v:g}"
+
+
 def qty(m):
-    if m.n is not None and m.price is not None:
-        unit = f" {m.unit}" if m.unit else ""
-        return f"{m.n}{unit} × {baht(m.price)}"
-    return m.qty
+    """Quantity cell: what to buy (× unit price), or what is on site; a fallback shows its price."""
+    if m.fallback:
+        return f"{baht(m.price)} / {m.unit}" if m.unit else baht(m.price)
+    if m.buy:
+        return f"{_n(m.buy, m.unit)} × {baht(m.price)}"
+    return _n(m.have, m.unit)
 
 
 def money_cell(m):
-    if m.fallback or not m.priced:
+    """Price cell: what is still to pay, or what was paid for what is on site."""
+    if m.to_buy:
+        return (f"{APPROX} " if m.approx else "") + baht(m.total)
+    return baht(m.paid) if m.paid else "—"
+
+
+def site_cell(m):
+    if m.fallback:
         return "—"
-    return (f"{APPROX} " if m.approx else "") + baht(m.total)
+    if not m.buy:
+        return "✓"
+    if not m.have:
+        return "ซื้อ / buy"
+    return f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}"
+
+
+def name_cell(m):
+    name = f"[{m.name}]({m.link})" if m.link else m.name
+    return f"{name}<br>*{m.note}*" if m.note else name
 
 
 def sum_cell(total, approx, bold=True):
@@ -70,16 +92,9 @@ def phases_section(p):
 
 # ---------- the material list ----------
 def material_list(p):
-    """One table, grouped by phase in working order; the product name links to the shop."""
+    """One table, in the order materials.toml gives; the product name links to the shop."""
     rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
-    for ph in p.phases:
-        items = [m for m in p.materials if m.phase == ph.id]
-        if items:
-            rows.append(f"| **{phase_heading(ph)}** | | | |")
-        for m in items:
-            name = f"[{m.name}]({m.link})" if m.link else m.name
-            site = "✓" if m.on_site else "ซื้อ / buy"
-            rows.append(f"| {name} | {qty(m)} | {money_cell(m)} | {site} |")
+    rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in p.materials]
     rows.append(f"| **ยังต้องซื้อ / Still to buy** | | {sum_cell(*p.still_to_buy())} | |")
     return rows
 
@@ -121,7 +136,7 @@ def main(argv):
     print("Still to buy:", sum_cell(*p.still_to_buy(), bold=False))
     for w in warnings:
         print("WARNING (materials):", w)
-    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if m.on_site)} on site, "
+    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if not m.buy)} fully on site, "
           f"{len(warnings)} warnings")
 
 

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from draw_walls import draw_all
 from project import ProjectError, load
-from tables import fill
+from tables import baht, fill, sum_cell
 
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
@@ -51,7 +51,7 @@ def drop_key(toml, section, no, key):
 
 
 def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phases=None):
-    """Run the stages on edited copies. Returns (warnings, text to search):
+    """Run the stages on edited copies. Returns (warnings, text to search, project):
     the ERROR line if the data was refused, else the warnings and the filled document."""
     edits = {MD: edit_md, LAYOUT: edit_layout, MATERIALS: edit_mat, SITE: edit_site, PHASES: edit_phases}
     with tempfile.TemporaryDirectory() as tmp:
@@ -64,11 +64,21 @@ def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phas
             doc = fill(p)
             warnings = [w for _, w in p.warnings()]
         except ProjectError as e:
-            return [], f"ERROR: {e}"
-    return warnings, "\n".join(warnings) + "\n" + doc
+            return [], f"ERROR: {e}", None
+    return warnings, "\n".join(warnings) + "\n" + doc, p
 
 
 CLEAN = None                 # expect: no error and no warnings
+# An expected text can also be a function of the project that was built, so a test checks the
+# rule ("a reference shows its step's number") rather than today's data ("step 1.10").
+REAL = load(HERE / MD)
+
+
+def next_step(number):
+    """'1.10' -> '1.11'"""
+    phase, step = number.split(".")
+    return f"{phase}.{int(step) + 1}"
+
 
 TESTS = [
     # (name, layout edit, md edit, text expected in the output[, site edit])
@@ -111,33 +121,38 @@ TESTS = [
 
 MAT_TESTS = [
     # (name, materials edit, text expected in the warnings or the filled document)
-    ("materials: real data gives the current totals", None, "about ฿22,800"),
-    ("materials: a price change flows into the totals",
-     lambda t: t.replace("price = 799\n", "price = 899\n", 1), "about ฿22,900"),
+    ("materials: the still-to-buy total is shown", None, lambda p: sum_cell(*p.still_to_buy())),
+    ("materials: a price change flows into the total",
+     lambda t: re.sub(r"(?m)^price = 799$", "price = 899", t, count=1),
+     lambda p: f"about {baht(round(REAL.still_to_buy()[0] + 100, -2))}"),
     ("materials: too few grey tile boxes",
-     lambda t: re.sub(r"(?m)^n = 9$", "n = 5", t, count=1), "grey tile: 8 boxes planned but 11 needed"),
-    ("materials: item naming a phase that doesn't exist",
-     lambda t: t.replace('phase = "first_fix"', 'phase = "plumbing"', 1), "names phase 'plumbing', which is not in phases.toml"),
-    ("materials: the list is grouped by phase", None, "Phase 2 — Build the new wall**"),
+     lambda t: re.sub(r"(?m)^buy = 9$", "buy = 5", t, count=1),
+     lambda p: next(f"grey tile: {t.planned:g} boxes planned but {t.boxes} needed" for t in p.tile_counts() if t.colour == "grey")),
+    ("materials: a row with some on site and some to buy shows both", None,
+     lambda p: next(f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}" for m in p.materials if m.have and m.buy)),
+    ("materials: nothing to buy and nothing on site",
+     lambda t: t.replace("have = 1\nreused = true\n", "", 1), "has nothing to buy and nothing on site"),
     ("keys: a typo in a material (link written as lnk)",
      lambda t: t.replace("link = ", "lnk = ", 1), "unknown key 'lnk'"),
     ("links: a tile colour that doesn't exist",
      lambda t: re.sub(r'(?m)^tile = "grey"$', 'tile = "gray"', t, count=1), "tile = 'gray'"),
-    ("types: on_site written as text",
-     lambda t: re.sub(r"(?m)^on_site = true$", 'on_site = "yes"', t, count=1), "'on_site' must be true or false"),
-    ("materials: item with no price",
-     lambda t: t.replace("total = 400\n", "", 1), "needs n + price, or total"),
+    ("types: reused written as text",
+     lambda t: re.sub(r"(?m)^reused = true$", 'reused = "yes"', t, count=1), "'reused' must be true or false"),
+    ("materials: still to buy with no price",
+     lambda t: re.sub(r"(?m)^price = 400$\n", "", t, count=1), "is still to buy but has no price"),
 ]
 
 PHASE_TESTS = [
     # (name, phases edit, expected) — section 3 and every {step:id} reference
-    ("phases: real data numbers the steps", None, "| 1.8 |"),
-    ("phases: a reference resolves to its number", None, "marked in step 1.10"),
+    ("phases: the steps are numbered", None, lambda p: f"| {p.phases[0].steps[0].number} |"),
+    ("phases: a reference resolves to its number", None,
+     lambda p: f"marked in step {p.numbers[('step', 'clear_mark')]}"),
     ("phases: inserting a step renumbers it and its references",
      lambda t: t.replace('[[phase.step]]\nid = "isolate"',
                          '[[phase.step]]\nid = "photos"\nth = "ถ่ายรูป"\nen = "Take photos"\n\n[[phase.step]]\nid = "isolate"', 1),
-     "marked in step 1.11"),
-    ("rules: the tiling note quotes the clearance from site.toml", None, "at least 20 mm off a joint"),
+     lambda p: f"marked in step {next_step(REAL.numbers[('step', 'clear_mark')])}"),
+    ("rules: the tiling note quotes the clearance from site.toml", None,
+     lambda p: f"at least {p.min_clear:g} mm off a joint"),
     ("rules: a reference to a rule that doesn't exist",
      lambda t: t.replace("{rule:min_clear} mm", "{rule:min_gap} mm", 1), "{rule:min_gap} doesn't match site.toml [rules]"),
     ("phases: a reference to an id that doesn't exist",
@@ -150,7 +165,8 @@ PHASE_TESTS = [
 
 DOC_TESTS = [
     # (name, md edit, expected) — the document skeleton
-    ("document: a phase note resolves its phase reference", None, "plastered after first fix, in phase 6"),
+    ("document: a phase note resolves its phase reference", None,
+     lambda p: f"plastered after first fix, in phase {p.numbers[('phase', 'make_good')]}"),
     ("document: only phases and materials", None, "## 2. วัสดุทั้งหมด"),
     ("document: a generated block whose marker is missing",
      lambda t: t.replace("<!-- generated:list -->", "", 1), "marker <!-- generated:list -->"),
@@ -165,7 +181,9 @@ def main():
             [(n, dict(edit_phases=e), x) for n, e, x in PHASE_TESTS] + \
             [(n, dict(edit_mat=e), x) for n, e, x in MAT_TESTS]
     for name, kw, expect in cases:
-        warnings, out = run(**kw)
+        warnings, out, p = run(**kw)
+        if callable(expect):
+            expect = expect(p) if p else "(the data was refused, so there was no project to check)"
         ok = (not warnings and not out.startswith("ERROR")) if expect is CLEAN else expect in out
         failed += not ok
         print(f"{'PASS' if ok else 'FAIL'}  {name}")

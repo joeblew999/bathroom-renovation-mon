@@ -16,7 +16,8 @@ reads the five sources (they sit next to each other):
 and returns a Project:
 
   p.phases      [Phase]     each with its number and its [Step]s, each step with "1.8"
-  p.materials   [Material]  each with its phase, total, and whether it is still to buy
+  p.materials   [Material]  one list, in file order: quantities to buy and on site, and what
+                            still has to be paid — materials and phases don't refer to each other
   p.walls       {id: Wall}  main_wall, new_wall, window_wall, opposite_wall: name, length,
                             tile, tiled run, and every item on it (layout + worked out)
   p.floor       [Item]      the floor-plan items (drain, step, door)
@@ -72,8 +73,8 @@ NAME_KEYS = {"th", "en", "note_th", "note_en"}
 LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
-MATERIAL_KEYS = {"name", "phase", "on_site", "n", "price", "total", "qty", "unit", "approx",
-                 "tile", "boxes", "fallback", "link"}
+MATERIAL_KEYS = {"name", "note", "buy", "have", "reused", "price", "unit", "approx",
+                 "tile", "fallback", "link"}
 TILE_COLOURS = ("grey", "white")
 
 # What each shape needs to be drawn (after the product's size is filled in).
@@ -105,37 +106,35 @@ class Phase:
 @dataclass(frozen=True)
 class Material:
     name: str
-    phase: str
-    on_site: bool
-    n: float = None
-    price: float = None
-    given_total: float = None
-    qty: str = "1"
+    note: str
+    buy: float = 0       # how many still to buy
+    have: float = 0      # how many already on site
+    reused: bool = False # what is on site is an old fitting, reused
+    price: float = None  # unit price in baht
     unit: str = ""
     approx: bool = False
     tile: str = None
-    boxes: float = None
     fallback: bool = False
     link: str = None
 
     @property
-    def priced(self):
-        return self.n is not None and self.price is not None or self.given_total is not None
+    def to_buy(self):
+        """Still to buy and counted in the total (a fallback is listed but never counted)."""
+        return self.buy > 0 and not self.fallback
 
     @property
     def total(self):
-        if self.n is not None and self.price is not None:
-            return self.n * self.price
-        return self.given_total or 0
+        """What is still to pay for it."""
+        return self.buy * self.price if self.to_buy else 0
 
     @property
-    def to_buy(self):
-        """Still to buy and counted in the total (a fallback is listed but not counted)."""
-        return not self.on_site and not self.fallback
+    def paid(self):
+        """What was paid for what is on site (nothing for a reused fitting)."""
+        return self.have * self.price if self.have and self.price is not None and not self.reused else 0
 
     @property
     def tile_boxes(self):
-        return self.boxes if self.boxes is not None else (self.n or 0)
+        return self.have + self.buy
 
 
 @dataclass(frozen=True)
@@ -226,9 +225,6 @@ class Project:
     def resolve(self, t):
         return _resolve(self.numbers, t)
 
-    def phase_of(self, material):
-        return next(ph for ph in self.phases if ph.id == material.phase)
-
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
         items = [m for m in self.materials if m.to_buy]
@@ -284,10 +280,11 @@ def load(md_path):
     _only("phases.toml", "the file", phases_raw, {"phase"})
     _only("materials.toml", "the file", materials_raw, {"item"})
 
-    # Order matters, and each step only uses what the steps before it built:
+    # Each part is built from its own file; only the references ({phase:…}, {step:…}, {rule:…})
+    # in the text cross between them, and they are numbered first:
     phases, numbers = _phases(phases_raw.get("phase", []),           # 1. numbers, for references
                               {("rule", k): f"{v:g}" for k, v in site.get("rules", {}).items()})
-    materials = _materials(materials_raw.get("item", []), numbers)   # 2. needs the phase ids
+    materials = _materials(materials_raw.get("item", []))            # 2. materials.toml on its own
     walls, floor = _walls(site, layout, numbers)                     # 3. notes need references
     return Project(md, md.read_text(encoding="utf-8"), site, phases, materials, walls, floor, numbers)
 
@@ -406,31 +403,39 @@ def _resolve(numbers, t):
 
 
 # ---------- materials.toml ----------
-def _materials(raw, numbers):
+def _materials(raw):
+    """The materials, from materials.toml alone, in file order."""
     out = []
     for it in raw:
         where = f"'{it.get('name', '?')[:40]}'"
         _only("materials.toml", where, it, MATERIAL_KEYS)
-        _need("materials.toml", where, it, ("name", "phase", "on_site"))
-        for k in ("n", "price", "total", "boxes"):
+        _need("materials.toml", where, it, ("name",))
+        for k in ("buy", "have", "price"):
             if k in it:
                 _number("materials.toml", where, k, it[k])
-        for k in ("on_site", "approx", "fallback"):
+                if it[k] < 0:
+                    raise ProjectError(f"materials.toml: {where} '{k}' can't be negative")
+        for k in ("reused", "approx", "fallback"):
             if k in it:
                 _flag("materials.toml", where, k, it[k])
-        if ("phase", it["phase"]) not in numbers:
-            raise ProjectError(f"materials.toml: {where} names phase '{it['phase']}', which is not in phases.toml")
         if "tile" in it and it["tile"] not in TILE_COLOURS:
             raise ProjectError(f"materials.toml: {where} has tile = {it['tile']!r} "
                                f"(must be one of: {', '.join(TILE_COLOURS)})")
         if "link" in it and not str(it["link"]).startswith("https://"):
             raise ProjectError(f"materials.toml: {where} link must start with https://")
-        m = Material(name=it["name"], phase=it["phase"], on_site=it["on_site"], n=it.get("n"),
-                     price=it.get("price"), given_total=it.get("total"), qty=it.get("qty", "1"),
-                     unit=it.get("unit", ""), approx=it.get("approx", False), tile=it.get("tile"),
-                     boxes=it.get("boxes"), fallback=it.get("fallback", False), link=it.get("link"))
-        if m.to_buy and not m.priced:
-            raise ProjectError(f"materials.toml: {where} needs n + price, or total")
+        m = Material(name=it["name"], note=it.get("note", ""),
+                     buy=it.get("buy", 0), have=it.get("have", 0), reused=it.get("reused", False),
+                     price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
+                     tile=it.get("tile"), fallback=it.get("fallback", False), link=it.get("link"))
+        if m.fallback:
+            if m.price is None or m.buy:
+                raise ProjectError(f"materials.toml: {where} is a fallback: give its price, and no 'buy'")
+        elif m.buy == 0 and m.have == 0:
+            raise ProjectError(f"materials.toml: {where} has nothing to buy and nothing on site (give buy or have)")
+        if m.buy and m.price is None:
+            raise ProjectError(f"materials.toml: {where} is still to buy but has no price")
+        if m.reused and (m.buy or not m.have):
+            raise ProjectError(f"materials.toml: {where} is reused: give 'have' and no 'buy'")
         out.append(m)
     return tuple(out)
 

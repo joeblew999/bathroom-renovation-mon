@@ -8,8 +8,7 @@
 #
 # Each phase: id, th, en, optional note_th / note_en.
 # Each step: id, th, en (the Thai and English text of the step).
-# What each phase needs is not listed here: each material in materials.toml names its phase,
-# and the material list is grouped by phase.
+# Materials are not listed here and don't refer to phases: materials.toml stands on its own.
 #
 # Write what to do and in what order. Sizes and positions live in site.toml / layout.toml
 # and show on the drawings — don't copy them into the text; point to the drawing instead.
