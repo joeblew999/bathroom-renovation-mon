@@ -1115,23 +1115,6 @@ sku = "138771"
   note_en = "white tiles"
 
 [[entry]]
-id = "step_nosing"
-th = "จมูกบันได HOME"
-detail_th = "NAS-451510 อะลูมิเนียม ยาว 1.5 ม. สีเงินเงา"
-en = "HOME step nosing"
-detail_en = "NAS-451510, aluminium, 1.5 m, bright silver"
-unit = "length"
-price = 357.93
-shop = "homepro"
-sku = "1037342"
-  [[entry.line]]
-  work_section = "waterproofing_tiles"
-  status = "procure"
-  n = 1
-  note_th = "ขั้นพื้น"
-  note_en = "floor step"
-
-[[entry]]
 id = "drain"
 th = "ตะแกรงท่อระบายน้ำพื้น DEXZON"
 detail_th = "พลาสติก เหลี่ยม {w_cm} × {d_cm} ซม. 4 นิ้ว กันกลิ่น"

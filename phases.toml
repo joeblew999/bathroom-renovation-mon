@@ -258,8 +258,8 @@ en = "**Door end:** cut the wall beside the door and the column face from the sa
 
 [[phase.step]]
 id = "step_tiles"
-th = "**ขั้นพื้น:** วางกระเบื้องพื้นแห้งจากผนังใหม่ หาแนวยาแนวที่ใกล้ขั้นพื้นเดิมที่สุด แล้วเสริมผิวขั้นออกไปถึงแนวนั้นด้วยกาวซีเมนต์ขณะปู — ขยับเพียงเล็กน้อย จึงไม่มีแผ่นตัดที่ขั้น · ผิวขั้นปิดด้วยแถบกระเบื้องพื้นตัด และคิ้วกันขอบที่จมูกขั้น"
-en = "**Step:** dry-lay the floor tiles from the new wall, find the joint nearest the existing step, and build the step face out to it in tile adhesive as you lay — a small move, so there are no cut tiles at the step · clad the step face with a strip cut from the floor tile, with an edge trim on the nosing"
+th = "**ขั้นพื้น:** วางกระเบื้องพื้นแห้งจากผนังใหม่ หาแนวยาแนวที่ใกล้ขั้นพื้นเดิมที่สุด แล้วเสริมผิวขั้นออกไปถึงแนวนั้นด้วยกาวซีเมนต์ขณะปู — ขยับเพียงเล็กน้อย จึงไม่มีแผ่นตัดที่ขั้น · ผิวขั้นปิดด้วยแถบกระเบื้องพื้นตัด และเข้ามุมจมูกขั้นแบบตัดเฉียง ไม่ใช้คิ้ว: ตัดขอบกระเบื้องด้านบนและขอบแถบผิวขั้นเฉียง 45° ด้วยเครื่องตัดน้ำ ให้มาชนกันพอดีที่มุม ลบคมเล็กน้อยด้วยหินขัดกันบิ่น และอัดกาวซีเมนต์หลังมุมให้เต็มทั้งสองแผ่น"
+en = "**Step:** dry-lay the floor tiles from the new wall, find the joint nearest the existing step, and build the step face out to it in tile adhesive as you lay — a small move, so there are no cut tiles at the step · clad the step face with a strip cut from the floor tile and mitre the nosing, with no trim: cut the edge of the top tile and of the face strip at 45° on a wet saw so they meet exactly at the corner, ease the sharp edge slightly with a rubbing stone so it won't chip, and fill solid with adhesive behind the corner under both tiles"
 
 [[phase.step]]
 id = "floor_tiles"
