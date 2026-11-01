@@ -19,7 +19,12 @@ data has nothing of the kind a test needs, that test fails and says so.
 There is a test for every check in the code: every DataError (bad data, a data check) and every
 design check (room_design_checks.py, materials_design_checks.py).
 
-Usage:  python3 test_pipeline.py
+Measuring the drawings in Chromium (drawing_design_checks.py) is what takes the time, so the fast run
+measures them only in the tests marked drawn(…) — the drawing design tests call the checks themselves.
+`--fuzz` measures them in every test, so a broken copy that happens to make a drawing collide is caught too.
+
+Usage:  python3 test_pipeline.py            (mise run test — fast; part of mise run ci)
+        python3 test_pipeline.py --fuzz     (mise run fuzz — every test with its drawings measured)
 """
 import contextlib
 import datetime
@@ -228,13 +233,14 @@ def copy_to(folder, edits):
     (folder / SOURCES).symlink_to(HERE / SOURCES)       # the kept copies of the books the data cites
 
 
-def run(edits):
+def run(edits, measure=True):
     """Assemble the quote from copies, with `edits` = {file: edit(text) -> text, or None to leave
-    the file out}. Returns (warnings, text to search, quote) — the ERROR line if the data was refused."""
+    the file out}, measuring the drawings in Chromium only if `measure`. Returns (warnings, text to search,
+    quote) — the ERROR line if the data was refused."""
     with tempfile.TemporaryDirectory() as tmp:
         copy_to(Path(tmp), edits)
         try:
-            q = assemble(Path(tmp) / MD)
+            q = assemble(Path(tmp) / MD, measure)
         except DataError as e:
             return [], f"ERROR: {e}", None
     warnings = [x for _, w in q.warnings for x in w]
@@ -1052,8 +1058,17 @@ def tile_product(d):
 # ---------- the tests ----------
 # (name, edits, expected) — expected is a text, CLEAN, or built(…) — or (name, make) where
 # make() works out (edits, expected) from the real data when the test runs.
+DRAWN = set()
+
+
+def drawn(test):
+    """A test whose build always measures its drawings in Chromium, even in the fast run."""
+    DRAWN.add(test[0])
+    return test
+
+
 TESTS = [
-    ("real data is clean", {}, CLEAN),
+    drawn(("real data is clean", {}, CLEAN)),
     # ---- the one checker (common.check): one test per kind of mistake ----
     ("checker: an unknown key (a typo)", lambda: (edit_item(lambda e: True, "item", lambda e: e.update(xx=1)),
                                                  "unknown key 'xx'")),
@@ -1153,7 +1168,7 @@ TESTS = [
     ("design problems: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
     ("assumed values: each is listed by the build, with its value", assumed_listed_test),
     # ---- drawing design (drawing_design_checks.py): how each drawing reads, measured as drawn ----
-    ("drawing design: a name too long for its drawing shows as a problem under it", off_drawing_test),
+    drawn(("drawing design: a name too long for its drawing shows as a problem under it", off_drawing_test)),
     ("drawing design: a text running off the edge",
      lambda: drawing_check_test(drawing_design_checks.OFF, [("RUNS-OFF", "")],
                                 '<text class="key" x="380" y="100">RUNS-OFF</text>')),
@@ -1366,12 +1381,13 @@ def main():
         real()
     except DataError as e:
         sys.exit(f"The real data is refused, so nothing can be tested:\nERROR: {e}")
+    fuzz = "--fuzz" in sys.argv[1:]
     failed = 0
     for test in TESTS:
         name = test[0]
         try:
             edits, expect = test[1:] if len(test) == 3 else test[1]()
-            warnings, out, p = run(edits)
+            warnings, out, p = run(edits, fuzz or name in DRAWN)
             if callable(expect):
                 expect = expect(p)
             ok = (not warnings and not out.startswith("ERROR")) if expect is CLEAN else expect in out

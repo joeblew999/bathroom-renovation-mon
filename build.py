@@ -83,8 +83,9 @@ def fill(template, name, sections):
     return doc
 
 
-def assemble(md):
-    """Load the parts next to the template `md`, check what connects them, and fill the template."""
+def assemble(md, measure=True):
+    """Load the parts next to the template `md`, check what connects them, and fill the template.
+    `measure=False` skips measuring the drawings in Chromium (the tests' fast run; see test_pipeline.py)."""
     md = Path(md)
     if not md.exists():
         raise DataError(f"{md} not found")
@@ -98,7 +99,8 @@ def assemble(md):
     more = {"floor": [w for _, w in tile_warnings]}
     svgs = room_drawings.render(r, more)
     # How the drawings read, measured as drawn; any problem is drawn again in red under its drawing.
-    drawing_warnings = room_drawings.drawing_warnings(r, drawing_design_checks.check(svgs, STYLE.read_text(encoding="utf-8")))
+    drawing_warnings = room_drawings.drawing_warnings(r, drawing_design_checks.check(svgs, STYLE.read_text(encoding="utf-8"))) \
+        if measure else []
     if drawing_warnings:
         for d, w in drawing_warnings:
             more.setdefault(d, []).append(w)

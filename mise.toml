@@ -29,6 +29,10 @@ run = "python build.py"
 description = "Break copies of the data on purpose and confirm every check fires"
 run = "python test_pipeline.py"
 
+[tasks.fuzz]
+description = "The tests again, with every broken copy's drawings measured in Chromium — slow; GitHub runs it after ci"
+run = "python test_pipeline.py --fuzz"
+
 [tasks.ci]
 description = "Lint, test and build — and fail on any design problem. Exactly what GitHub runs on every push to main"
 depends = ["lint", "test"]

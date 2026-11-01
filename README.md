@@ -63,7 +63,7 @@ labour.toml     ──► labour.py   ◄── the room's take-off and         
 
 `build.py` is the only place the parts meet. It puts the phases, the materials list and the labour into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
 
-On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
+On every push to `main`, GitHub runs `mise run setup`, `mise run ci` and `mise run fuzz` — the same commands you can run here — and publishes `out/` only if both pass.
 
 ## Files
 
@@ -80,7 +80,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes, the one Chromium a run uses |
-| `test_pipeline.py` | The tests |
+| `test_pipeline.py` | The tests: `mise run test` measures the drawings in Chromium only in the tests about them; `mise run fuzz` measures them in every test |
 | `mise.toml` | The commands, and the pinned tools (Python and uv) |
 | `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run setup` installs exactly the lock |
 | `.github/workflows/pages.yml` | GitHub's build: `mise run setup`, `mise run ci`, then publish |
@@ -123,6 +123,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 9. **Tests never depend on today's numbers or wording.**
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
    - Every check has a test; `mise run test` lists them.
+   - Measuring the drawings in Chromium is the slow part, so `mise run test` (part of `mise run ci`) does it only in the tests about drawings; `mise run fuzz` runs every test with its drawings measured. `mise run publish` runs only `mise run ci`; GitHub runs `mise run fuzz` after it, and publishes only if both pass. A test whose build must always measure its drawings is marked `drawn(…)`.
 10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too; a labour rate from its rate book (`[[book]]` in `labour.toml`, with the day it was `checked`), with its item or note there and where: its `page` in the book's copy kept in `sources/` (`file`, with the page that publishes it, `published`, to fetch it again or find a newer edition — the comment above the book in `labour.toml` says how to take one in), or, for a book with no copy — a shop's service pages — its own page's `url`; Factor F (`[factor_f]`) from its table, with its `standard`, `url` and the day it was `checked`. When a source changes, the figure can be checked again; a norm without its source stops the build.
    - A value not yet known for real — still to be measured on site, or read off a product's label — is marked as assumed: its key goes in the entry's `assumed` list (`assumed = ["x", "y"]`). It is a stand-in until the real figure replaces it, and then it comes off the list.
 
