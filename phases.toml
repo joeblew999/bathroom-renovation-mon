@@ -106,8 +106,8 @@ en = "Set the precast lintel over the door opening, cut to length on site, one e
 
 [[phase.step]]
 id = "frame"
-th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา · อุดรอบวงกบและช่องทับหลังด้วยปูนก่ออิฐมวลเบาที่เหลือ"
-en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall · fill round the frame and the lintel pocket with the leftover AAC block mortar"
+th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา · ตั้งวงกบให้หน้าด้านห้องน้ำเสมอกับผิวผนังสำเร็จด้านห้องน้ำ (ปูนฉาบ กาวซีเมนต์ และกระเบื้องรวมกัน ยื่นจากหน้าอิฐ) ส่วนที่วงกบลึกไม่ถึงอยู่ด้านห้องนั่งเล่น ให้ปูนฉาบด้านนั้นจบชนวงกบเป็นมุมฉาก · อุดรอบวงกบและช่องทับหลังด้วยปูนก่ออิฐมวลเบาที่เหลือ"
+en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall · set it with its bathroom face flush with the finished bathroom face of the wall (plaster, adhesive and tile together, out from the block face); whatever depth the frame lacks falls on the living-room side, where the plaster stops square against the frame · fill round the frame and the lintel pocket with the leftover AAC block mortar"
 
 [[phase]]
 id = "build_ceiling"
@@ -201,8 +201,8 @@ en = "**Walls and column:** fill with ready-mix mortar — the broken edges wher
 
 [[phase.step]]
 id = "plaster"
-th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบเหมือนขั้น {step:clear_mark} แล้วปล่อยให้แห้ง"
-en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat as in step {step:clear_mark}, then let it cure"
+th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบเหมือนขั้น {step:clear_mark} แล้วปล่อยให้แห้ง · ด้านห้องน้ำ เหนือแนวขอบกระเบื้อง ให้ฉาบหนาขึ้น 2 ชั้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง (กาวซีเมนต์และกระเบื้องรวมกัน) — ตีไม้บรรทัดตรงที่แนวขอบกระเบื้องเป็นแนวฉาบ ผนังด้านห้องน้ำจึงเป็นระนาบเดียวตลอดความสูง ไม่มีขอบกระเบื้องยื่น และวงกบเสมอผนังตลอดแนว"
+en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat as in step {step:clear_mark}, then let it cure · on the bathroom side, above the tile line, build the plaster out in 2 coats to the face the tiles below will finish at (adhesive and tile together), working to a straight batten fixed at the tile line — so the bathroom face is one plane from floor to ceiling, with no tile ledge, and the frame is flush with it all the way up"
 
 [[phase.step]]
 id = "skim"
@@ -253,8 +253,8 @@ en = "**Main wall:** wall joints lined up with the floor joints, every tile faci
 
 [[phase.step]]
 id = "door_end_tiles"
-th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา"
-en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column"
+th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา · ปูกระเบื้องชนวงกบ เว้นร่องประมาณ 3 มม. แล้วยิงซิลิโคนสีขาวกันน้ำ — ขอบตัดของกระเบื้องซ่อนอยู่ชิดวงกบ"
+en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column · tile up to the frame, leaving a joint of about 3 mm, and seal it with white sanitary silicone — the cut tile edge stays hidden against the frame"
 
 [[phase.step]]
 id = "step_tiles"

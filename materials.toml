@@ -344,10 +344,10 @@ sku = "1109616"
 [[entry]]
 id = "door_frame"
 th = "วงกบ AZLE"
-detail_th = "UPVC {w_cm} × {h_cm} ซม. สีขาว"
+detail_th = "UPVC {w_cm} × {h_cm} × {d_cm} ซม. สีขาว"
 en = "AZLE door frame"
-detail_en = "UPVC, {w_cm} × {h_cm} cm, white"
-size = { w = 800, h = 2000 }
+detail_en = "UPVC, {w_cm} × {h_cm} × {d_cm} cm, white"
+size = { w = 800, h = 2000, d = 100 }
 unit = "set"
 price = 850
 shop = "homepro"
