@@ -1,4 +1,0 @@
-# Exact versions, so every machine builds the same PDF (installed by `mise run setup`).
-markdown==3.11
-playwright==1.63.0
-tomli-w==1.2.0              # the tests write their edited copies of the data with it

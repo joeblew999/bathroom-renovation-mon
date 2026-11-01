@@ -32,7 +32,7 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 | `build.py` | The only place the parts meet: hands the products' sizes to the room, checks the tile boxes, fills the template, writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading and checking TOML, labels, headings and notes |
 | `test_pipeline.py` | The tests |
-| `mise.toml`, `requirements.txt` | The commands and pinned tools; the pinned Python packages |
+| `mise.toml` | The commands, and every pinned tool: Python, its packages, Chromium |
 | `CLAUDE.md` | Points Claude to this README |
 
 ## Rules for every change
