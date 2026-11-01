@@ -9,7 +9,7 @@
 # Each step: id, th, en (the Thai and English text of the step).
 # Materials are not listed here and don't refer to phases: materials.toml stands on its own.
 #
-# Write what to do and in what order. Sizes and positions live in site.toml / layout.toml
+# Write what to do and in what order. Sizes and positions live in room.toml / layout.toml
 # and show on the drawings — don't copy them into the text; point to the drawing instead.
 # Numbers that are method (a 2–3 cm fall, 2 coats, 400 mm centres) belong here, once.
 #

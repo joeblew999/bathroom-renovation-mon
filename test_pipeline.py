@@ -4,7 +4,7 @@
 Each test copies the document and the five data files into a temporary folder, breaks
 one thing on purpose, then puts the quote together in this process:
 
-    q = assemble(md)      phases + materials + drawings, the tile check, the filled document
+    q = assemble(md)      phases + materials + room, the tile check, the filled document
 
 and looks for the expected text in what comes back: the error message, the warnings, the
 filled-in document or the drawings. No PDF is printed and the real files are never touched.
@@ -16,7 +16,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from build_pdf import assemble
+from quote import assemble
 from common import DataError
 from materials import baht, name_cell
 
@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
 LAYOUT = "layout.toml"
 MATERIALS = "materials.toml"
-SITE = "site.toml"
+ROOM = "room.toml"
 PHASES = "phases.toml"
 PRODUCTS = "products.toml"
 
@@ -52,10 +52,10 @@ def drop_key(toml, section, no, key):
     return edit_entry(toml, section, no, lambda b: re.sub(rf"(?m)^{key} = .*\n", "", b))
 
 
-def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phases=None, edit_products=None):
+def run(edit_layout=None, edit_md=None, edit_mat=None, edit_room=None, edit_phases=None, edit_products=None):
     """Assemble the quote from edited copies. Returns (warnings, text to search, quote): the
     ERROR line if the data was refused, else the warnings, the filled document and the drawings."""
-    edits = {MD: edit_md, LAYOUT: edit_layout, MATERIALS: edit_mat, SITE: edit_site, PHASES: edit_phases,
+    edits = {MD: edit_md, LAYOUT: edit_layout, MATERIALS: edit_mat, ROOM: edit_room, PHASES: edit_phases,
              PRODUCTS: edit_products}
     with tempfile.TemporaryDirectory() as tmp:
         for name, edit in edits.items():
@@ -100,7 +100,7 @@ TESTS = [
      lambda t: drop_key(t, "main_wall", 2, "en"), None, "has no 'en'"),
     ("keys: a typo in a layout entry",
      lambda t: t.replace("x = 1500\n", "xx = 1500\n", 1), None, "unknown key 'xx'"),
-    ("keys: a typo in site.toml", None, None, "[window] has unknown key 'widht'",
+    ("keys: a typo in room.toml", None, None, "[window] has unknown key 'widht'",
      lambda t: t.replace("width = 600", "widht = 600", 1)),
     ("links: two items with the same number",
      lambda t: set_key(t, "main_wall", 7, "no", 8), None, "number 8 is used twice"),
@@ -114,10 +114,10 @@ TESTS = [
      lambda t: set_key(t, "main_wall", 9, "x", '"1500"'), None, "'x' must be a number"),
     ("data: broken TOML",
      lambda t: t + "\n[[main_wall\n", None, "is not valid TOML"),
-    ("site: a number missing from site.toml",
+    ("site: a number missing from room.toml",
      None, None, "[tiles.grey] has no 'top'", lambda t: t.replace("top = 2000\n", "", 1)),
-    ("rules: the clearance from site.toml is printed on the drawings", None, None,
-     lambda p: f"at least {p.drawings.min_clear} mm off a joint"),
+    ("rules: the clearance from room.toml is printed on the drawings", None, None,
+     lambda p: f"at least {p.room.min_clear} mm off a joint"),
     ("notes: a drawing note that refers to a phase is refused",
      lambda t: t.replace('note_en = "', 'note_en = "see phase {phase:tile} · ', 1), None, "has a reference in braces"),
     ("labels: a label filling in a name it doesn't have", None, None, "tile_top en uses {topp} (it can use: top)",
@@ -147,21 +147,21 @@ MAT_TESTS = [
      lambda p: f"about {baht(round(REAL.materials.still_to_buy()[0] + 100, -2))}"),
     ("materials: too few grey tile boxes",
      lambda t: re.sub(r"(?m)^  n = 9$", "  n = 5", t, count=1),
-     lambda p: next(f"grey tile: {n:g} boxes planned but {t.boxes} needed" for t, n in p.tiles if t.colour == "grey")),
+     lambda p: next(f"grey tile: {n:g} boxes planned but {t.boxes} needed" for t, n in p.tiles if t.name == "grey")),
     ("materials: a status that isn't buy, bought, reused or supplied",
      lambda t: re.sub(r'(?m)^  status = "bought"$', '  status = "bough"', t, count=1), "has status = 'bough'"),
     ("materials: an item with no quantity",
      lambda t: re.sub(r"(?m)^  n = 18$\n", "", t, count=1), "has no 'n'"),
     ("materials: a reused item with a price",
-     lambda t: re.sub(r'(?m)^(id = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "reused")',
+     lambda t: re.sub(r'(?m)^(id = .*\n)(\n  \[\[entry\.line\]\]\n  group = .*\n  status = "reused")',
                       r"\1price = 10\n\2", t, count=1),
      "is reused, so it has no price"),
     ("materials: the list is in sections by group", None, lambda p: f"| **{p.materials.groups[0].th} / {p.materials.groups[0].en}** |"),
     ("materials: in a group, what is still to buy comes before what is on site", None,
      lambda p: next(f"| **{g.th} / {g.en}** | | | |\n| {name_cell(p.materials.in_order(g)[0])} |"
                     for g in p.materials.groups
-                    if {m.status for m in p.materials.items if m.group == g.id} >= {"buy", "bought"}
-                    and next(m for m in p.materials.items if m.group == g.id).status != "buy")),
+                    if {m.status for m in p.materials.lines if m.group == g.id} >= {"buy", "bought"}
+                    and next(m for m in p.materials.lines if m.group == g.id).status != "buy")),
     ("materials: an item naming a group that doesn't exist",
      lambda t: t.replace('group = "plumbing_basin"', 'group = "kitchen"', 1), "names group 'kitchen', which is not one of its groups"),
     ("keys: a typo in a material (sku written as skuu)",
@@ -172,7 +172,7 @@ MAT_TESTS = [
      lambda t: re.sub(r'(?m)^sku = "(\d+)"$', 'sku = "HP-\\1"', t, count=1), "which isn't a HomePro code"),
     ("materials: the link is built from shop and SKU", None,
      lambda p: next(f"]({m.entry.link})<br>{m.entry.shop.name} {m.entry.sku}"
-                    for m in p.materials.items if m.entry.sku)),
+                    for m in p.materials.lines if m.entry.sku)),
     ("materials: one takes the singular unit (en_one)",
      lambda t: t.replace('en_one = "bag"', 'en_one = "ONE-BAG"', 1), "| 1 ถุง / ONE-BAG × "),
     ("materials: more than one takes the plural (en_many)",
@@ -185,7 +185,7 @@ MAT_TESTS = [
      lambda t: re.sub(r"(?m)^approx = true$", 'approx = "yes"', t, count=1), "'approx' must be true or false"),
     ("materials: a supplied item shows who brings it", None, "| ช่างไฟนำมา / electrician provides |"),
     ("materials: a supplied item with a price",
-     lambda t: re.sub(r'(?m)^(id = .*\nunit = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "supplied")',
+     lambda t: re.sub(r'(?m)^(id = .*\nunit = .*\n)(\n  \[\[entry\.line\]\]\n  group = .*\n  status = "supplied")',
                       r"\1price = 10\n\2", t, count=1),
      "is supplied, so it has no price"),
     ("materials: a supplied item with nobody to bring it",
@@ -196,13 +196,13 @@ MAT_TESTS = [
 
 PHASE_TESTS = [
     # (name, phases edit, expected) — section 3 and every {step:id} reference
-    ("phases: the steps are numbered", None, lambda p: f"| {p.phases.phases[0].steps[0].number} |"),
+    ("phases: the steps are numbered", None, lambda p: f"| {p.work.phases[0].steps[0].number} |"),
     ("phases: a reference resolves to its number", None,
-     lambda p: f"marked in step {p.phases.numbers[('step', 'clear_mark')]}"),
+     lambda p: f"marked in step {p.work.numbers[('step', 'clear_mark')]}"),
     ("phases: inserting a step renumbers it and its references",
      lambda t: t.replace('[[phase.step]]\nid = "isolate"',
                          '[[phase.step]]\nid = "photos"\nth = "ถ่ายรูป"\nen = "Take photos"\n\n[[phase.step]]\nid = "isolate"', 1),
-     lambda p: f"marked in step {next_step(REAL.phases.numbers[('step', 'clear_mark')])}"),
+     lambda p: f"marked in step {next_step(REAL.work.numbers[('step', 'clear_mark')])}"),
     ("phases: the tiling step points to the drawings for the clearance", None, "by the distance stated on the drawings"),
     ("phases: a reference of a kind phases.toml doesn't have",
      lambda t: t.replace("marked in step {step:clear_mark}", "marked in step {rule:min_clear}", 1), "{rule:min_clear} doesn't match"),
@@ -217,7 +217,7 @@ PHASE_TESTS = [
 DOC_TESTS = [
     # (name, md edit, expected) — the document skeleton
     ("document: a phase note resolves its phase reference", None,
-     lambda p: f"plastered after first fix, in phase {p.phases.numbers[('phase', 'make_good')]}"),
+     lambda p: f"plastered after first fix, in phase {p.work.numbers[('phase', 'make_good')]}"),
     ("document: only phases and materials", None, "## 2. วัสดุทั้งหมด"),
     ("document: a generated block whose marker is missing",
      lambda t: t.replace("<!-- generated:list -->", "", 1), "marker <!-- generated:list -->"),
@@ -226,7 +226,7 @@ DOC_TESTS = [
 
 def main():
     failed = 0
-    cases = [(t[0], dict(edit_layout=t[1], edit_md=t[2], edit_site=t[4] if len(t) > 4 else None), t[3])
+    cases = [(t[0], dict(edit_layout=t[1], edit_md=t[2], edit_room=t[4] if len(t) > 4 else None), t[3])
              for t in TESTS] + \
             [(n, dict(edit_md=e), x) for n, e, x in DOC_TESTS] + \
             [(n, dict(edit_phases=e), x) for n, e, x in PHASE_TESTS] + \

@@ -1,8 +1,8 @@
-# site.toml — the room, the design rules, the four walls and the tiles. Units: mm.
+# room.toml — the room, the design rules, the four walls and the tiles. Units: mm.
 # Product sizes are in products.toml (shared with the material list), never here.
-# Read by drawings/; the drawings, the checks and the tile counts are worked out from it.
+# Read by room/; the drawings, the checks and the tile counts are worked out from it.
 # Things that follow from these (the column, the door opening, the lintel, the window on
-# its wall, the door on the floor plan) are worked out in drawings/, never typed here.
+# its wall, the door on the floor plan) are worked out in room/, never typed here.
 
 # ---------- the room ----------
 [room]
@@ -42,7 +42,7 @@ elevation_title = { th = "{wall}{view}", en = "{wall}{view} — elevation" }
 viewed_inside = { th = "มองจากในห้องน้ำ", en = "Viewed from inside the bathroom" }
 seen_above = { th = "มองจากด้านบน", en = "Seen from above" }
 mm = { th = "มม.", en = "mm" }
-generated = { en = "generated from site.toml + layout.toml" }
+generated = { en = "generated from room.toml + layout.toml" }
 tile_top = { th = "ขอบกระเบื้อง", en = "tile top {top}" }
 floor_higher = { th = "พื้นยกสูง {h}", en = "floor {h} higher" }
 higher = { th = "▲ สูง", en = "higher" }
@@ -61,7 +61,7 @@ tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({par
 
 # ---------- the four walls ----------
 # Names used on every drawing, and which tile each wall gets (one of [tiles] below).
-# Each wall's length, and which corner x is measured from, follow from the room (drawings/).
+# Each wall's length, and which corner x is measured from, follow from the room (room/model.py).
 [walls.main_wall]
 th = "ผนังหลัก"
 en = "Main wall"

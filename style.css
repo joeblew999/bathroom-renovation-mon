@@ -1,0 +1,16 @@
+
+  @page { size: A4; margin: 14mm 12mm; }
+  body { font-family: "Helvetica", "Arial", "Loma", "Sarabun", "Noto Sans Thai", sans-serif;
+         font-size: 9.5pt; line-height: 1.45; color: #111; }
+  h1 { font-size: 17pt; margin: 0 0 8pt; }
+  h2 { font-size: 13pt; margin: 16pt 0 6pt; border-bottom: 1px solid #999; padding-bottom: 2pt; }
+  h3 { font-size: 11pt; margin: 12pt 0 4pt; }
+  table { border-collapse: collapse; width: 100%; margin: 4pt 0 8pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th, td { border: 1px solid #bbb; padding: 2.5pt 4pt; vertical-align: top; text-align: left; font-size: 9pt; }
+  th { background: #eee; }
+  code { font-size: 8.5pt; }
+  blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #999; background: #f6f6f6; }
+  a { color: #1a5276; word-break: break-all; }
+  .drawing { page-break-before: always; text-align: center; }
+  .drawing svg { width: 100%; height: auto; max-height: 265mm; }

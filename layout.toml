@@ -1,4 +1,4 @@
-# layout.toml — every position in the bathroom. drawings/ reads and checks it (tile joints,
+# layout.toml — every position in the bathroom. room/ reads and checks it (tile joints,
 # clashes, parts) and draws the floor plan and wall elevations from it.
 #
 # Units: mm. Each wall is seen from inside the bathroom, facing it.
@@ -9,34 +9,34 @@
 # Floor items: x from the new wall, y from the main wall.
 # shape on a wall: rect, circle, point (fixing), vline (pipe line), zone · on the floor: rect, step
 # product = a product in products.toml (its w, h, d are taken from there; give them here only to override)
-# The column, door opening, lintel, window and floor-plan door follow from site.toml: only their
-# names are here, under [site_items].
+# The column, door opening, lintel, window and floor-plan door follow from room.toml: only their
+# names are here, under [room_items].
 # part = number of the item this one belongs to (checked: it must sit within it)
 # Leave a key out when it does not apply.
 # Notes say why or how, not where: a note never repeats a position or size the drawing
 # already shows (x, y, w, h, or anything worked out from them).
 
-# ---------- items that follow from site.toml ----------
+# ---------- items that follow from room.toml ----------
 # Their positions and sizes are worked out from the room, door, lintel and window; only
 # their names (and notes) are here.
 # Notes never refer to the phases or steps: the steps point to the drawings, not the other way.
-[site_items.column]
+[room_items.column]
 th = "เสาเดิม"
 en = "Existing column"
 
-[site_items.door_opening]
+[room_items.door_opening]
 th = "ช่องประตูพอดีวงกบ"
 en = "Door opening, to suit the frame"
 
-[site_items.lintel]
+[room_items.lintel]
 th = "คานทับหลังสำเร็จรูปมวลเบา"
 en = "Precast AAC lintel"
 
-[site_items.window]
+[room_items.window]
 th = "หน้าต่าง"
 en = "Window"
 
-[site_items.door]
+[room_items.door]
 th = "ประตู (บานพับด้านเสา เปิดเข้า)"
 en = "Door (hinged on the column side, opens in)"
 

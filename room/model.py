@@ -1,16 +1,16 @@
-"""The drawings' data: site.toml and layout.toml, read and checked, every wall built with
-its items, and the design rules. svg.py draws what this holds.
+"""The room: room.toml and layout.toml, read and checked, every wall built with its items,
+and the design rules. svg.py draws what this holds.
 
-    d = load(Path("."))     # the folder holding site.toml and layout.toml
-    d.render()              # {file name: svg text} — the floor plan, then the three walls
-    d.warnings()            # [(wall id, warning)] — every design rule broken
-    d.tiles                 # {name: Tile} — every tile in site.toml
-    d.tiles_needed()        # [TilesNeeded] — tiles per tile, worked out from the room
+    r = load(Path("."), catalogue)  # the folder holding room.toml and layout.toml
+    r.render()              # {file name: svg text} — the floor plan, then the three walls
+    r.warnings()            # [(wall id, warning)] — every design rule broken
+    r.tiles                 # {name: Tile} — every tile in room.toml
+    r.tiles_needed()        # [TilesNeeded] — tiles per tile, worked out from the room
 
-The site (room, door, lintel, window, tiles, walls) and the layout (every position) are the
-inputs, with the product catalogue (products.toml) for every product's size. Items that follow from the site — the column, the door
-opening, the lintel, the window, the door on the floor plan — are worked out here, never
-typed twice. A drawing note stands on its own: it can't refer to a phase, step or rule.
+The room (its size, door, lintel, window, tiles, walls) and the layout (every position) are
+the inputs, with the product catalogue (products.toml) for every product's size. Items that
+follow from the room — the column, the door opening, the lintel, the window, the door on the
+floor plan — are worked out here, never typed twice. A drawing note stands on its own: it can't refer to a phase, step or rule.
 
 Two kinds of problem:
   - bad data (it doesn't fit together)  -> DataError at load; nothing is built
@@ -25,8 +25,8 @@ from common import DataError, Labels, need, number, one_of, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
-SITE, LAYOUT = "site.toml", "layout.toml"
-SITE_KEYS = {
+ROOM_FILE, LAYOUT = "room.toml", "layout.toml"
+ROOM_KEYS = {
     "room": {"length", "width", "ceiling"},
     "new_wall": {"length"},
     "lintel": {"height", "bearing"},
@@ -44,7 +44,7 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside"
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
 DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with items in layout.toml
-SITE_ITEMS = ("column", "door_opening", "lintel", "window", "door")
+ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
 NAME_KEYS = {"th", "en", "note_th", "note_en"}
 LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
 # What each shape needs to be drawn (after the product's size is filled in).
@@ -89,7 +89,7 @@ class Wall:
     view_th: str
     view_en: str
     length: float        # along the wall
-    tile: str            # the name of its tile in site.toml
+    tile: str            # the name of its tile in room.toml
     tiled_run: float     # the length that is actually tiled (the new wall: not the door opening)
     along_room: bool     # runs along the room's length (so the floor step meets it)
     right: str           # the wall at x = 0, seen from inside facing this wall
@@ -99,7 +99,7 @@ class Wall:
 
 @dataclass(frozen=True)
 class TilesNeeded:
-    colour: str          # the tile's name
+    name: str            # the tile's name
     product: str         # its id in products.toml
     th: str
     size: int
@@ -116,8 +116,12 @@ class TilesNeeded:
 
 
 @dataclass(frozen=True)
-class Drawings:
-    site: dict
+class Room:
+    length: float        # along the main wall
+    width: float         # along the new wall and the window wall
+    ceiling: float
+    new_wall_length: float
+    min_clear: float     # the design rule: every hole at least this far from a tile joint
     tiles: dict          # {name: Tile}
     floor_tile: str      # the name of the floor's tile
     walls: dict
@@ -125,21 +129,10 @@ class Drawings:
     labels: Labels
     products_used: frozenset   # every product id the drawings take a size from
 
-    def value(self, key, name):
-        return _value(self.site, key, name)
-
     @property
-    def room_l(self): return self.value("room", "length")
-    @property
-    def room_w(self): return self.value("room", "width")
-    @property
-    def ceiling(self): return self.value("room", "ceiling")
-    @property
-    def new_wall_l(self): return self.value("new_wall", "length")
-    @property
-    def column(self): return self.room_w - self.new_wall_l          # column face at the end of the new wall
-    @property
-    def min_clear(self): return self.value("rules", "min_clear")
+    def column(self):
+        """The column's width: the rest of the room width, at the end of the new wall."""
+        return self.width - self.new_wall_length
 
     def tiles_needed(self):
         """Tiles needed per tile: the floor and each wall's tiled run, by the tile each one has."""
@@ -147,7 +140,7 @@ class Drawings:
         for t in self.tiles.values():
             parts = []
             if self.floor_tile == t.name:
-                parts.append(("floor", math.ceil(self.room_l / t.size) * math.ceil(self.room_w / t.size)))
+                parts.append(("floor", math.ceil(self.length / t.size) * math.ceil(self.width / t.size)))
             for w in self.walls.values():
                 if w.tile == t.name:
                     parts.append((w.id, t.top // t.size * math.ceil(w.tiled_run / t.size)))
@@ -175,27 +168,29 @@ class Drawings:
 
 # ---------- loading ----------
 def load(folder, catalogue):
-    """Read and check site.toml and layout.toml in `folder`, and build every wall. Every
+    """Read and check room.toml and layout.toml in `folder`, and build every wall. Every
     product's size comes from the catalogue (products.load)."""
     folder = Path(folder)
-    site = read_toml(folder / SITE, "the room, walls and tiles")
+    room = read_toml(folder / ROOM_FILE, "the room, walls and tiles")
     layout = read_toml(folder / LAYOUT, "all the positions")
-    tiles = _tiles(site, catalogue)
-    door = _door(site, catalogue)
-    _check_site(site, tiles, door)
-    labels = Labels(SITE, site.get("labels", {}), LABELS)
-    only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "site_items"})
-    walls, floor = _walls(site, layout, door, catalogue)
+    tiles = _tiles(room, catalogue)
+    door = _door(room, catalogue)
+    _check_room(room, tiles, door)
+    labels = Labels(ROOM_FILE, room.get("labels", {}), LABELS)
+    only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "room_items"})
+    walls, floor = _walls(room, layout, door, catalogue)
     used = ({e["product"] for k in DRAWN + ("floor",) for e in layout.get(k, []) if "product" in e}
             | {t.product for t in tiles.values()} | {door.id})
-    return Drawings(site, tiles, site["floor"]["tile"], walls, floor, labels, frozenset(used))
+    v = lambda key, name_: _value(room, key, name_)             # noqa: E731
+    return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("new_wall", "length"),
+                v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels, frozenset(used))
 
 
-def _value(site, key, name):
+def _value(room, key, name):
     try:
-        return site[key][name]
+        return room[key][name]
     except KeyError:
-        raise DataError(f"{SITE}: [{key}] needs '{name}'") from None
+        raise DataError(f"{ROOM_FILE}: [{key}] needs '{name}'") from None
 
 
 def _product(catalogue, where, pid, needs):
@@ -209,25 +204,25 @@ def _product(catalogue, where, pid, needs):
     return p
 
 
-def _door(site, catalogue):
-    e = site.get("door", {})
-    only(SITE, "[door]", e, {"product"})
-    need(SITE, "[door]", e, ("product",))
-    return _product(catalogue, f"{SITE}: [door]", e["product"], ("w", "h"))
+def _door(room, catalogue):
+    e = room.get("door", {})
+    only(ROOM_FILE, "[door]", e, {"product"})
+    need(ROOM_FILE, "[door]", e, ("product",))
+    return _product(catalogue, f"{ROOM_FILE}: [door]", e["product"], ("w", "h"))
 
 
-def _tiles(site, catalogue):
-    """Every [tiles.NAME] table in site.toml, with its size and box from its product."""
-    raw = site.get("tiles", {})
+def _tiles(room, catalogue):
+    """Every [tiles.NAME] table in room.toml, with its size and box from its product."""
+    raw = room.get("tiles", {})
     if not raw:
-        raise DataError(f"{SITE}: no [tiles.…] — the floor and walls need at least one tile")
+        raise DataError(f"{ROOM_FILE}: no [tiles.…] — the floor and walls need at least one tile")
     out = {}
     for name_, e in raw.items():
         where = f"[tiles.{name_}]"
-        only(SITE, where, e, TILE_KEYS)
-        need(SITE, where, e, ("product", "th", "top", "fill"))
-        number(SITE, where, "top", e["top"])
-        p = _product(catalogue, f"{SITE}: {where}", e["product"], ("w", "h", "per_box"))
+        only(ROOM_FILE, where, e, TILE_KEYS)
+        need(ROOM_FILE, where, e, ("product", "th", "top", "fill"))
+        number(ROOM_FILE, where, "top", e["top"])
+        p = _product(catalogue, f"{ROOM_FILE}: {where}", e["product"], ("w", "h", "per_box"))
         if p.w != p.h:
             raise DataError(f"products.toml: tile '{p.id}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
         out[name_] = Tile(name_, p.id, e["th"], int(p.w), p.per_box, e["top"], e["fill"])
@@ -243,45 +238,45 @@ def _note(e, key, where):
     return t
 
 
-def _check_site(site, tiles, door):
-    only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "tiles", "floor", "door", "labels"})
-    only(SITE, "[floor]", site.get("floor", {}), {"tile"})
-    need(SITE, "[floor]", site.get("floor", {}), ("tile",))
-    one_of(SITE, "[floor]", "tile", site["floor"]["tile"], tiles)
-    for k, allowed in SITE_KEYS.items():
-        only(SITE, f"[{k}]", site.get(k, {}), allowed)
-        for n, v in site.get(k, {}).items():
-            number(SITE, f"[{k}]", n, v)
-    walls = site.get("walls", {})
-    only(SITE, "[walls]", walls, WALL_IDS)
+def _check_room(room, tiles, door):
+    only(ROOM_FILE, "the file", room, set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "labels"})
+    only(ROOM_FILE, "[floor]", room.get("floor", {}), {"tile"})
+    need(ROOM_FILE, "[floor]", room.get("floor", {}), ("tile",))
+    one_of(ROOM_FILE, "[floor]", "tile", room["floor"]["tile"], tiles)
+    for k, allowed in ROOM_KEYS.items():
+        only(ROOM_FILE, f"[{k}]", room.get(k, {}), allowed)
+        for n, v in room.get(k, {}).items():
+            number(ROOM_FILE, f"[{k}]", n, v)
+    walls = room.get("walls", {})
+    only(ROOM_FILE, "[walls]", walls, WALL_IDS)
     for w in WALL_IDS:
         e = walls.get(w)
         if e is None:
-            raise DataError(f"{SITE}: [walls.{w}] is missing")
-        only(SITE, f"[walls.{w}]", e, WALL_KEYS)
-        need(SITE, f"[walls.{w}]", e, ("th", "en", "tile"))
-        one_of(SITE, f"[walls.{w}]", "tile", e["tile"], tiles)
-    if _value(site, "new_wall", "length") - door.w <= 0:
-        raise DataError(f"{SITE}: the door ({door.w:g}) does not fit "
-                        f"in the new wall ({_value(site, 'new_wall', 'length')})")
+            raise DataError(f"{ROOM_FILE}: [walls.{w}] is missing")
+        only(ROOM_FILE, f"[walls.{w}]", e, WALL_KEYS)
+        need(ROOM_FILE, f"[walls.{w}]", e, ("th", "en", "tile"))
+        one_of(ROOM_FILE, f"[walls.{w}]", "tile", e["tile"], tiles)
+    if _value(room, "new_wall", "length") - door.w <= 0:
+        raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit "
+                        f"in the new wall ({_value(room, 'new_wall', 'length')})")
 
 
-def _walls(site, layout, door, catalogue):
-    """Every wall with its items (from layout.toml, plus those that follow from the site)."""
-    names = layout.get("site_items", {})
-    only(LAYOUT, "[site_items]", names, SITE_ITEMS)
-    for k in SITE_ITEMS:
+def _walls(room, layout, door, catalogue):
+    """Every wall with its items (from layout.toml, plus those that follow from the room)."""
+    names = layout.get("room_items", {})
+    only(LAYOUT, "[room_items]", names, ROOM_ITEMS)
+    for k in ROOM_ITEMS:
         if k not in names:
-            raise DataError(f"{LAYOUT}: [site_items.{k}] is missing")
-        only(LAYOUT, f"[site_items.{k}]", names[k], NAME_KEYS)
-        need(LAYOUT, f"[site_items.{k}]", names[k], ("th", "en"))
+            raise DataError(f"{LAYOUT}: [room_items.{k}] is missing")
+        only(LAYOUT, f"[room_items.{k}]", names[k], NAME_KEYS)
+        need(LAYOUT, f"[room_items.{k}]", names[k], ("th", "en"))
 
     def named(k, no, shape, **dims):
-        e, where = names[k], f"[site_items.{k}]"
+        e, where = names[k], f"[room_items.{k}]"
         return Item(str(no), e["th"], e["en"], shape, note_th=_note(e, "note_th", where),
                     note_en=_note(e, "note_en", where), **{a: float(v) for a, v in dims.items()})
 
-    v = lambda key, name_: _value(site, key, name_)             # noqa: E731
+    v = lambda key, name_: _value(room, key, name_)             # noqa: E731
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
     new_wall_l, door_w, door_h = v("new_wall", "length"), door.w, door.h
     column, solid = room_w - new_wall_l, new_wall_l - door_w
@@ -315,7 +310,7 @@ def _walls(site, layout, door, catalogue):
     }
     walls = {}
     for wid in WALL_IDS:
-        e = site["walls"][wid]
+        e = room["walls"][wid]
         length, run, along, right, left = geometry[wid]
         walls[wid] = Wall(wid, e["th"], e["en"], e.get("view_th", ""), e.get("view_en", ""), length,
                           e["tile"], run, along, right, left, tuple(items.get(wid, ())))

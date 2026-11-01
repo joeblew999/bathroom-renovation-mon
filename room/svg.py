@@ -10,7 +10,7 @@ from common import both
 
 S = 0.3                      # px per mm
 
-# The drawing's colours, each named once. (Each tile's colour is in site.toml: it belongs to the tile.)
+# The drawing's colours, each named once. (Each tile's colour is in room.toml: it belongs to the tile.)
 MARKER = "#c0392b"        # items, their number tags, warnings
 OPENING = "#2e86c1"       # openings, zones, pipe lines, floor items
 OPENING_FILL = "#d6eaf8"
@@ -110,21 +110,21 @@ def draw_legend(a, rows, x0, y0, tag_w=16):
 
 
 # ---------- drawing ----------
-def draw_wall(d, wall):
+def draw_wall(room, wall):
     """One elevation, with its design-rule warnings shown in red: returns svg text."""
     items = wall.items
-    t = d.tiles[wall.tile]
+    t = room.tiles[wall.tile]
     tile, top = t.size, t.top
-    L, CEIL = wall.length, d.ceiling
-    right, left = d.walls[wall.right], d.walls[wall.left]
+    L, CEIL = wall.length, room.ceiling
+    right, left = room.walls[wall.right], room.walls[wall.left]
     view_th = f" ({wall.view_th})" if wall.view_th else ""
     view_en = f" ({wall.view_en})" if wall.view_en else ""
-    warnings = d.wall_warnings(wall.id)
+    warnings = room.wall_warnings(wall.id)
 
     ML, MR, MT, MB = 70, 40, 70, 90
     W, H = L * S, CEIL * S
     svg_w = max(ML + W + MR, 900)
-    lab = d.labels
+    lab = room.labels
     rows = [(it.no, head, notes) for it, head, notes in legend_rows(lab, items)]
     svg_h = MT + H + MB + legend_height(rows) + 90
 
@@ -158,7 +158,7 @@ def draw_wall(d, wall):
 
     # raised floor at the basin end: the floor step meets the walls that run along the room
     if wall.along_room:
-        step = next((f for f in d.floor if f.shape == "step"), None)
+        step = next((f for f in room.floor if f.shape == "step"), None)
         if step and step.h:
             a(f'<rect x="{X(step.x)}" y="{Y(step.h)}" width="{step.x * S}" height="{step.h * S}" '
               f'fill="{STEP_FILL}" stroke="{STEP}" stroke-width="1.5"/>')
@@ -228,21 +228,21 @@ def draw_wall(d, wall):
         for k, w_ in enumerate(warnings):
             a(f'<text x="{ML}" y="{yy + 18 * k}" font-size="{TEXT_SIZE}" fill="{MARKER}">⚠ {escape(w_)}</text>')
     else:
-        a(f'<text x="{ML}" y="{yy}" font-size="{TEXT_SIZE}" fill="{OK}">{lab.th("all_clear", min_clear=d.min_clear)}</text>')
-        a(f'<text x="{ML}" y="{yy + 18}" font-size="{TEXT_SIZE}" fill="{OK}">{lab.en("all_clear", min_clear=d.min_clear)}</text>')
+        a(f'<text x="{ML}" y="{yy}" font-size="{TEXT_SIZE}" fill="{OK}">{lab.th("all_clear", min_clear=room.min_clear)}</text>')
+        a(f'<text x="{ML}" y="{yy + 18}" font-size="{TEXT_SIZE}" fill="{OK}">{lab.en("all_clear", min_clear=room.min_clear)}</text>')
     a('</svg>')
     return "\n".join(out)
 
 
 # ---------- floor plan ----------
-def draw_plan(d):
+def draw_plan(room):
     """The floor plan seen from above: returns svg text."""
-    main, win, floor = d.walls["main_wall"].items, d.walls["window_wall"].items, d.floor
-    names = {k: name(w) for k, w in d.walls.items()}
-    lab = d.labels
-    L, Wd, NEW_WALL_L = d.room_l, d.room_w, d.new_wall_l
-    FLOOR = d.tiles[d.floor_tile]
-    col = d.column                              # column width at the end of the new wall
+    main, win, floor = room.walls["main_wall"].items, room.walls["window_wall"].items, room.floor
+    names = {k: name(w) for k, w in room.walls.items()}
+    lab = room.labels
+    L, Wd, NEW_WALL_L = room.length, room.width, room.new_wall_length
+    FLOOR = room.tiles[room.floor_tile]
+    col = room.column                           # column width at the end of the new wall
     SP = 0.25
     ML, MR, MT, MB = 90, 90, 90, 80
     PW, PH = L * SP, Wd * SP
@@ -358,7 +358,7 @@ def draw_plan(d):
 
     # legend
     ly0 = MT + PH + MB
-    mw, ww = d.walls["main_wall"], d.walls["window_wall"]
+    mw, ww = room.walls["main_wall"], room.walls["window_wall"]
     a(f'<text x="{ML}" y="{ly0}" font-size="{HEADING_SIZE}" font-weight="bold">{lab.both("items")} — {M} = {both(mw.th, mw.en.lower())} · '
       f'{F} = {lab.both("floor")} · {W} = {both(ww.th, ww.en.lower())}</text>')
     a(f'<text x="{ML}" y="{ly0 + 16}" font-size="{SMALL_SIZE}" fill="{SUBTITLE}">{lab.both("dashed")}</text>')

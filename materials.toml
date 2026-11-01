@@ -2,7 +2,7 @@
 # the document, ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused, then supplied
-# Lines with the same group and status keep the order of their products here.
+# Lines with the same group and status keep the order of their entries here.
 #
 # The shops, suppliers, units and groups are defined here and nowhere else: materials don't refer
 # to the phases or the drawings, and they don't refer to materials. The work can be rewritten,
@@ -14,15 +14,15 @@
 # Each unit: id, th, en_one, en_many — "1 ถุง / bag", "7 ถุง / bags" (Thai has one form).
 # Each group: id, th, en.
 #
-# Each product is listed once, by its id in products.toml (what it is: its names, its size),
-# with how it is bought:
+# Each [[entry]] is one product, listed once by its id in products.toml (what it is: its names,
+# its size), with how it is bought:
 #   id         the product in products.toml
 #   unit       the id of a unit, shown after the quantity (optional)
 #   price      the unit price, in baht (not for reused or supplied products)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   shop, sku  where it is bought and its product code; the link is built from them
 #              (not for reused or supplied products)
-# and has one [[product.use]] for each line it takes on the list:
+# and has one [[entry.line]] for each line it takes on the list:
 #   group      the id of a group (things used all over go under whole_room)
 #   status     "buy"      — still to buy (the product needs a price)
 #              "bought"   — already on site, paid for
@@ -31,7 +31,7 @@
 #   n          how many
 #   note_th, note_en   what it is for here, or advice when buying (optional)
 #   by         who brings a supplied product: the id of a supplier
-# A product partly on site and partly to buy has two uses (bought n, buy n).
+# A product partly on site and partly to buy has two lines (bought n, buy n).
 #
 # [labels]: the fixed wording of the list (column headings, the total, buy, approx.).
 
@@ -194,35 +194,35 @@ id = "whole_room"
 th = "ใช้ทั้งห้อง"
 en = "Whole room"
 
-# ---------- the products, each written once, with every place it is on the list ----------
+# ---------- every product on the list, once each, with every line it takes ----------
 
-[[product]]
+[[entry]]
 id = "aac_block"
 unit = "block"
 price = 26
 shop = "homepro"
 sku = "1110154"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_wall"
   status = "buy"
   n = 18
 
-[[product]]
+[[entry]]
 id = "lintel"
 price = 400
 approx = true
 shop = "homepro"
 sku = "1195815"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_wall"
   status = "buy"
   n = 1
   note_th = "ตัดให้ได้ความยาวที่หน้างาน"
   note_en = "cut to length on site"
 
-[[product]]
+[[entry]]
 id = "block_mortar"
 unit = "bag"
 price = 200
@@ -230,26 +230,26 @@ approx = true
 shop = "homepro"
 sku = "1127448"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_wall"
   status = "buy"
   n = 1
   note_th = "ที่เหลือใช้อุดรอบวงกบและช่องทับหลัง"
   note_en = "the leftover fills round the frame and the lintel pocket"
 
-[[product]]
+[[entry]]
 id = "wall_tie"
 unit = "piece"
 price = 6
 shop = "homepro"
 sku = "1110170"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_wall"
   status = "buy"
   n = 8
 
-[[product]]
+[[entry]]
 id = "aac_plaster"
 unit = "bag"
 price = 150
@@ -257,211 +257,211 @@ approx = true
 shop = "homepro"
 sku = "1109616"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_wall"
   status = "buy"
   n = 2
 
-[[product]]
+[[entry]]
 id = "door_frame"
 price = 850
 shop = "homepro"
 sku = "1014768"
 
-  [[product.use]]
+  [[entry.line]]
   group = "door"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "door"
 price = 2085
 shop = "homepro"
 sku = "1320577"
 
-  [[product.use]]
+  [[entry.line]]
   group = "door"
   status = "buy"
   n = 1
   note_th = "ไม่เจาะรูลูกบิดมา รองรับลูกบิดทั่วไป ไม่รองรับกุญแจ Mortise"
   note_en = "undrilled, takes a standard knob, not a mortise lock"
 
-[[product]]
+[[entry]]
 id = "door_knob"
 price = 399
 shop = "homepro"
 sku = "89869"
 
-  [[product.use]]
+  [[entry.line]]
   group = "door"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "hinges"
 price = 199
 shop = "homepro"
 sku = "1123585"
 
-  [[product.use]]
+  [[entry.line]]
   group = "door"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "gypsum_board"
 unit = "sheet"
 price = 245
 shop = "homepro"
 sku = "1110611"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 2
 
-[[product]]
+[[entry]]
 id = "c_channel"
 unit = "length"
 price = 29
 shop = "homepro"
 sku = "1110231"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 4
   note_th = "ตัดได้ 2 ท่อนต่อเส้น"
   note_en = "cut 2 pieces per length"
 
-[[product]]
+[[entry]]
 id = "wall_angle"
 unit = "length"
 price = 16
 shop = "homepro"
 sku = "1110271"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 4
   note_th = "รอบห้อง"
   note_en = "round the room"
 
-[[product]]
+[[entry]]
 id = "drywall_screws"
 unit = "box"
 price = 89
 shop = "homepro"
 sku = "1110148"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 1
   note_th = "ยึดแผ่นยิปซัมกับซีลาย"
   note_en = "board to C-channel"
 
-[[product]]
+[[entry]]
 id = "jointing_compound"
 unit = "bag"
 price = 16
 shop = "homepro"
 sku = "1110109"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 2
 
-[[product]]
+[[entry]]
 id = "joint_tape"
 unit = "pack"
 price = 42
 shop = "homepro"
 sku = "1024381"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "wall_plugs"
 unit = "pack"
 price = 65
 shop = "homepro"
 sku = "1064892"
 
-  [[product.use]]
+  [[entry.line]]
   group = "new_ceiling"
   status = "buy"
   n = 1
   note_th = "ยึดฉากฝ้า"
   note_en = "for fixing the wall angle"
 
-[[product]]
+[[entry]]
 id = "basin"
 price = 1190
 shop = "homepro"
 sku = "1249118"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "basin_tap"
 price = 929
 shop = "homepro"
 sku = "1254863"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "bottle_trap"
 price = 485
 shop = "homepro"
 sku = "1225658"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "stop_valve"
 price = 155
 shop = "homepro"
 sku = "1040989"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "supply_hose"
 unit = "length"
 price = 90
 shop = "homepro"
 sku = "1028226"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 1
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "brass_elbow"
 unit = "fitting"
 price = 35
@@ -469,429 +469,429 @@ approx = true
 shop = "homepro"
 sku = "5577"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 1
   note_th = "จุดน้ำที่ผนัง"
   note_en = "wall outlet"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
   n = 1
   note_th = "จุดน้ำที่ผนัง"
   note_en = "wall outlet"
 
-[[product]]
+[[entry]]
 id = "pipe_1_5in"
 unit = "length"
 price = 99
 shop = "homepro"
 sku = "1104514"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 1
   note_th = "ท่อน้ำทิ้งในผนัง"
   note_en = "waste pipe in the wall"
 
-[[product]]
+[[entry]]
 id = "elbow_1_5in"
 unit = "fitting"
 price = 29
 shop = "homepro"
 sku = "5614"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 2
 
-[[product]]
+[[entry]]
 id = "toilet"
 price = 3490
 shop = "homepro"
 sku = "1170662"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "stop_valve_2way"
 price = 219
 shop = "homepro"
 sku = "1041021"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
   n = 1
   note_th = "หลังชักโครก: ทางหนึ่งไปชักโครก อีกทางไปสายฉีดชำระ"
   note_en = "behind the toilet: one outlet to the toilet, one to the bum gun"
 
-[[product]]
+[[entry]]
 id = "bum_gun"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "reused"
   n = 1
   note_th = "จากชักโครกเดิม"
   note_en = "from the old toilet"
 
-[[product]]
+[[entry]]
 id = "pipe_4in"
 unit = "length"
 price = 799
 shop = "homepro"
 sku = "5563"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
   n = 1
   note_th = "ท่อโสโครกใต้พื้น"
   note_en = "waste pipe under the floor"
 
-[[product]]
+[[entry]]
 id = "bend_4in"
 unit = "fitting"
 price = 310.4
 shop = "homepro"
 sku = "1136842"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
   n = 3
   note_th = "ไม่ใช้ข้องอ 90°"
   note_en = "no tight 90° elbows"
 
-[[product]]
+[[entry]]
 id = "pipe_half_in"
 unit = "length"
 price = 69
 shop = "homepro"
 sku = "5556"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
   n = 2
   note_th = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง"
   note_en = "cold supply: toilet, bum gun, basin"
 
-[[product]]
+[[entry]]
 id = "elbow_half_in"
 unit = "fitting"
 price = 6
 shop = "homepro"
 sku = "5569"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
   n = 10
 
-[[product]]
+[[entry]]
 id = "tee_half_in"
 unit = "fitting"
 price = 8
 shop = "homepro"
 sku = "5570"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
   n = 2
   note_th = "ต่อจากท่อน้ำดีเดิม และแยกไปชักโครกกับอ่าง"
   note_en = "one off the existing cold line, one to branch to the toilet and the basin"
 
-[[product]]
+[[entry]]
 id = "thread_tape"
 unit = "roll"
 price = 27
 shop = "homepro"
 sku = "1055229"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
   n = 1
   note_th = "สต็อปวาล์วทั้งสองและเกลียวอื่นๆ"
   note_en = "both stop valves and the other threads"
 
-[[product]]
+[[entry]]
 id = "pvc_cement"
 price = 137.74
 shop = "homepro"
 sku = "5672"
 
-  [[product.use]]
+  [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
   n = 1
   note_th = "ทุกรอยต่อท่อ PVC"
   note_en = "every PVC pipe joint"
 
-[[product]]
+[[entry]]
 id = "lamp"
 unit = "lamp"
 price = 1290
 shop = "ikea"
 sku = "805.204.31"
 
-  [[product.use]]
+  [[entry.line]]
   group = "electrical_lamps"
   status = "buy"
   n = 2
   note_th = "เช็คสต็อกก่อนไป"
   note_en = "check stock before going"
 
-[[product]]
+[[entry]]
 id = "lamp_cable"
 unit = "metre"
 
-  [[product.use]]
+  [[entry.line]]
   group = "electrical_lamps"
   status = "supplied"
   n = 3
   by = "electrician"
 
-[[product]]
+[[entry]]
 id = "switch_plate"
 
-  [[product.use]]
+  [[entry.line]]
   group = "electrical_switch"
   status = "reused"
   n = 1
 
-[[product]]
+[[entry]]
 id = "shower"
 
-  [[product.use]]
+  [[entry.line]]
   group = "shower"
   status = "reused"
   n = 1
 
-[[product]]
+[[entry]]
 id = "heater"
 
-  [[product.use]]
+  [[entry.line]]
   group = "shower"
   status = "reused"
   n = 1
 
-[[product]]
+[[entry]]
 id = "heater_hoses"
 
-  [[product.use]]
+  [[entry.line]]
   group = "shower"
   status = "reused"
   n = 2
 
-[[product]]
+[[entry]]
 id = "mirror"
 price = 429
 shop = "homepro"
 sku = "1319896"
 
-  [[product.use]]
+  [[entry.line]]
   group = "accessories"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "shelf"
 price = 799
 shop = "homepro"
 sku = "1215163"
 
-  [[product.use]]
+  [[entry.line]]
   group = "accessories"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "roll_holder"
 price = 340
 shop = "homepro"
 sku = "105587"
 
-  [[product.use]]
+  [[entry.line]]
   group = "accessories"
   status = "buy"
   n = 1
   note_th = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน"
   note_en = "matches the white bum gun and lamps on the same wall"
 
-[[product]]
+[[entry]]
 id = "flex_shield"
 unit = "bag"
 price = 1990
 shop = "homepro"
 sku = "271155"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 1
   note_th = "ประมาณ 11.6 ตร.ม."
   note_en = "about 11.6 m²"
 
-[[product]]
+[[entry]]
 id = "fibre_mesh"
 unit = "roll"
 price = 179
 shop = "homepro"
 sku = "1271924"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "grey_tile"
 unit = "box"
 price = 209
 shop = "homepro"
 sku = "1292488"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 9
   note_th = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด"
   note_en = "shade H07 only — check the boxes on site are all H07"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "bought"
   n = 3
   note_th = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด"
   note_en = "shade H07 only — check the boxes on site are all H07"
 
-[[product]]
+[[entry]]
 id = "white_tile"
 unit = "box"
 price = 197
 shop = "homepro"
 sku = "1076336"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 6
   note_th = "ออนไลน์แสดงสินค้าหมด (ลดราคามาก อาจเป็นสินค้าล้างสต็อก) ถามสต็อกที่สาขา ซื้อครบทีเดียว ล็อตเดียวกัน"
   note_en = "out of stock online (heavily discounted, may be clearance); ask a branch and buy them all at once, same batch"
 
-[[product]]
+[[entry]]
 id = "tile_adhesive"
 unit = "bag"
 price = 799
 shop = "homepro"
 sku = "14428"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 5
   note_th = "ปูทับกระเบื้องเดิมได้ กระเบื้องประมาณ 16 ตร.ม."
   note_en = "suits tiling over old tiles; about 16 m² of tile"
 
-[[product]]
+[[entry]]
 id = "levelling_clips"
 unit = "bag"
 price = 143
 shop = "homepro"
 sku = "1092087"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 2
 
-[[product]]
+[[entry]]
 id = "levelling_wedges"
 price = 185
 shop = "homepro"
 sku = "1092114"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "grout_grey"
 unit = "bag"
 price = 63
 shop = "homepro"
 sku = "138786"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 2
   note_th = "กระเบื้องเทา"
   note_en = "grey tiles"
 
-[[product]]
+[[entry]]
 id = "grout_white"
 unit = "bag"
 price = 63
 shop = "homepro"
 sku = "138771"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 2
   note_th = "กระเบื้องขาว"
   note_en = "white tiles"
 
-[[product]]
+[[entry]]
 id = "step_nosing"
 price = 357.93
 shop = "homepro"
 sku = "1037342"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 1
   note_th = "ขั้นพื้น"
   note_en = "floor step"
 
-[[product]]
+[[entry]]
 id = "drain"
 price = 119
 shop = "homepro"
 sku = "1240420"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "bought"
   n = 1
 
-[[product]]
+[[entry]]
 id = "silicone"
 unit = "tube"
 price = 139
 shop = "homepro"
 sku = "1157215"
 
-  [[product.use]]
+  [[entry.line]]
   group = "tiles"
   status = "buy"
   n = 1
 
-[[product]]
+[[entry]]
 id = "m300_mortar"
 unit = "bag"
 price = 150
@@ -899,17 +899,17 @@ approx = true
 shop = "homepro"
 sku = "1109515"
 
-  [[product.use]]
+  [[entry.line]]
   group = "whole_room"
   status = "buy"
   n = 3
   note_th = "งานอุดทั้งหมด"
   note_en = "all the filling"
 
-[[product]]
+[[entry]]
 id = "paint"
 
-  [[product.use]]
+  [[entry.line]]
   group = "whole_room"
   status = "reused"
   n = 1

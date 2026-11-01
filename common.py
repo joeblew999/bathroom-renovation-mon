@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small helpers shared by phases.py, materials.py and drawings/: reading a TOML file and
+"""Small helpers shared by phases.py, materials.py and room/: reading a TOML file and
 checking what is in it. They know nothing about bathrooms; each part owns its own rules.
 
 Bad data raises DataError, with a message naming the file and the problem.

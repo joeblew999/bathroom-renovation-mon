@@ -8,8 +8,9 @@ about the phases or the drawings.
     m.on_site()         # how many lines are already on site (bought or reused)
     m.boxes_of(id)      # how many of one product are on the list (bought + to buy)
 
-What a product is (its names, its size) is in products.toml; this file says how it is bought
-(unit, price, shop, code) and, under it, a use for every line it takes on the list.
+What a product is (its names, its size) is in products.toml; each [[entry]] here says how one
+product is bought (unit, price, shop, code) and, under it, an [[entry.line]] for every line it
+takes on the list.
 The shops, suppliers, units and groups are defined in the file too; the only fixed list here
 is the four statuses, because each one has its own rules (what needs a price, a shop…).
 
@@ -32,8 +33,8 @@ GROUP_KEYS = {"id", "th", "en"}
 SHOP_KEYS = {"id", "name", "sku", "link"}
 SUPPLIER_KEYS = {"id", "th", "en"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
-ENTRY_KEYS = {"id", "unit", "price", "approx", "shop", "sku", "use"}
-USE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
+ENTRY_KEYS = {"id", "unit", "price", "approx", "shop", "sku", "line"}
+LINE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
 @dataclass(frozen=True)
 class Rule:
     price: str           # "needed", "allowed" (what it cost) or "none"
@@ -106,8 +107,8 @@ class Entry:
 
 
 @dataclass(frozen=True)
-class Material:
-    """One line on the list: a product (as bought), where it goes, and how many."""
+class Line:
+    """One line on the list: an entry (a product, as bought), where it goes, and how many."""
     entry: Entry
     group: str           # the id of its group
     status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting),
@@ -131,38 +132,38 @@ class Material:
 @dataclass(frozen=True)
 class Materials:
     groups: tuple
-    items: tuple         # every line on the list, in file order
+    lines: tuple         # every line on the list, in file order
     labels: Labels
 
     def in_order(self, group):
         """The lines of one group as the list shows them: by status, then file order."""
-        return sorted((m for m in self.items if m.group == group.id), key=lambda m: STATUSES.index(m.status))
+        return sorted((m for m in self.lines if m.group == group.id), key=lambda m: STATUSES.index(m.status))
 
     def on_site(self):
         """How many lines are already on site."""
-        return sum(1 for m in self.items if STATUS[m.status].on_site)
+        return sum(1 for m in self.lines if STATUS[m.status].on_site)
 
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
-        buy = [m for m in self.items if m.status == "buy"]
+        buy = [m for m in self.lines if m.status == "buy"]
         return sum(m.total for m in buy), any(m.entry.approx for m in buy)
 
     def products_used(self):
-        return {m.entry.product.id for m in self.items}
+        return {m.entry.product.id for m in self.lines}
 
     def boxes_of(self, product_id):
         """How many of one product the list has, bought or still to buy."""
-        return sum(m.n for m in self.items if m.entry.product.id == product_id and STATUS[m.status].shop)
+        return sum(m.n for m in self.lines if m.entry.product.id == product_id and STATUS[m.status].shop)
 
     def render(self):
         """The material list as Markdown table rows: a heading row per group, then its lines."""
         L = self.labels
         rows = [f"| {L.both('item')} | {L.both('qty')} | {L.both('price')} | {L.both('on_site')} |", "|---|---|---|---|"]
         for g in self.groups:
-            items = self.in_order(g)
-            if items:
+            lines = self.in_order(g)
+            if lines:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
-            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in items]
+            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
 
@@ -177,7 +178,7 @@ class Materials:
 def load(path, catalogue):
     """Read and check materials.toml; each entry names a product in the catalogue."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"labels", "shop", "supplier", "unit", "group", "product"})
+    only(FILE, "the file", raw, {"labels", "shop", "supplier", "unit", "group", "entry"})
     labels = Labels(FILE, raw.get("labels", {}), LABELS)
     shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
     for s in shops.values():
@@ -190,17 +191,16 @@ def load(path, catalogue):
     units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
     groups = tuple(Group(**e) for e in _defined(raw, "group", GROUP_KEYS))
     ids = {g.id for g in groups}
-    items, seen = [], set()
-    for e in raw.get("product", []):
+    lines, seen = [], set()
+    for e in raw.get("entry", []):
         entry = _entry(e, catalogue, shops, units)
         if entry.product.id in seen:
-            raise DataError(f"{FILE}: product '{entry.product.id}' is listed twice — give it two uses instead")
+            raise DataError(f"{FILE}: product '{entry.product.id}' has two entries — give it two lines instead")
         seen.add(entry.product.id)
-        uses = e.get("use", [])
-        if not uses:
-            raise DataError(f"{FILE}: product '{entry.product.id}' has no [[product.use]] — it isn't on the list")
-        items += [_use(u, entry, ids, suppliers) for u in uses]
-    return Materials(groups, tuple(items), labels)
+        if not e.get("line"):
+            raise DataError(f"{FILE}: product '{entry.product.id}' has no [[entry.line]] — it isn't on the list")
+        lines += [_line(u, entry, ids, suppliers) for u in e["line"]]
+    return Materials(groups, tuple(lines), labels)
 
 
 def _defined(raw, kind, keys):
@@ -238,10 +238,10 @@ def _entry(e, catalogue, shops, units):
     return Entry(catalogue[e["id"]], unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
 
 
-def _use(u, p, group_ids, suppliers):
+def _line(u, p, group_ids, suppliers):
     """One line on the list, checked against its product by the rules of its status (STATUS)."""
     where = f"product '{p.product.id}'"
-    only(FILE, where, u, USE_KEYS)
+    only(FILE, where, u, LINE_KEYS)
     need(FILE, where, u, ("group", "status", "n"))
     if u["group"] not in group_ids:
         raise DataError(f"{FILE}: {where} names group '{u['group']}', which is not one of its groups")
@@ -264,7 +264,7 @@ def _use(u, p, group_ids, suppliers):
         by = one_of(FILE, where, "by", u["by"], suppliers)
     elif "by" in u:
         raise DataError(f"{FILE}: {where} is {s}, so it has no 'by'")
-    return Material(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""), by)
+    return Line(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""), by)
 
 
 # ---------- the cells of the list ----------

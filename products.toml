@@ -1,9 +1,9 @@
 # products.toml — every product, defined once: what it is. Read by both the material list
-# (materials.toml: price, shop, where it goes) and the drawings (layout.toml, site.toml: where
+# (materials.toml: price, shop, where it goes) and the drawings (layout.toml, room.toml: where
 # it sits, which tile goes where) — neither part reads the other; both read this.
 #
 # Each product:
-#   id         what materials.toml, layout.toml and site.toml call it
+#   id         what materials.toml, layout.toml and room.toml call it
 #   name_th, name_en   the product only (no shop codes). A name can show the size below:
 #              {w} {h} {d} in mm, or {w_cm} {h_cm} {d_cm} in cm — never type the size twice.
 #   size       { w, h, d } in mm — only for products the drawings or the tile count use

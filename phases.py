@@ -2,9 +2,10 @@
 """The work, phase by phase: phases.toml, read, checked, numbered and rendered. It knows
 nothing about the materials or the drawings.
 
-    ph = load(Path("phases.toml"))
-    ph.render()         # the phases as Markdown — the PDF prints exactly this
-    ph.resolve(text)    # every {phase:id} / {step:id} in `text` turned into its number
+    work = load(Path("phases.toml"))
+    work.phases         # every Phase, each with its Steps, numbered
+    work.render()       # the phases as Markdown — the PDF prints exactly this
+    work.resolve(text)  # every {phase:id} / {step:id} in `text` turned into its number
 
 Phases and steps are numbered by their position in the file, so inserting a step renumbers
 it and every reference to it.
@@ -45,7 +46,8 @@ class Phase:
 
 
 @dataclass(frozen=True)
-class Phases:
+class Work:
+    """The work, phase by phase."""
     phases: tuple
     labels: Labels = field(repr=False)
     numbers: dict = field(repr=False)     # {("phase" | "step", id): "5" | "1.8"}
@@ -97,9 +99,9 @@ def load(path):
         found.append((ph, p_no, steps))
 
     # references are resolved once every number is known (a step may refer forward)
-    unresolved = Phases((), labels, numbers)
+    unresolved = Work((), labels, numbers)
     r = unresolved.resolve
-    return Phases(tuple(
+    return Work(tuple(
         Phase(ph["id"], p_no, ph["th"], ph["en"], r(ph.get("note_th", "")), r(ph.get("note_en", "")),
               tuple(Step(i, n, r(th), r(en)) for i, n, th, en in steps))
         for ph, p_no, steps in found), labels, numbers)
