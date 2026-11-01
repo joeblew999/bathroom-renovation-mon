@@ -45,15 +45,15 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 
 ## How the quote is made
 
-The quote has three **parts**: the phases (the scope of works, in sequence), the materials (the materials list) and the room (the floor plan and elevations). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file.
+The quote has three **parts**: the phases (the scope of works, in sequence), the materials (the materials list) and the room (the floor plan and elevations). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file, and the room's drawings have their own code and their own design checks.
 
 ```
 phases.toml     ──► phases.py                                      ─┐
 materials.toml  ──► materials.py    + materials_design_checks.py   ─┼──► build.py ──► out/index.html ──► out/…pdf
      ▲                                                              │
      │ the room names products by id (rule 6)                       │
-room.toml       ──► room.py         + room_design_checks.py        ─┘
-                         └─► the drawings ──► drawing_design_checks.py (in build.py)
+room.toml       ──► room.py         + room_design_checks.py        ─┤
+                         └─► room_drawings.py + drawing_design_checks.py ─┘
 ```
 
 `build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
@@ -67,7 +67,8 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `phases.toml` | The work: phases and steps, in prose for the builder |
 | `materials.toml` | Every product once — its name and detail in Thai and English, its size, whether it's electrical and its IP rating, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door (which end it's hinged at, and whether it opens in or out) and lintel; the tiles; the floor (its drain, and its fall on each side of the step) and the four walls (each with its waterproofing height; the shower zone has its own) in order round the room, each with its items, the shower head among them; the norms the design checks use, each with its source; the drawings' wording and marks |
-| `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
+| `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file; the phases and materials render their sections, the room is worked out (every wall and item, the column, door and lintel, the tile counts) |
+| `room_drawings.py` | The room's drawings: lays out the floor plan and each elevation as SVG, with its design problems under it |
 | `room_design_checks.py`, `materials_design_checks.py`, `drawing_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities; how the drawings read (see Checks) |
 | `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
@@ -132,7 +133,7 @@ The judgement an architect and a builder bring — good building practice, sound
 
 - **The room** — `room_design_checks.py`, beside `room.toml` and `room.py`: setting out and clashes — every item set out where it belongs and fits, clear of the tile joints, not clashing with another item or sitting in an opening; clearances and heights — enough space in front of each fitting, clear of the door's swing when it opens in, the basin rim at its height; wet areas — every electrical item in the zones round the shower head with an IP rating recorded and high enough, the shower zone waterproofed high enough, the floor's wet side falling enough to the drain, and the drain on the wet (low) side of the step.
 - **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials list — whether enough is ordered.
-- **The drawings** — `drawing_design_checks.py`: how each drawing reads, measured in Chromium on the drawings as drawn — nothing runs off the edge of its drawing; no two words or tags are drawn over each other or closer than a clear gap; no line or fill runs through a label that needs clear ground (a wall name, a joint mark, a heading). The layout code places things so these hold — a tag or number moves the least it takes to clear what is already placed (`place` in `room.py`) — and the check proves it on every build.
+- **The drawings** — `drawing_design_checks.py`: how each drawing reads, measured in Chromium on the drawings as drawn — nothing runs off the edge of its drawing; no two words or tags are drawn over each other or closer than a clear gap; no line or fill runs through a label that needs clear ground (a wall name, a joint mark, a heading). The layout code places things so these hold — a tag or number moves the least it takes to clear what is already placed (`place` in `room_drawings.py`) — and the check proves it on every build.
 
 The room and the drawings are told apart by what fixing a problem changes: a room problem changes what is constructed; a drawing problem changes only how the drawing is laid out or worded — nothing on site.
 

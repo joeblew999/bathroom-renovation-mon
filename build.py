@@ -5,7 +5,7 @@ The only place the three parts meet. Each part reads its own file and renders it
 
   phases.py      phases.toml      → the work, phase by phase
   materials.py   materials.toml   → the materials list (and every product's names and size)
-  room.py        room.toml        → the floor plan and the wall drawings
+  room.py        room.toml        → the room, worked out; room_drawings.py draws its floor plan and walls
 
 This file hands the products on the materials list to the room (for their sizes), hands the tiles
 the room needs to the materials list's design check (materials_design_checks.py), and puts each part's
@@ -37,6 +37,7 @@ import materials
 import materials_design_checks
 import phases
 import room
+import room_drawings
 from common import DataError, chromium, cli
 
 TEMPLATE = "bathroom-renovation-quote.md"
@@ -90,13 +91,13 @@ def assemble(md):
     tiles, tile_warnings = materials_design_checks.tile_check(m, r.tiles_needed())
     doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
     more = {"floor": [w for _, w in tile_warnings]}
-    svgs = r.render(more)
+    svgs = room_drawings.render(r, more)
     # How the drawings read, measured as drawn; any problem is drawn again in red under its drawing.
-    drawing_warnings = r.drawing_warnings(drawing_design_checks.check(svgs, STYLE.read_text(encoding="utf-8")))
+    drawing_warnings = room_drawings.drawing_warnings(r, drawing_design_checks.check(svgs, STYLE.read_text(encoding="utf-8")))
     if drawing_warnings:
         for d, w in drawing_warnings:
             more.setdefault(d, []).append(w)
-        svgs = r.render(more)
+        svgs = room_drawings.render(r, more)
     return Quote(doc, svgs, work, m, r, tiles, r.warnings() + tile_warnings + drawing_warnings)
 
 

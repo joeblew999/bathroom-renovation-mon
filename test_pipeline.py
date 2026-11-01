@@ -38,6 +38,7 @@ import materials
 import phases
 import room
 import room_design_checks
+import room_drawings
 import drawing_design_checks
 import build
 from build import assemble, tile_lines
@@ -419,13 +420,13 @@ def column_clash_test():
 
 def door_joint_test():
     """No tile joint is drawn inside the door opening: where one tile from the wall's start would end,
-    inside the opening, the column's wall drawing has no joint line (px from room.py's own layout)."""
+    inside the opening, the column's wall drawing has no joint line (px from room_drawings.py's own layout)."""
     wid, w = column_wall()
     door = find(w.items, "the door", lambda i: i.shape == "door")
     k = real().room.tiles[w.tile].size
     if not door.x - door.w / 2 < k < door.x + door.w / 2:
         raise LookupError("one tile from the wall's start isn't inside the door opening, so there is nothing to test")
-    x = room.WALL_MARGINS[0] + (w.length - k) * room.WALL_SCALE
+    x = room_drawings.WALL_MARGINS[0] + (w.length - k) * room_drawings.WALL_SCALE
     title = real().room.labels.en("elevation_title", wall=(w.th, w.en))
 
     def expect(p):                                   # the column's wall drawing, and only it

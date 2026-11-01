@@ -4,7 +4,7 @@ written (room.py has read and checked room.toml, and worked out every wall and i
     room_design_checks.warnings(room)          # [(wall id or "floor", (th, en))] — every setting-out or clash problem
     room_design_checks.wall_warnings(room, w)  # one wall's, (th, en) each — shown under its drawing
     room_design_checks.floor_warnings(room)    # the floor's — shown under the floor plan
-    room_design_checks.joints_x(wall, size)    # where the vertical tile joints fall (room.py draws them)
+    room_design_checks.joints_x(wall, size)    # where the vertical tile joints fall (room_drawings.py draws them)
 
 The checks, each worded by its label in room.toml:
   - a hole (a fixing, an outlet, an item's centre) set out too near a tile joint   warn_joint
