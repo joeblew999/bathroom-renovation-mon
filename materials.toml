@@ -22,7 +22,7 @@ price = 109
 link = "https://www.homepro.co.th/p/1311465"
 
 [[item]]
-phase = "build"
+phase = "build_wall"
 on_site = false
 name = "วงกบ AZLE UPVC 80 × 200 ซม. สีขาว / Frame AZLE UPVC 80 × 200 cm, white"
 qty = "1"
@@ -31,7 +31,7 @@ link = "https://www.homepro.co.th/p/1014768"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_wall"
 name = "อิฐมวลเบา TPI 60 × 20 × 7.5 ซม. / TPI AAC block"
 n = 18
 price = 26
@@ -39,7 +39,7 @@ link = "https://www.homepro.co.th/p/1110154"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_wall"
 name = "คานทับหลังสำเร็จรูป DIAMOND 20 × 150 × 7.5 ซม. ตัดให้ได้ความยาวที่หน้างาน / DIAMOND precast lintel 20 × 150 × 7.5 cm, cut to length on site"
 qty = "1"
 total = 400
@@ -48,7 +48,7 @@ link = "https://www.homepro.co.th/p/1195815"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_wall"
 name = "ปูนก่ออิฐมวลเบา TPI M319 50 กก. (เหลือใช้อุดรอบวงกบและช่องทับหลัง) / TPI M319 block mortar (leftover for filling round the frame and the lintel pocket)"
 qty = "1 ถุง / bag"
 total = 200
@@ -56,7 +56,7 @@ approx = true
 link = "https://www.homepro.co.th/p/1127448"
 
 [[item]]
-phase = "build"
+phase = "build_wall"
 on_site = false
 name = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL 3.2 × 22 ซม. / AAC wall tie plate MEGA STEEL 3.2 × 22 cm"
 n = 8
@@ -66,7 +66,7 @@ link = "https://www.homepro.co.th/p/1110170"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_ceiling"
 name = "แผ่นยิปซัมทนชื้น DURAONE 9 มม. 120 × 240 ซม. (ฝ้าห้องน้ำ) / Moisture-resistant gypsum board DURAONE 9 mm, 120 × 240 cm (bathroom ceiling)"
 n = 2
 price = 245
@@ -74,7 +74,7 @@ link = "https://www.homepro.co.th/p/1110611"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_ceiling"
 name = "ซีลาย SANKI 0.50–0.55 กก. ยาว 4 ม. ชุบสังกะสี ตัดได้ 2 ท่อนต่อเส้น / SANKI galvanised C-channel 0.50–0.55 kg, 4 m, cut 2 pieces per length"
 n = 4
 price = 29
@@ -82,7 +82,7 @@ link = "https://www.homepro.co.th/p/1110231"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_ceiling"
 name = "ฉากซีลาย SANKI 0.20A ยาว 2.44 ม. (รอบห้อง) / SANKI wall angle 0.20A, 2.44 m (round the room)"
 n = 4
 price = 16
@@ -90,14 +90,14 @@ link = "https://www.homepro.co.th/p/1110271"
 
 [[item]]
 on_site = false
-phase = "build"
+phase = "build_ceiling"
 name = "สกรูไดร์วอลล์ TPI 6 × 1 นิ้ว สีดำ (ยึดแผ่นยิปซัมกับซีลาย) / TPI drywall screws 6 × 1\", black (board to C-channel)"
 qty = "1 กล่อง / box"
 total = 89
 link = "https://www.homepro.co.th/p/1110148"
 
 [[item]]
-phase = "build"
+phase = "build_ceiling"
 on_site = false
 name = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 (50 ตัว — ฉากฝ้า และอุปกรณ์ในห้องน้ำ) / Wall plugs with screws BY TORA no. 7, 50 pcs (ceiling angle and fittings)"
 n = 1

@@ -61,9 +61,9 @@ th = "ขนเศษวัสดุไปทิ้งอย่างถูก�
 en = "Take the debris away and dispose of it properly (the builder pays the fee, no roadside dumping), scrape or grind the old mortar lumps off the walls, check with a 2 m straightedge and mark anywhere out by more than 3 mm — filled with M300 in phase {phase:make_good}, once the chasing is done (rectified tiles with tight joints show every bump)"
 
 [[phase]]
-id = "build"
-th = "ก่อผนังใหม่และทำฝ้า"
-en = "Build the new wall and ceiling"
+id = "build_wall"
+th = "ก่อผนังใหม่"
+en = "Build the new wall"
 note_th = "ผนังใหม่ยังไม่ฉาบ — ฉาบหลังงานระบบ ในขั้น {phase:make_good} · ขนาดและตำแหน่งตามภาพผนังใหม่"
 note_en = "The new wall is not plastered yet — it is plastered after first fix, in phase {phase:make_good} · sizes and positions as on the new wall drawing"
 
@@ -81,6 +81,11 @@ en = "Set the precast AAC lintel over the door opening, cut to length on site, o
 id = "frame"
 th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา"
 en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall"
+
+[[phase]]
+id = "build_ceiling"
+th = "ทำฝ้าใหม่"
+en = "Build the new ceiling"
 
 [[phase.step]]
 id = "ceiling"

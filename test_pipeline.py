@@ -118,7 +118,7 @@ MAT_TESTS = [
      lambda t: re.sub(r"(?m)^n = 9$", "n = 5", t, count=1), "grey tile: 8 boxes planned but 11 needed"),
     ("materials: item naming a phase that doesn't exist",
      lambda t: t.replace('phase = "first_fix"', 'phase = "plumbing"', 1), "names phase 'plumbing', which is not in phases.toml"),
-    ("materials: the list is grouped by phase", None, "Phase 2 — Build the new wall and ceiling**"),
+    ("materials: the list is grouped by phase", None, "Phase 2 — Build the new wall**"),
     ("keys: a typo in a material (link written as lnk)",
      lambda t: t.replace("link = ", "lnk = ", 1), "unknown key 'lnk'"),
     ("links: a tile colour that doesn't exist",
@@ -150,7 +150,7 @@ PHASE_TESTS = [
 
 DOC_TESTS = [
     # (name, md edit, expected) — the document skeleton
-    ("document: a phase note resolves its phase reference", None, "plastered after first fix, in phase 5"),
+    ("document: a phase note resolves its phase reference", None, "plastered after first fix, in phase 6"),
     ("document: only phases and materials", None, "## 2. วัสดุทั้งหมด"),
     ("document: a generated block whose marker is missing",
      lambda t: t.replace("<!-- generated:list -->", "", 1), "marker <!-- generated:list -->"),
