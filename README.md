@@ -25,7 +25,7 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 |---|---|
 | `phases.toml` | The work: phases and steps — prose for the builder |
 | `materials.toml` | Every product, once: its names and size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups |
-| `room.toml` | The room: its size, walls, tiles, door and lintel, the design rules, the drawing wording, and every position on the walls and floor |
+| `room.toml` | The room: its size; each wall (which way it runs, the walls at either end, whether it's drawn); the floor plan's sides; the tiles, door, lintel and window (and which wall each is in); the design rules; the drawing wording; and every position on the walls and floor |
 | `bathroom-renovation-quote.md` | The template: the title, then a section marker per part, in page order |
 | `style.css` | The page's look |
 | `phases.py`, `materials.py`, `room/` | The parts: each reads its own file and renders its section |
@@ -35,7 +35,7 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 
 ## Rules for every change
 
-1. **Content is data; the template is layout.** If a different bathroom would change it, it's data — every word, number, date and name — in the file of the part it's about. Fixed wording is `[labels]` in that file; code holds none.
+1. **Content is data; the template is layout.** If a different bathroom would change it, it's data — every word, number, date and name — in the file of the part it's about. Fixed wording is `[labels]` in that file; code holds none. The one exception is this design's own rules, which stay in `room/` and are labelled there: the existing column at the start of the door's wall, with the door opening beside it and the lintel over it.
 2. **One shape for every named thing** (a section, a phase, a group): `th`, `en`, and an optional `note_th` / `note_en`. Thai and English are never joined by hand — the one exception is the title line in the template.
 3. **One look for each shape**, from `common.py`: a heading is "Thai / English"; a note is Thai, with the English underneath.
 4. **Parts don't know each other.** No part imports another, and no data file holds a fact about another part. The phases name kinds of material in plain words ("ready-mix mortar"), never products or quantities — the list is the only place for those.
