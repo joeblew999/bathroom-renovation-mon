@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Tests for the bathroom pipeline — proves every check really fires.
 
-Each test copies the document and the four data files into a temporary folder, breaks
+Each test copies the document and the five data files into a temporary folder, breaks
 one thing on purpose, then puts the quote together in this process:
 
     q = assemble(md)      phases + materials + drawings, the tile check, the filled document
@@ -26,6 +26,7 @@ LAYOUT = "layout.toml"
 MATERIALS = "materials.toml"
 SITE = "site.toml"
 PHASES = "phases.toml"
+PRODUCTS = "products.toml"
 
 
 def set_key(toml, section, no, key, value):
@@ -50,10 +51,11 @@ def drop_key(toml, section, no, key):
     raise KeyError(f"[[{section}]] no = {no} not found")
 
 
-def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phases=None):
+def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phases=None, edit_products=None):
     """Assemble the quote from edited copies. Returns (warnings, text to search, quote): the
     ERROR line if the data was refused, else the warnings, the filled document and the drawings."""
-    edits = {MD: edit_md, LAYOUT: edit_layout, MATERIALS: edit_mat, SITE: edit_site, PHASES: edit_phases}
+    edits = {MD: edit_md, LAYOUT: edit_layout, MATERIALS: edit_mat, SITE: edit_site, PHASES: edit_phases,
+             PRODUCTS: edit_products}
     with tempfile.TemporaryDirectory() as tmp:
         for name, edit in edits.items():
             text = (HERE / name).read_text(encoding="utf-8")
@@ -91,14 +93,14 @@ TESTS = [
      lambda t: set_key(t, "main_wall", 13, "x", 2000), None, "is outside Shower unit with rain head"),
     ("part: fixing pointing at a missing item",
      lambda t: set_key(t, "main_wall", 14, "part", 99), None, "belongs to item 99, which is not in [[main_wall]]"),
-    ("product: layout names a product that isn't in site.toml",
-     lambda t: t.replace('product = "toilet"', 'product = "sink"'), None, "product 'sink' is not in site.toml"),
+    ("product: layout names a product that isn't in products.toml",
+     lambda t: t.replace('product = "toilet"', 'product = "sink"'), None, "names product 'sink', which is not in products.toml"),
     ("data: entry without an English name",
      lambda t: drop_key(t, "main_wall", 2, "en"), None, "has no 'en'"),
     ("keys: a typo in a layout entry",
      lambda t: t.replace("x = 1500\n", "xx = 1500\n", 1), None, "unknown key 'xx'"),
-    ("keys: a typo in site.toml", None, None, "[door] has unknown key 'widht'",
-     lambda t: t.replace("width = 800", "widht = 800", 1)),
+    ("keys: a typo in site.toml", None, None, "[window] has unknown key 'widht'",
+     lambda t: t.replace("width = 600", "widht = 600", 1)),
     ("links: two items with the same number",
      lambda t: set_key(t, "main_wall", 7, "no", 8), None, "number 8 is used twice"),
     ("links: a misspelt shape",
@@ -112,15 +114,28 @@ TESTS = [
     ("data: broken TOML",
      lambda t: t + "\n[[main_wall\n", None, "is not valid TOML"),
     ("site: a number missing from site.toml",
-     None, None, "[tiles.grey] has no 'size'", lambda t: t.replace("size = 500\n", "", 1)),
+     None, None, "[tiles.grey] has no 'top'", lambda t: t.replace("top = 2000\n", "", 1)),
     ("rules: the clearance from site.toml is printed on the drawings", None, None,
      lambda p: f"at least {p.drawings.min_clear} mm off a joint"),
     ("notes: a drawing note that refers to a phase is refused",
      lambda t: t.replace('note_en = "', 'note_en = "see phase {phase:tile} · ', 1), None, "has a reference in braces"),
     ("labels: a label filling in a name it doesn't have", None, None, "tile_top en uses {topp} (it can use: top)",
      lambda t: t.replace("tile top {top}", "tile top {topp}", 1)),
-    ("site: door wider than the new wall",
-     None, None, "does not fit in the new wall", lambda t: t.replace("width = 800", "width = 1400", 1)),
+
+]
+
+PRODUCT_TESTS = [
+    # (name, products edit, expected) — the catalogue shared by the material list and the drawings
+    ("products: a product's size reaches the drawings (door wider than the new wall)",
+     lambda t: t.replace("size = { w = 800, h = 2000 }", "size = { w = 1400, h = 2000 }", 1), "does not fit in the new wall"),
+    ("products: a product's size reaches its name on the list",
+     lambda t: t.replace("size = { w = 500, h = 500 }", "size = { w = 450, h = 450 }", 1),
+     "Grey tile TARA Stone Blast 450 × 450 mm"),
+    ("products: a name showing a size the product doesn't have",
+     lambda t: t.replace('name_en = "TPI AAC block"', 'name_en = "TPI AAC block {w} mm"', 1), "shows {w}, but its size has no w"),
+    ("products: a product that isn't on the list or the drawings",
+     lambda t: t + '\n[[product]]\nid = "spare"\nname_th = "x"\nname_en = "x"\n',
+     "product 'spare' isn't on the material list or the drawings"),
 ]
 
 MAT_TESTS = [
@@ -137,7 +152,7 @@ MAT_TESTS = [
     ("materials: an item with no quantity",
      lambda t: re.sub(r"(?m)^  n = 18$\n", "", t, count=1), "has no 'n'"),
     ("materials: a reused item with a price",
-     lambda t: re.sub(r'(?m)^(name_en = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "reused")',
+     lambda t: re.sub(r'(?m)^(id = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "reused")',
                       r"\1price = 10\n\2", t, count=1),
      "is reused, so it has no price"),
     ("materials: the list is in sections by group", None, lambda p: f"| **{p.materials.groups[0].th} / {p.materials.groups[0].en}** |"),
@@ -155,22 +170,21 @@ MAT_TESTS = [
     ("materials: an SKU that isn't the shop's kind of code",
      lambda t: re.sub(r'(?m)^sku = "(\d+)"$', 'sku = "HP-\\1"', t, count=1), "which isn't a HomePro code"),
     ("materials: the link is built from shop and SKU", None,
-     lambda p: next(f"]({m.product.link})<br>{m.product.shop.name} {m.product.sku}"
-                    for m in p.materials.items if m.product.sku)),
+     lambda p: next(f"]({m.entry.link})<br>{m.entry.shop.name} {m.entry.sku}"
+                    for m in p.materials.items if m.entry.sku)),
     ("materials: one takes the singular unit (en_one)",
      lambda t: t.replace('en_one = "bag"', 'en_one = "ONE-BAG"', 1), "| 1 ถุง / ONE-BAG × "),
     ("materials: more than one takes the plural (en_many)",
      lambda t: t.replace('en_many = "bags"', 'en_many = "MANY-BAGS"', 1), "| 2 ถุง / MANY-BAGS × "),
     ("materials: a unit that isn't defined",
      lambda t: t.replace('unit = "bag"', 'unit = "sack"', 1), "has unit = 'sack'"),
-    ("links: a tile colour on the list that isn't a tile on the drawings",
-     lambda t: re.sub(r'(?m)^tile = "grey"$', 'tile = "gray"', t, count=1),
-     "tile = 'gray' is not a tile on the drawings (they have: grey, white)"),
+    ("products: the list names a product that isn't in products.toml",
+     lambda t: t.replace('id = "aac_block"', 'id = "aac_blok"', 1), "product 'aac_blok' is not in products.toml"),
     ("types: approx written as text",
      lambda t: re.sub(r"(?m)^approx = true$", 'approx = "yes"', t, count=1), "'approx' must be true or false"),
     ("materials: a supplied item shows who brings it", None, "| ช่างไฟนำมา / electrician provides |"),
     ("materials: a supplied item with a price",
-     lambda t: re.sub(r'(?m)^(name_en = .*\nunit = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "supplied")',
+     lambda t: re.sub(r'(?m)^(id = .*\nunit = .*\n)(\n  \[\[product\.use\]\]\n  group = .*\n  status = "supplied")',
                       r"\1price = 10\n\2", t, count=1),
      "is supplied, so it has no price"),
     ("materials: a supplied item with nobody to bring it",
@@ -215,7 +229,8 @@ def main():
              for t in TESTS] + \
             [(n, dict(edit_md=e), x) for n, e, x in DOC_TESTS] + \
             [(n, dict(edit_phases=e), x) for n, e, x in PHASE_TESTS] + \
-            [(n, dict(edit_mat=e), x) for n, e, x in MAT_TESTS]
+            [(n, dict(edit_mat=e), x) for n, e, x in MAT_TESTS] + \
+            [(n, dict(edit_products=e), x) for n, e, x in PRODUCT_TESTS]
     for name, kw, expect in cases:
         warnings, out, p = run(**kw)
         if callable(expect):

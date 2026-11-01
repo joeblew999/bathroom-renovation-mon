@@ -1,6 +1,7 @@
 """python3 -m drawings [folder] — the tiles needed and any warnings."""
 import sys
 
+import products
 from common import DataError
 
 from .model import load
@@ -8,7 +9,8 @@ from .model import load
 
 def main(argv):
     try:
-        d = load(argv[1] if len(argv) > 1 else ".")
+        folder = argv[1] if len(argv) > 1 else "."
+        d = load(folder, products.load(f"{folder}/{products.FILE}"))
     except DataError as e:
         sys.exit(f"ERROR: {e}")
     for t in d.tiles_needed():

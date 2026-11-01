@@ -1,7 +1,8 @@
 """The drawings: site.toml and layout.toml, read, checked, and drawn as the floor plan and
 the wall elevations. It knows nothing about the phases or the materials.
 
-    d = drawings.load(Path("."))     # the folder holding site.toml and layout.toml
+    d = drawings.load(Path("."), catalogue)   # the folder holding site.toml and layout.toml;
+                                             # catalogue = products.load(...)
     d.render()                       # {file name: svg text}
     d.warnings()                     # [(wall id, warning)]
     d.tiles_needed()                 # [TilesNeeded]

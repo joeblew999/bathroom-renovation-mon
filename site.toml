@@ -1,4 +1,5 @@
-# site.toml — the room, the design rules, the four walls, the tiles and every product size. Units: mm.
+# site.toml — the room, the design rules, the four walls and the tiles. Units: mm.
+# Product sizes are in products.toml (shared with the material list), never here.
 # Read by drawings/; the drawings, the checks and the tile counts are worked out from it.
 # Things that follow from these (the column, the door opening, the lintel, the window on
 # its wall, the door on the floor plan) are worked out in drawings/, never typed here.
@@ -13,8 +14,7 @@ ceiling = 2800
 length = 1300              # the rest of the room width is the existing column
 
 [door]
-width = 800                # opening, to suit the frame; hinged on the column side, opens in
-height = 2000
+product = "door_frame"     # the opening is the frame's size (products.toml); hinged on the column side, opens in
 
 [lintel]
 height = 200               # precast AAC, one block course high
@@ -86,66 +86,21 @@ tile = "white"
 tile = "grey"
 
 # ---------- tiles ----------
-# One table per tile; its name ([tiles.NAME]) is what the floor, the walls and the material
-# list (tile = "…") call it. A new tile is a new table here — no code changes.
+# One table per tile; its name ([tiles.NAME]) is what the floor and the walls call it. A new
+# tile is a new table here — no code changes.
+#   product  the tile in products.toml (its size and tiles per box come from there; the tile
+#            count matches it against the boxes of that product on the material list)
 #   th       its colour in Thai, for the tile counts
-#   size     square tile, mm          per_box  tiles in a box
 #   top      tiled up to this height on a wall, mm
 #   fill     its colour on the drawings
 [tiles.grey]               # the floor + the main wall
+product = "grey_tile"
 th = "เทา"
-size = 500
-per_box = 4
 top = 2000
 fill = "#d9d9d6"
 
 [tiles.white]              # the other 3 walls
+product = "white_tile"
 th = "ขาว"
-size = 600
-per_box = 4
 top = 1200
 fill = "#f1f1ee"
-
-# ---------- product sizes (layout.toml: product = "…"; w wide, h high, d deep) ----------
-[products.toilet]          # MOYA 323
-w = 375
-h = 700
-d = 690
-
-[products.basin]           # MOYA 179
-w = 600
-h = 130
-d = 310
-
-[products.mirror]
-w = 600
-h = 600
-
-[products.lamp]
-w = 92
-h = 265
-d = 106
-
-[products.roll_holder]
-w = 160
-h = 85
-d = 90
-
-[products.shelf]
-w = 620
-h = 145
-d = 230
-
-[products.shower]
-w = 220
-h = 830
-d = 510
-
-[products.heater]
-w = 220
-h = 400
-d = 100
-
-[products.drain]
-w = 100
-d = 100

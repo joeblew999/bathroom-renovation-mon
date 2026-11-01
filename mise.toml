@@ -32,6 +32,10 @@ run = "python build_pdf.py --check"
 description = "Print the material list — the same table the PDF prints"
 run = "python materials.py"
 
+[tasks.products]
+description = "List every product, with its size where the drawings use one"
+run = "python products.py"
+
 [tasks.phases]
 description = "Print the phases — the same text the PDF prints"
 run = "python phases.py"

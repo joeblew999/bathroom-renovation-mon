@@ -8,9 +8,10 @@ none of them knows the others exist:
   materials.py   materials.toml            → the material list
   drawings/      site.toml + layout.toml   → the floor plan and the wall elevations
 
-This file puts them into the document skeleton (bathroom-renovation-quote.md) and checks
-the one fact two parts share: the tile boxes on the material list against the tiles the
-room needs (tile_check). Then:
+The material list and the drawings both take their products from products.toml (products.py),
+which this file loads once and hands to both. It puts the parts into the document skeleton
+(bathroom-renovation-quote.md) and runs the two checks that need more than one part: the tile
+boxes on the list against the tiles the room needs, and every product used somewhere. Then:
 
   html     Markdown → HTML, drawings appended one per page   → out/index.html
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
@@ -32,6 +33,7 @@ from playwright.sync_api import sync_playwright
 import drawings
 import materials
 import phases
+import products
 from common import DataError
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
@@ -67,14 +69,9 @@ class Quote:
 
 # ---------- the one fact two parts share ----------
 def tile_check(m, d):
-    """[(tiles needed, boxes on the list)] per colour, and a warning where there are too few.
-    A tile colour on the list that the room doesn't have is bad data, and stops the build."""
-    have = [t.colour for t in d.tiles_needed()]
-    for colour in m.tile_colours():
-        if colour not in have:
-            raise DataError(f"{materials.FILE}: tile = {colour!r} is not a tile on the drawings "
-                            f"(they have: {', '.join(have)})")
-    tiles = [(t, m.tile_boxes(t.colour)) for t in d.tiles_needed()]
+    """[(tiles needed, boxes on the list)] per tile, and a warning where there are too few. A
+    tile and its boxes are matched by product: both name the same one in products.toml."""
+    tiles = [(t, m.boxes_of(t.product)) for t in d.tiles_needed()]
     return tiles, [("materials", f"{t.colour} tile: {planned:g} boxes planned but {t.boxes} needed")
                    for t, planned in tiles if planned < t.boxes]
 
@@ -108,8 +105,12 @@ def assemble(md):
     if not md.exists():
         raise DataError(f"{md} not found")
     ph = phases.load(md.with_name(phases.FILE))
-    m = materials.load(md.with_name(materials.FILE))
-    d = drawings.load(md.parent)
+    catalogue = products.load(md.with_name(products.FILE))
+    m = materials.load(md.with_name(materials.FILE), catalogue)
+    d = drawings.load(md.parent, catalogue)
+    unused = [pid for pid in catalogue if pid not in m.products_used() | d.products_used]
+    if unused:
+        raise DataError(f"{products.FILE}: product '{unused[0]}' isn't on the material list or the drawings")
     tiles, tile_warnings = tile_check(m, d)
     skeleton = ph.resolve(md.read_text(encoding="utf-8"))      # the skeleton may name a phase
     doc = fill(skeleton, md.name, {"phases": ph.render(), "list": m.render()})

@@ -26,10 +26,11 @@ Nothing else is ever written. `out/` is not committed: on every push to `main`, 
 | File | Holds |
 |---|---|
 | `bathroom-renovation-quote.md` | The document skeleton: the title, the two headings and their one-line intros. Hand-written. `<!-- generated:… -->` markers mark where generated tables go in the PDF; nothing ever rewrites this file. |
-| `site.toml` | The room, door, lintel, window, floor step, every tile (`[tiles.grey]` … — size, box, height, drawing colour; a new tile is a new table, no code), which tile the floor and each wall gets, every product size, the four walls' names, and the design rules (`[rules]`). The drawings, checks and tile counts are worked out from it. |
-| `layout.toml` | Every position: main wall, window wall, floor. Items name their product (`product = "toilet"`) and take its size from `site.toml`. Also the names of the items worked out from the site (`[site_items]`). |
+| `site.toml` | The room, door (which product its opening is), lintel, window, floor step, every tile (`[tiles.grey]` … — which product, tiling height, drawing colour; a new tile is a new table, no code), which tile the floor and each wall gets, the four walls' names, and the design rules (`[rules]`). No product sizes — those are in `products.toml`. |
+| `layout.toml` | Every position: main wall, window wall, floor. Items name their product (`product = "toilet"`) and take its size from `products.toml`. Also the names of the items worked out from the site (`[site_items]`). |
 | `phases.toml` | The work, phase by phase: each phase and step with its Thai and English text. Numbered by position; refer to them within the phases, or in the skeleton, as `{phase:id}` / `{step:id}`, so inserting a step renumbers every reference. |
-| `materials.toml` | Every product, written once: its Thai and English name, unit, price, and where it's bought (`shop` and `sku` — the product link is built from them). Under each product, one `[[product.use]]` per line it takes on the list: its **group** and its **status** (`buy`, `bought`, `reused`, or `supplied` — the trade brings it, with `by` saying who) — the two things the list is ordered by — how many, and a note. The shops, suppliers, units (Thai, English singular and plural) and groups are all defined in this file. Stands on its own: it doesn't refer to the phases or the drawings, and they don't refer to it. |
+| `materials.toml` | How each product is bought, listed once by its id in `products.toml`: unit, price, and where (`shop` and `sku` — the product link is built from them). Under each, one `[[product.use]]` per line it takes on the list: its **group** and its **status** (`buy`, `bought`, `reused`, or `supplied` — the trade brings it, with `by` saying who) — the two things the list is ordered by — how many, and a note. The shops, suppliers, units (Thai, English singular and plural) and groups are all defined in this file. Doesn't refer to the phases or the drawings, and they don't refer to it. |
+| `products.toml` | Every product, defined once: what it is — its Thai and English name and, for products the drawings or the tile count use, its size (and tiles per box). A name shows the size with `{w}`, `{h}`, `{d}` (mm) or `{w_cm}` … (cm), so it's never typed twice. Shared: the material list takes names from it, the drawings take sizes from it. Every product in it must be used by one or the other. |
 
 All the fixed wording the PDF prints — column headings, "Phase", "Still to buy", every label on the drawings — is in the `[labels]` table of the file its part reads (`phases.toml`, `materials.toml`, `site.toml`), in Thai and English. The code holds no wording, only layout. The page title is the document's own first heading.
 
@@ -46,10 +47,11 @@ Three parts that stand on their own, and one file that puts them together. No pa
 | File | Reads | Gives |
 |---|---|---|
 | `phases.py` | `phases.toml` | the phases, numbered, as Markdown · `mise run phases` prints it |
-| `materials.py` | `materials.toml` | the material list as Markdown, the still-to-buy total, the tile boxes on the list · `mise run materials` prints it |
-| `drawings/` | `site.toml`, `layout.toml` | `model.py` reads and checks them, builds every wall and the design-rule warnings and the tiles the room needs; `svg.py` draws the floor plan and wall elevations · `python -m drawings` prints the tiles and warnings |
-| `build_pdf.py` | the skeleton | the only combiner: fills the skeleton with the phases and the material list, adds the drawings, runs the one check that spans two parts (tile boxes on the list vs tiles needed), writes the web page and the PDF |
+| `materials.py` | `materials.toml` (+ the catalogue) | the material list as Markdown, the still-to-buy total, the tile boxes on the list · `mise run materials` prints it |
+| `drawings/` | `site.toml`, `layout.toml` (+ the catalogue) | `model.py` reads and checks them, builds every wall and the design-rule warnings and the tiles the room needs; `svg.py` draws the floor plan and wall elevations · `python -m drawings` prints the tiles and warnings |
+| `build_pdf.py` | the skeleton | the only combiner: fills the skeleton with the phases and the material list, adds the drawings, runs the two checks that span parts (tile boxes on the list vs tiles needed, matched by product; every product used somewhere), writes the web page and the PDF |
 | `common.py` | — | reading a TOML file and checking its keys and types; knows nothing about bathrooms |
+| `products.py` | `products.toml` | the product catalogue — names (with sizes filled in) and sizes — handed to both the material list and the drawings; knows nothing about either · `mise run products` lists it |
 
 What the PDF prints for the phases and the materials is exactly what `mise run phases` and `mise run materials` print — the same function.
 
@@ -64,7 +66,7 @@ Bad data raises one `DataError` naming the file and the problem; the build print
 - a missing number in `site.toml`, or a door that doesn't fit in the new wall
 - a drawing item: with no shape or an unknown shape, missing what its shape needs (a rect without a height), naming a product that isn't in `site.toml`, sharing its number with another item, or belonging (`part`) to an item that isn't there
 - a material: naming a group the file doesn't define, a status that isn't `buy`, `bought`, `reused` or `supplied`, a supplied item with no known `by` or with a price, no quantity, something to buy with no price, a reused fitting with a price, a missing or unknown shop, supplier or unit, a product that isn't on the list, or an SKU that isn't that shop's kind of code
-- a tile colour on the material list that isn't a tile on the drawings (checked in `build_pdf.py`, the one place that sees both)
+- a product named on the list or the drawings that isn't in `products.toml`, a product there that nothing uses (checked in `build_pdf.py`), a name showing a size the product doesn't have, or a tile that isn't square or has no box size
 - a `{phase:…}` / `{step:…}` reference that matches nothing, or a phase or step id used twice
 - a drawing note with a reference in braces (drawing notes stand on their own)
 - a `<!-- generated:… -->` marker missing from the document

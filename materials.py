@@ -2,14 +2,14 @@
 """The material list: materials.toml, read, checked, ordered and rendered. It knows nothing
 about the phases or the drawings.
 
-    m = load(Path("materials.toml"))
+    m = load(Path("materials.toml"), catalogue)      # catalogue = products.load(...)
     m.render()          # the material list as Markdown table rows — the PDF prints exactly this
     m.still_to_buy()    # (total, whether any of it is approximate)
     m.on_site()         # how many lines are already on site (bought or reused)
-    m.tile_colours()    # the tile colours the list names
-    m.tile_boxes(c)     # how many boxes of one tile colour are on the list
+    m.boxes_of(id)      # how many of one product are on the list (bought + to buy)
 
-Each product is written once in the file, with a use for every line it takes on the list.
+What a product is (its names, its size) is in products.toml; this file says how it is bought
+(unit, price, shop, code) and, under it, a use for every line it takes on the list.
 The shops, suppliers, units and groups are defined in the file too; the only fixed list here
 is the four statuses, because each one has its own rules (what needs a price, a shop…).
 
@@ -17,13 +17,14 @@ Ordered by exactly two things written in the file: the group (in the order the g
 listed), then the status (buy, bought, reused, supplied); lines with the same group and status
 keep the order of their products in the file.
 
-Usage:  python3 materials.py [materials.toml]    (prints the material list)
+Usage:  python3 materials.py [materials.toml]    (prints the material list; reads products.toml beside it)
 """
 import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+import products as catalogue_file
 from common import DataError, Labels, flag, md_cell, need, number, only, read_toml
 
 FILE = "materials.toml"
@@ -31,7 +32,7 @@ GROUP_KEYS = {"id", "th", "en"}
 SHOP_KEYS = {"id", "name", "sku", "link"}
 SUPPLIER_KEYS = {"id", "th", "en"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
-PRODUCT_KEYS = {"name_th", "name_en", "unit", "price", "approx", "tile", "shop", "sku", "use"}
+ENTRY_KEYS = {"id", "unit", "price", "approx", "shop", "sku", "use"}
 USE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
 STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
 LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about")}
@@ -74,13 +75,12 @@ class Unit:
 
 
 @dataclass(frozen=True)
-class Product:
-    name_th: str
-    name_en: str
+class Entry:
+    """How one product is bought. What it is comes from the catalogue."""
+    product: catalogue_file.Product
     unit: Unit = None
     price: float = None  # unit price in baht
     approx: bool = False
-    tile: str = None
     shop: Shop = None    # where it is bought
     sku: str = None      # the shop's product code
 
@@ -92,8 +92,8 @@ class Product:
 
 @dataclass(frozen=True)
 class Material:
-    """One line on the list: a product, where it goes, and how many."""
-    product: Product
+    """One line on the list: a product (as bought), where it goes, and how many."""
+    entry: Entry
     group: str           # the id of its group
     status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting),
                          # "supplied" (the trade brings it)
@@ -105,12 +105,12 @@ class Material:
     @property
     def total(self):
         """What is still to pay for it."""
-        return self.n * self.product.price if self.status == "buy" else 0
+        return self.n * self.entry.price if self.status == "buy" else 0
 
     @property
     def paid(self):
         """What was paid for it, if it is on site and the price is known."""
-        return self.n * self.product.price if self.status == "bought" and self.product.price is not None else 0
+        return self.n * self.entry.price if self.status == "bought" and self.entry.price is not None else 0
 
 
 @dataclass(frozen=True)
@@ -130,15 +130,14 @@ class Materials:
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
         buy = [m for m in self.items if m.status == "buy"]
-        return sum(m.total for m in buy), any(m.product.approx for m in buy)
+        return sum(m.total for m in buy), any(m.entry.approx for m in buy)
 
-    def tile_colours(self):
-        """Every tile colour the list names, as written. Whether the room has that tile is
-        not this file's business: build_pdf.py checks it against the drawings."""
-        return sorted({m.product.tile for m in self.items if m.product.tile})
+    def products_used(self):
+        return {m.entry.product.id for m in self.items}
 
-    def tile_boxes(self, colour):
-        return sum(m.n for m in self.items if m.product.tile == colour)
+    def boxes_of(self, product_id):
+        """How many of one product the list has, bought or still to buy."""
+        return sum(m.n for m in self.items if m.entry.product.id == product_id and m.status in ("buy", "bought"))
 
     def render(self):
         """The material list as Markdown table rows: a heading row per group, then its lines."""
@@ -160,8 +159,8 @@ class Materials:
 
 
 # ---------- reading ----------
-def load(path):
-    """Read and check materials.toml."""
+def load(path, catalogue):
+    """Read and check materials.toml; each entry names a product in the catalogue."""
     raw = read_toml(Path(path), "all the materials and prices")
     only(FILE, "the file", raw, {"labels", "shop", "supplier", "unit", "group", "product"})
     labels = Labels(FILE, raw.get("labels", {}), LABELS)
@@ -176,13 +175,16 @@ def load(path):
     units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
     groups = tuple(Group(**e) for e in _defined(raw, "group", GROUP_KEYS))
     ids = {g.id for g in groups}
-    items = []
+    items, seen = [], set()
     for e in raw.get("product", []):
-        product = _product(e, shops, units)
+        entry = _entry(e, catalogue, shops, units)
+        if entry.product.id in seen:
+            raise DataError(f"{FILE}: product '{entry.product.id}' is listed twice — give it two uses instead")
+        seen.add(entry.product.id)
         uses = e.get("use", [])
         if not uses:
-            raise DataError(f"{FILE}: '{product.name_en[:40]}' has no [[product.use]] — it isn't on the list")
-        items += [_use(u, product, ids, suppliers) for u in uses]
+            raise DataError(f"{FILE}: product '{entry.product.id}' has no [[product.use]] — it isn't on the list")
+        items += [_use(u, entry, ids, suppliers) for u in uses]
     return Materials(groups, tuple(items), labels)
 
 
@@ -205,18 +207,18 @@ def _one_of(where, key, v, known):
     return known[v]
 
 
-def _product(e, shops, units):
-    where = f"'{e.get('name_en', '?')[:40]}'"
-    only(FILE, where, e, PRODUCT_KEYS)
-    need(FILE, where, e, ("name_th", "name_en"))
+def _entry(e, catalogue, shops, units):
+    where = f"product '{e.get('id', '?')}'"
+    only(FILE, where, e, ENTRY_KEYS)
+    need(FILE, where, e, ("id",))
+    if e["id"] not in catalogue:
+        raise DataError(f"{FILE}: {where} is not in {catalogue_file.FILE}")
     if "price" in e:
         number(FILE, where, "price", e["price"])
         if e["price"] < 0:
             raise DataError(f"{FILE}: {where} 'price' can't be negative")
     if "approx" in e:
         flag(FILE, where, "approx", e["approx"])
-    if "tile" in e and not isinstance(e["tile"], str):
-        raise DataError(f"{FILE}: {where} 'tile' must be text (a tile colour), not {e['tile']!r}")
     shop = None
     if "shop" in e or "sku" in e:
         need(FILE, where, e, ("shop", "sku"))
@@ -224,14 +226,13 @@ def _product(e, shops, units):
         if not isinstance(e["sku"], str) or not re.fullmatch(shop.sku, e["sku"]):
             raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.name} code")
     unit = _one_of(where, "unit", e["unit"], units) if "unit" in e else None
-    return Product(e["name_th"], e["name_en"], unit, e.get("price"), e.get("approx", False),
-                   e.get("tile"), shop, e.get("sku"))
+    return Entry(catalogue[e["id"]], unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
 
 
 def _use(u, p, group_ids, suppliers):
     """One line on the list, checked against its product: what is bought has a shop, what is
     to buy has a price, what is reused or supplied has neither."""
-    where = f"'{p.name_en[:40]}'"
+    where = f"product '{p.product.id}'"
     only(FILE, where, u, USE_KEYS)
     need(FILE, where, u, ("group", "status", "n"))
     if u["group"] not in group_ids:
@@ -266,7 +267,7 @@ def baht(v):
 
 def qty(m):
     """How many (with the unit, singular or plural), and for what is to buy, × the unit price."""
-    p = m.product
+    p = m.entry
     n = f"{m.n:g} {p.unit.of(m.n)}" if p.unit else f"{m.n:g}"
     return f"{n} × {baht(p.price)}" if m.status == "buy" else n
 
@@ -274,7 +275,7 @@ def qty(m):
 def money_cell(m, L):
     """What is still to pay, or what was paid for what is on site."""
     if m.status == "buy":
-        return (f"{L.both('approx')} " if m.product.approx else "") + baht(m.total)
+        return (f"{L.both('approx')} " if m.entry.approx else "") + baht(m.total)
     return baht(m.paid) if m.paid else "—"
 
 
@@ -286,8 +287,8 @@ def site_cell(m, L):
 
 def name_cell(m):
     """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
-    p = m.product
-    name = md_cell(f"{p.name_th} / {p.name_en}")
+    p = m.entry
+    name = md_cell(f"{p.product.name_th} / {p.product.name_en}")
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:
@@ -296,8 +297,9 @@ def name_cell(m):
 
 
 def main(argv):
+    path = Path(argv[1] if len(argv) > 1 else FILE)
     try:
-        m = load(argv[1] if len(argv) > 1 else FILE)
+        m = load(path, catalogue_file.load(path.with_name(catalogue_file.FILE)))
     except DataError as e:
         sys.exit(f"ERROR: {e}")
     print("\n".join(m.render()))

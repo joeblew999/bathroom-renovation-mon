@@ -7,8 +7,8 @@ its items, and the design rules. svg.py draws what this holds.
     d.tiles                 # {name: Tile} — every tile in site.toml
     d.tiles_needed()        # [TilesNeeded] — tiles per tile, worked out from the room
 
-The site (room, door, lintel, window, tiles, product sizes, walls) and the layout (every
-position) are the only inputs. Items that follow from the site — the column, the door
+The site (room, door, lintel, window, tiles, walls) and the layout (every position) are the
+inputs, with the product catalogue (products.toml) for every product's size. Items that follow from the site — the column, the door
 opening, the lintel, the window, the door on the floor plan — are worked out here, never
 typed twice. A drawing note stands on its own: it can't refer to a phase, step or rule.
 
@@ -29,7 +29,6 @@ SITE, LAYOUT = "site.toml", "layout.toml"
 SITE_KEYS = {
     "room": {"length", "width", "ceiling"},
     "new_wall": {"length"},
-    "door": {"width", "height"},
     "lintel": {"height", "bearing"},
     "old_wall": {"step"},
     "window": {"from_main_wall", "width", "sill", "height"},
@@ -37,14 +36,13 @@ SITE_KEYS = {
 }
 WALL_IDS = ("main_wall", "new_wall", "window_wall", "opposite_wall")
 WALL_KEYS = {"th", "en", "view_th", "view_en", "tile"}
-TILE_KEYS = {"th", "size", "per_box", "top", "fill"}
+TILE_KEYS = {"product", "th", "top", "fill"}
 LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall",), "centre_height": (), "see_notes": (), "dashed": (),
           "all_clear": ("min_clear",),
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
-PRODUCT_KEYS = {"w", "h", "d"}
 DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with items in layout.toml
 SITE_ITEMS = ("column", "door_opening", "lintel", "window", "door")
 NAME_KEYS = {"th", "en", "note_th", "note_en"}
@@ -58,10 +56,11 @@ FLOOR_SHAPE_NEEDS = {"rect": ("x", "y", "w", "d"), "step": ("x",)}   # floor ite
 # ---------- the model ----------
 @dataclass(frozen=True)
 class Tile:
-    name: str            # what the floor, walls and material list call it: "grey"
+    name: str            # what the floor and walls call it: "grey"
+    product: str         # its id in products.toml
     th: str
-    size: int            # square, mm
-    per_box: int
+    size: int            # square, mm (from the product)
+    per_box: int         # (from the product)
     top: int             # tiled up to this height on a wall
     fill: str            # its colour on the drawings
 
@@ -101,6 +100,7 @@ class Wall:
 @dataclass(frozen=True)
 class TilesNeeded:
     colour: str          # the tile's name
+    product: str         # its id in products.toml
     th: str
     size: int
     per_box: int
@@ -123,6 +123,7 @@ class Drawings:
     walls: dict
     floor: tuple
     labels: Labels
+    products_used: frozenset   # every product id the drawings take a size from
 
     def value(self, key, name):
         return _value(self.site, key, name)
@@ -150,7 +151,7 @@ class Drawings:
             for w in self.walls.values():
                 if w.tile == t.name:
                     parts.append((w.id, t.top // t.size * math.ceil(w.tiled_run / t.size)))
-            out.append(TilesNeeded(t.name, t.th, t.size, t.per_box, tuple(parts)))
+            out.append(TilesNeeded(t.name, t.product, t.th, t.size, t.per_box, tuple(parts)))
         return out
 
     def wall_warnings(self, wall_id):
@@ -173,17 +174,21 @@ class Drawings:
 
 
 # ---------- loading ----------
-def load(folder):
-    """Read and check site.toml and layout.toml in `folder`, and build every wall."""
+def load(folder, catalogue):
+    """Read and check site.toml and layout.toml in `folder`, and build every wall. Every
+    product's size comes from the catalogue (products.load)."""
     folder = Path(folder)
-    site = read_toml(folder / SITE, "the room, walls, tiles and product sizes")
+    site = read_toml(folder / SITE, "the room, walls and tiles")
     layout = read_toml(folder / LAYOUT, "all the positions")
-    tiles = _tiles(site)
-    _check_site(site, tiles)
+    tiles = _tiles(site, catalogue)
+    door = _door(site, catalogue)
+    _check_site(site, tiles, door)
     labels = Labels(SITE, site.get("labels", {}), LABELS)
     only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "site_items"})
-    walls, floor = _walls(site, layout)
-    return Drawings(site, tiles, site["floor"]["tile"], walls, floor, labels)
+    walls, floor = _walls(site, layout, door, catalogue)
+    used = ({e["product"] for k in DRAWN + ("floor",) for e in layout.get(k, []) if "product" in e}
+            | {t.product for t in tiles.values()} | {door.id})
+    return Drawings(site, tiles, site["floor"]["tile"], walls, floor, labels, frozenset(used))
 
 
 def _value(site, key, name):
@@ -193,8 +198,26 @@ def _value(site, key, name):
         raise DataError(f"{SITE}: [{key}] needs '{name}'") from None
 
 
-def _tiles(site):
-    """Every [tiles.NAME] table in site.toml."""
+def _product(catalogue, where, pid, needs):
+    """A product from the catalogue that has the sizes `needs`."""
+    if pid not in catalogue:
+        raise DataError(f"{where} names product '{pid}', which is not in products.toml")
+    p = catalogue[pid]
+    for k in needs:
+        if getattr(p, k) is None:
+            raise DataError(f"products.toml: product '{pid}' needs a {k} — {where} uses it")
+    return p
+
+
+def _door(site, catalogue):
+    e = site.get("door", {})
+    only(SITE, "[door]", e, {"product"})
+    need(SITE, "[door]", e, ("product",))
+    return _product(catalogue, f"{SITE}: [door]", e["product"], ("w", "h"))
+
+
+def _tiles(site, catalogue):
+    """Every [tiles.NAME] table in site.toml, with its size and box from its product."""
     raw = site.get("tiles", {})
     if not raw:
         raise DataError(f"{SITE}: no [tiles.…] — the floor and walls need at least one tile")
@@ -202,10 +225,12 @@ def _tiles(site):
     for name_, e in raw.items():
         where = f"[tiles.{name_}]"
         only(SITE, where, e, TILE_KEYS)
-        need(SITE, where, e, ("th", "size", "per_box", "top", "fill"))
-        for k in ("size", "per_box", "top"):
-            number(SITE, where, k, e[k])
-        out[name_] = Tile(name_, e["th"], e["size"], e["per_box"], e["top"], e["fill"])
+        need(SITE, where, e, ("product", "th", "top", "fill"))
+        number(SITE, where, "top", e["top"])
+        p = _product(catalogue, f"{SITE}: {where}", e["product"], ("w", "h", "per_box"))
+        if p.w != p.h:
+            raise DataError(f"products.toml: tile '{p.id}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
+        out[name_] = Tile(name_, p.id, e["th"], int(p.w), p.per_box, e["top"], e["fill"])
     return out
 
 
@@ -223,8 +248,8 @@ def _note(e, key, where):
     return t
 
 
-def _check_site(site, tiles):
-    only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "products", "tiles", "floor", "labels"})
+def _check_site(site, tiles, door):
+    only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "tiles", "floor", "door", "labels"})
     only(SITE, "[floor]", site.get("floor", {}), {"tile"})
     need(SITE, "[floor]", site.get("floor", {}), ("tile",))
     _tile_name("[floor]", site["floor"]["tile"], tiles)
@@ -241,16 +266,12 @@ def _check_site(site, tiles):
         only(SITE, f"[walls.{w}]", e, WALL_KEYS)
         need(SITE, f"[walls.{w}]", e, ("th", "en", "tile"))
         _tile_name(f"[walls.{w}]", e["tile"], tiles)
-    for name_, e in site.get("products", {}).items():
-        only(SITE, f"[products.{name_}]", e, PRODUCT_KEYS)
-        for n, v in e.items():
-            number(SITE, f"[products.{name_}]", n, v)
-    if _value(site, "new_wall", "length") - _value(site, "door", "width") <= 0:
-        raise DataError(f"{SITE}: the door ({_value(site, 'door', 'width')}) does not fit "
+    if _value(site, "new_wall", "length") - door.w <= 0:
+        raise DataError(f"{SITE}: the door ({door.w:g}) does not fit "
                         f"in the new wall ({_value(site, 'new_wall', 'length')})")
 
 
-def _walls(site, layout):
+def _walls(site, layout, door, catalogue):
     """Every wall with its items (from layout.toml, plus those that follow from the site)."""
     names = layout.get("site_items", {})
     only(LAYOUT, "[site_items]", names, SITE_ITEMS)
@@ -267,10 +288,9 @@ def _walls(site, layout):
 
     v = lambda key, name_: _value(site, key, name_)             # noqa: E731
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
-    new_wall_l, door_w, door_h = v("new_wall", "length"), v("door", "width"), v("door", "height")
+    new_wall_l, door_w, door_h = v("new_wall", "length"), door.w, door.h
     column, solid = room_w - new_wall_l, new_wall_l - door_w
-    products = site.get("products", {})
-    items = {k: _layout_items(layout, k, products, room_w) for k in DRAWN + ("floor",)}
+    items = {k: _layout_items(layout, k, catalogue, room_w) for k in DRAWN + ("floor",)}
 
     # new wall, seen from inside facing it: x from the opposite long wall (the column side)
     n = _next(items["new_wall"])
@@ -307,7 +327,7 @@ def _walls(site, layout):
     return walls, tuple(items["floor"])
 
 
-def _layout_items(layout, key, products, room_w):
+def _layout_items(layout, key, catalogue, room_w):
     out = []
     needs = FLOOR_SHAPE_NEEDS if key == "floor" else SHAPE_NEEDS
     for e in layout.get(key, []):
@@ -322,9 +342,7 @@ def _layout_items(layout, key, products, room_w):
                             f"(on this {'floor' if key == 'floor' else 'wall'}: {', '.join(needs)})")
         dims = {}
         if "product" in e:
-            if e["product"] not in products:
-                raise DataError(f"{LAYOUT}: product '{e['product']}' is not in {SITE}")
-            dims.update(products[e["product"]])
+            dims.update(_product(catalogue, f"{LAYOUT}: {where}", e["product"], ()).size())
         dims.update({k: e[k] for k in ("w", "h", "d") if k in e})
         if e["shape"] in ("zone", "step") and "d" not in dims:
             dims["d"] = room_w                           # zones and the floor step run across the room
