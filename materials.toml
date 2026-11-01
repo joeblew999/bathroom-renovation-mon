@@ -644,7 +644,7 @@ sku = "5614"
 id = "toilet"
 th = "ชักโครก 1 ชิ้น MOYA"
 detail_th = "323 {w_cm} × {h_cm} × {d_cm} ซม. 3/6 ลิตร สีขาว"
-en = "MOYA one-piece toilet"
+en = "MOYA 1-piece toilet"
 detail_en = "323, {w_cm} × {h_cm} × {d_cm} cm, 3/6 L, white"
 size = { w = 375, h = 700, d = 690 }
 unit = "set"

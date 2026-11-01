@@ -6,6 +6,7 @@ Bad data raises DataError, with a message naming the file and the problem.
 """
 import datetime
 import math
+import re
 import string
 import sys
 import tomllib
@@ -61,7 +62,8 @@ def one_of(file, where, key, v, known):
 # "+key" — it always comes with that key; "!" — it is required. Every entry gets the same checks,
 # so no part repeats them: no unknown key, every required key there, the keys in the declared
 # order, each value of its type, keys that come together together, and both languages or
-# neither (th with en, note_th with note_en, any x_th with its x_en).
+# neither (th with en, note_th with note_en, any x_th with its x_en) — with the same {…}
+# placeholders and the same numbers in both, in any order.
 TYPES = {"text": (str, "text"), "table": (dict, "a table"), "list": (list, "a list of tables"),
          "date": (datetime.date, "a date")}
 NUMBERS = {"number": None, "amount": "can't be negative", "count": "must be more than 0",
@@ -105,7 +107,24 @@ def check(file, where, entry, fields, known=None, ordered=True):
         other = _other_language(k)
         if other in fields and other not in entry:
             raise DataError(f"{file}: {where} has {k} but no {other} — give both languages, or neither")
+        if k.endswith("th") and isinstance(entry[k], str) and isinstance(entry.get(other), str):
+            same_facts(file, where, k, other, entry[k], entry[other])
     return entry
+
+
+def _facts(text):
+    """What both languages must share: the {…} placeholders, and the numbers outside them."""
+    fills = re.findall(r"\{[^{}]*\}", text)
+    return sorted(fills), sorted(re.findall(r"\d+(?:\.\d+)?", re.sub(r"\{[^{}]*\}", "", text)))
+
+
+def same_facts(file, where, th_key, en_key, th, en):
+    """Thai and English say the same thing: no test can check the meaning, but both must fill in
+    the same placeholders and give the same numbers ("1-piece", not "one-piece")."""
+    for what, a, b in zip(("placeholders", "numbers"), _facts(th), _facts(en)):
+        if a != b:
+            raise DataError(f"{file}: {where} {th_key} and {en_key} have different {what} "
+                            f"(Thai: {', '.join(a) or 'none'}; English: {', '.join(b) or 'none'})")
 
 
 def _other_language(key):

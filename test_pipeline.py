@@ -35,6 +35,7 @@ import materials
 import phases
 import room
 from build import assemble, tile_lines
+import common
 from common import DataError
 
 HERE = Path(__file__).resolve().parent
@@ -555,6 +556,7 @@ def ref_test(insert):
 
     def change(d):
         last = d["phase"][-1].setdefault("step", [{"id": "ref_test", "th": "-", "en": "-"}])[0]
+        last["th"] += f" · ดูขั้นตอน {{step:{target}}}"
         last["en"] += f" · see step {{step:{target}}}"
         if insert:
             ph = find(d["phase"], "phase with the step", lambda ph: any(s["id"] == target for s in ph.get("step", [])))
@@ -569,6 +571,39 @@ def duplicate_id_test():
         raise LookupError("the data has fewer than two steps, so no id can be used twice")
     first, second = all_steps[0]["id"], all_steps[1]["id"]
     return edit_step(lambda s: s.update(id=first), second), f"step id '{first}' is used twice"
+
+
+def facts_message(where, th_key, en_key, th, en):
+    """The checker's own message for a Thai/English pair, worked out from the texts."""
+    try:
+        common.same_facts("", where, th_key, en_key, th, en)
+    except DataError as e:
+        return str(e).removeprefix(": ")
+    raise LookupError(f"{where} would not differ, so this test has nothing to break")
+
+
+def step_where(sid):
+    ph = find(RAW[PHASES]["phase"], "phase with this step", lambda p: any(s["id"] == sid for s in p.get("step", [])))
+    return f"phase '{ph['id']}' step '{sid}'"
+
+
+def different_numbers_test():
+    """One more number in the English than in the Thai."""
+    s = a_step()
+    return (edit_step(lambda x: x.update(en=x["en"] + " 7"), s["id"]),
+            facts_message(step_where(s["id"]), "th", "en", s["th"], s["en"] + " 7"))
+
+
+def different_placeholders_test():
+    """A placeholder in the English that the Thai doesn't fill in."""
+    key, lab = next(iter(RAW[ROOM]["labels"].items()))
+    return ({ROOM: data(lambda d: d["labels"][key].update(en=d["labels"][key]["en"] + " {x}"))},
+            facts_message(f"[labels] {key}", "th", "en", lab["th"], lab["en"] + " {x}"))
+
+
+def same_numbers_reordered_test():
+    """The same numbers in the other order is fine: word order differs between the languages."""
+    return edit_step(lambda x: x.update(th="1 ก 22", en="22 a 1")), CLEAN
 
 
 def out_of_order_test():
@@ -636,10 +671,13 @@ TESTS = [
     ("checker: keys that come together, one missing (a shop without its code)",
      lambda: (edit_entry(lambda e: "shop" in e, "product with a shop", lambda e: e.pop("sku")), "has shop but no sku")),
     ("checker: one language only", {PHASES: data(lambda d: d["section"].pop("note_en"))}, "has note_th but no note_en"),
+    ("checker: Thai and English giving different numbers", different_numbers_test),
+    ("checker: Thai and English filling in different placeholders", different_placeholders_test),
+    ("checker: Thai and English giving the same numbers in a different order", same_numbers_reordered_test),
     ("checker: an id used twice", duplicate_id_test),
     ("checker: a placeholder the text can't use",
-     {ROOM: data(lambda d: d["labels"]["tile_top"].update(en=d["labels"]["tile_top"]["en"] + " {topp}"))},
-     "tile_top en uses {topp} (it can use: top)"),
+     {ROOM: data(lambda d: d["labels"]["tile_top"].update({k: v + " {topp}" for k, v in d["labels"]["tile_top"].items()}))},
+     "tile_top th uses {topp} (it can use: top)"),
     ("checker: a stray brace", lambda: (edit_item(lambda e: "note_en" in e, "item with a note",
                                                   lambda e: e.update(note_en=e["note_en"] + " {")), "has a stray { or }")),
     ("checker: an empty list (a product with no lines)",
@@ -727,15 +765,15 @@ TESTS = [
      lambda: ({ROOM: data(lambda d: put(find(d["floor"]["item"], "floor rect", lambda e: e["shape"] == "rect"),
                                         "high", "end", room.ITEM))}, "is a rect, so it has no 'high'")),
     ("room: a drawing note that fills in a value",
-     lambda: (edit_item(lambda e: "note_en" in e, "item with a note", lambda e: e.update(note_en="see {phase:x}")),
-              "note_en uses {phase} (it can use: nothing)")),
+     lambda: (edit_item(lambda e: "note_en" in e, "item with a note", lambda e: e.update(note_th="ดู {phase:x}", note_en="see {phase:x}")),
+              "note_th uses {phase} (it can use: nothing)")),
     ("room: a wall set to drawn gets its own drawing", drawn_wall_test),
     ("room: a tiling height that isn't whole tiles counts the cut row", cut_row_test),
     # ---- products: on the material list; their names and sizes are used by the room ----
     ("products: a product's size reaches its detail on the list", size_in_name_test),
     ("products: a detail showing a size the product doesn't have",
-     lambda: (edit_entry(lambda e: "size" not in e, "product without a size", lambda e: e.update(detail_en="sized {w}")),
-              "detail_en uses {w} (it can use: nothing)")),
+     lambda: (edit_entry(lambda e: "size" not in e, "product without a size", lambda e: e.update(detail_th="ขนาด {w}", detail_en="sized {w}")),
+              "detail_th uses {w} (it can use: nothing)")),
     ("products: an item on the drawings takes its product's name",
      lambda: ({MATERIALS: data(lambda d: by_id(d["entry"], find(wall_raw()["item"], "item with a product",
                                                                lambda e: "product" in e)["product"]).update(en="NAME-TEST"))},
@@ -773,8 +811,9 @@ TESTS = [
      "> " + RAW[MATERIALS]["section"]["note_en"].format(
          prices_date=RAW[MATERIALS]["prices_date"].strftime(RAW[MATERIALS]["date_format"]), approx="APPROX-TEST")),
     ("materials: the section note filling in something it can't",
-     {MATERIALS: data(lambda d: d["section"].update(note_en=d["section"]["note_en"] + " {nope}"))},
-     "[section] note_en uses {nope}"),
+     {MATERIALS: data(lambda d: d["section"].update(note_th=d["section"]["note_th"] + " {nope}",
+                                                    note_en=d["section"]["note_en"] + " {nope}"))},
+     "[section] note_th uses {nope}"),
     ("materials: a group's note shows under its heading",
      {MATERIALS: data(lambda d: find(d["group"], "group").update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
      "*GROUP-NOTE-TH*<br>*GROUP-NOTE-EN*"),
@@ -783,9 +822,9 @@ TESTS = [
     ("phases: a reference resolves to its number", lambda: ref_test(insert=False)),
     ("phases: inserting a step renumbers it and its references", lambda: ref_test(insert=True)),
     ("phases: a brace that isn't a reference",
-     lambda: (edit_step(lambda s: s.update(en=s["en"] + " {phase:make-good}")), "that isn't a reference like {step:id}")),
+     lambda: (edit_step(lambda s: s.update(th=s["th"] + " {phase:make-good}", en=s["en"] + " {phase:make-good}")), "that isn't a reference like {step:id}")),
     ("phases: a reference to an id that doesn't exist",
-     lambda: (edit_step(lambda s: s.update(en=s["en"] + " {step:no_such_step}")), "{step:no_such_step} doesn't match")),
+     lambda: (edit_step(lambda s: s.update(th=s["th"] + " {step:no_such_step}", en=s["en"] + " {step:no_such_step}")), "{step:no_such_step} doesn't match")),
 ]
 
 
