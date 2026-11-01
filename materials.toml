@@ -1127,9 +1127,9 @@ sku = "1298026"
   [[entry.line]]
   work_section = "waterproofing_tiles"
   status = "procure"
-  n = 3
-  note_th = "ขอบบนกระเบื้องขาว"
-  note_en = "the white tiles' top edge"
+  n = 5
+  note_th = "ขอบบนกระเบื้องขาว และมุมนอกเสา"
+  note_en = "the white tiles' top edge, and the column's external corners"
 
 [[entry]]
 id = "trim_grey"
@@ -1144,9 +1144,9 @@ sku = "1298008"
   [[entry.line]]
   work_section = "waterproofing_tiles"
   status = "procure"
-  n = 2
-  note_th = "ขอบบนกระเบื้องเทา"
-  note_en = "the grey tiles' top edge"
+  n = 3
+  note_th = "ขอบบนกระเบื้องเทา และจมูกขั้นพื้น"
+  note_en = "the grey tiles' top edge, and the step nosing"
 
 [[entry]]
 id = "drain"
