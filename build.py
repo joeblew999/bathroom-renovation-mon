@@ -39,7 +39,7 @@ STYLE = Path(__file__).with_name("style.css")      # the page's look: fonts, tab
 @dataclass(frozen=True)
 class Quote:
     doc: str             # the filled-in Markdown
-    svgs: dict           # {file name: svg text}
+    svgs: list           # [svg text], one per drawing
     work: phases.Work
     materials: materials.Materials
     room: room.Room
@@ -51,8 +51,9 @@ class Quote:
 def tile_check(m, r):
     """[(tiles needed, boxes on the list)] per tile, and a warning where there are too few. A
     tile and its boxes are matched by product: both name the same entry on the material list."""
-    tiles = [(t, m.boxes_of(t.product)) for t in r.tiles_needed()]
-    short = [dict(tile=(t.th, t.en), planned=f"{planned:g}", boxes=t.boxes) for t, planned in tiles if planned < t.boxes]
+    tiles = [(t, m.boxes_of(t.tile.product)) for t in r.tiles_needed()]
+    short = [dict(tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
+             for t, planned in tiles if planned < t.boxes]
     return tiles, [("materials", (r.labels.th("tile_short", **v), r.labels.en("tile_short", **v))) for v in short]
 
 
@@ -63,8 +64,8 @@ def tile_lines(r, tiles):
     out = []
     for t, planned in tiles:
         parts = tuple(" + ".join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
-        out.append(lab.both("tile_count", tile=(t.th, t.en), need=t.need, parts=parts, boxes=t.boxes,
-                            planned=f"{planned:g}", spare=f"{planned * t.per_box - t.need:g}"))
+        out.append(lab.both("tile_count", tile=(t.tile.th, t.tile.en), need=t.need, parts=parts, boxes=t.boxes,
+                            planned=f"{planned:g}", spare=f"{planned * t.tile.per_box - t.need:g}"))
     return out
 
 
@@ -109,8 +110,7 @@ def pdf(page_html, out):
         browser = pw.chromium.launch()
         page = browser.new_page()
         page.set_content(page_html, wait_until="load")
-        page.pdf(path=str(out), format="A4", print_background=True,
-                 margin=dict(top="14mm", bottom="14mm", left="12mm", right="12mm"))
+        page.pdf(path=str(out), print_background=True, prefer_css_page_size=True)   # size and margins: style.css
         browser.close()
 
 
@@ -118,7 +118,7 @@ def build(md, out_dir):
     """Run the whole pipeline. Returns the warnings. Raises DataError on bad data
     (before anything is written)."""
     q = assemble(md)
-    page = html(q.doc, q.svgs.values())
+    page = html(q.doc, q.svgs)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(page, encoding="utf-8")
     pdf(page, out_dir / PDF_NAME)
@@ -130,10 +130,14 @@ def check(md):
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
     print("Still to buy:", q.materials.total_cell(bold=False))
-    for where, (_, en) in q.warnings:
-        print(f"WARNING ({where}): {en}")
+    print_warnings(q.warnings)
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
           f"{len(q.warnings)} warnings")
+
+
+def print_warnings(warnings):
+    for where, (_, en) in warnings:
+        print(f"WARNING ({where}): {en}")
 
 
 def main(argv):
@@ -144,8 +148,7 @@ def main(argv):
     md = Path(args[0] if args else "bathroom-renovation-quote.md")
     out = Path(args[1] if len(args) > 1 else "out")
     warnings = build(md, out)
-    for where, (_, en) in warnings:
-        print(f"WARNING ({where}): {en}")
+    print_warnings(warnings)
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} warnings")
 
 

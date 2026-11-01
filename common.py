@@ -95,14 +95,23 @@ def check(file, where, entry, fields, known=None, ordered=True):
             flag(file, where, k, v)
         elif not isinstance(v, TYPES[kind][0]):
             raise DataError(f"{file}: {where} '{k}' must be {TYPES[kind][1]}, not {v!r}")
+        elif kind == "list" and not v:
+            raise DataError(f"{file}: {where} '{k}' is empty — leave it out, or give it at least one")
         if partner and partner not in entry:
             raise DataError(f"{file}: {where} has {k} but no {partner} — give both, or neither")
     for k in entry:
-        other = {"th": "en", "en": "th"}.get(k) or (k[:-3] + ("_en" if k.endswith("_th") else "_th")
-                                                    if k.endswith(("_th", "_en")) else None)
+        other = _other_language(k)
         if other in fields and other not in entry:
             raise DataError(f"{file}: {where} has {k} but no {other} — give both languages, or neither")
     return entry
+
+
+def _other_language(key):
+    """th ↔ en, note_th ↔ note_en, x_th ↔ x_en; None for a key with no language."""
+    if key in ("th", "en"):
+        return "en" if key == "th" else "th"
+    stem, _, lang = key.rpartition("_")
+    return f"{stem}_{'en' if lang == 'th' else 'th'}" if lang in ("th", "en") and stem else None
 
 
 def check_each(file, kind, entries, fields, known=None):
@@ -190,7 +199,7 @@ class Labels:
     def __init__(self, file, raw, needed):
         check(file, "[labels]", raw, {k: "table!" for k in needed})
         for key, names in needed.items():
-            check(file, f"[labels] {key}", raw[key], {"th": "text!", "en": "text!"})
+            check(file, f"[labels] {key}", raw[key], NAME)
             for lang in ("th", "en"):
                 placeholders(file, f"[labels] {key} {lang}", raw[key][lang], names)
         self.raw = raw

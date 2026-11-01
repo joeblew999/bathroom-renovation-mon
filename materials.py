@@ -39,7 +39,7 @@ UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 GROUP = {"id": "text!", **NAMED}
 TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
 ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "count",
-         "unit": "@unit!", "price": "amount", "approx": "flag", "shop": "@shop+sku", "sku": "text+shop",
+         "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
          "line": "list!"}
 LINE = {"group": "@group!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
         "by_th": "text", "by_en": "text"}
@@ -53,17 +53,21 @@ LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "bu
 class Rule:
     to_buy: bool         # still to buy: needs a price, counts in the total, marked "buy"
     paid: bool           # on site and paid for: may have the price it cost, shown as paid
-    shop: bool           # has a shop and code (its boxes count); False: has none
     on_site: bool        # already in the bathroom
     by: bool             # the trade brings it: by_th / by_en say who; no price
+
+    @property
+    def shop(self):
+        """Bought from a shop (to buy, or paid for): has a shop and code, and its boxes count."""
+        return self.to_buy or self.paid
 
 
 # Each status's rules, stated once — and their order is the order within a group.
 STATUS = {
-    "buy": Rule(to_buy=True, paid=False, shop=True, on_site=False, by=False),
-    "bought": Rule(to_buy=False, paid=True, shop=True, on_site=True, by=False),
-    "reused": Rule(to_buy=False, paid=False, shop=False, on_site=True, by=False),
-    "supplied": Rule(to_buy=False, paid=False, shop=False, on_site=False, by=True),
+    "buy": Rule(to_buy=True, paid=False, on_site=False, by=False),
+    "bought": Rule(to_buy=False, paid=True, on_site=True, by=False),
+    "reused": Rule(to_buy=False, paid=False, on_site=True, by=False),
+    "supplied": Rule(to_buy=False, paid=False, on_site=False, by=True),
 }
 STATUSES = tuple(STATUS)
 

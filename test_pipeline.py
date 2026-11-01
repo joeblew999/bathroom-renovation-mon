@@ -219,7 +219,7 @@ def run(edits):
         except DataError as e:
             return [], f"ERROR: {e}", None
     warnings = [x for _, w in q.warnings for x in w]
-    return warnings, "\n".join([*warnings, *tile_lines(q.room, q.tiles), q.doc, *q.svgs.values()]), q
+    return warnings, "\n".join([*warnings, *tile_lines(q.room, q.tiles), q.doc, *q.svgs]), q
 
 
 def built(f):
@@ -236,6 +236,15 @@ def joint_test(lang="en"):
     want = getattr(lab, lang)("warn_joint", item=it.label(), axis=real().room.symbols["axis_x"], v=f"{x:g}",
                               d=f"{off:g}")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=x))}, want
+
+
+def joint_y_test():
+    it = find(wall().items, "point below the tile top", lambda i: i.shape == "point" and i.y < real().room.tiles[wall().tile].top)
+    t = real().room.tiles[wall().tile]
+    off = real().room.min_clear / 2
+    y = t.size + off                                         # just above the first horizontal joint
+    return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=y))},
+            warn("warn_joint", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}", d=f"{off:g}"))
 
 
 def clash_test():
@@ -273,14 +282,14 @@ def missing_parent_test():
 
 def tile_boxes_test():
     t = find(real().tiles, "tile with boxes on the list", lambda tp: tp[1] > 0)[0]
-    e = an_entry(f"entry for '{t.product}'", lambda e: e["id"] == t.product)
+    e = an_entry(f"entry for '{t.tile.product}'", lambda e: e["id"] == t.tile.product)
     planned = sum(1 for ln in e["line"] if materials.STATUS[ln["status"]].shop)       # one box per line
 
     def change(d):
-        for ln in by_id(d["entry"], t.product)["line"]:
+        for ln in by_id(d["entry"], t.tile.product)["line"]:
             ln["n"] = 1
     return {MATERIALS: data(change)}, \
-        real().room.labels.en("tile_short", tile=(t.th, t.en), planned=f"{planned:g}", boxes=t.boxes)
+        real().room.labels.en("tile_short", tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
 
 
 def cut_row_test():
@@ -333,6 +342,15 @@ def reused_with_shop_test():
         e.pop("price")
         e["line"] = [{**e["line"][0], "status": "reused"}]
     return edit_entry(to_buy_with_shop, "product still to buy with a shop", change), "is reused, so it has no shop and sku"
+
+
+def make_approx_no_price():
+    """A product bought (its price allowed, not needed) with approx but no price."""
+    def change(e):
+        e.pop("price", None)
+        put(e, "approx", True, materials.ENTRY)
+        e["line"] = [{**e["line"][0], "status": "bought"}]
+    return edit_entry(to_buy_with_shop, "product still to buy with a shop", change)
 
 
 def unit_test(n, form):
@@ -402,7 +420,7 @@ def drawn_wall_test():
     w = find(RAW[ROOM]["wall"], "wall that isn't drawn", lambda w: not w["drawn"])
     lab = real().room.labels
     return ({ROOM: data(lambda d: by_id(d["wall"], w["id"]).update(drawn=True))},
-            lab.en("elevation_title", wall=(w["th"], w["en"]), view=("", "")))
+            lab.en("elevation_title", wall=(w["th"], w["en"])))
 
 
 def tile_product(d):
@@ -453,16 +471,20 @@ TESTS = [
      "tile_top en uses {topp} (it can use: top)"),
     ("checker: a stray brace", lambda: (edit_item(lambda e: "note_en" in e, "item with a note",
                                                   lambda e: e.update(note_en=e["note_en"] + " {")), "has a stray { or }")),
+    ("checker: an empty list (a product with no lines)",
+     lambda: (edit_entry(lambda e: True, "product", lambda e: e.update(line=[])), "'line' is empty")),
     ("checker: broken TOML", {ROOM: lambda t: t + "\n[[wall\n"}, "is not valid TOML"),
     ("checker: a data file missing", {PHASES: None}, f"{PHASES} not found"),
     # ---- the template ----
     ("document: the template missing", {MD: None}, f"{MD} not found"),
-    ("document: each part's section goes where its marker is", {}, built(lambda p: p.work.render()[0])),
+    ("document: each part's section goes where its marker is, in order", {},
+     built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
     # ---- the room: design rules (warnings, in Thai and English) ----
     ("rules: a point moved just off a joint", joint_test),
     ("rules: the same warning, in Thai", lambda: joint_test("th")),
+    ("rules: a point moved just off a horizontal joint", joint_y_test),
     ("rules: an item moved onto another", clash_test),
     ("rules: an item pushed past the end of the wall", wall_end_test),
     ("rules: an item moved without the part that belongs to it", part_outside_test),
@@ -471,7 +493,8 @@ TESTS = [
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
     ("rules: too few tile boxes for the room", tile_boxes_test),
     # ---- the room: bad data ----
-    ("room: not four walls", {ROOM: data(lambda d: d["wall"].pop())}, "3 walls — the room has 4"),
+    ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
+     f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
     ("room: items on a wall that isn't drawn",
      lambda: ({ROOM: data(lambda d: wall_raw(d).update(drawn=False))}, f"wall '{wall_raw()['id']}' has items but isn't drawn")),
     ("room: an item naming a product that isn't on the material list",
@@ -480,6 +503,15 @@ TESTS = [
     ("room: an item with both a product and a name",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", both_names),
               "needs a product or a name (th, en) — one, not both")),
+    ("room: an item with neither a product nor a name",
+     lambda: (edit_item(lambda e: "th" in e, "item with its own name", lambda e: (e.pop("th"), e.pop("en"))),
+              "needs a product or a name (th, en) — one, not both")),
+    ("room: an item taking an id the room works out",
+     lambda: (edit_item(lambda e: e["id"] not in room.BUILT, "item", lambda e: e.update(id=room.BUILT[0])),
+              f"'{room.BUILT[0]}' is worked out from how the room is built")),
+    ("room: a step with no high side",
+     {ROOM: data(lambda d: find(d["floor"]["item"], "step", lambda e: e["shape"] == "step").pop("high"))},
+     "(step) needs 'high'"),
     ("room: a point with no x", lambda: (edit_item(lambda e: e["shape"] == "point", "point", lambda e: e.pop("x")),
                                         "(point) needs 'x'")),
     ("room: a part belonging to an item that isn't there", missing_parent_test),
@@ -507,6 +539,9 @@ TESTS = [
     ("materials: a price change flows into the total", price_test),
     ("materials: a shop with a bad code pattern", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(sku="["))},
      "has a bad sku pattern or link"),
+    ("materials: a shop with a bad link", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(link="{nope}"))},
+     "has a bad sku pattern or link"),
+    ("materials: approximate with no price", lambda: (make_approx_no_price(), "has approx but no price")),
     ("materials: a code that isn't the shop's kind of code", sku_test),
     ("materials: still to buy with no price", no_price_test),
     ("materials: still to buy with no shop", make("buy", price=10), "is buy, so it needs a shop and sku"),

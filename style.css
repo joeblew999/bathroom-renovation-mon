@@ -12,11 +12,10 @@
   code { font-size: 8.5pt; }
   blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #999; background: #f6f6f6; }
   a { color: #1a5276; word-break: break-all; }
-  .drawing { page-break-before: always; text-align: center; }
-  .drawing svg { width: 100%; height: auto; max-height: 265mm; }
 
   /* ---------- the drawings (room.py lays them out; this is their look) ---------- */
   .drawing {
+    page-break-before: always; text-align: center;
     --marker: #c0392b;        /* items, their numbers and tags, warnings */
     --opening: #2e86c1;       /* openings, zones, floor items */
     --opening-fill: #d6eaf8;
@@ -36,7 +35,7 @@
     --outline: #222;
     --paper: #fff;
   }
-  .drawing svg { font-family: Helvetica, Arial, sans-serif; }
+  .drawing svg { width: 100%; height: auto; max-height: 265mm; }
   .drawing .paper { fill: var(--paper); }
   .drawing .title { font-size: 18px; font-weight: bold; }
   .drawing .subtitle, .drawing .key { fill: var(--quiet); }

@@ -22,10 +22,12 @@
 #
 # Each [[entry]] is one product:
 #   id         what room.toml calls it
-#   th, en     its name: the kind and the brand — Thai kind first ("ประตู AZLE"), English
-#              brand first ("AZLE door"); no brand → the kind alone. No shop codes.
-#   detail_th, detail_en   the rest, in the same order in both: model, material, size, pack,
-#              colour, finish — Thai separated by spaces, English by commas. Sizes w × h × d;
+#   th, detail_th, en, detail_en   in this order: the name and the detail, in Thai then English
+#              name: the kind and the brand — Thai kind first ("ประตู AZLE"), English brand
+#              first ("AZLE door"); no brand → the kind alone. No shop codes.
+#              detail: the rest, in the same order in both: model, material, size, pack,
+#              colour, finish, then what it comes with or can do — Thai separated by spaces,
+#              English by commas. A product with a size shows it. Sizes w × h × d, with spaced ×;
 #              inches as " (Thai นิ้ว); a pack as "pack of 3" (Thai แพ็ก 3 …); a length in Thai as
 #              ยาว …. What it is for goes in a line's note, not here. The list shows
 #              "name detail" / "name, detail". Either shows the size with {w} {h} {d} in mm,
@@ -44,10 +46,11 @@
 #   status     "buy"      — still to buy
 #              "bought"   — already on site, paid for
 #              "reused"   — an old fitting on site, reused
-#              "supplied" — the trade brings it: by_th, by_en say who ("ช่างไฟนำมา / electrician provides")
+#              "supplied" — the trade brings it ("ช่างไฟนำมา / electrician provides")
 #   n          how many
 #   note_th, note_en   what it is for here, or advice when buying — never a figure the room
-#              works out, and never the same note on two lines
+#              works out, never a fact held in the phases or the room, never the same note twice
+#   by_th, by_en       supplied lines only: who brings it
 # A product partly on site and partly to buy has two lines (bought n, buy n).
 
 prices_date = 2026-10-31
@@ -281,8 +284,6 @@ sku = "1195815"
   group = "new_wall"
   status = "buy"
   n = 1
-  note_th = "ตัดให้ได้ความยาวที่หน้างาน"
-  note_en = "cut to length on site"
 
 [[entry]]
 id = "block_mortar"
@@ -299,8 +300,6 @@ sku = "1127448"
   group = "new_wall"
   status = "buy"
   n = 1
-  note_th = "ที่เหลือใช้อุดรอบวงกบและช่องทับหลัง"
-  note_en = "the leftover fills round the frame and the lintel pocket"
 
 [[entry]]
 id = "wall_tie"
@@ -355,7 +354,7 @@ id = "door"
 th = "ประตู AZLE"
 detail_th = "WB2 UPVC {w_cm} × {h_cm} ซม. สีน้ำตาลอ่อน"
 en = "AZLE door"
-detail_en = "WB2 UPVC, {w_cm} × {h_cm} cm, light brown"
+detail_en = "WB2, UPVC, {w_cm} × {h_cm} cm, light brown"
 size = { w = 800, h = 2000 }
 unit = "panel"
 price = 2085
@@ -386,9 +385,9 @@ sku = "89869"
 [[entry]]
 id = "hinges"
 th = "บานพับ YALE"
-detail_th = "4 × 3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น"
+detail_th = "สเตนเลส 304 4 × 3 นิ้ว แพ็ก 3 ชิ้น"
 en = "YALE hinges"
-detail_en = "4 × 3\", 304 stainless, pack of 3"
+detail_en = "304 stainless, 4 × 3\", pack of 3"
 unit = "pack"
 price = 199
 shop = "homepro"
@@ -401,9 +400,9 @@ sku = "1123585"
 [[entry]]
 id = "gypsum_board"
 th = "แผ่นยิปซัมทนชื้น DURAONE"
-detail_th = "{d} มม. {w_cm} × {h_cm} ซม."
+detail_th = "{w_cm} × {h_cm} × {d_cm} ซม."
 en = "DURAONE moisture-resistant gypsum board"
-detail_en = "{d} mm, {w_cm} × {h_cm} cm"
+detail_en = "{w_cm} × {h_cm} × {d_cm} cm"
 size = { w = 1200, h = 2400, d = 9 }
 unit = "sheet"
 price = 245
@@ -515,9 +514,9 @@ sku = "1064892"
 [[entry]]
 id = "basin"
 th = "อ่างล้างหน้าแขวน MOYA"
-detail_th = "179 สีขาว"
+detail_th = "179 {w_cm} × {h_cm} × {d_cm} ซม. สีขาว"
 en = "MOYA wall-hung basin"
-detail_en = "179, white"
+detail_en = "179, {w_cm} × {h_cm} × {d_cm} cm, white"
 size = { w = 600, h = 130, d = 310 }
 unit = "piece"
 price = 1190
@@ -532,7 +531,7 @@ sku = "1249118"
 id = "basin_tap"
 th = "ก๊อกอ่างล้างหน้า MOYA"
 detail_th = "832-1"
-en = "MOYA basin faucet"
+en = "MOYA basin tap"
 detail_en = "832-1"
 unit = "fitting"
 price = 929
@@ -607,8 +606,8 @@ sku = "5577"
   group = "plumbing_shared"
   status = "buy"
   n = 2
-  note_th = "จุดน้ำที่ผนัง: อ่างและชักโครก"
-  note_en = "wall outlets: basin and toilet"
+  note_th = "สำหรับจุดน้ำที่ผนัง"
+  note_en = "for the wall outlets"
 
 [[entry]]
 id = "pipe_1_5in"
@@ -645,9 +644,9 @@ sku = "5614"
 [[entry]]
 id = "toilet"
 th = "ชักโครก 1 ชิ้น MOYA"
-detail_th = "323 3/6 ลิตร สีขาว"
+detail_th = "323 {w_cm} × {h_cm} × {d_cm} ซม. 3/6 ลิตร สีขาว"
 en = "MOYA one-piece toilet"
-detail_en = "323, 3/6 L, white"
+detail_en = "323, {w_cm} × {h_cm} × {d_cm} cm, 3/6 L, white"
 size = { w = 375, h = 700, d = 690 }
 unit = "set"
 price = 3490
@@ -672,15 +671,13 @@ sku = "1041021"
   group = "plumbing_toilet"
   status = "buy"
   n = 1
-  note_th = "หลังชักโครก: ทางหนึ่งไปชักโครก อีกทางไปสายฉีดชำระ"
-  note_en = "behind the toilet: one outlet to the toilet, one to the bum gun"
 
 [[entry]]
 id = "bum_gun"
 th = "สายฉีดชำระ"
-detail_th = "หัวฉีดพร้อมสาย"
+detail_th = "หัวฉีดพร้อมสายและขอแขวน"
 en = "Bum gun"
-detail_en = "hand spray with its hose"
+detail_en = "hand spray with its hose and holder"
 unit = "set"
   [[entry.line]]
   group = "plumbing_toilet"
@@ -738,7 +735,7 @@ sku = "5556"
   status = "buy"
   n = 2
   note_th = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง"
-  note_en = "cold supply: toilet, bum gun, basin"
+  note_en = "water supply: toilet, bum gun, basin"
 
 [[entry]]
 id = "elbow_half_in"
@@ -769,8 +766,8 @@ sku = "5570"
   group = "plumbing_shared"
   status = "buy"
   n = 2
-  note_th = "ต่อจากท่อน้ำดีเดิม และแยกไปชักโครกกับอ่าง"
-  note_en = "one off the existing cold line, one to branch to the toilet and the basin"
+  note_th = "ตัวหนึ่งต่อจากท่อน้ำดีเดิม อีกตัวแยกไปชักโครกกับอ่าง"
+  note_en = "one off the existing supply, one to branch to the toilet and the basin"
 
 [[entry]]
 id = "thread_tape"
@@ -809,9 +806,9 @@ sku = "5672"
 [[entry]]
 id = "lamp"
 th = "โคมไฟผนัง IKEA HAVSDUN LED"
-detail_th = "โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน"
+detail_th = "แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม. สีขาว หรี่แสงได้ IP44 690 ลูเมน"
 en = "IKEA HAVSDUN LED wall lamp"
-detail_en = "frosted glass, white, dimmable, IP44, 690 lumens"
+detail_en = "frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, IP44, 690 lumens"
 size = { w = 92, h = 265, d = 106 }
 unit = "lamp"
 price = 1290
@@ -827,9 +824,9 @@ sku = "805.204.31"
 [[entry]]
 id = "lamp_cable"
 th = "สายไฟ VAF-G"
-detail_th = "2×1.5/1.5 ตร.มม. มีสายดิน"
+detail_th = "2 × 1.5/1.5 ตร.มม. มีสายดิน"
 en = "VAF-G cable"
-detail_en = "2×1.5/1.5 mm², with earth"
+detail_en = "2 × 1.5/1.5 mm², with earth"
 unit = "metre"
   [[entry.line]]
   group = "electrical_lamps"
@@ -855,9 +852,9 @@ unit = "set"
 [[entry]]
 id = "shower"
 th = "ชุดฝักบัว"
-detail_th = "พร้อมหัวฝักบัวแบบเรนชาวเวอร์"
+detail_th = "{w_cm} × {h_cm} × {d_cm} ซม. พร้อมหัวฝักบัวแบบเรนชาวเวอร์"
 en = "Shower unit"
-detail_en = "with rain head"
+detail_en = "{w_cm} × {h_cm} × {d_cm} cm, with rain head"
 size = { w = 220, h = 830, d = 510 }
 unit = "set"
   [[entry.line]]
@@ -868,9 +865,9 @@ unit = "set"
 [[entry]]
 id = "heater"
 th = "เครื่องทำน้ำอุ่น"
-detail_th = "พร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์"
+detail_th = "{w_cm} × {h_cm} × {d_cm} ซม. พร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์"
 en = "Water heater"
-detail_en = "with its electrical box, cable and circuit breaker"
+detail_en = "{w_cm} × {h_cm} × {d_cm} cm, with its electrical box, cable and circuit breaker"
 size = { w = 220, h = 400, d = 100 }
 unit = "appliance"
   [[entry.line]]
@@ -891,6 +888,18 @@ unit = "length"
   n = 2
 
 [[entry]]
+id = "heater_stop_valve"
+th = "สต็อปวาล์วเครื่องทำน้ำอุ่น"
+detail_th = "พร้อมฝาครอบเลื่อนได้"
+en = "Water heater stop valve"
+detail_en = "with a sliding cover plate"
+unit = "fitting"
+  [[entry.line]]
+  group = "shower_heater"
+  status = "reused"
+  n = 1
+
+[[entry]]
 id = "mirror"
 th = "กระจกเงากลม MOYA"
 detail_th = "HLP004 Ø {w_cm} ซม."
@@ -909,9 +918,9 @@ sku = "1319896"
 [[entry]]
 id = "shelf"
 th = "ชั้นวางพร้อมราวแขวนผ้า LUZERN"
-detail_th = "AS-5012S สีโครม"
+detail_th = "AS-5012S {w_cm} × {h_cm} × {d_cm} ซม. สีโครม"
 en = "LUZERN shelf with towel rail"
-detail_en = "AS-5012S, chrome"
+detail_en = "AS-5012S, {w_cm} × {h_cm} × {d_cm} cm, chrome"
 size = { w = 620, h = 145, d = 230 }
 unit = "piece"
 price = 799
@@ -925,9 +934,9 @@ sku = "1215163"
 [[entry]]
 id = "roll_holder"
 th = "ที่ใส่กระดาษชำระ KARAT"
-detail_th = "K-17053X เซรามิก สีขาวเงา"
+detail_th = "K-17053X เซรามิก {w_cm} × {h_cm} × {d_cm} ซม. สีขาวเงา"
 en = "KARAT toilet roll holder"
-detail_en = "K-17053X, glossy white ceramic"
+detail_en = "K-17053X, ceramic, {w_cm} × {h_cm} × {d_cm} cm, glossy white"
 size = { w = 160, h = 85, d = 90 }
 unit = "piece"
 price = 340
@@ -938,7 +947,7 @@ sku = "105587"
   status = "buy"
   n = 1
   note_th = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน"
-  note_en = "matches the white bum gun and lamps on the same wall"
+  note_en = "matches the white bum gun and lamps"
 
 [[entry]]
 id = "flex_shield"
@@ -974,9 +983,9 @@ sku = "1271924"
 [[entry]]
 id = "grey_tile"
 th = "กระเบื้องเทา TARA สโตนบลาสด์"
-detail_th = "{w_cm} × {h_cm} ซม. ขอบตรง ผิวด้าน เฉด H07"
+detail_th = "{w_cm} × {h_cm} ซม. เฉด H07 ผิวด้าน ขอบตรง"
 en = "TARA Stone Blast grey tile"
-detail_en = "{w_cm} × {h_cm} cm, rectified, matt, shade H07"
+detail_en = "{w_cm} × {h_cm} cm, shade H07, matt, rectified"
 size = { w = 500, h = 500 }
 per_box = 4
 unit = "box"
@@ -999,7 +1008,7 @@ id = "white_tile"
 th = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว"
 detail_th = "พอร์ซเลน {w_cm} × {h_cm} ซม. ขาวเรียบ ผิวมัน ขอบตรง"
 en = "TARA Triple White New white tile"
-detail_en = "porcelain, {w_cm} × {h_cm} cm, plain, glossy, rectified"
+detail_en = "porcelain, {w_cm} × {h_cm} cm, plain white, glossy, rectified"
 size = { w = 600, h = 600 }
 per_box = 4
 unit = "box"
@@ -1063,9 +1072,9 @@ sku = "1092114"
 [[entry]]
 id = "grout_grey"
 th = "ยาแนว จระเข้ พรีเมี่ยมพลัส"
-detail_th = "สีเทาแกรนิต 1 กก."
+detail_th = "1 กก. สีเทาแกรนิต"
 en = "Crocodile Premium Plus grout"
-detail_en = "granite grey, 1 kg"
+detail_en = "1 kg, granite grey"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -1080,9 +1089,9 @@ sku = "138786"
 [[entry]]
 id = "grout_white"
 th = "ยาแนว จระเข้ พรีเมี่ยมพลัส"
-detail_th = "สีขาวไข่มุก 1 กก."
+detail_th = "1 กก. สีขาวไข่มุก"
 en = "Crocodile Premium Plus grout"
-detail_en = "pearl white, 1 kg"
+detail_en = "1 kg, pearl white"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -1113,10 +1122,10 @@ sku = "1037342"
 
 [[entry]]
 id = "drain"
-th = "ตะแกรงกันกลิ่น DEXZON"
-detail_th = "พลาสติกเหลี่ยม 4 นิ้ว"
+th = "ตะแกรงท่อระบายน้ำพื้น DEXZON"
+detail_th = "พลาสติก เหลี่ยม กันกลิ่น {w_cm} × {d_cm} ซม. 4 นิ้ว"
 en = "DEXZON floor drain grate"
-detail_en = "square, plastic, anti-odour, 4\""
+detail_en = "plastic, square, anti-odour, {w_cm} × {d_cm} cm, 4\""
 size = { w = 100, d = 100 }
 unit = "fitting"
 price = 119

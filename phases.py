@@ -101,7 +101,7 @@ def load(path):
     unresolved = Work(section, (), labels, numbers)
     r = unresolved.resolve
     return Work(tuple(r(s) for s in section), tuple(
-        Phase(ph["id"], p_no, ph["th"], ph["en"], r(ph.get("note_th", "")), r(ph.get("note_en", "")),
+        Phase(ph["id"], p_no, r(ph["th"]), r(ph["en"]), r(ph.get("note_th", "")), r(ph.get("note_en", "")),
               tuple(Step(i, n, r(th), r(en)) for i, n, th, en in steps))
         for ph, p_no, steps in found), labels, numbers)
 

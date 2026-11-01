@@ -22,8 +22,6 @@ wall = "new_wall"
 
 [door]                     # beside the column: the opening is its product's size
 product = "door_frame"
-note_th = "บานพับด้านเสา เปิดเข้า"
-note_en = "hinged on the column side, opens in"
 
 [lintel]                   # over the door opening; its height is its product's
 product = "lintel"
@@ -59,6 +57,7 @@ fill = "#f1f1ee"
 #   x, y       its centre: x from the corner on your right, facing the wall from inside;
 #              y above the lower finished floor. On the floor: x from the second wall, y from the first.
 #   w, h, d    width, height, depth out from the wall (for the floor plan)
+#   high       a step: which end is higher — start (x = 0) or end
 #   part       the id of the item it belongs to (it must sit within it)
 #   note_th, note_en   why or how — never where: a note doesn't repeat what the drawing shows
 # Leave a key out when it does not apply.
@@ -74,9 +73,8 @@ product = "drain"
 shape = "rect"
 x = 2835
 y = 50
-note_th = "ท่อระบายน้ำพื้นเดิม · ชิดผนังหลักพอดี ไม่มีกระเบื้องคั่น (ขยับปลายท่อเดิม ~5 มม.) · อยู่ในกระเบื้องพื้นแผ่นเดียว ตัดบากที่ขอบชิดผนัง"
-note_en = "the existing floor drain · tight against the main wall with no tile between (existing pipe top moved ~5 mm) · inside one floor tile, notched at its wall edge"
-
+note_th = "ขยับปลายท่อเดิม ~5 มม. ให้ชิดผนังโดยไม่มีกระเบื้องคั่น · ตัดบากกระเบื้องพื้นแผ่นที่อยู่ตรงขอบชิดผนัง"
+note_en = "the existing pipe top moved ~5 mm so the grate sits tight to the wall with no tile between · notch the floor tile it sits in at its wall edge"
 [[floor.item]]
 id = "floor_step"
 th = "ขั้นพื้น"
@@ -84,18 +82,9 @@ en = "Floor step"
 shape = "step"
 x = 1000
 h = 50
-note_th = "คงขั้นไว้ ย้ายผิวขั้นมาที่แนวยาแนวกระเบื้องพื้นที่ใกล้ที่สุด — ช่างปูกระเบื้องเสริมผิวขั้นด้วยกาวซีเมนต์ตอนปูพื้น (ขยับเพียงเล็กน้อย) ไม่ต้องสกัดพื้นดี · ด้านอ่างสูงกว่า (แห้ง) ด้านชักโครกและฝักบัวต่ำกว่า (เปียก)"
-note_en = "step kept, its face moved to the nearest floor-tile joint — the tiler builds the step face out to it in tile adhesive when laying the floor (a small move), no cutting into sound floor · the basin end is higher (dry), the toilet and shower end lower (wet)"
-
-# ---------- the walls ----------
-# In order round the room seen from above, clockwise, the first at the top of the floor plan.
-# The order gives everything about where a wall is: its side on the plan (top, right, bottom,
-# left), its corners (facing it from inside: the next wall is on your right, at x = 0; the one
-# before is on your left), and its length (the first and third run along the room's length).
-#   th, en               its name · view_th, view_en: which side it is drawn from (optional)
-#   tag                  its letter on the floor plan (M1, M2 …)
-#   tile                 which tile it gets · drawn: true = it gets its own drawing
-
+high = "start"
+note_th = "ด้านสูงแห้ง ด้านต่ำรับน้ำจากฝักบัว"
+note_en = "the higher side stays dry; the lower side takes the shower water"
 [[wall]]
 id = "main_wall"
 th = "ผนังหลัก"
@@ -109,19 +98,13 @@ id = "lamp_1"
 product = "lamp"
 shape = "rect"
 x = 125
-y = 1768
-note_th = "ข้างกระจก ขอบบนตรงกับขอบบนกระจก · ทั้งดวงอยู่ในแถวบน ไม่คร่อมแนวยาแนว"
-note_en = "beside the mirror, top lined up with the mirror top · wholly in the top tile row, clear of the joints"
-
+y = 1767.5
 [[wall.item]]
 id = "basin"
 product = "basin"
 shape = "rect"
 x = 500
 y = 835
-note_th = "อ่างและกระจกอยู่กึ่งกลางแนวยาแนวเดียวกัน"
-note_en = "basin and mirror centred on the same joint"
-
 [[wall.item]]
 id = "basin_waste"
 th = "ท่อน้ำทิ้งอ่าง"
@@ -130,86 +113,70 @@ shape = "point"
 x = 600
 y = 550
 part = "basin"
-note_th = "ก๊อกอยู่แนวเดียวกันบนอ่าง · ปรับท่อยืดหดของท่อน้ำทิ้งให้พ้นแนวยาแนวนอน — ลองขันเข้ากันก่อนปูกระเบื้อง"
-note_en = "tap in line above, on the basin · set the trap's telescopic pipe to keep clear of the horizontal joint — test-fit before tiling"
-
+note_th = "ปรับท่อยืดหดของท่อน้ำทิ้งให้พ้นแนวยาแนวนอน — ลองขันเข้ากันก่อนปูกระเบื้อง"
+note_en = "set the trap's telescopic pipe to keep clear of the horizontal joint — test-fit before tiling"
 [[wall.item]]
 id = "basin_water"
-th = "จุดน้ำดีอ่าง + สต็อปวาล์ว"
-en = "Basin water outlet + stop valve"
+product = "stop_valve"
 shape = "point"
 x = 400
 y = 550
 part = "basin"
-note_th = "สมมาตรกับท่อน้ำทิ้งรอบแนวยาแนวใต้กึ่งกลางอ่าง ความสูงเท่ากัน · ต่อก๊อกด้วยสายน้ำดี ซ่อนใต้อ่าง"
-note_en = "mirrors the waste about the joint under the basin centre, same height · joined to the tap by a flexible hose, hidden under the basin"
-
+note_th = "จุดน้ำดีอ่าง · ต่อก๊อกด้วยสายน้ำดี ซ่อนใต้อ่าง"
+note_en = "the basin's water outlet · joined to the tap by a flexible hose, hidden under the basin"
 [[wall.item]]
 id = "mirror"
 product = "mirror"
 shape = "circle"
 x = 500
 y = 1600
-note_th = "กึ่งกลางแนวยาแนว ตรงกับอ่าง · เหมาะกับคนสูง 183 ซม. (ตา ~1700) และ 152 ซม. (ตา ~1420)"
-note_en = "centred on a joint, in line with the basin · suits a 183 cm person (eyes ~1700) and a 152 cm person (eyes ~1420)"
-
+note_th = "เหมาะกับคนสูง 183 ซม. (ตา ~1700) และ 152 ซม. (ตา ~1420)"
+note_en = "suits a 183 cm person (eyes ~1700) and a 152 cm person (eyes ~1420)"
 [[wall.item]]
 id = "lamp_2"
 product = "lamp"
 shape = "rect"
 x = 875
-y = 1768
-note_th = "เหมือนโคมไฟ 1"
-note_en = "as lamp 1"
-
+y = 1767.5
 [[wall.item]]
 id = "bum_gun_holder"
-th = "ขอแขวนสายฉีดชำระ"
-en = "Bum gun holder"
+product = "bum_gun"
 shape = "point"
 x = 1000
 y = 450
-note_th = "ใต้ที่ใส่กระดาษชำระ กึ่งกลางแนวยาแนว สกรูสองข้างของแนว"
-note_en = "below the roll holder, centred on a joint, screws either side"
-
+note_th = "ขอแขวนสาย"
+note_en = "its holder"
 [[wall.item]]
 id = "roll_holder"
 product = "roll_holder"
 shape = "rect"
 x = 1000
 y = 700
-note_th = "ระหว่างอ่างกับชักโครก กึ่งกลางแนวยาแนว สกรูสองข้างของแนว"
-note_en = "between the basin and the toilet, centred on a joint, screws either side"
-
 [[wall.item]]
 id = "toilet"
 product = "toilet"
 shape = "rect"
 x = 1500
 y = 350
-note_th = "กึ่งกลางแนวยาแนว ตรงกับชั้นวางด้านบน · ท่อโสโครกที่พื้นอยู่ใต้ตัวชักโครก มองไม่เห็น ตรงแนวยาแนวกระเบื้องพื้นไม่เป็นปัญหา"
-note_en = "centred on a joint, in line with the shelf above · the floor waste is hidden under the toilet, so landing on a floor-tile joint doesn't matter"
-
+note_th = "ท่อโสโครกที่พื้นอยู่ใต้ตัวชักโครก มองไม่เห็น ตรงแนวยาแนวกระเบื้องพื้นไม่เป็นปัญหา"
+note_en = "the floor waste is hidden under the toilet, so landing on a floor-tile joint doesn't matter"
 [[wall.item]]
 id = "toilet_water"
-th = "จุดน้ำชักโครก + สต็อปวาล์ว 2 ทาง"
-en = "Toilet water outlet + 2-way valve"
+product = "stop_valve_2way"
 shape = "point"
 x = 1450
 y = 200
 part = "toilet"
-note_th = "ต่ำ ซ่อนในช่องหลังชักโครก · เลื่อนจากกึ่งกลางชักโครกไปทางสายฉีดชำระ ให้พ้นแนวยาแนว — ยืนยันความสูงกับแบบชักโครก"
-note_en = "low, hidden in the toilet's rear gap · offset from the toilet centre towards the bum gun, clear of the joint — confirm the height against the toilet diagram"
-
+note_th = "จุดน้ำชักโครกและสายฉีดชำระ · เลื่อนจากกึ่งกลางชักโครกไปทางสายฉีดชำระ ให้พ้นแนวยาแนว"
+note_en = "the outlet for the toilet and the bum gun · offset from the toilet centre towards the bum gun, to clear the joint"
 [[wall.item]]
 id = "shelf"
 product = "shelf"
 shape = "rect"
 x = 1500
 y = 1370
-note_th = "เหนือชักโครก ตรงแนวเดียวกัน · จุดยึดที่ปลายสองข้าง · อยู่ในกระเบื้องแถวเดียว ผ้าไม่แตะถังพักน้ำ"
-note_en = "above the toilet, on the same line · mounting points at the two ends · within one tile row, towels clear the cistern"
-
+note_th = "จุดยึดที่ปลายสองข้าง · ผ้าไม่แตะถังพักน้ำ"
+note_en = "mounting points at the two ends · towels clear the cistern"
 [[wall.item]]
 id = "shower_zone"
 th = "ส่วนอาบน้ำ"
@@ -224,9 +191,8 @@ product = "shower"
 shape = "rect"
 x = 2500
 y = 1665
-note_th = "ส่วนบนเหนือขอบกระเบื้องได้ จุดยึดทั้งสองอยู่ในกระเบื้อง"
-note_en = "the top may pass above the tile edge; both fixings are in tile"
-
+note_th = "ส่วนบนเหนือขอบกระเบื้องได้"
+note_en = "the top may pass above the tile edge"
 [[wall.item]]
 id = "shower_lower_fixing"
 th = "ชุดฝักบัว จุดยึดล่าง"
@@ -235,9 +201,8 @@ shape = "point"
 x = 2500
 y = 1450
 part = "shower"
-note_th = "กึ่งกลางแนวยาแนว · สกรูยึดต้องอยู่สองข้างของแนว ไม่ตรงร่องยาแนว · ต่ำกว่าเดิมเล็กน้อย ให้จุดยึดทั้งสองพ้นแนวยาแนวและขอบกระเบื้อง"
-note_en = "centred on a joint · the bracket screws go either side of it, not in the grout line · a little lower than now, so both fixings clear the joints and the tile edge"
-
+note_th = "ต่ำกว่าเดิมเล็กน้อย ให้จุดยึดทั้งสองอยู่ในกระเบื้องและพ้นแนวยาแนว"
+note_en = "a little lower than now, so both fixings sit in tile, clear of the joints"
 [[wall.item]]
 id = "shower_upper_fixing"
 th = "ชุดฝักบัว จุดยึดบน"
@@ -255,16 +220,14 @@ product = "heater"
 shape = "rect"
 x = 2840
 y = 1670
-note_th = "เลื่อนเข้าใกล้มุมผนังหน้าต่าง ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมบนผนังหน้าต่างด้วยสายอ่อนอ้อมมุม"
-note_en = "moved closer to the window-wall corner to make room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from the existing stop tap on the window wall"
+note_th = "ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมบนผนังหน้าต่างด้วยสายอ่อนอ้อมมุม"
+note_en = "makes room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from the existing stop valve on the window wall"
 
 
 [[wall]]
 id = "new_wall"
 th = "ผนังใหม่"
 en = "New wall"
-view_th = "ด้านในห้องน้ำ"
-view_en = "bathroom side"
 tag = "N"
 tile = "white"
 drawn = true
@@ -288,15 +251,13 @@ tile = "white"
 drawn = true
 
 [[wall.item]]
-id = "heater_stop_tap"
-th = "สต็อปวาล์วเครื่องทำน้ำอุ่น"
-en = "Water heater stop tap"
+id = "heater_stop_valve"
+product = "heater_stop_valve"
 shape = "point"
 x = 255
 y = 800
-note_th = "ที่เดิม ไม่ย้าย จ่ายน้ำเข้าเครื่องทำน้ำอุ่นบนผนังหลักอ้อมมุม · ฝาครอบเลื่อนได้ รับความหนากระเบื้องใหม่"
-note_en = "unchanged position, feeds the heater on the main wall round the corner · its sliding cover plate takes up the new tile thickness"
-
+note_th = "ฝาครอบเลื่อนได้ รับความหนากระเบื้องใหม่"
+note_en = "its sliding cover plate takes up the new tile thickness"
 [[wall.item]]
 id = "window"
 th = "หน้าต่าง"
@@ -311,22 +272,22 @@ h = 400
 # {name} fills in a value. Every label has th and en.
 [labels]
 floor_plan = { th = "ผังพื้น", en = "Floor plan" }
-elevation_title = { th = "{wall}{view}", en = "{wall}{view} — elevation" }
+elevation_title = { th = "{wall} — รูปด้าน", en = "{wall} — elevation" }
 viewed_inside = { th = "มองจากในห้องน้ำ", en = "Viewed from inside the bathroom" }
 seen_above = { th = "มองจากด้านบน", en = "Seen from above" }
 mm = { th = "มม.", en = "mm" }
 generated = { th = "สร้างจาก room.toml", en = "generated from room.toml" }
-tile_top = { th = "ขอบกระเบื้อง", en = "tile top {top}" }
+tile_top = { th = "ขอบกระเบื้อง {top}", en = "tile top {top}" }
 floor_higher = { th = "พื้นยกสูง {h}", en = "floor {h} higher" }
-higher = { th = "▲ สูง", en = "higher" }
-lower = { th = "ต่ำ", en = "lower ▼" }
+higher = { th = "สูง", en = "higher" }
+lower = { th = "ต่ำ", en = "lower" }
 floor = { th = "พื้น", en = "floor" }
 items = { th = "รายการ", en = "Items" }
-x_from = { th = "{axis} จาก{wall}", en = "from the {wall}" }
+x_from = { th = "{axis} จาก{wall}", en = "{axis} from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
 see_notes = { th = "ดูหมายเหตุ", en = "see notes" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
-all_clear = { th = "✓ ทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "✓ Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
+all_clear = { th = "ทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }
 warn_joint = { th = "{item}: {axis} {v} ห่างแนวยาแนวเพียง {d} มม.", en = "{item}: {axis} {v} is only {d} mm from a joint" }
 warn_past_end = { th = "{item}: เลยปลายผนัง", en = "{item}: runs past the end of the wall" }
@@ -344,3 +305,6 @@ height = "H"
 none = "—"   # no value (a zone's height)
 times = "×"
 warning = "⚠"
+ok = "✓"     # the all-clear
+up = "▲"     # the higher side of the floor step
+down = "▼"

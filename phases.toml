@@ -2,7 +2,7 @@
 #
 # Phases and steps are numbered by their position here (phase 1, 2, … · step 1.1, 1.2, …).
 # Refer to them in this file by id:
-#   {phase:make_good}  -> 5        {step:clear_mark}  -> 1.8
+#   {phase:make_good} -> that phase's number      {step:clear_mark} -> that step's number (phase.step)
 # so inserting or moving a step renumbers every reference.
 #
 # Each phase: id, th, en, optional note_th / note_en.
@@ -59,12 +59,12 @@ en = "Remove the water heater, its hoses, the shower head and the electrical box
 
 [[phase.step]]
 id = "stop_tap_off"
-th = "ถอดสต็อปวาล์วที่จ่ายน้ำเข้าเครื่องทำน้ำอุ่น เก็บไว้ใช้ต่อ แล้วอุดปลายท่อ — ท่อไม่ย้าย"
-en = "Take off the stop tap that feeds the water heater, keep it, and cap the pipe — the pipe itself doesn't move"
+th = "ถอดสต็อปวาล์วเครื่องทำน้ำอุ่น เก็บไว้ใช้ต่อ แล้วอุดปลายท่อ — ท่อไม่ย้าย"
+en = "Take off the water heater's stop valve, keep it, and cap the pipe — the pipe itself doesn't move"
 
 [[phase.step]]
 id = "ceiling_out"
-th = "ถอดโคมไฟเพดานเดิมและรื้อสายออกทั้งเส้น · รื้อฝ้าห้องน้ำออกทั้งหมด (แผ่นและโครง) รวมถึงแผ่นฝ้าห้องนั่งเล่นที่อยู่เลยแนวผนังใหม่ — ยกออกทั้งแผ่น ไม่ต้องตัด เพราะโครงฝ้าห้องนั่งเล่นตรงกับแนวผนังใหม่พอดี"
+th = "ถอดโคมไฟเพดานเดิมและรื้อสายออกทั้งเส้น · รื้อฝ้าห้องน้ำออกทั้งหมด (แผ่นและโครง) รวมถึงแผ่นฝ้าห้องนั่งเล่นที่อยู่ฝั่งห้องน้ำของแนวผนังใหม่ — ยกออกทั้งแผ่น ไม่ต้องตัด เพราะโครงฝ้าห้องนั่งเล่นตรงกับแนวผนังใหม่พอดี"
 en = "Remove the old ceiling light and pull out its cable · take down the whole bathroom ceiling (tiles and grid), plus the living-room ceiling tiles on the bathroom side of the new wall line — whole tiles lift out, no cutting, because the living-room grid lines up exactly with the new wall"
 
 [[phase.step]]
@@ -79,8 +79,8 @@ en = "Take the debris away and dispose of it properly — the builder pays the f
 
 [[phase.step]]
 id = "clear_mark"
-th = "ขูดหรือเจียรก้อนปูนเดิมออกจากผนัง ตรวจด้วยไม้บรรทัดยาว 2 ม. และทำเครื่องหมายจุดที่ไม่เรียบเกิน 3 มม. (กระเบื้องขอบตรงร่องแคบจะเห็นทุกจุด) — อุดในขั้น {phase:make_good}"
-en = "Scrape or grind the old mortar lumps off the walls, check them with a 2 m straightedge, and mark anywhere out by more than 3 mm (rectified tiles with tight joints show every bump) — filled in phase {phase:make_good}"
+th = "ขูดหรือเจียรก้อนปูนเดิมออกจากผนัง ตรวจด้วยไม้บรรทัดยาว 2 ม. และทำเครื่องหมายจุดที่ไม่เรียบเกิน 3 มม. (ร่องยาแนวแคบจะเห็นทุกจุด) — อุดในขั้น {phase:make_good}"
+en = "Scrape or grind the old mortar lumps off the walls, check them with a 2 m straightedge, and mark anywhere out by more than 3 mm (tight grout joints show every bump) — filled in phase {phase:make_good}"
 
 [[phase]]
 id = "build_wall"
@@ -101,8 +101,8 @@ en = "Set the precast lintel over the door opening, cut to length on site, one e
 
 [[phase.step]]
 id = "frame"
-th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา"
-en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall"
+th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา · อุดรอบวงกบและช่องทับหลังด้วยปูนก่ออิฐมวลเบาที่เหลือ"
+en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall · fill round the frame and the lintel pocket with the leftover AAC block mortar"
 
 [[phase]]
 id = "build_ceiling"
@@ -146,8 +146,8 @@ en = "**Lamps:** chase the lamp cable from the switch along the main wall to the
 
 [[phase.step]]
 id = "heater_cable"
-th = "**เครื่องทำน้ำอุ่น:** เลื่อนเข้าหามุมผนังหน้าต่าง (ภาพผนังหลัก) ใช้สายเดิม ถ้าไม่ถึง ต่อในกล่องไฟฟ้าเครื่องทำน้ำอุ่น ไม่ต่อในผนัง · เก็บปลายสายทั้งหมด — วงจรเดิมมีกันดูด 30 mA แล้ว"
-en = "**Water heater:** it moves towards the window-wall corner (main wall drawing) on its existing cable; if the cable doesn't reach, join it inside the heater's electrical box, never in the wall · cap all the cable ends — the circuit already has 30 mA earth-leakage protection"
+th = "**เครื่องทำน้ำอุ่น:** ไปตำแหน่งใหม่ตามภาพผนังหลัก ใช้สายเดิม ถ้าไม่ถึง ต่อในกล่องไฟฟ้าเครื่องทำน้ำอุ่น ไม่ต่อในผนัง · เก็บปลายสายทั้งหมด — วงจรเดิมมีกันดูด 30 mA แล้ว"
+en = "**Water heater:** to its new position on the main wall drawing, on its existing cable; if the cable doesn't reach, join it inside the heater's electrical box, never in the wall · cap all the cable ends — the circuit already has 30 mA earth-leakage protection"
 
 [[phase.step]]
 id = "toilet_waste"
@@ -156,13 +156,13 @@ en = "**Toilet waste:** cut a trench from the old toilet position to the new one
 
 [[phase.step]]
 id = "cold_supply"
-th = "**น้ำดี:** เซาะร่องผนังหลักฝังท่อน้ำดีไปชักโครกและอ่าง ตำแหน่งตามภาพผนังหลักและแบบติดตั้งของชักโครกและอ่าง (แนวท่อจริงจะระบุภายหลัง) · จุดน้ำเครื่องทำน้ำอุ่นใช้ที่เดิม ไม่ย้าย"
-en = "**Cold water:** chase the main wall for the supply to the toilet and the basin — positions from the main wall drawing and the toilet and basin installation diagrams (exact routes to be confirmed) · the water heater's supply stays where it is"
+th = "**น้ำดี:** เซาะร่องผนังหลักฝังท่อน้ำดีไปชักโครกและอ่าง ตำแหน่งตามภาพผนังหลักและแบบติดตั้งของชักโครกและอ่าง (แนวท่อจริงจะระบุภายหลัง)"
+en = "**Cold water:** chase the main wall for the supply to the toilet and the basin — positions from the main wall drawing and the toilet and basin installation diagrams (exact routes to be confirmed)"
 
 [[phase.step]]
 id = "toilet_outlet"
-th = "**จุดน้ำชักโครก:** ชักโครกและสายฉีดชำระใช้จุดน้ำเดียวกันหลังชักโครก ด้วยสต็อปวาล์ว 2 ทาง — ตำแหน่งตามภาพผนังหลัก ความสูงตามแบบชักโครก เข้าถึงได้ทางช่องว่างด้านหลังชักโครก"
-en = "**Toilet outlet:** the toilet and the bum gun share one outlet behind the toilet, with a 2-way stop valve — where the main wall drawing shows it, at the height on the toilet's diagram, reached through the gap at the back of the toilet"
+th = "**จุดน้ำชักโครก:** ชักโครกและสายฉีดชำระใช้จุดน้ำเดียวกันหลังชักโครก ด้วยสต็อปวาล์ว 2 ทาง — ตำแหน่งตามภาพผนังหลัก ยืนยันความสูงกับแบบชักโครก เข้าถึงได้ทางช่องว่างด้านหลังชักโครก"
+en = "**Toilet outlet:** the toilet and the bum gun share one outlet behind the toilet, with a 2-way stop valve — where the main wall drawing shows it, its height confirmed against the toilet's diagram, reached through the gap at the back of the toilet"
 
 [[phase.step]]
 id = "basin_waste"
@@ -196,8 +196,8 @@ en = "**Walls and column:** fill with ready-mix mortar — the broken edges wher
 
 [[phase.step]]
 id = "plaster"
-th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. (กระเบื้องขอบตรงจะเห็นทุกจุดที่ไม่เรียบ) แล้วปล่อยให้แห้ง"
-en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat with a 2 m straightedge (rectified tiles show every bump), then let it cure"
+th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. (ร่องยาแนวแคบจะเห็นทุกจุดที่ไม่เรียบ) แล้วปล่อยให้แห้ง"
+en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat with a 2 m straightedge (tight grout joints show every bump), then let it cure"
 
 [[phase.step]]
 id = "skim"
@@ -238,18 +238,18 @@ en = "Embed fibre mesh tape in the first coat at every joint that can crack: the
 id = "tile"
 th = "ปูกระเบื้อง"
 en = "Tile"
-note_th = "**กระเบื้องทั้งหมดเป็นกระเบื้องขอบตรง (Rectified)** ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวตามระยะที่ระบุในภาพ หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
-note_en = "**All tiles are rectified.** Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp fixings, screws) clear of the joints by the distance stated on the drawings, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
+note_th = "ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวตามระยะที่ระบุในภาพ หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
+note_en = "Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp fixings, screws) clear of the joints by the distance stated on the drawings, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
 
 [[phase.step]]
 id = "main_wall_tiles"
-th = "**ผนังหลัก:** ไม่ต้องตัด — กระเบื้องทุกแผ่นบนพื้นและผนังหลักหันทิศทางเดียวกัน (ดูลูกศรหลังแผ่น) ให้ลายต่อเนื่อง และแนวยาแนวผนังตรงกับแนวยาแนวพื้น · แถวกระเบื้องวัดจากพื้นต่ำ แถวล่างฝั่งอ่าง (ด้านสูงของขั้นพื้น) ตัดสั้นลงเท่าความสูงขั้น"
-en = "**Main wall:** no cuts — every tile on the floor and the main wall facing the same direction (check the arrows on the back) so the pattern runs on, with the wall joints lined up with the floor joints · rows run level from the lower floor; on the basin side of the step (the higher floor) the bottom row is cut shorter by the step height"
+th = "**ผนังหลัก:** ปูให้กระเบื้องหันทิศทางเดียวกับกระเบื้องพื้น (ดูลูกศรหลังแผ่น) ให้ลายต่อเนื่อง และแนวยาแนวผนังตรงกับแนวยาแนวพื้น · แถวกระเบื้องวัดจากพื้นด้านต่ำ แถวล่างด้านพื้นสูงตัดสั้นลงเท่าความสูงขั้น"
+en = "**Main wall:** lay the tiles facing the same way as the floor tiles (check the arrows on the back) so the pattern runs on, with the wall joints lined up with the floor joints · rows run level from the lower floor; where the floor is higher, the bottom row is cut shorter by the step height"
 
 [[phase.step]]
 id = "door_end_tiles"
-th = "**ผนังด้านประตู:** ผนังข้างประตูและหน้าเสาตัดจากกระเบื้อง 1 แผ่นต่อแถว"
-en = "**Door end:** the wall beside the door and the column face are both cut from one tile per row"
+th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา"
+en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column"
 
 [[phase.step]]
 id = "step_tiles"
@@ -258,13 +258,13 @@ en = "**Step:** dry-lay the floor tiles from the new wall, find the joint neares
 
 [[phase.step]]
 id = "floor_tiles"
-th = "**พื้น:** ปูกระเบื้องทับกระเบื้องพื้นเดิม (แน่นดี) 2 ระดับ — ฝั่งอ่าง (ด้านสูงของขั้น) และฝั่งชักโครกและฝักบัว · ใช้ความลาดเอียงเดิมลงท่อระบายน้ำ · แผ่นตัดตามผังพื้น"
-en = "**Floor:** tile over the existing (solid) floor tiles, on 2 levels — the basin end (the higher side of the step) and the toilet and shower end · keep the existing slope to the drain · cuts as on the floor plan"
+th = "**พื้น:** ปูกระเบื้องทับกระเบื้องพื้นเดิม (แน่นดี) ทั้งสองระดับของขั้นพื้น · ใช้ความลาดเอียงเดิมลงท่อระบายน้ำ · แผ่นตัดตามผังพื้น"
+en = "**Floor:** tile over the existing (solid) floor tiles, on both levels of the step · keep the existing slope to the drain · cuts as on the floor plan"
 
 [[phase.step]]
 id = "drain"
-th = "**ท่อระบายน้ำ:** ตั้งตะแกรงท่อระบายน้ำบนท่อเดิมให้เสมอกระเบื้องใหม่ (พื้นสูงขึ้นประมาณ 12–15 มม.)"
-en = "**Drain:** set the drain grate on the existing pipe, level with the new tiles (the floor rises about 12–15 mm)"
+th = "**ท่อระบายน้ำ:** ตั้งตะแกรงท่อระบายน้ำบนท่อเดิมให้เสมอกระเบื้องใหม่"
+en = "**Drain:** set the drain grate on the existing pipe, level with the new tiles"
 
 [[phase.step]]
 id = "grout"
@@ -293,8 +293,8 @@ en = "Hang the new door, and drill and fit the bathroom knob"
 
 [[phase.step]]
 id = "toilet"
-th = "ติดตั้งชักโครกใหม่ และสายฉีดชำระเดิม ทั้งคู่ต่อจากสต็อปวาล์ว 2 ทางหลังชักโครก สายฉีดชำระเดินไปที่ขอแขวนระหว่างอ่างกับชักโครก"
-en = "Install the new toilet and refit the existing bum gun, both fed from the 2-way stop valve behind the toilet, with the bum gun hose running to its holder between the basin and the toilet"
+th = "ติดตั้งชักโครกใหม่ และสายฉีดชำระเดิม ทั้งคู่ต่อจากสต็อปวาล์ว 2 ทางหลังชักโครก สายฉีดชำระเดินไปที่ขอแขวน (ภาพผนังหลัก)"
+en = "Install the new toilet and refit the existing bum gun, both fed from the 2-way stop valve behind the toilet, with the bum gun hose running to its holder (main wall drawing)"
 
 [[phase.step]]
 id = "basin"
@@ -304,7 +304,7 @@ en = "Install the wall-hung basin — fixed securely into the wall itself (not j
 [[phase.step]]
 id = "heater_shower"
 th = "ใส่สต็อปวาล์วเครื่องทำน้ำอุ่นกลับที่เดิม · ติดตั้งเครื่องทำน้ำอุ่นเดิมพร้อมกล่องไฟฟ้าและสายน้ำดีเดิม และชุดฝักบัว ที่ผนังหลัก"
-en = "Refit the water heater's stop tap in its original place · refit the existing water heater with its electrical box and its existing hoses, and the shower unit, on the main wall"
+en = "Refit the water heater's stop valve in its original place · refit the existing water heater with its electrical box and its existing hoses, and the shower unit, on the main wall"
 
 [[phase.step]]
 id = "accessories"
@@ -313,8 +313,8 @@ en = "Install the mirror, the shelf with towel rail, and the toilet roll holder"
 
 [[phase.step]]
 id = "lamps"
-th = "ติดตั้งโคมไฟผนังข้างกระจกทั้งสองข้าง"
-en = "Fit the wall lamps either side of the mirror"
+th = "ติดตั้งโคมไฟผนัง (ภาพผนังหลัก)"
+en = "Fit the wall lamps (main wall drawing)"
 
 [[phase.step]]
 id = "plate"
