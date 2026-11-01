@@ -1,7 +1,7 @@
 # site.toml — the room, the design rules, the four walls, the tiles and every product size. Units: mm.
-# Read by drawings.py; the drawings, the checks and the tile counts are worked out from it.
+# Read by drawings/; the drawings, the checks and the tile counts are worked out from it.
 # Things that follow from these (the column, the door opening, the lintel, the window on
-# its wall, the door on the floor plan) are worked out in drawings.py, never typed here.
+# its wall, the door on the floor plan) are worked out in drawings/, never typed here.
 
 # ---------- the room ----------
 [room]
@@ -35,8 +35,8 @@ min_clear = 20             # every hole at least this far from a tile joint (or 
                            # — checked on the drawings, and printed under each one
 
 # ---------- the four walls ----------
-# Names used on every drawing, and which tile each wall gets (counted in the tile check).
-# Each wall's length, and which corner x is measured from, follow from the room (drawings.py).
+# Names used on every drawing, and which tile each wall gets (one of [tiles] below).
+# Each wall's length, and which corner x is measured from, follow from the room (drawings/).
 [walls.main_wall]
 th = "ผนังหลัก"
 en = "Main wall"
@@ -59,16 +59,30 @@ th = "ผนังยาวตรงข้าม"
 en = "Opposite long wall"
 tile = "white"
 
+# ---------- the floor ----------
+[floor]
+tile = "grey"
+
 # ---------- tiles ----------
-[grey_tile]                # floor + main wall
+# One table per tile; its name ([tiles.NAME]) is what the floor, the walls and the material
+# list (tile = "…") call it. A new tile is a new table here — no code changes.
+#   th       its colour in Thai, for the tile counts
+#   size     square tile, mm          per_box  tiles in a box
+#   top      tiled up to this height on a wall, mm
+#   fill     its colour on the drawings
+[tiles.grey]               # the floor + the main wall
+th = "เทา"
 size = 500
 per_box = 4
 top = 2000
+fill = "#d9d9d6"
 
-[white_tile]               # the other 3 walls
+[tiles.white]              # the other 3 walls
+th = "ขาว"
 size = 600
 per_box = 4
 top = 1200
+fill = "#f1f1ee"
 
 # ---------- product sizes (layout.toml: product = "…"; w wide, h high, d deep) ----------
 [products.toilet]          # MOYA 323

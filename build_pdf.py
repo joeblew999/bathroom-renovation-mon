@@ -6,7 +6,7 @@ none of them knows the others exist:
 
   phases.py      phases.toml               → the phases section
   materials.py   materials.toml            → the material list
-  drawings.py    site.toml + layout.toml   → the floor plan and the wall elevations
+  drawings/      site.toml + layout.toml   → the floor plan and the wall elevations
 
 This file puts them into the document skeleton (bathroom-renovation-quote.md) and checks
 the one fact two parts share: the tile boxes on the material list against the tiles the
@@ -36,7 +36,6 @@ from common import DataError
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
 TITLE = "รายละเอียดหน้างานห้องน้ำใหม่ / New Bathroom Work Details"
-COLOUR_TH = {"grey": "เทา", "white": "ขาว"}
 CSS = """
   @page { size: A4; margin: 14mm 12mm; }
   body { font-family: "Helvetica", "Arial", "Loma", "Sarabun", "Noto Sans Thai", sans-serif;
@@ -88,7 +87,7 @@ def tile_lines(d, tiles):
         spare = planned * t.per_box - t.need
         d_th = " + ".join(f"{names[s][0]} {n}" for s, n in t.parts)
         d_en = " + ".join(f"{names[s][1]} {n}" for s, n in t.parts)
-        out.append(f"กระเบื้อง{COLOUR_TH[t.colour]} {t.need} แผ่น ({d_th}) → ต้องใช้ {t.boxes} กล่อง "
+        out.append(f"กระเบื้อง{t.th} {t.need} แผ่น ({d_th}) → ต้องใช้ {t.boxes} กล่อง "
                    f"วางแผนไว้ {planned:g} กล่อง (เหลือ {spare:g} แผ่น) / {t.colour} {t.need} tiles ({d_en}) "
                    f"→ {t.boxes} boxes needed, {planned:g} planned ({spare:g} spare tiles)")
     return out
@@ -156,8 +155,7 @@ def check(md):
     print("Still to buy:", materials.sum_cell(*q.materials.still_to_buy(), bold=False))
     for where, w in q.warnings:
         print(f"WARNING ({where}): {w}")
-    items = q.materials.items
-    print(f"Materials: {len(items)} items, {sum(1 for x in items if x.status in ('bought', 'reused'))} on site · "
+    print(f"Materials: {len(q.materials.items)} items, {q.materials.on_site()} on site · "
           f"{len(q.warnings)} warnings")
 
 

@@ -112,7 +112,7 @@ TESTS = [
     ("data: broken TOML",
      lambda t: t + "\n[[main_wall\n", None, "is not valid TOML"),
     ("site: a number missing from site.toml",
-     None, None, "[grey_tile] needs 'size'", lambda t: t.replace("size = 500\n", "", 1)),
+     None, None, "[tiles.grey] has no 'size'", lambda t: t.replace("size = 500\n", "", 1)),
     ("rules: the clearance from site.toml is printed on the drawings", None, None,
      lambda p: f"at least {p.drawings.min_clear} mm off a joint"),
     ("notes: a drawing note that refers to a phase is refused",

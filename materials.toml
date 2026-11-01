@@ -4,10 +4,13 @@
 #   2. status  — within a group: buy, then bought, then reused, then supplied
 # Items with the same group and status keep the order written here.
 #
-# The groups are defined here and nowhere else: materials don't refer to the phases or the
+# The shops, the suppliers and the groups are defined here and nowhere else: materials don't refer to the phases or the
 # drawings, and they don't refer to materials. The work can be rewritten, split or reordered
 # without touching this file, and the other way round.
 #
+# Each shop: id, name, sku (what its product codes look like, a regular expression), link (the
+#   product page: {sku} is the code, {sku_digits} the code without its dots).
+# Each supplier (a trade that brings things itself): id, th, en — shown as "th / en".
 # Each group: id, th, en.
 # Each item:
 #   group    the id of one of the groups below (things used all over go under whole_room)
@@ -22,10 +25,27 @@
 #   unit     shown after the quantity, e.g. "กล่อง / boxes"
 #   approx   true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   tile     a tile colour ("grey" / "white"): n counts as boxes of it in the tile check
-#   by       who brings a supplied item: "electrician"
-#   shop     where it is bought: "homepro" or "ikea" (not for reused or supplied items)
+#   by       who brings a supplied item: the id of a supplier
+#   shop     where it is bought: the id of a shop (not for reused or supplied items)
 #   sku      the shop's product code; the product link is built from shop + sku
 # An item that is partly on site and partly to buy is two items (bought n, buy n).
+
+[[shop]]
+id = "homepro"
+name = "HomePro"
+sku = '\d+'
+link = "https://www.homepro.co.th/p/{sku}"
+
+[[shop]]
+id = "ikea"
+name = "IKEA"
+sku = '\d{3}\.\d{3}\.\d{2}'
+link = "https://www.ikea.com/th/th/p/-{sku_digits}/"
+
+[[supplier]]
+id = "electrician"
+th = "ช่างไฟนำมา"
+en = "electrician provides"
 
 [[group]]
 id = "new_wall"

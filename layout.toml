@@ -1,4 +1,4 @@
-# layout.toml — every position in the bathroom. drawings.py reads and checks it (tile joints,
+# layout.toml — every position in the bathroom. drawings/ reads and checks it (tile joints,
 # clashes, parts) and draws the floor plan and wall elevations from it.
 #
 # Units: mm. Each wall is seen from inside the bathroom, facing it.

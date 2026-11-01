@@ -5,8 +5,12 @@ about the phases or the drawings.
     m = load(Path("materials.toml"))
     m.render()          # the material list as Markdown table rows — the PDF prints exactly this
     m.still_to_buy()    # (total, whether any of it is approximate)
+    m.on_site()         # how many items are already on site (bought or reused)
     m.tile_colours()    # the tile colours the list names
     m.tile_boxes(c)     # how many boxes of one tile colour are on the list
+
+The groups, the shops and the suppliers are defined in materials.toml; the only fixed list
+here is the four statuses, because each one has its own rules (what needs a price, a shop…).
 
 Ordered by exactly two things written in the file: the group (in the order the groups are
 listed), then the status (buy, bought, reused, supplied); items with the same group and status keep
@@ -23,21 +27,34 @@ from common import DataError, flag, md_cell, need, number, only, read_toml
 
 FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
+SHOP_KEYS = {"id", "name", "sku", "link"}
+SUPPLIER_KEYS = {"id", "th", "en"}
 ITEM_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku", "by"}
 STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
-# Who brings a supplied item: "ไทย / English" as shown in the list.
-SUPPLIERS = {"electrician": "ช่างไฟนำมา / electrician provides"}
-# Where things are bought: the shop's name, what its SKUs look like, and the product page.
-SHOPS = {
-    "homepro": ("HomePro", r"\d+", lambda sku: f"https://www.homepro.co.th/p/{sku}"),
-    "ikea": ("IKEA", r"\d{3}\.\d{3}\.\d{2}", lambda sku: f"https://www.ikea.com/th/th/p/-{sku.replace('.', '')}/"),
-}
 APPROX = "ประมาณ / approx."
 ABOUT = "ประมาณ / about"
 
 
 @dataclass(frozen=True)
 class Group:
+    id: str
+    th: str
+    en: str
+
+
+@dataclass(frozen=True)
+class Shop:
+    id: str
+    name: str            # "HomePro"
+    sku: str             # what its product codes look like (a regular expression)
+    link: str            # the product page, with {sku} or {sku_digits} (the code without dots)
+
+    def url(self, sku):
+        return self.link.format(sku=sku, sku_digits=re.sub(r"\D", "", sku))
+
+
+@dataclass(frozen=True)
+class Supplier:
     id: str
     th: str
     en: str
@@ -55,18 +72,18 @@ class Material:
     unit: str = ""
     approx: bool = False
     tile: str = None
-    shop: str = None     # an id in SHOPS
+    shop: Shop = None    # where it is bought
     sku: str = None      # the shop's product code
-    by: str = None       # who brings a supplied item: an id in SUPPLIERS
+    by: Supplier = None  # who brings a supplied item
 
     @property
     def shop_name(self):
-        return SHOPS[self.shop][0] if self.shop else ""
+        return self.shop.name if self.shop else ""
 
     @property
     def link(self):
         """The product page, built from the shop and the SKU."""
-        return SHOPS[self.shop][2](self.sku) if self.shop else None
+        return self.shop.url(self.sku) if self.shop else None
 
     @property
     def total(self):
@@ -87,6 +104,10 @@ class Materials:
     def in_order(self, group):
         """The materials of one group as the list shows them: by status, then file order."""
         return sorted((m for m in self.items if m.group == group.id), key=lambda m: STATUSES.index(m.status))
+
+    def on_site(self):
+        """How many items are already on site."""
+        return sum(1 for m in self.items if m.status in ("bought", "reused"))
 
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
@@ -117,20 +138,34 @@ class Materials:
 def load(path):
     """Read and check materials.toml."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"group", "item"})
-    groups = []
-    for g in raw.get("group", []):
-        where = f"group '{g.get('id', '?')}'"
-        only(FILE, where, g, GROUP_KEYS)
-        need(FILE, where, g, ("id", "th", "en"))
-        if any(x.id == g["id"] for x in groups):
-            raise DataError(f"{FILE}: group id '{g['id']}' is used twice")
-        groups.append(Group(g["id"], g["th"], g["en"]))
+    only(FILE, "the file", raw, {"shop", "supplier", "group", "item"})
+    shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
+    for s in shops.values():
+        try:
+            re.compile(s.sku)
+            s.url("0")
+        except (re.error, KeyError, IndexError, ValueError) as e:
+            raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
+    suppliers = {e["id"]: Supplier(**e) for e in _defined(raw, "supplier", SUPPLIER_KEYS)}
+    groups = tuple(Group(**e) for e in _defined(raw, "group", GROUP_KEYS))
     ids = {g.id for g in groups}
-    return Materials(tuple(groups), tuple(_item(it, ids) for it in raw.get("item", [])))
+    return Materials(groups, tuple(_item(it, ids, shops, suppliers) for it in raw.get("item", [])))
 
 
-def _item(it, group_ids):
+def _defined(raw, kind, keys):
+    """The [[kind]] entries, each with exactly `keys` and a unique id."""
+    seen = set()
+    for e in raw.get(kind, []):
+        where = f"{kind} '{e.get('id', '?')}'"
+        only(FILE, where, e, keys)
+        need(FILE, where, e, sorted(keys))
+        if e["id"] in seen:
+            raise DataError(f"{FILE}: {kind} id '{e['id']}' is used twice")
+        seen.add(e["id"])
+    return raw.get(kind, [])
+
+
+def _item(it, group_ids, shops, suppliers):
     where = f"'{it.get('name', '?')[:40]}'"
     only(FILE, where, it, ITEM_KEYS)
     need(FILE, where, it, ("name", "group", "status", "n"))
@@ -153,8 +188,8 @@ def _item(it, group_ids):
         raise DataError(f"{FILE}: {where} is {it['status']}, so it has no price")
     if it["status"] == "supplied":
         need(FILE, where, it, ("by",))
-        if it["by"] not in SUPPLIERS:
-            raise DataError(f"{FILE}: {where} has by = {it['by']!r} (must be one of: {', '.join(SUPPLIERS)})")
+        if it["by"] not in suppliers:
+            raise DataError(f"{FILE}: {where} has by = {it['by']!r} (must be one of: {', '.join(suppliers)})")
     elif "by" in it:
         raise DataError(f"{FILE}: {where} is {it['status']}, so it has no 'by' (only supplied items do)")
     if "tile" in it and not isinstance(it["tile"], str):
@@ -164,13 +199,15 @@ def _item(it, group_ids):
             raise DataError(f"{FILE}: {where} is {it['status']}, so it has no shop or sku")
     else:
         need(FILE, where, it, ("shop", "sku"))
-        if it["shop"] not in SHOPS:
-            raise DataError(f"{FILE}: {where} has shop {it['shop']!r} (must be one of: {', '.join(SHOPS)})")
-        if not isinstance(it["sku"], str) or not re.fullmatch(SHOPS[it["shop"]][1], it["sku"]):
-            raise DataError(f"{FILE}: {where} has sku {it['sku']!r}, which isn't a {SHOPS[it['shop']][0]} code")
+        if it["shop"] not in shops:
+            raise DataError(f"{FILE}: {where} has shop {it['shop']!r} (must be one of: {', '.join(shops)})")
+        shop = shops[it["shop"]]
+        if not isinstance(it["sku"], str) or not re.fullmatch(shop.sku, it["sku"]):
+            raise DataError(f"{FILE}: {where} has sku {it['sku']!r}, which isn't a {shop.name} code")
     return Material(name=it["name"], note=it.get("note", ""), group=it["group"], status=it["status"],
                     n=it["n"], price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
-                    tile=it.get("tile"), shop=it.get("shop"), sku=it.get("sku"), by=it.get("by"))
+                    tile=it.get("tile"), shop=shops.get(it.get("shop")), sku=it.get("sku"),
+                    by=suppliers.get(it.get("by")))
 
 
 # ---------- the cells of the list ----------
@@ -193,7 +230,7 @@ def money_cell(m):
 
 def site_cell(m):
     if m.status == "supplied":
-        return SUPPLIERS[m.by]
+        return f"{m.by.th} / {m.by.en}"
     return "ซื้อ / buy" if m.status == "buy" else "✓"
 
 
