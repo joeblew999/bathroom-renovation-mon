@@ -53,7 +53,7 @@ materials.toml  ──► materials.py    + materials_design_checks.py   ─┼�
      ▲                                                              │
      │ the room names products by id (rule 6)                       │
 room.toml       ──► room.py         + room_design_checks.py        ─┤
-                         └─► room_drawings.py + drawing_design_checks.py ─┘
+                   └─► room_drawings.py + drawing_design_checks.py ─┘
 ```
 
 `build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
