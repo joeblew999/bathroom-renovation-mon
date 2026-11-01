@@ -69,7 +69,13 @@ class Quote:
 
 # ---------- the one fact two parts share ----------
 def tile_check(m, d):
-    """[(tiles needed, boxes on the list)] per colour, and a warning where there are too few."""
+    """[(tiles needed, boxes on the list)] per colour, and a warning where there are too few.
+    A tile colour on the list that the room doesn't have is bad data, and stops the build."""
+    have = [t.colour for t in d.tiles_needed()]
+    for colour in m.tile_colours():
+        if colour not in have:
+            raise DataError(f"{materials.FILE}: tile = {colour!r} is not a tile on the drawings "
+                            f"(they have: {', '.join(have)})")
     tiles = [(t, m.tile_boxes(t.colour)) for t in d.tiles_needed()]
     return tiles, [("materials", f"{t.colour} tile: {planned:g} boxes planned but {t.boxes} needed")
                    for t, planned in tiles if planned < t.boxes]

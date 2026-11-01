@@ -20,7 +20,7 @@
 #   price    the unit price, in baht
 #   unit     shown after the quantity, e.g. "กล่อง / boxes"
 #   approx   true: the price is approximate ("ประมาณ / approx."), and the total is rounded
-#   tile     "grey" / "white": n counts in the tile check
+#   tile     a tile colour ("grey" / "white"): n counts as boxes of it in the tile check
 #   shop     where it is bought: "homepro" or "ikea" (not for reused fittings)
 #   sku      the shop's product code; the product link is built from shop + sku
 # An item that is partly on site and partly to buy is two items (bought n, buy n).

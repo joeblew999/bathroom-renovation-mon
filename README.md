@@ -61,7 +61,8 @@ Bad data raises one `DataError` naming the file and the problem; the build print
 - a value of the wrong type (a number typed as text, `approx = "yes"`)
 - a missing number in `site.toml`, or a door that doesn't fit in the new wall
 - a drawing item: with no shape or an unknown shape, missing what its shape needs (a rect without a height), naming a product that isn't in `site.toml`, sharing its number with another item, or belonging (`part`) to an item that isn't there
-- a material: naming a group the file doesn't define, a status that isn't `buy`, `bought` or `reused`, no quantity, something to buy with no price, a reused fitting with a price, a missing or unknown shop, an SKU that isn't that shop's kind of code, or a tile colour that isn't grey or white
+- a material: naming a group the file doesn't define, a status that isn't `buy`, `bought` or `reused`, no quantity, something to buy with no price, a reused fitting with a price, a missing or unknown shop, or an SKU that isn't that shop's kind of code
+- a tile colour on the material list that isn't a tile on the drawings (checked in `build_pdf.py`, the one place that sees both)
 - a `{phase:…}` / `{step:…}` reference that matches nothing, or a phase or step id used twice
 - a drawing note with a reference in braces (drawing notes stand on their own)
 - a `<!-- generated:… -->` marker missing from the document

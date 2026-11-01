@@ -5,7 +5,8 @@ about the phases or the drawings.
     m = load(Path("materials.toml"))
     m.render()          # the material list as Markdown table rows — the PDF prints exactly this
     m.still_to_buy()    # (total, whether any of it is approximate)
-    m.tile_boxes(c)     # how many boxes of the grey or white tile are on the list
+    m.tile_colours()    # the tile colours the list names
+    m.tile_boxes(c)     # how many boxes of one tile colour are on the list
 
 Ordered by exactly two things written in the file: the group (in the order the groups are
 listed), then the status (buy, bought, reused); items with the same group and status keep
@@ -24,7 +25,6 @@ FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
 ITEM_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku"}
 STATUSES = ("buy", "bought", "reused")          # also the order within a group
-TILE_COLOURS = ("grey", "white")
 # Where things are bought: the shop's name, what its SKUs look like, and the product page.
 SHOPS = {
     "homepro": ("HomePro", r"\d+", lambda sku: f"https://www.homepro.co.th/p/{sku}"),
@@ -89,6 +89,11 @@ class Materials:
         buy = [m for m in self.items if m.status == "buy"]
         return sum(m.total for m in buy), any(m.approx for m in buy)
 
+    def tile_colours(self):
+        """Every tile colour the list names, as written. Whether the room has that tile is
+        not this file's business: build_pdf.py checks it against the drawings."""
+        return sorted({m.tile for m in self.items if m.tile})
+
     def tile_boxes(self, colour):
         return sum(m.n for m in self.items if m.tile == colour)
 
@@ -142,8 +147,8 @@ def _item(it, group_ids):
         raise DataError(f"{FILE}: {where} is to buy but has no price")
     if it["status"] == "reused" and "price" in it:
         raise DataError(f"{FILE}: {where} is reused, so it has no price")
-    if "tile" in it and it["tile"] not in TILE_COLOURS:
-        raise DataError(f"{FILE}: {where} has tile = {it['tile']!r} (must be one of: {', '.join(TILE_COLOURS)})")
+    if "tile" in it and not isinstance(it["tile"], str):
+        raise DataError(f"{FILE}: {where} 'tile' must be text (a tile colour), not {it['tile']!r}")
     if it["status"] == "reused":
         if "shop" in it or "sku" in it:
             raise DataError(f"{FILE}: {where} is reused, so it has no shop or sku")
