@@ -1,6 +1,6 @@
 # room.toml — the room: its size and walls, the tiles, every item on the walls and the floor,
 # and the wording on the drawings. Units: mm. room.py reads it and draws it.
-# A product is named by its id on the material list (materials.toml): an item that names one
+# A product is named by its id on the materials schedule (materials.toml): an item that names one
 # takes its name and size from there, never typed here.
 # Every named thing has th and en; an item, the column, the door and the lintel can also have a
 # note (note_th, note_en).

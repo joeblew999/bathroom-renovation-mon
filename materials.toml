@@ -1,5 +1,5 @@
 # materials.toml — every product, once: what it is, how it's bought, and its lines on the list.
-# materials.py reads it and renders the material list; room.toml names products by id and takes
+# materials.py reads it and renders the materials schedule; room.toml names products by id and takes
 # their names and sizes from here. The list is ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused, then supplied

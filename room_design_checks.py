@@ -1,7 +1,7 @@
-"""The room's design checks: problems with the space, found in a room that is otherwise well
+"""The room's design checks — setting out and clashes: problems found in a room that is otherwise well
 written (room.py has read and checked room.toml, and worked out every wall and item).
 
-    room_design_checks.warnings(room)          # [(wall id or "floor", (th, en))] — every space problem
+    room_design_checks.warnings(room)          # [(wall id or "floor", (th, en))] — every setting-out or clash problem
     room_design_checks.wall_warnings(room, w)  # one wall's, (th, en) each — shown under its drawing
     room_design_checks.floor_warnings(room)    # the floor's — shown under the floor plan
     room_design_checks.joints_x(wall, size)    # where the vertical tile joints fall (room.py draws them)
@@ -32,7 +32,7 @@ def warnings(room):
 
 
 def wall_warnings(room, wall):
-    """Every space problem on one wall, as (th, en)."""
+    """Every setting-out or clash problem on one wall, as (th, en)."""
     t = room.tiles[wall.tile]
     return (_construction_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.top)
             + _clash_warnings(room, wall) + _part_warnings(room, wall))

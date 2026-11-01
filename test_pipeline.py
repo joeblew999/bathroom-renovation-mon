@@ -790,7 +790,7 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- room design (room_design_checks.py): problems with the space, in Thai and English, in red under the drawing ----
+    # ---- room design (room_design_checks.py): setting out and clashes, in Thai and English, in red under the drawing ----
     ("room design check: a point moved just off a joint", joint_test),
     ("room design check: the same problem, in Thai", lambda: joint_test("th")),
     ("room design check: a point moved just off a horizontal joint", joint_y_test),
@@ -816,7 +816,7 @@ TESTS = [
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
     ("room design check: the door wider than its wall beside the column", door_test),
     ("room design check: a lintel shorter than the door and its bearing", lintel_short_test),
-    # ---- materials design (materials_design_checks.py): problems with the quantities on the list ----
+    # ---- materials design (materials_design_checks.py): quantities — the take-off against the materials schedule ----
     ("materials design check: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
     ("materials design check: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
@@ -827,9 +827,9 @@ TESTS = [
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
     ("room: items on a wall that isn't drawn",
      lambda: ({ROOM: data(lambda d: wall_raw(d).update(drawn=False))}, f"wall '{wall_raw()['id']}' has items but isn't drawn")),
-    ("room: an item naming a product that isn't on the material list",
+    ("room: an item naming a product that isn't on the materials schedule",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", lambda e: e.update(product="no_such_product")),
-              "names product 'no_such_product', which is not on the material list")),
+              "names product 'no_such_product', which is not on the materials schedule")),
     ("room: an item with both a product and a name",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", both_names),
               "needs a product or a name (th, en) — one, not both")),
@@ -857,7 +857,7 @@ TESTS = [
                                         "(point) needs 'x'")),
     ("room: a part belonging to an item that isn't there", missing_parent_test),
     ("room: a tile whose product has no tiles-per-box",
-     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the material list to have a per_box"),
+     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the materials schedule to have a per_box"),
     ("room: a tiling height that isn't a whole number",
      {ROOM: data(lambda d: find(d["tile"], "tile").update(top=find(d["tile"], "tile")["top"] + 0.5))},
      "'top' must be a whole number more than 0"),
@@ -873,7 +873,7 @@ TESTS = [
               "note_th uses {phase} (it can use: nothing)")),
     ("room: a wall set to drawn gets its own drawing", drawn_wall_test),
     ("room: a tiling height that isn't whole tiles counts the cut row", cut_row_test),
-    # ---- products: on the material list; their names and sizes are used by the room ----
+    # ---- products: on the materials schedule; their names and sizes are used by the room ----
     ("products: a product's size reaches its detail on the list", size_in_name_test),
     ("products: a detail showing a size the product doesn't have",
      lambda: (edit_entry(lambda e: "size" not in e, "product without a size", lambda e: e.update(detail_th="ขนาด {w}", detail_en="sized {w}")),

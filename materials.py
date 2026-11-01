@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""The material list: materials.toml, read, checked, ordered and rendered. It knows nothing
+"""The materials schedule: materials.toml, read, checked, ordered and rendered. It knows nothing
 about the phases or the drawings.
 
     m = load(Path("materials.toml"))
-    m.render()          # the material list as Markdown table rows — the PDF prints exactly this
+    m.render()          # the materials schedule as Markdown table rows — the PDF prints exactly this
     m.products          # {id: Product} — every product's name, detail and size (the room uses them)
     m.still_to_buy()    # (total, whether any of it is approximate)
     m.on_site()         # how many lines are already on site
@@ -18,7 +18,7 @@ Ordered by exactly two things written in the file: the group (in the order the g
 listed), then the status (in STATUS order); lines with the same group and status keep the order
 of their products in the file.
 
-Usage:  python3 materials.py [materials.toml]    (prints the material list)
+Usage:  python3 materials.py [materials.toml]    (prints the materials schedule)
 """
 import re
 import sys

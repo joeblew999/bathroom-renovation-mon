@@ -49,7 +49,7 @@ description = "Print the tile counts, the still-to-buy total and any design prob
 run = "python build.py --summary"
 
 [tasks.materials]
-description = "Print the material list — the same table the PDF prints"
+description = "Print the materials schedule — the same table the PDF prints"
 run = "python materials.py"
 
 [tasks.phases]

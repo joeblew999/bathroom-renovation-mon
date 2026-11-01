@@ -1,5 +1,5 @@
-"""The material list's design checks: problems with the quantities on the list, found when it is
-set against what the room needs.
+"""The materials schedule's design checks — quantities: the quantity take-off from the drawings,
+set against what the schedule orders.
 
     tiles, warnings = materials_design_checks.tile_check(materials, tiles_needed)
 

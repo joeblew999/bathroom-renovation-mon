@@ -1,9 +1,9 @@
 """The room: room.toml, read, checked, worked out and drawn. It knows nothing about the phases;
-the products on the material list are handed to it (for their names and sizes).
+the products on the materials schedule are handed to it (for their names and sizes).
 
     r = load(Path("room.toml"), products)   # products = {id: Product}, from materials.load()
     r.render()          # [svg text] — the floor plan, then each drawn wall
-    r.warnings()        # [(wall id or "floor", (th, en))] — every space problem (room_design_checks.py)
+    r.warnings()        # [(wall id or "floor", (th, en))] — every setting-out or clash problem (room_design_checks.py)
     r.tiles_needed()    # [TilesNeeded] — tiles per tile, worked out from the room
 
   1. read       room.toml against the fields declared below (common.check)
@@ -109,7 +109,7 @@ def _check(raw):
 @dataclass(frozen=True)
 class Tile:
     id: str              # what the floor and walls call it
-    product: str         # its id on the material list
+    product: str         # its id on the materials schedule
     th: str
     en: str
     size: int            # square, mm (from the product)
@@ -200,7 +200,7 @@ class Room:
         return out
 
     def warnings(self):
-        """Every space problem: the design checks in room_design_checks.py."""
+        """Every setting-out or clash problem: the design checks in room_design_checks.py."""
         return room_design_checks.warnings(self)
 
     def render(self, plan_warnings=()):
@@ -225,13 +225,13 @@ def load(path, products):
 
 
 def _product(products, where, pid, needs=()):
-    """A product on the material list that has the sizes `needs`."""
+    """A product on the materials schedule that has the sizes `needs`."""
     if pid not in products:
-        raise DataError(f"{FILE}: {where} names product '{pid}', which is not on the material list")
+        raise DataError(f"{FILE}: {where} names product '{pid}', which is not on the materials schedule")
     p = products[pid]
     for k in needs:
         if getattr(p, k) is None:
-            raise DataError(f"{FILE}: {where} needs product '{pid}' on the material list to have a {k}")
+            raise DataError(f"{FILE}: {where} needs product '{pid}' on the materials schedule to have a {k}")
     return p
 
 
