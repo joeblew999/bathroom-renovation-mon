@@ -10,8 +10,8 @@ length = 3000              # along the main wall
 width = 1380               # along the new wall and the window wall
 ceiling = 2800
 
-[new_wall]
-length = 1300              # the rest of the room width is the existing column
+[column]
+width = 80                 # the existing column at the start of the door's wall; the new wall fills the rest
 
 [door]
 product = "door_frame"     # the opening is the frame's size (materials.toml); hinged on the column side, opens in

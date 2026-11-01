@@ -28,7 +28,7 @@ from .svg import draw_plan, draw_wall
 ROOM_FILE = "room.toml"
 ROOM_KEYS = {
     "room": {"length", "width", "ceiling"},
-    "new_wall": {"length"},
+    "column": {"width"},
     "old_wall": {"step"},
     "window": {"from_corner", "width", "sill", "height"},
     "rules": {"min_clear"},
@@ -119,7 +119,7 @@ class Room:
     length: float        # along the main wall
     width: float         # along the new wall and the window wall
     ceiling: float
-    new_wall_length: float
+    column: float        # the existing column's width, at the start of the door's wall
     min_clear: float     # the design rule: every hole at least this far from a tile joint
     tiles: dict          # {name: Tile}
     floor_tile: str      # the name of the floor's tile
@@ -130,9 +130,9 @@ class Room:
     products_used: frozenset   # every product id the drawings take a size from
 
     @property
-    def column(self):
-        """The column's width: the rest of the room width, at the x = 0 end of the door's wall."""
-        return self.width - self.new_wall_length
+    def new_wall_length(self):
+        """The new wall: the rest of the door's wall after the column."""
+        return self.width - self.column
 
     def tiles_needed(self):
         """Tiles needed per tile: the floor and each wall's tiled run, by the tile each one has."""
@@ -184,7 +184,7 @@ def load(path, catalogue):
     used = ({e["product"] for k in drawn + ("floor",) for e in layout.get(k, []) if "product" in e}
             | {t.product for t in tiles.values()} | {door.id, lintel.id})
     v = lambda key, name_: _value(room, key, name_)             # noqa: E731
-    return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("new_wall", "length"),
+    return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("column", "width"),
                 v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels,
                 room["plan"], frozenset(used))
 
@@ -282,9 +282,10 @@ def _check_room(room, tiles, door, door_wall):
     need(ROOM_FILE, "[plan]", plan, PLAN_SIDES)
     for side in PLAN_SIDES:
         one_of(ROOM_FILE, "[plan]", side, plan[side], walls)
-    if _value(room, "new_wall", "length") - door.w <= 0:
-        raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit "
-                        f"in the new wall ({_value(room, 'new_wall', 'length')})")
+    new_wall = _value(room, "room", "width") - _value(room, "column", "width")
+    if new_wall - door.w <= 0:
+        raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit in the new wall ({new_wall:g}: "
+                        f"the room's width less the column)")
 
 
 def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
@@ -304,8 +305,8 @@ def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
 
     v = lambda key, name_: _value(room, key, name_)             # noqa: E731
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
-    new_wall_l, door_w, door_h = v("new_wall", "length"), door.w, door.h
-    column, solid = room_w - new_wall_l, new_wall_l - door_w
+    column, door_w, door_h = v("column", "width"), door.w, door.h
+    solid = room_w - column - door_w                                  # the new wall beside the door
     items = {k: _layout_items(layout, k, catalogue, room_w) for k in drawn + ("floor",)}
 
     # This design's rules: the existing column is at the x = 0 end of the door's wall, with the

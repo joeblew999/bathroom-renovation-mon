@@ -25,7 +25,7 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 |---|---|
 | `phases.toml` | The work: phases and steps — prose for the builder |
 | `materials.toml` | Every product, once: its names and size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups |
-| `room.toml` | The room: its size; each wall (which way it runs, the walls at either end, whether it's drawn); the floor plan's sides; the tiles, door, lintel and window (and which wall each is in); the design rules; the drawing wording; and every position on the walls and floor |
+| `room.toml` | The room: its size; each wall (which way it runs, the walls at either end, whether it's drawn); the floor plan's sides; the existing column, the tiles, door, lintel and window (and which wall each is in); the design rules; the drawing wording; and every position on the walls and floor |
 | `bathroom-renovation-quote.md` | The template: the title, then a section marker per part, in page order |
 | `style.css` | The page's look |
 | `phases.py`, `materials.py`, `room/` | The parts: each reads its own file and renders its section |
