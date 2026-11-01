@@ -5,7 +5,8 @@ drawings; the room's take-off and the materials list's counts and costs are hand
     lab = load(Path("labour.toml"), take_off, materials)
         # take_off = {name: (value, unit)} from room.take_off(); materials = the loaded materials list
     lab.render(materials_total)   # the labour section as Markdown, with its total and the grand total
-    lab.total()         # (labour total, whether any of it is approximate)
+    lab.total()         # (labour total at the rates, whether any of it is approximate)
+    lab.with_factor()   # (the same with Factor F's overhead, profit and interest on the bare rates)
 
 Every rate names the book it comes from and its item there (README rule 10); a rate with no book is a
 stand-in, marked assumed. Each line's quantity comes from exactly one place — the room's take-off, a count of
@@ -22,10 +23,11 @@ from common import NAME, NAMED, DataError, Labels, assumed, both, check, check_e
 
 FILE = "labour.toml"
 FILE_FIELDS = {"checked": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
-               "labels": "table!", "symbols": "table!", "book": "list!", "unit": "list!", "work_section": "list!",
+               "labels": "table!", "symbols": "table!", "factor_f": "table!", "book": "list!", "unit": "list!", "work_section": "list!",
                "rate": "list!", "line": "list!"}
 SYMBOLS = {k: "text!" for k in ("currency", "times", "percent", "dot")}
-BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "item_th": "text!", "item_en": "text!"}
+BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "item_th": "text!", "item_en": "text!", "bare": "flag"}
+FACTOR_F = {**NAME, "value": "count!", "standard": "text!", "url": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
 RATE = {"id": "text!", **NAME, "unit": "@unit!", "rate": "amount!", "book": "@book+url", "item": "text+book",
@@ -36,7 +38,8 @@ LINE = {"rate": "@rate!", "work_section": "@work_section!", "take_off": "text", 
 SOURCE_UNIT = {"count": "set", "of_products": "percent"}  # the rate unit these sources need (take_off: its own)
 BY_LENGTH = "metre"       # products bought by the metre are counted in metres, not sets (the unit id both lists use)
 LABELS = {"item": (), "qty": (), "amount": (), "book_note": ("note",), "of_products": ("percent", "cost"),
-          "labour_total": (), "grand_total": (), "approx": (), "about": ()}
+          "labour_total": (), "factor_qty": ("base", "factor"), "with_factor": (), "grand_total": (), "approx": (),
+          "about": ()}
 DECIMALS = 1                                              # a measured quantity is shown, and priced, to this
 
 
@@ -51,6 +54,7 @@ class Rate:
     item: str            # its item in the book, as the book names it ("item 2.3.1" / "HomePro 7000164"), or ""
     book_note: int       # or the number of the note in the book it comes from, or None (a stand-in has neither)
     approx: bool         # a stand-in (assumed), or a share of materials (the book gives a range)
+    bare: bool           # from a book of bare rates: Factor F adds overhead, profit and interest to it
 
 
 @dataclass(frozen=True)
@@ -77,11 +81,25 @@ class Labour:
     labels: Labels
     symbols: dict
     round_approx: int
+    factor: dict         # Factor F: its names, value, standard and page (labour.toml [factor_f])
     assumed: tuple = ()  # [(where, key, value)]: values not yet known for real (README rule 10)
 
     def total(self):
-        """(labour total, whether any of it is approximate)."""
+        """(labour total at the rates as written, whether any of it is approximate)."""
         return sum(m.amount for m in self.lines), any(m.approx for m in self.lines)
+
+    def bare(self):
+        """What the lines priced at bare rates add up to: the base Factor F is put on."""
+        return sum(m.amount for m in self.lines if m.rate.bare)
+
+    def overhead(self):
+        """Factor F's overhead, profit and interest: the bare lines × (Factor F − 1)."""
+        return self.bare() * (self.factor["value"] - 1)
+
+    def with_factor(self):
+        """(labour with overhead and profit, whether any of it is approximate) — the builder's price for it."""
+        total, approx = self.total()
+        return total + self.overhead(), approx
 
     def money(self, v):
         """Baht: whole when it is whole, else to the satang, so every line adds up as shown."""
@@ -107,8 +125,14 @@ class Labour:
                 rows += [f"| {note_cell(snth, snen)} | | |"] if snth else []
             rows += [f"| {self.name_cell(m)} | {self.qty_cell(m)} | {self.amount_cell(m)} |" for m in lines]
         total, approx = self.total()
-        grand, grand_approx = total + materials_total[0], approx or materials_total[1]
+        priced, _ = self.with_factor()
+        f = self.factor
+        grand, grand_approx = priced + materials_total[0], approx or materials_total[1]
         rows.append(f"| **{L.both('labour_total')}** | | **{self.total_text(total, approx)}** |")
+        rows.append(f"| {md_cell(both(f['th'], f['en']))} ({f['standard']}) "
+                    f"| {L.both('factor_qty', base=self.money(round(self.bare(), 2)), factor=f'{f["value"]:g}')} "
+                    f"| {self.total_text(self.overhead(), approx)} |")
+        rows.append(f"| **{L.both('with_factor')}** | | **{self.total_text(priced, approx)}** |")
         rows.append(f"| **{L.both('grand_total')}** | | **{self.total_text(grand, grand_approx)}** |")
         return rows
 
@@ -157,7 +181,7 @@ def load(path, take_off, materials):
         b = books.get(e.get("book"))
         item = both(b["item_th"].format(item=e["item"]), b["item_en"].format(item=e["item"])) if "item" in e else ""
         rates[e["id"]] = Rate(e["id"], e["th"], e["en"], e["unit"], units[e["unit"]], e["rate"], item, e.get("book_note"),
-                              "assumed" in e or e["unit"] == "percent")
+                              "assumed" in e or e["unit"] == "percent", bool(b and b.get("bare")))
     products = materials.products
     known = {"rate": rates, "work_section": [s[0] for s in sections]}
     lines = []
@@ -165,8 +189,11 @@ def load(path, take_off, materials):
         where = f"line {i} ({e['rate']})"
         guesses += assumed(e, f"{FILE} {where}")
         lines.append(_line(e, where, rates[e["rate"]], take_off, materials, products))
+    factor = check(FILE, "[factor_f]", raw["factor_f"], FACTOR_F)
+    if factor["value"] < 1:
+        raise DataError(f"{FILE}: [factor_f] value is {factor['value']:g} — a Factor F adds to the cost, so it is 1 or more")
     return Labour(_section(raw, labels, books), sections, tuple(lines), labels, raw["symbols"], raw["round_approx"],
-                  tuple(guesses))
+                  factor, tuple(guesses))
 
 
 def _section(raw, labels, books):

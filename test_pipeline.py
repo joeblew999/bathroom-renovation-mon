@@ -860,16 +860,33 @@ def by_the_metre_test():
 
 
 def labour_totals_test():
-    """The labour total is every line added up, and the grand total adds what the materials still cost."""
+    """The labour total is every line added up, and the grand total adds what the materials still cost to the
+    labour with Factor F's overhead."""
     def expect(p):
         total, approx = p.labour.total()
+        priced, _ = p.labour.with_factor()
         mt, ma = p.materials.still_to_buy()
-        want = [p.labour.total_text(total, approx), p.labour.total_text(total + mt, approx or ma)]
+        want = [p.labour.total_text(total, approx), p.labour.total_text(priced + mt, approx or ma)]
         got = [ln for ln in p.doc.splitlines() if p.labour.labels.both("labour_total") in ln or
                p.labour.labels.both("grand_total") in ln]
         ok = len(got) == 2 and want[0] in got[0] and want[1] in got[1] and abs(total - sum(m.amount for m in p.labour.lines)) < 1e-9
         return want[1] if ok else f"(totals shown: {got}; expected {want})"
     return {}, built(expect)
+
+
+def factor_f_test():
+    """Factor F goes on the lines priced from a book of bare rates, and on no others: Factor F set to 2 for the
+    test, so the overhead is exactly what those lines add up to, worked out here from the data."""
+    bare_books = {b["id"] for b in RAW[LABOUR]["book"] if b.get("bare")}
+    bare_rates = {r["id"] for r in RAW[LABOUR]["rate"] if r.get("book") in bare_books}
+
+    def expect(p):
+        base = sum(m.amount for m in p.labour.lines if m.rate.id in bare_rates)
+        total, approx = p.labour.total()
+        want = [p.labour.labels.both("factor_qty", base=p.labour.money(round(base, 2)), factor="2"),
+                p.labour.total_text(total + base, approx)]
+        return want[1] if all(w in p.doc for w in want) else f"(expected {want} on the page)"
+    return {LABOUR: data(lambda d: d["factor_f"].update(value=2))}, built(expect)
 
 
 def labour_data_test(change, message):
@@ -1239,6 +1256,9 @@ TESTS = [
     ("labour: a share of materials is its percent of what they still cost", share_line_test),
     ("labour: the labour total, and the grand total with the materials", labour_totals_test),
     ("labour: products bought by the metre are counted in metres", by_the_metre_test),
+    ("labour: Factor F's overhead goes on the bare rates only", factor_f_test),
+    ("labour: a Factor F below 1",
+     {LABOUR: data(lambda d: d["factor_f"].update(value=0.5))}, "[factor_f] value is 0.5 — a Factor F adds to the cost"),
     ("labour: a book naming its items with a placeholder it can't fill",
      lambda: ({LABOUR: data(lambda d: d["book"][0].update(item_th=d["book"][0]["item_th"] + " {nope}",
                                                           item_en=d["book"][0]["item_en"] + " {nope}"))},

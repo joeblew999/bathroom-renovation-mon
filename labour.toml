@@ -22,8 +22,8 @@ round_approx = 100          # an approximate total is rounded to this
 [section]
 th = "ค่าแรง"
 en = "Labour"
-note_th = "อัตราค่าแรงจาก: {books} — ตรวจ ณ วันที่ {checked} · เป็นอัตราอ้างอิง ผู้รับเหมาอาจเสนอราคาต่างจากนี้ · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
-note_en = "Rates from: {books} — checked {checked} · these are reference rates; a builder's price may differ · \"{approx}\" = a stand-in, still to be confirmed"
+note_th = "อัตราค่าแรงจาก: {books} — ตรวจ ณ วันที่ {checked} · อัตราของกรมบัญชีกลางเป็นค่าแรงล้วน ท้ายตารางจึงบวกค่าดำเนินการ กำไร และดอกเบี้ยของผู้รับเหมาด้วย Factor F แบบเดียวกับการคำนวณราคากลางงานราชการ เพื่อให้ได้ราคาอ้างอิงไว้เทียบกับใบเสนอราคาของผู้รับเหมา ราคาของโฮมโปรรวมค่าดำเนินการไว้แล้ว · วัสดุเจ้าของบ้านซื้อเอง จึงไม่บวก Factor F · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
+note_en = "Rates from: {books} — checked {checked} · the Comptroller General's rates are bare labour, so at the foot Factor F adds the builder's overhead, profit and interest, as a government estimate does, to give a reference price to hold the builder's quote against; HomePro's prices already include theirs · the owner buys the materials, so Factor F isn't put on them · \"{approx}\" = a stand-in, still to be confirmed"
 
 [labels]
 item = { th = "งาน", en = "Work" }
@@ -31,8 +31,10 @@ qty = { th = "ปริมาณ", en = "Qty" }
 amount = { th = "ค่าแรง", en = "Labour" }
 book_note = { th = "หมายเหตุ {note}", en = "note {note}" }
 of_products = { th = "{percent} ของค่าวัสดุ {cost}", en = "{percent} of materials costing {cost}" }
-labour_total = { th = "รวมค่าแรง", en = "Labour total" }
-grand_total = { th = "รวมทั้งหมด (วัสดุที่ยังต้องซื้อ + ค่าแรง)", en = "Grand total (materials still to buy + labour)" }
+labour_total = { th = "รวมค่าแรง ตามอัตรา", en = "Labour total, at the rates" }
+factor_qty = { th = "{base} × ({factor} − 1) เฉพาะอัตราของกรมบัญชีกลาง", en = "{base} × ({factor} − 1), on the Comptroller General's rates only" }
+with_factor = { th = "ค่าแรง รวมค่าดำเนินการและกำไร (ราคาอ้างอิง)", en = "Labour with overhead and profit (reference price)" }
+grand_total = { th = "รวมทั้งหมด (วัสดุที่ยังต้องซื้อ + ค่าแรงรวมค่าดำเนินการ)", en = "Grand total (materials still to buy + labour with overhead)" }
 approx = { th = "ประมาณ", en = "approx." }
 about = { th = "ประมาณ", en = "about" }
 
@@ -42,6 +44,16 @@ times = "×"
 percent = "%"
 dot = " · "      # between the books in the section's note
 
+# Factor F: the Comptroller General's multiplier for a contractor's overhead, profit and interest on bare cost.
+# Its table (ว481), building work, the smallest band (direct cost up to 0.5 million baht): 1.2199 in the column
+# without VAT, 1.3052 with 7% VAT. A small builder usually doesn't charge VAT; if this one does, use 1.3052.
+[factor_f]
+th = "ค่าดำเนินการ กำไร และดอกเบี้ย: Factor F งานก่อสร้างอาคาร ค่างานไม่เกิน 0.5 ล้านบาท ไม่รวมภาษีมูลค่าเพิ่ม"
+en = "Overhead, profit and interest: Factor F, building work, up to 0.5 million baht, without VAT"
+value = 1.2199
+standard = "กค ว481"
+url = "https://www.yotathai.com/factorf/building/adv15-retain10"
+
 [[book]]
 id = "cgd_w480"
 th = "บัญชีค่าแรงงานของกรมบัญชีกลาง"
@@ -50,6 +62,7 @@ standard = "กค 0433.2/ว 480, 26/06/2569"
 url = "https://www.yotathai.com/labor-rates"
 item_th = "ข้อ {item}"       # how a rate names its place in this book
 item_en = "item {item}"
+bare = true                  # its rates are bare labour: Factor F adds overhead, profit and interest
 
 [[book]]
 id = "homepro_services"
@@ -529,6 +542,13 @@ work_section = "new_wall"
 of_products = ["m300_mortar"]
 note_th = "อุดร่องและรอยแหว่ง"
 note_en = "filling the chases and broken edges"
+
+[[line]]
+rate = "not_listed"
+work_section = "new_wall"
+of_products = ["bonding_agent", "cement"]
+note_th = "เตรียมผนังเดิมก่อนฉาบเสริม: เจียสีเดิมออก ทาน้ำปูนประสาน"
+note_en = "preparing the existing walls for the build-out: grinding off the old paint, the bonding slurry"
 
 [[line]]
 rate = "ceiling"

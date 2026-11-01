@@ -141,9 +141,11 @@ def summary(md):
     print("\n".join(tile_lines(q.room, q.tiles)))
     print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
     total, approx = q.labour.total()
+    priced, _ = q.labour.with_factor()
     print(f"{q.labour.labels.both('labour_total')}:", q.labour.total_text(total, approx))
+    print(f"{q.labour.labels.both('with_factor')}:", q.labour.total_text(priced, approx))
     mt, ma = q.materials.still_to_buy()
-    print(f"{q.labour.labels.both('grand_total')}:", q.labour.total_text(total + mt, approx or ma))
+    print(f"{q.labour.labels.both('grand_total')}:", q.labour.total_text(priced + mt, approx or ma))
     print_warnings(q.warnings)
     print_assumed(assumed(q))
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
