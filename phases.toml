@@ -265,8 +265,8 @@ en = "Paint walls"
 
 [[phase.step]]
 id = "paint"
-th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเดิมสภาพดี อุดรอยเล็กน้อย) — ติดเทปกันขอบกระเบื้อง และคลุมพื้นและกระเบื้องก่อน"
-en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls are in good condition, small patches only) — tape off the tile edges and cover the floor and tiles first"
+th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเดิมสภาพดี อุดรอยเล็กน้อย) — คลุมพื้นและกระเบื้องก่อน"
+en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls are in good condition, small patches only) — cover the floor and tiles first"
 
 [[phase]]
 id = "fit_out"

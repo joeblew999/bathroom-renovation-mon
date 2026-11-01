@@ -406,17 +406,3 @@ link = "https://www.homepro.co.th/p/1157215"
 name = "สีขาวกึ่งเงา / White semi-gloss paint"
 have = 1
 reused = true
-
-[[item]]
-name = "กระดาษกาวย่น PACK IN 1 นิ้ว × 25 หลา / Masking tape PACK IN 1\" × 25 yd"
-buy = 2
-price = 28
-unit = "ม้วน / rolls"
-link = "https://www.homepro.co.th/p/195720"
-
-[[item]]
-name = "ผ้าใบ SPRING 2 × 3 ม. / Tarpaulin SPRING 2 × 3 m"
-note = "คลุมพื้นห้องนั่งเล่น / covers the living-room floor"
-buy = 1
-price = 109
-link = "https://www.homepro.co.th/p/1311465"
