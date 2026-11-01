@@ -71,7 +71,10 @@ def site_cell(m):
 
 
 def name_cell(m):
+    """The name (linked to the shop's page), then its shop and SKU, then its note."""
     name = f"[{_cell(m.name)}]({m.link})" if m.link else _cell(m.name)
+    if m.sku:
+        name += f"<br>{m.shop_name} {m.sku}"
     return f"{name}<br>*{_cell(m.note)}*" if m.note else name
 
 

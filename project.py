@@ -75,7 +75,12 @@ LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "p
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
 GROUP_KEYS = {"id", "th", "en"}
-MATERIAL_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "link"}
+MATERIAL_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku"}
+# Where things are bought: the shop's name, what its SKUs look like, and the product page.
+SHOPS = {
+    "homepro": ("HomePro", r"\d+", lambda sku: f"https://www.homepro.co.th/p/{sku}"),
+    "ikea": ("IKEA", r"\d{3}\.\d{3}\.\d{2}", lambda sku: f"https://www.ikea.com/th/th/p/-{sku.replace('.', '')}/"),
+}
 STATUSES = ("buy", "bought", "reused")          # also the order within a group
 TILE_COLOURS = ("grey", "white")
 
@@ -123,7 +128,17 @@ class Material:
     unit: str = ""
     approx: bool = False
     tile: str = None
-    link: str = None
+    shop: str = None     # an id in SHOPS
+    sku: str = None      # the shop's product code
+
+    @property
+    def shop_name(self):
+        return SHOPS[self.shop][0] if self.shop else ""
+
+    @property
+    def link(self):
+        """The product page, built from the shop and the SKU."""
+        return SHOPS[self.shop][2](self.sku) if self.shop else None
 
     @property
     def total(self):
@@ -441,11 +456,20 @@ def _materials(raw):
         if "tile" in it and it["tile"] not in TILE_COLOURS:
             raise ProjectError(f"materials.toml: {where} has tile = {it['tile']!r} "
                                f"(must be one of: {', '.join(TILE_COLOURS)})")
-        if "link" in it and not str(it["link"]).startswith("https://"):
-            raise ProjectError(f"materials.toml: {where} link must start with https://")
+        if it["status"] == "reused":
+            if "shop" in it or "sku" in it:
+                raise ProjectError(f"materials.toml: {where} is reused, so it has no shop or sku")
+        else:
+            _need("materials.toml", where, it, ("shop", "sku"))
+            if it["shop"] not in SHOPS:
+                raise ProjectError(f"materials.toml: {where} has shop {it['shop']!r} "
+                                   f"(must be one of: {', '.join(SHOPS)})")
+            if not isinstance(it["sku"], str) or not re.fullmatch(SHOPS[it["shop"]][1], it["sku"]):
+                raise ProjectError(f"materials.toml: {where} has sku {it['sku']!r}, which isn't a "
+                                   f"{SHOPS[it['shop']][0]} code")
         m = Material(name=it["name"], note=it.get("note", ""), group=it["group"], status=it["status"],
-                     n=it["n"], price=it.get("price"), unit=it.get("unit", ""),
-                     approx=it.get("approx", False), tile=it.get("tile"), link=it.get("link"))
+                     n=it["n"], price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
+                     tile=it.get("tile"), shop=it.get("shop"), sku=it.get("sku"))
         out.append(m)
     return tuple(groups), tuple(out)
 
