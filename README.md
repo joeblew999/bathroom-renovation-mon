@@ -9,7 +9,7 @@ A quote for the builder, in Thai and English, with the work, the material list a
 
 `mise tasks` lists every command (they are in `mise.toml`). Only `mise` needs to be installed; on a new machine run `mise run setup` first.
 
-## How it's built
+## How the quote is made
 
 The quote has three **parts**: the phases (the work, step by step), the materials (the material list) and the room (the drawings). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file.
 
@@ -33,7 +33,7 @@ There are two kinds of check, and they never mix.
 - It lives in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
 - It raises `DataError`: the build stops with one English line naming the file and the problem, and nothing is written.
 
-**A design check** asks whether the bathroom, as drawn and listed, can be built — what an architect and a builder look for. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
+**A design check** asks whether the bathroom, as drawn and listed, is well designed: good building practice, sound architectural design and how it will look — the judgement an architect and a builder bring. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
 - It lives in the design-checks file of the part whose design would change:
 
 | Part | Data | Code | Design checks |
@@ -77,7 +77,7 @@ There are two kinds of check, and they never mix.
    - Fixed wording is that file's `[labels]`, each label in Thai and English; marks that are the same in both languages are its `[symbols]`.
    - The code holds no wording, except the messages printed for whoever runs the build: English only, never on the page or the PDF.
    - Layout is code; the look is `style.css`.
-   - The one exception: how this room is built — the existing column at the start of its wall, the door opening beside it, the lintel over it — is in `room.py`, labelled there.
+   - The one exception: how this room is constructed — the existing column at the start of its wall, the door opening beside it, the lintel over it — is in `room.py`, labelled there.
 2. **The data files are consistent.**
    - Every entry of one kind has the same fields, in the same order, written to the same pattern; a product's detail, for one, follows the pattern at the top of `materials.toml`.
    - Optional fields are left out, never moved.

@@ -39,7 +39,7 @@
 #   unit       the id of its unit, shown after the quantity
 #   price      the unit price, in baht (to buy: needed; bought: what it cost, if known; else none)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
-#   shop, sku  where it is bought and its product code, together; the link is built from them
+#   shop, sku  where it is bought and its product code, together; the link is made from them
 #              (not for reused or supplied products)
 # and one [[entry.line]] for each line it takes on the list:
 #   group      the id of a group (things used all over go under whole_room)

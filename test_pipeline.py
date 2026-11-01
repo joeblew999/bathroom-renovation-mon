@@ -236,13 +236,13 @@ def run(edits):
     return warnings, "\n".join([*warnings, *tile_lines(q.room, q.tiles), q.doc, *q.svgs]), q
 
 
-def built_item(shape):
-    """The column, door or lintel, as room.py worked it out on the column's wall."""
+def construction_item(shape):
+    """The column, door or lintel — the room's construction — as room.py worked it out on the column's wall."""
     return find(column_wall()[1].items, shape, lambda i: i.shape == shape)
 
 
 def built(f):
-    """An expectation read off the built quote."""
+    """An expectation read off the quote, as the build made it."""
     return lambda p: f(p) if p else "(the data was refused, so there was no quote to look at)"
 
 
@@ -434,7 +434,7 @@ def door_joint_test():
 
 
 def lintel_short_test():
-    lid, door = RAW[ROOM]["lintel"]["product"], built_item("door")
+    lid, door = RAW[ROOM]["lintel"]["product"], construction_item("door")
     return {MATERIALS: data(lambda d: by_id(d["entry"], lid)["size"].update(w=1))}, \
         warn("warn_lintel_short", wall=wall_name(column_wall()[1]), lintel="1", door=f"{door.w:g}", bearing=f"{RAW[ROOM]['lintel']['bearing']:g}")
 
@@ -506,7 +506,7 @@ def door_test():
     door = RAW[ROOM]["door"]["product"]
     length = real().room.walls[RAW[ROOM]["column"]["wall"]].length
     return {MATERIALS: data(lambda d: by_id(d["entry"], door)["size"].update(w=length))}, \
-        warn("warn_door_fit", wall=wall_name(column_wall()[1]), door=f"{length:g}", column=f"{built_item("column").w:g}", length=f"{length:g}")
+        warn("warn_door_fit", wall=wall_name(column_wall()[1]), door=f"{length:g}", column=f"{construction_item("column").w:g}", length=f"{length:g}")
 
 
 def size_in_name_test():
@@ -590,7 +590,7 @@ def step_number():
 
 
 def link_test():
-    """A product's page link, built here from its shop's link and its code."""
+    """A product's page link, made here from its shop's link and its code."""
     e = an_entry("product with a shop", lambda e: "shop" in e)
     shop = by_id(RAW[MATERIALS]["shop"], e["shop"])
     url = shop["link"].replace("{sku}", e["sku"]).replace("{sku_digits}", re.sub(r"\D", "", e["sku"]))
@@ -840,8 +840,8 @@ TESTS = [
      lambda: (edit_item(lambda e: "product" in e, "item with a product", lambda e: put(e, "w", 900, room.ITEM)),
               "takes its size from product")),
     ("room: an item taking an id the room works out",
-     lambda: (edit_item(lambda e: e["id"] not in room.BUILT, "item", lambda e: e.update(id=room.BUILT[0])),
-              f"'{room.BUILT[0]}' is worked out from how the room is built")),
+     lambda: (edit_item(lambda e: e["id"] not in room.CONSTRUCTION, "item", lambda e: e.update(id=room.CONSTRUCTION[0])),
+              f"'{room.CONSTRUCTION[0]}' is worked out from how the room is constructed")),
     ("room: two tiles naming the same product",
      {ROOM: data(lambda d: d["tile"][1].update(product=d["tile"][0]["product"]))} if len(RAW[ROOM]["tile"]) > 1 else {},
      f"tile product '{RAW[ROOM]['tile'][0]['product']}' is used twice"),
@@ -904,7 +904,7 @@ TESTS = [
      make("supplied", by=("ช่าง-TEST", "BRINGER-TEST")), "| ช่าง-TEST / BRINGER-TEST |"),
     ("materials: the list is in sections by group", {}, built(group_heading)),
     ("materials: in a group, what is still to buy comes before what is on site", {}, built(buy_before_on_site)),
-    ("materials: the link is built from shop and code", link_test),
+    ("materials: the link is made from shop and code", link_test),
     ("materials: one takes the singular unit (en)", lambda: unit_test(1, "en")),
     ("materials: more than one takes the plural (en_many)", lambda: unit_test(3, "en_many")),
     ("materials: the prices date reaches the section note, in its format",

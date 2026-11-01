@@ -8,14 +8,14 @@ the products on the material list are handed to it (for their names and sizes).
 
   1. read       room.toml against the fields declared below (common.check)
   2. work out   each wall's place from the order of the walls; each item's name and size from
-                its product; the column, door and lintel from how the room is built; tile counts
+                its product; the column, door and lintel from how the room is constructed; tile counts
   3. draw       the floor plan and each drawn wall, as SVG, each with its design problems under it;
                 their look is in style.css
 
 The design checks (a hole too near a tile joint, items that clash or run off the wall, a part outside
 the item it belongs to, the door and lintel) are in room_design_checks.py.
 
-How this room is built is the one thing written here rather than in room.toml (README rule 1):
+How this room is constructed is the one thing written here rather than in room.toml (README rule 1):
 the existing column stands at the x = 0 end of its wall, the door opening beside it and the
 lintel over the opening.
 
@@ -53,7 +53,7 @@ ITEM = {"id": "text!", "product": "text", "th": "text", "en": "text", "shape": "
 WALL_ITEM = {k: v for k, v in ITEM.items() if k != "high"}       # a high side is a floor step's
 FLOOR_ITEM = {k: v for k, v in ITEM.items() if k != "part"}      # parts belong to wall items
 ENDS = ("start", "end")   # the ends of a wall or the floor: x = 0, and x = its length
-BUILT = ("column", "door", "lintel")      # the items room.py works out — no item in room.toml takes these ids
+CONSTRUCTION = ("column", "door", "lintel")   # the items room.py works out — no item in room.toml takes these ids
 SYMBOLS = {k: "text!" for k in ("axis_x", "axis_y", "width", "height", "none", "times", "warning", "ok", "up", "down",
                                  "dash", "dot", "eq", "plus")}
 LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "seen_above": (),
@@ -260,9 +260,9 @@ def _items(entries, kind, shapes, keys, products, across):
     out = []
     for i, e in enumerate(entries, 1):
         where = f"{kind} '{e['id']}'"
-        if e["id"] in BUILT:
-            raise DataError(f"{FILE}: {where} — '{e['id']}' is worked out from how the room is built, "
-                            f"so no item takes that id ({', '.join(BUILT)})")
+        if e["id"] in CONSTRUCTION:
+            raise DataError(f"{FILE}: {where} — '{e['id']}' is worked out from how the room is constructed, "
+                            f"so no item takes that id ({', '.join(CONSTRUCTION)})")
         if ("product" in e) == ("th" in e):
             raise DataError(f"{FILE}: {where} needs a product or a name (th, en) — one, not both")
         p = _product(products, where, e["product"]) if "product" in e else None
@@ -289,7 +289,7 @@ def _items(entries, kind, shapes, keys, products, across):
 
 def _walls(raw, products):
     """Every wall, its place from the walls' order, with its items — and the column, the door and the
-    lintel on the column's wall, worked out from how the room is built."""
+    lintel on the column's wall, worked out from how the room is constructed."""
     r, col, order = raw["room"], raw["column"], raw["wall"]
     door = _product(products, "[door]", raw["door"]["product"], ("w", "h"))
     lintel = _product(products, "[lintel]", raw["lintel"]["product"], ("h",))
@@ -301,7 +301,7 @@ def _walls(raw, products):
         items = _items(e.get("item", []), f"wall '{e['id']}' item", WALL_SHAPES, WALL_KEYS, products, across)
         run = length
         if e["id"] == col["wall"]:
-            # How this room is built: the column at x = 0, the door opening beside it, the lintel over it.
+            # How this room is constructed: the column at x = 0, the door opening beside it, the lintel over it.
             # Whether they fit is a design check (room_design_checks.py).
             n = len(items)
             items += [

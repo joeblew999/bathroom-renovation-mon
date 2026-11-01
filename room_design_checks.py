@@ -34,7 +34,7 @@ def warnings(room):
 def wall_warnings(room, wall):
     """Every space problem on one wall, as (th, en)."""
     t = room.tiles[wall.tile]
-    return (_built_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.top)
+    return (_construction_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.top)
             + _clash_warnings(room, wall) + _part_warnings(room, wall))
 
 
@@ -54,13 +54,13 @@ def floor_warnings(room):
     return out
 
 
-def _built_warnings(room, wall):
+def _construction_warnings(room, wall):
     """On the column's wall: the door opening fits beside the column, and the lintel spans the
     opening and its bearing (when its product gives a length)."""
-    built = {it.shape: it for it in wall.items if it.shape in ("column", "door")}
-    if len(built) < 2:
+    construction = {it.shape: it for it in wall.items if it.shape in ("column", "door")}
+    if len(construction) < 2:
         return []
-    column, door = built["column"], built["door"]
+    column, door = construction["column"], construction["door"]
     out = []
     if column.w + door.w >= wall.length:
         out.append(_warn(room, "warn_door_fit", wall=_name(wall), door=f"{door.w:g}", column=f"{column.w:g}",

@@ -136,7 +136,7 @@ class Entry:
 
     @property
     def link(self):
-        """The product page, built from the shop and the code."""
+        """The product page, made from the shop and the code."""
         return self.shop.url(self.sku) if self.shop else None
 
 

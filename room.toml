@@ -5,7 +5,7 @@
 # Every named thing has th and en; an item, the column, the door and the lintel can also have a
 # note (note_th, note_en).
 #
-# The room is built this way (room.py works it out, never typed here): the existing column
+# The room is constructed this way (room.py works it out, never typed here): the existing column
 # stands at the x = 0 end of its wall, the door opening is beside it, the lintel over it.
 
 [room]
