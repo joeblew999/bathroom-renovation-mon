@@ -16,8 +16,8 @@ reads the five sources (they sit next to each other):
 and returns a Project:
 
   p.phases      [Phase]     each with its number and its [Step]s, each step with "1.8"
-  p.areas       [Area]      the material list's sections, in order (defined in materials.toml)
-  p.materials   [Material]  each with its area, quantities to buy and on site, and what still
+  p.groups      [Group]     the material list's sections, in order (defined in materials.toml)
+  p.materials   [Material]  each with its group, quantities to buy and on site, and what still
                             has to be paid — materials don't refer to phases or drawings, or back
   p.walls       {id: Wall}  main_wall, new_wall, window_wall, opposite_wall: name, length,
                             tile, tiled run, and every item on it (layout + worked out)
@@ -74,8 +74,8 @@ NAME_KEYS = {"th", "en", "note_th", "note_en"}
 LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
-AREA_KEYS = {"id", "th", "en"}
-MATERIAL_KEYS = {"area", "name", "note", "buy", "have", "reused", "price", "unit", "approx",
+GROUP_KEYS = {"id", "th", "en"}
+MATERIAL_KEYS = {"group", "name", "note", "buy", "have", "reused", "price", "unit", "approx",
                  "tile", "link"}
 TILE_COLOURS = ("grey", "white")
 
@@ -106,7 +106,7 @@ class Phase:
 
 
 @dataclass(frozen=True)
-class Area:
+class Group:
     id: str
     th: str
     en: str
@@ -116,7 +116,7 @@ class Area:
 class Material:
     name: str
     note: str
-    area: str            # the id of its area in materials.toml
+    group: str           # the id of its group in materials.toml
     buy: float = 0       # how many still to buy
     have: float = 0      # how many already on site
     reused: bool = False # what is on site is an old fitting, reused
@@ -213,7 +213,7 @@ class Project:
     text: str
     site: dict
     phases: tuple
-    areas: tuple
+    groups: tuple
     materials: tuple
     walls: dict
     floor: tuple
@@ -296,15 +296,15 @@ def load(md_path):
     _check_site(site)
     _only("layout.toml", "the file", layout, set(DRAWN) | {"floor", "site_items"})
     _only("phases.toml", "the file", phases_raw, {"phase"})
-    _only("materials.toml", "the file", materials_raw, {"area", "item"})
+    _only("materials.toml", "the file", materials_raw, {"group", "item"})
 
     # Each part is built from its own file; only the references ({phase:…}, {step:…}, {rule:…})
     # in the text cross between them, and they are numbered first:
     phases, numbers = _phases(phases_raw.get("phase", []),           # 1. numbers, for references
                               {("rule", k): f"{v:g}" for k, v in site.get("rules", {}).items()})
-    areas, materials = _materials(materials_raw)                     # 2. materials.toml on its own
+    groups, materials = _materials(materials_raw)                     # 2. materials.toml on its own
     walls, floor = _walls(site, layout, numbers)                     # 3. notes need references
-    return Project(md, md.read_text(encoding="utf-8"), site, phases, areas, materials, walls, floor, numbers)
+    return Project(md, md.read_text(encoding="utf-8"), site, phases, groups, materials, walls, floor, numbers)
 
 
 def _toml(path, what):
@@ -422,23 +422,23 @@ def _resolve(numbers, t):
 
 # ---------- materials.toml ----------
 def _materials(raw):
-    """The areas and the materials, from materials.toml alone, in file order."""
-    areas = []
-    for a in raw.get("area", []):
-        where = f"area '{a.get('id', '?')}'"
-        _only("materials.toml", where, a, AREA_KEYS)
-        _need("materials.toml", where, a, ("id", "th", "en"))
-        if any(x.id == a["id"] for x in areas):
-            raise ProjectError(f"materials.toml: area id '{a['id']}' is used twice")
-        areas.append(Area(a["id"], a["th"], a["en"]))
-    ids = {a.id for a in areas}
+    """The groups and the materials, from materials.toml alone, in file order."""
+    groups = []
+    for g in raw.get("group", []):
+        where = f"group '{g.get('id', '?')}'"
+        _only("materials.toml", where, g, GROUP_KEYS)
+        _need("materials.toml", where, g, ("id", "th", "en"))
+        if any(x.id == g["id"] for x in groups):
+            raise ProjectError(f"materials.toml: group id '{g['id']}' is used twice")
+        groups.append(Group(g["id"], g["th"], g["en"]))
+    ids = {g.id for g in groups}
     out = []
     for it in raw.get("item", []):
         where = f"'{it.get('name', '?')[:40]}'"
         _only("materials.toml", where, it, MATERIAL_KEYS)
-        _need("materials.toml", where, it, ("name", "area"))
-        if it["area"] not in ids:
-            raise ProjectError(f"materials.toml: {where} names area '{it['area']}', which is not one of its areas")
+        _need("materials.toml", where, it, ("name", "group"))
+        if it["group"] not in ids:
+            raise ProjectError(f"materials.toml: {where} names group '{it['group']}', which is not one of its groups")
         for k in ("buy", "have", "price"):
             if k in it:
                 _number("materials.toml", where, k, it[k])
@@ -452,7 +452,7 @@ def _materials(raw):
                                f"(must be one of: {', '.join(TILE_COLOURS)})")
         if "link" in it and not str(it["link"]).startswith("https://"):
             raise ProjectError(f"materials.toml: {where} link must start with https://")
-        m = Material(name=it["name"], note=it.get("note", ""), area=it["area"],
+        m = Material(name=it["name"], note=it.get("note", ""), group=it["group"],
                      buy=it.get("buy", 0), have=it.get("have", 0), reused=it.get("reused", False),
                      price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
                      tile=it.get("tile"), link=it.get("link"))
@@ -463,7 +463,7 @@ def _materials(raw):
         if m.reused and (m.buy or not m.have):
             raise ProjectError(f"materials.toml: {where} is reused: give 'have' and no 'buy'")
         out.append(m)
-    return tuple(areas), tuple(out)
+    return tuple(groups), tuple(out)
 
 
 # ---------- the walls and the floor ----------

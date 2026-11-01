@@ -132,13 +132,13 @@ MAT_TESTS = [
      lambda p: next(f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}" for m in p.materials if m.have and m.buy)),
     ("materials: nothing to buy and nothing on site",
      lambda t: t.replace("have = 1\nreused = true\n", "", 1), "has nothing to buy and nothing on site"),
-    ("materials: the list is in sections by area", None, lambda p: f"| **{p.areas[0].th} / {p.areas[0].en}** |"),
-    ("materials: in an area, what is still to buy comes before what is on site", None,
-     lambda p: next(f"| **{a.th} / {a.en}** | | | |\n| {name_cell(in_list_order(p, a)[0])} |"
-                    for a in p.areas if {m.status for m in p.materials if m.area == a.id} >= {"buy", "bought"}
-                    and next(m for m in p.materials if m.area == a.id).status != "buy")),
-    ("materials: an item naming an area that doesn't exist",
-     lambda t: t.replace('area = "basin"', 'area = "kitchen"', 1), "names area 'kitchen', which is not one of its areas"),
+    ("materials: the list is in sections by group", None, lambda p: f"| **{p.groups[0].th} / {p.groups[0].en}** |"),
+    ("materials: in a group, what is still to buy comes before what is on site", None,
+     lambda p: next(f"| **{g.th} / {g.en}** | | | |\n| {name_cell(in_list_order(p, g)[0])} |"
+                    for g in p.groups if {m.status for m in p.materials if m.group == g.id} >= {"buy", "bought"}
+                    and next(m for m in p.materials if m.group == g.id).status != "buy")),
+    ("materials: an item naming a group that doesn't exist",
+     lambda t: t.replace('group = "plumbing_basin"', 'group = "kitchen"', 1), "names group 'kitchen', which is not one of its groups"),
     ("keys: a typo in a material (link written as lnk)",
      lambda t: t.replace("link = ", "lnk = ", 1), "unknown key 'lnk'"),
     ("links: a tile colour that doesn't exist",

@@ -9,7 +9,7 @@ nothing, writes nothing, and decides nothing about the data — numbers, totals 
 tile counts all come from the Project.
 
   generated:phases     the work by phase       p.phases
-  generated:list       the material list       p.materials, by area
+  generated:list       the material list       p.materials, by group
 
 Usage:  python3 tables.py [quote.md]    (prints the tile counts, the still-to-buy total, warnings)
 """
@@ -84,20 +84,20 @@ def sum_cell(total, approx, bold=True):
     return f"**{v}**" if bold else v
 
 
-def in_list_order(p, area):
-    """The materials of one area as the list shows them: to buy first, then on site (bought),
+def in_list_order(p, group):
+    """The materials of one group as the list shows them: to buy first, then on site (bought),
     then reused; items with the same status keep their order in the file."""
-    return sorted((m for m in p.materials if m.area == area.id), key=lambda m: STATUS_ORDER.index(m.status))
+    return sorted((m for m in p.materials if m.group == group.id), key=lambda m: STATUS_ORDER.index(m.status))
 
 
 def material_list(p):
-    """One table: a section per area (in the order materials.toml defines them), and in each
-    area the order of in_list_order. The product name links to the shop."""
+    """One table: a section per group (in the order materials.toml defines them), and in each
+    group the order of in_list_order. The product name links to the shop."""
     rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
-    for a in p.areas:
-        items = in_list_order(p, a)
+    for g in p.groups:
+        items = in_list_order(p, g)
         if items:
-            rows.append(f"| **{a.th} / {a.en}** | | | |")
+            rows.append(f"| **{g.th} / {g.en}** | | | |")
         rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in items]
     rows.append(f"| **ยังต้องซื้อ / Still to buy** | | {sum_cell(*p.still_to_buy())} | |")
     return rows
