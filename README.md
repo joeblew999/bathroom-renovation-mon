@@ -1,37 +1,39 @@
 # Bathroom renovation quote
 
-A bilingual (Thai / English) quote for the builder, published as:
+A quote for the builder, in Thai and English, with the work, the material list and the drawings. It is published as:
 
 - Web page: **https://joeblew999.github.io/bathroom-renovation-mon/**
 - PDF: **https://joeblew999.github.io/bathroom-renovation-mon/bathroom-renovation-quote.pdf**
 
 ## Commands
 
-`mise tasks` lists them (`mise.toml`). First time on a machine: `mise run setup`. Only `mise` is needed.
+`mise tasks` lists every command (they are in `mise.toml`). Only `mise` needs to be installed; on a new machine run `mise run setup` first.
 
 ## How it's built
 
-The quote has three **parts** — phases, materials and room. A part is its data file, the code that reads it, and (for materials and room) its design checks. `build.py` is the only place the parts meet: it hands the products on the material list to the room, hands the tiles the room needs to the material list's design checks, and puts the three sections in the template.
+The quote has three **parts**: the phases (the work, step by step), the materials (the material list) and the room (the drawings). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file.
 
 ```
 phases.toml     ──► phases.py                                      ─┐
-materials.toml  ──► materials.py    + materials_design_checks.py   ─┼──► build.py ──► out/index.html ──► out/…pdf (printed by Chromium)
-     ▲                                                              │    (+ the template, style.css)
+materials.toml  ──► materials.py    + materials_design_checks.py   ─┼──► build.py ──► out/index.html ──► out/…pdf
+     ▲                                                              │
      │ the room names products by id (rule 6)                       │
 room.toml       ──► room.py         + room_design_checks.py        ─┘
 ```
 
-On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — exactly what you can run here — and publishes `out/` only if ci passes. `out/` is never committed.
+`build.py` is the only place the parts meet. It puts the phases and the material list into the template, `bathroom-renovation-quote.md`, adds the drawings after them, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
+
+On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
 
 ## Checks: data and design
 
-There are two kinds of check, and they never mix. Bad data stops the build: nothing is written. A design problem doesn't stop it: the PDF is made, with the problem in red under its drawing and counted in the terminal — but it is never published (rule 8).
+There are two kinds of check, and they never mix.
 
-**A data check** asks whether a data file is written correctly. Fixing it means correcting the file: a missing or misspelt field, an id that points at nothing, Thai without English, an item that names both a product and its own name.
-- It lives in the part's own code (`room.py`, `materials.py`, `phases.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
-- It raises `DataError`: one English line naming the file and the problem, before anything is written.
+**A data check** asks whether a data file is written correctly: a missing or misspelt field, an id that points at nothing, Thai without English. Fixing it means correcting the file.
+- It lives in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
+- It raises `DataError`: the build stops with one English line naming the file and the problem, and nothing is written.
 
-**A design check** asks whether the bathroom, as drawn and listed, can be built: the things an architect and a builder look for. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
+**A design check** asks whether the bathroom, as drawn and listed, can be built — what an architect and a builder look for. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
 - It lives in the design-checks file of the part whose design would change:
 
 | Part | Data | Code | Design checks |
@@ -40,31 +42,31 @@ There are two kinds of check, and they never mix. Bad data stops the build: noth
 | materials | `materials.toml` | `materials.py` | `materials_design_checks.py`: the quantities |
 | phases | `phases.toml` | `phases.py` | none |
 
-- It never raises `DataError`. It returns a design problem: a note for the architect, worded by a label in the part's `[labels]`, in Thai and English, saying where, what, the rule and what to do.
-- `mise run build` finishes: the page and the PDF are written to `out/`, each problem listed in red under its drawing, and the terminal prints each one and the count. `mise run ci` refuses it, so neither `mise run publish` nor GitHub publishes it: a PDF with a design problem never reaches the builder.
-- Each design-checks file lists its checks at the top. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
+- Each design-checks file lists its checks at the top.
+- A design check never raises `DataError`. It returns a design problem: a note for the architect, in Thai and English — where, what, the rule, what to do — worded by a label in the part's `[labels]`.
+- `mise run build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count. `mise run ci` refuses any design problem, so neither `mise run publish` nor GitHub publishes it.
 
-**To place a new check, ask what fixing it would take.** Correcting the file makes it a data check. Changing the design makes it a design check. Two real examples:
-- *"An item names a product that isn't on the material list"* means correcting the id, so it's a data check, in `room.py`.
-- *"The door is too wide to fit beside the column"* means choosing a narrower door frame, so it's a design check, in `room_design_checks.py`.
+**To place a new check, ask what fixing it would take.** Correcting the file makes it a data check; changing the design makes it a design check. For example:
+- "An item names a product that isn't on the material list" — correct the id: a data check, in `room.py`.
+- "The door is too wide to fit beside the column" — choose a narrower door frame: a design check, in `room_design_checks.py`.
 
 ## Files
 
 | File | Holds |
 |---|---|
-| `phases.toml` | The work: phases and steps — prose for the builder |
-| `materials.toml` | Every product, once: its name and detail (Thai and English) and size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups; the list's wording and marks |
-| `room.toml` | The room: its size and the clearance rule (how far a hole must be from a tile joint); the column, door and lintel; the tiles; the floor and the four walls, in order round the room, each with its items; the drawings' wording and marks |
-| `bathroom-renovation-quote.md` | The template: the title, then a section marker for the phases and the materials, in page order (the drawings follow, one per page) |
+| `phases.toml` | The work: phases and steps, in prose for the builder |
+| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups; the list's wording and marks |
+| `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor and the four walls in order round the room, each with its items; the drawings' wording and marks |
+| `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the material list (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
-| `phases.py`, `materials.py`, `room.py` | The parts (see How it's built) |
-| `room_design_checks.py`, `materials_design_checks.py` | The design checks (see Checks: data and design) |
-| `build.py` | The only place the parts meet (see How it's built) |
+| `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
+| `room_design_checks.py`, `materials_design_checks.py` | The design checks |
+| `build.py` | Puts the parts together and writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes |
 | `test_pipeline.py` | The tests |
-| `mise.toml` | The commands, and the pinned tools: Python and uv |
-| `.github/workflows/pages.yml` | GitHub's build (see How it's built) |
-| `pyproject.toml`, `uv.lock` | The Python packages, and uv's lock file pinning every one of them (and what they depend on) exactly |
+| `mise.toml` | The commands, and the pinned tools (Python and uv) |
+| `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run setup` installs exactly the lock |
+| `.github/workflows/pages.yml` | GitHub's build: `mise run setup`, `mise run ci`, then publish |
 | `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
 | `CLAUDE.md`, `AGENTS.md` | Point Claude, and other AI agents, to this README |
 
@@ -80,7 +82,7 @@ There are two kinds of check, and they never mix. Bad data stops the build: noth
    - Every entry of one kind has the same fields, in the same order, written to the same pattern; a product's detail, for one, follows the pattern at the top of `materials.toml`.
    - Optional fields are left out, never moved.
    - Things that are pointed at have an `id` that says what they are.
-   - Each part declares the fields of every kind of entry once, and one checker, `common.check`, checks them all.
+   - Each part declares the fields of every kind of entry once, and `common.check` checks them all.
    - When data is messy, fix the data: code never works around it with special cases.
 3. **Names, in Thai and English.**
    - A name is `th` and `en` (a shop, a unit, a tile, a wall, a step); a named thing that can carry a note adds an optional `note_th` and `note_en` (a section, a phase, a group, an item on a drawing).
@@ -101,14 +103,13 @@ There are two kinds of check, and they never mix. Bad data stops the build: noth
    - What follows from the room is worked out in `room.py`, never typed: where each wall is, the column, door and lintel, the tile counts.
    - Numbers come from order, never typed; things point at each other by id.
    - A note never repeats a fact held elsewhere, or a figure that can be worked out.
-8. **Bad data stops the build; a design problem never gets published** (see Checks: data and design).
-   - Bad data: one error naming the file and the problem, before anything is written.
-   - A design problem: `mise run build` still makes the PDF, with the problem in red under its drawing and counted in the terminal; `mise run ci` refuses it, so neither `mise run publish` nor GitHub publishes it.
+8. **Bad data stops the build; a design problem is never published** (see Checks: data and design).
 9. **Tests never depend on today's numbers or wording.**
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
    - Every check has a test; `mise run test` lists them.
 
-**Before a change is done:**
+## Before a change is done
+
 1. Check it against the rules: for 2, every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test.
 2. Run `mise run ci`: clean, 0 design problems.
 3. Look at the PDF.
