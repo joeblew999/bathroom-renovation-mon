@@ -27,28 +27,33 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 
 ## Checks: data and design
 
-There are two kinds of check, and they never mix.
+Every check is one of two kinds, and they never mix: a **data check** asks whether a data file is written correctly; a **design check** asks whether the bathroom it describes is well designed.
 
-**A data check** asks whether a data file is written correctly: a missing or misspelt field, an id that points at nothing, Thai without English. Fixing it means correcting the file.
-- It lives in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
+### Data checks
+
+A data file written wrongly: a missing or misspelt field, an id that points at nothing, Thai without English. Fixing it means correcting the file.
+- A data check lives in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
 - It raises `DataError`: the build stops with one English line naming the file and the problem, and nothing is written.
 
-**A design check** asks whether the bathroom, as drawn and listed, is well designed: good building practice, sound architectural design and how it will look — the judgement an architect and a builder bring. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
-- It lives in the design-checks file of the part whose design would change:
+### Design checks
 
-| Part | Data | Code | Design checks |
-|---|---|---|---|
-| room | `room.toml` | `room.py` | `room_design_checks.py`: the space |
-| materials | `materials.toml` | `materials.py` | `materials_design_checks.py`: the supply — whether the list holds enough of what the drawings need |
-| phases | `phases.toml` | `phases.py` | none |
+The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design: moving or resizing something, choosing a different product, ordering more. There are two aspects, each in its own file, named for the part it checks:
 
-- Each design-checks file lists its checks at the top.
+- **The space** — `room_design_checks.py`, beside `room.toml` and `room.py`: whether every item fits, sits where it belongs, keeps clear of the others and of the tile joints, and will look right.
+- **The supply** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: whether the material list holds enough of what the drawings need.
+
+The phases have no design checks. Each design-checks file lists its checks at the top.
+
+How a design problem is reported:
 - A design check never raises `DataError`. It returns a design problem: a note for the architect, in Thai and English — where, what, the rule, what to do — worded by a label in the part's `[labels]`.
-- `mise run build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count. `mise run ci` refuses any design problem, so neither `mise run publish` nor GitHub publishes it.
+- `mise run build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count.
+- `mise run ci` refuses any design problem, so neither `mise run publish` nor GitHub publishes it.
 
-**To place a new check, ask what fixing it would take.** Correcting the file makes it a data check; changing the design makes it a design check. For example:
+### Placing a new check
+
+Ask what fixing it would take. Correcting the file makes it a data check; changing the design makes it a design check — in the space or the supply, whichever the fix would change. For example:
 - "An item names a product that isn't on the material list" — correct the id: a data check, in `room.py`.
-- "The door is too wide to fit beside the column" — choose a narrower door frame: a design check, in `room_design_checks.py`.
+- "The door is too wide to fit beside the column" — choose a narrower door frame: a design check on the space, in `room_design_checks.py`.
 
 ## Files
 
