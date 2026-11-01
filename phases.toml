@@ -40,8 +40,8 @@ en = "Remove the old toilet and basin, and cap the pipe ends temporarily · remo
 
 [[phase.step]]
 id = "heater_out"
-th = "ถอดเครื่องทำน้ำอุ่น ฝักบัว และกล่องไฟฟ้าออก เก็บไว้ใช้ต่อ — วัดระยะรูยึดเครื่องทำน้ำอุ่นเก็บไว้"
-en = "Remove the water heater, shower head and electrical box, and keep them for reuse — measure the heater's fixing holes"
+th = "ถอดเครื่องทำน้ำอุ่น สายน้ำดีทั้ง 2 เส้น ฝักบัว และกล่องไฟฟ้าออก เก็บไว้ใช้ต่อ — วัดระยะรูยึดเครื่องทำน้ำอุ่นเก็บไว้"
+en = "Remove the water heater, its 2 hoses, the shower head and the electrical box, and keep them for reuse — measure the heater's fixing holes"
 
 [[phase.step]]
 id = "stop_tap_off"
@@ -289,8 +289,8 @@ en = "Install the wall-hung basin — fixed securely into the wall itself (not j
 
 [[phase.step]]
 id = "heater_shower"
-th = "ใส่สต็อปวาล์วเครื่องทำน้ำอุ่นกลับที่เดิม · ติดตั้งเครื่องทำน้ำอุ่นเดิมพร้อมกล่องไฟฟ้า และชุดฝักบัว ที่ผนังหลัก"
-en = "Refit the water heater's stop tap in its original place · refit the existing water heater with its electrical box, and the shower unit, on the main wall"
+th = "ใส่สต็อปวาล์วเครื่องทำน้ำอุ่นกลับที่เดิม · ติดตั้งเครื่องทำน้ำอุ่นเดิมพร้อมกล่องไฟฟ้าและสายน้ำดีเดิม 2 เส้น และชุดฝักบัว ที่ผนังหลัก"
+en = "Refit the water heater's stop tap in its original place · refit the existing water heater with its electrical box and its 2 existing hoses, and the shower unit, on the main wall"
 
 [[phase.step]]
 id = "accessories"

@@ -482,6 +482,12 @@ name = "เครื่องทำน้ำอุ่นพร้อมกล่
 n = 1
 
 [[item]]
+group = "shower"
+status = "reused"
+name = "สายน้ำดีเครื่องทำน้ำอุ่น / Water heater hoses"
+n = 2
+
+[[item]]
 group = "accessories"
 status = "bought"
 name = "กระจกเงากลม MOYA HLP004 Ø 60 ซม. / Round mirror MOYA HLP004, 60 cm"
