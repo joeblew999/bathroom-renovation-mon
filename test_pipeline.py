@@ -660,8 +660,8 @@ def same_numbers_reordered_test():
 
 
 def publishable_test():
-    """mise run publish builds with --publishable: with a design problem it still writes the page and the PDF
-    (to look at), then refuses — so the push after it never runs."""
+    """mise run check builds with --publishable: with a design problem it still writes the page and the PDF
+    (to look at), then refuses — so mise run publish never pushes, and GitHub never publishes."""
     edits, want = clash_test()
 
     def expect(p):

@@ -22,7 +22,7 @@ never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
         python3 build.py --publishable [template.md] [out-folder]  (the same, then an ERROR if there is
-                                                                    any design problem: mise run publish)
+                                                                    any design problem: mise run check)
         python3 build.py --summary [template.md]  (tile counts, total, design problems; no build)
 """
 import sys
@@ -156,8 +156,8 @@ def main(argv):
     print_warnings(warnings)
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {problems(warnings)}")
     if publishable and warnings:
-        raise DataError(f"{problems(warnings)}, in red on the drawings in {out / PDF_NAME} — not published; "
-                        f"fix them, then run mise run publish again")
+        raise DataError(f"{problems(warnings)}, in red on the drawings in {out / PDF_NAME} — not publishable; "
+                        f"fix them first")
 
 
 if __name__ == "__main__":
