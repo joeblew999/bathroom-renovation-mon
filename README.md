@@ -34,6 +34,7 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 | `test_pipeline.py` | The tests |
 | `mise.toml` | The commands, and the pinned tools: Python and uv |
 | `pyproject.toml`, `uv.lock` | The Python packages, and uv's lock file pinning every one of them (and what they depend on) exactly; `mise run setup` installs exactly the lock |
+| `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
 | `CLAUDE.md` | Points Claude to this README |
 
 ## Rules for every change
