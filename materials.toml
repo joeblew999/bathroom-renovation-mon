@@ -85,6 +85,7 @@ group = "new_wall"
 name = "อิฐมวลเบา TPI 60 × 20 × 7.5 ซม. / TPI AAC block"
 buy = 18
 price = 26
+unit = "ก้อน / blocks"
 link = "https://www.homepro.co.th/p/1110154"
 
 [[item]]
@@ -117,7 +118,6 @@ link = "https://www.homepro.co.th/p/1110170"
 [[item]]
 group = "new_wall"
 name = "ปูนฉาบอิฐมวลเบา TPI M210 50 กก. / TPI M210 AAC plaster, 50 kg"
-note = "ผนังใหม่ / new wall"
 buy = 2
 price = 150
 unit = "ถุง / bags"
@@ -158,6 +158,7 @@ group = "new_ceiling"
 name = "แผ่นยิปซัมทนชื้น DURAONE 9 มม. 120 × 240 ซม. / Moisture-resistant gypsum board DURAONE 9 mm, 120 × 240 cm"
 buy = 2
 price = 245
+unit = "แผ่น / sheets"
 link = "https://www.homepro.co.th/p/1110611"
 
 [[item]]
@@ -166,6 +167,7 @@ name = "ซีลาย SANKI 0.50–0.55 กก. ยาว 4 ม. ชุบส�
 note = "ตัดได้ 2 ท่อนต่อเส้น / cut 2 pieces per length"
 buy = 4
 price = 29
+unit = "เส้น / lengths"
 link = "https://www.homepro.co.th/p/1110231"
 
 [[item]]
@@ -174,6 +176,7 @@ name = "ฉากซีลาย SANKI 0.20A ยาว 2.44 ม. / SANKI wall an
 note = "รอบห้อง / round the room"
 buy = 4
 price = 16
+unit = "เส้น / lengths"
 link = "https://www.homepro.co.th/p/1110271"
 
 [[item]]
@@ -190,6 +193,7 @@ group = "new_ceiling"
 name = "ปูนฉาบรอยต่อแผ่นยิปซัม DURAONE 1 กก. / DURAONE gypsum jointing compound, 1 kg"
 buy = 2
 price = 16
+unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/1110109"
 
 [[item]]
@@ -379,6 +383,7 @@ name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ
 note = "เช็คสต็อกก่อนไป / check stock before going"
 buy = 2
 price = 1290
+unit = "ดวง / lamps"
 link = "https://www.ikea.com/th/th/p/-80520431/"
 
 [[item]]
@@ -465,6 +470,7 @@ name = "กาวซีเมนต์ จระเข้ ทอง 20 กก. /
 note = "ปูทับกระเบื้องเดิมได้ กระเบื้องประมาณ 16 ตร.ม. / suits tiling over old tiles; about 16 m² of tile"
 buy = 5
 price = 799
+unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/14428"
 
 [[item]]
@@ -472,6 +478,7 @@ group = "tiles"
 name = "คลิปปรับระดับ TARA DL-D01 1.5 มม. / TARA levelling clips 1.5 mm"
 buy = 2
 price = 143
+unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/1092087"
 
 [[item]]
@@ -487,6 +494,7 @@ name = "ยาแนว จระเข้ พรีเมี่ยมพลั�
 note = "กระเบื้องเทา / grey tiles"
 buy = 2
 price = 63
+unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/138786"
 
 [[item]]
@@ -495,6 +503,7 @@ name = "ยาแนว จระเข้ พรีเมี่ยมพลั�
 note = "กระเบื้องขาว / white tiles"
 buy = 2
 price = 63
+unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/138771"
 
 [[item]]
