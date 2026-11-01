@@ -1,9 +1,37 @@
 # Bathroom renovation quote
 
-A quote for the builder, in Thai and English: the work, the materials schedule and the drawings. It is published as:
+A quote for the builder, in Thai and English: the work, the materials list and the drawings. It is published as:
 
 - Web page: **https://joeblew999.github.io/bathroom-renovation-mon/**
 - PDF: **https://joeblew999.github.io/bathroom-renovation-mon/bathroom-renovation-quote.pdf**
+
+## How to think about this work
+
+This is a real bathroom: an architect designs it, and a Thai builder constructs it from this quote. Work as the architect and the construction company would.
+- Judge every change by what the builder will read and do on site: is it unambiguous, is it good building practice, is it sound design, will it look right?
+- Use the trade's words — the ones in the Glossary, in Thai and English — and no others. "Build" only ever means the software build (`mise run build`, `mise run ci`); the bathroom is *constructed*.
+- Say only what is there. Name a file, a check, a size or a step only after you have looked at it; write no plans, guesses or made-up examples into the README, the data or the notes.
+- Write each design problem as a note to the architect: where, what, the rule, and what to do about it.
+
+## Glossary
+
+| Term | Here | Thai |
+|---|---|---|
+| scope of works | the work, step by step, in the order it is done (`phases.toml`) | ขอบเขตงาน* |
+| materials list | what to buy: every product, how many, the price and the shop (`materials.toml`) — data for purchasing, not a schedule on the drawings | รายการวัสดุ |
+| schedule of fittings | the table of items on each drawing: every fitting, numbered, with its setting out | รายการอุปกรณ์* |
+| floor plan, elevation | the drawings: the floor seen from above, and each wall seen from inside | ผังพื้น, รูปด้าน* |
+| setting out | placing each item on site from the dimensions on the drawing, measured from the corner and the floor | การวางตำแหน่ง* |
+| clash | a **hard clash**: two items taking the same place; a **soft clash**: an item inside a clearance it must keep, such as a hole too near a tile joint | ชนกัน* |
+| opening | a gap in a wall: the window, the door | ช่องเปิด* |
+| existing structure | what is already there and stays: the column | โครงสร้างเดิม* |
+| lintel | the beam over the door opening | คานทับหลัง |
+| tile joint | the line between two tiles | แนวยาแนว* |
+| quantity take-off | the quantities measured from the drawings | การถอดปริมาณ* |
+| batch, shade | tiles made together, which match in colour | ล็อต, เฉดสี |
+| fitting | a fixture on the wall or floor: basin, toilet, shower, lamp | อุปกรณ์* |
+
+\* Not yet checked by a Thai speaker; the unmarked Thai terms were checked against Thai sources.
 
 ## Commands
 
@@ -11,7 +39,7 @@ A quote for the builder, in Thai and English: the work, the materials schedule a
 
 ## How the quote is made
 
-The quote has three **parts**: the phases (the scope of works, in sequence), the materials (the materials schedule) and the room (the floor plan and elevations). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file.
+The quote has three **parts**: the phases (the scope of works, in sequence), the materials (the materials list) and the room (the floor plan and elevations). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file.
 
 ```
 phases.toml     ──► phases.py                                      ─┐
@@ -21,7 +49,7 @@ materials.toml  ──► materials.py    + materials_design_checks.py   ─┼�
 room.toml       ──► room.py         + room_design_checks.py        ─┘
 ```
 
-`build.py` is the only place the parts meet. It puts the phases and the materials schedule into the template, `bathroom-renovation-quote.md`, adds the drawings after them, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
+`build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, adds the drawings after them, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
 
 On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
 
@@ -30,11 +58,11 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | File | Holds |
 |---|---|
 | `phases.toml` | The work: phases and steps, in prose for the builder |
-| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups; the list's wording and marks |
+| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the materials list (group, status, how many); the shops, units and groups; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor and the four walls in order round the room, each with its items; the drawings' wording and marks |
 | `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
 | `room_design_checks.py`, `materials_design_checks.py` | The design checks: setting out and clashes; quantities (see Checks) |
-| `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials schedule (the drawings follow, one per page) |
+| `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes |
@@ -68,7 +96,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
    - No part's code imports another part's code; the parts meet only in `build.py`.
    - No data file holds a fact about another part. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never which tile goes where.
    - The one link is rule 6.
-6. **The one link between parts: the room and the materials schedule.** The room names products on the materials schedule by id, for their names and sizes, and `room.py` checks every id; the tiles the room needs are set against the boxes on the schedule by the quantities check (see Checks). `build.py` hands both over. Nothing links the phases to anything.
+6. **The one link between parts: the room and the materials list.** The room names products on the materials list by id, for their names and sizes, and `room.py` checks every id; the tiles the room needs are set against the boxes on the materials list by the quantities check (see Checks). `build.py` hands both over. Nothing links the phases to anything.
 7. **Every fact once.**
    - A product's name, detail and size are written only on its entry in `materials.toml`; its detail shows the size with `{w}`, `{w_cm}` and so on, and the room takes them from there.
    - What follows from the room is worked out in `room.py`, never typed: where each wall is, the column, door and lintel, the tile counts.
@@ -94,7 +122,7 @@ A data file written wrongly: a missing or misspelt field, an id that points at n
 The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design. There are two aspects, each in its own file, named for the part it checks:
 
 - **Setting out and clashes** — `room_design_checks.py`, beside `room.toml` and `room.py`: whether every item is set out where it belongs and fits, keeps clear of the tile joints, doesn't clash with another item or sit in an opening, and will look right.
-- **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials schedule — whether enough is ordered.
+- **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials list — whether enough is ordered.
 
 The phases have no design checks. Each design-checks file lists its checks at the top.
 
@@ -111,7 +139,7 @@ Ask what fixing it would take:
 - **Ordering more, or ordering something different** → a quantities check, in `materials_design_checks.py`.
 
 A design check never goes in a part's own code, and a data check never goes in a design-checks file. For example:
-- "An item names a product that isn't on the materials schedule": correct the id — a data check, in `room.py`.
+- "An item names a product that isn't on the materials list": correct the id — a data check, in `room.py`.
 - "The door is too wide to fit beside the column": a different door frame — a setting-out and clashes check, in `room_design_checks.py`.
 - "Too few tile boxes for the tiles the room needs": order more — a quantities check, in `materials_design_checks.py`.
 

@@ -18,8 +18,8 @@
 # [labels]: the fixed wording around the phases (heading, step-table columns). [symbols]: its marks.
 
 [section]
-th = "งานตามขั้นตอน"
-en = "Work by phase"
+th = "ขอบเขตงานตามลำดับ"
+en = "Scope of works, in sequence"
 note_th = "เรียงตามลำดับการทำงาน แต่ละขั้นต้องเสร็จก่อนเริ่มขั้นถัดไป"
 note_en = "In working order — each phase finishes before the next starts."
 

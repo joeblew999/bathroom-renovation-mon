@@ -7,13 +7,13 @@ written (room.py has read and checked room.toml, and worked out every wall and i
     room_design_checks.joints_x(wall, size)    # where the vertical tile joints fall (room.py draws them)
 
 The checks, each worded by its label in room.toml:
-  - a hole (a fixing, an outlet, an item's centre) too near a tile joint     warn_joint
-  - an item off its wall: past an end, below the floor or above the ceiling  warn_off_wall (edge_…)
-  - two items overlapping                                                     warn_overlap
-  - a fixing or outlet in a window or the door opening                      warn_in_opening
-  - a part outside the width of the item it belongs to                       warn_outside
-  - a part above the top of the item it belongs to                           warn_above
-  - a floor item off the floor                                               warn_off_floor
+  - a hole (a fixing, an outlet, an item's centre) set out too near a tile joint   warn_joint
+  - an item set out off its wall: past an end, below the floor, above the ceiling  warn_set_out_off_wall (edge_…)
+  - two items clashing                                                            warn_clash
+  - a fixing or outlet set out in an opening (a window, the door)                warn_in_opening
+  - a part set out outside the width of the fitting it belongs to                warn_outside
+  - a part set out above the top of the fitting it belongs to                    warn_above
+  - a floor item set out off the floor                                           warn_set_out_off_floor
   - the door too wide to fit beside the column                               warn_door_fit
   - the lintel shorter than the door and its bearing                         warn_lintel_short
 
@@ -49,7 +49,7 @@ def floor_warnings(room):
         half_w, half_d = (it.w or 0) / 2, (it.d or 0) / 2 if it.shape == "rect" else 0
         y = it.y if it.y is not None else 0
         if it.x - half_w < 0 or it.x + half_w > room.length or y - half_d < 0 or y + half_d > room.width:
-            out.append(_warn(room, "warn_off_floor", item=it.label(), length=f"{room.length:g}",
+            out.append(_warn(room, "warn_set_out_off_floor", item=it.label(), length=f"{room.length:g}",
                              width=f"{room.width:g}"))
     return out
 
@@ -131,7 +131,7 @@ def _edge(room, wall, it):
 def _clash_warnings(room, wall):
     items = wall.items
     solids = [(it, _box(it)) for it in items if _box(it)]
-    out = [_warn(room, "warn_off_wall", wall=_name(wall), item=it.label(), edge=_edge(room, wall, it))
+    out = [_warn(room, "warn_set_out_off_wall", wall=_name(wall), item=it.label(), edge=_edge(room, wall, it))
            for it in items if _edge(room, wall, it)]
     # a fixing or outlet in a window or the door opening has no wall to go in
     for p in (it for it in items if it.shape == "point"):
@@ -141,7 +141,7 @@ def _clash_warnings(room, wall):
     for i, (a, ba) in enumerate(solids):
         for b, bb in solids[i + 1:]:
             if ba[0] < bb[1] and bb[0] < ba[1] and ba[2] < bb[3] and bb[2] < ba[3]:
-                out.append(_warn(room, "warn_overlap", wall=_name(wall), a=a.label(), b=b.label()))
+                out.append(_warn(room, "warn_clash", wall=_name(wall), a=a.label(), b=b.label()))
     return out
 
 

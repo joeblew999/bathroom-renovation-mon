@@ -4,11 +4,11 @@
 The only place the three parts meet. Each part reads its own file and renders itself:
 
   phases.py      phases.toml      → the work, phase by phase
-  materials.py   materials.toml   → the materials schedule (and every product's names and size)
+  materials.py   materials.toml   → the materials list (and every product's names and size)
   room.py        room.toml        → the floor plan and the wall drawings
 
-This file hands the products on the materials schedule to the room (for their sizes), hands the tiles
-the room needs to the materials schedule's design check (materials_design_checks.py), and puts each part's
+This file hands the products on the materials list to the room (for their sizes), hands the tiles
+the room needs to the materials list's design check (materials_design_checks.py), and puts each part's
 section into the template (bathroom-renovation-quote.md). Then:
 
   html     Markdown → HTML, drawings appended one per page   → out/index.html

@@ -1,6 +1,6 @@
 # room.toml — the room: its size and walls, the tiles, every item on the walls and the floor,
 # and the wording on the drawings. Units: mm. room.py reads it and draws it.
-# A product is named by its id on the materials schedule (materials.toml): an item that names one
+# A product is named by its id on the materials list (materials.toml): an item that names one
 # takes its name and size from there, never typed here.
 # Every named thing has th and en; an item, the column, the door and the lintel can also have a
 # note (note_th, note_en).
@@ -283,24 +283,24 @@ floor_higher = { th = "พื้นยกสูง {h}", en = "floor {h} higher"
 higher = { th = "สูง", en = "higher" }
 lower = { th = "ต่ำ", en = "lower" }
 floor = { th = "พื้น", en = "floor" }
-items = { th = "รายการ", en = "Items" }
+items = { th = "รายการอุปกรณ์", en = "Schedule of fittings" }
 x_from = { th = "{axis} จาก{wall}", en = "{axis} from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
-all_clear = { th = "จุดกึ่งกลางทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
+all_clear = { th = "จุดกึ่งกลางทุกจุดวางตำแหน่งห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรือตรงแนวพอดี และไม่มีชิ้นใดชนกัน", en = "Every centre is set out at least {min_clear} mm off a joint (or exactly on one), and nothing clashes" }
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }
-# The design problems (room_design_checks.py): each a note for the architect — where, what, the rule, what to do.
-warn_joint = { th = "{wall}, {item}: จุดกึ่งกลาง ({axis} {v}) ห่างแนวยาแนวเพียง {d} มม. — รูเจาะต้องห่างแนวยาแนวอย่างน้อย {min} มม. หรืออยู่บนแนวพอดี เพื่อไม่ให้เจาะโดนขอบกระเบื้องจนแตก", en = "{wall}, {item}: its centre ({axis} {v}) is only {d} mm from a tile joint — a hole must be at least {min} mm clear of a joint, or exactly on it, so the drill doesn't crack the tile edge" }
-warn_off_wall = { th = "{wall}, {item}: {edge} — ย้ายตำแหน่ง หรือตรวจขนาดของมัน", en = "{wall}, {item}: {edge} — move it, or check its size" }
-edge_start = { th = "เลยปลายผนังด้านต้น (x = 0)", en = "runs past the start of the wall (x = 0)" }
-edge_end = { th = "เลยปลายผนังอีกด้าน (x = {length})", en = "runs past the end of the wall (x = {length})" }
-edge_floor = { th = "ต่ำกว่าระดับพื้น", en = "runs below the floor" }
-edge_ceiling = { th = "สูงเกินฝ้าเพดาน ({ceiling})", en = "runs above the ceiling ({ceiling})" }
-warn_off_floor = { th = "{item}: อยู่นอกพื้นห้อง ({length} × {width}) — ย้ายตำแหน่ง หรือตรวจขนาดของมัน", en = "{item}: lies outside the {length} × {width} floor — move it, or check its size" }
-warn_overlap = { th = "{wall}, {a} ทับกับ {b} — ของสองชิ้นอยู่ตำแหน่งเดียวกันบนผนังไม่ได้ ต้องย้ายชิ้นใดชิ้นหนึ่ง", en = "{wall}, {a} overlaps {b} — two fittings can't take the same place on the wall; move one of them" }
-warn_in_opening = { th = "{wall}, {a} อยู่ในช่อง{b} — ตรงนั้นไม่มีผนังให้ยึด ต้องย้ายไปไว้บนผนังทึบ", en = "{wall}, {a} is inside {b} — there is no wall there to fix it to; move it onto solid wall" }
-warn_outside = { th = "{wall}, {item} ({axis} {v}) อยู่นอกความกว้างของ{parent} ({low}–{high}) — เป็นส่วนหนึ่งของชิ้นนั้น จึงต้องย้ายไปพร้อมกัน ไม่เช่นนั้นจะต่อไม่ถึงหรือมองเห็นได้", en = "{wall}, {item} ({axis} {v}) is outside the width of {parent} ({low}–{high}) — it belongs to that fitting, so it must move with it, or it won't connect or stay hidden" }
-warn_above = { th = "{wall}, {item} ({axis} {v}) สูงเกินขอบบนของ{parent} ({top}) — เป็นส่วนหนึ่งของชิ้นนั้น จะโผล่ให้เห็นเหนือมัน ต้องลดระดับลง", en = "{wall}, {item} ({axis} {v}) is above the top of {parent} ({top}) — it belongs to that fitting and would show above it; move it down" }
+# The design problems (room_design_checks.py): setting out and clashes, each a note for the architect — where, what, the rule, what to do.
+warn_joint = { th = "{wall}, {item}: จุดกึ่งกลาง ({axis} {v}) วางตำแหน่งห่างแนวยาแนวเพียง {d} มม. — ต้องวางตำแหน่งรูเจาะให้ห่างแนวยาแนวอย่างน้อย {min} มม. หรือตรงแนวพอดี เพื่อไม่ให้เจาะโดนขอบกระเบื้องจนแตก", en = "{wall}, {item}: its centre ({axis} {v}) is set out only {d} mm from a tile joint — set every hole out at least {min} mm clear of a joint, or exactly on it, so the drill doesn't crack the tile edge" }
+warn_set_out_off_wall = { th = "{wall}, {item}: วางตำแหน่ง{edge} — วางตำแหน่งใหม่ หรือตรวจขนาดของมัน", en = "{wall}, {item}: set out {edge} — set it out again, or check its size" }
+edge_start = { th = "เลยปลายผนังด้านต้น (x = 0)", en = "past the start of the wall (x = 0)" }
+edge_end = { th = "เลยปลายผนังอีกด้าน (x = {length})", en = "past the end of the wall (x = {length})" }
+edge_floor = { th = "ต่ำกว่าระดับพื้น", en = "below the floor" }
+edge_ceiling = { th = "สูงเกินฝ้าเพดาน ({ceiling})", en = "above the ceiling ({ceiling})" }
+warn_set_out_off_floor = { th = "{item}: วางตำแหน่งนอกพื้นห้อง ({length} × {width}) — วางตำแหน่งใหม่ หรือตรวจขนาดของมัน", en = "{item}: set out outside the {length} × {width} floor — set it out again, or check its size" }
+warn_clash = { th = "{wall}, {a} ชนกับ {b} — อุปกรณ์สองชิ้นอยู่ตำแหน่งเดียวกันบนผนังไม่ได้ ต้องวางตำแหน่งชิ้นใดชิ้นหนึ่งใหม่", en = "{wall}, {a} clashes with {b} — two fittings can't take the same place on the wall; set one of them out again" }
+warn_in_opening = { th = "{wall}, {a} วางตำแหน่งอยู่ในช่องเปิด {b} — ตรงนั้นไม่มีผนังให้ยึด ต้องวางบนผนังทึบ", en = "{wall}, {a} is set out in the opening {b} — there is no wall there to fix it to; set it out on solid wall" }
+warn_outside = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่งนอกความกว้างของ{parent} ({low}–{high}) — เป็นส่วนหนึ่งของชิ้นนั้น ต้องวางตำแหน่งไปพร้อมกัน ไม่เช่นนั้นจะต่อไม่ถึงหรือมองเห็นได้", en = "{wall}, {item} ({axis} {v}) is set out outside the width of {parent} ({low}–{high}) — it belongs to that fitting, so set it out with it, or it won't connect or stay hidden" }
+warn_above = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่งสูงเกินขอบบนของ{parent} ({top}) — เป็นส่วนหนึ่งของชิ้นนั้น จะโผล่ให้เห็นเหนือมัน ต้องวางตำแหน่งให้ต่ำลง", en = "{wall}, {item} ({axis} {v}) is set out above the top of {parent} ({top}) — it belongs to that fitting and would show above it; set it out lower" }
 warn_door_fit = { th = "{wall}: ช่องประตู ({door}) รวมกับเสาเดิม ({column}) ยาวเกินผนัง ({length}) — ใช้วงกบที่แคบลง หรือตรวจขนาดเสา", en = "{wall}: the door opening ({door}) and the existing column ({column}) don't fit in the wall's {length} — use a narrower door frame, or check the column" }
 warn_lintel_short = { th = "{wall}: คานทับหลัง ({lintel}) สั้นกว่าช่องประตูรวมระยะวางบนผนัง ({door} + {bearing}) — คานจะวางบนผนังไม่ถึงทั้งสองข้าง ต้องใช้คานที่ยาวกว่านี้", en = "{wall}: the lintel ({lintel}) is shorter than the door opening plus its bearing ({door} + {bearing}) — it won't rest on the wall at both ends; use a longer lintel" }
 

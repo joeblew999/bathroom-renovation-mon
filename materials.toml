@@ -1,5 +1,5 @@
 # materials.toml — every product, once: what it is, how it's bought, and its lines on the list.
-# materials.py reads it and renders the materials schedule; room.toml names products by id and takes
+# materials.py reads it and renders the materials list; room.toml names products by id and takes
 # their names and sizes from here. The list is ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused, then supplied
@@ -58,8 +58,8 @@ date_format = "%d/%m/%Y"    # how the prices date is shown
 round_approx = 100         # an approximate total is rounded to this
 
 [section]
-th = "วัสดุ"
-en = "Materials"
+th = "รายการวัสดุ"
+en = "Materials list"
 note_th = "ราคา ณ วันที่ {prices_date} · \"{approx}\" = ราคาอาจเปลี่ยนแปลง"
 note_en = "Prices as of {prices_date} · \"{approx}\" = the price may change"
 
@@ -73,8 +73,8 @@ buy = { th = "ซื้อ", en = "buy" }
 approx = { th = "ประมาณ", en = "approx." }
 about = { th = "ประมาณ", en = "about" }
 detail = { th = " ", en = ", " }     # between a product's name and its detail
-# A design problem (materials_design_checks.py), as a note for the architect.
-tile_short = { th = "กระเบื้อง{tile}: ในรายการมี {planned} กล่อง แต่ห้องต้องใช้ {boxes} กล่อง — สั่งเพิ่มเสียตั้งแต่ตอนนี้ เพราะล็อตที่สั่งทีหลังสีอาจไม่ตรงกัน", en = "{tile} tile: {planned} boxes on the list, but the room needs {boxes} — order the rest now, as a later batch may not match in colour" }
+# A design problem (materials_design_checks.py), quantities: a note for the architect.
+warn_take_off_short = { th = "กระเบื้อง{tile}: ถอดปริมาณแล้วต้องใช้ {boxes} กล่อง แต่ในรายการสั่งไว้ {planned} กล่อง — สั่งเพิ่มเสียตั้งแต่ตอนนี้จากล็อตเดียวกัน เพื่อให้เฉดสีตรงกัน", en = "{tile} tile: the take-off needs {boxes} boxes, but the materials list orders {planned} — order the rest now, from the same batch, so the shade matches" }
 
 # The marks on the list — the same in both languages, so one value each.
 [symbols]

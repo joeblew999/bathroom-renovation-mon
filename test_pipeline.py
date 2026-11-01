@@ -310,25 +310,25 @@ def above_tiles_test():
 def point_off_wall_test():
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, \
-        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=length_end())
+        warn("warn_set_out_off_wall", wall=wall_name(), item=it.label(), edge=length_end())
 
 
 def zone_off_wall_test():
     z = find(wall().items, "zone on the wall", lambda i: i.shape == "zone")
     return {ROOM: data(lambda d: raw_item(d, z.id).update(x=wall().length - z.w / 4))}, \
-        warn("warn_off_wall", wall=wall_name(), item=z.label(), edge=length_end())
+        warn("warn_set_out_off_wall", wall=wall_name(), item=z.label(), edge=length_end())
 
 
 def ceiling_test():
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(y=real().room.ceiling))}, \
-        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_ceiling", ceiling=f"{real().room.ceiling:g}"))
+        warn("warn_set_out_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_ceiling", ceiling=f"{real().room.ceiling:g}"))
 
 
 def off_floor_test():
     it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
     return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(x=real().room.length))},
-            warn("warn_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
+            warn("warn_set_out_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
 
 
 def problem_text(svg):
@@ -337,7 +337,7 @@ def problem_text(svg):
     return " ".join(html.unescape(line).strip() for line in lines)
 
 
-def tile_short_on_plan_test():
+def take_off_short_on_plan_test():
     """The tile-box shortage shows red on the floor plan, not only in the terminal."""
     edits, want = tile_boxes_test()
     plan = real().room.labels.en("floor_plan")
@@ -352,7 +352,7 @@ def tile_short_on_plan_test():
 def clash_test():
     a, b = solids()[:2]
     return {ROOM: data(lambda d: raw_item(d, b.id).update(x=a.x, y=a.y))}, \
-        warn("warn_overlap", wall=wall_name(), a=a.label(), b=b.label())
+        warn("warn_clash", wall=wall_name(), a=a.label(), b=b.label())
 
 
 def round_clash_test():
@@ -360,13 +360,13 @@ def round_clash_test():
     c = find(solids(), "round item on the wall", lambda i: i.shape == "circle")
     b = find(solids(), "other solid item", lambda i: i is not c)
     return {ROOM: data(lambda d: raw_item(d, c.id).update(x=b.x, y=b.y))}, \
-        warn("warn_overlap", wall=wall_name(), **dict(zip("ab", (x.label() for x in sorted((c, b), key=wall().items.index)))))
+        warn("warn_clash", wall=wall_name(), **dict(zip("ab", (x.label() for x in sorted((c, b), key=wall().items.index)))))
 
 
 def wall_end_test():
     a = solids()[0]
     return {ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))}, \
-        warn("warn_off_wall", wall=wall_name(), item=a.label(), edge=length_end())
+        warn("warn_set_out_off_wall", wall=wall_name(), item=a.label(), edge=length_end())
 
 
 def part_outside_test():
@@ -412,7 +412,7 @@ def column_clash_test():
     box = {"id": "test_box", "th": "กล่องทดสอบ", "en": "Test box", "shape": "rect",
            "x": col.x, "y": col.y, "w": col.w, "h": col.h / 4}
     n = 1                                                       # the test box comes first on its wall
-    return add_item(wid, box, first=True), warn("warn_overlap", wall=wall_name(w), a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
+    return add_item(wid, box, first=True), warn("warn_clash", wall=wall_name(w), a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
                                       b=(f"{int(col.no) + 1} {col.th}", f"{int(col.no) + 1} {col.en}"))
 
 
@@ -451,20 +451,20 @@ def point_in_opening_test():
 def below_floor_test():
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(y=it.h / 4))}, \
-        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_floor"))
+        warn("warn_set_out_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_floor"))
 
 
 def off_wall_start_test():
     """A box poking out past the wall's start (x = 0)."""
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=it.w / 4))}, \
-        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_start"))
+        warn("warn_set_out_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_start"))
 
 
 def off_floor_y_test():
     it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
     return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(y=real().room.width))},
-            warn("warn_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
+            warn("warn_set_out_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
 
 
 def money_test():
@@ -490,7 +490,7 @@ def tile_boxes_test():
         for ln in by_id(d["entry"], t.tile.product)["line"]:
             ln["n"] = 1
     return {MATERIALS: data(change)}, \
-        real().materials.labels.en("tile_short", tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
+        real().materials.labels.en("warn_take_off_short", tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
 
 
 def cut_row_test():
@@ -790,46 +790,46 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- room design (room_design_checks.py): setting out and clashes, in Thai and English, in red under the drawing ----
-    ("room design check: a point moved just off a joint", joint_test),
-    ("room design check: the same problem, in Thai", lambda: joint_test("th")),
-    ("room design check: a point moved just off a horizontal joint", joint_y_test),
-    ("room design check: the tile top edge counts as a joint", tile_top_joint_test),
-    ("room design check: a hole exactly on a joint is allowed", on_joint_test),
-    ("room design check: no joint problems above the tiling", above_tiles_test),
-    ("room design check: a point moved off the end of the wall", point_off_wall_test),
-    ("room design check: a zone running off its wall", zone_off_wall_test),
-    ("room design check: a box poking out past the wall's start", off_wall_start_test),
-    ("room design check: an item running below the floor", below_floor_test),
-    ("room design check: a fixing in a window", point_in_opening_test),
-    ("room design check: a floor item off the floor, across the room", off_floor_y_test),
-    ("room design check: an item above the ceiling", ceiling_test),
-    ("room design check: a floor item off the floor", off_floor_test),
-    ("room design check: an item moved onto another", clash_test),
-    ("room design check: a round item moved onto another", round_clash_test),
-    ("room design check: an item pushed past the end of the wall", wall_end_test),
-    ("room design check: an item moved without the part that belongs to it", part_outside_test),
-    ("room design check: a part moved above the item it belongs to", part_above_test),
-    ("room design check: an item moved onto the column", column_clash_test),
-    ("room design check: no tile joint inside the door opening", door_joint_test),
-    ("room design check: the all-clear is printed on the drawings", {},
+    # ---- setting out and clashes (room_design_checks.py): in Thai and English, in red under the drawing ----
+    ("setting out and clashes: a point moved just off a joint", joint_test),
+    ("setting out and clashes: the same problem, in Thai", lambda: joint_test("th")),
+    ("setting out and clashes: a point moved just off a horizontal joint", joint_y_test),
+    ("setting out and clashes: the tile top edge counts as a joint", tile_top_joint_test),
+    ("setting out and clashes: a hole exactly on a joint is allowed", on_joint_test),
+    ("setting out and clashes: no joint problems above the tiling", above_tiles_test),
+    ("setting out and clashes: a point moved off the end of the wall", point_off_wall_test),
+    ("setting out and clashes: a zone running off its wall", zone_off_wall_test),
+    ("setting out and clashes: a box poking out past the wall's start", off_wall_start_test),
+    ("setting out and clashes: an item running below the floor", below_floor_test),
+    ("setting out and clashes: a fixing in a window", point_in_opening_test),
+    ("setting out and clashes: a floor item off the floor, across the room", off_floor_y_test),
+    ("setting out and clashes: an item above the ceiling", ceiling_test),
+    ("setting out and clashes: a floor item off the floor", off_floor_test),
+    ("setting out and clashes: an item moved onto another", clash_test),
+    ("setting out and clashes: a round item moved onto another", round_clash_test),
+    ("setting out and clashes: an item pushed past the end of the wall", wall_end_test),
+    ("setting out and clashes: an item moved without the part that belongs to it", part_outside_test),
+    ("setting out and clashes: a part moved above the item it belongs to", part_above_test),
+    ("setting out and clashes: an item moved onto the column", column_clash_test),
+    ("setting out and clashes: no tile joint inside the door opening", door_joint_test),
+    ("setting out and clashes: the all-clear is printed on the drawings", {},
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
-    ("room design check: the door wider than its wall beside the column", door_test),
-    ("room design check: a lintel shorter than the door and its bearing", lintel_short_test),
-    # ---- materials design (materials_design_checks.py): quantities — the take-off against the materials schedule ----
-    ("materials design check: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
-    ("materials design check: too few tile boxes for the room", tile_boxes_test),
+    ("setting out and clashes: the door wider than its wall beside the column", door_test),
+    ("setting out and clashes: a lintel shorter than the door and its bearing", lintel_short_test),
+    # ---- quantities (materials_design_checks.py): the take-off against the materials list ----
+    ("quantities: a tile-box shortage shows on the floor plan", take_off_short_on_plan_test),
+    ("quantities: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
-    ("design check: every design problem's lines fit inside its drawing", problems_fit_test),
-    ("design check: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
+    ("design problems: every design problem's lines fit inside its drawing", problems_fit_test),
+    ("design problems: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
     ("room: items on a wall that isn't drawn",
      lambda: ({ROOM: data(lambda d: wall_raw(d).update(drawn=False))}, f"wall '{wall_raw()['id']}' has items but isn't drawn")),
-    ("room: an item naming a product that isn't on the materials schedule",
+    ("room: an item naming a product that isn't on the materials list",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", lambda e: e.update(product="no_such_product")),
-              "names product 'no_such_product', which is not on the materials schedule")),
+              "names product 'no_such_product', which is not on the materials list")),
     ("room: an item with both a product and a name",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", both_names),
               "needs a product or a name (th, en) — one, not both")),
@@ -857,7 +857,7 @@ TESTS = [
                                         "(point) needs 'x'")),
     ("room: a part belonging to an item that isn't there", missing_parent_test),
     ("room: a tile whose product has no tiles-per-box",
-     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the materials schedule to have a per_box"),
+     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the materials list to have a per_box"),
     ("room: a tiling height that isn't a whole number",
      {ROOM: data(lambda d: find(d["tile"], "tile").update(top=find(d["tile"], "tile")["top"] + 0.5))},
      "'top' must be a whole number more than 0"),
@@ -873,7 +873,7 @@ TESTS = [
               "note_th uses {phase} (it can use: nothing)")),
     ("room: a wall set to drawn gets its own drawing", drawn_wall_test),
     ("room: a tiling height that isn't whole tiles counts the cut row", cut_row_test),
-    # ---- products: on the materials schedule; their names and sizes are used by the room ----
+    # ---- products: on the materials list; their names and sizes are used by the room ----
     ("products: a product's size reaches its detail on the list", size_in_name_test),
     ("products: a detail showing a size the product doesn't have",
      lambda: (edit_entry(lambda e: "size" not in e, "product without a size", lambda e: e.update(detail_th="ขนาด {w}", detail_en="sized {w}")),

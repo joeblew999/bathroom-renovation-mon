@@ -1,5 +1,5 @@
 """The room: room.toml, read, checked, worked out and drawn. It knows nothing about the phases;
-the products on the materials schedule are handed to it (for their names and sizes).
+the products on the materials list are handed to it (for their names and sizes).
 
     r = load(Path("room.toml"), products)   # products = {id: Product}, from materials.load()
     r.render()          # [svg text] — the floor plan, then each drawn wall
@@ -62,10 +62,10 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "all_clear": ("min_clear",), "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare"),
           # the design problems (room_design_checks.py), each a note for the architect: where, what, the rule, what to do
           "warn_joint": ("wall", "item", "axis", "v", "d", "min"),
-          "warn_off_wall": ("wall", "item", "edge"),
+          "warn_set_out_off_wall": ("wall", "item", "edge"),
           "edge_start": (), "edge_end": ("length",), "edge_floor": (), "edge_ceiling": ("ceiling",),
-          "warn_off_floor": ("item", "length", "width"),
-          "warn_overlap": ("wall", "a", "b"), "warn_in_opening": ("wall", "a", "b"),
+          "warn_set_out_off_floor": ("item", "length", "width"),
+          "warn_clash": ("wall", "a", "b"), "warn_in_opening": ("wall", "a", "b"),
           "warn_outside": ("wall", "item", "axis", "v", "parent", "low", "high"),
           "warn_above": ("wall", "item", "axis", "v", "parent", "top"),
           "warn_door_fit": ("wall", "door", "column", "length"), "warn_lintel_short": ("wall", "lintel", "door", "bearing")}
@@ -109,7 +109,7 @@ def _check(raw):
 @dataclass(frozen=True)
 class Tile:
     id: str              # what the floor and walls call it
-    product: str         # its id on the materials schedule
+    product: str         # its id on the materials list
     th: str
     en: str
     size: int            # square, mm (from the product)
@@ -225,13 +225,13 @@ def load(path, products):
 
 
 def _product(products, where, pid, needs=()):
-    """A product on the materials schedule that has the sizes `needs`."""
+    """A product on the materials list that has the sizes `needs`."""
     if pid not in products:
-        raise DataError(f"{FILE}: {where} names product '{pid}', which is not on the materials schedule")
+        raise DataError(f"{FILE}: {where} names product '{pid}', which is not on the materials list")
     p = products[pid]
     for k in needs:
         if getattr(p, k) is None:
-            raise DataError(f"{FILE}: {where} needs product '{pid}' on the materials schedule to have a {k}")
+            raise DataError(f"{FILE}: {where} needs product '{pid}' on the materials list to have a {k}")
     return p
 
 

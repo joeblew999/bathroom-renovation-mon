@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""The materials schedule: materials.toml, read, checked, ordered and rendered. It knows nothing
+"""The materials list: materials.toml, read, checked, ordered and rendered. It knows nothing
 about the phases or the drawings.
 
     m = load(Path("materials.toml"))
-    m.render()          # the materials schedule as Markdown table rows — the PDF prints exactly this
+    m.render()          # the materials list as Markdown table rows — the PDF prints exactly this
     m.products          # {id: Product} — every product's name, detail and size (the room uses them)
     m.still_to_buy()    # (total, whether any of it is approximate)
     m.on_site()         # how many lines are already on site
@@ -18,7 +18,7 @@ Ordered by exactly two things written in the file: the group (in the order the g
 listed), then the status (in STATUS order); lines with the same group and status keep the order
 of their products in the file.
 
-Usage:  python3 materials.py [materials.toml]    (prints the materials schedule)
+Usage:  python3 materials.py [materials.toml]    (prints the materials list)
 """
 import re
 import sys
@@ -47,7 +47,7 @@ SIZE_KEYS = ("w", "h", "d")
 SIZE = {k: "count" for k in SIZE_KEYS}
 SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
 LABELS = {**{k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about", "detail")},
-          "tile_short": ("tile", "planned", "boxes")}     # a design check (materials_design_checks.py)
+          "warn_take_off_short": ("tile", "planned", "boxes")}     # a design check (materials_design_checks.py)
 
 
 @dataclass(frozen=True)
