@@ -33,18 +33,7 @@ Two kinds of check stop the build. **Data checks** ask whether a data file is wr
 | materials | `materials.toml` | `materials.py` | `materials_design_checks.py` — the quantities |
 | phases | `phases.toml` | `phases.py` | none yet (a `phases_design_checks.py` would check the order of the work) |
 
-`room_design_checks.py` — the space:
-- a hole (a fixing, an outlet, an item's centre) too near a tile joint (the clearance is `min_clear` in `room.toml`)
-- an item off its wall: past an end, below the floor or above the ceiling
-- a floor item off the floor
-- two items overlapping, the column, door and lintel included
-- a fixing or outlet in a window or the door opening
-- a part (a pipe, a fixing) outside the width, or above the top, of the fitting it belongs to
-- the door opening too wide to fit beside the column
-- the lintel shorter than the door opening plus its bearing
-
-`materials_design_checks.py` — the quantities:
-- too few tile boxes on the list for the tiles the room needs (the room works out the count; the list's check compares)
+Each design-checks file lists its checks at the top, next to the code that does them.
 
 A design problem stops the build — after the page and the PDF are written to `out/`, so it can be seen there, listed in red under its drawing; GitHub runs the same build, so nothing with a design problem is published. Each problem is written as a note for the architect, in Thai and English: where, what, the rule, and what to do. Its wording is a label in the part's data file. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
 
