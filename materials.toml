@@ -574,10 +574,10 @@ sku = "1040989"
 
 [[entry]]
 id = "supply_hose"
-th = "สายน้ำดีสเตนเลส MOYA"
-detail_th = "MY-SSB20 ยาว 20 นิ้ว"
-en = "MOYA stainless supply hose"
-detail_en = "MY-SSB20, 20\""
+th = "สายน้ำดี MOYA"
+detail_th = "MY-SSB20 สเตนเลส ยาว 20 นิ้ว"
+en = "MOYA supply hose"
+detail_en = "MY-SSB20, stainless, 20\""
 unit = "length"
 price = 90
 shop = "homepro"
@@ -593,10 +593,10 @@ sku = "1028226"
 
 [[entry]]
 id = "brass_elbow"
-th = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย"
-detail_th = "½ นิ้ว"
-en = "Thai Pipe female-thread brass elbow"
-detail_en = "½\""
+th = "ข้องอเกลียวใน ท่อน้ำไทย"
+detail_th = "ทองเหลือง ½ นิ้ว"
+en = "Thai Pipe female-thread elbow"
+detail_en = "brass, ½\""
 unit = "fitting"
 price = 35
 approx = true
@@ -888,14 +888,16 @@ unit = "length"
 [[entry]]
 id = "heater_stop_valve"
 th = "สต็อปวาล์ว"
-detail_th = "เครื่องทำน้ำอุ่น พร้อมฝาครอบเลื่อนได้"
+detail_th = "พร้อมฝาครอบเลื่อนได้"
 en = "Stop valve"
-detail_en = "water heater, with a sliding cover plate"
+detail_en = "with a sliding cover plate"
 unit = "fitting"
   [[entry.line]]
   group = "shower_heater"
   status = "reused"
   n = 1
+  note_th = "ของเครื่องทำน้ำอุ่น"
+  note_en = "the water heater's"
 
 [[entry]]
 id = "mirror"
@@ -903,7 +905,7 @@ th = "กระจกเงากลม MOYA"
 detail_th = "HLP004 Ø {w_cm} ซม."
 en = "MOYA round mirror"
 detail_en = "HLP004, Ø {w_cm} cm"
-size = { w = 600, h = 600 }
+size = { w = 600 }
 unit = "panel"
 price = 429
 shop = "homepro"
@@ -1103,10 +1105,10 @@ sku = "138771"
 
 [[entry]]
 id = "step_nosing"
-th = "จมูกบันไดอะลูมิเนียม HOME"
-detail_th = "NAS-451510 ยาว 1.5 ม. สีเงินเงา"
-en = "HOME aluminium step nosing"
-detail_en = "NAS-451510, 1.5 m, bright silver"
+th = "จมูกบันได HOME"
+detail_th = "NAS-451510 อะลูมิเนียม ยาว 1.5 ม. สีเงินเงา"
+en = "HOME step nosing"
+detail_en = "NAS-451510, aluminium, 1.5 m, bright silver"
 unit = "length"
 price = 357.93
 shop = "homepro"
@@ -1136,10 +1138,10 @@ sku = "1240420"
 
 [[entry]]
 id = "silicone"
-th = "ซิลิโคนไร้กรดกันเชื้อรา SIKA"
-detail_th = "SIKASIL-129 300 มล. สีขาว"
-en = "SIKA anti-fungal neutral silicone"
-detail_en = "SIKASIL-129, 300 ml, white"
+th = "ซิลิโคน SIKA"
+detail_th = "SIKASIL-129 300 มล. สีขาว ไร้กรด กันเชื้อรา"
+en = "SIKA silicone"
+detail_en = "SIKASIL-129, 300 ml, white, neutral, anti-fungal"
 unit = "tube"
 price = 139
 shop = "homepro"

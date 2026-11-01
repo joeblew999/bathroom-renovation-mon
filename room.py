@@ -163,7 +163,7 @@ class Room:
     floor: tuple         # the floor's items
     walls: dict          # {id: Wall}, in order round the plan
     labels: Labels
-    symbols: dict        # the marks on the drawings: x, y, W, H, —, ×, ⚠
+    symbols: dict        # the marks on the drawings (room.toml [symbols])
 
     def tiles_needed(self):
         """Tiles needed per tile: the floor, and each wall's tiled run up to its tile's top (a cut
@@ -212,7 +212,7 @@ def _product(products, where, pid, needs=()):
     p = products[pid]
     for k in needs:
         if getattr(p, k) is None:
-            raise DataError(f"{FILE}: {where} needs a {k} in the size of product '{pid}' on the material list")
+            raise DataError(f"{FILE}: {where} needs product '{pid}' on the material list to have a {k}")
     return p
 
 
@@ -331,10 +331,11 @@ def _joint_warnings(room, wall, tile, top):
 
 
 def _box(it):
-    """(x0, x1, y0, y1) of a solid item, or None."""
-    if it.shape not in ("rect", "circle", "opening", "door", "column") or None in (it.x, it.w, it.y, it.h):
+    """(x0, x1, y0, y1) of a solid item (a circle: its diameter both ways), or None."""
+    h = it.w if it.shape == "circle" else it.h
+    if it.shape not in ("rect", "circle", "opening", "door", "column") or None in (it.x, it.w, it.y, h):
         return None
-    return it.x - it.w / 2, it.x + it.w / 2, it.y - it.h / 2, it.y + it.h / 2
+    return it.x - it.w / 2, it.x + it.w / 2, it.y - h / 2, it.y + h / 2
 
 
 def _clash_warnings(room, items, length):

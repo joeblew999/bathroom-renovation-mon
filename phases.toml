@@ -25,7 +25,8 @@ note_en = "In working order — each phase finishes before the next starts."
 
 [labels]
 phase_heading = { th = "ขั้น {number} — {name}", en = "Phase {number} — {name}" }
-step_columns = { th = "ภาษาไทย", en = "English" }
+thai_column = { th = "ภาษาไทย", en = "Thai" }
+english_column = { th = "ภาษาอังกฤษ", en = "English" }
 
 # The marks around the phases — the same in both languages.
 [symbols]
@@ -145,8 +146,8 @@ en = "**Switch:** cut recesses for the reused switch-and-socket plate and breake
 
 [[phase.step]]
 id = "lamp_cable"
-th = "**โคมไฟ:** เซาะร่องเดินสายโคมไฟจากสวิตช์ไปตามผนังหลัก ถึงโคมไฟดวงแรก แล้วดวงที่สอง — สายเส้นเดียวไม่มีจุดต่อ ต่อสายเฉพาะที่สวิตช์และที่โคมไฟ"
-en = "**Lamps:** chase the lamp cable from the switch along the main wall to the first lamp, then the second — one unbroken run, joints only at the switch and the lamps"
+th = "**โคมไฟ:** เซาะร่องเดินสายโคมไฟจากสวิตช์ไปตามผนังหลัก ถึงโคมไฟทีละดวง — สายเส้นเดียวไม่มีจุดต่อ ต่อสายเฉพาะที่สวิตช์และที่โคมไฟ"
+en = "**Lamps:** chase the lamp cable from the switch along the main wall to each lamp in turn — one unbroken run, joints only at the switch and the lamps"
 
 [[phase.step]]
 id = "heater_cable"
@@ -247,8 +248,8 @@ note_en = "Tight grout joints of about 1–2 mm, levelling clips and cement-base
 
 [[phase.step]]
 id = "main_wall_tiles"
-th = "**ผนังหลัก:** ปูให้กระเบื้องหันทิศทางเดียวกับกระเบื้องพื้น (ดูลูกศรหลังแผ่น) ให้ลายต่อเนื่อง และแนวยาแนวผนังตรงกับแนวยาแนวพื้น · แถวกระเบื้องวัดจากพื้นด้านต่ำ แถวล่างด้านพื้นสูงตัดสั้นลงเท่าความสูงขั้น"
-en = "**Main wall:** lay the tiles facing the same way as the floor tiles (check the arrows on the back) so the pattern runs on, with the wall joints lined up with the floor joints · rows run level from the lower floor; where the floor is higher, the bottom row is cut shorter by the step height"
+th = "**ผนังหลัก:** แนวยาแนวผนังตรงกับแนวยาแนวพื้น กระเบื้องทุกแผ่นหันตามลูกศรหลังแผ่น · แถวกระเบื้องวัดจากพื้นด้านต่ำ แถวล่างด้านพื้นสูงตัดสั้นลงเท่าความสูงขั้น"
+en = "**Main wall:** wall joints lined up with the floor joints, every tile facing the way the arrow on its back shows · rows run level from the lower floor; where the floor is higher, the bottom row is cut shorter by the step height"
 
 [[phase.step]]
 id = "door_end_tiles"

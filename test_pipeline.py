@@ -77,7 +77,7 @@ def solids():
     """Items on the wall from room.toml with a full box (they can clash or run off the end)."""
     ids = {e["id"] for e in wall_raw()["item"]}
     out = [it for it in wall().items if it.id in ids and it.shape in ("rect", "circle")
-           and None not in (it.x, it.w, it.y, it.h)]
+           and None not in (it.x, it.w, it.y) and (it.h is not None or it.shape == "circle")]
     if len(out) < 2:
         raise LookupError("the wall has fewer than two solid items, so nothing can clash")
     return out
@@ -249,10 +249,32 @@ def joint_y_test():
             warn("warn_joint", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}", d=f"{off:g}"))
 
 
+def tile_top_joint_test():
+    """The tile top edge counts as a joint: a point just below it is warned about."""
+    it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
+    top, off = real().room.tiles[wall().tile].top, real().room.min_clear / 2
+    return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=top - off))},
+            warn("warn_joint", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{top - off:g}", d=f"{off:g}"))
+
+
+def on_joint_test():
+    """A hole exactly on a joint is allowed (the screws go either side): no warning."""
+    it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=real().room.tiles[wall().tile].size))}, CLEAN
+
+
 def clash_test():
     a, b = solids()[:2]
     return {ROOM: data(lambda d: raw_item(d, b.id).update(x=a.x, y=a.y))}, \
         warn("warn_overlap", a=a.label(), b=b.label())
+
+
+def round_clash_test():
+    """A round item (its size is just a width) moved onto another item: warned about."""
+    c = find(solids(), "round item on the wall", lambda i: i.shape == "circle")
+    b = find(solids(), "other solid item", lambda i: i is not c)
+    return {ROOM: data(lambda d: raw_item(d, c.id).update(x=b.x, y=b.y))}, \
+        warn("warn_overlap", **dict(zip("ab", (x.label() for x in sorted((c, b), key=wall().items.index)))))
 
 
 def wall_end_test():
@@ -339,8 +361,9 @@ def cut_row_test():
     """A tiling height that isn't a whole number of tiles: the cut row is counted."""
     w = wall()
     t = real().room.tiles[w.tile]
-    n = (math.ceil(t.top / t.size) + 1) * math.ceil(w.tiled_run / t.size)
-    return {ROOM: data(lambda d: by_id(d["tile"], t.id).update(top=t.top + 1))}, f"{w.en} {n}"
+    top = t.top // t.size * t.size + 1                         # one mm into a row: a cut row
+    n = (t.top // t.size + 1) * math.ceil(w.tiled_run / t.size)
+    return {ROOM: data(lambda d: by_id(d["tile"], t.id).update(top=top))}, f"{w.en} {n}"
 
 
 def door_test():
@@ -453,7 +476,7 @@ def ref_test(insert):
         if insert:
             ph = find(d["phase"], "phase with the step", lambda ph: any(s["id"] == target for s in ph.get("step", [])))
             ph["step"].insert(0, {"id": "inserted_test", "th": "ใหม่", "en": "New step"})
-    phase, step = real().work.numbers[("step", target)].split(".")
+    phase, step = step_number().strip("| ").split(".")
     return {PHASES: data(change)}, f"see step {phase}.{int(step) + insert}"
 
 
@@ -548,7 +571,10 @@ TESTS = [
     ("rules: a point moved just off a joint", joint_test),
     ("rules: the same warning, in Thai", lambda: joint_test("th")),
     ("rules: a point moved just off a horizontal joint", joint_y_test),
+    ("rules: the tile top edge counts as a joint", tile_top_joint_test),
+    ("rules: a hole exactly on a joint is allowed", on_joint_test),
     ("rules: an item moved onto another", clash_test),
+    ("rules: a round item moved onto another", round_clash_test),
     ("rules: an item pushed past the end of the wall", wall_end_test),
     ("rules: an item moved without the part that belongs to it", part_outside_test),
     ("rules: a part moved above the item it belongs to", part_above_test),
@@ -581,10 +607,12 @@ TESTS = [
                                         "(point) needs 'x'")),
     ("room: a part belonging to an item that isn't there", missing_parent_test),
     ("room: a tile whose product has no tiles-per-box",
-     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "needs a per_box in the size of product"),
+     {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the material list to have a per_box"),
     ("room: a tiling height that isn't a whole number",
      {ROOM: data(lambda d: find(d["tile"], "tile").update(top=find(d["tile"], "tile")["top"] + 0.5))},
      "'top' must be a whole number more than 0"),
+    ("room: a tile that isn't a whole number of mm",
+     {MATERIALS: data(lambda d: tile_product(d)["size"].update(w=500.5, h=500.5))}, "a whole number of mm"),
     ("room: a tile that isn't square",
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(h=1))}, "the tile count needs square tiles"),
     ("room: the door wider than its wall beside the column", door_test),
@@ -601,7 +629,7 @@ TESTS = [
     ("products: an item on the drawings takes its product's name",
      lambda: ({MATERIALS: data(lambda d: by_id(d["entry"], find(wall_raw()["item"], "item with a product",
                                                                lambda e: "product" in e)["product"]).update(en="NAME-TEST"))},
-              "NAME-TEST — ")),
+              f"NAME-TEST{RAW[ROOM]['symbols']['dash']}")),
     # ---- materials.toml ----
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
     ("materials: a price change flows into the total", price_test),
@@ -630,7 +658,12 @@ TESTS = [
      {MATERIALS: data(lambda d: d.update(prices_date=datetime.date(2030, 1, 2)))},
      datetime.date(2030, 1, 2).strftime(RAW[MATERIALS]["date_format"])),
     ("materials: the approx. label reaches the section note",
-     {MATERIALS: data(lambda d: d["labels"]["approx"].update(en="APPROX-TEST"))}, '"APPROX-TEST" = '),
+     {MATERIALS: data(lambda d: d["labels"]["approx"].update(en="APPROX-TEST"))},
+     "> " + RAW[MATERIALS]["section"]["note_en"].format(
+         prices_date=RAW[MATERIALS]["prices_date"].strftime(RAW[MATERIALS]["date_format"]), approx="APPROX-TEST")),
+    ("materials: the section note filling in something it can't",
+     {MATERIALS: data(lambda d: d["section"].update(note_en=d["section"]["note_en"] + " {nope}"))},
+     "[section] note_en uses {nope}"),
     ("materials: a group's note shows under its heading",
      {MATERIALS: data(lambda d: find(d["group"], "group").update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
      "*GROUP-NOTE-TH*<br>*GROUP-NOTE-EN*"),

@@ -221,8 +221,8 @@ product = "heater"
 shape = "rect"
 x = 2840
 y = 1670
-note_th = "ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมบนผนังหน้าต่างด้วยสายอ่อนอ้อมมุม"
-note_en = "makes room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from the existing stop valve on the window wall"
+note_th = "ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมด้วยสายอ่อนอ้อมมุม"
+note_en = "makes room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from its existing stop valve"
 
 
 [[wall]]

@@ -5,7 +5,6 @@ nothing about the materials or the drawings.
     work = load(Path("phases.toml"))
     work.phases         # every Phase, each with its Steps, numbered
     work.render()       # the phases as Markdown — the PDF prints exactly this
-    work.resolve(text)  # every {phase:id} / {step:id} in `text` turned into its number
 
 Phases and steps are numbered by their position in the file, so inserting a step renumbers
 it and every reference to it.
@@ -25,7 +24,7 @@ FILE_FIELDS = {"section": "table!", "labels": "table!", "symbols": "table!", "ph
 PHASE = {"id": "text!", **NAMED, "step": "list"}
 STEP = {"id": "text!", **NAME}
 SYMBOLS = {"number": "text!"}
-LABELS = {"phase_heading": ("number", "name"), "step_columns": ()}
+LABELS = {"phase_heading": ("number", "name"), "thai_column": (), "english_column": ()}
 REF = re.compile(r"\{([a-z]+):([a-z0-9_]+)\}")
 
 
@@ -53,7 +52,6 @@ class Work:
     phases: tuple
     labels: Labels = field(repr=False)
     symbols: dict = field(repr=False)     # the step-number column's heading
-    numbers: dict = field(repr=False)     # {("phase" | "step", id): "5" | "1.8"}
 
     def render(self):
         """The section as Markdown lines: its heading and note, then for each phase a heading,
@@ -66,7 +64,7 @@ class Work:
             out += [heading(3, L.th("phase_heading", **name), L.en("phase_heading", **name)), "",
                     *note(ph.note_th, ph.note_en)]
             if ph.steps:
-                out += [f"| {self.symbols['number']} | {L.th('step_columns')} | {L.en('step_columns')} |",
+                out += [f"| {self.symbols['number']} | {L.both('thai_column')} | {L.both('english_column')} |",
                         "|---|---------|---------|"]
                 out += [f"| {st.number} | {md_cell(st.th)} | {md_cell(st.en)} |" for st in ph.steps]
                 out.append("")
@@ -103,7 +101,7 @@ def load(path):
         Phase(p_no, *(resolve(numbers, ph.get(k, "")) for k in ("th", "en", "note_th", "note_en")),
               tuple(Step(numbers[("step", st["id"])], resolve(numbers, st["th"]), resolve(numbers, st["en"]))
                     for st in ph.get("step", [])))
-        for p_no, ph in enumerate(raw["phase"], 1)), labels, raw["symbols"], numbers)
+        for p_no, ph in enumerate(raw["phase"], 1)), labels, raw["symbols"])
 
 
 def main(argv):

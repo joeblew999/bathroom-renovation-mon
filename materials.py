@@ -172,7 +172,7 @@ class Materials:
     groups: tuple
     lines: tuple         # every line on the list, in file order
     labels: Labels
-    symbols: dict        # the marks on the list: ฿, ✓, —, ×
+    symbols: dict        # the marks on the list (materials.toml [symbols])
     round_approx: int    # an approximate total is rounded to this
 
     def in_order(self, group):
