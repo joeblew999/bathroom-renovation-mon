@@ -17,13 +17,13 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from common import NAMED, DataError, Labels, check, check_each, cli, heading, md_cell, named, note, read_toml
+from common import NAME, NAMED, DataError, Labels, check, check_each, cli, heading, md_cell, named, note, read_toml
 
 FILE = "phases.toml"
 # Every kind of entry in phases.toml, declared once (common.check: "!" = required).
 FILE_FIELDS = {"section": "table!", "labels": "table!", "phase": "list!"}
 PHASE = {"id": "text!", **NAMED, "step": "list"}
-STEP = {"id": "text!", "th": "text!", "en": "text!"}
+STEP = {"id": "text!", **NAME}
 LABELS = {"phase_heading": ("number", "name"), "step_columns": ()}
 REF = re.compile(r"\{([a-z]+):([a-z0-9_]+)\}")
 
@@ -59,7 +59,7 @@ class Work:
         """Replace every {phase:id} and {step:id} with its number."""
         def sub(m):
             if (m.group(1), m.group(2)) not in self.numbers:
-                raise DataError(f"Reference {{{m.group(1)}:{m.group(2)}}} doesn't match any phase or step id in {FILE}")
+                raise DataError(f"{FILE}: reference {{{m.group(1)}:{m.group(2)}}} doesn't match any phase or step id")
             return self.numbers[(m.group(1), m.group(2))]
         return REF.sub(sub, text)
 
@@ -68,12 +68,11 @@ class Work:
         its note and its step table."""
         L = self.labels
         th, en, nth, nen = self.section
-        out = [heading(2, th, en), ""] + ([*note(nth, nen), ""] if nth else [])
+        out = [heading(2, th, en), "", *note(nth, nen)]
         for ph in self.phases:
             name = dict(number=ph.number, name=(ph.th, ph.en))
-            out += [heading(3, L.th("phase_heading", **name), L.en("phase_heading", **name)), ""]
-            if ph.note_th:
-                out += [*note(ph.note_th, ph.note_en), ""]
+            out += [heading(3, L.th("phase_heading", **name), L.en("phase_heading", **name)), "",
+                    *note(ph.note_th, ph.note_en)]
             if ph.steps:
                 out += [f"| # | {L.th('step_columns')} | {L.en('step_columns')} |", "|---|---------|---------|"]
                 out += [f"| {st.number} | {md_cell(st.th)} | {md_cell(st.en)} |" for st in ph.steps]
@@ -84,7 +83,7 @@ class Work:
 def load(path):
     """Read and check phases.toml, and number every phase and step."""
     raw = read_toml(Path(path), "the work, phase by phase")
-    check(FILE, "the file", raw, FILE_FIELDS)
+    check(FILE, "the file", raw, FILE_FIELDS, ordered=False)
     section = named(check(FILE, "[section]", raw["section"], NAMED))
     labels = Labels(FILE, raw["labels"], LABELS)
     check_each(FILE, "phase", raw["phase"], PHASE)

@@ -19,7 +19,7 @@ run = [
 
 [tasks.lint]
 description = "Check the code for unused imports and undefined names"
-run = "python -m pyflakes *.py room/*.py"
+run = "python -m pyflakes *.py"
 
 [tasks.build]
 description = "Build out/index.html and out/bathroom-renovation-quote.pdf (the same page, as web page and PDF)"

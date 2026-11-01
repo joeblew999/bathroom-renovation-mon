@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small helpers shared by phases.py, materials.py and room/: reading a TOML file and
+"""Small helpers shared by phases.py, materials.py and room.py: reading a TOML file and
 checking what is in it. They know nothing about bathrooms; each part owns its own rules.
 
 Bad data raises DataError, with a message naming the file and the problem.
@@ -48,38 +48,55 @@ def flag(file, where, key, v):
 
 
 def one_of(file, where, key, v, known):
-    """`v` must be one of `known` (a list, or a dict whose entry is returned)."""
+    """`v` must be one of `known` (a list of ids, or a dict keyed by id)."""
     if v not in known:
         raise DataError(f"{file}: {where} has {key} = {v!r} (must be one of: {', '.join(known)})")
-    return known[v] if isinstance(known, dict) else v
 
 
 # ---------- the one checker ----------
-# Each part declares every kind of entry it reads once, as {key: type}: "text", "number",
-# "flag", "date", "table" or "list" — or "@name", one of the ids in known[name] (the shops, the
-# walls …). "!" after the type: the key is required. Every entry gets the same checks, so no
-# part repeats them: no unknown key, every required key there, each value of its type, and
-# both languages or neither (th with en, note_th with note_en, any x_th with its x_en).
+# Each part declares every kind of entry it reads once, as {key: type}. A type is "text", "flag",
+# "date", "table", "list", a number — "number" (any), "amount" (0 or more) or "count" (more than
+# 0) — or "@name", one of the ids in known[name] (the shops, the walls …). After the type:
+# "+key" — it always comes with that key; "!" — it is required. Every entry gets the same checks,
+# so no part repeats them: no unknown key, every required key there, the keys in the declared
+# order, each value of its type, keys that come together together, and both languages or
+# neither (th with en, note_th with note_en, any x_th with its x_en).
 TYPES = {"text": (str, "text"), "table": (dict, "a table"), "list": (list, "a list of tables"),
          "date": (datetime.date, "a date")}
+NUMBERS = {"number": None, "amount": "can't be negative", "count": "must be more than 0"}
 
 
-def check(file, where, entry, fields, known=None):
-    """Check one entry against its declared fields; returns it."""
+def _type(spec):
+    """'@shop+sku!' → ('@shop', 'sku', True)."""
+    kind, _, partner = spec.rstrip("!").partition("+")
+    return kind, partner, spec.endswith("!")
+
+
+def check(file, where, entry, fields, known=None, ordered=True):
+    """Check one entry against its declared fields; returns it. A whole file is checked with
+    ordered=False: the order of its sections doesn't matter, only the order within each entry."""
     if not isinstance(entry, dict):
         raise DataError(f"{file}: {where} must be a table")
     only(file, where, entry, fields)
-    need(file, where, entry, [k for k, t in fields.items() if t.endswith("!")])
+    need(file, where, entry, [k for k, t in fields.items() if _type(t)[2]])
+    order = [k for k in fields if k in entry]
+    if ordered and list(entry) != order:
+        k = next(a for a, b in zip(entry, order) if a != b)
+        raise DataError(f"{file}: {where} has '{k}' out of order (the order is: {', '.join(order)})")
     for k, v in entry.items():
-        kind = fields[k].rstrip("!")
+        kind, partner, _ = _type(fields[k])
         if kind.startswith("@"):
             one_of(file, where, k, v, known[kind[1:]])
-        elif kind == "number":
+        elif kind in NUMBERS:
             number(file, where, k, v)
+            if NUMBERS[kind] and (v < 0 if kind == "amount" else v <= 0):
+                raise DataError(f"{file}: {where} '{k}' {NUMBERS[kind]}")
         elif kind == "flag":
             flag(file, where, k, v)
         elif not isinstance(v, TYPES[kind][0]):
             raise DataError(f"{file}: {where} '{k}' must be {TYPES[kind][1]}, not {v!r}")
+        if partner and partner not in entry:
+            raise DataError(f"{file}: {where} has {k} but no {partner} — give both, or neither")
     for k in entry:
         other = {"th": "en", "en": "th"}.get(k) or (k[:-3] + ("_en" if k.endswith("_th") else "_th")
                                                     if k.endswith(("_th", "_en")) else None)
@@ -119,10 +136,12 @@ def md_cell(v):
     return v.replace("|", "\\|").replace("\n", " ")
 
 
-# ---------- the one shape of a named thing, and how it is printed ----------
-# A section, a phase, a material group, the quote itself: th and en (its name), and an
-# optional note under it, note_th and note_en. Every one is checked and printed the same way.
-NAMED = {"th": "text!", "en": "text!", "note_th": "text", "note_en": "text"}
+# ---------- the two shapes of a name, and how they are printed ----------
+# NAME: th and en — a shop, a unit, a tile, a wall, a step.
+# NAMED: a name with an optional note under it, note_th and note_en — a section, a phase, a
+# material group, an item on a drawing. Every one is checked and printed the same way.
+NAME = {"th": "text!", "en": "text!"}
+NAMED = {**NAME, "note_th": "text", "note_en": "text"}
 
 
 def named(e):
@@ -136,8 +155,9 @@ def heading(level, th, en):
 
 
 def note(th, en):
-    """A note under a heading: a Thai paragraph, then an English paragraph."""
-    return [f"> {th}", ">", f"> {en}"] if th or en else []
+    """A note under a heading: a Thai paragraph, then an English paragraph, then a blank line —
+    or nothing, when there is no note."""
+    return [f"> {th}", ">", f"> {en}", ""] if th or en else []
 
 
 def note_cell(th, en):

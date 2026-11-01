@@ -5,7 +5,7 @@ The only place the three parts meet. Each part reads its own file and renders it
 
   phases.py      phases.toml      → the work, phase by phase
   materials.py   materials.toml   → the material list (and every product's names and size)
-  room/          room.toml        → the floor plan and the wall drawings
+  room.py        room.toml        → the floor plan and the wall drawings
 
 This file hands the products on the material list to the room (for their sizes), checks the
 tile boxes on the list against the tiles the room needs, and puts each part's section into the
@@ -44,7 +44,7 @@ class Quote:
     materials: materials.Materials
     room: room.Room
     tiles: list          # [(TilesNeeded, boxes planned)]
-    warnings: list       # [(where, warning)]
+    warnings: list       # [(where, (th, en))]
 
 
 # ---------- the one fact two parts share ----------
@@ -52,14 +52,14 @@ def tile_check(m, r):
     """[(tiles needed, boxes on the list)] per tile, and a warning where there are too few. A
     tile and its boxes are matched by product: both name the same entry on the material list."""
     tiles = [(t, m.boxes_of(t.product)) for t in r.tiles_needed()]
-    return tiles, [("materials", f"{t.en} tile: {planned:g} boxes planned but {t.boxes} needed")
-                   for t, planned in tiles if planned < t.boxes]
+    short = [dict(tile=(t.th, t.en), planned=f"{planned:g}", boxes=t.boxes) for t, planned in tiles if planned < t.boxes]
+    return tiles, [("materials", (r.labels.th("tile_short", **v), r.labels.en("tile_short", **v))) for v in short]
 
 
 def tile_lines(r, tiles):
     """One line per tile: what the room needs, surface by surface, against the boxes planned."""
     lab = r.labels
-    names = {"floor": (lab.th("floor"), lab.en("floor")), **{k: (w.th, w.en.lower()) for k, w in r.walls.items()}}
+    names = {"floor": (lab.th("floor"), lab.en("floor")), **{k: (w.th, w.en) for k, w in r.walls.items()}}
     out = []
     for t, planned in tiles:
         parts = tuple(" + ".join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
@@ -87,7 +87,7 @@ def assemble(md):
         raise DataError(f"{md} not found")
     work = phases.load(md.with_name(phases.FILE))
     m = materials.load(md.with_name(materials.FILE))
-    r = room.load(md.with_name(room.ROOM_FILE), m.products)
+    r = room.load(md.with_name(room.FILE), m.products)
     tiles, tile_warnings = tile_check(m, r)
     doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
     return Quote(doc, r.render(), work, m, r, tiles, r.warnings() + tile_warnings)
@@ -130,8 +130,8 @@ def check(md):
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
     print("Still to buy:", q.materials.total_cell(bold=False))
-    for where, w in q.warnings:
-        print(f"WARNING ({where}): {w}")
+    for where, (_, en) in q.warnings:
+        print(f"WARNING ({where}): {en}")
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
           f"{len(q.warnings)} warnings")
 
@@ -144,8 +144,8 @@ def main(argv):
     md = Path(args[0] if args else "bathroom-renovation-quote.md")
     out = Path(args[1] if len(args) > 1 else "out")
     warnings = build(md, out)
-    for where, w in warnings:
-        print(f"WARNING ({where}): {w}")
+    for where, (_, en) in warnings:
+        print(f"WARNING ({where}): {en}")
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} warnings")
 
 

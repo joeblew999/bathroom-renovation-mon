@@ -9,7 +9,6 @@ requires-python = "==3.13.*"
 dependencies = [
   "markdown==3.11",     # the filled-in template → the web page
   "playwright==1.63.0", # drives Chromium, which prints the web page to the PDF
-  "tomli-w==1.2.0",     # the tests write their edited copies of the data with it
 ]
 
 [dependency-groups]

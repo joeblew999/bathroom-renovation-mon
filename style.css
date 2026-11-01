@@ -14,3 +14,68 @@
   a { color: #1a5276; word-break: break-all; }
   .drawing { page-break-before: always; text-align: center; }
   .drawing svg { width: 100%; height: auto; max-height: 265mm; }
+
+  /* ---------- the drawings (room.py lays them out; this is their look) ---------- */
+  .drawing {
+    --marker: #c0392b;        /* items, their numbers and tags, warnings */
+    --opening: #2e86c1;       /* openings, zones, floor items */
+    --opening-fill: #d6eaf8;
+    --zone-fill: #5dade2;
+    --round-fill: #eaf2f8;    /* round items (the mirror) */
+    --step: #e67e22;          /* the floor step */
+    --step-fill: #f5cba7;
+    --ok: #1e8449;            /* the all-clear */
+    --column: #7f8c8d;
+    --column-line: #2c3e50;
+    --wall-face: #fbfbf8;
+    --joint: #9a9a96;         /* tile joints */
+    --joint-text: #777;
+    --note: #666;
+    --quiet: #555;            /* subtitles, keys, the tile top */
+    --dark: #444;             /* walls on the plan, axis lines */
+    --outline: #222;
+    --paper: #fff;
+  }
+  .drawing svg { font-family: Helvetica, Arial, sans-serif; }
+  .drawing .paper { fill: var(--paper); }
+  .drawing .title { font-size: 18px; font-weight: bold; }
+  .drawing .subtitle, .drawing .key { fill: var(--quiet); }
+  .drawing .subtitle, .drawing .legend, .drawing .side-name, .drawing .wall-name,
+  .drawing .warning, .drawing .ok { font-size: 12px; }
+  .drawing .heading { font-size: 13px; font-weight: bold; }
+  .drawing .key, .drawing .step-mark { font-size: 11px; }
+  .drawing .legend-note, .drawing .joint-text, .drawing .tile-top-text, .drawing .step-text,
+  .drawing .tick-text, .drawing .number-text { font-size: 10px; }
+  .drawing .tag-text { font-size: 9.5px; }
+  .drawing .legend-note { fill: var(--note); }
+  .drawing .tag, .drawing .number { fill: var(--marker); }
+  .drawing .tag-text, .drawing .number-text { fill: var(--paper); font-weight: bold; }
+  .drawing .warning { fill: var(--marker); }
+  .drawing .ok { fill: var(--ok); }
+  /* a wall drawing */
+  .drawing .wall-face { fill: var(--wall-face); stroke: var(--outline); stroke-width: 2; }
+  .drawing .joint { stroke: var(--joint); }
+  .drawing .joint-text { fill: var(--joint-text); }
+  .drawing .tile-top { stroke: var(--quiet); stroke-width: 1.5; }
+  .drawing .tile-top-text { fill: var(--dark); }
+  .drawing .step-face { fill: var(--step-fill); stroke: var(--step); stroke-width: 1.5; }
+  .drawing .step-text { fill: var(--step); }
+  .drawing .zone { fill: var(--zone-fill); fill-opacity: 0.15; stroke: var(--opening); stroke-dasharray: 6 4; }
+  .drawing .column { fill: var(--column); fill-opacity: 0.6; stroke: var(--column-line); stroke-width: 1.5; }
+  .drawing .opening { fill: var(--opening-fill); stroke: var(--opening); stroke-width: 2; }
+  .drawing .item { fill: var(--paper); fill-opacity: 0.85; stroke: var(--marker); stroke-width: 1.5; }
+  .drawing .round { fill: var(--round-fill); fill-opacity: 0.8; stroke: var(--marker); stroke-width: 1.5; }
+  .drawing .point { stroke: var(--marker); stroke-width: 2; }
+  .drawing .axis { stroke: var(--dark); }
+  /* the floor plan */
+  .drawing .plan-wall { fill: var(--dark); }
+  .drawing .plan-column { fill: var(--outline); }
+  .drawing .plan-opening { fill: var(--opening-fill); stroke: var(--opening); }
+  .drawing .door-leaf { stroke: var(--outline); stroke-width: 2; }
+  .drawing .door-swing { fill: none; stroke: var(--outline); stroke-dasharray: 4 3; }
+  .drawing .footprint { fill: var(--paper); stroke: var(--marker); stroke-width: 1.5; }
+  .drawing .footprint.overhead { fill: none; stroke-dasharray: 5 3; }
+  .drawing .floor-item { fill: var(--paper); stroke: var(--opening); stroke-width: 1.5; }
+  .drawing .floor-item-line { stroke: var(--opening); }
+  .drawing .step-line { stroke: var(--step); stroke-width: 4; stroke-dasharray: 10 5; }
+  .drawing .step-mark { fill: var(--step); font-weight: bold; }

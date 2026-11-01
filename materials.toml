@@ -1,56 +1,64 @@
 # materials.toml — every product, once: what it is, how it's bought, and its lines on the list.
-# materials.py reads it and renders the material list; the drawings take product sizes from it
-# by id (room.toml names them). The list is ordered by exactly two things written here:
+# materials.py reads it and renders the material list; room.toml names products by id and takes
+# their names and sizes from here. The list is ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused, then supplied
 # Lines with the same group and status keep the order of their entries here.
-# Nothing here refers to the phases, and the phases don't refer to it.
+# Nothing here refers to the phases or the room, and the phases don't refer to it.
+# Keys are written in the order shown here; leave a key out when it doesn't apply.
 #
-# Every named thing here — a shop, a unit, a group, a product — has th and en, its name.
+# prices_date, date_format: the day the prices were checked, and how it is shown.
+# round_approx: an approximate total is rounded to this many baht.
+# [section]: this part's heading and note (th, en, note_th, note_en — the shape of a group or a
+#   phase). The note can show {prices_date} and {approx} (the "approx." label).
+# [labels]: the fixed wording of the list. [symbols]: its marks, the same in both languages.
+#
+# Every named thing here — a shop, a unit, a group, a product — has th and en, its name; each id
+#   says what it is.
 # Each shop: id, th, en, sku (what its product codes look like, a regular expression), link (the
 #   product page: {sku} is the code, {sku_digits} the code without its dots).
 # Each unit: id, th, en, en_many — "1 ถุง / bag", "7 ถุง / bags" (Thai has one form).
 # Each group: id, th, en, and an optional note (note_th, note_en) shown under its heading.
 #
 # Each [[entry]] is one product:
-#   id         what room.toml calls it, if it is drawn
+#   id         what room.toml calls it
 #   th, en     its name: the kind and the brand — Thai kind first ("ประตู AZLE"), English
 #              brand first ("AZLE door"); no brand → the kind alone. No shop codes.
-#   detail_th, detail_en   the rest: model, size, pack, colour, finish — Thai separated by
-#              spaces, English by commas. The list shows "name detail" / "name, detail".
-#              Either shows the size with {w} {h} {d} in mm, {w_cm} … in cm or {w_m} … in m —
-#              never type a dimension twice
+#   detail_th, detail_en   the rest, in the same order in both: model, material, size, pack,
+#              colour, finish — Thai separated by spaces, English by commas. Sizes w × h × d;
+#              inches as " (Thai นิ้ว); a pack as "pack of 3" (Thai แพ็ก 3 …); a length in Thai as
+#              ยาว …. What it is for goes in a line's note, not here. The list shows
+#              "name detail" / "name, detail". Either shows the size with {w} {h} {d} in mm,
+#              {w_cm} … in cm or {w_m} … in m — never type a dimension twice.
 #   size       { w, h, d } in mm: its dimensions (w wide, h high, d deep; a tile is w × h). A
 #              single figure that isn't a dimension — a weight, a volume, a stock length, an inch
 #              trade size — stays in the detail ("50 kg", "4 m", "½\"")
 #   per_box    tiles in a box (tiles only)
-#   unit       the id of a unit, shown after the quantity (optional)
-#   price      the unit price, in baht (not for reused or supplied products)
+#   unit       the id of its unit, shown after the quantity
+#   price      the unit price, in baht (to buy: needed; bought: what it cost, if known; else none)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
-#   shop, sku  where it is bought and its product code; the link is built from them
+#   shop, sku  where it is bought and its product code, together; the link is built from them
 #              (not for reused or supplied products)
 # and one [[entry.line]] for each line it takes on the list:
 #   group      the id of a group (things used all over go under whole_room)
-#   status     "buy"      — still to buy (needs a price)
+#   status     "buy"      — still to buy
 #              "bought"   — already on site, paid for
 #              "reused"   — an old fitting on site, reused
 #              "supplied" — the trade brings it: by_th, by_en say who ("ช่างไฟนำมา / electrician provides")
 #   n          how many
-#   note_th, note_en   what it is for here, or advice when buying (optional)
+#   note_th, note_en   what it is for here, or advice when buying — never a figure the room
+#              works out, and never the same note on two lines
 # A product partly on site and partly to buy has two lines (bought n, buy n).
-#
-# [section]: this part's heading in the document and its note (th, en, note_th, note_en — the
-# same shape as a group or a phase); the note can show {prices_date}.
-# prices_date: the day the prices were checked.
-# [labels]: the fixed wording of the list (column headings, the total, buy, approx.).
 
 prices_date = 2026-10-31
+date_format = "%d/%m/%Y"    # how the prices date is shown
+round_approx = 100         # an approximate total is rounded to this
 
 [section]
 th = "วัสดุ"
 en = "Materials"
-note_th = "ราคา ณ วันที่ {prices_date} · \"ประมาณ\" = ราคาอาจเปลี่ยนแปลง"
-note_en = "Prices as of {prices_date} · \"approx.\" = the price may change"
+note_th = "ราคา ณ วันที่ {prices_date} · \"{approx}\" = ราคาอาจเปลี่ยนแปลง"
+note_en = "Prices as of {prices_date} · \"{approx}\" = the price may change"
 
 [labels]
 item = { th = "สินค้า", en = "Item" }
@@ -61,6 +69,13 @@ still_to_buy = { th = "ยังต้องซื้อ", en = "Still to buy" }
 buy = { th = "ซื้อ", en = "buy" }
 approx = { th = "ประมาณ", en = "approx." }
 about = { th = "ประมาณ", en = "about" }
+
+# The marks on the list — the same in both languages, so one value each.
+[symbols]
+currency = "฿"
+on_site = "✓"
+none = "—"
+times = "×"
 
 [[shop]]
 id = "homepro"
@@ -109,8 +124,8 @@ en_many = "lengths"
 [[unit]]
 id = "fitting"
 th = "ตัว"
-en = "piece"
-en_many = "pieces"
+en = "fitting"
+en_many = "fittings"
 
 [[unit]]
 id = "piece"
@@ -147,6 +162,30 @@ id = "metre"
 th = "ม."
 en = "m"
 en_many = "m"
+
+[[unit]]
+id = "set"
+th = "ชุด"
+en = "set"
+en_many = "sets"
+
+[[unit]]
+id = "panel"
+th = "บาน"
+en = "panel"
+en_many = "panels"
+
+[[unit]]
+id = "appliance"
+th = "เครื่อง"
+en = "appliance"
+en_many = "appliances"
+
+[[unit]]
+id = "can"
+th = "กระป๋อง"
+en = "can"
+en_many = "cans"
 
 [[group]]
 id = "new_wall"
@@ -189,7 +228,7 @@ th = "ไฟฟ้า (สวิตช์)"
 en = "Electrical, switch"
 
 [[group]]
-id = "shower"
+id = "shower_heater"
 th = "ฝักบัวและเครื่องทำน้ำอุ่น"
 en = "Shower and water heater"
 
@@ -199,7 +238,7 @@ th = "อุปกรณ์ในห้องน้ำ"
 en = "Accessories"
 
 [[group]]
-id = "tiles"
+id = "waterproofing_tiles"
 th = "กันซึมและกระเบื้อง"
 en = "Waterproofing and tiles"
 
@@ -221,7 +260,6 @@ unit = "block"
 price = 26
 shop = "homepro"
 sku = "1110154"
-
   [[entry.line]]
   group = "new_wall"
   status = "buy"
@@ -230,15 +268,15 @@ sku = "1110154"
 [[entry]]
 id = "lintel"
 th = "คานทับหลังสำเร็จรูป DIAMOND"
-detail_th = "{h_cm} × {w_cm} × {d_cm} ซม."
+detail_th = "{w_cm} × {h_cm} × {d_cm} ซม."
 en = "DIAMOND precast lintel"
-detail_en = "{h_cm} × {w_cm} × {d_cm} cm"
+detail_en = "{w_cm} × {h_cm} × {d_cm} cm"
 size = { w = 1500, h = 200, d = 75 }
+unit = "piece"
 price = 400
 approx = true
 shop = "homepro"
 sku = "1195815"
-
   [[entry.line]]
   group = "new_wall"
   status = "buy"
@@ -257,7 +295,6 @@ price = 200
 approx = true
 shop = "homepro"
 sku = "1127448"
-
   [[entry.line]]
   group = "new_wall"
   status = "buy"
@@ -276,7 +313,6 @@ unit = "piece"
 price = 6
 shop = "homepro"
 sku = "1110170"
-
   [[entry.line]]
   group = "new_wall"
   status = "buy"
@@ -293,7 +329,6 @@ price = 150
 approx = true
 shop = "homepro"
 sku = "1109616"
-
   [[entry.line]]
   group = "new_wall"
   status = "buy"
@@ -306,10 +341,10 @@ detail_th = "UPVC {w_cm} × {h_cm} ซม. สีขาว"
 en = "AZLE door frame"
 detail_en = "UPVC, {w_cm} × {h_cm} cm, white"
 size = { w = 800, h = 2000 }
+unit = "set"
 price = 850
 shop = "homepro"
 sku = "1014768"
-
   [[entry.line]]
   group = "door"
   status = "buy"
@@ -322,10 +357,10 @@ detail_th = "WB2 UPVC {w_cm} × {h_cm} ซม. สีน้ำตาลอ่อ
 en = "AZLE door"
 detail_en = "WB2 UPVC, {w_cm} × {h_cm} cm, light brown"
 size = { w = 800, h = 2000 }
+unit = "panel"
 price = 2085
 shop = "homepro"
 sku = "1320577"
-
   [[entry.line]]
   group = "door"
   status = "buy"
@@ -339,10 +374,10 @@ th = "ลูกบิดห้องน้ำ SOLEX"
 detail_th = "9500 SS-BK สเตนเลส"
 en = "SOLEX bathroom knob"
 detail_en = "9500 SS-BK, stainless"
+unit = "set"
 price = 399
 shop = "homepro"
 sku = "89869"
-
   [[entry.line]]
   group = "door"
   status = "buy"
@@ -351,13 +386,13 @@ sku = "89869"
 [[entry]]
 id = "hinges"
 th = "บานพับ YALE"
-detail_th = "4×3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น"
+detail_th = "4 × 3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น"
 en = "YALE hinges"
-detail_en = "4×3 inch, 304 stainless, pack of 3"
+detail_en = "4 × 3\", 304 stainless, pack of 3"
+unit = "pack"
 price = 199
 shop = "homepro"
 sku = "1123585"
-
   [[entry.line]]
   group = "door"
   status = "buy"
@@ -374,7 +409,6 @@ unit = "sheet"
 price = 245
 shop = "homepro"
 sku = "1110611"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -385,12 +419,11 @@ id = "c_channel"
 th = "ซีลาย SANKI"
 detail_th = "0.50–0.55 กก. ยาว 4 ม. ชุบสังกะสี"
 en = "SANKI C-channel"
-detail_en = "galvanised, 0.50–0.55 kg, 4 m"
+detail_en = "0.50–0.55 kg, 4 m, galvanised"
 unit = "length"
 price = 29
 shop = "homepro"
 sku = "1110231"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -408,7 +441,6 @@ unit = "length"
 price = 16
 shop = "homepro"
 sku = "1110271"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -426,7 +458,6 @@ unit = "box"
 price = 89
 shop = "homepro"
 sku = "1110148"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -444,7 +475,6 @@ unit = "bag"
 price = 16
 shop = "homepro"
 sku = "1110109"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -453,14 +483,13 @@ sku = "1110109"
 [[entry]]
 id = "joint_tape"
 th = "เทปปิดรอยต่อยิปซัม PYRAMID"
-detail_th = "1 นิ้ว (แพ็ก 3 ม้วน)"
+detail_th = "1 นิ้ว แพ็ก 3 ม้วน"
 en = "PYRAMID gypsum joint tape"
-detail_en = "1\" (pack of 3)"
+detail_en = "1\", pack of 3"
 unit = "pack"
 price = 42
 shop = "homepro"
 sku = "1024381"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -469,14 +498,13 @@ sku = "1024381"
 [[entry]]
 id = "wall_plugs"
 th = "พุกพลาสติกพร้อมสกรู BY TORA"
-detail_th = "เบอร์ 7 50 ตัว"
+detail_th = "เบอร์ 7 แพ็ก 50 ตัว"
 en = "BY TORA wall plugs with screws"
-detail_en = "no. 7, 50 pcs"
+detail_en = "no. 7, pack of 50"
 unit = "pack"
 price = 65
 shop = "homepro"
 sku = "1064892"
-
   [[entry.line]]
   group = "new_ceiling"
   status = "buy"
@@ -491,10 +519,10 @@ detail_th = "179 สีขาว"
 en = "MOYA wall-hung basin"
 detail_en = "179, white"
 size = { w = 600, h = 130, d = 310 }
+unit = "piece"
 price = 1190
 shop = "homepro"
 sku = "1249118"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
@@ -506,10 +534,10 @@ th = "ก๊อกอ่างล้างหน้า MOYA"
 detail_th = "832-1"
 en = "MOYA basin faucet"
 detail_en = "832-1"
+unit = "fitting"
 price = 929
 shop = "homepro"
 sku = "1254863"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
@@ -518,13 +546,13 @@ sku = "1254863"
 [[entry]]
 id = "bottle_trap"
 th = "ท่อน้ำทิ้งอ่างล้างหน้ากระปุก KARAT"
-detail_th = "KA-02-112-50 25 ซม."
+detail_th = "KA-02-112-50 ยาว 25 ซม."
 en = "KARAT basin bottle trap"
 detail_en = "KA-02-112-50, 25 cm"
+unit = "set"
 price = 485
 shop = "homepro"
 sku = "1225658"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "bought"
@@ -536,10 +564,10 @@ th = "สต็อปวาล์ว HOEN"
 detail_th = "HT-011"
 en = "HOEN stop valve"
 detail_en = "HT-011"
+unit = "fitting"
 price = 155
 shop = "homepro"
 sku = "1040989"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
@@ -548,19 +576,17 @@ sku = "1040989"
 [[entry]]
 id = "supply_hose"
 th = "สายน้ำดีสเตนเลส MOYA"
-detail_th = "MY-SSB20 20 นิ้ว (50 ซม.)"
+detail_th = "MY-SSB20 ยาว 20 นิ้ว"
 en = "MOYA stainless supply hose"
-detail_en = "MY-SSB20, 20\" (50 cm)"
+detail_en = "MY-SSB20, 20\""
 unit = "length"
 price = 90
 shop = "homepro"
 sku = "1028226"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
   n = 1
-
   [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
@@ -570,39 +596,30 @@ sku = "1028226"
 id = "brass_elbow"
 th = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย"
 detail_th = "½ นิ้ว"
-en = "Thai Pipe brass-thread elbow"
+en = "Thai Pipe female-thread brass elbow"
 detail_en = "½\""
 unit = "fitting"
 price = 35
 approx = true
 shop = "homepro"
 sku = "5577"
-
   [[entry.line]]
-  group = "plumbing_basin"
+  group = "plumbing_shared"
   status = "buy"
-  n = 1
-  note_th = "จุดน้ำที่ผนัง"
-  note_en = "wall outlet"
-
-  [[entry.line]]
-  group = "plumbing_toilet"
-  status = "buy"
-  n = 1
-  note_th = "จุดน้ำที่ผนัง"
-  note_en = "wall outlet"
+  n = 2
+  note_th = "จุดน้ำที่ผนัง: อ่างและชักโครก"
+  note_en = "wall outlets: basin and toilet"
 
 [[entry]]
 id = "pipe_1_5in"
 th = "ท่อประปา SCG"
-detail_th = "ชั้น 8.5 1½ นิ้ว 2 ม."
+detail_th = "ชั้น 8.5 1½ นิ้ว ยาว 2 ม."
 en = "SCG pipe"
 detail_en = "class 8.5, 1½\", 2 m"
 unit = "length"
 price = 99
 shop = "homepro"
 sku = "1104514"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
@@ -620,7 +637,6 @@ unit = "fitting"
 price = 29
 shop = "homepro"
 sku = "5614"
-
   [[entry.line]]
   group = "plumbing_basin"
   status = "buy"
@@ -633,10 +649,10 @@ detail_th = "323 3/6 ลิตร สีขาว"
 en = "MOYA one-piece toilet"
 detail_en = "323, 3/6 L, white"
 size = { w = 375, h = 700, d = 690 }
+unit = "set"
 price = 3490
 shop = "homepro"
 sku = "1170662"
-
   [[entry.line]]
   group = "plumbing_toilet"
   status = "bought"
@@ -648,10 +664,10 @@ th = "สต็อปวาล์ว 2 ทาง HOEN"
 detail_th = "HT-333"
 en = "HOEN 2-way stop valve"
 detail_en = "HT-333"
+unit = "fitting"
 price = 219
 shop = "homepro"
 sku = "1041021"
-
   [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
@@ -665,7 +681,7 @@ th = "สายฉีดชำระ"
 detail_th = "หัวฉีดพร้อมสาย"
 en = "Bum gun"
 detail_en = "hand spray with its hose"
-
+unit = "set"
   [[entry.line]]
   group = "plumbing_toilet"
   status = "reused"
@@ -676,14 +692,13 @@ detail_en = "hand spray with its hose"
 [[entry]]
 id = "pipe_4in"
 th = "ท่อสีฟ้า ท่อน้ำไทย"
-detail_th = "ชั้น 8.5 4 นิ้ว 4 ม."
+detail_th = "ชั้น 8.5 4 นิ้ว ยาว 4 ม."
 en = "Thai Pipe blue pipe"
 detail_en = "class 8.5, 4\", 4 m"
 unit = "length"
 price = 799
 shop = "homepro"
 sku = "5563"
-
   [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
@@ -701,7 +716,6 @@ unit = "fitting"
 price = 310.4
 shop = "homepro"
 sku = "1136842"
-
   [[entry.line]]
   group = "plumbing_toilet"
   status = "buy"
@@ -712,14 +726,13 @@ sku = "1136842"
 [[entry]]
 id = "pipe_half_in"
 th = "ท่อสีฟ้า ท่อน้ำไทย"
-detail_th = "ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม."
+detail_th = "ชั้น 13.5 ½ นิ้ว ยาว 4 ม."
 en = "Thai Pipe blue pipe"
 detail_en = "class 13.5, ½\", 4 m"
 unit = "length"
 price = 69
 shop = "homepro"
 sku = "5556"
-
   [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
@@ -737,7 +750,6 @@ unit = "fitting"
 price = 6
 shop = "homepro"
 sku = "5569"
-
   [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
@@ -753,7 +765,6 @@ unit = "fitting"
 price = 8
 shop = "homepro"
 sku = "5570"
-
   [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
@@ -764,14 +775,13 @@ sku = "5570"
 [[entry]]
 id = "thread_tape"
 th = "เทปพันเกลียว SCG"
-detail_th = "10 ม."
+detail_th = "ยาว 10 ม."
 en = "SCG thread tape"
 detail_en = "10 m"
 unit = "roll"
 price = 27
 shop = "homepro"
 sku = "1055229"
-
   [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
@@ -785,10 +795,10 @@ th = "น้ำยาประสานท่อ ท่อน้ำไทย"
 detail_th = "250 ก."
 en = "Thai Pipe PVC solvent cement"
 detail_en = "250 g"
+unit = "can"
 price = 137.74
 shop = "homepro"
 sku = "5672"
-
   [[entry.line]]
   group = "plumbing_shared"
   status = "buy"
@@ -807,7 +817,6 @@ unit = "lamp"
 price = 1290
 shop = "ikea"
 sku = "805.204.31"
-
   [[entry.line]]
   group = "electrical_lamps"
   status = "buy"
@@ -818,15 +827,16 @@ sku = "805.204.31"
 [[entry]]
 id = "lamp_cable"
 th = "สายไฟ VAF-G"
-detail_th = "2×1.5/1.5 ตร.มม. (มีสายดิน) สำหรับโคมไฟผนัง"
+detail_th = "2×1.5/1.5 ตร.มม. มีสายดิน"
 en = "VAF-G cable"
-detail_en = "2×1.5/1.5 mm² (with earth), for the wall lamps"
+detail_en = "2×1.5/1.5 mm², with earth"
 unit = "metre"
-
   [[entry.line]]
   group = "electrical_lamps"
   status = "supplied"
   n = 3
+  note_th = "สำหรับโคมไฟผนัง"
+  note_en = "for the wall lamps"
   by_th = "ช่างไฟนำมา"
   by_en = "electrician provides"
 
@@ -836,7 +846,7 @@ th = "ชุดสวิตช์ไฟพร้อมปลั๊ก"
 detail_th = "สวิตช์ไฟ 1 ตัว ปลั๊ก 2 ช่อง"
 en = "Switch-and-socket plate"
 detail_en = "light switch + 2 sockets"
-
+unit = "set"
   [[entry.line]]
   group = "electrical_switch"
   status = "reused"
@@ -845,13 +855,13 @@ detail_en = "light switch + 2 sockets"
 [[entry]]
 id = "shower"
 th = "ชุดฝักบัว"
-detail_th = "พร้อมหัวฝักบัว Rain shower"
+detail_th = "พร้อมหัวฝักบัวแบบเรนชาวเวอร์"
 en = "Shower unit"
 detail_en = "with rain head"
 size = { w = 220, h = 830, d = 510 }
-
+unit = "set"
   [[entry.line]]
-  group = "shower"
+  group = "shower_heater"
   status = "reused"
   n = 1
 
@@ -862,9 +872,9 @@ detail_th = "พร้อมกล่องไฟฟ้า สายไฟ แ�
 en = "Water heater"
 detail_en = "with its electrical box, cable and circuit breaker"
 size = { w = 220, h = 400, d = 100 }
-
+unit = "appliance"
   [[entry.line]]
-  group = "shower"
+  group = "shower_heater"
   status = "reused"
   n = 1
 
@@ -874,9 +884,9 @@ th = "สายน้ำดีเครื่องทำน้ำอุ่น"
 detail_th = "สายอ่อน"
 en = "Water heater hoses"
 detail_en = "flexible"
-
+unit = "length"
   [[entry.line]]
-  group = "shower"
+  group = "shower_heater"
   status = "reused"
   n = 2
 
@@ -887,10 +897,10 @@ detail_th = "HLP004 Ø {w_cm} ซม."
 en = "MOYA round mirror"
 detail_en = "HLP004, Ø {w_cm} cm"
 size = { w = 600, h = 600 }
+unit = "panel"
 price = 429
 shop = "homepro"
 sku = "1319896"
-
   [[entry.line]]
   group = "accessories"
   status = "bought"
@@ -903,10 +913,10 @@ detail_th = "AS-5012S สีโครม"
 en = "LUZERN shelf with towel rail"
 detail_en = "AS-5012S, chrome"
 size = { w = 620, h = 145, d = 230 }
+unit = "piece"
 price = 799
 shop = "homepro"
 sku = "1215163"
-
   [[entry.line]]
   group = "accessories"
   status = "bought"
@@ -919,10 +929,10 @@ detail_th = "K-17053X เซรามิก สีขาวเงา"
 en = "KARAT toilet roll holder"
 detail_en = "K-17053X, glossy white ceramic"
 size = { w = 160, h = 85, d = 90 }
+unit = "piece"
 price = 340
 shop = "homepro"
 sku = "105587"
-
   [[entry.line]]
   group = "accessories"
   status = "buy"
@@ -940,13 +950,10 @@ unit = "bag"
 price = 1990
 shop = "homepro"
 sku = "271155"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 1
-  note_th = "ประมาณ 11.6 ตร.ม."
-  note_en = "about 11.6 m²"
 
 [[entry]]
 id = "fibre_mesh"
@@ -959,54 +966,48 @@ unit = "roll"
 price = 179
 shop = "homepro"
 sku = "1271924"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 1
 
 [[entry]]
 id = "grey_tile"
 th = "กระเบื้องเทา TARA สโตนบลาสด์"
-detail_th = "{w_cm} × {h_cm} ซม. ขอบตรง ผิวด้าน"
+detail_th = "{w_cm} × {h_cm} ซม. ขอบตรง ผิวด้าน เฉด H07"
 en = "TARA Stone Blast grey tile"
-detail_en = "{w} × {h} mm, rectified, matt"
+detail_en = "{w_cm} × {h_cm} cm, rectified, matt, shade H07"
 size = { w = 500, h = 500 }
 per_box = 4
 unit = "box"
 price = 209
 shop = "homepro"
 sku = "1292488"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 9
-  note_th = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด"
-  note_en = "shade H07 only — check the boxes on site are all H07"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "bought"
   n = 3
-  note_th = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด"
-  note_en = "shade H07 only — check the boxes on site are all H07"
+  note_th = "ตรวจว่ากล่องที่มีอยู่เป็นเฉดเดียวกันทั้งหมด"
+  note_en = "check the boxes on site are all the same shade"
 
 [[entry]]
 id = "white_tile"
 th = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว"
 detail_th = "พอร์ซเลน {w_cm} × {h_cm} ซม. ขาวเรียบ ผิวมัน ขอบตรง"
 en = "TARA Triple White New white tile"
-detail_en = "porcelain, {w} × {h} mm, plain, glossy, rectified"
+detail_en = "porcelain, {w_cm} × {h_cm} cm, plain, glossy, rectified"
 size = { w = 600, h = 600 }
 per_box = 4
 unit = "box"
 price = 197
 shop = "homepro"
 sku = "1076336"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 6
   note_th = "ออนไลน์แสดงสินค้าหมด (ลดราคามาก อาจเป็นสินค้าล้างสต็อก) ถามสต็อกที่สาขา ซื้อครบทีเดียว ล็อตเดียวกัน"
@@ -1022,13 +1023,12 @@ unit = "bag"
 price = 799
 shop = "homepro"
 sku = "14428"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 5
-  note_th = "ปูทับกระเบื้องเดิมได้ กระเบื้องประมาณ 16 ตร.ม."
-  note_en = "suits tiling over old tiles; about 16 m² of tile"
+  note_th = "ปูทับกระเบื้องเดิมได้"
+  note_en = "suits tiling over old tiles"
 
 [[entry]]
 id = "levelling_clips"
@@ -1040,9 +1040,8 @@ unit = "bag"
 price = 143
 shop = "homepro"
 sku = "1092087"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 2
 
@@ -1052,12 +1051,12 @@ th = "ลิ่มปรับระดับ TARA"
 detail_th = "DL-D02"
 en = "TARA levelling wedges"
 detail_en = "DL-D02"
+unit = "bag"
 price = 185
 shop = "homepro"
 sku = "1092114"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 1
 
@@ -1071,9 +1070,8 @@ unit = "bag"
 price = 63
 shop = "homepro"
 sku = "138786"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 2
   note_th = "กระเบื้องเทา"
@@ -1089,9 +1087,8 @@ unit = "bag"
 price = 63
 shop = "homepro"
 sku = "138771"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 2
   note_th = "กระเบื้องขาว"
@@ -1100,15 +1097,15 @@ sku = "138771"
 [[entry]]
 id = "step_nosing"
 th = "จมูกบันไดอะลูมิเนียม HOME"
-detail_th = "NAS-451510 1.5 ม. สีเงินเงา"
+detail_th = "NAS-451510 ยาว 1.5 ม. สีเงินเงา"
 en = "HOME aluminium step nosing"
 detail_en = "NAS-451510, 1.5 m, bright silver"
+unit = "length"
 price = 357.93
 shop = "homepro"
 sku = "1037342"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 1
   note_th = "ขั้นพื้น"
@@ -1121,12 +1118,12 @@ detail_th = "พลาสติกเหลี่ยม 4 นิ้ว"
 en = "DEXZON floor drain grate"
 detail_en = "square, plastic, anti-odour, 4\""
 size = { w = 100, d = 100 }
+unit = "fitting"
 price = 119
 shop = "homepro"
 sku = "1240420"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "bought"
   n = 1
 
@@ -1140,9 +1137,8 @@ unit = "tube"
 price = 139
 shop = "homepro"
 sku = "1157215"
-
   [[entry.line]]
-  group = "tiles"
+  group = "waterproofing_tiles"
   status = "buy"
   n = 1
 
@@ -1157,7 +1153,6 @@ price = 150
 approx = true
 shop = "homepro"
 sku = "1109515"
-
   [[entry.line]]
   group = "whole_room"
   status = "buy"
@@ -1171,7 +1166,7 @@ th = "สี"
 detail_th = "ขาวกึ่งเงา"
 en = "Paint"
 detail_en = "white, semi-gloss"
-
+unit = "can"
   [[entry.line]]
   group = "whole_room"
   status = "reused"
