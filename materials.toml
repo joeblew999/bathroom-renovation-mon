@@ -46,6 +46,11 @@ th = "ชักโครก"
 en = "Toilet"
 
 [[area]]
+id = "plumbing_shared"
+th = "ประปา (ใช้ร่วม)"
+en = "Plumbing, shared"
+
+[[area]]
 id = "shower"
 th = "ฝักบัวและเครื่องทำน้ำอุ่น"
 en = "Shower and water heater"
@@ -404,6 +409,14 @@ price = 799
 link = "https://www.homepro.co.th/p/1215163"
 
 [[item]]
+area = "plumbing_shared"
+name = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก. / PVC solvent cement Thai Pipe 250 g"
+note = "ทุกรอยต่อท่อ PVC / every PVC pipe joint"
+buy = 1
+price = 137.74
+link = "https://www.homepro.co.th/p/5672"
+
+[[item]]
 area = "shower"
 name = "ชุดฝักบัว (Rain shower) / Shower unit with rain head"
 have = 1
@@ -527,13 +540,6 @@ area = "lights"
 name = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง / Switch-and-socket plate (light switch + 2 sockets)"
 have = 1
 reused = true
-
-[[item]]
-area = "whole_room"
-name = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก. / PVC solvent cement Thai Pipe 250 g"
-buy = 1
-price = 137.74
-link = "https://www.homepro.co.th/p/5672"
 
 [[item]]
 area = "whole_room"
