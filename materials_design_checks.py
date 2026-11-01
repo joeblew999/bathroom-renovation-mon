@@ -8,8 +8,8 @@ The checks, each worded by its label in materials.toml:
 
 `tiles_needed` is the room's count, tile by tile (room.py works it out from the room's sizes),
 handed over by build.py — this file knows nothing about the room beyond those counts, and each
-tile is matched to its boxes on the list by product. Any problem stops the build (build.py),
-after the page and the PDF are written; it is shown on the floor plan, where the tiles are.
+tile is matched to its boxes on the list by product. Any problem fails the build (build.py): the
+page and the PDF are written, with the problem shown on the floor plan, where the tiles are.
 """
 
 

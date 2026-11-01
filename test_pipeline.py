@@ -8,7 +8,7 @@ thing on purpose, then puts the quote together in this process:
 
 and looks for the expected text in what comes back: the error message, the design problems, the
 tile counts, the filled-in document or the drawings. The real files are never touched. Two tests go
-further: one runs the whole build (page and PDF) to see a design problem stop it, and one measures
+further: one runs the whole build (page and PDF) to see a design problem fail it, and one measures
 the problem lines in Chromium to see they fit their drawing.
 
 No test depends on today's numbers or wording. A test picks what it breaks by what it is — "an
@@ -660,8 +660,8 @@ def same_numbers_reordered_test():
     return edit_step(lambda x: x.update(th="1 ก 22", en="22 a 1")), CLEAN
 
 
-def stops_build_test():
-    """A design problem stops the build — after the page and the PDF are written, so it can be seen."""
+def fails_build_test():
+    """A design problem fails the build — after the page and the PDF are written, so it can be seen."""
     edits, want = clash_test()
 
     def expect(p):
@@ -791,7 +791,7 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- room design (room_design_checks.py): problems with the space, in Thai and English; any stops the build ----
+    # ---- room design (room_design_checks.py): problems with the space, in Thai and English; any fails the build ----
     ("room design check: a point moved just off a joint", joint_test),
     ("room design check: the same problem, in Thai", lambda: joint_test("th")),
     ("room design check: a point moved just off a horizontal joint", joint_y_test),
@@ -821,7 +821,7 @@ TESTS = [
     ("materials design check: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
     ("materials design check: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
-    ("design check: a design problem stops the build, after the page and the PDF are written", stops_build_test),
+    ("design check: a design problem fails the build, after the page and the PDF are written", fails_build_test),
     ("design check: every design problem's lines fit inside its drawing", problems_fit_test),
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},

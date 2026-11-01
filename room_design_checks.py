@@ -17,7 +17,7 @@ The checks, each worded by its label in room.toml:
   - the door too wide to fit beside the column                               warn_door_fit
   - the lintel shorter than the door and its bearing                         warn_lintel_short
 
-Any problem stops the build (build.py), after the page and the PDF are written so it can be seen
+Any problem fails the build (build.py): the page and the PDF are written so it can be seen
 there. It knows nothing about the other parts; it reads the room it is handed.
 """
 

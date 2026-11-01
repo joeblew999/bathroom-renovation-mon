@@ -15,8 +15,9 @@ section into the template (bathroom-renovation-quote.md). Then:
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
 Bad data stops the build with one ERROR line naming the file and the problem, before
-anything is written. A design problem (room_design_checks.py, materials_design_checks.py) stops it too, after
-the page and the PDF are written, so it can be seen there; nothing is published. The template is
+anything is written. A design problem (room_design_checks.py, materials_design_checks.py) fails the
+build: the page and the PDF are written, showing it, and then the build ends with an error, so
+GitHub does not publish them. The template is
 never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
@@ -146,7 +147,7 @@ def main(argv):
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} design problems")
     if warnings:
         sys.exit(f"ERROR: {len(warnings)} design problems, listed above and under the drawings in {out / PDF_NAME} "
-                 f"— the build stops, so nothing is published")
+                 f"— the build fails, so GitHub will not publish it")
 
 
 if __name__ == "__main__":
