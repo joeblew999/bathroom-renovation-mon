@@ -1,6 +1,7 @@
 # materials.toml — every material, by area. tables.py turns it into the material list in the
-# document: one section per area, in the order the areas are written here, and the items in
-# each area in the order written.
+# document: one section per area, in the order the areas are written here. Within an area the
+# order follows from the data: to buy first, then on site (bought), then reused, then a
+# fallback; items with the same status keep the order written here.
 #
 # The areas are defined here and nowhere else: materials don't refer to the phases or the
 # drawings, and they don't refer to materials. The work can be rewritten, split or reordered

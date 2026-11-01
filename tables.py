@@ -91,12 +91,21 @@ def phases_section(p):
 
 
 # ---------- the material list ----------
+STATUS_ORDER = ("buy", "bought", "reused", "fallback")
+
+
+def in_list_order(p, area):
+    """The materials of one area as the list shows them: to buy first, then on site (bought),
+    then reused, then a fallback; items with the same status keep their order in the file."""
+    return sorted((m for m in p.materials if m.area == area.id), key=lambda m: STATUS_ORDER.index(m.status))
+
+
 def material_list(p):
-    """One table, one section per area (in the order materials.toml gives them); the product
-    name links to the shop."""
+    """One table: a section per area (in the order materials.toml defines them), and in each
+    area the order of in_list_order. The product name links to the shop."""
     rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
     for a in p.areas:
-        items = [m for m in p.materials if m.area == a.id]
+        items = in_list_order(p, a)
         if items:
             rows.append(f"| **{a.th} / {a.en}** | | | |")
         rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in items]

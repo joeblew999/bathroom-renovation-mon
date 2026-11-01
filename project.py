@@ -146,6 +146,16 @@ class Material:
     def tile_boxes(self):
         return self.have + self.buy
 
+    @property
+    def status(self):
+        """'buy' (some still to buy), 'bought' (all on site, paid for), 'reused' (an old
+        fitting on site) or 'fallback' (listed, not bought unless needed)."""
+        if self.fallback:
+            return "fallback"
+        if self.buy:
+            return "buy"
+        return "reused" if self.reused else "bought"
+
 
 @dataclass(frozen=True)
 class Item:

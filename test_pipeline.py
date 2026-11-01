@@ -18,7 +18,7 @@ from pathlib import Path
 
 from draw_walls import draw_all
 from project import ProjectError, load
-from tables import baht, fill, sum_cell
+from tables import baht, fill, in_list_order, name_cell, sum_cell
 
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
@@ -133,6 +133,10 @@ MAT_TESTS = [
     ("materials: nothing to buy and nothing on site",
      lambda t: t.replace("have = 1\nreused = true\n", "", 1), "has nothing to buy and nothing on site"),
     ("materials: the list is in sections by area", None, lambda p: f"| **{p.areas[0].th} / {p.areas[0].en}** |"),
+    ("materials: in an area, what is still to buy comes before what is on site", None,
+     lambda p: next(f"| **{a.th} / {a.en}** | | | |\n| {name_cell(in_list_order(p, a)[0])} |"
+                    for a in p.areas if {m.status for m in p.materials if m.area == a.id} >= {"buy", "bought"}
+                    and next(m for m in p.materials if m.area == a.id).status != "buy")),
     ("materials: an item naming an area that doesn't exist",
      lambda t: t.replace('area = "basin"', 'area = "kitchen"', 1), "names area 'kitchen', which is not one of its areas"),
     ("keys: a typo in a material (link written as lnk)",
