@@ -51,6 +51,16 @@ th = "ประปา (ใช้ร่วม)"
 en = "Plumbing, shared"
 
 [[area]]
+id = "electrical_lamps"
+th = "ไฟฟ้า (โคมไฟ)"
+en = "Electrical, lamps"
+
+[[area]]
+id = "electrical_switch"
+th = "ไฟฟ้า (สวิตช์)"
+en = "Electrical, switch"
+
+[[area]]
 id = "shower"
 th = "ฝักบัวและเครื่องทำน้ำอุ่น"
 en = "Shower and water heater"
@@ -64,11 +74,6 @@ en = "Accessories"
 id = "tiles"
 th = "กันซึมและกระเบื้อง"
 en = "Waterproofing and tiles"
-
-[[area]]
-id = "lights"
-th = "ไฟและสวิตช์"
-en = "Lights and switch"
 
 [[area]]
 id = "whole_room"
@@ -369,6 +374,20 @@ price = 137.74
 link = "https://www.homepro.co.th/p/5672"
 
 [[item]]
+area = "electrical_lamps"
+name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน รหัส 805.204.31 / IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens, article 805.204.31"
+note = "เช็คสต็อกก่อนไป / check stock before going"
+buy = 2
+price = 1290
+link = "https://www.ikea.com/th/th/p/-80520431/"
+
+[[item]]
+area = "electrical_switch"
+name = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง / Switch-and-socket plate (light switch + 2 sockets)"
+have = 1
+reused = true
+
+[[item]]
 area = "shower"
 name = "ชุดฝักบัว (Rain shower) / Shower unit with rain head"
 have = 1
@@ -500,20 +519,6 @@ buy = 1
 price = 139
 unit = "หลอด / tube"
 link = "https://www.homepro.co.th/p/1157215"
-
-[[item]]
-area = "lights"
-name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน รหัส 805.204.31 / IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens, article 805.204.31"
-note = "เช็คสต็อกก่อนไป / check stock before going"
-buy = 2
-price = 1290
-link = "https://www.ikea.com/th/th/p/-80520431/"
-
-[[item]]
-area = "lights"
-name = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง / Switch-and-socket plate (light switch + 2 sockets)"
-have = 1
-reused = true
 
 [[item]]
 area = "whole_room"
