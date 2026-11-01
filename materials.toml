@@ -432,6 +432,14 @@ price = 119
 link = "https://www.homepro.co.th/p/1240420"
 
 [[item]]
+area = "tiles"
+name = "ซิลิโคนไร้กรดกันเชื้อรา SIKA SIKASIL-129 300 มล. สีขาว / Anti-fungal neutral silicone SIKA SIKASIL-129, 300 ml, white"
+buy = 1
+price = 139
+unit = "หลอด / tube"
+link = "https://www.homepro.co.th/p/1157215"
+
+[[item]]
 area = "lights"
 name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน รหัส 805.204.31 / IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens, article 805.204.31"
 note = "เช็คสต็อกก่อนไป / check stock before going"
@@ -503,14 +511,6 @@ price = 150
 unit = "ถุง / bags"
 approx = true
 link = "https://www.homepro.co.th/p/1109515"
-
-[[item]]
-area = "whole_room"
-name = "ซิลิโคนไร้กรดกันเชื้อรา SIKA SIKASIL-129 300 มล. สีขาว / Anti-fungal neutral silicone SIKA SIKASIL-129, 300 ml, white"
-buy = 1
-price = 139
-unit = "หลอด / tube"
-link = "https://www.homepro.co.th/p/1157215"
 
 [[item]]
 area = "whole_room"
