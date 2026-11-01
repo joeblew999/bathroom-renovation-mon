@@ -29,7 +29,7 @@ Nothing else is ever written. `out/` is not committed: on every push to `main`, 
 | `site.toml` | The room, door, lintel, window, floor step, tile sizes, every product size, the four walls (names, tile), and the design rules (`[rules]`). The drawings, checks and tile counts are worked out from it. |
 | `layout.toml` | Every position: main wall, window wall, floor. Items name their product (`product = "toilet"`) and take its size from `site.toml`. Also the names of the items worked out from the site (`[site_items]`). |
 | `phases.toml` | The work, phase by phase: each phase and step with its Thai and English text. Numbered by position; refer to them anywhere as `{phase:id}` / `{step:id}`, so inserting a step renumbers every reference. A rule from `site.toml` is quoted the same way: `{rule:min_clear}`. |
-| `materials.toml` | Every material, as one list in the order shown: name, note, how many to buy and how many already on site (and whether reused), unit price, link. Stands on its own: it doesn't refer to the phases, and the phases don't refer to it. |
+| `materials.toml` | Every material, by area (new wall, door, new ceiling, basin, toilet, …, whole room — the areas are defined in this file): name, note, how many to buy and how many already on site (and whether reused), unit price, link. Stands on its own: it doesn't refer to the phases or the drawings, and they don't refer to it. |
 
 Each fact lives in one place. Things that follow from the site — the column, the door opening, the lintel, the window, the door on the floor plan — are worked out in `project.py`, never typed twice. Nothing is printed twice either: sizes and positions are on the drawings only.
 
@@ -65,7 +65,7 @@ build_pdf: html, pdf        document, then the drawings full-page         → ou
 - a value of the wrong type (a number typed as text, `on_site = "yes"`)
 - a missing number in `site.toml`, or a door that doesn't fit in the new wall
 - a drawing item: with no shape or an unknown shape, missing what its shape needs (a rect without a height), naming a product that isn't in `site.toml`, sharing its number with another item, or belonging (`part`) to an item that isn't there
-- a material: nothing to buy and nothing on site, still to buy with no price, a reused fitting with something to buy, or a tile colour that isn't grey or white
+- a material: naming an area the file doesn't define, nothing to buy and nothing on site, still to buy with no price, a reused fitting with something to buy, or a tile colour that isn't grey or white
 - a `{phase:…}` / `{step:…}` / `{rule:…}` reference that matches nothing, or a phase or step id used twice
 - a `<!-- generated:… -->` marker missing from the document
 

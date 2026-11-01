@@ -9,7 +9,7 @@ nothing, writes nothing, and decides nothing about the data — numbers, totals 
 tile counts all come from the Project.
 
   generated:phases     the work by phase       p.phases
-  generated:list       the material list       p.materials, as one list
+  generated:list       the material list       p.materials, by area
 
 Usage:  python3 tables.py [quote.md]    (prints the tile counts, the still-to-buy total, warnings)
 """
@@ -92,9 +92,14 @@ def phases_section(p):
 
 # ---------- the material list ----------
 def material_list(p):
-    """One table, in the order materials.toml gives; the product name links to the shop."""
+    """One table, one section per area (in the order materials.toml gives them); the product
+    name links to the shop."""
     rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
-    rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in p.materials]
+    for a in p.areas:
+        items = [m for m in p.materials if m.area == a.id]
+        if items:
+            rows.append(f"| **{a.th} / {a.en}** | | | |")
+        rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in items]
     rows.append(f"| **ยังต้องซื้อ / Still to buy** | | {sum_cell(*p.still_to_buy())} | |")
     return rows
 
