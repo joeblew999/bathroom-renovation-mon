@@ -1,0 +1,614 @@
+# labour.toml — the labour for the job, priced. labour.py reads, checks and renders it.
+#
+# Every rate comes from a rate book (README rule 10): its [[book]] says which document, its rate says the
+# item in it and the page it was read from, and `checked` is the day the rates were read. A rate with no
+# book is a stand-in: it must be marked assumed until the builder or the owner gives the real figure.
+#
+# Each [[line]] is one piece of labour on the list: the rate it is priced at, its work section, and where
+# its quantity comes from — exactly one of:
+#   take_off      a quantity the room works out from its sizes (room.py, take_off): its unit must be the rate's
+#   count         products on the materials list, by id: how many of them the list has (the rate's unit: set);
+#                 their names show under the line, from the list
+#   of_products   products on the materials list, by id: the rate is a share of what they still cost to buy
+#                 (the rate's unit: percent) — the book's rule for labour it doesn't list
+#   n             a quantity written here, for work the room can't measure (marked assumed until measured)
+# then optional: times (the quantity counted this many times: coats), note_th and note_en, assumed.
+# A line's amount is its quantity, rounded to one decimal, times its rate, so every line adds up as shown.
+
+checked = 2026-11-01        # the day the rates were read off their book
+date_format = "%d/%m/%Y"    # how the date is shown
+round_approx = 100          # an approximate total is rounded to this
+
+[section]
+th = "ค่าแรง"
+en = "Labour"
+note_th = "อัตราค่าแรงตาม{book} ({standard}) ตรวจ ณ วันที่ {checked} · เป็นอัตราราคากลางงานราชการ ผู้รับเหมาอาจเสนอราคาต่างจากนี้ · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
+note_en = "Rates from the {book} ({standard}), checked {checked} · these are the government's reference rates for public works — a builder's price may differ · \"{approx}\" = a stand-in, still to be confirmed"
+
+[labels]
+item = { th = "งาน", en = "Work" }
+qty = { th = "ปริมาณ", en = "Qty" }
+amount = { th = "ค่าแรง", en = "Labour" }
+book_item = { th = "ข้อ {item}", en = "item {item}" }
+book_note = { th = "หมายเหตุ {note}", en = "note {note}" }
+of_products = { th = "{percent} ของค่าวัสดุ {cost}", en = "{percent} of materials costing {cost}" }
+labour_total = { th = "รวมค่าแรง", en = "Labour total" }
+grand_total = { th = "รวมทั้งหมด (วัสดุที่ยังต้องซื้อ + ค่าแรง)", en = "Grand total (materials still to buy + labour)" }
+approx = { th = "ประมาณ", en = "approx." }
+about = { th = "ประมาณ", en = "about" }
+
+[symbols]
+currency = "฿"
+times = "×"
+percent = "%"
+
+[[book]]
+id = "cgd_w480"
+th = "บัญชีค่าแรงงานของกรมบัญชีกลาง"
+en = "Comptroller General's labour rates"
+standard = "กค 0433.2/ว 480, 26/06/2569"
+url = "https://www.yotathai.com/labor-rates"
+
+# Each unit: id, th, en, en_many. The room's take-off measures in m2 and metre.
+[[unit]]
+id = "m2"
+th = "ตร.ม."
+en = "m²"
+en_many = "m²"
+
+[[unit]]
+id = "metre"
+th = "ม."
+en = "m"
+en_many = "m"
+
+[[unit]]
+id = "set"
+th = "ชุด"
+en = "set"
+en_many = "sets"
+
+[[unit]]
+id = "job"
+th = "งาน"
+en = "job"
+en_many = "jobs"
+
+[[unit]]
+id = "percent"
+th = "%"
+en = "%"
+en_many = "%"
+
+# Each work section: id, th, en, and an optional note — in the order the work is done.
+[[work_section]]
+id = "strip_out"
+th = "รื้อถอน"
+en = "Strip out"
+
+[[work_section]]
+id = "new_wall"
+th = "ผนังใหม่และงานฉาบ"
+en = "New wall and plastering"
+
+[[work_section]]
+id = "ceiling"
+th = "ฝ้าเพดาน"
+en = "Ceiling"
+
+[[work_section]]
+id = "plumbing"
+th = "งานประปาและสุขภัณฑ์"
+en = "Plumbing and sanitary ware"
+
+[[work_section]]
+id = "electrical"
+th = "งานไฟฟ้า"
+en = "Electrical"
+
+[[work_section]]
+id = "waterproofing_tiles"
+th = "กันซึมและปูกระเบื้อง"
+en = "Waterproofing and tiling"
+
+[[work_section]]
+id = "painting"
+th = "ทาสี"
+en = "Painting"
+
+[[work_section]]
+id = "fit_out"
+th = "ติดตั้ง"
+en = "Fit out"
+
+# ---------- the rates ----------
+# Each [[rate]]: id, th, en, unit, rate (baht per unit; percent for a share of materials), then book, its
+# place in the book — item (an item number) or book_note (a note's number) — and url (the page it was read
+# from); or, with no book, assumed = ["rate"].
+[[rate]]
+id = "wall_out"
+th = "รื้อผนังก่ออิฐฉาบปูนหนาครึ่งแผ่น รื้อขนไป"
+en = "Break out a half-brick plastered wall, carried away"
+unit = "m2"
+rate = 41
+book = "cgd_w480"
+item = "2.9.9"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "door_out"
+th = "รื้อประตูพร้อมวงกบ 1 บาน รื้อขนไป"
+en = "Remove a door with its frame, 1 leaf, carried away"
+unit = "set"
+rate = 90
+book = "cgd_w480"
+item = "2.9.29"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "sanitary_out"
+th = "รื้อสุขภัณฑ์ (โถส้วม อ่างล้างหน้า) รื้อขนไป"
+en = "Remove sanitary ware (toilet, basin), carried away"
+unit = "set"
+rate = 220
+book = "cgd_w480"
+item = "2.9.37"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "ceiling_out"
+th = "รื้อฝ้าโครงคร่าวทีบาร์ พร้อมแผ่น รื้อขนไป"
+en = "Take down a T-bar ceiling with its tiles, carried away"
+unit = "m2"
+rate = 26
+book = "cgd_w480"
+item = "2.9.8"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "light_out"
+th = "รื้อดวงโคมพร้อมสายไฟฟ้า รื้อขนไป"
+en = "Remove a light fitting with its cable, carried away"
+unit = "set"
+rate = 36
+book = "cgd_w480"
+item = "2.9.39"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "tiles_off"
+th = "รื้อผนังบุกระเบื้อง รื้อขนไป"
+en = "Strip wall tiles, carried away"
+unit = "m2"
+rate = 36
+book = "cgd_w480"
+item = "2.9.14"
+url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+
+[[rate]]
+id = "disposal"
+th = "ขนเศษวัสดุไปทิ้ง รวมค่าทิ้ง"
+en = "Haul the debris away, disposal fee included"
+unit = "job"
+rate = 1500
+assumed = ["rate"]
+
+[[rate]]
+id = "aac_wall"
+th = "ก่ออิฐมวลเบา 0.20 × 0.60 × 0.075 ม."
+en = "AAC block wall, 0.20 × 0.60 × 0.075 m"
+unit = "m2"
+rate = 73
+book = "cgd_w480"
+item = "2.3.1"
+url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+
+[[rate]]
+id = "lintel"
+th = "เสาเอ็นและคานทับหลัง ครึ่งแผ่น 7.5 × 10 ซม."
+en = "Tie column and lintel, half-block, 7.5 × 10 cm"
+unit = "metre"
+rate = 51
+book = "cgd_w480"
+item = "2.3.1"
+url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+
+[[rate]]
+id = "plaster"
+th = "ฉาบปูนผนังภายใน"
+en = "Interior wall plaster"
+unit = "m2"
+rate = 96
+book = "cgd_w480"
+item = "2.3.1.2"
+url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+
+[[rate]]
+id = "ceiling"
+th = "ติดตั้งโครงคร่าวเหล็กชุบสังกะสีและแผ่นฝ้ายิปซัม ฉาบรอยต่อเรียบ"
+en = "Galvanised steel ceiling frame and gypsum board, joints finished"
+unit = "m2"
+rate = 77
+book = "cgd_w480"
+item = "2.2.1"
+url = "https://www.yotathai.com/labor-rates/architecture"
+
+[[rate]]
+id = "water_pipe"
+th = "เดินท่อ PVC ระบบประปา ½ นิ้ว"
+en = "PVC water pipe, ½\""
+unit = "metre"
+rate = 31
+book = "cgd_w480"
+item = "3.8"
+url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+
+[[rate]]
+id = "waste_pipe_small"
+th = "เดินท่อ PVC ระบบระบายน้ำ 1½ นิ้ว"
+en = "PVC waste pipe, 1½\""
+unit = "metre"
+rate = 31
+book = "cgd_w480"
+item = "3.7"
+url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+
+[[rate]]
+id = "waste_pipe_large"
+th = "เดินท่อ PVC ระบบระบายน้ำ 4 นิ้ว"
+en = "PVC waste pipe, 4\""
+unit = "metre"
+rate = 103
+book = "cgd_w480"
+item = "3.7"
+url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+
+[[rate]]
+id = "toilet"
+th = "ติดตั้งส้วมนั่งราบชนิดมีหม้อน้ำ"
+en = "Install a toilet with its cistern"
+unit = "set"
+rate = 461
+book = "cgd_w480"
+item = "2.6.1"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "basin"
+th = "ติดตั้งอ่างล้างหน้าพร้อมอุปกรณ์ ครบชุด"
+en = "Install a basin with its fittings, complete"
+unit = "set"
+rate = 461
+book = "cgd_w480"
+item = "2.6.6"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "shower"
+th = "ติดตั้งฝักบัวสายอ่อนพร้อมวาล์ว"
+en = "Install a hand shower with its valve"
+unit = "set"
+rate = 72
+book = "cgd_w480"
+item = "2.6.10"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "bum_gun"
+th = "ติดตั้งสายชำระ"
+en = "Install a bidet spray"
+unit = "set"
+rate = 36
+book = "cgd_w480"
+item = "2.6.27"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "stop_valve"
+th = "ติดตั้งสต๊อปวาล์ว"
+en = "Install a stop valve"
+unit = "set"
+rate = 36
+book = "cgd_w480"
+item = "2.6.26"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "floor_drain"
+th = "ติดตั้งตะแกรงกรองผงพร้อมที่ดักกลิ่น"
+en = "Set a floor drain grate with its trap"
+unit = "set"
+rate = 77
+book = "cgd_w480"
+item = "2.6.25"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "screw_fixed"
+th = "ติดตั้งอุปกรณ์ห้องน้ำ เจาะยึดสกรู"
+en = "Fix a bathroom accessory, screw-fixed"
+unit = "set"
+rate = 72
+book = "cgd_w480"
+item = "2.6.13"
+url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+
+[[rate]]
+id = "wall_lamp"
+th = "ติดตั้งโคมไฟติดผนัง"
+en = "Install a wall lamp"
+unit = "set"
+rate = 169
+book = "cgd_w480"
+item = "4.58"
+url = "https://yotathai.com/labor-rates/electrical/4-58"
+
+[[rate]]
+id = "electrical_first_fix"
+th = "งานไฟฟ้า: เดินสายโคมไฟ ย้ายชุดสวิตช์พร้อมปลั๊กและเบรกเกอร์ ต่อสายเครื่องทำน้ำอุ่น"
+en = "Electrical: the lamp cable, moving the switch-and-socket plate and breaker, connecting the water heater"
+unit = "job"
+rate = 1500
+assumed = ["rate"]
+
+[[rate]]
+id = "heater_refit"
+th = "ถอดและติดตั้งเครื่องทำน้ำอุ่นเดิมกลับ"
+en = "Take down and refit the existing water heater"
+unit = "job"
+rate = 500
+assumed = ["rate"]
+
+[[rate]]
+id = "not_listed"
+th = "งานที่ไม่มีในบัญชี คิดเป็นร้อยละของค่าวัสดุ"
+en = "Work the book doesn't list, as a share of its materials"
+unit = "percent"
+rate = 30
+book = "cgd_w480"
+book_note = 1
+url = "https://www.yotathai.com/labor-rates"
+
+[[rate]]
+id = "wall_tiling"
+th = "บุกระเบื้องผนังเซรามิค 18 × 18 นิ้วขึ้นไป"
+en = "Wall tiling, glazed ceramic, 18 × 18\" and up"
+unit = "m2"
+rate = 184
+book = "cgd_w480"
+item = "2.3.1.3"
+url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+
+[[rate]]
+id = "floor_tiling"
+th = "ปูกระเบื้องพื้นเซรามิค 18 × 18 ถึง 24 × 24 นิ้ว"
+en = "Floor tiling, glazed ceramic, 18 × 18\" to 24 × 24\""
+unit = "m2"
+rate = 178
+book = "cgd_w480"
+item = "2.4.6"
+url = "https://www.yotathai.com/labor-rates/architecture/2-4"
+
+[[rate]]
+id = "paint"
+th = "ทาสีน้ำภายใน รองพื้น 1 เที่ยว ทับหน้า 2 เที่ยว"
+en = "Interior emulsion, 1 primer coat and 2 finish coats"
+unit = "m2"
+rate = 31
+book = "cgd_w480"
+item = "2.8.1"
+url = "https://www.yotathai.com/labor-rates/architecture"
+
+[[rate]]
+id = "door_frame"
+th = "ติดตั้งวงกบประตู"
+en = "Fit a door frame"
+unit = "m2"
+rate = 103
+book = "cgd_w480"
+item = "2.5.2"
+url = "https://www.yotathai.com/labor-rates/architecture"
+
+[[rate]]
+id = "door_leaf"
+th = "ติดตั้งบานประตูสำเร็จรูป พร้อมบานพับ กลอน มือจับ"
+en = "Hang a ready-made door leaf, with hinges, latch and handle"
+unit = "m2"
+rate = 77
+book = "cgd_w480"
+item = "2.5.3"
+url = "https://www.yotathai.com/labor-rates/architecture"
+
+# ---------- the lines ----------
+[[line]]
+rate = "wall_out"
+work_section = "strip_out"
+n = 4
+note_th = "ผนังประตูห้องน้ำเดิม"
+note_en = "the old door wall"
+assumed = ["n"]
+
+[[line]]
+rate = "door_out"
+work_section = "strip_out"
+n = 1
+
+[[line]]
+rate = "sanitary_out"
+work_section = "strip_out"
+n = 2
+note_th = "โถส้วมและอ่างล้างหน้าเดิม"
+note_en = "the old toilet and basin"
+
+[[line]]
+rate = "ceiling_out"
+work_section = "strip_out"
+take_off = "ceiling_m2"
+
+[[line]]
+rate = "light_out"
+work_section = "strip_out"
+n = 1
+
+[[line]]
+rate = "tiles_off"
+work_section = "strip_out"
+take_off = "existing_wall_tiling_m2"
+note_th = "กระเบื้องผนังเดิมที่เหลือ"
+note_en = "the remaining old wall tiles"
+assumed = ["take_off"]
+
+[[line]]
+rate = "disposal"
+work_section = "strip_out"
+n = 1
+
+[[line]]
+rate = "aac_wall"
+work_section = "new_wall"
+take_off = "new_wall_block_m2"
+
+[[line]]
+rate = "lintel"
+work_section = "new_wall"
+take_off = "lintel_m"
+
+[[line]]
+rate = "plaster"
+work_section = "new_wall"
+take_off = "new_wall_plaster_m2"
+note_th = "ผนังใหม่ ด้านห้องนั่งเล่น และด้านห้องน้ำใต้กระเบื้อง"
+note_en = "the new wall: the living-room face, and the bathroom face under the tiles"
+
+[[line]]
+rate = "plaster"
+work_section = "new_wall"
+take_off = "build_out_m2"
+times = 2
+note_th = "เหนือแนวกระเบื้องทุกผนัง ฉาบเสมอผิวกระเบื้อง 2 ชั้น"
+note_en = "above the tile line on every wall, built out flush with the tiles in 2 coats"
+
+[[line]]
+rate = "not_listed"
+work_section = "new_wall"
+of_products = ["m300_mortar"]
+note_th = "อุดร่องและรอยแหว่ง"
+note_en = "filling the chases and broken edges"
+
+[[line]]
+rate = "ceiling"
+work_section = "ceiling"
+take_off = "ceiling_m2"
+
+[[line]]
+rate = "water_pipe"
+work_section = "plumbing"
+n = 6
+assumed = ["n"]
+
+[[line]]
+rate = "waste_pipe_small"
+work_section = "plumbing"
+n = 2
+note_th = "ท่อน้ำทิ้งอ่างล้างหน้า"
+note_en = "the basin waste"
+assumed = ["n"]
+
+[[line]]
+rate = "waste_pipe_large"
+work_section = "plumbing"
+n = 2
+note_th = "ท่อโสโครก ในร่องพื้น"
+note_en = "the toilet waste, in its floor trench"
+assumed = ["n"]
+
+[[line]]
+rate = "toilet"
+work_section = "plumbing"
+count = ["toilet"]
+
+[[line]]
+rate = "basin"
+work_section = "plumbing"
+count = ["basin"]
+
+[[line]]
+rate = "bum_gun"
+work_section = "plumbing"
+count = ["bum_gun"]
+
+[[line]]
+rate = "stop_valve"
+work_section = "plumbing"
+count = ["stop_valve", "stop_valve_2way", "heater_stop_valve"]
+
+[[line]]
+rate = "electrical_first_fix"
+work_section = "electrical"
+n = 1
+
+[[line]]
+rate = "wall_lamp"
+work_section = "electrical"
+count = ["lamp"]
+
+[[line]]
+rate = "not_listed"
+work_section = "waterproofing_tiles"
+of_products = ["flex_shield", "fibre_mesh"]
+
+[[line]]
+rate = "wall_tiling"
+work_section = "waterproofing_tiles"
+take_off = "wall_tiling_m2"
+
+[[line]]
+rate = "floor_tiling"
+work_section = "waterproofing_tiles"
+take_off = "floor_tiling_m2"
+note_th = "รวมผิวขั้นพื้น"
+note_en = "with the step face"
+
+[[line]]
+rate = "floor_drain"
+work_section = "waterproofing_tiles"
+count = ["drain"]
+
+[[line]]
+rate = "paint"
+work_section = "painting"
+take_off = "ceiling_m2"
+note_th = "ฝ้าเพดาน"
+note_en = "the ceiling"
+
+[[line]]
+rate = "paint"
+work_section = "painting"
+take_off = "paint_walls_m2"
+note_th = "ผนังเหนือแนวกระเบื้อง และผนังใหม่ด้านห้องนั่งเล่น"
+note_en = "the walls above the tile line, and the new wall's living-room face"
+
+[[line]]
+rate = "door_frame"
+work_section = "fit_out"
+take_off = "door_m2"
+
+[[line]]
+rate = "door_leaf"
+work_section = "fit_out"
+take_off = "door_m2"
+
+[[line]]
+rate = "heater_refit"
+work_section = "fit_out"
+n = 1
+
+[[line]]
+rate = "shower"
+work_section = "fit_out"
+count = ["shower"]
+
+[[line]]
+rate = "screw_fixed"
+work_section = "fit_out"
+count = ["mirror", "shelf", "roll_holder"]

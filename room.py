@@ -230,6 +230,7 @@ class Room:
     bearing: float        # how far the lintel rests on the wall each side of the opening
     column_depth: float   # the existing column's depth through its wall
     frame_depth: float    # the door frame product's depth, or None if the list gives none (a design check)
+    column_wall: str      # the wall the existing column, the door and the lintel are on
     door_hinge: str       # which end of the door opening its leaf is hinged at: start (the column side) or end
     door_swing: str       # in: the leaf opens into the room; out: out of it
     floor_drain: str      # the id of the floor item the floor falls to
@@ -250,9 +251,46 @@ class Room:
             out.append(TilesNeeded(t, tuple(parts)))
         return out
 
+    def take_off(self):
+        """The quantities labour is priced by, measured from the room: {name: (value, unit)}, areas in m²
+        (unit "m2"), lengths in m (unit "metre"). Each is worked out here from the room's sizes, never typed."""
+        L, W, C = self.length, self.width, self.ceiling
+        tiling = existing = above = 0
+        for w in self.walls.values():
+            top = self.tiles[w.tile].tiling_height
+            windows = [it for it in w.items if it.shape == "opening"]
+            below = w.tiled_run * top - sum(it.w * _overlap(it.y - it.h / 2, it.y + it.h / 2, 0, top) for it in windows)
+            tiling += below
+            existing += below if w.id != self.column_wall else 0
+            above += w.tiled_run * (C - top) - sum(it.w * _overlap(it.y - it.h / 2, it.y + it.h / 2, top, C) for it in windows)
+        wall = self.walls[self.column_wall]
+        top = self.tiles[wall.tile].tiling_height
+        col, door, lintel = (next(it for it in wall.items if it.shape == s) for s in ("column", "door", "lintel"))
+        tiling += 2 * col.d * top                                   # the column's two sides in the room
+        above += 2 * col.d * (C - top) + door.w * (C - door.h)      # and the wall over the door
+        block = wall.length - col.w                                  # the new wall's length, beside the column
+        living = block * C - door.w * door.h                         # its living-room face
+        step = next((it for it in self.floor if it.shape == "step"), None)
+        m2 = 1e6
+        return {"ceiling_m2": (L * W / m2, "m2"),
+                "floor_tiling_m2": ((L * W + (step.h * W if step else 0)) / m2, "m2"),     # with the step's face
+                "wall_tiling_m2": (tiling / m2, "m2"),
+                "existing_wall_tiling_m2": (existing / m2, "m2"),
+                "new_wall_block_m2": ((living - lintel.w * lintel.h) / m2, "m2"),
+                "lintel_m": (lintel.w / 1000, "metre"),
+                "new_wall_plaster_m2": ((living + (wall.tiled_run - col.w) * top) / m2, "m2"),   # both faces, below the tiles
+                "build_out_m2": (above / m2, "m2"),                  # every face above the tile line
+                "paint_walls_m2": ((above + living) / m2, "m2"),
+                "door_m2": (door.w * door.h / m2, "m2")}
+
     def warnings(self):
         """Every setting-out or clash problem: the design checks in room_design_checks.py."""
         return room_design_checks.warnings(self)
+
+
+def _overlap(a0, a1, b0, b1):
+    """How much of the span a0–a1 lies within b0–b1."""
+    return max(0, min(a1, b1) - max(a0, b0))
 
 
 # ======================================== 2. work out ========================================
@@ -268,7 +306,7 @@ def load(path, products):
     return Room(r["length"], r["width"], r["ceiling"], r["joint_clearance"], tiles, raw["floor"]["ref"],
                 raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"],
                 products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"], raw["column"]["depth"],
-                products[raw["door"]["product"]].d, raw["door"]["hinge"],
+                products[raw["door"]["product"]].d, raw["column"]["wall"], raw["door"]["hinge"],
                 raw["door"]["swing"], raw["floor"]["drain"],
                 raw["floor"]["fall_wet"], raw["floor"]["fall_dry"],
                 {n["id"]: Norm(n["id"], n["th"], n["en"], n.get("item"), n["value"], n["standard"], n["url"], n["checked"])

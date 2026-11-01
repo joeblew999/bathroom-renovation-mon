@@ -8,6 +8,8 @@ about the phases or the drawings.
     m.still_to_buy()    # (total, whether any of it is approximate)
     m.on_site()         # how many lines are already on site
     m.boxes_of(id)      # how many of one product are on the list, bought or to buy
+    m.count_of(ids)     # how many of these products are on the list, on any line (labour counts them)
+    m.cost_of(ids)      # (what these products still cost, whether approximate) — labour priced as a share of it
 
 Each [[entry]] is one product: what it is (name, detail, size), how it is bought (unit, price,
 shop, code) and, under it, an [[entry.line]] for every line it takes on the list. The shops,
@@ -199,6 +201,15 @@ class Materials:
     def boxes_of(self, product_id):
         """How many of one product the list has, bought or still to buy."""
         return sum(m.n for m in self.lines if m.entry.product.id == product_id and m.rule.shop)
+
+    def count_of(self, product_ids):
+        """How many of these products the list has, on every line, whatever its status (labour fits them all)."""
+        return sum(m.n for m in self.lines if m.entry.product.id in product_ids)
+
+    def cost_of(self, product_ids):
+        """What these products still cost to buy: (total, whether any of it is approximate)."""
+        buy = [m for m in self.lines if m.entry.product.id in product_ids and m.rule.to_buy]
+        return sum(m.total for m in buy), any(m.entry.approx for m in buy)
 
     def money(self, v):
         """Baht: whole when it is whole, else to the satang, so every line adds up as shown."""

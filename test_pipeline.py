@@ -34,6 +34,7 @@ import tomllib
 from pathlib import Path
 
 
+import labour
 import materials
 import phases
 import room
@@ -47,8 +48,8 @@ from common import DataError
 
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
-MATERIALS, ROOM, PHASES = materials.FILE, room.FILE, phases.FILE
-DATA = (MATERIALS, ROOM, PHASES)
+MATERIALS, ROOM, PHASES, LABOUR = materials.FILE, room.FILE, phases.FILE, labour.FILE
+DATA = (MATERIALS, ROOM, PHASES, LABOUR)
 RAW = {f: tomllib.loads((HERE / f).read_text(encoding="utf-8")) for f in DATA}
 CLEAN = None                       # expect: no error and no warnings
 
@@ -793,6 +794,76 @@ def off_drawing_test():
     return {ROOM: data(lambda d: by_id(d["wall"], right.id).update(th=long, en=long))}, built(expect)
 
 
+# ---------- labour ----------
+def labour_line(what, cond):
+    """The first labour line (as written) that `cond` picks, and its number (labour.py names a line by it)."""
+    i, e = find(list(enumerate(RAW[LABOUR]["line"], 1)), what, lambda t: cond(t[1]))
+    return i, e
+
+
+def labour_rate(rid):
+    return by_id(RAW[LABOUR]["rate"], rid)
+
+
+def edit_labour_line(i, change):
+    return {LABOUR: data(lambda d: change(d["line"][i - 1]))}
+
+
+def money(v):
+    """Baht as the labour section writes it — from its own [symbols]."""
+    c = RAW[LABOUR]["symbols"]["currency"]
+    return f"{c}{v:,.0f}" if v == round(v) else f"{c}{v:,.2f}"
+
+
+def take_off_line_test():
+    """A measured line is the room's take-off (to one decimal) times its rate: its rate set to 1000 for the test."""
+    i, e = labour_line("measured, unassumed line", lambda e: "take_off" in e and "times" not in e and "assumed" not in e)
+    qty = round(real().room.take_off()[e["take_off"]][0], labour.DECIMALS)
+    return ({LABOUR: data(lambda d: by_id(d["rate"], e["rate"]).update(rate=1000))},
+            money(qty * 1000))
+
+
+def count_line_test():
+    """A line that counts products takes how many the materials list has: the first one's line set to 7."""
+    i, e = labour_line("line that counts one product", lambda e: "count" in e and len(e["count"]) == 1)
+    rate = labour_rate(e["rate"])["rate"]
+
+    def change(d):
+        p = by_id(d["entry"], e["count"][0])
+        p["line"] = [dict(p["line"][0], n=7)]
+    return {MATERIALS: data(change)}, money(7 * rate)
+
+
+def share_line_test():
+    """A share of materials is its percent of what they still cost: the first product's price set to 1000."""
+    i, e = labour_line("share line with one product", lambda e: "of_products" in e and len(e["of_products"]) == 1)
+    pid, pct = e["of_products"][0], labour_rate(e["rate"])["rate"]
+    n = sum(ln["n"] for ln in by_id(RAW[MATERIALS]["entry"], pid)["line"] if ln["status"] == "procure")
+    lab = labour.Labels(LABOUR, RAW[LABOUR]["labels"], labour.LABELS)
+    qty = lab.both("of_products", percent=f"{pct:g}{RAW[LABOUR]['symbols']['percent']}", cost=money(1000 * n))
+    return ({MATERIALS: data(lambda d: by_id(d["entry"], pid).update(price=1000))},
+            f"{qty} | {lab.both('approx')} {money(pct / 100 * 1000 * n)} |")
+
+
+def labour_totals_test():
+    """The labour total is every line added up, and the grand total adds what the materials still cost."""
+    def expect(p):
+        total, approx = p.labour.total()
+        mt, ma = p.materials.still_to_buy()
+        want = [p.labour.total_text(total, approx), p.labour.total_text(total + mt, approx or ma)]
+        got = [ln for ln in p.doc.splitlines() if p.labour.labels.both("labour_total") in ln or
+               p.labour.labels.both("grand_total") in ln]
+        ok = len(got) == 2 and want[0] in got[0] and want[1] in got[1] and abs(total - sum(m.amount for m in p.labour.lines)) < 1e-9
+        return want[1] if ok else f"(totals shown: {got}; expected {want})"
+    return {}, built(expect)
+
+
+def labour_data_test(change, message):
+    """A labour line written wrongly: the first measured line, changed."""
+    i, e = labour_line("measured line", lambda e: "take_off" in e)
+    return edit_labour_line(i, lambda x: change(x, e)), message.format(i=i, rate=e["rate"])
+
+
 def drawing(*parts):
     """A small drawing to measure: 400 × 200, white paper, with `parts` (svg)."""
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">'
@@ -1148,6 +1219,39 @@ TESTS = [
               f"NAME-TEST{RAW[ROOM]['symbols']['dash']}")),
     # ---- materials.toml ----
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
+    # ---- labour.toml ----
+    ("labour: a measured line is the room's take-off times its rate", take_off_line_test),
+    ("labour: a counted line is how many the materials list has, times its rate", count_line_test),
+    ("labour: a share of materials is its percent of what they still cost", share_line_test),
+    ("labour: the labour total, and the grand total with the materials", labour_totals_test),
+    ("labour: a line with two quantities",
+     lambda: labour_data_test(lambda x, e: put(x, "n", 1, labour.LINE),
+                              "line {i} ({rate}) must take its quantity from exactly one of")),
+    ("labour: a line with no quantity",
+     lambda: labour_data_test(lambda x, e: x.pop("take_off"), "line {i} ({rate}) must take its quantity from exactly one of")),
+    ("labour: a take-off the room doesn't work out",
+     lambda: labour_data_test(lambda x, e: x.update(take_off="no_such_take_off"),
+                              "line {i} ({rate}) takes off 'no_such_take_off', which the room doesn't work out")),
+    ("labour: a take-off in a different unit from its rate",
+     lambda: (lambda i, e: (edit_labour_line(i, lambda x: x.update(take_off="lintel_m")),
+                            f"line {i} ({e['rate']}) measures in metre, but rate '{e['rate']}' is per m2"))(
+         *labour_line("line measured in m2", lambda e: "take_off" in e and labour_rate(e["rate"])["unit"] == "m2"))),
+    ("labour: a product that isn't on the materials list",
+     lambda: (lambda i, e: (edit_labour_line(i, lambda x: x.update(count=["no_such_product"])),
+                            f"line {i} ({e['rate']}) names product 'no_such_product', which is not on the materials list"))(
+         *labour_line("counted line", lambda e: "count" in e))),
+    ("labour: a rate with no book, not marked assumed",
+     lambda: (lambda r: ({LABOUR: data(lambda d: [by_id(d["rate"], r["id"]).pop(k) for k in ("book", "item", "url")])},
+                         f"rate '{r['id']}' has no book, so its rate must be marked assumed"))(
+         find(RAW[LABOUR]["rate"], "rate from the book by item", lambda r: "item" in r))),
+    ("labour: a rate giving both an item and a note in its book",
+     lambda: (lambda r: ({LABOUR: data(lambda d: put(by_id(d["rate"], r["id"]), "book_note", 1, labour.RATE))},
+                         f"rate '{r['id']}' must give its place in its book: an item or a book_note, not both"))(
+         find(RAW[LABOUR]["rate"], "rate from the book by item", lambda r: "item" in r))),
+    ("labour: a quantity written for a share of materials",
+     lambda: (lambda i, e: (edit_labour_line(i, lambda x: (x.pop("of_products"), put(x, "n", 1, labour.LINE))),
+                            f"line {i} ({e['rate']}) writes a quantity, but rate '{e['rate']}' is a share of materials"))(
+         *labour_line("share line", lambda e: "of_products" in e))),
     ("materials: a price change flows into the total", price_test),
     ("materials: a price that isn't whole baht shows to the satang", money_test),
     ("materials: a shop with a bad code pattern", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(sku="["))},

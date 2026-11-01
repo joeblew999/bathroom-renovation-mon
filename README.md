@@ -1,6 +1,6 @@
 # Bathroom renovation quote
 
-A quote for the builder, in Thai and English: the work, the materials list and the drawings. It is published as:
+A quote for the builder, in Thai and English: the work, the materials list, the labour and the drawings. It is published as:
 
 - Web page: **https://joeblew999.github.io/bathroom-renovation-mon/**
 - PDF: **https://joeblew999.github.io/bathroom-renovation-mon/bathroom-renovation-quote.pdf**
@@ -36,6 +36,8 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 | waterproofing | the membrane under the tiles, up to a set height on each wall | กันซึม |
 | fall | the floor's slope to the drain, 1 in so many | ความลาดเอียง* |
 | norm | an outside value a design check holds the room to, with its source | เกณฑ์* |
+| labour rate | the price of a unit of work (a m² of tiling, a set fitted), from a rate book (`labour.toml`) | อัตราค่าแรง* |
+| rate book | the published list of labour rates a rate comes from: the Comptroller General's (กค 0433.2/ว 480) | บัญชีค่าแรงงาน |
 
 \* Not yet checked by a Thai speaker; the unmarked Thai terms were checked against Thai sources.
 
@@ -45,18 +47,20 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 
 ## How the quote is made
 
-The quote has three **parts**: the phases (the scope of works, in sequence), the materials (the materials list) and the room (the floor plan and elevations). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file, and the room's drawings have their own code and their own design checks.
+The quote has four **parts**: the phases (the scope of works, in sequence), the materials (the materials list), the room (the floor plan and elevations) and the labour (priced from the room and the materials list). Each part is a data file and the code that reads it; the materials and the room also have a design-checks file, and the room's drawings have their own code and their own design checks.
 
 ```
 phases.toml     ──► phases.py                                      ─┐
-materials.toml  ──► materials.py    + materials_design_checks.py   ─┼──► build.py ──► out/index.html ──► out/…pdf
+materials.toml  ──► materials.py    + materials_design_checks.py   ─┤
      ▲                                                              │
-     │ the room names products by id (rule 6)                       │
+     │ the room names products by id (rule 6)                       ├──► build.py ──► out/index.html ──► out/…pdf
 room.toml       ──► room.py         + room_design_checks.py        ─┤
-                   └─► room_drawings.py + drawing_design_checks.py ─┘
+                   └─► room_drawings.py + drawing_design_checks.py ─┤
+labour.toml     ──► labour.py   ◄── the room's take-off and         │
+                                    the list's counts and costs    ─┘
 ```
 
-`build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
+`build.py` is the only place the parts meet. It puts the phases, the materials list and the labour into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
 
 On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
 
@@ -67,10 +71,11 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `phases.toml` | The work: phases and steps, in prose for the builder |
 | `materials.toml` | Every product once — its name and detail in Thai and English, its size, whether it's electrical and its IP rating, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door (which end it's hinged at, and whether it opens in or out) and lintel; the tiles; the floor (its drain, and its fall on each side of the step) and the four walls (each with its waterproofing height; the shower zone has its own) in order round the room, each with its items, the shower head among them; the norms the design checks use, each with its source; the drawings' wording and marks |
-| `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file; the phases and materials render their sections, the room is worked out (every wall and item, the column, door and lintel, the tile counts) |
+| `labour.toml` | The labour: the rate book (which document), every rate (its name in Thai and English, unit, price, and its item or note in the book, with the page it was read from), and the lines — each a rate, a work section and where its quantity comes from; the units and work sections; the section's wording and marks |
+| `phases.py`, `materials.py`, `room.py`, `labour.py` | The parts' code: each reads and checks its own data file; the phases, materials and labour render their sections, the room is worked out (every wall and item, the column, door and lintel, the tile counts, the quantities labour is priced by) |
 | `room_drawings.py` | The room's drawings: lays out the floor plan and each elevation as SVG, with its design problems under it |
 | `room_design_checks.py`, `materials_design_checks.py`, `drawing_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities; how the drawings read (see Checks) |
-| `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
+| `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases, one for the materials list and one for the labour (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes, the one Chromium a run uses |
@@ -103,18 +108,20 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 5. **Parts don't know each other.**
    - No part's code imports another part's code; the parts meet only in `build.py`.
    - No data file holds a fact about another part. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never which tile goes where.
-   - The one link is rule 6.
-6. **The one link between parts: the room and the materials list.** The room names products on the materials list by id, for their names, sizes and IP ratings, and `room.py` checks every id; the tiles the room needs are set against the boxes on the materials list by the quantities check (see Checks). `build.py` hands both over. Nothing links the phases to anything.
+   - The only links are rule 6.
+6. **The links between parts**, each handed over by `build.py`; nothing links the phases to anything.
+   - **The room and the materials list.** The room names products on the materials list by id, for their names, sizes and IP ratings, and `room.py` checks every id; the tiles the room needs are set against the boxes on the materials list by the quantities check (see Checks).
+   - **The labour, from the room and the materials list.** A labour line takes its quantity from the room's take-off (areas and lengths `room.py` works out), from a count of products on the materials list, or as a share of what products on it still cost, and shows those products' names from the list; `labour.py` checks every take-off name and product id. The grand total adds what the materials still cost to the labour.
 7. **Every fact once.**
    - A product's name, detail and size are written only on its entry in `materials.toml`; its detail shows the size with `{w}`, `{w_cm}` and so on, and the room takes them from there.
-   - What follows from the room is worked out in `room.py`, never typed: where each wall is, the column, door and lintel, the tile counts.
+   - What follows from the room is worked out in `room.py`, never typed: where each wall is, the column, door and lintel, the tile counts, the quantities labour is priced by.
    - Numbers come from order, never typed; things point at each other by id.
    - A note never repeats a fact held elsewhere, or a figure that can be worked out.
 8. **Bad data stops the build; a design problem is never published** (see Checks).
 9. **Tests never depend on today's numbers or wording.**
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
    - Every check has a test; `mise run test` lists them.
-10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too. When a source changes, the figure can be checked again; a norm without its source stops the build.
+10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too; a labour rate from its rate book (`[[book]]` in `labour.toml`), with its item or note there, the page it was read from (`url`) and the day the rates were `checked`. When a source changes, the figure can be checked again; a norm without its source stops the build.
    - A value not yet known for real — still to be measured on site, or read off a product's label — is marked as assumed: its key goes in the entry's `assumed` list (`assumed = ["x", "y"]`). It is a stand-in until the real figure replaces it, and then it comes off the list.
 
 ## Checks
@@ -124,7 +131,7 @@ Every check is one of two kinds, and they never mix: a **data check** asks wheth
 ### Data checks
 
 A data file written wrongly: a missing or misspelt field, an id that points at nothing, Thai without English. Fixing it means correcting the file.
-- A data check lives in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
+- A data check lives in the part's own code (`phases.py`, `materials.py`, `room.py`, `labour.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
 - It raises `DataError`: the build stops with one English line naming the file and the problem, and nothing is written.
 
 ### Design checks
@@ -137,7 +144,7 @@ The judgement an architect and a builder bring — good building practice, sound
 
 The room and the drawings are told apart by what fixing a problem changes: a room problem changes what is constructed; a drawing problem changes only how the drawing is laid out or worded — nothing on site.
 
-The phases have no design checks. Each design-checks file lists its checks at the top.
+The phases and the labour have no design checks. Each design-checks file lists its checks at the top.
 
 How a design problem is reported:
 - A design check never raises `DataError`. It returns a design problem: a note for the architect, in Thai and English — where, what, the rule, what to do — worded by a label in the part's `[labels]`.
@@ -151,7 +158,7 @@ A value marked as assumed (rule 10) is neither bad data nor a design problem: th
 ### Placing a new check
 
 Ask what fixing it would take:
-- **Correcting the file** → a data check, in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` if every entry shares it.
+- **Correcting the file** → a data check, in the part's own code (`phases.py`, `materials.py`, `room.py`, `labour.py`), or in `common.check` if every entry shares it.
 - **Changing the room** — where something goes, its size, how it fits or looks, its waterproofing or fall → a room design check, in `room_design_checks.py`.
 - **Ordering more, or ordering something different** → a quantities check, in `materials_design_checks.py`.
 - **Changing only how a drawing is laid out or worded** — nothing on site → a drawing design check, in `drawing_design_checks.py`.

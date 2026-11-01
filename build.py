@@ -5,6 +5,7 @@ The only place the three parts meet. Each part reads its own file and renders it
 
   phases.py      phases.toml      → the work, phase by phase
   materials.py   materials.toml   → the materials list (and every product's names and size)
+  labour.py      labour.toml      → the labour, priced from the room's take-off and the materials list
   room.py        room.toml        → the room, worked out; room_drawings.py draws its floor plan and walls
 
 This file hands the products on the materials list to the room (for their sizes), hands the tiles
@@ -33,6 +34,7 @@ from pathlib import Path
 import markdown
 
 import drawing_design_checks
+import labour
 import materials
 import materials_design_checks
 import phases
@@ -52,6 +54,7 @@ class Quote:
     work: phases.Work
     materials: materials.Materials
     room: room.Room
+    labour: labour.Labour
     tiles: list          # [(TilesNeeded, boxes planned)]
     warnings: list       # [(where, (th, en))]
 
@@ -89,7 +92,9 @@ def assemble(md):
     m = materials.load(md.with_name(materials.FILE))
     r = room.load(md.with_name(room.FILE), m.products)
     tiles, tile_warnings = materials_design_checks.tile_check(m, r.tiles_needed())
-    doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
+    lab = labour.load(md.with_name(labour.FILE), r.take_off(), m)
+    doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render(),
+                                                          "labour": lab.render(m.still_to_buy())})
     more = {"floor": [w for _, w in tile_warnings]}
     svgs = room_drawings.render(r, more)
     # How the drawings read, measured as drawn; any problem is drawn again in red under its drawing.
@@ -98,7 +103,7 @@ def assemble(md):
         for d, w in drawing_warnings:
             more.setdefault(d, []).append(w)
         svgs = room_drawings.render(r, more)
-    return Quote(doc, svgs, work, m, r, tiles, r.warnings() + tile_warnings + drawing_warnings)
+    return Quote(doc, svgs, work, m, r, lab, tiles, r.warnings() + tile_warnings + drawing_warnings)
 
 
 def html(doc, svgs):
@@ -135,6 +140,10 @@ def summary(md):
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
     print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
+    total, approx = q.labour.total()
+    print(f"{q.labour.labels.both('labour_total')}:", q.labour.total_text(total, approx))
+    mt, ma = q.materials.still_to_buy()
+    print(f"{q.labour.labels.both('grand_total')}:", q.labour.total_text(total + mt, approx or ma))
     print_warnings(q.warnings)
     print_assumed(assumed(q))
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
@@ -143,7 +152,7 @@ def summary(md):
 
 def assumed(q):
     """Every value the data marks as assumed, across the parts: [(where, key, value)] (README rule 10)."""
-    return list(q.room.assumed) + list(q.materials.assumed)
+    return list(q.room.assumed) + list(q.materials.assumed) + list(q.labour.assumed)
 
 
 def problems(warnings):
