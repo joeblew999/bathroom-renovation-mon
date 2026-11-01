@@ -48,6 +48,9 @@ floor_higher = { th = "พื้นยกสูง {h}", en = "floor {h} higher"
 higher = { th = "▲ สูง", en = "higher" }
 lower = { th = "ต่ำ", en = "lower ▼" }
 floor = { th = "พื้น", en = "floor" }
+tag_main = { en = "M" }       # floor-plan tags: M1, F2, W3 … (the main wall, the floor, the window wall)
+tag_floor = { en = "F" }
+tag_window = { en = "W" }
 items = { th = "รายการ", en = "Items" }
 x_from = { th = "x จาก{wall}", en = "from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }

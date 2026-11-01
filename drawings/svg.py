@@ -7,9 +7,26 @@ under each elevation. It reads and writes nothing.
 from html import escape
 
 S = 0.3                      # px per mm
-ACC = "#c0392b"
 
-
+# The drawing's colours, each named once. (Each tile's colour is in site.toml: it belongs to the tile.)
+MARKER = "#c0392b"        # items, their number tags, warnings
+OPENING = "#2e86c1"       # openings, zones, pipe lines, floor items
+OPENING_FILL = "#d6eaf8"
+ZONE_FILL = "#5dade2"
+ROUND_FILL = "#eaf2f8"    # round items (the mirror)
+STEP = "#e67e22"          # the floor step
+STEP_FILL = "#f5cba7"
+OK = "#1e8449"            # the all-clear lines
+COLUMN = "#7f8c8d"
+COLUMN_LINE = "#2c3e50"
+WALL_FACE = "#fbfbf8"
+GRID = "#9a9a96"          # tile joints
+GRID_TEXT = "#777"
+NOTE = "#666"
+SUBTITLE = "#555"
+DARK = "#444"             # walls on the plan, axis lines
+OUTLINE = "#222"
+WHITE = "#fff"
 
 
 def name(w):
@@ -57,13 +74,13 @@ def draw_legend(a, rows, x0, y0, tag_w=16):
     yy = y0
     for tag, head, notes in rows:
         yy += 20
-        a(f'<rect x="{x0 + 8 - tag_w / 2}" y="{yy - 12}" width="{tag_w}" height="16" rx="8" fill="{ACC}"/>')
-        a(f'<text x="{x0 + 8}" y="{yy - 0.5}" font-size="9.5" fill="#fff" text-anchor="middle" '
+        a(f'<rect x="{x0 + 8 - tag_w / 2}" y="{yy - 12}" width="{tag_w}" height="16" rx="8" fill="{MARKER}"/>')
+        a(f'<text x="{x0 + 8}" y="{yy - 0.5}" font-size="9.5" fill="{WHITE}" text-anchor="middle" '
           f'font-weight="bold">{tag}</text>')
         a(f'<text x="{x0 + 8 + tag_w / 2 + 8}" y="{yy}" font-size="12">{escape(head)}</text>')
         for line in notes:
             yy += 14
-            a(f'<text x="{x0 + 8 + tag_w / 2 + 8}" y="{yy}" font-size="10" fill="#666">{escape(line)}</text>')
+            a(f'<text x="{x0 + 8 + tag_w / 2 + 8}" y="{yy}" font-size="10" fill="{NOTE}">{escape(line)}</text>')
         yy += 4
     return yy
 
@@ -97,24 +114,24 @@ def draw_wall(d, wall):
     a = out.append
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{svg_w:.0f}" height="{svg_h:.0f}" '
       f'viewBox="0 0 {svg_w:.0f} {svg_h:.0f}" font-family="Helvetica, Arial, sans-serif">')
-    a('<rect width="100%" height="100%" fill="#ffffff"/>')
+    a(f'<rect width="100%" height="100%" fill="{WHITE}"/>')
     title = lab.both("elevation_title", wall=(wall.th, wall.en), view=(view_th, view_en))
     a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">{title}</text>')
-    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">{lab.both("viewed_inside", sep=" · ")} · '
+    a(f'<text x="{ML}" y="48" font-size="12" fill="{SUBTITLE}">{lab.both("viewed_inside", sep=" · ")} · '
       f'{lab.both("mm")} · {lab.both("generated")}</text>')
 
     # wall, tiled area, grid
-    a(f'<rect x="{ML}" y="{MT}" width="{W}" height="{H}" fill="#fbfbf8" stroke="#222" stroke-width="2"/>')
+    a(f'<rect x="{ML}" y="{MT}" width="{W}" height="{H}" fill="{WALL_FACE}" stroke="{OUTLINE}" stroke-width="2"/>')
     a(f'<rect x="{ML}" y="{Y(top)}" width="{W}" height="{top * S}" fill="{t.fill}"/>')
     for k in range(tile, L, tile):
-        a(f'<line x1="{X(k)}" y1="{Y(top)}" x2="{X(k)}" y2="{Y(0)}" stroke="#9a9a96"/>')
-        a(f'<text x="{X(k)}" y="{Y(top) - 5}" font-size="10" fill="#777" text-anchor="middle">{k}</text>')
+        a(f'<line x1="{X(k)}" y1="{Y(top)}" x2="{X(k)}" y2="{Y(0)}" stroke="{GRID}"/>')
+        a(f'<text x="{X(k)}" y="{Y(top) - 5}" font-size="10" fill="{GRID_TEXT}" text-anchor="middle">{k}</text>')
     for k in range(tile, top, tile):
-        a(f'<line x1="{ML}" y1="{Y(k)}" x2="{ML + W}" y2="{Y(k)}" stroke="#9a9a96"/>')
+        a(f'<line x1="{ML}" y1="{Y(k)}" x2="{ML + W}" y2="{Y(k)}" stroke="{GRID}"/>')
     for k in range(0, CEIL + 1, 500):
-        a(f'<text x="{ML - 8}" y="{Y(k) + 4}" font-size="10" fill="#777" text-anchor="end">{k}</text>')
-    a(f'<line x1="{ML}" y1="{Y(top)}" x2="{ML + W}" y2="{Y(top)}" stroke="#555" stroke-width="1.5"/>')
-    a(f'<text x="{ML + W - 4}" y="{Y(top) + 14}" font-size="10" fill="#444" text-anchor="end">'
+        a(f'<text x="{ML - 8}" y="{Y(k) + 4}" font-size="10" fill="{GRID_TEXT}" text-anchor="end">{k}</text>')
+    a(f'<line x1="{ML}" y1="{Y(top)}" x2="{ML + W}" y2="{Y(top)}" stroke="{SUBTITLE}" stroke-width="1.5"/>')
+    a(f'<text x="{ML + W - 4}" y="{Y(top) + 14}" font-size="10" fill="{DARK}" text-anchor="end">'
       f'{lab.both("tile_top", top=top)}</text>')
 
     # raised floor at the basin end: the floor step meets the walls that run along the room
@@ -122,8 +139,8 @@ def draw_wall(d, wall):
         step = next((f for f in d.floor if f.shape == "step"), None)
         if step and step.h:
             a(f'<rect x="{X(step.x)}" y="{Y(step.h)}" width="{step.x * S}" height="{step.h * S}" '
-              f'fill="#f5cba7" stroke="#e67e22" stroke-width="1.5"/>')
-            a(f'<text x="{X(step.x / 2)}" y="{Y(step.h) - 4}" font-size="10" fill="#e67e22" '
+              f'fill="{STEP_FILL}" stroke="{STEP}" stroke-width="1.5"/>')
+            a(f'<text x="{X(step.x / 2)}" y="{Y(step.h) - 4}" font-size="10" fill="{STEP}" '
               f'text-anchor="middle">{lab.both("floor_higher", h=f"{step.h:g}")}</text>')
 
     # side labels
@@ -143,39 +160,39 @@ def draw_wall(d, wall):
         lx, ly = X(x), (Y(y) if y is not None else Y(1000))
         if sh == "zone":
             a(f'<rect x="{X(x + w / 2)}" y="{Y(top)}" width="{w * S}" height="{top * S}" '
-              f'fill="#5dade2" fill-opacity="0.15" stroke="#2e86c1" stroke-dasharray="6 4"/>')
+              f'fill="{ZONE_FILL}" fill-opacity="0.15" stroke="{OPENING}" stroke-dasharray="6 4"/>')
             ly = Y(200)
         elif sh == "column":
             a(f'<rect x="{X(x + w / 2)}" y="{Y(y + h / 2)}" width="{w * S}" height="{h * S}" '
-              f'fill="#7f8c8d" fill-opacity="0.6" stroke="#2c3e50" stroke-width="1.5"/>')
+              f'fill="{COLUMN}" fill-opacity="0.6" stroke="{COLUMN_LINE}" stroke-width="1.5"/>')
         elif sh == "opening":
             a(f'<rect x="{X(x + w / 2)}" y="{Y(y + h / 2)}" width="{w * S}" height="{h * S}" '
-              f'fill="#d6eaf8" stroke="#2e86c1" stroke-width="2"/>')
+              f'fill="{OPENING_FILL}" stroke="{OPENING}" stroke-width="2"/>')
         elif sh == "rect":
             a(f'<rect x="{X(x + w / 2)}" y="{Y(y + h / 2)}" width="{w * S}" height="{h * S}" '
-              f'fill="#ffffff" fill-opacity="0.85" stroke="{ACC}" stroke-width="1.5"/>')
+              f'fill="{WHITE}" fill-opacity="0.85" stroke="{MARKER}" stroke-width="1.5"/>')
         elif sh == "circle":
-            a(f'<circle cx="{lx}" cy="{ly}" r="{w / 2 * S}" fill="#eaf2f8" fill-opacity="0.8" '
-              f'stroke="{ACC}" stroke-width="1.5"/>')
+            a(f'<circle cx="{lx}" cy="{ly}" r="{w / 2 * S}" fill="{ROUND_FILL}" fill-opacity="0.8" '
+              f'stroke="{MARKER}" stroke-width="1.5"/>')
         elif sh == "point":
-            a(f'<line x1="{lx - 6}" y1="{ly - 6}" x2="{lx + 6}" y2="{ly + 6}" stroke="{ACC}" stroke-width="2"/>')
-            a(f'<line x1="{lx - 6}" y1="{ly + 6}" x2="{lx + 6}" y2="{ly - 6}" stroke="{ACC}" stroke-width="2"/>')
+            a(f'<line x1="{lx - 6}" y1="{ly - 6}" x2="{lx + 6}" y2="{ly + 6}" stroke="{MARKER}" stroke-width="2"/>')
+            a(f'<line x1="{lx - 6}" y1="{ly + 6}" x2="{lx + 6}" y2="{ly - 6}" stroke="{MARKER}" stroke-width="2"/>')
         elif sh == "vline":
-            a(f'<line x1="{lx}" y1="{Y(0)}" x2="{lx}" y2="{Y(1000)}" stroke="#2e86c1" '
+            a(f'<line x1="{lx}" y1="{Y(0)}" x2="{lx}" y2="{Y(1000)}" stroke="{OPENING}" '
               f'stroke-width="1.5" stroke-dasharray="4 3"/>')
             ly = Y(1000) - 2
         tx = lx + (10 if sh in ("point", "vline") else 0)
         if sh == "rect" and x in vline_xs:
             tx = lx - 14
-        a(f'<circle cx="{tx}" cy="{ly}" r="8" fill="{ACC}"/>')
-        a(f'<text x="{tx}" y="{ly + 3.5}" font-size="10" fill="#fff" text-anchor="middle" '
+        a(f'<circle cx="{tx}" cy="{ly}" r="8" fill="{MARKER}"/>')
+        a(f'<text x="{tx}" y="{ly + 3.5}" font-size="10" fill="{WHITE}" text-anchor="middle" '
           f'font-weight="bold">{it.no}</text>')
 
     # x ticks along the floor
     base = Y(0) + 18
-    a(f'<line x1="{ML}" y1="{base}" x2="{ML + W}" y2="{base}" stroke="#444"/>')
+    a(f'<line x1="{ML}" y1="{base}" x2="{ML + W}" y2="{base}" stroke="{DARK}"/>')
     for x in sorted(xs):
-        a(f'<line x1="{X(x)}" y1="{base - 5}" x2="{X(x)}" y2="{base + 5}" stroke="#444"/>')
+        a(f'<line x1="{X(x)}" y1="{base - 5}" x2="{X(x)}" y2="{base + 5}" stroke="{DARK}"/>')
         a(f'<text x="{X(x)}" y="{base + 18}" font-size="10" text-anchor="end" '
           f'transform="rotate(-45 {X(x)} {base + 18})">{x}</text>')
 
@@ -187,10 +204,10 @@ def draw_wall(d, wall):
     yy = draw_legend(a, rows, ML, ly0) + 16
     if warnings:
         for k, w_ in enumerate(warnings):
-            a(f'<text x="{ML}" y="{yy + 18 * k}" font-size="12" fill="{ACC}">⚠ {escape(w_)}</text>')
+            a(f'<text x="{ML}" y="{yy + 18 * k}" font-size="12" fill="{MARKER}">⚠ {escape(w_)}</text>')
     else:
-        a(f'<text x="{ML}" y="{yy}" font-size="12" fill="#1e8449">{lab.th("all_clear", min_clear=d.min_clear)}</text>')
-        a(f'<text x="{ML}" y="{yy + 18}" font-size="12" fill="#1e8449">{lab.en("all_clear", min_clear=d.min_clear)}</text>')
+        a(f'<text x="{ML}" y="{yy}" font-size="12" fill="{OK}">{lab.th("all_clear", min_clear=d.min_clear)}</text>')
+        a(f'<text x="{ML}" y="{yy + 18}" font-size="12" fill="{OK}">{lab.en("all_clear", min_clear=d.min_clear)}</text>')
     a('</svg>')
     return "\n".join(out)
 
@@ -208,12 +225,13 @@ def draw_plan(d):
     ML, MR, MT, MB = 90, 90, 90, 80
     PW, PH = L * SP, Wd * SP
     svg_w = max(ML + PW + MR, 900)
-    legend = [("M", it) for it in main if it.d] + [("F", it) for it in floor] + [("W", it) for it in win]
+    M, F, W = lab.en("tag_main"), lab.en("tag_floor"), lab.en("tag_window")    # the tag letters
+    legend = [(M, it) for it in main if it.d] + [(F, it) for it in floor] + [(W, it) for it in win]
     # Wall items list names only (their notes are on the elevations); floor items carry their notes.
     rows = []
     for pre, it in legend:
         (r,) = legend_rows(lab, [it], with_dims=False)
-        rows.append((pre + it.no, r[1], r[2] if pre == "F" else []))
+        rows.append((pre + it.no, r[1], r[2] if pre == F else []))
     svg_h = MT + PH + MB + legend_height(rows) + 120
     T = 12                                      # drawn wall thickness, px
 
@@ -229,22 +247,22 @@ def draw_plan(d):
     a = out.append
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{svg_w:.0f}" height="{svg_h:.0f}" '
       f'viewBox="0 0 {svg_w:.0f} {svg_h:.0f}" font-family="Helvetica, Arial, sans-serif">')
-    a('<rect width="100%" height="100%" fill="#ffffff"/>')
+    a(f'<rect width="100%" height="100%" fill="{WHITE}"/>')
     a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">{lab.both("floor_plan")}</text>')
-    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">{lab.both("seen_above", sep=" · ")} · '
+    a(f'<text x="{ML}" y="48" font-size="12" fill="{SUBTITLE}">{lab.both("seen_above", sep=" · ")} · '
       f'{lab.both("mm")} · {lab.both("generated")}</text>')
 
     # floor + floor tile grid (full tiles set out from the new wall and the main wall)
     a(f'<rect x="{ML}" y="{MT}" width="{PW}" height="{PH}" fill="{FLOOR.fill}"/>')
     for k in range(FLOOR.size, L, FLOOR.size):
-        a(f'<line x1="{X(k)}" y1="{Y(0)}" x2="{X(k)}" y2="{Y(Wd)}" stroke="#9a9a96"/>')
-        a(f'<text x="{X(k)}" y="{Y(Wd) + T + 34}" font-size="10" fill="#777" text-anchor="middle">{k}</text>')
+        a(f'<line x1="{X(k)}" y1="{Y(0)}" x2="{X(k)}" y2="{Y(Wd)}" stroke="{GRID}"/>')
+        a(f'<text x="{X(k)}" y="{Y(Wd) + T + 34}" font-size="10" fill="{GRID_TEXT}" text-anchor="middle">{k}</text>')
     for k in range(FLOOR.size, Wd, FLOOR.size):
-        a(f'<line x1="{ML}" y1="{Y(k)}" x2="{ML + PW}" y2="{Y(k)}" stroke="#9a9a96"/>')
-        a(f'<text x="{ML + PW + 20}" y="{Y(k) + 4}" font-size="10" fill="#777">{k}</text>')
+        a(f'<line x1="{ML}" y1="{Y(k)}" x2="{ML + PW}" y2="{Y(k)}" stroke="{GRID}"/>')
+        a(f'<text x="{ML + PW + 20}" y="{Y(k) + 4}" font-size="10" fill="{GRID_TEXT}">{k}</text>')
 
     # walls
-    wall = 'fill="#444"'
+    wall = f'fill="{DARK}"'
     a(f'<rect x="{ML - T}" y="{MT - T}" width="{PW + 2 * T}" height="{T}" {wall}/>')          # main wall
     a(f'<rect x="{ML - T}" y="{MT + PH}" width="{PW + 2 * T}" height="{T}" {wall}/>')         # opposite long wall
     a(f'<rect x="{ML - T}" y="{MT}" width="{T}" height="{PH}" {wall}/>')                       # window wall
@@ -253,18 +271,18 @@ def draw_plan(d):
     d0 = door.y - door.w / 2 if door else NEW_WALL_L
     d1 = door.y + door.w / 2 if door else NEW_WALL_L
     a(f'<rect x="{ML + PW}" y="{Y(0)}" width="{T}" height="{d0 * SP}" {wall}/>')
-    a(f'<rect x="{ML + PW}" y="{Y(NEW_WALL_L)}" width="{T * 1.6}" height="{col * SP}" fill="#222"/>')
+    a(f'<rect x="{ML + PW}" y="{Y(NEW_WALL_L)}" width="{T * 1.6}" height="{col * SP}" fill="{OUTLINE}"/>')
     # window opening in the window wall (window-wall x = plan y)
     for it in win:
         if it.shape == "opening":
             a(f'<rect x="{ML - T}" y="{Y(it.x - it.w / 2)}" width="{T}" height="{it.w * SP}" '
-              f'fill="#d6eaf8" stroke="#2e86c1"/>')
+              f'fill="{OPENING_FILL}" stroke="{OPENING}"/>')
 
     # door leaf and swing (hinge on the column side)
     if door:
         hx, hy, r = ML + PW, Y(d1), door.w * SP
-        a(f'<line x1="{hx}" y1="{hy}" x2="{hx - r}" y2="{hy}" stroke="#222" stroke-width="2"/>')
-        a(f'<path d="M {hx - r} {hy} A {r} {r} 0 0 1 {hx} {Y(d0)}" fill="none" stroke="#222" '
+        a(f'<line x1="{hx}" y1="{hy}" x2="{hx - r}" y2="{hy}" stroke="{OUTLINE}" stroke-width="2"/>')
+        a(f'<path d="M {hx - r} {hy} A {r} {r} 0 0 1 {hx} {Y(d0)}" fill="none" stroke="{OUTLINE}" '
           f'stroke-dasharray="4 3"/>')
 
     tags = []
@@ -275,43 +293,43 @@ def draw_plan(d):
         w = it.w or 0
         if it.shape == "zone":
             a(f'<rect x="{X(it.x + w / 2)}" y="{Y(0)}" width="{w * SP}" height="{it.d * SP}" '
-              f'fill="#5dade2" fill-opacity="0.15" stroke="#2e86c1" stroke-dasharray="6 4"/>')
-            tags.append(("M" + it.no, X(it.x), Y(it.d - 120)))
+              f'fill="{ZONE_FILL}" fill-opacity="0.15" stroke="{OPENING}" stroke-dasharray="6 4"/>')
+            tags.append((M + it.no, X(it.x), Y(it.d - 120)))
             continue
         overhead = it.y is not None and it.y - (it.h or 0) / 2 > 1000   # above head-height fittings
         dash = ' stroke-dasharray="5 3"' if overhead else ""
-        fill = "none" if overhead else "#ffffff"
+        fill = "none" if overhead else WHITE
         a(f'<rect x="{X(it.x + w / 2)}" y="{Y(0)}" width="{w * SP}" height="{it.d * SP}" '
-          f'fill="{fill}" stroke="{ACC}" stroke-width="1.5"{dash}/>')
-        tags.append(("M" + it.no, X(it.x), Y(it.d / 2)))
+          f'fill="{fill}" stroke="{MARKER}" stroke-width="1.5"{dash}/>')
+        tags.append((M + it.no, X(it.x), Y(it.d / 2)))
     # floor items
     for it in floor:
         if it.shape == "rect":
             a(f'<rect x="{X(it.x + it.w / 2)}" y="{Y(it.y - it.d / 2)}" width="{it.w * SP}" '
-              f'height="{it.d * SP}" fill="#ffffff" stroke="#2e86c1" stroke-width="1.5"/>')
+              f'height="{it.d * SP}" fill="{WHITE}" stroke="{OPENING}" stroke-width="1.5"/>')
             a(f'<line x1="{X(it.x + it.w / 2)}" y1="{Y(it.y)}" x2="{X(it.x - it.w / 2)}" '
-              f'y2="{Y(it.y)}" stroke="#2e86c1"/>')
-            tags.append(("F" + it.no, X(it.x) - 18, Y(it.y) + 4))
+              f'y2="{Y(it.y)}" stroke="{OPENING}"/>')
+            tags.append((F + it.no, X(it.x) - 18, Y(it.y) + 4))
         elif it.shape == "step":
-            a(f'<line x1="{X(it.x)}" y1="{Y(0)}" x2="{X(it.x)}" y2="{Y(it.d)}" stroke="#e67e22" '
+            a(f'<line x1="{X(it.x)}" y1="{Y(0)}" x2="{X(it.x)}" y2="{Y(it.d)}" stroke="{STEP}" '
               f'stroke-width="4" stroke-dasharray="10 5"/>')
-            a(f'<text x="{X(it.x) + 6}" y="{Y(it.d) - 6}" font-size="11" fill="#e67e22" '
+            a(f'<text x="{X(it.x) + 6}" y="{Y(it.d) - 6}" font-size="11" fill="{STEP}" '
               f'font-weight="bold">{lab.both("higher")}</text>')
-            a(f'<text x="{X(it.x) - 6}" y="{Y(it.d) - 6}" font-size="11" fill="#e67e22" '
+            a(f'<text x="{X(it.x) - 6}" y="{Y(it.d) - 6}" font-size="11" fill="{STEP}" '
               f'font-weight="bold" text-anchor="end">{lab.both("lower")}</text>')
-            tags.append(("F" + it.no, X(it.x), Y(it.d / 2)))
+            tags.append((F + it.no, X(it.x), Y(it.d / 2)))
         elif it.shape == "door":
-            tags.append(("F" + it.no, ML + PW - door.w * SP / 2, Y(d1) - 12))
+            tags.append((F + it.no, ML + PW - door.w * SP / 2, Y(d1) - 12))
     # window-wall items: footprint out from the window wall where a depth is given
     for it in win:
         if it.d and it.w:
             a(f'<rect x="{ML}" y="{Y(it.x - it.w / 2)}" width="{it.d * SP}" height="{it.w * SP}" '
-              f'fill="none" stroke="{ACC}" stroke-width="1.5" stroke-dasharray="5 3"/>')
-        tags.append(("W" + it.no, ML - T - 16, Y(it.x)))
+              f'fill="none" stroke="{MARKER}" stroke-width="1.5" stroke-dasharray="5 3"/>')
+        tags.append((W + it.no, ML - T - 16, Y(it.x)))
 
     for t, tx, ty in tags:
-        a(f'<rect x="{tx - 12}" y="{ty - 8}" width="24" height="16" rx="8" fill="{ACC}"/>')
-        a(f'<text x="{tx}" y="{ty + 3.5}" font-size="9.5" fill="#fff" text-anchor="middle" font-weight="bold">{t}</text>')
+        a(f'<rect x="{tx - 12}" y="{ty - 8}" width="24" height="16" rx="8" fill="{MARKER}"/>')
+        a(f'<text x="{tx}" y="{ty + 3.5}" font-size="9.5" fill="{WHITE}" text-anchor="middle" font-weight="bold">{t}</text>')
 
     # wall names
     a(f'<text x="{ML + PW / 2}" y="{MT - T - 8}" font-size="12" text-anchor="middle">{names["main_wall"]}</text>')
@@ -324,9 +342,9 @@ def draw_plan(d):
     # legend
     ly0 = MT + PH + MB
     mw, ww = d.walls["main_wall"], d.walls["window_wall"]
-    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">{lab.both("items")} — M = {mw.th} / {mw.en.lower()} · '
-      f'F = {lab.both("floor")} · W = {ww.th} / {ww.en.lower()}</text>')
-    a(f'<text x="{ML}" y="{ly0 + 16}" font-size="11" fill="#555">{lab.both("dashed")}</text>')
+    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">{lab.both("items")} — {M} = {mw.th} / {mw.en.lower()} · '
+      f'{F} = {lab.both("floor")} · {W} = {ww.th} / {ww.en.lower()}</text>')
+    a(f'<text x="{ML}" y="{ly0 + 16}" font-size="11" fill="{SUBTITLE}">{lab.both("dashed")}</text>')
     ly0 += 16
     draw_legend(a, rows, ML, ly0, tag_w=26)
     a('</svg>')

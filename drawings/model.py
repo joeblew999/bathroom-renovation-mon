@@ -40,7 +40,7 @@ TILE_KEYS = {"product", "th", "top", "fill"}
 LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall",), "centre_height": (), "see_notes": (), "dashed": (),
-          "all_clear": ("min_clear",),
+          "all_clear": ("min_clear",), "tag_main": (), "tag_floor": (), "tag_window": (),
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
 DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with items in layout.toml
