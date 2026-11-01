@@ -62,7 +62,7 @@ build_pdf: html, pdf        document, then the drawings full-page         → ou
 **Errors — the build stops, nothing is written.** The data no longer fits together:
 
 - a key a file doesn't know (a typo like `lnk` for `link`, `widht` for `w`)
-- a value of the wrong type (a number typed as text, `on_site = "yes"`)
+- a value of the wrong type (a number typed as text, `reused = "yes"`)
 - a missing number in `site.toml`, or a door that doesn't fit in the new wall
 - a drawing item: with no shape or an unknown shape, missing what its shape needs (a rect without a height), naming a product that isn't in `site.toml`, sharing its number with another item, or belonging (`part`) to an item that isn't there
 - a material: naming an area the file doesn't define, nothing to buy and nothing on site, still to buy with no price, a reused fitting with something to buy, or a tile colour that isn't grey or white

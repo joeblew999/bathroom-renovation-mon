@@ -128,25 +128,6 @@ class Material:
     link: str = None
 
     @property
-    def to_buy(self):
-        """Still to buy and counted in the total (a fallback is listed but never counted)."""
-        return self.buy > 0 and not self.fallback
-
-    @property
-    def total(self):
-        """What is still to pay for it."""
-        return self.buy * self.price if self.to_buy else 0
-
-    @property
-    def paid(self):
-        """What was paid for what is on site (nothing for a reused fitting)."""
-        return self.have * self.price if self.have and self.price is not None and not self.reused else 0
-
-    @property
-    def tile_boxes(self):
-        return self.have + self.buy
-
-    @property
     def status(self):
         """'buy' (some still to buy), 'bought' (all on site, paid for), 'reused' (an old
         fitting on site) or 'fallback' (listed, not bought unless needed)."""
@@ -155,6 +136,25 @@ class Material:
         if self.buy:
             return "buy"
         return "reused" if self.reused else "bought"
+
+    @property
+    def to_buy(self):
+        """Still to buy, and counted in the total."""
+        return self.status == "buy"
+
+    @property
+    def total(self):
+        """What is still to pay for it."""
+        return self.buy * self.price if self.to_buy else 0
+
+    @property
+    def paid(self):
+        """What was paid for what is on site (nothing for a reused fitting, or if unknown)."""
+        return self.have * self.price if self.status in ("buy", "bought") and self.price is not None else 0
+
+    @property
+    def tile_boxes(self):
+        return self.have + self.buy
 
 
 @dataclass(frozen=True)
@@ -572,6 +572,8 @@ def _layout_items(layout, key, products, room_w, numbers):
 
 
 # ---------- design rules (warnings, not errors) ----------
+# a hole too near a tile joint · items overlapping or off the end of the wall · a part
+# (fixing, outlet) outside the item it belongs to
 def _joint_warnings(items, length, tile, tile_top, min_clear):
     jx = list(range(tile, length, tile))
     jy = list(range(tile, tile_top + 1, tile))      # includes the tile top edge
@@ -589,7 +591,6 @@ def _joint_warnings(items, length, tile, tile_top, min_clear):
     return out
 
 
-# ---------- clash check ----------
 def _box(it):
     """Bounding box (x0, x1, y0, y1) of a solid item, or None."""
     if it.shape not in ("rect", "circle", "opening") or None in (it.x, it.w, it.y, it.h):
@@ -610,7 +611,6 @@ def _clash_warnings(items, length):
     return out
 
 
-# ---------- part-of check ----------
 def _part_warnings(items):
     """A part (e.g. a screw fixing, a pipe outlet) must still sit within the item it
     belongs to: inside its width, and not above its top. Catches an item that was
@@ -629,7 +629,6 @@ def _part_warnings(items):
         if None not in (it.y, parent.y, parent.h) and it.y > parent.y + parent.h / 2:
             out.append(f'{it.no} {it.en}: y {it.y:g} is above the top of {parent.en}')
     return out
-
 
 
 def _next(items):

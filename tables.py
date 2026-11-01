@@ -23,64 +23,20 @@ ABOUT = "ประมาณ / about"
 COLOUR_TH = {"grey": "เทา", "white": "ขาว"}
 
 
-# ---------- money ----------
 def baht(v):
     return f"฿{v:,.0f}"
 
 
-def _n(v, unit):
-    return f"{v:g} {unit}" if unit else f"{v:g}"
-
-
-def qty(m):
-    """Quantity cell: what to buy (× unit price), or what is on site; a fallback shows its price."""
-    if m.fallback:
-        return f"{baht(m.price)} / {m.unit}" if m.unit else baht(m.price)
-    if m.buy:
-        return f"{_n(m.buy, m.unit)} × {baht(m.price)}"
-    return _n(m.have, m.unit)
-
-
-def money_cell(m):
-    """Price cell: what is still to pay, or what was paid for what is on site."""
-    if m.to_buy:
-        return (f"{APPROX} " if m.approx else "") + baht(m.total)
-    return baht(m.paid) if m.paid else "—"
-
-
-def site_cell(m):
-    if m.fallback:
-        return "—"
-    if not m.buy:
-        return "✓"
-    if not m.have:
-        return "ซื้อ / buy"
-    return f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}"
-
-
-def name_cell(m):
-    name = f"[{m.name}]({m.link})" if m.link else m.name
-    return f"{name}<br>*{m.note}*" if m.note else name
-
-
-def sum_cell(total, approx, bold=True):
-    v = f"{ABOUT} {baht(round(total, -2))}" if approx else baht(total)
-    return f"**{v}**" if bold else v
-
-
-# ---------- the phases ----------
 def _cell(v):
+    """Text safe inside a Markdown table cell."""
     return v.replace("|", "\\|").replace("\n", " ")
 
 
-def phase_heading(ph):
-    return f"ขั้น {ph.number} — {ph.th} / Phase {ph.number} — {ph.en}"
-
-
+# ---------- the phases ----------
 def phases_section(p):
     out = []
     for ph in p.phases:
-        out += [f"### {phase_heading(ph)}", ""]
+        out += [f"### ขั้น {ph.number} — {ph.th} / Phase {ph.number} — {ph.en}", ""]
         if ph.note_th or ph.note_en:
             out += [f"> {ph.note_th}", f"> {ph.note_en}", ""]
         if ph.steps:
@@ -92,6 +48,44 @@ def phases_section(p):
 
 # ---------- the material list ----------
 STATUS_ORDER = ("buy", "bought", "reused", "fallback")
+
+
+def _n(v, unit):
+    return f"{v:g} {unit}" if unit else f"{v:g}"
+
+
+def qty(m):
+    """Quantity cell: what to buy (× unit price), or what is on site; a fallback shows its price."""
+    if m.status == "fallback":
+        return f"{baht(m.price)} / {m.unit}" if m.unit else baht(m.price)
+    if m.status == "buy":
+        return f"{_n(m.buy, m.unit)} × {baht(m.price)}"
+    return _n(m.have, m.unit)
+
+
+def money_cell(m):
+    """Price cell: what is still to pay, or what was paid for what is on site."""
+    if m.status == "buy":
+        return (f"{APPROX} " if m.approx else "") + baht(m.total)
+    return baht(m.paid) if m.paid else "—"
+
+
+def site_cell(m):
+    if m.status == "fallback":
+        return "—"
+    if m.status != "buy":
+        return "✓"
+    return f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}" if m.have else "ซื้อ / buy"
+
+
+def name_cell(m):
+    name = f"[{_cell(m.name)}]({m.link})" if m.link else _cell(m.name)
+    return f"{name}<br>*{_cell(m.note)}*" if m.note else name
+
+
+def sum_cell(total, approx, bold=True):
+    v = f"{ABOUT} {baht(round(total, -2))}" if approx else baht(total)
+    return f"**{v}**" if bold else v
 
 
 def in_list_order(p, area):
@@ -150,7 +144,7 @@ def main(argv):
     print("Still to buy:", sum_cell(*p.still_to_buy(), bold=False))
     for w in warnings:
         print("WARNING (materials):", w)
-    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if not m.buy)} fully on site, "
+    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if m.status in ("bought", "reused"))} fully on site, "
           f"{len(warnings)} warnings")
 
 
