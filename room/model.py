@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, Labels, need, number, one_of, only, read_toml
+from common import DataError, Labels, flag, need, number, one_of, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
@@ -30,11 +30,11 @@ ROOM_KEYS = {
     "room": {"length", "width", "ceiling"},
     "new_wall": {"length"},
     "old_wall": {"step"},
-    "window": {"from_main_wall", "width", "sill", "height"},
+    "window": {"from_corner", "width", "sill", "height"},
     "rules": {"min_clear"},
 }
-WALL_IDS = ("main_wall", "new_wall", "window_wall", "opposite_wall")
-WALL_KEYS = {"th", "en", "view_th", "view_en", "tile"}
+WALL_KEYS = {"th", "en", "view_th", "view_en", "tile", "runs", "right", "left", "drawn"}
+PLAN_SIDES = ("top", "right", "bottom", "left")
 TILE_KEYS = {"product", "th", "top", "fill"}
 LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
@@ -42,8 +42,6 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside"
           "all_clear": ("min_clear",), "tag_main": (), "tag_floor": (), "tag_window": (),
           "axis_x": (), "axis_y": (), "width": (), "height": (),
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
-ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
-DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with positioned items
 ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
 NAME_KEYS = {"th", "en", "note_th", "note_en"}
 LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
@@ -90,10 +88,11 @@ class Wall:
     view_en: str
     length: float        # along the wall
     tile: str            # the name of its tile in room.toml
-    tiled_run: float     # the length that is actually tiled (the new wall: not the door opening)
+    tiled_run: float     # the length that is actually tiled (the door's wall: not the door opening)
     along_room: bool     # runs along the room's length (so the floor step meets it)
     right: str           # the wall at x = 0, seen from inside facing this wall
     left: str            # the wall at x = length
+    drawn: bool          # gets its own elevation
     items: tuple
 
 
@@ -127,11 +126,12 @@ class Room:
     walls: dict
     floor: tuple
     labels: Labels
+    plan: dict           # {"top" | "right" | "bottom" | "left": wall id} — the floor plan seen from above
     products_used: frozenset   # every product id the drawings take a size from
 
     @property
     def column(self):
-        """The column's width: the rest of the room width, at the end of the new wall."""
+        """The column's width: the rest of the room width, at the x = 0 end of the door's wall."""
         return self.width - self.new_wall_length
 
     def tiles_needed(self):
@@ -161,8 +161,9 @@ class Room:
     def render(self):
         """Every drawing: {file name: svg text}, the floor plan first."""
         out = {"floor-plan.svg": draw_plan(self)}
-        for wid, name_ in ELEVATIONS.items():
-            out[name_] = draw_wall(self, self.walls[wid])
+        for w in self.walls.values():
+            if w.drawn:
+                out[f"{w.id.replace('_', '-')}.svg"] = draw_wall(self, w)
         return out
 
 
@@ -171,19 +172,21 @@ def load(path, catalogue):
     """Read and check room.toml and build every wall. Every product's size comes from
     `catalogue` = {id: Product}, the products on the material list."""
     room = read_toml(Path(path), "the room, its walls and tiles, and every position")
-    layout = room.get("positions", {})
-    only(ROOM_FILE, "[positions]", layout, set(DRAWN) | {"floor"})
     tiles = _tiles(room, catalogue)
-    door = _door(room, catalogue)
+    door, door_wall = _door(room, catalogue)
+    drawn = tuple(wid for wid, e in room.get("walls", {}).items() if e.get("drawn"))
+    layout = room.get("positions", {})
+    only(ROOM_FILE, "[positions]", layout, set(drawn) | {"floor"})
     lintel, bearing = _lintel(room, catalogue)
-    _check_room(room, tiles, door)
+    _check_room(room, tiles, door, door_wall)
     labels = Labels(ROOM_FILE, room.get("labels", {}), LABELS)
-    walls, floor = _walls(room, layout, door, lintel.h, bearing, catalogue)
-    used = ({e["product"] for k in DRAWN + ("floor",) for e in layout.get(k, []) if "product" in e}
+    walls, floor = _walls(room, layout, drawn, door, door_wall, lintel.h, bearing, catalogue)
+    used = ({e["product"] for k in drawn + ("floor",) for e in layout.get(k, []) if "product" in e}
             | {t.product for t in tiles.values()} | {door.id, lintel.id})
     v = lambda key, name_: _value(room, key, name_)             # noqa: E731
     return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("new_wall", "length"),
-                v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels, frozenset(used))
+                v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels,
+                room["plan"], frozenset(used))
 
 
 def _value(room, key, name):
@@ -205,10 +208,11 @@ def _product(catalogue, where, pid, needs):
 
 
 def _door(room, catalogue):
+    """The door's product (its opening is the product's size) and the wall it is in."""
     e = room.get("door", {})
-    only(ROOM_FILE, "[door]", e, {"product"})
-    need(ROOM_FILE, "[door]", e, ("product",))
-    return _product(catalogue, f"{ROOM_FILE}: [door]", e["product"], ("w", "h"))
+    only(ROOM_FILE, "[door]", e, {"product", "wall"})
+    need(ROOM_FILE, "[door]", e, ("product", "wall"))
+    return _product(catalogue, f"{ROOM_FILE}: [door]", e["product"], ("w", "h")), e["wall"]
 
 
 def _lintel(room, catalogue):
@@ -247,31 +251,43 @@ def _note(e, key, where):
     return t
 
 
-def _check_room(room, tiles, door):
+def _check_room(room, tiles, door, door_wall):
     only(ROOM_FILE, "the file", room,
-         set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels", "room_items", "positions"})
+         set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels", "room_items", "positions", "plan"})
     only(ROOM_FILE, "[floor]", room.get("floor", {}), {"tile"})
     need(ROOM_FILE, "[floor]", room.get("floor", {}), ("tile",))
     one_of(ROOM_FILE, "[floor]", "tile", room["floor"]["tile"], tiles)
     for k, allowed in ROOM_KEYS.items():
-        only(ROOM_FILE, f"[{k}]", room.get(k, {}), allowed)
+        only(ROOM_FILE, f"[{k}]", room.get(k, {}), allowed | ({"wall"} if k == "window" else set()))
         for n, v in room.get(k, {}).items():
-            number(ROOM_FILE, f"[{k}]", n, v)
+            if n != "wall":
+                number(ROOM_FILE, f"[{k}]", n, v)
     walls = room.get("walls", {})
-    only(ROOM_FILE, "[walls]", walls, WALL_IDS)
-    for w in WALL_IDS:
-        e = walls.get(w)
-        if e is None:
-            raise DataError(f"{ROOM_FILE}: [walls.{w}] is missing")
-        only(ROOM_FILE, f"[walls.{w}]", e, WALL_KEYS)
-        need(ROOM_FILE, f"[walls.{w}]", e, ("th", "en", "tile"))
-        one_of(ROOM_FILE, f"[walls.{w}]", "tile", e["tile"], tiles)
+    if not walls:
+        raise DataError(f"{ROOM_FILE}: no [walls.…]")
+    for w, e in walls.items():
+        where = f"[walls.{w}]"
+        only(ROOM_FILE, where, e, WALL_KEYS)
+        need(ROOM_FILE, where, e, ("th", "en", "tile", "runs", "right", "left", "drawn"))
+        one_of(ROOM_FILE, where, "tile", e["tile"], tiles)
+        one_of(ROOM_FILE, where, "runs", e["runs"], ("length", "width"))
+        one_of(ROOM_FILE, where, "right", e["right"], walls)
+        one_of(ROOM_FILE, where, "left", e["left"], walls)
+        flag(ROOM_FILE, where, "drawn", e["drawn"])
+    one_of(ROOM_FILE, "[door]", "wall", door_wall, walls)
+    need(ROOM_FILE, "[window]", room.get("window", {}), ("wall",))
+    one_of(ROOM_FILE, "[window]", "wall", room["window"]["wall"], walls)
+    plan = room.get("plan", {})
+    only(ROOM_FILE, "[plan]", plan, PLAN_SIDES)
+    need(ROOM_FILE, "[plan]", plan, PLAN_SIDES)
+    for side in PLAN_SIDES:
+        one_of(ROOM_FILE, "[plan]", side, plan[side], walls)
     if _value(room, "new_wall", "length") - door.w <= 0:
         raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit "
                         f"in the new wall ({_value(room, 'new_wall', 'length')})")
 
 
-def _walls(room, layout, door, lt, lb, catalogue):
+def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
     """Every wall with its items (positioned in room.toml, plus those that follow from the room)."""
     names = room.get("room_items", {})
     only(ROOM_FILE, "[room_items]", names, ROOM_ITEMS)
@@ -290,39 +306,37 @@ def _walls(room, layout, door, lt, lb, catalogue):
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
     new_wall_l, door_w, door_h = v("new_wall", "length"), door.w, door.h
     column, solid = room_w - new_wall_l, new_wall_l - door_w
-    items = {k: _layout_items(layout, k, catalogue, room_w) for k in DRAWN + ("floor",)}
+    items = {k: _layout_items(layout, k, catalogue, room_w) for k in drawn + ("floor",)}
 
-    # new wall, seen from inside facing it: x from the opposite long wall (the column side)
-    n = _next(items["new_wall"])
-    items["new_wall"] += [
+    # This design's rules: the existing column is at the x = 0 end of the door's wall, with the
+    # door opening beside it and the lintel over the opening; the window is in its own wall.
+    items.setdefault(door_wall, [])
+    n = _next(items[door_wall])
+    items[door_wall] += [
         named("column", n, "column", x=column / 2, w=column, y=ceiling / 2, h=ceiling),
         named("door_opening", n + 1, "opening", x=column + door_w / 2, w=door_w, y=door_h / 2, h=door_h),
         named("lintel", n + 2, "rect", x=column + (door_w + lb) / 2, w=door_w + lb, y=door_h + lt / 2, h=lt),
     ]
-    # window wall: the window
-    win = {k: v("window", k) for k in ("from_main_wall", "width", "sill", "height")}
-    items["window_wall"].append(named("window", _next(items["window_wall"]), "opening",
-                                      x=win["from_main_wall"] + win["width"] / 2, w=win["width"],
-                                      y=win["sill"] + win["height"] / 2, h=win["height"]))
-    # floor: the door (x along the new wall, y from the main wall), and the step's height
+    win = {k: v("window", k) for k in ("from_corner", "width", "sill", "height")}
+    window_wall = room["window"]["wall"]
+    items.setdefault(window_wall, [])
+    items[window_wall].append(named("window", _next(items[window_wall]), "opening",
+                                    x=win["from_corner"] + win["width"] / 2, w=win["width"],
+                                    y=win["sill"] + win["height"] / 2, h=win["height"]))
+    # floor: the door (x along the door's wall, y from the plan's top wall), and the step's height
     items["floor"].append(named("door", _next(items["floor"]), "door", x=0, w=door_w, y=solid + door_w / 2))
     step_h = float(v("old_wall", "step"))
     items["floor"] = [Item(**{**it.__dict__, "h": step_h}) if it.shape == "step" and it.h is None else it
                       for it in items["floor"]]
 
-    # Each wall seen from inside facing it, x from the corner on your right.
-    geometry = {   # id: (length, tiled run, runs along the room, wall at x = 0, wall at x = length)
-        "main_wall": (room_l, room_l, True, "new_wall", "window_wall"),
-        "new_wall": (room_w, solid + column, False, "opposite_wall", "main_wall"),
-        "window_wall": (room_w, room_w, False, "main_wall", "opposite_wall"),
-        "opposite_wall": (room_l, room_l, True, "window_wall", "new_wall"),
-    }
+    # Each wall seen from inside facing it, x from the corner on your right (room.toml [walls]).
     walls = {}
-    for wid in WALL_IDS:
-        e = room["walls"][wid]
-        length, run, along, right, left = geometry[wid]
+    for wid, e in room["walls"].items():
+        length = room_l if e["runs"] == "length" else room_w
+        run = length - door_w if wid == door_wall else length        # the door opening isn't tiled
         walls[wid] = Wall(wid, e["th"], e["en"], e.get("view_th", ""), e.get("view_en", ""), length,
-                          e["tile"], run, along, right, left, tuple(items.get(wid, ())))
+                          e["tile"], run, e["runs"] == "length", e["right"], e["left"], e["drawn"],
+                          tuple(items.get(wid, ())))
     return walls, tuple(items["floor"])
 
 

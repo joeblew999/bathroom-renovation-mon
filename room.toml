@@ -15,6 +15,7 @@ length = 1300              # the rest of the room width is the existing column
 
 [door]
 product = "door_frame"     # the opening is the frame's size (materials.toml); hinged on the column side, opens in
+wall = "new_wall"          # the wall it is in: the existing column is at that wall's x = 0 end
 
 [lintel]
 product = "lintel"         # its height comes from the product (materials.toml): one block course high
@@ -24,7 +25,8 @@ bearing = 150              # onto the wall; the column end sits in a shallow poc
 step = 50                  # floor step, kept and moved to a floor-tile joint (positions below)
 
 [window]
-from_main_wall = 300
+wall = "window_wall"       # the wall it is in
+from_corner = 300          # from that wall's x = 0 corner to the window's edge
 width = 600
 sill = 1600                # bottom of the frame, no sill
 height = 400
@@ -64,12 +66,20 @@ all_clear = { th = "✓ ทุกจุดห่างแนวยาแนว�
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }
 
 # ---------- the four walls ----------
-# Names used on every drawing, and which tile each wall gets (one of [tiles] below).
-# Each wall's length, and which corner x is measured from, follow from the room (room/model.py).
+# Each wall, seen from inside the bathroom facing it:
+#   th, en       its name on every drawing
+#   tile         which tile it gets (one of [tiles] below)
+#   runs         "length" or "width": which side of the room it is (its length follows from [room])
+#   right, left  the wall at its x = 0 corner (on your right) and at its far end
+#   drawn        true: it gets its own elevation drawing (and positions below)
 [walls.main_wall]
 th = "ผนังหลัก"
 en = "Main wall"
 tile = "grey"
+runs = "length"
+right = "new_wall"
+left = "window_wall"
+drawn = true
 
 [walls.new_wall]
 th = "ผนังใหม่"
@@ -77,16 +87,35 @@ en = "New wall"
 view_th = "ด้านในห้องน้ำ"   # drawn from inside the bathroom
 view_en = "bathroom side"
 tile = "white"
+runs = "width"
+right = "opposite_wall"
+left = "main_wall"
+drawn = true
 
 [walls.window_wall]
 th = "ผนังหน้าต่าง"
 en = "Window wall"
 tile = "white"
+runs = "width"
+right = "main_wall"
+left = "opposite_wall"
+drawn = true
 
 [walls.opposite_wall]
 th = "ผนังยาวตรงข้าม"
 en = "Opposite long wall"
 tile = "white"
+runs = "length"
+right = "window_wall"
+left = "new_wall"
+drawn = false
+
+# The floor plan, seen from above: which wall is drawn on each side.
+[plan]
+top = "main_wall"
+right = "new_wall"
+bottom = "opposite_wall"
+left = "window_wall"
 
 # ---------- the floor ----------
 [floor]

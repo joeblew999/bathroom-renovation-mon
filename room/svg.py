@@ -30,6 +30,13 @@ DARK = "#444"             # walls on the plan, axis lines
 OUTLINE = "#222"
 WHITE = "#fff"
 
+# Drawing choices in mm, each named once.
+TAG_HEIGHT = 1000         # where an item's number tag sits when it has no height
+PIPE_LINE_TOP = 1000      # how high a pipe line is drawn
+ZONE_TAG_HEIGHT = 200     # where a zone's tag sits on an elevation
+ZONE_TAG_IN = 120         # how far in from a zone's edge its tag sits on the floor plan
+OVERHEAD = 1000           # a fitting whose bottom is higher than this is dashed on the floor plan
+
 # The drawing's text sizes, each named once.
 TITLE_SIZE = 18
 HEADING_SIZE = 13
@@ -180,11 +187,11 @@ def draw_wall(room, wall):
         sh = it.shape
         x, w, y, h = it.x, it.w, it.y, it.h
         xs.add(int(x))
-        lx, ly = X(x), (Y(y) if y is not None else Y(1000))
+        lx, ly = X(x), (Y(y) if y is not None else Y(TAG_HEIGHT))
         if sh == "zone":
             a(f'<rect x="{X(x + w / 2)}" y="{Y(top)}" width="{w * S}" height="{top * S}" '
               f'fill="{ZONE_FILL}" fill-opacity="0.15" stroke="{OPENING}" stroke-dasharray="6 4"/>')
-            ly = Y(200)
+            ly = Y(ZONE_TAG_HEIGHT)
         elif sh == "column":
             a(f'<rect {box(x, y, w, h)} '
               f'fill="{COLUMN}" fill-opacity="0.6" stroke="{COLUMN_LINE}" stroke-width="1.5"/>')
@@ -201,9 +208,9 @@ def draw_wall(room, wall):
             a(f'<line x1="{lx - 6}" y1="{ly - 6}" x2="{lx + 6}" y2="{ly + 6}" stroke="{MARKER}" stroke-width="2"/>')
             a(f'<line x1="{lx - 6}" y1="{ly + 6}" x2="{lx + 6}" y2="{ly - 6}" stroke="{MARKER}" stroke-width="2"/>')
         elif sh == "vline":
-            a(f'<line x1="{lx}" y1="{Y(0)}" x2="{lx}" y2="{Y(1000)}" stroke="{OPENING}" '
+            a(f'<line x1="{lx}" y1="{Y(0)}" x2="{lx}" y2="{Y(PIPE_LINE_TOP)}" stroke="{OPENING}" '
               f'stroke-width="1.5" stroke-dasharray="4 3"/>')
-            ly = Y(1000) - 2
+            ly = Y(PIPE_LINE_TOP) - 2
         tx = lx + (10 if sh in ("point", "vline") else 0)
         if sh == "rect" and x in vline_xs:
             tx = lx - 14
@@ -238,8 +245,8 @@ def draw_wall(room, wall):
 # ---------- floor plan ----------
 def draw_plan(room):
     """The floor plan seen from above: returns svg text."""
-    main, win, floor = room.walls["main_wall"].items, room.walls["window_wall"].items, room.floor
-    names = {k: name(w) for k, w in room.walls.items()}
+    side = {s: room.walls[w] for s, w in room.plan.items()}    # the wall drawn on each side (room.toml [plan])
+    main, win, floor = side["top"].items, side["left"].items, room.floor
     lab = room.labels
     L, Wd, NEW_WALL_L = room.length, room.width, room.new_wall_length
     FLOOR = room.tiles[room.floor_tile]
@@ -313,9 +320,9 @@ def draw_plan(room):
         if it.shape == "zone":
             a(f'<rect x="{X(it.x + w / 2)}" y="{Y(0)}" width="{w * SP}" height="{it.d * SP}" '
               f'fill="{ZONE_FILL}" fill-opacity="0.15" stroke="{OPENING}" stroke-dasharray="6 4"/>')
-            tags.append((M + it.no, X(it.x), Y(it.d - 120)))
+            tags.append((M + it.no, X(it.x), Y(it.d - ZONE_TAG_IN)))
             continue
-        overhead = it.y is not None and it.y - (it.h or 0) / 2 > 1000   # above head-height fittings
+        overhead = it.y is not None and it.y - (it.h or 0) / 2 > OVERHEAD   # mounted higher up the wall
         dash = ' stroke-dasharray="5 3"' if overhead else ""
         fill = "none" if overhead else WHITE
         a(f'<rect x="{X(it.x + w / 2)}" y="{Y(0)}" width="{w * SP}" height="{it.d * SP}" '
@@ -350,16 +357,16 @@ def draw_plan(room):
         tag(a, tx, ty - 8, 24, t)
 
     # wall names
-    a(f'<text x="{ML + PW / 2}" y="{MT - T - 8}" font-size="{TEXT_SIZE}" text-anchor="middle">{names["main_wall"]}</text>')
-    a(f'<text x="{ML + PW / 2}" y="{MT + PH + T + 16}" font-size="{TEXT_SIZE}" text-anchor="middle">{names["opposite_wall"]}</text>')
+    a(f'<text x="{ML + PW / 2}" y="{MT - T - 8}" font-size="{TEXT_SIZE}" text-anchor="middle">{name(side["top"])}</text>')
+    a(f'<text x="{ML + PW / 2}" y="{MT + PH + T + 16}" font-size="{TEXT_SIZE}" text-anchor="middle">{name(side["bottom"])}</text>')
     a(f'<text x="{ML - T - 40}" y="{MT + PH / 2}" font-size="{TEXT_SIZE}" text-anchor="middle" '
-      f'transform="rotate(-90 {ML - T - 40} {MT + PH / 2})">{names["window_wall"]}</text>')
+      f'transform="rotate(-90 {ML - T - 40} {MT + PH / 2})">{name(side["left"])}</text>')
     a(f'<text x="{ML + PW + T + 40}" y="{MT + PH / 2}" font-size="{TEXT_SIZE}" text-anchor="middle" '
-      f'transform="rotate(90 {ML + PW + T + 40} {MT + PH / 2})">{names["new_wall"]}</text>')
+      f'transform="rotate(90 {ML + PW + T + 40} {MT + PH / 2})">{name(side["right"])}</text>')
 
     # legend
     ly0 = MT + PH + MB
-    mw, ww = room.walls["main_wall"], room.walls["window_wall"]
+    mw, ww = side["top"], side["left"]
     a(f'<text x="{ML}" y="{ly0}" font-size="{HEADING_SIZE}" font-weight="bold">{lab.both("items")} — {M} = {both(mw.th, mw.en.lower())} · '
       f'{F} = {lab.both("floor")} · {W} = {both(ww.th, ww.en.lower())}</text>')
     a(f'<text x="{ML}" y="{ly0 + 16}" font-size="{SMALL_SIZE}" fill="{SUBTITLE}">{lab.both("dashed")}</text>')

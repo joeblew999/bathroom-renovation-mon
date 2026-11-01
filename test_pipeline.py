@@ -311,6 +311,13 @@ TESTS = [
      lambda: (item_where("x", lambda v: True, lambda e: e.update(x=str(e["x"]))), "'x' must be a number")),
     ("data: broken TOML", {ROOM: lambda t: t + "\n[[positions.main_wall\n"}, "is not valid TOML"),
     ("room: a tile with no tiling height", tile_top_test),
+    ("room: a wall set to drawn gets its own drawing",
+     lambda: (lambda wid: ({ROOM: data(lambda d: d["walls"][wid].update(drawn=True))},
+                           f"{RAW[ROOM]['walls'][wid]['en']} — elevation"))(
+         find([w for w, e in RAW[ROOM]["walls"].items() if not e["drawn"]], "wall that isn't drawn"))),
+    ("room: a wall whose neighbour isn't a wall",
+     {ROOM: data(lambda d: next(iter(d["walls"].values())).update(right="no_such_wall"))},
+     "has right = 'no_such_wall'"),
     ("notes: a drawing note that refers to a phase",
      lambda: (item_where("note_en", lambda v: True, lambda e: e.update(note_en="see {phase:x} " + e["note_en"])),
               "has a reference in braces")),
