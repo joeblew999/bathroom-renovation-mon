@@ -30,21 +30,25 @@ description = "Break copies of the data on purpose and confirm every check fires
 run = "python test_pipeline.py"
 
 [tasks.fuzz]
-description = "The tests again, with every broken copy's drawings measured in Chromium — slow; GitHub runs it after ci"
+description = "The tests again, with every broken copy's drawings measured in Chromium — slow; part of ci"
 run = "python test_pipeline.py --fuzz"
 
-[tasks.ci]
-description = "Lint, test and build — and fail on any design problem. What publish runs before pushing; GitHub runs it, then fuzz"
+[tasks.check]
+description = "Lint, test and build — and fail on any design problem. What publish runs before pushing"
 depends = ["lint", "test"]
 run = "python build.py --publishable"
 
+[tasks.ci]
+description = "check, then fuzz. Exactly what GitHub runs on every push to main"
+run = ["mise run check", "mise run fuzz"]
+
 [tasks.publish]
-description = "Push to main (which publishes) — only from main, with nothing uncommitted, and if ci passes"
+description = "Push to main (which publishes) — only from main, with nothing uncommitted, and if check passes"
 run = [
   # what is checked must be what is pushed: on main, nothing left uncommitted
   "test \"$(git branch --show-current)\" = main || (echo 'ERROR: not on main — publish checks the files here and pushes main, so it must be run on main' && exit 1)",
   "test -z \"$(git status --porcelain)\" || (echo 'ERROR: uncommitted changes or new files — commit them first, so what is checked is what is pushed' && exit 1)",
-  "mise run ci",
+  "mise run check",
   "git push origin main",
 ]
 

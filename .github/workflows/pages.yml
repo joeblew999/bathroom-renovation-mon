@@ -26,8 +26,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
       - run: mise run setup
-      - run: mise run ci         # the same run mise run publish does before pushing
-      - run: mise run fuzz       # the slow tests: every broken copy's drawings measured too
+      - run: mise run ci         # check (what mise run publish runs before pushing), then fuzz
       - uses: actions/upload-pages-artifact@v5
         with:
           path: out
