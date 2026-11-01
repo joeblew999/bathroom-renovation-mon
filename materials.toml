@@ -1,36 +1,37 @@
-# materials.toml — every material, in groups. materials.py reads it and renders the material list in
-# the document, ordered by exactly two things written here:
+# materials.toml — every product, once: what it is, how it's bought, and its lines on the list.
+# materials.py reads it and renders the material list; the drawings take product sizes from it
+# by id (room.toml names them). The list is ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused, then supplied
 # Lines with the same group and status keep the order of their entries here.
-#
-# The shops, suppliers, units and groups are defined here and nowhere else: materials don't refer
-# to the phases or the drawings, and they don't refer to materials. The work can be rewritten,
-# split or reordered without touching this file, and the other way round.
+# Nothing here refers to the phases, and the phases don't refer to it.
 #
 # Each shop: id, name, sku (what its product codes look like, a regular expression), link (the
 #   product page: {sku} is the code, {sku_digits} the code without its dots).
-# Each supplier (a trade that brings things itself): id, th, en — shown as "th / en".
 # Each unit: id, th, en_one, en_many — "1 ถุง / bag", "7 ถุง / bags" (Thai has one form).
 # Each group: id, th, en, and an optional note (note_th, note_en) shown under its heading.
 #
-# Each [[entry]] is one product, listed once by its id in products.toml (what it is: its names,
-# its size), with how it is bought:
-#   id         the product in products.toml
+# Each [[entry]] is one product:
+#   id         what room.toml calls it, if it is drawn
+#   name_th, name_en   the product only (no shop codes). A name shows its size with {w} {h} {d}
+#              in mm, {w_cm} … in cm or {w_m} … in m — never type a dimension twice
+#   size       { w, h, d } in mm: its dimensions (w wide, h high, d deep; a tile is w × h). A
+#              single figure that isn't a dimension — a weight, a volume, a stock length, an inch
+#              trade size — stays in the name ("50 kg", "4 m", "½\"")
+#   per_box    tiles in a box (tiles only)
 #   unit       the id of a unit, shown after the quantity (optional)
 #   price      the unit price, in baht (not for reused or supplied products)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   shop, sku  where it is bought and its product code; the link is built from them
 #              (not for reused or supplied products)
-# and has one [[entry.line]] for each line it takes on the list:
+# and one [[entry.line]] for each line it takes on the list:
 #   group      the id of a group (things used all over go under whole_room)
-#   status     "buy"      — still to buy (the product needs a price)
+#   status     "buy"      — still to buy (needs a price)
 #              "bought"   — already on site, paid for
 #              "reused"   — an old fitting on site, reused
-#              "supplied" — the trade brings it: needs `by`
+#              "supplied" — the trade brings it: by_th, by_en say who ("ช่างไฟนำมา / electrician provides")
 #   n          how many
 #   note_th, note_en   what it is for here, or advice when buying (optional)
-#   by         who brings a supplied product: the id of a supplier
 # A product partly on site and partly to buy has two lines (bought n, buy n).
 #
 # [section]: this part's heading in the document and its note (th, en, note_th, note_en — the
@@ -67,11 +68,6 @@ id = "ikea"
 name = "IKEA"
 sku = '\d{3}\.\d{3}\.\d{2}'
 link = "https://www.ikea.com/th/th/p/-{sku_digits}/"
-
-[[supplier]]
-id = "electrician"
-th = "ช่างไฟนำมา"
-en = "electrician provides"
 
 [[unit]]
 id = "block"
@@ -209,6 +205,9 @@ en = "Whole room"
 
 [[entry]]
 id = "aac_block"
+name_th = "อิฐมวลเบา TPI {w_cm} × {h_cm} × {d_cm} ซม."
+name_en = "TPI AAC block {w_cm} × {h_cm} × {d_cm} cm"
+size = { w = 600, h = 200, d = 75 }
 unit = "block"
 price = 26
 shop = "homepro"
@@ -221,6 +220,9 @@ sku = "1110154"
 
 [[entry]]
 id = "lintel"
+name_th = "คานทับหลังสำเร็จรูป DIAMOND {h_cm} × {w_cm} × {d_cm} ซม."
+name_en = "DIAMOND precast lintel {h_cm} × {w_cm} × {d_cm} cm"
+size = { w = 1500, h = 200, d = 75 }
 price = 400
 approx = true
 shop = "homepro"
@@ -235,6 +237,8 @@ sku = "1195815"
 
 [[entry]]
 id = "block_mortar"
+name_th = "ปูนก่ออิฐมวลเบา TPI M319 50 กก."
+name_en = "TPI M319 block mortar, 50 kg"
 unit = "bag"
 price = 200
 approx = true
@@ -250,6 +254,9 @@ sku = "1127448"
 
 [[entry]]
 id = "wall_tie"
+name_th = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL {w_cm} × {h_cm} ซม."
+name_en = "AAC wall tie plate MEGA STEEL {w_cm} × {h_cm} cm"
+size = { w = 32, h = 220 }
 unit = "piece"
 price = 6
 shop = "homepro"
@@ -262,6 +269,8 @@ sku = "1110170"
 
 [[entry]]
 id = "aac_plaster"
+name_th = "ปูนฉาบอิฐมวลเบา TPI M210 50 กก."
+name_en = "TPI M210 AAC plaster, 50 kg"
 unit = "bag"
 price = 150
 approx = true
@@ -275,6 +284,9 @@ sku = "1109616"
 
 [[entry]]
 id = "door_frame"
+name_th = "วงกบ AZLE UPVC {w_cm} × {h_cm} ซม. สีขาว"
+name_en = "Frame AZLE UPVC {w_cm} × {h_cm} cm, white"
+size = { w = 800, h = 2000 }
 price = 850
 shop = "homepro"
 sku = "1014768"
@@ -286,6 +298,9 @@ sku = "1014768"
 
 [[entry]]
 id = "door"
+name_th = "ประตู AZLE WB2 UPVC {w_cm} × {h_cm} ซม. สีน้ำตาลอ่อน"
+name_en = "Door AZLE WB2 UPVC {w_cm} × {h_cm} cm, light brown"
+size = { w = 800, h = 2000 }
 price = 2085
 shop = "homepro"
 sku = "1320577"
@@ -299,6 +314,8 @@ sku = "1320577"
 
 [[entry]]
 id = "door_knob"
+name_th = "ลูกบิดห้องน้ำ SOLEX 9500 SS-BK สเตนเลส"
+name_en = "Bathroom knob SOLEX 9500 SS-BK, stainless"
 price = 399
 shop = "homepro"
 sku = "89869"
@@ -310,6 +327,8 @@ sku = "89869"
 
 [[entry]]
 id = "hinges"
+name_th = "บานพับ YALE 4×3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น"
+name_en = "Hinges YALE 4×3 inch, 304 stainless, pack of 3"
 price = 199
 shop = "homepro"
 sku = "1123585"
@@ -321,6 +340,9 @@ sku = "1123585"
 
 [[entry]]
 id = "gypsum_board"
+name_th = "แผ่นยิปซัมทนชื้น DURAONE {d} มม. {w_cm} × {h_cm} ซม."
+name_en = "Moisture-resistant gypsum board DURAONE {d} mm, {w_cm} × {h_cm} cm"
+size = { w = 1200, h = 2400, d = 9 }
 unit = "sheet"
 price = 245
 shop = "homepro"
@@ -333,6 +355,8 @@ sku = "1110611"
 
 [[entry]]
 id = "c_channel"
+name_th = "ซีลาย SANKI 0.50–0.55 กก. ยาว 4 ม. ชุบสังกะสี"
+name_en = "SANKI galvanised C-channel 0.50–0.55 kg, 4 m"
 unit = "length"
 price = 29
 shop = "homepro"
@@ -347,6 +371,8 @@ sku = "1110231"
 
 [[entry]]
 id = "wall_angle"
+name_th = "ฉากซีลาย SANKI 0.20A ยาว 2.44 ม."
+name_en = "SANKI wall angle 0.20A, 2.44 m"
 unit = "length"
 price = 16
 shop = "homepro"
@@ -361,6 +387,8 @@ sku = "1110271"
 
 [[entry]]
 id = "drywall_screws"
+name_th = "สกรูไดร์วอลล์ TPI 6 × 1 นิ้ว สีดำ"
+name_en = "TPI drywall screws 6 × 1\", black"
 unit = "box"
 price = 89
 shop = "homepro"
@@ -375,6 +403,8 @@ sku = "1110148"
 
 [[entry]]
 id = "jointing_compound"
+name_th = "ปูนฉาบรอยต่อแผ่นยิปซัม DURAONE 1 กก."
+name_en = "DURAONE gypsum jointing compound, 1 kg"
 unit = "bag"
 price = 16
 shop = "homepro"
@@ -387,6 +417,8 @@ sku = "1110109"
 
 [[entry]]
 id = "joint_tape"
+name_th = "เทปปิดรอยต่อยิปซัม PYRAMID 1 นิ้ว (แพ็ก 3 ม้วน)"
+name_en = "PYRAMID gypsum joint tape, 1\" (pack of 3)"
 unit = "pack"
 price = 42
 shop = "homepro"
@@ -399,6 +431,8 @@ sku = "1024381"
 
 [[entry]]
 id = "wall_plugs"
+name_th = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 50 ตัว"
+name_en = "Wall plugs with screws BY TORA no. 7, 50 pcs"
 unit = "pack"
 price = 65
 shop = "homepro"
@@ -413,6 +447,9 @@ sku = "1064892"
 
 [[entry]]
 id = "basin"
+name_th = "อ่างล้างหน้าแขวน MOYA 179 สีขาว"
+name_en = "Wall-hung basin MOYA 179, white"
+size = { w = 600, h = 130, d = 310 }
 price = 1190
 shop = "homepro"
 sku = "1249118"
@@ -424,6 +461,8 @@ sku = "1249118"
 
 [[entry]]
 id = "basin_tap"
+name_th = "ก๊อกอ่างล้างหน้า MOYA 832-1"
+name_en = "Basin faucet MOYA 832-1"
 price = 929
 shop = "homepro"
 sku = "1254863"
@@ -435,6 +474,8 @@ sku = "1254863"
 
 [[entry]]
 id = "bottle_trap"
+name_th = "ท่อน้ำทิ้งอ่างล้างหน้ากระปุก KARAT KA-02-112-50 25 ซม."
+name_en = "Basin bottle trap KARAT KA-02-112-50, 25 cm"
 price = 485
 shop = "homepro"
 sku = "1225658"
@@ -446,6 +487,8 @@ sku = "1225658"
 
 [[entry]]
 id = "stop_valve"
+name_th = "สต็อปวาล์ว HOEN HT-011"
+name_en = "Stop valve HOEN HT-011"
 price = 155
 shop = "homepro"
 sku = "1040989"
@@ -457,6 +500,8 @@ sku = "1040989"
 
 [[entry]]
 id = "supply_hose"
+name_th = "สายน้ำดีสเตนเลส MOYA MY-SSB20 20 นิ้ว (50 ซม.)"
+name_en = "Stainless supply hose MOYA MY-SSB20, 20\" (50 cm)"
 unit = "length"
 price = 90
 shop = "homepro"
@@ -474,6 +519,8 @@ sku = "1028226"
 
 [[entry]]
 id = "brass_elbow"
+name_th = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย ½ นิ้ว"
+name_en = "Brass-thread elbow Thai Pipe ½\""
 unit = "fitting"
 price = 35
 approx = true
@@ -496,6 +543,8 @@ sku = "5577"
 
 [[entry]]
 id = "pipe_1_5in"
+name_th = "ท่อประปา SCG ชั้น 8.5 1½ นิ้ว 2 ม."
+name_en = "Pipe SCG class 8.5, 1½\", 2 m"
 unit = "length"
 price = 99
 shop = "homepro"
@@ -510,6 +559,8 @@ sku = "1104514"
 
 [[entry]]
 id = "elbow_1_5in"
+name_th = "ข้องอ 90° ท่อน้ำไทย 1½ นิ้ว"
+name_en = "90° elbow Thai Pipe 1½\""
 unit = "fitting"
 price = 29
 shop = "homepro"
@@ -522,6 +573,9 @@ sku = "5614"
 
 [[entry]]
 id = "toilet"
+name_th = "ชักโครก 1 ชิ้น MOYA 323 3/6 ลิตร สีขาว"
+name_en = "One-piece toilet MOYA 323, 3/6 L, white"
+size = { w = 375, h = 700, d = 690 }
 price = 3490
 shop = "homepro"
 sku = "1170662"
@@ -533,6 +587,8 @@ sku = "1170662"
 
 [[entry]]
 id = "stop_valve_2way"
+name_th = "สต็อปวาล์ว 2 ทาง HOEN HT-333"
+name_en = "2-way stop valve HOEN HT-333"
 price = 219
 shop = "homepro"
 sku = "1041021"
@@ -546,6 +602,8 @@ sku = "1041021"
 
 [[entry]]
 id = "bum_gun"
+name_th = "สายฉีดชำระ"
+name_en = "Bum gun"
 
   [[entry.line]]
   group = "plumbing_toilet"
@@ -556,6 +614,8 @@ id = "bum_gun"
 
 [[entry]]
 id = "pipe_4in"
+name_th = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 8.5 4 นิ้ว 4 ม."
+name_en = "Blue pipe Thai Pipe class 8.5, 4\", 4 m"
 unit = "length"
 price = 799
 shop = "homepro"
@@ -570,6 +630,8 @@ sku = "5563"
 
 [[entry]]
 id = "bend_4in"
+name_th = "ข้องอ 45° ท่อน้ำไทย 4 นิ้ว"
+name_en = "45° bend Thai Pipe 4\""
 unit = "fitting"
 price = 310.4
 shop = "homepro"
@@ -584,6 +646,8 @@ sku = "1136842"
 
 [[entry]]
 id = "pipe_half_in"
+name_th = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม."
+name_en = "Blue pipe Thai Pipe class 13.5, ½\", 4 m"
 unit = "length"
 price = 69
 shop = "homepro"
@@ -598,6 +662,8 @@ sku = "5556"
 
 [[entry]]
 id = "elbow_half_in"
+name_th = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว"
+name_en = "90° elbow Thai Pipe ½\""
 unit = "fitting"
 price = 6
 shop = "homepro"
@@ -610,6 +676,8 @@ sku = "5569"
 
 [[entry]]
 id = "tee_half_in"
+name_th = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว"
+name_en = "90° tee Thai Pipe ½\""
 unit = "fitting"
 price = 8
 shop = "homepro"
@@ -624,6 +692,8 @@ sku = "5570"
 
 [[entry]]
 id = "thread_tape"
+name_th = "เทปพันเกลียว SCG 10 ม."
+name_en = "Thread tape SCG 10 m"
 unit = "roll"
 price = 27
 shop = "homepro"
@@ -638,6 +708,8 @@ sku = "1055229"
 
 [[entry]]
 id = "pvc_cement"
+name_th = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก."
+name_en = "PVC solvent cement Thai Pipe 250 g"
 price = 137.74
 shop = "homepro"
 sku = "5672"
@@ -651,6 +723,9 @@ sku = "5672"
 
 [[entry]]
 id = "lamp"
+name_th = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน"
+name_en = "IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens"
+size = { w = 92, h = 265, d = 106 }
 unit = "lamp"
 price = 1290
 shop = "ikea"
@@ -665,16 +740,21 @@ sku = "805.204.31"
 
 [[entry]]
 id = "lamp_cable"
+name_th = "สายไฟ VAF-G 2×1.5/1.5 ตร.มม. (มีสายดิน) สำหรับโคมไฟผนัง"
+name_en = "VAF-G 2×1.5/1.5 mm² cable (with earth) for the wall lamps"
 unit = "metre"
 
   [[entry.line]]
   group = "electrical_lamps"
   status = "supplied"
   n = 3
-  by = "electrician"
+  by_th = "ช่างไฟนำมา"
+  by_en = "electrician provides"
 
 [[entry]]
 id = "switch_plate"
+name_th = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง"
+name_en = "Switch-and-socket plate (light switch + 2 sockets)"
 
   [[entry.line]]
   group = "electrical_switch"
@@ -683,6 +763,9 @@ id = "switch_plate"
 
 [[entry]]
 id = "shower"
+name_th = "ชุดฝักบัว (Rain shower)"
+name_en = "Shower unit with rain head"
+size = { w = 220, h = 830, d = 510 }
 
   [[entry.line]]
   group = "shower"
@@ -691,6 +774,9 @@ id = "shower"
 
 [[entry]]
 id = "heater"
+name_th = "เครื่องทำน้ำอุ่นพร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์"
+name_en = "Water heater with its electrical box, cable and circuit breaker"
+size = { w = 220, h = 400, d = 100 }
 
   [[entry.line]]
   group = "shower"
@@ -699,6 +785,8 @@ id = "heater"
 
 [[entry]]
 id = "heater_hoses"
+name_th = "สายน้ำดีเครื่องทำน้ำอุ่น"
+name_en = "Water heater hoses"
 
   [[entry.line]]
   group = "shower"
@@ -707,6 +795,9 @@ id = "heater_hoses"
 
 [[entry]]
 id = "mirror"
+name_th = "กระจกเงากลม MOYA HLP004 Ø {w_cm} ซม."
+name_en = "Round mirror MOYA HLP004, {w_cm} cm"
+size = { w = 600, h = 600 }
 price = 429
 shop = "homepro"
 sku = "1319896"
@@ -718,6 +809,9 @@ sku = "1319896"
 
 [[entry]]
 id = "shelf"
+name_th = "ชั้นวางพร้อมราวแขวนผ้า LUZERN AS-5012S สีโครม"
+name_en = "Shelf with towel rail LUZERN AS-5012S, chrome"
+size = { w = 620, h = 145, d = 230 }
 price = 799
 shop = "homepro"
 sku = "1215163"
@@ -729,6 +823,9 @@ sku = "1215163"
 
 [[entry]]
 id = "roll_holder"
+name_th = "ที่ใส่กระดาษชำระ KARAT K-17053X เซรามิก สีขาวเงา"
+name_en = "Toilet roll holder KARAT K-17053X, glossy white ceramic"
+size = { w = 160, h = 85, d = 90 }
 price = 340
 shop = "homepro"
 sku = "105587"
@@ -742,6 +839,8 @@ sku = "105587"
 
 [[entry]]
 id = "flex_shield"
+name_th = "ซีเมนต์กันซึม จระเข้ FLEX SHIELD 20 กก."
+name_en = "Crocodile FLEX SHIELD 20 kg"
 unit = "bag"
 price = 1990
 shop = "homepro"
@@ -756,6 +855,9 @@ sku = "271155"
 
 [[entry]]
 id = "fibre_mesh"
+name_th = "ตาข่ายไฟเบอร์ จระเข้ {w_m} × {h_m} ม."
+name_en = "Fibre mesh Crocodile {w_m} × {h_m} m"
+size = { w = 200, h = 10000 }
 unit = "roll"
 price = 179
 shop = "homepro"
@@ -768,6 +870,10 @@ sku = "1271924"
 
 [[entry]]
 id = "grey_tile"
+name_th = "กระเบื้องเทา TARA สโตนบลาสด์ {w_cm} × {h_cm} ซม. ขอบตรง ผิวด้าน"
+name_en = "Grey tile TARA Stone Blast {w} × {h} mm, rectified, matt"
+size = { w = 500, h = 500 }
+per_box = 4
 unit = "box"
 price = 209
 shop = "homepro"
@@ -789,6 +895,10 @@ sku = "1292488"
 
 [[entry]]
 id = "white_tile"
+name_th = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว พอร์ซเลน {w_cm} × {h_cm} ซม. ขาวเรียบ ผิวมัน ขอบตรง"
+name_en = "White tile TARA Triple White New porcelain {w} × {h} mm, plain, glossy, rectified"
+size = { w = 600, h = 600 }
+per_box = 4
 unit = "box"
 price = 197
 shop = "homepro"
@@ -803,6 +913,8 @@ sku = "1076336"
 
 [[entry]]
 id = "tile_adhesive"
+name_th = "กาวซีเมนต์ จระเข้ ทอง 20 กก."
+name_en = "Crocodile Gold tile adhesive 20 kg"
 unit = "bag"
 price = 799
 shop = "homepro"
@@ -817,6 +929,8 @@ sku = "14428"
 
 [[entry]]
 id = "levelling_clips"
+name_th = "คลิปปรับระดับ TARA DL-D01 1.5 มม."
+name_en = "TARA levelling clips 1.5 mm"
 unit = "bag"
 price = 143
 shop = "homepro"
@@ -829,6 +943,8 @@ sku = "1092087"
 
 [[entry]]
 id = "levelling_wedges"
+name_th = "ลิ่มปรับระดับ TARA DL-D02"
+name_en = "TARA levelling wedges"
 price = 185
 shop = "homepro"
 sku = "1092114"
@@ -840,6 +956,8 @@ sku = "1092114"
 
 [[entry]]
 id = "grout_grey"
+name_th = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีเทาแกรนิต 1 กก."
+name_en = "Crocodile Premium Plus grout, granite grey, 1 kg"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -854,6 +972,8 @@ sku = "138786"
 
 [[entry]]
 id = "grout_white"
+name_th = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีขาวไข่มุก 1 กก."
+name_en = "Crocodile Premium Plus grout, pearl white, 1 kg"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -868,6 +988,8 @@ sku = "138771"
 
 [[entry]]
 id = "step_nosing"
+name_th = "จมูกบันไดอะลูมิเนียม HOME NAS-451510 1.5 ม. สีเงินเงา"
+name_en = "Aluminium step nosing HOME NAS-451510, 1.5 m, bright silver"
 price = 357.93
 shop = "homepro"
 sku = "1037342"
@@ -881,6 +1003,9 @@ sku = "1037342"
 
 [[entry]]
 id = "drain"
+name_th = "ตะแกรงกันกลิ่นพลาสติกเหลี่ยม DEXZON 4 นิ้ว"
+name_en = "Square anti-odour floor drain grate DEXZON 4\""
+size = { w = 100, d = 100 }
 price = 119
 shop = "homepro"
 sku = "1240420"
@@ -892,6 +1017,8 @@ sku = "1240420"
 
 [[entry]]
 id = "silicone"
+name_th = "ซิลิโคนไร้กรดกันเชื้อรา SIKA SIKASIL-129 300 มล. สีขาว"
+name_en = "Anti-fungal neutral silicone SIKA SIKASIL-129, 300 ml, white"
 unit = "tube"
 price = 139
 shop = "homepro"
@@ -904,6 +1031,8 @@ sku = "1157215"
 
 [[entry]]
 id = "m300_mortar"
+name_th = "ปูนก่อสำเร็จรูป TPI M300 50 กก."
+name_en = "TPI M300 ready-mix mortar, 50 kg"
 unit = "bag"
 price = 150
 approx = true
@@ -919,6 +1048,8 @@ sku = "1109515"
 
 [[entry]]
 id = "paint"
+name_th = "สีขาวกึ่งเงา"
+name_en = "White semi-gloss paint"
 
   [[entry.line]]
   group = "whole_room"

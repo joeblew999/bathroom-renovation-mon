@@ -1,14 +1,14 @@
-"""The room: room.toml and layout.toml, read and checked, every wall built with its items,
-and the design rules. svg.py draws what this holds.
+"""The room: room.toml, read and checked, every wall built with its items, and the design
+rules. svg.py draws what this holds.
 
-    r = load(Path("."), catalogue)  # the folder holding room.toml and layout.toml
+    r = load(Path("room.toml"), products)   # products = {id: Product}: sizes from the material list
     r.render()              # {file name: svg text} — the floor plan, then the three walls
     r.warnings()            # [(wall id, warning)] — every design rule broken
     r.tiles                 # {name: Tile} — every tile in room.toml
     r.tiles_needed()        # [TilesNeeded] — tiles per tile, worked out from the room
 
-The room (its size, door, lintel, window, tiles, walls) and the layout (every position) are
-the inputs, with the product catalogue (products.toml) for every product's size. Items that
+The room (its size, door, lintel, window, tiles, walls, every position) is the input, with the
+products on the material list for every product's size — handed over by build.py. Items that
 follow from the room — the column, the door opening, the lintel, the window, the door on the
 floor plan — are worked out here, never typed twice. A drawing note stands on its own: it can't refer to a phase, step or rule.
 
@@ -25,7 +25,7 @@ from common import DataError, Labels, need, number, one_of, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
-ROOM_FILE, LAYOUT = "room.toml", "layout.toml"
+ROOM_FILE = "room.toml"
 ROOM_KEYS = {
     "room": {"length", "width", "ceiling"},
     "new_wall": {"length"},
@@ -43,7 +43,7 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside"
           "axis_x": (), "axis_y": (), "width": (), "height": (),
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
-DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with items in layout.toml
+DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with positioned items
 ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
 NAME_KEYS = {"th", "en", "note_th", "note_en"}
 LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
@@ -57,7 +57,7 @@ FLOOR_SHAPE_NEEDS = {"rect": ("x", "y", "w", "d"), "step": ("x",)}   # floor ite
 @dataclass(frozen=True)
 class Tile:
     name: str            # what the floor and walls call it: "grey"
-    product: str         # its id in products.toml
+    product: str         # its id on the material list
     th: str
     size: int            # square, mm (from the product)
     per_box: int         # (from the product)
@@ -100,7 +100,7 @@ class Wall:
 @dataclass(frozen=True)
 class TilesNeeded:
     name: str            # the tile's name
-    product: str         # its id in products.toml
+    product: str         # its id on the material list
     th: str
     size: int
     per_box: int
@@ -167,18 +167,17 @@ class Room:
 
 
 # ---------- loading ----------
-def load(folder, catalogue):
-    """Read and check room.toml and layout.toml in `folder`, and build every wall. Every
-    product's size comes from the catalogue (products.load)."""
-    folder = Path(folder)
-    room = read_toml(folder / ROOM_FILE, "the room, walls and tiles")
-    layout = read_toml(folder / LAYOUT, "all the positions")
+def load(path, catalogue):
+    """Read and check room.toml and build every wall. Every product's size comes from
+    `catalogue` = {id: Product}, the products on the material list."""
+    room = read_toml(Path(path), "the room, its walls and tiles, and every position")
+    layout = room.get("positions", {})
+    only(ROOM_FILE, "[positions]", layout, set(DRAWN) | {"floor"})
     tiles = _tiles(room, catalogue)
     door = _door(room, catalogue)
     lintel, bearing = _lintel(room, catalogue)
     _check_room(room, tiles, door)
     labels = Labels(ROOM_FILE, room.get("labels", {}), LABELS)
-    only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "room_items"})
     walls, floor = _walls(room, layout, door, lintel.h, bearing, catalogue)
     used = ({e["product"] for k in DRAWN + ("floor",) for e in layout.get(k, []) if "product" in e}
             | {t.product for t in tiles.values()} | {door.id, lintel.id})
@@ -197,11 +196,11 @@ def _value(room, key, name):
 def _product(catalogue, where, pid, needs):
     """A product from the catalogue that has the sizes `needs`."""
     if pid not in catalogue:
-        raise DataError(f"{where} names product '{pid}', which is not in products.toml")
+        raise DataError(f"{where} names product '{pid}', which is not on the material list (materials.toml)")
     p = catalogue[pid]
     for k in needs:
         if getattr(p, k) is None:
-            raise DataError(f"products.toml: product '{pid}' needs a {k} — {where} uses it")
+            raise DataError(f"materials.toml: product '{pid}' needs a {k} in its size — {where} uses it")
     return p
 
 
@@ -234,7 +233,7 @@ def _tiles(room, catalogue):
         number(ROOM_FILE, where, "top", e["top"])
         p = _product(catalogue, f"{ROOM_FILE}: {where}", e["product"], ("w", "h", "per_box"))
         if p.w != p.h:
-            raise DataError(f"products.toml: tile '{p.id}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
+            raise DataError(f"materials.toml: tile '{p.id}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
         out[name_] = Tile(name_, p.id, e["th"], int(p.w), p.per_box, e["top"], e["fill"])
     return out
 
@@ -243,13 +242,14 @@ def _note(e, key, where):
     """A note as written. It stands on its own, so a {phase:…}-style reference is refused."""
     t = e.get(key, "")
     if "{" in t:
-        raise DataError(f"{LAYOUT}: {where} '{key}' has a reference in braces — a drawing note "
+        raise DataError(f"{ROOM_FILE}: {where} '{key}' has a reference in braces — a drawing note "
                         f"can't refer to a phase, step or rule; write it out")
     return t
 
 
 def _check_room(room, tiles, door):
-    only(ROOM_FILE, "the file", room, set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels"})
+    only(ROOM_FILE, "the file", room,
+         set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels", "room_items", "positions"})
     only(ROOM_FILE, "[floor]", room.get("floor", {}), {"tile"})
     need(ROOM_FILE, "[floor]", room.get("floor", {}), ("tile",))
     one_of(ROOM_FILE, "[floor]", "tile", room["floor"]["tile"], tiles)
@@ -272,14 +272,14 @@ def _check_room(room, tiles, door):
 
 
 def _walls(room, layout, door, lt, lb, catalogue):
-    """Every wall with its items (from layout.toml, plus those that follow from the room)."""
-    names = layout.get("room_items", {})
-    only(LAYOUT, "[room_items]", names, ROOM_ITEMS)
+    """Every wall with its items (positioned in room.toml, plus those that follow from the room)."""
+    names = room.get("room_items", {})
+    only(ROOM_FILE, "[room_items]", names, ROOM_ITEMS)
     for k in ROOM_ITEMS:
         if k not in names:
-            raise DataError(f"{LAYOUT}: [room_items.{k}] is missing")
-        only(LAYOUT, f"[room_items.{k}]", names[k], NAME_KEYS)
-        need(LAYOUT, f"[room_items.{k}]", names[k], ("th", "en"))
+            raise DataError(f"{ROOM_FILE}: [room_items.{k}] is missing")
+        only(ROOM_FILE, f"[room_items.{k}]", names[k], NAME_KEYS)
+        need(ROOM_FILE, f"[room_items.{k}]", names[k], ("th", "en"))
 
     def named(k, no, shape, **dims):
         e, where = names[k], f"[room_items.{k}]"
@@ -330,25 +330,25 @@ def _layout_items(layout, key, catalogue, room_w):
     out = []
     needs = FLOOR_SHAPE_NEEDS if key == "floor" else SHAPE_NEEDS
     for e in layout.get(key, []):
-        where = f"[[{key}]] entry {e.get('no', '?')}"
-        only(LAYOUT, where, e, LAYOUT_KEYS)
-        need(LAYOUT, where, e, ("no", "th", "en", "shape"))
+        where = f"[[positions.{key}]] entry {e.get('no', '?')}"
+        only(ROOM_FILE, where, e, LAYOUT_KEYS)
+        need(ROOM_FILE, where, e, ("no", "th", "en", "shape"))
         for k in ("no", "x", "y", "w", "h", "d", "part"):
             if k in e:
-                number(LAYOUT, where, k, e[k])
+                number(ROOM_FILE, where, k, e[k])
         if e["shape"] not in needs:
-            raise DataError(f"{LAYOUT}: {where} has shape {e['shape']!r} "
+            raise DataError(f"{ROOM_FILE}: {where} has shape {e['shape']!r} "
                             f"(on this {'floor' if key == 'floor' else 'wall'}: {', '.join(needs)})")
         dims = {}
         if "product" in e:
-            dims.update(_product(catalogue, f"{LAYOUT}: {where}", e["product"], ()).size())
+            dims.update(_product(catalogue, f"{ROOM_FILE}: {where}", e["product"], ()).size())
         dims.update({k: e[k] for k in ("w", "h", "d") if k in e})
         if e["shape"] in ("zone", "step") and "d" not in dims:
             dims["d"] = room_w                           # zones and the floor step run across the room
         have = {**{k: e[k] for k in ("x", "y") if k in e}, **dims}
         missing = [k for k in needs[e["shape"]] if k not in have]
         if missing:
-            raise DataError(f"{LAYOUT}: {where} ({e['shape']}) needs '{missing[0]}' "
+            raise DataError(f"{ROOM_FILE}: {where} ({e['shape']}) needs '{missing[0]}' "
                             f"(give it here, or through its product)")
         f = lambda k: None if k not in have else float(have[k])     # noqa: E731
         out.append(Item(str(e["no"]), e["th"], e["en"], e["shape"], f("x"), f("w"), f("y"), f("h"), f("d"),
@@ -357,11 +357,11 @@ def _layout_items(layout, key, catalogue, room_w):
     nos = [it.no for it in out]
     for no in nos:
         if nos.count(no) > 1:
-            raise DataError(f"{LAYOUT}: [[{key}]] number {no} is used twice")
+            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] number {no} is used twice")
     for it in out:
         if it.part and it.part not in nos:
-            raise DataError(f"{LAYOUT}: [[{key}]] entry {it.no} belongs to item {it.part}, "
-                            f"which is not in [[{key}]]")
+            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] entry {it.no} belongs to item {it.part}, "
+                            f"which is not in [[positions.{key}]]")
     return out
 
 

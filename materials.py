@@ -2,30 +2,29 @@
 """The material list: materials.toml, read, checked, ordered and rendered. It knows nothing
 about the phases or the drawings.
 
-    m = load(Path("materials.toml"), catalogue)      # catalogue = products.load(...)
+    m = load(Path("materials.toml"))
     m.render()          # the material list as Markdown table rows — the PDF prints exactly this
+    m.products          # {id: Product} — every product's names and size (the drawings use the sizes)
     m.still_to_buy()    # (total, whether any of it is approximate)
     m.on_site()         # how many lines are already on site (bought or reused)
     m.boxes_of(id)      # how many of one product are on the list (bought + to buy)
 
-What a product is (its names, its size) is in products.toml; each [[entry]] here says how one
-product is bought (unit, price, shop, code) and, under it, an [[entry.line]] for every line it
-takes on the list.
-The shops, suppliers, units and groups are defined in the file too; the only fixed list here
+Each [[entry]] is one product: what it is (names, size), how it is bought (unit, price, shop,
+code) and, under it, an [[entry.line]] for every line it takes on the list.
+The shops, units and groups are defined in the file too; the only fixed list here
 is the four statuses, because each one has its own rules (what needs a price, a shop…).
 
 Ordered by exactly two things written in the file: the group (in the order the groups are
 listed), then the status (buy, bought, reused, supplied); lines with the same group and status
 keep the order of their products in the file.
 
-Usage:  python3 materials.py [materials.toml]    (prints the material list; reads products.toml beside it)
+Usage:  python3 materials.py [materials.toml]    (prints the material list)
 """
 import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-import products as catalogue_file
 import string
 
 from common import (NAMED, DataError, Labels, both, cli, flag, heading, md_cell, named, need, note,
@@ -34,16 +33,17 @@ from common import (NAMED, DataError, Labels, both, cli, flag, heading, md_cell,
 FILE = "materials.toml"
 GROUP_KEYS = {"id", *NAMED}
 SHOP_KEYS = {"id", "name", "sku", "link"}
-SUPPLIER_KEYS = {"id", "th", "en"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
-ENTRY_KEYS = {"id", "unit", "price", "approx", "shop", "sku", "line"}
-LINE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
+ENTRY_KEYS = {"id", "name_th", "name_en", "size", "per_box", "unit", "price", "approx", "shop", "sku", "line"}
+LINE_KEYS = {"group", "status", "n", "note_th", "note_en", "by_th", "by_en"}
+SIZE_KEYS = ("w", "h", "d")
+SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
 @dataclass(frozen=True)
 class Rule:
     price: str           # "needed", "allowed" (what it cost) or "none"
     shop: bool           # True: needs a shop and SKU (its boxes count); False: has none
     on_site: bool        # already in the bathroom
-    by: bool             # needs `by`: who brings it
+    by: bool             # needs by_th / by_en: who brings it
 
 
 # Each status's rules, stated once — and the order within a group.
@@ -78,10 +78,19 @@ class Shop:
 
 
 @dataclass(frozen=True)
-class Supplier:
+class Product:
+    """What a product is: its names (any size filled in) and its size in mm."""
     id: str
-    th: str
-    en: str
+    name_th: str
+    name_en: str
+    w: float = None
+    h: float = None
+    d: float = None
+    per_box: int = None  # tiles in a box (tiles only)
+
+    def size(self):
+        """{w, h, d} that are given."""
+        return {k: getattr(self, k) for k in SIZE_KEYS if getattr(self, k) is not None}
 
 
 @dataclass(frozen=True)
@@ -97,8 +106,8 @@ class Unit:
 
 @dataclass(frozen=True)
 class Entry:
-    """How one product is bought. What it is comes from the catalogue."""
-    product: catalogue_file.Product
+    """One product on the list: what it is, and how it is bought."""
+    product: Product
     unit: Unit = None
     price: float = None  # unit price in baht
     approx: bool = False
@@ -121,7 +130,8 @@ class Line:
     n: float             # how many
     note_th: str = ""
     note_en: str = ""
-    by: Supplier = None  # who brings a supplied product
+    by_th: str = ""      # who brings a supplied product
+    by_en: str = ""
 
     @property
     def total(self):
@@ -154,18 +164,18 @@ class Materials:
         buy = [m for m in self.lines if m.status == "buy"]
         return sum(m.total for m in buy), any(m.entry.approx for m in buy)
 
-    def products_used(self):
-        return {m.entry.product.id for m in self.lines}
+    @property
+    def products(self):
+        """{id: Product} — every product on the list, with its names and size."""
+        return {m.entry.product.id: m.entry.product for m in self.lines}
 
     def boxes_of(self, product_id):
         """How many of one product the list has, bought or still to buy."""
         return sum(m.n for m in self.lines if m.entry.product.id == product_id and STATUS[m.status].shop)
 
-    def render(self, extra=None):
+    def render(self):
         """The section as Markdown lines: its heading and note, then the table — a heading row
-        (and its note) per group, then its lines. `extra` = {product id: (Thai, English)}: a
-        note quote.py adds to that product's lines (this file never knows what it says)."""
-        extra = extra or {}
+        (and its note) per group, then its lines."""
         L = self.labels
         th, en, nth, nen = self.section
         rows = [heading(2, th, en), ""] + ([*note(nth, nen), ""] if nth else [])
@@ -176,7 +186,7 @@ class Materials:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
                 if g.note_th:
                     rows.append(f"| {note_cell(g.note_th, g.note_en)} | | | |")
-            rows += [f"| {name_cell(m, extra.get(m.entry.product.id))} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
+            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
 
@@ -188,10 +198,10 @@ class Materials:
 
 
 # ---------- reading ----------
-def load(path, catalogue):
-    """Read and check materials.toml; each entry names a product in the catalogue."""
+def load(path):
+    """Read and check materials.toml."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"prices_date", "section", "labels", "shop", "supplier", "unit", "group", "entry"})
+    only(FILE, "the file", raw, {"prices_date", "section", "labels", "shop", "unit", "group", "entry"})
     section = _section(raw)
     labels = Labels(FILE, raw.get("labels", {}), LABELS)
     shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
@@ -201,20 +211,19 @@ def load(path, catalogue):
             s.url("0")
         except (re.error, KeyError, IndexError, ValueError) as e:
             raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
-    suppliers = {e["id"]: Supplier(**e) for e in _defined(raw, "supplier", SUPPLIER_KEYS)}
     units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
     groups = tuple(Group(e["id"], *named(FILE, f"group '{e['id']}'", e))
                    for e in _defined(raw, "group", GROUP_KEYS, required=("id",)))
     ids = {g.id for g in groups}
     lines, seen = [], set()
     for e in raw.get("entry", []):
-        entry = _entry(e, catalogue, shops, units)
+        entry = _entry(e, shops, units)
         if entry.product.id in seen:
             raise DataError(f"{FILE}: product '{entry.product.id}' has two entries — give it two lines instead")
         seen.add(entry.product.id)
         if not e.get("line"):
             raise DataError(f"{FILE}: product '{entry.product.id}' has no [[entry.line]] — it isn't on the list")
-        lines += [_line(u, entry, ids, suppliers) for u in e["line"]]
+        lines += [_line(u, entry, ids) for u in e["line"]]
     return Materials(section, groups, tuple(lines), labels)
 
 
@@ -247,12 +256,37 @@ def _defined(raw, kind, keys, required=None):
     return raw.get(kind, [])
 
 
-def _entry(e, catalogue, shops, units):
+def _product(e, where):
+    """The product's names, with its size filled in, and its size."""
+    need(FILE, where, e, ("name_th", "name_en"))
+    size = e.get("size", {})
+    if not isinstance(size, dict):
+        raise DataError(f"{FILE}: {where} 'size' must be {{ w = …, h = …, d = … }}")
+    only(FILE, f"{where} size", size, SIZE_KEYS)
+    for k, v in size.items():
+        number(FILE, f"{where} size", k, v)
+    if "per_box" in e:
+        number(FILE, where, "per_box", e["per_box"])
+    fill = {f"{k}{u}": f"{v / div:g}" for k, v in size.items() for u, div in SIZE_UNITS.items()}
+    names = {}
+    for lang in ("th", "en"):
+        text = e[f"name_{lang}"]
+        for _, f, _, _ in string.Formatter().parse(text):
+            if f is not None and f not in fill:
+                k = f.split("_")[0]
+                raise DataError(f"{FILE}: {where} name_{lang} shows {{{f}}}, but its size has no {k}"
+                                if k in SIZE_KEYS and f in {k + u for u in SIZE_UNITS} else
+                                f"{FILE}: {where} name_{lang} has {{{f}}} (a name can show: "
+                                f"{', '.join(k + u for u in SIZE_UNITS for k in SIZE_KEYS)})")
+        names[lang] = text.format(**fill)
+    return Product(e["id"], names["th"], names["en"], *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
+
+
+def _entry(e, shops, units):
     where = f"product '{e.get('id', '?')}'"
     only(FILE, where, e, ENTRY_KEYS)
     need(FILE, where, e, ("id",))
-    if e["id"] not in catalogue:
-        raise DataError(f"{FILE}: {where} is not in {catalogue_file.FILE}")
+    product = _product(e, where)
     if "price" in e:
         number(FILE, where, "price", e["price"])
         if e["price"] < 0:
@@ -266,10 +300,10 @@ def _entry(e, catalogue, shops, units):
         if not isinstance(e["sku"], str) or not re.fullmatch(shop.sku, e["sku"]):
             raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.name} code")
     unit = one_of(FILE, where, "unit", e["unit"], units) if "unit" in e else None
-    return Entry(catalogue[e["id"]], unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
+    return Entry(product, unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
 
 
-def _line(u, p, group_ids, suppliers):
+def _line(u, p, group_ids):
     """One line on the list, checked against its product by the rules of its status (STATUS)."""
     where = f"product '{p.product.id}'"
     only(FILE, where, u, LINE_KEYS)
@@ -289,13 +323,12 @@ def _line(u, p, group_ids, suppliers):
         raise DataError(f"{FILE}: {where} is {s}, so it needs a shop and sku")
     if not rule.shop and p.shop:
         raise DataError(f"{FILE}: {where} is {s}, so it has no shop or sku")
-    by = None
     if rule.by:
-        need(FILE, where, u, ("by",))
-        by = one_of(FILE, where, "by", u["by"], suppliers)
-    elif "by" in u:
-        raise DataError(f"{FILE}: {where} is {s}, so it has no 'by'")
-    return Line(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""), by)
+        need(FILE, where, u, ("by_th", "by_en"))
+    elif "by_th" in u or "by_en" in u:
+        raise DataError(f"{FILE}: {where} is {s}, so it has no by_th / by_en")
+    return Line(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""),
+                u.get("by_th", ""), u.get("by_en", ""))
 
 
 # ---------- the cells of the list ----------
@@ -319,27 +352,24 @@ def money_cell(m, L):
 
 def site_cell(m, L):
     if m.status == "supplied":
-        return both(m.by.th, m.by.en)
+        return both(m.by_th, m.by_en)
     return L.both("buy") if m.status == "buy" else "✓"
 
 
-def name_cell(m, extra=None):
-    """The name (linked to the shop's page), then its shop and SKU, then the note for this line,
-    then any `extra` (Thai, English) note."""
+def name_cell(m):
+    """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
     p = m.entry
     name = md_cell(both(p.product.name_th, p.product.name_en))
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:
         name += f"<br>{note_cell(m.note_th, m.note_en)}"
-    if extra:
-        name += f"<br>{note_cell(*extra)}"
     return name
 
 
 def main(argv):
     path = Path(argv[1] if len(argv) > 1 else FILE)
-    m = load(path, catalogue_file.load(path.with_name(catalogue_file.FILE)))
+    m = load(path)
     print("\n".join(m.render()))
 
 

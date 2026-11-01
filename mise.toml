@@ -18,7 +18,7 @@ run = [
 
 [tasks.build]
 description = "Build out/index.html and out/bathroom-renovation-quote.pdf (the same page, as web page and PDF)"
-run = "python quote.py"
+run = "python build.py"
 
 [tasks.test]
 description = "Break copies of the data on purpose and confirm every check fires"
@@ -26,15 +26,11 @@ run = "python test_pipeline.py"
 
 [tasks.check]
 description = "Print the tile counts, the still-to-buy total and any warnings, without building"
-run = "python quote.py --check"
+run = "python build.py --check"
 
 [tasks.materials]
 description = "Print the material list — the same table the PDF prints"
 run = "python materials.py"
-
-[tasks.products]
-description = "List every product, with its size where the drawings use one"
-run = "python products.py"
 
 [tasks.phases]
 description = "Print the phases — the same text the PDF prints"
