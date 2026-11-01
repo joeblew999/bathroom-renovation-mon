@@ -17,7 +17,7 @@ materials.toml  ──► materials.py  ─┼──► build.py ──► out/i
 room.toml       ──► room/         ─┘    (+ the template, style.css)
 ```
 
-On every push to `main`, GitHub runs the same `setup`, `test` and `build` and publishes `out/`. `out/` is never committed.
+On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build` and publishes `out/`. `out/` is never committed.
 
 ## Files
 
@@ -32,7 +32,8 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 | `build.py` | The only place the parts meet: hands the products' sizes to the room, checks the tile boxes, fills the template, writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading and checking TOML, labels, headings and notes |
 | `test_pipeline.py` | The tests |
-| `mise.toml` | The commands, and every pinned tool: Python, its packages, Chromium |
+| `mise.toml` | The commands, and the pinned tools: Python and uv |
+| `pyproject.toml`, `uv.lock` | The Python packages, and uv's lock file pinning every one of them (and what they depend on) exactly; `mise run setup` installs exactly the lock |
 | `CLAUDE.md` | Points Claude to this README |
 
 ## Rules for every change
@@ -46,4 +47,4 @@ On every push to `main`, GitHub runs the same `setup`, `test` and `build` and pu
 7. **Bad data stops the build** with one error naming the file and the problem. A broken design rule (a hole near a tile joint, a clash) is a warning, shown red on the drawing.
 8. **Tests never depend on today's numbers.** A test finds what it breaks by what it is and works out the expected message from the real data. `mise run test` lists every check.
 
-**Before a change is done:** check it against the rules (for 4 and 5, search the other files for what you touched), run `test` and `build` (all passing, 0 warnings), and look at the PDF. **Push** to `main` only when the owner says so, then watch the GitHub build.
+**Before a change is done:** check it against the rules (for 4 and 5, search the other files for what you touched), run `lint`, `test` and `build` (all clean, 0 warnings), and look at the PDF. **Push** to `main` only when the owner says so, then watch the GitHub build.

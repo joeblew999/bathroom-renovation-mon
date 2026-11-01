@@ -1,0 +1,21 @@
+# pyproject.toml — the Python packages this repo needs. uv reads it; `uv lock` writes uv.lock,
+# which pins every package (and the packages they need) to an exact version with a checksum.
+# `mise run setup` installs exactly what uv.lock says, on any machine.
+
+[project]
+name = "bathroom-renovation-quote"
+version = "0"
+requires-python = "==3.13.*"
+dependencies = [
+  "markdown==3.11",     # the filled-in template → the web page
+  "playwright==1.63.0", # drives Chromium, which prints the web page to the PDF
+  "tomli-w==1.2.0",     # the tests write their edited copies of the data with it
+]
+
+[dependency-groups]
+dev = [
+  "pyflakes==4.1.0",    # `mise run lint`: unused imports, undefined names
+]
+
+[tool.uv]
+package = false         # a set of scripts, not a package to publish

@@ -2,23 +2,24 @@
 # `mise tasks` lists the commands; `mise run setup` once, then `mise run build`.
 
 [tools]
-python = "3.13"
+python = "3.13.18"
+uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
 
 [env]
-_.python.venv = { path = ".venv", create = true, uv_create_args = ["--seed"] }   # --seed: the venv gets its own pip
+_.python.venv = { path = ".venv", create = true }
 
 [tasks.setup]
-description = "Install the pinned Python packages and the Chromium that prints the PDF"
+description = "Install the Python packages (exactly as uv.lock pins them) and the Chromium that prints the PDF"
 run = [
-  # The Python packages, exact versions so every machine builds the same PDF:
-  #   markdown   the filled-in template → the web page
-  #   playwright drives Chromium, which prints the web page to the PDF
-  #   tomli-w    the tests write their edited copies of the data with it
-  "python -m pip install markdown==3.11 playwright==1.63.0 tomli-w==1.2.0",
+  "uv sync --locked",
   "python -m playwright install chromium",
   # On the GitHub runner only: Chromium's Linux libraries and fonts (including the Thai font)
   "if [ -n \"$CI\" ]; then python -m playwright install-deps chromium; fi",
 ]
+
+[tasks.lint]
+description = "Check the code for unused imports and undefined names"
+run = "python -m pyflakes *.py room/*.py"
 
 [tasks.build]
 description = "Build out/index.html and out/bathroom-renovation-quote.pdf (the same page, as web page and PDF)"
