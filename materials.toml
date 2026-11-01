@@ -186,6 +186,15 @@ unit = "แพ็ก / pack"
 link = "https://www.homepro.co.th/p/1024381"
 
 [[item]]
+area = "new_ceiling"
+name = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 50 ตัว / Wall plugs with screws BY TORA no. 7, 50 pcs"
+note = "ยึดฉากฝ้า / for fixing the wall angle"
+buy = 1
+price = 65
+unit = "แพ็ก / pack"
+link = "https://www.homepro.co.th/p/1064892"
+
+[[item]]
 area = "basin"
 name = "อ่างล้างหน้าแขวน MOYA 179 สีขาว / Wall-hung basin MOYA 179, white"
 have = 1
@@ -230,6 +239,39 @@ price = 35
 unit = "ตัว / pcs"
 approx = true
 link = "https://www.homepro.co.th/p/5577"
+
+[[item]]
+area = "basin"
+name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
+note = "น้ำดี / cold supply"
+buy = 1
+price = 69
+unit = "เส้น / length"
+link = "https://www.homepro.co.th/p/5556"
+
+[[item]]
+area = "basin"
+name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
+buy = 5
+price = 6
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5569"
+
+[[item]]
+area = "basin"
+name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
+buy = 1
+price = 8
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5570"
+
+[[item]]
+area = "basin"
+name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
+buy = 1
+price = 27
+unit = "ม้วน / roll"
+link = "https://www.homepro.co.th/p/1055229"
 
 [[item]]
 area = "basin"
@@ -287,6 +329,39 @@ price = 35
 unit = "ตัว / pcs"
 approx = true
 link = "https://www.homepro.co.th/p/5577"
+
+[[item]]
+area = "toilet"
+name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
+note = "น้ำดี / cold supply"
+buy = 1
+price = 69
+unit = "เส้น / length"
+link = "https://www.homepro.co.th/p/5556"
+
+[[item]]
+area = "toilet"
+name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
+buy = 5
+price = 6
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5569"
+
+[[item]]
+area = "toilet"
+name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
+buy = 1
+price = 8
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5570"
+
+[[item]]
+area = "toilet"
+name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
+buy = 1
+price = 27
+unit = "ม้วน / roll"
+link = "https://www.homepro.co.th/p/1055229"
 
 [[item]]
 area = "toilet"
@@ -455,52 +530,10 @@ reused = true
 
 [[item]]
 area = "whole_room"
-name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
-note = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง / cold supply: toilet, bum gun, basin"
-buy = 2
-price = 69
-unit = "เส้น / lengths"
-link = "https://www.homepro.co.th/p/5556"
-
-[[item]]
-area = "whole_room"
-name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
-buy = 10
-price = 6
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5569"
-
-[[item]]
-area = "whole_room"
-name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
-buy = 2
-price = 8
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5570"
-
-[[item]]
-area = "whole_room"
 name = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก. / PVC solvent cement Thai Pipe 250 g"
 buy = 1
 price = 137.74
 link = "https://www.homepro.co.th/p/5672"
-
-[[item]]
-area = "whole_room"
-name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
-buy = 2
-price = 27
-unit = "ม้วน / rolls"
-link = "https://www.homepro.co.th/p/1055229"
-
-[[item]]
-area = "whole_room"
-name = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 50 ตัว / Wall plugs with screws BY TORA no. 7, 50 pcs"
-note = "ฉากฝ้า และอุปกรณ์ในห้องน้ำ / ceiling angle and fittings"
-buy = 1
-price = 65
-unit = "แพ็ก / pack"
-link = "https://www.homepro.co.th/p/1064892"
 
 [[item]]
 area = "whole_room"
