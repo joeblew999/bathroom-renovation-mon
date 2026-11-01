@@ -33,7 +33,7 @@ FILE = "materials.toml"
 FILE_FIELDS = {"prices_date": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
                "labels": "table!", "symbols": "table!", "shop": "list!", "unit": "list!", "group": "list!",
                "entry": "list!"}
-SYMBOLS = {k: "text!" for k in ("currency", "on_site", "none", "times")}
+SYMBOLS = {k: "text!" for k in ("currency", "on_site", "none", "times", "detail_th", "detail_en")}
 SHOP = {"id": "text!", **NAME, "sku": "text!", "link": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 GROUP = {"id": "text!", **NAMED}
@@ -211,7 +211,7 @@ class Materials:
             if lines:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
                 rows += [f"| {note_cell(g.note_th, g.note_en)} | | | |"] if g.note_th else []
-            rows += [f"| {name_cell(m)} | {self.qty_cell(m)} | {self.money_cell(m)} | {self.site_cell(m)} |"
+            rows += [f"| {self.name_cell(m)} | {self.qty_cell(m)} | {self.money_cell(m)} | {self.site_cell(m)} |"
                      for m in lines]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
@@ -234,20 +234,19 @@ class Materials:
             return (f"{self.labels.both('approx')} " if m.entry.approx else "") + self.money(m.total)
         return self.money(m.paid) if m.paid else self.symbols["none"]
 
+    def name_cell(self, m):
+        """The name and detail (linked to the shop's page), then the shop and code, then the line's note."""
+        p, pr, s = m.entry, m.entry.product, self.symbols
+        name = md_cell(both(f"{pr.th}{s['detail_th']}{pr.detail_th}", f"{pr.en}{s['detail_en']}{pr.detail_en}"))
+        if p.link:
+            name = f"[{name}]({p.link})<br>{both(p.shop.th, p.shop.en)} {p.sku}"
+        return name + (f"<br>{note_cell(m.note_th, m.note_en)}" if m.note_th else "")
+
     def site_cell(self, m):
         """Who brings it, "buy", or on site."""
         if m.rule.by:
             return both(m.by_th, m.by_en)
         return self.labels.both("buy") if m.rule.to_buy else self.symbols["on_site"]
-
-
-def name_cell(m):
-    """The name and detail (linked to the shop's page), then the shop and code, then the line's note."""
-    p, pr = m.entry, m.entry.product
-    name = md_cell(both(f"{pr.th} {pr.detail_th}", f"{pr.en}, {pr.detail_en}"))
-    if p.link:
-        name = f"[{name}]({p.link})<br>{both(p.shop.th, p.shop.en)} {p.sku}"
-    return name + (f"<br>{note_cell(m.note_th, m.note_en)}" if m.note_th else "")
 
 
 # ---------- reading ----------
@@ -260,11 +259,11 @@ def load(path):
     check(FILE, "[symbols]", raw["symbols"], SYMBOLS)
     shops = {e["id"]: Shop(**e) for e in check_each(FILE, "shop", raw["shop"], SHOP)}
     for s in shops.values():
+        placeholders(FILE, f"shop '{s.id}' link", s.link, ("sku", "sku_digits"))
         try:
             re.compile(s.sku)
-            s.url("0")
-        except (re.error, KeyError, IndexError, ValueError) as e:
-            raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
+        except re.error as e:
+            raise DataError(f"{FILE}: shop '{s.id}' sku isn't a pattern ({e})") from None
     units = {e["id"]: Unit(**e) for e in check_each(FILE, "unit", raw["unit"], UNIT)}
     groups = tuple(Group(e["id"], *named(e)) for e in check_each(FILE, "group", raw["group"], GROUP))
     known = {"shop": shops, "unit": units, "group": [g.id for g in groups], "status": STATUSES}

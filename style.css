@@ -9,7 +9,6 @@
   tr { page-break-inside: avoid; }
   th, td { border: 1px solid #bbb; padding: 2.5pt 4pt; vertical-align: top; text-align: left; font-size: 9pt; }
   th { background: #eee; }
-  code { font-size: 8.5pt; }
   blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #999; background: #f6f6f6; }
   a { color: #1a5276; word-break: break-all; }
 

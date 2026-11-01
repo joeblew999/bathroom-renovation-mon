@@ -15,7 +15,7 @@
 #
 # [section]: this part's heading in the document, and its note (th, en, note_th, note_en —
 # the same shape as a phase).
-# [labels]: the fixed wording around the phases (heading, step-table columns).
+# [labels]: the fixed wording around the phases (heading, step-table columns). [symbols]: its marks.
 
 [section]
 th = "งานตามขั้นตอน"
@@ -26,6 +26,10 @@ note_en = "In working order — each phase finishes before the next starts."
 [labels]
 phase_heading = { th = "ขั้น {number} — {name}", en = "Phase {number} — {name}" }
 step_columns = { th = "ภาษาไทย", en = "English" }
+
+# The marks around the phases — the same in both languages.
+[symbols]
+number = "#"             # heads the step-number column
 
 [[phase]]
 id = "strip_out"
@@ -54,8 +58,8 @@ en = "Remove the old toilet and basin, and cap the pipe ends temporarily · remo
 
 [[phase.step]]
 id = "heater_out"
-th = "ถอดเครื่องทำน้ำอุ่น สายน้ำดี ฝักบัว และกล่องไฟฟ้าออก เก็บไว้ใช้ต่อ — วัดระยะรูยึดเครื่องทำน้ำอุ่นเก็บไว้"
-en = "Remove the water heater, its hoses, the shower head and the electrical box, and keep them for reuse — measure the heater's fixing holes"
+th = "ถอดเครื่องทำน้ำอุ่น สายน้ำดี ชุดฝักบัว และกล่องไฟฟ้าออก เก็บไว้ใช้ต่อ — วัดระยะรูยึดเครื่องทำน้ำอุ่นเก็บไว้"
+en = "Remove the water heater, its hoses, the shower unit and the electrical box, and keep them for reuse — measure the heater's fixing holes"
 
 [[phase.step]]
 id = "stop_tap_off"
@@ -196,8 +200,8 @@ en = "**Walls and column:** fill with ready-mix mortar — the broken edges wher
 
 [[phase.step]]
 id = "plaster"
-th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. (ร่องยาแนวแคบจะเห็นทุกจุดที่ไม่เรียบ) แล้วปล่อยให้แห้ง"
-en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat with a 2 m straightedge (tight grout joints show every bump), then let it cure"
+th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา ตรวจระนาบเหมือนขั้น {step:clear_mark} แล้วปล่อยให้แห้ง"
+en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat as in step {step:clear_mark}, then let it cure"
 
 [[phase.step]]
 id = "skim"
@@ -293,8 +297,8 @@ en = "Hang the new door, and drill and fit the bathroom knob"
 
 [[phase.step]]
 id = "toilet"
-th = "ติดตั้งชักโครกใหม่ และสายฉีดชำระเดิม ทั้งคู่ต่อจากสต็อปวาล์ว 2 ทางหลังชักโครก สายฉีดชำระเดินไปที่ขอแขวน (ภาพผนังหลัก)"
-en = "Install the new toilet and refit the existing bum gun, both fed from the 2-way stop valve behind the toilet, with the bum gun hose running to its holder (main wall drawing)"
+th = "ติดตั้งชักโครกใหม่และสายฉีดชำระเดิมที่จุดน้ำ สายฉีดชำระเดินไปที่ขอแขวน (ภาพผนังหลัก)"
+en = "Install the new toilet and refit the existing bum gun on their outlet, with the bum gun hose running to its holder (main wall drawing)"
 
 [[phase.step]]
 id = "basin"

@@ -31,13 +31,14 @@ import tomllib
 from pathlib import Path
 
 import materials
+import phases
 import room
 from build import assemble, tile_lines
 from common import DataError
 
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
-MATERIALS, ROOM, PHASES = materials.FILE, room.FILE, "phases.toml"
+MATERIALS, ROOM, PHASES = materials.FILE, room.FILE, phases.FILE
 DATA = (MATERIALS, ROOM, PHASES)
 RAW = {f: tomllib.loads((HERE / f).read_text(encoding="utf-8")) for f in DATA}
 CLEAN = None                       # expect: no error and no warnings
@@ -135,7 +136,8 @@ def key(k):
 def dump(d):
     """A whole data file as TOML, keeping the order of every key (the file's own values first, then
     each table and list of tables, everything inside them inline)."""
-    tables = lambda v: isinstance(v, dict) or (isinstance(v, list) and v and all(isinstance(x, dict) for x in v))  # noqa: E731
+    def tables(v):
+        return isinstance(v, dict) or (isinstance(v, list) and v and all(isinstance(x, dict) for x in v))
     out = [f"{key(k)} = {toml(v)}" for k, v in d.items() if not tables(v)]
     for k, v in d.items():
         for head, entry in ([(f"[{key(k)}]", v)] if isinstance(v, dict) else
@@ -274,6 +276,47 @@ def part_above_test():
                  parent=(parent.th, parent.en)))
 
 
+def column_wall():
+    """The column's wall, as written, and as worked out."""
+    wid = RAW[ROOM]["column"]["wall"]
+    return wid, real().room.walls[wid]
+
+
+def a_point_on(wid, x, y):
+    """An edit adding a point to a wall (drawn, so it can have items)."""
+    def change(d):
+        w = by_id(d["wall"], wid)
+        w["drawn"] = True
+        w.setdefault("item", []).append({"id": "test_point", "th": "จุดทดสอบ", "en": "Test point", "shape": "point",
+                                          "x": x, "y": y})
+    return {ROOM: data(change)}
+
+
+def column_clash_test():
+    wid, w = column_wall()
+    col = find(w.items, "the column", lambda i: i.shape == "column")
+
+    def change(d):
+        x = by_id(d["wall"], wid)
+        x["drawn"] = True
+        x.setdefault("item", []).insert(0, {"id": "test_box", "th": "กล่องทดสอบ", "en": "Test box", "shape": "rect",
+                                             "x": col.x, "y": col.y, "w": col.w, "h": col.h / 4})
+    n = 1                                                       # the test box comes first on its wall
+    return {ROOM: data(change)}, warn("warn_overlap", a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
+                                      b=(f"{int(col.no) + 1} {col.th}", f"{int(col.no) + 1} {col.en}"))
+
+
+def door_joint_test():
+    """No tile joint falls inside the door opening: a point just past where one tile from the wall's start
+    would end, inside the opening, gets no warning."""
+    wid, w = column_wall()
+    door = find(w.items, "the door", lambda i: i.shape == "door")
+    x = real().room.tiles[w.tile].size + real().room.min_clear / 2
+    if not door.x - door.w / 2 < x < door.x + door.w / 2:
+        raise LookupError("one tile from the wall's start isn't inside the door opening, so there is nothing to test")
+    return a_point_on(wid, x, real().room.min_clear * 10), CLEAN
+
+
 def missing_parent_test():
     it, _ = a_part()
     return {ROOM: data(lambda d: raw_item(d, it.id).update(part="no_such_item"))}, \
@@ -307,12 +350,10 @@ def door_test():
 
 
 def size_in_name_test():
-    pid = an_entry("product whose detail shows {w…}", lambda p: any("{w" in p[k] for k in materials.TEXT_KEYS))["id"]
-
-    def change(d):
-        size = by_id(d["entry"], pid)["size"]
-        size.update({k: 4321 for k in ("w", "h") if k in size})       # a tile stays square
-    return {MATERIALS: data(change)}, "432"
+    pid = an_entry("product whose detail shows {w_cm} × {h_cm}",
+                   lambda p: "{w_cm} × {h_cm}" in p["detail_en"])["id"]
+    return ({MATERIALS: data(lambda d: by_id(d["entry"], pid)["size"].update(w=4321, h=4321))},
+            f"{4321 / 10:g} × {4321 / 10:g}")
 
 
 def price_test():
@@ -368,10 +409,32 @@ def unit_test(n, form):
 
 
 def buy_before_on_site(p):
-    m = p.materials
-    g = find(m.groups, "group with lines both to buy and on site",
-             lambda g: {ln.status for ln in m.lines if ln.group == g.id} >= {"buy", "bought"})
-    return f"| **{g.th} / {g.en}** | | | |\n| {materials.name_cell(m.in_order(g)[0])} |"
+    """In a group with lines both to buy and on site (found in the data), the first line on the list is
+    one to buy — read off the page, not from the code that orders it."""
+    lines = [ln for e in RAW[MATERIALS]["entry"] for ln in e["line"]]
+    g = find(RAW[MATERIALS]["group"], "group with lines both to buy and on site",
+             lambda g: {ln["status"] for ln in lines if ln["group"] == g["id"]} >= {"buy", "bought"})
+    page = p.doc.split("\n")
+    first = page[page.index(f"| **{g['th']} / {g['en']}** | | | |") + 1]
+    buy = p.materials.labels.both("buy")
+    return first if first.endswith(f"| {buy} |") else f"(a line to buy first under {g['en']}; the first is: {first})"
+
+
+def step_number():
+    """A step's number, counted from the data: '| phase.step |'."""
+    target = a_step()["id"]
+    for p_no, ph in enumerate(RAW[PHASES]["phase"], 1):
+        for s_no, st in enumerate(ph.get("step", []), 1):
+            if st["id"] == target:
+                return f"| {p_no}.{s_no} |"
+
+
+def link_test():
+    """A product's page link, built here from its shop's link and its code."""
+    e = an_entry("product with a shop", lambda e: "shop" in e)
+    shop = by_id(RAW[MATERIALS]["shop"], e["shop"])
+    url = shop["link"].replace("{sku}", e["sku"]).replace("{sku_digits}", re.sub(r"\D", "", e["sku"]))
+    return {}, f"]({url})"
 
 
 def group_heading(p):
@@ -489,6 +552,8 @@ TESTS = [
     ("rules: an item pushed past the end of the wall", wall_end_test),
     ("rules: an item moved without the part that belongs to it", part_outside_test),
     ("rules: a part moved above the item it belongs to", part_above_test),
+    ("rules: an item moved onto the column", column_clash_test),
+    ("rules: no tile joint inside the door opening", door_joint_test),
     ("rules: the all-clear is printed on the drawings", {},
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
     ("rules: too few tile boxes for the room", tile_boxes_test),
@@ -517,6 +582,9 @@ TESTS = [
     ("room: a part belonging to an item that isn't there", missing_parent_test),
     ("room: a tile whose product has no tiles-per-box",
      {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "needs a per_box in the size of product"),
+    ("room: a tiling height that isn't a whole number",
+     {ROOM: data(lambda d: find(d["tile"], "tile").update(top=find(d["tile"], "tile")["top"] + 0.5))},
+     "'top' must be a whole number more than 0"),
     ("room: a tile that isn't square",
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(h=1))}, "the tile count needs square tiles"),
     ("room: the door wider than its wall beside the column", door_test),
@@ -538,9 +606,9 @@ TESTS = [
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
     ("materials: a price change flows into the total", price_test),
     ("materials: a shop with a bad code pattern", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(sku="["))},
-     "has a bad sku pattern or link"),
+     "sku isn't a pattern"),
     ("materials: a shop with a bad link", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(link="{nope}"))},
-     "has a bad sku pattern or link"),
+     "link uses {nope} (it can use: sku, sku_digits)"),
     ("materials: approximate with no price", lambda: (make_approx_no_price(), "has approx but no price")),
     ("materials: a code that isn't the shop's kind of code", sku_test),
     ("materials: still to buy with no price", no_price_test),
@@ -555,9 +623,7 @@ TESTS = [
      make("supplied", by=("ช่าง-TEST", "BRINGER-TEST")), "| ช่าง-TEST / BRINGER-TEST |"),
     ("materials: the list is in sections by group", {}, built(group_heading)),
     ("materials: in a group, what is still to buy comes before what is on site", {}, built(buy_before_on_site)),
-    ("materials: the link is built from shop and code", {},
-     built(lambda p: next(f"]({ln.entry.link})<br>{ln.entry.shop.th} / {ln.entry.shop.en} {ln.entry.sku}"
-                          for ln in p.materials.lines if ln.entry.sku))),
+    ("materials: the link is built from shop and code", link_test),
     ("materials: one takes the singular unit (en)", lambda: unit_test(1, "en")),
     ("materials: more than one takes the plural (en_many)", lambda: unit_test(3, "en_many")),
     ("materials: the prices date reaches the section note, in its format",
@@ -569,7 +635,7 @@ TESTS = [
      {MATERIALS: data(lambda d: find(d["group"], "group").update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
      "*GROUP-NOTE-TH*<br>*GROUP-NOTE-EN*"),
     # ---- phases.toml ----
-    ("phases: the steps are numbered", {}, built(lambda p: f"| {p.work.numbers[('step', a_step()['id'])]} |")),
+    ("phases: the steps are numbered", lambda: ({}, step_number())),
     ("phases: a reference resolves to its number", lambda: ref_test(insert=False)),
     ("phases: inserting a step renumbers it and its references", lambda: ref_test(insert=True)),
     ("phases: a reference of a kind phases.toml doesn't have",

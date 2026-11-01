@@ -37,8 +37,8 @@ FILE_FIELDS = {"room": "table!", "column": "table!", "door": "table!", "lintel":
 ROOM = {"length": NUM, "width": NUM, "ceiling": NUM, "min_clear": NUM}
 COLUMN = {**NAMED, "width": NUM, "wall": "@wall!"}
 DOOR = {"product": "text!", "note_th": "text", "note_en": "text"}
-LINTEL = {"product": "text!", "bearing": NUM}
-TILE = {"id": "text!", "product": "text!", **NAME, "top": NUM, "fill": "text!"}
+LINTEL = {"product": "text!", "bearing": NUM, "note_th": "text", "note_en": "text"}
+TILE = {"id": "text!", "product": "text!", **NAME, "top": "whole!", "fill": "text!"}
 FLOOR = {"tag": "text!", "tile": "@tile!", "item": "list"}
 WALL = {"id": "text!", **NAME, "tag": "text!", "tile": "@tile!",
         "drawn": "flag!", "item": "list"}
@@ -46,12 +46,15 @@ WALL = {"id": "text!", **NAME, "tag": "text!", "tile": "@tile!",
 ITEM = {"id": "text!", "product": "text", "th": "text", "en": "text", "shape": "@shape!",
         "x": "amount", "y": "amount", "w": "count", "h": "count", "d": "count", "high": "@end", "part": "text",
         "note_th": "text", "note_en": "text"}
+WALL_ITEM = {k: v for k, v in ITEM.items() if k != "high"}       # a high side is a floor step's
+FLOOR_ITEM = {k: v for k, v in ITEM.items() if k != "part"}      # parts belong to wall items
 ENDS = ("start", "end")   # the ends of a wall or the floor: x = 0, and x = its length
 BUILT = ("column", "door", "lintel")      # the items room.py works out — no item in room.toml takes these ids
-SYMBOLS = {k: "text!" for k in ("axis_x", "axis_y", "width", "height", "none", "times", "warning", "ok", "up", "down")}
+SYMBOLS = {k: "text!" for k in ("axis_x", "axis_y", "width", "height", "none", "times", "warning", "ok", "up", "down",
+                                 "dash", "dot", "eq", "plus")}
 LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
-          "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "see_notes": (), "dashed": (),
+          "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "dashed": (),
           "all_clear": ("min_clear",), "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare"),
           "warn_joint": ("item", "axis", "v", "d"), "warn_past_end": ("item",), "warn_overlap": ("a", "b"),
           "warn_outside": ("item", "axis", "v", "parent", "low", "high"), "warn_above": ("item", "axis", "v", "parent"),
@@ -67,18 +70,19 @@ PLAN_SIDES = ("top", "right", "bottom", "left")                      # the walls
 def _check(raw):
     check(FILE, "the file", raw, FILE_FIELDS, ordered=False)
     tiles = check_each(FILE, "tile", raw["tile"], TILE)
-    walls = check_each(FILE, "wall", raw["wall"], WALL, {"tile": [t["id"] for t in tiles]})
+    known = {"tile": [t["id"] for t in tiles]}
+    walls = check_each(FILE, "wall", raw["wall"], WALL, known)
     if len(walls) != len(PLAN_SIDES):
         raise DataError(f"{FILE}: {len(walls)} walls — the room has {len(PLAN_SIDES)}, in order round the plan")
-    known = {"tile": [t["id"] for t in tiles], "wall": [w["id"] for w in walls]}
+    known["wall"] = [w["id"] for w in walls]
     for key, fields in (("room", ROOM), ("column", COLUMN), ("door", DOOR), ("lintel", LINTEL), ("floor", FLOOR),
                         ("symbols", SYMBOLS)):
         check(FILE, f"[{key}]", raw[key], fields, known)
     for w in walls:
         if w.get("item") and not w["drawn"]:
             raise DataError(f"{FILE}: wall '{w['id']}' has items but isn't drawn")
-        check_each(FILE, f"wall '{w['id']}' item", w.get("item", []), ITEM, {"shape": WALL_SHAPES, "end": ENDS})
-    check_each(FILE, "floor item", raw["floor"].get("item", []), ITEM, {"shape": FLOOR_SHAPES, "end": ENDS})
+        check_each(FILE, f"wall '{w['id']}' item", w.get("item", []), WALL_ITEM, {"shape": WALL_SHAPES})
+    check_each(FILE, "floor item", raw["floor"].get("item", []), FLOOR_ITEM, {"shape": FLOOR_SHAPES, "end": ENDS})
 
 
 # ======================================== the model ========================================
@@ -176,7 +180,7 @@ class Room:
     def wall_warnings(self, wall):
         """Every design rule broken on one wall, as (th, en)."""
         t = self.tiles[wall.tile]
-        return (_joint_warnings(self, wall.items, wall.length, t.size, t.top)
+        return (_joint_warnings(self, wall, t.size, t.top)
                 + _clash_warnings(self, wall.items, wall.length) + _part_warnings(self, wall.items))
 
     def warnings(self):
@@ -214,15 +218,21 @@ def _product(products, where, pid, needs=()):
 
 def _tile(e, products):
     p = _product(products, f"tile '{e['id']}'", e["product"], ("w", "h", "per_box"))
-    if p.w != p.h:
-        raise DataError(f"{FILE}: tile '{e['id']}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
-    return Tile(e["id"], p.id, e["th"], e["en"], int(p.w), p.per_box, e["top"], e["fill"])
+    if p.w != p.h or p.w != int(p.w):
+        raise DataError(f"{FILE}: tile '{e['id']}' is {p.w:g} × {p.h:g} — the tile count needs square tiles, "
+                        f"a whole number of mm")
+    return Tile(e["id"], p.id, e["th"], e["en"], int(p.w), p.per_box, int(e["top"]), e["fill"])
 
 
 def _note(e, key, where):
     """A note as written: it stands on its own, so it fills in nothing."""
     placeholders(FILE, f"{where} {key}", e.get(key, ""), ())
     return e.get(key, "")
+
+
+def _notes(e, where):
+    """Its note, as keyword values for an Item."""
+    return {k: _note(e, k, where) for k in ("note_th", "note_en")}
 
 
 def _items(entries, kind, shapes, products, across):
@@ -245,7 +255,7 @@ def _items(entries, kind, shapes, products, across):
             raise DataError(f"{FILE}: {where} ({e['shape']}) needs '{missing[0]}' (give it here, or through its product)")
         out.append(Item(str(i), e["id"], p.th if p else e["th"], p.en if p else e["en"], e["shape"],
                         **{k: float(have[k]) for k in ("x", "y", "w", "h", "d") if k in have}, high=e.get("high"),
-                        part=e.get("part"), note_th=_note(e, "note_th", where), note_en=_note(e, "note_en", where)))
+                        part=e.get("part"), **_notes(e, where)))
     ids = {it.id for it in out}
     for it in out:
         if it.part and it.part not in ids:
@@ -272,14 +282,13 @@ def _walls(raw, products):
                 raise DataError(f"{FILE}: the door ({door.w:g}) doesn't fit beside the column ({col['width']:g}) "
                                 f"in wall '{e['id']}' ({length:g})")
             n = len(items)
-            notes = lambda e, where: {k: _note(e, k, where) for k in ("note_th", "note_en")}  # noqa: E731
             items += [
                 Item(str(n + 1), "column", col["th"], col["en"], "column", x=col["width"] / 2, y=r["ceiling"] / 2,
-                     w=col["width"], h=r["ceiling"], **notes(col, "[column]")),
+                     w=col["width"], h=r["ceiling"], **_notes(col, "[column]")),
                 Item(str(n + 2), "door", door.th, door.en, "door", x=col["width"] + door.w / 2, y=door.h / 2,
-                     w=door.w, h=door.h, **notes(raw["door"], "[door]")),
+                     w=door.w, h=door.h, **_notes(raw["door"], "[door]")),
                 Item(str(n + 3), "lintel", lintel.th, lintel.en, "rect", x=col["width"] + (door.w + bearing) / 2,
-                     y=door.h + lintel.h / 2, w=door.w + bearing, h=lintel.h),
+                     y=door.h + lintel.h / 2, w=door.w + bearing, h=lintel.h, **_notes(raw["lintel"], "[lintel]")),
             ]
             run = length - door.w                                       # the door opening isn't tiled
         walls[e["id"]] = Wall(e["id"], e["th"], e["en"], e["tag"],
@@ -294,14 +303,22 @@ def _warn(room, key, **values):
     return room.labels.th(key, **values), room.labels.en(key, **values)
 
 
-def _joint_warnings(room, items, length, tile, top):
-    """A hole (fixing, outlet, an item's centre) too near a tile joint: closer than min_clear
-    but not exactly on it."""
-    jx = list(range(tile, int(length), tile))
+def joints_x(wall, tile):
+    """The vertical tile joints on a wall: set out from x = 0, and again from the far side of the door
+    opening — none inside it."""
+    door = next((it for it in wall.items if it.shape == "door"), None)
+    runs = [(0, wall.length)] if not door else [(0, door.x - door.w / 2), (door.x + door.w / 2, wall.length)]
+    return [s + k * tile for s, e in runs for k in range(1, int((e - s) // tile) + 1) if s + k * tile < e]
+
+
+def _joint_warnings(room, wall, tile, top):
+    """A hole (a fixing, an outlet, an item's centre) too near a tile joint: closer than min_clear
+    but not exactly on it. The items room.py works out are not holes."""
+    jx = joints_x(wall, tile)
     jy = sorted(set(range(tile, top, tile)) | {top})   # the tile top edge counts as a joint
     out = []
-    for it in items:
-        if it.shape not in ("point", "rect", "circle"):
+    for it in wall.items:
+        if it.shape not in ("point", "rect", "circle") or it.id in BUILT:
             continue
         checks = [("axis_x", it.x, jx)] if jx else []
         if jy and it.y is not None and it.y < top:
@@ -315,7 +332,7 @@ def _joint_warnings(room, items, length, tile, top):
 
 def _box(it):
     """(x0, x1, y0, y1) of a solid item, or None."""
-    if it.shape not in ("rect", "circle", "opening", "door") or None in (it.x, it.w, it.y, it.h):
+    if it.shape not in ("rect", "circle", "opening", "door", "column") or None in (it.x, it.w, it.y, it.h):
         return None
     return it.x - it.w / 2, it.x + it.w / 2, it.y - it.h / 2, it.y + it.h / 2
 
@@ -376,7 +393,7 @@ NUMBER_TEXT_DOWN = 3.5    # a number's text baseline below its centre
 TEXT_DOWN = 4             # a small text's baseline below the point it marks
 GAP = 8                   # text clear of what it labels
 SIDE_NAME_OUT = (14, 44)  # a wall drawing's side names, out from the right and left edges
-TICKS_DOWN, TICK_ARM, TICK_TEXT_DOWN = 18, 5, 18                     # the x marks under a wall
+TICKS_DOWN, TICK_ARM, TICK_TEXT_DOWN, TICK_TURN = 18, 5, 18, -45     # the x marks under a wall
 TILE_TEXT_UP, TILE_TOP_TEXT_DOWN, TILE_TOP_TEXT_IN = 5, 14, 4
 STEP_TEXT_UP = 4
 PLAN_GRID_TEXT = (34, 20)  # the plan's joint numbers: below the bottom wall, right of the floor
@@ -397,14 +414,20 @@ def start(a, width, height, ml, title, subtitle):
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" height="{height:.0f}" '
       f'viewBox="0 0 {width:.0f} {height:.0f}">')
     a('<rect class="paper" width="100%" height="100%"/>')
-    a(f'<text class="title" x="{ml}" y="{TITLE_Y}">{title}</text>')
-    a(f'<text class="subtitle" x="{ml}" y="{SUBTITLE_Y}">{subtitle}</text>')
+    text(a, "title", ml, TITLE_Y, title)
+    text(a, "subtitle", ml, SUBTITLE_Y, subtitle)
 
 
-def tag(a, cx, top, width, text):
+def text(a, cls, x, y, content, anchor=None, turn=None):
+    """One piece of text — every text on a drawing is written here, escaped. `turn`: degrees about (x, y)."""
+    attrs = (f' text-anchor="{anchor}"' if anchor else "") + (f' transform="rotate({turn} {x} {y})"' if turn else "")
+    a(f'<text class="{cls}" x="{x}" y="{y}"{attrs}>{escape(str(content))}</text>')
+
+
+def tag(a, cx, top, width, label):
     """A rounded tag with its text, centred on cx."""
     a(f'<rect class="tag" x="{cx - width / 2}" y="{top}" width="{width}" height="{TAG_H}" rx="{TAG_H / 2}"/>')
-    a(f'<text class="tag-text" x="{cx}" y="{top + TAG_TEXT_DOWN}" text-anchor="middle">{text}</text>')
+    text(a, "tag-text", cx, top + TAG_TEXT_DOWN, label, "middle")
 
 
 def wrap(text):
@@ -421,15 +444,15 @@ def wrap(text):
 
 def legend_row(room, it, number, with_size=True, with_notes=True):
     """(number, headline, [note lines]) for one item."""
-    lab, s = room.labels, room.symbols
+    s = room.symbols
 
-    def f(v):
-        return f"{v:g}" if v is not None else s["none"] if it.shape == "zone" else lab.both("see_notes")
+    def f(v):                                       # only a zone has no height
+        return s["none"] if v is None else f"{v:g}"
     head = both(it.th, it.en)
     if with_size:
         size = "" if it.w is None else f"  {s['width']} {f(it.w)}" + \
             ("" if it.h is None else f" {s['times']} {s['height']} {f(it.h)}")
-        head += f" — {s['axis_x']} {f(it.x)}  {s['axis_y']} {f(it.y)}{size}"
+        head += f"{s['dash']}{s['axis_x']} {f(it.x)}  {s['axis_y']} {f(it.y)}{size}"
     notes = [ln for n in (it.note_th, it.note_en) if n and with_notes for ln in wrap(n)]
     return number, head, notes
 
@@ -444,21 +467,21 @@ def draw_legend(a, rows, x0, y0, tag_w):
     for number, head, notes in rows:
         yy += LEGEND_ROW
         tag(a, x0 + GAP, yy - LEGEND_TAG_UP, tag_w, number)
-        a(f'<text class="legend" x="{tx}" y="{yy}">{escape(head)}</text>')
+        text(a, "legend", tx, yy, head)
         for line in notes:
             yy += LEGEND_LINE
-            a(f'<text class="legend-note" x="{tx}" y="{yy}">{escape(line)}</text>')
+            text(a, "legend-note", tx, yy, line)
         yy += LEGEND_GAP
     return yy
 
 
 def draw_warnings(a, room, warnings, x, y):
     """Each warning in Thai, then English — or the all-clear, in Thai then English."""
-    lines = [("warning", f"{room.symbols['warning']} {escape(t)}") for w in warnings for t in w] or \
-        [("ok", f"{room.symbols['ok']} {room.labels.th('all_clear', min_clear=room.min_clear)}"),
-         ("ok", f"{room.symbols['ok']} {room.labels.en('all_clear', min_clear=room.min_clear)}")]
-    for k, (cls, text) in enumerate(lines):
-        a(f'<text class="{cls}" x="{x}" y="{y + WARNING_LINE * k}">{text}</text>')
+    s, lab = room.symbols, room.labels
+    lines = [("warning", f"{s['warning']} {t}") for w in warnings for t in w] or \
+        [("ok", f"{s['ok']} {f('all_clear', min_clear=room.min_clear)}") for f in (lab.th, lab.en)]
+    for k, (cls, line) in enumerate(lines):
+        text(a, cls, x, y + WARNING_LINE * k, line)
 
 
 # ---------- a wall drawing ----------
@@ -480,15 +503,14 @@ def draw_wall(room, wall):
     a = out.append
     start(a, max(ML + W + MR, MIN_WIDTH), MT + H + MB + legend_height(rows) + BOTTOM_SPACE["wall"], ML,
           lab.both("elevation_title", wall=(wall.th, wall.en)),
-          f'{lab.both("viewed_inside", sep=" · ")} · {lab.both("mm")} · {lab.both("generated")}')
+          s["dot"].join([lab.both("viewed_inside", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
     _wall_face(a, room, wall, t, X, Y, W)
     _wall_sides(a, room, wall, ML, MT, W, H)
     _wall_ticks(a, _wall_items(a, wall, t, X, Y), X, Y(0), ML, W)
     ly0 = MT + H + MB
     right = room.walls[wall.right]
-    a(f'<text class="heading" x="{ML}" y="{ly0}">{lab.both("items")} '
-      f'({lab.both("x_from", wall=(right.th, right.en), axis=s["axis_x"])} · '
-      f'{s["axis_y"]} = {lab.both("centre_height")})</text>')
+    text(a, "heading", ML, ly0, f'{lab.both("items")} ({lab.both("x_from", wall=(right.th, right.en), axis=s["axis_x"])}'
+                                f'{s["dot"]}{s["axis_y"]}{s["eq"]}{lab.both("centre_height")})')
     draw_warnings(a, room, room.wall_warnings(wall), ML,
                   draw_legend(a, rows, ML, ly0, TAG_W["wall"]) + WARNINGS_DOWN)
     a("</svg>")
@@ -500,16 +522,15 @@ def _wall_face(a, room, wall, t, X, Y, W):
     ML, lab, top = X(wall.length), room.labels, t.top
     a(f'<rect class="wall-face" x="{ML}" y="{Y(room.ceiling)}" width="{W}" height="{room.ceiling * WALL_SCALE}"/>')
     a(f'<rect x="{ML}" y="{Y(top)}" width="{W}" height="{top * WALL_SCALE}" fill="{t.fill}"/>')
-    for k in range(t.size, int(wall.length), t.size):
+    for k in joints_x(wall, t.size):
         a(f'<line class="joint" x1="{X(k)}" y1="{Y(top)}" x2="{X(k)}" y2="{Y(0)}"/>')
-        a(f'<text class="joint-text" x="{X(k)}" y="{Y(top) - TILE_TEXT_UP}" text-anchor="middle">{k}</text>')
+        text(a, "joint-text", X(k), Y(top) - TILE_TEXT_UP, f"{k:g}", "middle")
     for k in range(t.size, top, t.size):
         a(f'<line class="joint" x1="{ML}" y1="{Y(k)}" x2="{ML + W}" y2="{Y(k)}"/>')
     for k in range(0, int(room.ceiling) + 1, HEIGHT_STEP):
-        a(f'<text class="joint-text" x="{ML - GAP}" y="{Y(k) + TEXT_DOWN}" text-anchor="end">{k}</text>')
+        text(a, "joint-text", ML - GAP, Y(k) + TEXT_DOWN, k, "end")
     a(f'<line class="tile-top" x1="{ML}" y1="{Y(top)}" x2="{ML + W}" y2="{Y(top)}"/>')
-    a(f'<text class="tile-top-text" x="{ML + W - TILE_TOP_TEXT_IN}" y="{Y(top) + TILE_TOP_TEXT_DOWN}" '
-      f'text-anchor="end">{lab.both("tile_top", top=top)}</text>')
+    text(a, "tile-top-text", ML + W - TILE_TOP_TEXT_IN, Y(top) + TILE_TOP_TEXT_DOWN, lab.both("tile_top", top=top), "end")
     for step in (f for f in room.floor if f.shape == "step" and wall.along_room):
         # the raised floor, from the step to its high end; floor x is this wall's x on the first wall,
         # and runs the other way on the third
@@ -517,17 +538,15 @@ def _wall_face(a, room, wall, t, X, Y, W):
         x0, x1 = sorted(f if wall.side == "top" else wall.length - f for f in ends)
         a(f'<rect class="step-face" x="{X(x1)}" y="{Y(step.h)}" width="{(x1 - x0) * WALL_SCALE}" '
           f'height="{step.h * WALL_SCALE}"/>')
-        a(f'<text class="step-text" x="{X((x0 + x1) / 2)}" y="{Y(step.h) - STEP_TEXT_UP}" text-anchor="middle">'
-          f'{lab.both("floor_higher", h=f"{step.h:g}")}</text>')
+        text(a, "step-text", X((x0 + x1) / 2), Y(step.h) - STEP_TEXT_UP, lab.both("floor_higher", h=f"{step.h:g}"), "middle")
 
 
 def _wall_sides(a, room, wall, ML, MT, W, H):
     """The walls at either end, named up the sides."""
-    cy, x_ = MT + H / 2, room.symbols["axis_x"]
+    cy, s = MT + H / 2, room.symbols
     for x, rot, w, at in ((ML + W + SIDE_NAME_OUT[0], 90, room.walls[wall.right], 0),
                           (ML - SIDE_NAME_OUT[1], -90, room.walls[wall.left], wall.length)):
-        a(f'<text class="side-name" x="{x}" y="{cy}" text-anchor="middle" transform="rotate({rot} {x} {cy})">'
-          f'{both(w.th, w.en)} ({x_} = {at:g})</text>')
+        text(a, "side-name", x, cy, f'{both(w.th, w.en)} ({s["axis_x"]}{s["eq"]}{at:g})', "middle", rot)
 
 
 def _wall_items(a, wall, t, X, Y):
@@ -551,7 +570,7 @@ def _wall_items(a, wall, t, X, Y):
                   f'x2="{lx + POINT_ARM}" y2="{ly + POINT_ARM * s}"/>')
         nx = lx + (NUMBER_BESIDE if it.shape == "point" else 0)
         a(f'<circle class="number" cx="{nx}" cy="{ly}" r="{NUMBER_R}"/>')
-        a(f'<text class="number-text" x="{nx}" y="{ly + NUMBER_TEXT_DOWN}" text-anchor="middle">{it.no}</text>')
+        text(a, "number-text", nx, ly + NUMBER_TEXT_DOWN, it.no, "middle")
     return xs
 
 
@@ -565,7 +584,7 @@ def _wall_ticks(a, xs, X, floor_y, ML, W):
     for x in sorted(xs):
         ty = base + TICK_TEXT_DOWN
         a(f'<line class="axis" x1="{X(x)}" y1="{base - TICK_ARM}" x2="{X(x)}" y2="{base + TICK_ARM}"/>')
-        a(f'<text class="tick-text" x="{X(x)}" y="{ty}" text-anchor="end" transform="rotate(-45 {X(x)} {ty})">{x}</text>')
+        text(a, "tick-text", X(x), ty, f"{x:g}", "end", TICK_TURN)
 
 
 # ---------- the floor plan ----------
@@ -577,7 +596,7 @@ OUT = {"top": (0, -1), "right": (1, 0), "bottom": (0, 1), "left": (-1, 0)}      
 
 def draw_plan(room):
     """The floor plan: svg text."""
-    lab, L, D = room.labels, room.length, room.width
+    lab, s, L, D = room.labels, room.symbols, room.length, room.width
     ML, MR, MT, MB = PLAN_MARGINS
     PW, PH = L * PLAN_SCALE, D * PLAN_SCALE
     shown = {w.id: [it for it in w.items if _on_plan(it)] for w in room.walls.values()}
@@ -591,7 +610,7 @@ def draw_plan(room):
     out, tags = [], []
     a = out.append
     start(a, max(ML + PW + MR, MIN_WIDTH), MT + PH + MB + legend_height(rows) + BOTTOM_SPACE["plan"], ML,
-          lab.both("floor_plan"), f'{lab.both("seen_above", sep=" · ")} · {lab.both("mm")} · {lab.both("generated")}')
+          lab.both("floor_plan"), s["dot"].join([lab.both("seen_above", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
     _plan_floor(a, room, P, ML, MT, PW, PH)
     walls = room.walls.values()
     for w in walls:                                 # the walls first, then what's in and on them
@@ -601,14 +620,14 @@ def draw_plan(room):
     for w in walls:
         _plan_footprints(a, room, w, P, shown[w.id], tags)
     _plan_floor_items(a, room, P, tags)
-    for text, tx, ty in tags:
-        tag(a, tx, ty - TAG_H / 2, TAG_W["plan"], text)
+    for label, tx, ty in tags:
+        tag(a, tx, ty - TAG_H / 2, TAG_W["plan"], label)
     _plan_wall_names(a, room, ML, MT, PW, PH)
     ly0 = MT + PH + MB
-    keys = [f"{w.tag} = {both(w.th, w.en)}" for w in room.walls.values() if shown[w.id]]
-    keys.append(f"{room.floor_tag} = {lab.both('floor')}")
-    a(f'<text class="heading" x="{ML}" y="{ly0}">{lab.both("items")} — {" · ".join(keys)}</text>')
-    a(f'<text class="key" x="{ML}" y="{ly0 + KEY_DOWN}">{lab.both("dashed")}</text>')
+    keys = [f"{w.tag}{s['eq']}{both(w.th, w.en)}" for w in room.walls.values() if shown[w.id]]
+    keys.append(f"{room.floor_tag}{s['eq']}{lab.both('floor')}")
+    text(a, "heading", ML, ly0, f"{lab.both('items')}{s['dash']}{s['dot'].join(keys)}")
+    text(a, "key", ML, ly0 + KEY_DOWN, lab.both("dashed"))
     draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"])
     a("</svg>")
     return "\n".join(out)
@@ -643,11 +662,11 @@ def _plan_floor(a, room, P, ML, MT, PW, PH):
     for k in range(t.size, int(L), t.size):
         (x, y0), (_, y1) = P(k, 0), P(k, D)
         a(f'<line class="joint" x1="{x}" y1="{y0}" x2="{x}" y2="{y1}"/>')
-        a(f'<text class="joint-text" x="{x}" y="{y1 + PLAN_WALL + PLAN_GRID_TEXT[0]}" text-anchor="middle">{k}</text>')
+        text(a, "joint-text", x, y1 + PLAN_WALL + PLAN_GRID_TEXT[0], k, "middle")
     for k in range(t.size, int(D), t.size):
         y = P(0, k)[1]
         a(f'<line class="joint" x1="{ML}" y1="{y}" x2="{ML + PW}" y2="{y}"/>')
-        a(f'<text class="joint-text" x="{ML + PW + PLAN_GRID_TEXT[1]}" y="{y + TEXT_DOWN}">{k}</text>')
+        text(a, "joint-text", ML + PW + PLAN_GRID_TEXT[1], y + TEXT_DOWN, k)
 
 
 def _band(room, wall, P, x0, x1, thick=PLAN_WALL):
@@ -730,10 +749,9 @@ def _plan_floor_items(a, room, P, tags):
             (x, y0), (_, y1) = P(it.x, 0), P(it.x, it.d)
             a(f'<line class="step-line" x1="{x}" y1="{y0}" x2="{x}" y2="{y1}"/>')
             s, right = room.symbols, it.high == "start"          # x = 0 is the plan's right-hand side
-            for text, on_right in ((f'{s["up"]} {lab.both("higher")}', right), (f'{lab.both("lower")} {s["down"]}', not right)):
-                anchor = "" if on_right else ' text-anchor="end"'
-                a(f'<text class="step-mark" x="{x + (STEP_MARK if on_right else -STEP_MARK)}" y="{y1 - STEP_MARK}"{anchor}>'
-                  f'{text}</text>')
+            for mark, on_right in ((f'{s["up"]} {lab.both("higher")}', right), (f'{lab.both("lower")} {s["down"]}', not right)):
+                text(a, "step-mark", x + (STEP_MARK if on_right else -STEP_MARK), y1 - STEP_MARK, mark,
+                     None if on_right else "end")
             tags.append((number, *P(it.x, it.d / 2)))
 
 
@@ -744,5 +762,4 @@ def _plan_wall_names(a, room, ML, MT, PW, PH):
         g = WALL_NAME_OUT[w.side]
         x, y, rot = {"top": (cx, MT - T - g, 0), "bottom": (cx, MT + PH + T + g, 0),
                      "left": (ML - T - g, cy, -90), "right": (ML + PW + T + g, cy, 90)}[w.side]
-        turn = f' transform="rotate({rot} {x} {y})"' if rot else ""
-        a(f'<text class="wall-name" x="{x}" y="{y}" text-anchor="middle"{turn}>{both(w.th, w.en)}</text>')
+        text(a, "wall-name", x, y, both(w.th, w.en), "middle", rot)

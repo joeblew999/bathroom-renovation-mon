@@ -32,6 +32,7 @@ import phases
 import room
 from common import DataError, cli
 
+TEMPLATE = "bathroom-renovation-quote.md"
 PDF_NAME = "bathroom-renovation-quote.pdf"
 STYLE = Path(__file__).with_name("style.css")      # the page's look: fonts, tables, page breaks
 
@@ -63,7 +64,7 @@ def tile_lines(r, tiles):
     names = {"floor": (lab.th("floor"), lab.en("floor")), **{k: (w.th, w.en) for k, w in r.walls.items()}}
     out = []
     for t, planned in tiles:
-        parts = tuple(" + ".join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
+        parts = tuple(r.symbols["plus"].join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
         out.append(lab.both("tile_count", tile=(t.tile.th, t.tile.en), need=t.need, parts=parts, boxes=t.boxes,
                             planned=f"{planned:g}", spare=f"{planned * t.tile.per_box - t.need:g}"))
     return out
@@ -143,9 +144,9 @@ def print_warnings(warnings):
 def main(argv):
     args = argv[1:]
     if args[:1] == ["--check"]:
-        check(Path(args[1] if len(args) > 1 else "bathroom-renovation-quote.md"))
+        check(Path(args[1] if len(args) > 1 else TEMPLATE))
         return
-    md = Path(args[0] if args else "bathroom-renovation-quote.md")
+    md = Path(args[0] if args else TEMPLATE)
     out = Path(args[1] if len(args) > 1 else "out")
     warnings = build(md, out)
     print_warnings(warnings)

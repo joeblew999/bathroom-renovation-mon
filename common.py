@@ -55,15 +55,16 @@ def one_of(file, where, key, v, known):
 
 # ---------- the one checker ----------
 # Each part declares every kind of entry it reads once, as {key: type}. A type is "text", "flag",
-# "date", "table", "list", a number — "number" (any), "amount" (0 or more) or "count" (more than
-# 0) — or "@name", one of the ids in known[name] (the shops, the walls …). After the type:
+# "date", "table", "list", a number — "number" (any), "amount" (0 or more), "count" (more than
+# 0) or "whole" (a whole number more than 0) — or "@name", one of the ids in known[name] (the shops, the walls …). After the type:
 # "+key" — it always comes with that key; "!" — it is required. Every entry gets the same checks,
 # so no part repeats them: no unknown key, every required key there, the keys in the declared
 # order, each value of its type, keys that come together together, and both languages or
 # neither (th with en, note_th with note_en, any x_th with its x_en).
 TYPES = {"text": (str, "text"), "table": (dict, "a table"), "list": (list, "a list of tables"),
          "date": (datetime.date, "a date")}
-NUMBERS = {"number": None, "amount": "can't be negative", "count": "must be more than 0"}
+NUMBERS = {"number": None, "amount": "can't be negative", "count": "must be more than 0",
+           "whole": "must be a whole number more than 0"}
 
 
 def _type(spec):
@@ -89,7 +90,7 @@ def check(file, where, entry, fields, known=None, ordered=True):
             one_of(file, where, k, v, known[kind[1:]])
         elif kind in NUMBERS:
             number(file, where, k, v)
-            if NUMBERS[kind] and (v < 0 if kind == "amount" else v <= 0):
+            if NUMBERS[kind] and (v < 0 if kind == "amount" else v <= 0 or (kind == "whole" and v != int(v))):
                 raise DataError(f"{file}: {where} '{k}' {NUMBERS[kind]}")
         elif kind == "flag":
             flag(file, where, k, v)

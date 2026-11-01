@@ -79,6 +79,8 @@ currency = "฿"
 on_site = "✓"
 none = "—"
 times = "×"
+detail_th = " "        # between a product's name and its detail, in Thai
+detail_en = ", "       # and in English
 
 [[shop]]
 id = "homepro"
@@ -444,8 +446,6 @@ sku = "1110271"
   group = "new_ceiling"
   status = "buy"
   n = 4
-  note_th = "รอบห้อง"
-  note_en = "round the room"
 
 [[entry]]
 id = "drywall_screws"
@@ -717,8 +717,6 @@ sku = "1136842"
   group = "plumbing_toilet"
   status = "buy"
   n = 3
-  note_th = "ไม่ใช้ข้องอ 90°"
-  note_en = "no tight 90° elbows"
 
 [[entry]]
 id = "pipe_half_in"
@@ -805,10 +803,10 @@ sku = "5672"
 
 [[entry]]
 id = "lamp"
-th = "โคมไฟผนัง IKEA HAVSDUN LED"
-detail_th = "แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม. สีขาว หรี่แสงได้ IP44 690 ลูเมน"
-en = "IKEA HAVSDUN LED wall lamp"
-detail_en = "frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, IP44, 690 lumens"
+th = "โคมไฟผนัง IKEA"
+detail_th = "HAVSDUN LED แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม. สีขาว หรี่แสงได้ IP44 690 ลูเมน"
+en = "IKEA wall lamp"
+detail_en = "HAVSDUN LED, frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, IP44, 690 lumens"
 size = { w = 92, h = 265, d = 106 }
 unit = "lamp"
 price = 1290
@@ -842,7 +840,7 @@ id = "switch_plate"
 th = "ชุดสวิตช์ไฟพร้อมปลั๊ก"
 detail_th = "สวิตช์ไฟ 1 ตัว ปลั๊ก 2 ช่อง"
 en = "Switch-and-socket plate"
-detail_en = "light switch + 2 sockets"
+detail_en = "1 light switch, 2 sockets"
 unit = "set"
   [[entry.line]]
   group = "electrical_switch"
@@ -889,10 +887,10 @@ unit = "length"
 
 [[entry]]
 id = "heater_stop_valve"
-th = "สต็อปวาล์วเครื่องทำน้ำอุ่น"
-detail_th = "พร้อมฝาครอบเลื่อนได้"
-en = "Water heater stop valve"
-detail_en = "with a sliding cover plate"
+th = "สต็อปวาล์ว"
+detail_th = "เครื่องทำน้ำอุ่น พร้อมฝาครอบเลื่อนได้"
+en = "Stop valve"
+detail_en = "water heater, with a sliding cover plate"
 unit = "fitting"
   [[entry.line]]
   group = "shower_heater"
@@ -946,15 +944,15 @@ sku = "105587"
   group = "accessories"
   status = "buy"
   n = 1
-  note_th = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน"
+  note_th = "เข้ากับสายฉีดชำระและโคมไฟสีขาว"
   note_en = "matches the white bum gun and lamps"
 
 [[entry]]
 id = "flex_shield"
-th = "ซีเมนต์กันซึม จระเข้ FLEX SHIELD"
-detail_th = "20 กก."
-en = "Crocodile FLEX SHIELD waterproofing cement"
-detail_en = "20 kg"
+th = "ซีเมนต์กันซึม จระเข้"
+detail_th = "FLEX SHIELD 20 กก."
+en = "Crocodile waterproofing cement"
+detail_en = "FLEX SHIELD, 20 kg"
 unit = "bag"
 price = 1990
 shop = "homepro"
@@ -982,10 +980,10 @@ sku = "1271924"
 
 [[entry]]
 id = "grey_tile"
-th = "กระเบื้องเทา TARA สโตนบลาสด์"
-detail_th = "{w_cm} × {h_cm} ซม. เฉด H07 ผิวด้าน ขอบตรง"
-en = "TARA Stone Blast grey tile"
-detail_en = "{w_cm} × {h_cm} cm, shade H07, matt, rectified"
+th = "กระเบื้อง TARA"
+detail_th = "สโตนบลาสด์ {w_cm} × {h_cm} ซม. สีเทา เฉด H07 ผิวด้าน ขอบตรง"
+en = "TARA tile"
+detail_en = "Stone Blast, {w_cm} × {h_cm} cm, grey, shade H07, matt, rectified"
 size = { w = 500, h = 500 }
 per_box = 4
 unit = "box"
@@ -1005,10 +1003,10 @@ sku = "1292488"
 
 [[entry]]
 id = "white_tile"
-th = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว"
-detail_th = "พอร์ซเลน {w_cm} × {h_cm} ซม. ขาวเรียบ ผิวมัน ขอบตรง"
-en = "TARA Triple White New white tile"
-detail_en = "porcelain, {w_cm} × {h_cm} cm, plain white, glossy, rectified"
+th = "กระเบื้อง TARA"
+detail_th = "ทริปเปิ้ล ไวท์ นิว พอร์ซเลน {w_cm} × {h_cm} ซม. ขาวเรียบ ผิวมัน ขอบตรง"
+en = "TARA tile"
+detail_en = "Triple White New, porcelain, {w_cm} × {h_cm} cm, plain white, glossy, rectified"
 size = { w = 600, h = 600 }
 per_box = 4
 unit = "box"
@@ -1024,10 +1022,10 @@ sku = "1076336"
 
 [[entry]]
 id = "tile_adhesive"
-th = "กาวซีเมนต์ จระเข้ ทอง"
-detail_th = "20 กก."
-en = "Crocodile Gold tile adhesive"
-detail_en = "20 kg"
+th = "กาวซีเมนต์ จระเข้"
+detail_th = "ทอง 20 กก."
+en = "Crocodile tile adhesive"
+detail_en = "Gold, 20 kg"
 unit = "bag"
 price = 799
 shop = "homepro"
@@ -1071,10 +1069,10 @@ sku = "1092114"
 
 [[entry]]
 id = "grout_grey"
-th = "ยาแนว จระเข้ พรีเมี่ยมพลัส"
-detail_th = "1 กก. สีเทาแกรนิต"
-en = "Crocodile Premium Plus grout"
-detail_en = "1 kg, granite grey"
+th = "ยาแนว จระเข้"
+detail_th = "พรีเมี่ยมพลัส 1 กก. สีเทาแกรนิต"
+en = "Crocodile grout"
+detail_en = "Premium Plus, 1 kg, granite grey"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -1088,10 +1086,10 @@ sku = "138786"
 
 [[entry]]
 id = "grout_white"
-th = "ยาแนว จระเข้ พรีเมี่ยมพลัส"
-detail_th = "1 กก. สีขาวไข่มุก"
-en = "Crocodile Premium Plus grout"
-detail_en = "1 kg, pearl white"
+th = "ยาแนว จระเข้"
+detail_th = "พรีเมี่ยมพลัส 1 กก. สีขาวไข่มุก"
+en = "Crocodile grout"
+detail_en = "Premium Plus, 1 kg, pearl white"
 unit = "bag"
 price = 63
 shop = "homepro"
@@ -1123,9 +1121,9 @@ sku = "1037342"
 [[entry]]
 id = "drain"
 th = "ตะแกรงท่อระบายน้ำพื้น DEXZON"
-detail_th = "พลาสติก เหลี่ยม กันกลิ่น {w_cm} × {d_cm} ซม. 4 นิ้ว"
+detail_th = "พลาสติก เหลี่ยม {w_cm} × {d_cm} ซม. 4 นิ้ว กันกลิ่น"
 en = "DEXZON floor drain grate"
-detail_en = "plastic, square, anti-odour, {w_cm} × {d_cm} cm, 4\""
+detail_en = "plastic, square, {w_cm} × {d_cm} cm, 4\", anti-odour"
 size = { w = 100, d = 100 }
 unit = "fitting"
 price = 119
