@@ -50,6 +50,7 @@ HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
 MATERIALS, ROOM, PHASES, LABOUR = materials.FILE, room.FILE, phases.FILE, labour.FILE
 DATA = (MATERIALS, ROOM, PHASES, LABOUR)
+SOURCES = "sources"
 RAW = {f: tomllib.loads((HERE / f).read_text(encoding="utf-8")) for f in DATA}
 CLEAN = None                       # expect: no error and no warnings
 
@@ -224,6 +225,7 @@ def copy_to(folder, edits):
             continue
         text = (HERE / name).read_text(encoding="utf-8")
         (folder / name).write_text(edits[name](text) if name in edits else text, encoding="utf-8")
+    (folder / SOURCES).symlink_to(HERE / SOURCES)       # the kept copies of the books the data cites
 
 
 def run(edits):
@@ -1263,6 +1265,22 @@ TESTS = [
      lambda: ({LABOUR: data(lambda d: d["book"][0].update(item_th=d["book"][0]["item_th"] + " {nope}",
                                                           item_en=d["book"][0]["item_en"] + " {nope}"))},
               f"book '{RAW[LABOUR]['book'][0]['id']}' item_th uses {{nope}}")),
+    ("labour: a book kept as a file that isn't there",
+     lambda: (lambda b: ({LABOUR: data(lambda d: by_id(d["book"], b["id"]).update(file="sources/no-such-book.pdf"))},
+                         f"book '{b['id']}' is kept as sources/no-such-book.pdf, which isn't there"))(
+         find(RAW[LABOUR]["book"], "book kept as a file", lambda b: "file" in b))),
+    ("labour: a rate from a kept book with no page",
+     lambda: (lambda r: ({LABOUR: data(lambda d: by_id(d["rate"], r["id"]).pop("page"))},
+                         f"rate '{r['id']}' must give its page in its book's file"))(
+         find(RAW[LABOUR]["rate"], "rate with a page", lambda r: "page" in r))),
+    ("labour: a rate from a kept book giving a url",
+     lambda: (lambda r: ({LABOUR: data(lambda d: put(by_id(d["rate"], r["id"]), "url", "https://example.org", labour.RATE))},
+                         f"rate '{r['id']}' must give its page in its book's file, and no url"))(
+         find(RAW[LABOUR]["rate"], "rate with a page", lambda r: "page" in r))),
+    ("labour: a rate giving a page in a book with no file",
+     lambda: (lambda r: ({LABOUR: data(lambda d: put(by_id(d["rate"], r["id"]), "page", 1, labour.RATE))},
+                         f"rate '{r['id']}' must give its own page's url, and no page"))(
+         find(RAW[LABOUR]["rate"], "rate with its own url", lambda r: "url" in r and "book" in r))),
     ("labour: a line with two quantities",
      lambda: labour_data_test(lambda x, e: put(x, "n", 1, labour.LINE),
                               "line {i} ({rate}) must take its quantity from exactly one of")),
@@ -1280,7 +1298,7 @@ TESTS = [
                             f"line {i} ({e['rate']}) names product 'no_such_product', which is not on the materials list"))(
          *labour_line("counted line", lambda e: "count" in e))),
     ("labour: a rate with no book, not marked assumed",
-     lambda: (lambda r: ({LABOUR: data(lambda d: [by_id(d["rate"], r["id"]).pop(k) for k in ("book", "item", "url")])},
+     lambda: (lambda r: ({LABOUR: data(lambda d: [by_id(d["rate"], r["id"]).pop(k, None) for k in ("book", "item", "page", "url")])},
                          f"rate '{r['id']}' has no book, so its rate must be marked assumed"))(
          find(RAW[LABOUR]["rate"], "rate from the book by item", lambda r: "item" in r))),
     ("labour: a rate giving both an item and a note in its book",

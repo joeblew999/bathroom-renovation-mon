@@ -1,8 +1,10 @@
 # labour.toml — the labour for the job, priced. labour.py reads, checks and renders it.
 #
-# Every rate comes from a rate book (README rule 10): its [[book]] says which document and how a rate names its
-# place there (item_th, item_en, filling in {item}), its rate says the item in it and the page it was read from, and `checked` is the day the rates were read. A rate with no
-# book is a stand-in: it must be marked assumed until the builder or the owner gives the real figure.
+# Every rate comes from a rate book (README rule 10): its [[book]] says which document, where it was read (url)
+# and when (checked), and how a rate names its place there (item_th, item_en, filling in {item}). A book kept as a
+# file in sources/ (file) has each rate give its page in it; a book with no file — a shop's service pages — has each
+# rate give its own page's url. A rate with no book is a stand-in: it must be marked assumed until the builder or
+# the owner gives the real figure.
 #
 # Each [[line]] is one piece of labour on the list: the rate it is priced at, its work section, and where
 # its quantity comes from — exactly one of:
@@ -15,21 +17,22 @@
 # then optional: times (the quantity counted this many times: coats), note_th and note_en, assumed.
 # A line's amount is its quantity, rounded to one decimal, times its rate, so every line adds up as shown.
 
-checked = 2026-11-01        # the day the rates were read off their book
-date_format = "%d/%m/%Y"    # how the date is shown
+date_format = "%d/%m/%Y"    # how a date is shown
 round_approx = 100          # an approximate total is rounded to this
 
 [section]
 th = "ค่าแรง"
 en = "Labour"
-note_th = "อัตราค่าแรงจาก: {books} — ตรวจ ณ วันที่ {checked} · อัตราของกรมบัญชีกลางเป็นค่าแรงล้วน ท้ายตารางจึงบวกค่าดำเนินการ กำไร และดอกเบี้ยของผู้รับเหมาด้วย Factor F แบบเดียวกับการคำนวณราคากลางงานราชการ เพื่อให้ได้ราคาอ้างอิงไว้เทียบกับใบเสนอราคาของผู้รับเหมา ราคาของโฮมโปรรวมค่าดำเนินการไว้แล้ว · วัสดุเจ้าของบ้านซื้อเอง จึงไม่บวก Factor F · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
-note_en = "Rates from: {books} — checked {checked} · the Comptroller General's rates are bare labour, so at the foot Factor F adds the builder's overhead, profit and interest, as a government estimate does, to give a reference price to hold the builder's quote against; HomePro's prices already include theirs · the owner buys the materials, so Factor F isn't put on them · \"{approx}\" = a stand-in, still to be confirmed"
+note_th = "อัตราค่าแรงจาก: {books} · อัตราของกรมบัญชีกลางเป็นค่าแรงล้วน ท้ายตารางจึงบวกค่าดำเนินการ กำไร และดอกเบี้ยของผู้รับเหมาด้วย Factor F แบบเดียวกับการคำนวณราคากลางงานราชการ เพื่อให้ได้ราคาอ้างอิงไว้เทียบกับใบเสนอราคาของผู้รับเหมา ราคาของโฮมโปรรวมค่าดำเนินการไว้แล้ว · วัสดุเจ้าของบ้านซื้อเอง จึงไม่บวก Factor F · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
+note_en = "Rates from: {books} · the Comptroller General's rates are bare labour, so at the foot Factor F adds the builder's overhead, profit and interest, as a government estimate does, to give a reference price to hold the builder's quote against; HomePro's prices already include theirs · the owner buys the materials, so Factor F isn't put on them · \"{approx}\" = a stand-in, still to be confirmed"
 
 [labels]
 item = { th = "งาน", en = "Work" }
 qty = { th = "ปริมาณ", en = "Qty" }
 amount = { th = "ค่าแรง", en = "Labour" }
 book_note = { th = "หมายเหตุ {note}", en = "note {note}" }
+book_page = { th = "หน้า {page}", en = "page {page}" }
+book_checked = { th = "ตรวจ {date}", en = "checked {date}" }
 of_products = { th = "{percent} ของค่าวัสดุ {cost}", en = "{percent} of materials costing {cost}" }
 labour_total = { th = "รวมค่าแรง ตามอัตรา", en = "Labour total, at the rates" }
 factor_qty = { th = "{base} × ({factor} − 1) เฉพาะอัตราของกรมบัญชีกลาง", en = "{base} × ({factor} − 1), on the Comptroller General's rates only" }
@@ -53,13 +56,16 @@ en = "Overhead, profit and interest: Factor F, building work, up to 0.5 million 
 value = 1.2199
 standard = "กค ว481"
 url = "https://www.yotathai.com/factorf/building/adv15-retain10"
+checked = 2026-11-01
 
 [[book]]
 id = "cgd_w480"
 th = "บัญชีค่าแรงงานของกรมบัญชีกลาง"
 en = "Comptroller General's labour rates"
 standard = "กค 0433.2/ว 480, 26/06/2569"
-url = "https://www.yotathai.com/labor-rates"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+file = "sources/2026-06-26-cgd-w480-labour-rates.pdf"   # a copy of the book, kept: each rate gives its page in it
+checked = 2026-11-02
 item_th = "ข้อ {item}"       # how a rate names its place in this book
 item_en = "item {item}"
 bare = true                  # its rates are bare labour: Factor F adds overhead, profit and interest
@@ -70,6 +76,7 @@ th = "ราคาบริการติดตั้งของโฮมโ�
 en = "HomePro's installation service prices"
 standard = "homepro.co.th"
 url = "https://www.homepro.co.th"
+checked = 2026-11-01
 item_th = "โฮมโปร {item}"
 item_en = "HomePro {item}"
 
@@ -147,8 +154,8 @@ en = "Fit out"
 
 # ---------- the rates ----------
 # Each [[rate]]: id, th, en, unit, rate (baht per unit; percent for a share of materials), then book, its
-# place in the book — item (an item number) or book_note (a note's number) — and url (the page it was read
-# from); or, with no book, assumed = ["rate"].
+# place in the book — item (an item number) or book_note (a note's number) — and page (in the book's file) or
+# url (its own page, for a book with no file); or, with no book, assumed = ["rate"].
 [[rate]]
 id = "wall_out"
 th = "รื้อผนังก่ออิฐฉาบปูนหนาครึ่งแผ่น รื้อขนไป"
@@ -157,7 +164,7 @@ unit = "m2"
 rate = 41
 book = "cgd_w480"
 item = "2.9.9"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 14
 
 [[rate]]
 id = "door_out"
@@ -167,7 +174,7 @@ unit = "set"
 rate = 90
 book = "cgd_w480"
 item = "2.9.29"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 15
 
 [[rate]]
 id = "sanitary_out"
@@ -177,7 +184,7 @@ unit = "set"
 rate = 220
 book = "cgd_w480"
 item = "2.9.37"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 15
 
 [[rate]]
 id = "ceiling_out"
@@ -187,7 +194,7 @@ unit = "m2"
 rate = 26
 book = "cgd_w480"
 item = "2.9.8"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 14
 
 [[rate]]
 id = "light_out"
@@ -197,7 +204,7 @@ unit = "set"
 rate = 36
 book = "cgd_w480"
 item = "2.9.39"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 15
 
 [[rate]]
 id = "tiles_off"
@@ -207,7 +214,7 @@ unit = "m2"
 rate = 36
 book = "cgd_w480"
 item = "2.9.14"
-url = "https://www.yotathai.com/labor-rates/architecture/2-9"
+page = 14
 
 [[rate]]
 id = "disposal"
@@ -225,7 +232,7 @@ unit = "m2"
 rate = 73
 book = "cgd_w480"
 item = "2.3.1"
-url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+page = 7
 
 [[rate]]
 id = "lintel"
@@ -235,7 +242,7 @@ unit = "metre"
 rate = 51
 book = "cgd_w480"
 item = "2.3.1"
-url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+page = 7
 
 [[rate]]
 id = "plaster"
@@ -245,7 +252,7 @@ unit = "m2"
 rate = 96
 book = "cgd_w480"
 item = "2.3.1.2"
-url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+page = 8
 
 [[rate]]
 id = "ceiling"
@@ -255,7 +262,7 @@ unit = "m2"
 rate = 77
 book = "cgd_w480"
 item = "2.2.3"
-url = "https://www.yotathai.com/labor-rates/architecture"
+page = 7
 
 [[rate]]
 id = "water_pipe"
@@ -265,7 +272,7 @@ unit = "metre"
 rate = 31
 book = "cgd_w480"
 item = "3.8"
-url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+page = 18
 
 [[rate]]
 id = "waste_pipe_small"
@@ -275,7 +282,7 @@ unit = "metre"
 rate = 31
 book = "cgd_w480"
 item = "3.7"
-url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+page = 18
 
 [[rate]]
 id = "waste_pipe_large"
@@ -285,7 +292,7 @@ unit = "metre"
 rate = 103
 book = "cgd_w480"
 item = "3.7"
-url = "https://www.yotathai.com/labor-rates/sanitary-fire"
+page = 18
 
 [[rate]]
 id = "toilet"
@@ -295,7 +302,7 @@ unit = "set"
 rate = 461
 book = "cgd_w480"
 item = "2.6.1"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "basin"
@@ -305,7 +312,7 @@ unit = "set"
 rate = 461
 book = "cgd_w480"
 item = "2.6.6"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "shower"
@@ -315,7 +322,7 @@ unit = "set"
 rate = 72
 book = "cgd_w480"
 item = "2.6.10"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "bum_gun"
@@ -325,7 +332,7 @@ unit = "set"
 rate = 36
 book = "cgd_w480"
 item = "2.6.27"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "stop_valve"
@@ -335,7 +342,7 @@ unit = "set"
 rate = 36
 book = "cgd_w480"
 item = "2.6.26"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "floor_drain"
@@ -345,7 +352,7 @@ unit = "set"
 rate = 77
 book = "cgd_w480"
 item = "2.6.25"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "screw_fixed"
@@ -355,7 +362,7 @@ unit = "set"
 rate = 72
 book = "cgd_w480"
 item = "2.6.13"
-url = "https://www.yotathai.com/labor-rates/architecture/2-6"
+page = 12
 
 [[rate]]
 id = "wall_lamp"
@@ -365,7 +372,7 @@ unit = "set"
 rate = 169
 book = "cgd_w480"
 item = "4.58"
-url = "https://yotathai.com/labor-rates/electrical/4-58"
+page = 40
 
 [[rate]]
 id = "cable_run"
@@ -375,7 +382,7 @@ unit = "metre"
 rate = 14
 book = "cgd_w480"
 item = "4.23"
-url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+page = 29
 
 [[rate]]
 id = "switch"
@@ -385,7 +392,7 @@ unit = "set"
 rate = 82
 book = "cgd_w480"
 item = "4.53"
-url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+page = 38
 
 [[rate]]
 id = "socket"
@@ -395,7 +402,7 @@ unit = "set"
 rate = 92
 book = "cgd_w480"
 item = "4.53"
-url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+page = 38
 
 [[rate]]
 id = "breaker"
@@ -405,7 +412,7 @@ unit = "set"
 rate = 113
 book = "cgd_w480"
 item = "4.57"
-url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+page = 39
 
 [[rate]]
 id = "heater_refit"
@@ -425,7 +432,7 @@ unit = "percent"
 rate = 30
 book = "cgd_w480"
 book_note = 1
-url = "https://www.yotathai.com/labor-rates"
+page = 45
 
 [[rate]]
 id = "wall_tiling"
@@ -435,7 +442,7 @@ unit = "m2"
 rate = 184
 book = "cgd_w480"
 item = "2.3.1.3"
-url = "https://www.yotathai.com/labor-rates/architecture/2-3"
+page = 8
 
 [[rate]]
 id = "floor_tiling"
@@ -445,7 +452,7 @@ unit = "m2"
 rate = 178
 book = "cgd_w480"
 item = "2.4.6"
-url = "https://www.yotathai.com/labor-rates/architecture/2-4"
+page = 10
 
 [[rate]]
 id = "step_nosing"
@@ -455,7 +462,7 @@ unit = "metre"
 rate = 44
 book = "cgd_w480"
 item = "2.7.3"
-url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+page = 13
 
 [[rate]]
 id = "paint"
@@ -465,7 +472,7 @@ unit = "m2"
 rate = 31
 book = "cgd_w480"
 item = "2.8.1"
-url = "https://www.yotathai.com/labor-rates/architecture"
+page = 13
 
 [[rate]]
 id = "door_frame"
@@ -475,7 +482,7 @@ unit = "m2"
 rate = 103
 book = "cgd_w480"
 item = "2.5.2"
-url = "https://www.yotathai.com/labor-rates/architecture"
+page = 11
 
 [[rate]]
 id = "door_leaf"
@@ -485,7 +492,7 @@ unit = "m2"
 rate = 77
 book = "cgd_w480"
 item = "2.5.3"
-url = "https://www.yotathai.com/labor-rates/architecture"
+page = 11
 
 # ---------- the lines ----------
 [[line]]

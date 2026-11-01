@@ -22,22 +22,24 @@ from common import NAME, NAMED, DataError, Labels, assumed, both, check, check_e
     note, note_cell, placeholders, read_toml
 
 FILE = "labour.toml"
-FILE_FIELDS = {"checked": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
+FILE_FIELDS = {"date_format": "text!", "round_approx": "count!", "section": "table!",
                "labels": "table!", "symbols": "table!", "factor_f": "table!", "book": "list!", "unit": "list!", "work_section": "list!",
                "rate": "list!", "line": "list!"}
 SYMBOLS = {k: "text!" for k in ("currency", "times", "percent", "dot")}
-BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "item_th": "text!", "item_en": "text!", "bare": "flag"}
-FACTOR_F = {**NAME, "value": "count!", "standard": "text!", "url": "text!"}
+BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "file": "text", "checked": "date!", "item_th": "text!",
+        "item_en": "text!", "bare": "flag"}
+FACTOR_F = {**NAME, "value": "count!", "standard": "text!", "url": "text!", "checked": "date!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
-RATE = {"id": "text!", **NAME, "unit": "@unit!", "rate": "amount!", "book": "@book+url", "item": "text+book",
-        "book_note": "whole+book", "url": "text+book", "assumed": "list"}
+RATE = {"id": "text!", **NAME, "unit": "@unit!", "rate": "amount!", "book": "@book", "item": "text+book",
+        "book_note": "whole+book", "page": "whole+book", "url": "text+book", "assumed": "list"}
 SOURCES = ("take_off", "count", "of_products", "n")      # where a line's quantity comes from: exactly one
 LINE = {"rate": "@rate!", "work_section": "@work_section!", "take_off": "text", "count": "list", "of_products": "list",
         "n": "count", "times": "whole", "note_th": "text", "note_en": "text", "assumed": "list"}
 SOURCE_UNIT = {"count": "set", "of_products": "percent"}  # the rate unit these sources need (take_off: its own)
 BY_LENGTH = "metre"       # products bought by the metre are counted in metres, not sets (the unit id both lists use)
-LABELS = {"item": (), "qty": (), "amount": (), "book_note": ("note",), "of_products": ("percent", "cost"),
+LABELS = {"item": (), "qty": (), "amount": (), "book_note": ("note",), "book_page": ("page",), "book_checked": ("date",),
+          "of_products": ("percent", "cost"),
           "labour_total": (), "factor_qty": ("base", "factor"), "with_factor": (), "grand_total": (), "approx": (),
           "about": ()}
 DECIMALS = 1                                              # a measured quantity is shown, and priced, to this
@@ -52,6 +54,7 @@ class Rate:
     unit: dict           # its names: {th, en, en_many}
     rate: float
     item: str            # its item in the book, as the book names it ("item 2.3.1" / "HomePro 7000164"), or ""
+    page: str            # its page in the book's kept file, as shown ("page 8"), or ""
     book_note: int       # or the number of the note in the book it comes from, or None (a stand-in has neither)
     approx: bool         # a stand-in (assumed), or a share of materials (the book gives a range)
     bare: bool           # from a book of bare rates: Factor F adds overhead, profit and interest to it
@@ -139,7 +142,7 @@ class Labour:
     def name_cell(self, m):
         """The work and its item in the book, then what it counts (from the materials list), then its note."""
         L, r = self.labels, m.rate
-        place = r.item or (L.both("book_note", note=r.book_note) if r.book_note else "")
+        place = ", ".join(p for p in (r.item or (L.both("book_note", note=r.book_note) if r.book_note else ""), r.page) if p)
         name = md_cell(both(r.th, r.en)) + (f" ({place})" if place else "")
         name += "".join(f"<br>{md_cell(both(t, e))}" for t, e in m.names)
         return name + (f"<br>{note_cell(m.note_th, m.note_en)}" if m.note_th else "")
@@ -168,6 +171,8 @@ def load(path, take_off, materials):
     for b in books.values():
         for lang in ("th", "en"):
             placeholders(FILE, f"book '{b['id']}' item_{lang}", b[f"item_{lang}"], ("item",))
+        if "file" in b and not (Path(path).parent / b["file"]).is_file():
+            raise DataError(f"{FILE}: book '{b['id']}' is kept as {b['file']}, which isn't there — keep the copy of the book")
     units = {u["id"]: u for u in check_each(FILE, "unit", raw["unit"], UNIT)}
     sections = tuple((s["id"], *named(s)) for s in check_each(FILE, "work section", raw["work_section"], WORK_SECTION))
     guesses = []
@@ -175,12 +180,17 @@ def load(path, take_off, materials):
     for e in check_each(FILE, "rate", raw["rate"], RATE, {"unit": units, "book": books}):
         if "book" in e and ("item" in e) == ("book_note" in e):
             raise DataError(f"{FILE}: rate '{e['id']}' must give its place in its book: an item or a book_note, not both")
+        kept = "book" in e and "file" in books[e["book"]]        # its book is kept as a file: it gives a page, not a url
+        if "book" in e and ("page" in e, "url" in e) != (kept, not kept):
+            raise DataError(f"{FILE}: rate '{e['id']}' " + ("must give its page in its book's file, and no url" if kept
+                            else "must give its own page's url, and no page — its book has no file"))
         if "book" not in e and "rate" not in e.get("assumed", []):
             raise DataError(f"{FILE}: rate '{e['id']}' has no book, so its rate must be marked assumed (README rule 10)")
         guesses += assumed(e, f"{FILE} rate '{e['id']}'")
         b = books.get(e.get("book"))
         item = both(b["item_th"].format(item=e["item"]), b["item_en"].format(item=e["item"])) if "item" in e else ""
-        rates[e["id"]] = Rate(e["id"], e["th"], e["en"], e["unit"], units[e["unit"]], e["rate"], item, e.get("book_note"),
+        page = labels.both("book_page", page=e["page"]) if "page" in e else ""
+        rates[e["id"]] = Rate(e["id"], e["th"], e["en"], e["unit"], units[e["unit"]], e["rate"], item, page, e.get("book_note"),
                               "assumed" in e or e["unit"] == "percent", bool(b and b.get("bare")))
     products = materials.products
     known = {"rate": rates, "work_section": [s[0] for s in sections]}
@@ -197,15 +207,16 @@ def load(path, take_off, materials):
 
 
 def _section(raw, labels, books):
-    """This part's heading and note; the note's {books} (each book's name and standard), {checked} and {approx}
-    filled in."""
+    """This part's heading and note; the note's {books} (each book's name, standard and the day it was checked)
+    and {approx} filled in."""
     th, en, nth, nen = named(check(FILE, "[section]", raw["section"], NAMED))
-    date = raw["checked"].strftime(raw["date_format"])
     out = []
     for lang, text in (("th", nth), ("en", nen)):
-        placeholders(FILE, f"[section] note_{lang}", text, ("books", "checked", "approx"))
-        names = raw["symbols"]["dot"].join(f"{b[lang]} ({b['standard']})" for b in books.values())
-        out.append(text.format(books=names, checked=date, approx=getattr(labels, lang)("approx")))
+        placeholders(FILE, f"[section] note_{lang}", text, ("books", "approx"))
+        names = raw["symbols"]["dot"].join(
+            f"{b[lang]} ({b['standard']}, {getattr(labels, lang)('book_checked', date=b['checked'].strftime(raw['date_format']))})"
+            for b in books.values())
+        out.append(text.format(books=names, approx=getattr(labels, lang)("approx")))
     return th, en, *out
 
 
