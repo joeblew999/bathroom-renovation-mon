@@ -128,14 +128,29 @@ th = "เก็บงานและฉาบ"
 en = "Make good and plaster"
 
 [[phase.step]]
-id = "fill"
-th = "**เก็บงาน (อุดรูและร่องทั้งหมด):** ยึดท่อและกล่องในร่องให้แน่นก่อน แล้วอุดทุกจุดให้เสมอด้วยปูนสำเร็จรูป TPI M300 (ผสมน้ำอย่างเดียว) — ร่องท่อชักโครก รอยแหว่งและแนวผนังเดิมบนพื้น ให้เสมอผิวกระเบื้องพื้นเดิมแต่ละฝั่ง คงขั้นพื้นเดิมไว้ (ช่างปูกระเบื้องปรับตำแหน่งขั้นตอนปูพื้น ขั้น {phase:tile}) · รอยแหว่งที่ผนังข้างเคียงและเสา ตรงที่สกัดผนังประตูเดิมออก · ร่องในผนังเดิมและผนังใหม่ ร่องลึกอุด 2 ชั้น · จุดบนผนังเดิมที่ทำเครื่องหมายไว้ในขั้น {step:clear_mark} · ร่องที่อยู่เหนือแนวกระเบื้อง (ส่วนที่ทาสี) ปิดผิวบางๆ ด้วยปูนฉาบ M210 ที่เหลือ ให้เรียบพร้อมทาสี"
-en = "**Make good (fill all the holes and chases):** first fix the pipes and boxes firmly in their chases, then fill everything flush with TPI M300 ready-mix (just add water) — the toilet trench, pockets and old wall line in the floor, flush with the old floor tiles on each side, keeping the existing step (the tiler sets its final position when laying the floor, phase {phase:tile}) · the pockets and broken edges in the side walls and column where the old door wall came out · the chases in the existing and new walls, deep ones in 2 layers · the spots on the existing walls marked in step {step:clear_mark} · any chase above the tile line (painted area) gets a thin finishing coat of leftover M210 so it paints smooth"
+id = "secure"
+th = "ยึดท่อทุกเส้นและชุดสวิตช์ในร่องให้แน่น ไม่ให้ขยับตอนอุด"
+en = "Fix every pipe, and the switch-and-socket plate, firmly in its chase so nothing moves when it is filled"
+
+[[phase.step]]
+id = "fill_floor"
+th = "**พื้น:** อุดร่องท่อชักโครกและแนวผนังเดิมบนพื้นด้วย TPI M300 ให้เสมอกระเบื้องพื้นเดิมแต่ละฝั่ง · คงขั้นพื้นเดิมไว้ ช่างปูกระเบื้องปรับตำแหน่งในขั้น {phase:tile}"
+en = "**Floor:** fill the toilet trench and the old wall line with TPI M300, flush with the old floor tiles on each side · keep the existing step; the tiler sets its final position in phase {phase:tile}"
+
+[[phase.step]]
+id = "fill_walls"
+th = "**ผนังและเสา:** อุดด้วย TPI M300 — รอยแหว่งตรงที่สกัดผนังประตูเดิมออก · ร่องท่อและสายไฟทั้งหมด ร่องลึกอุด 2 ชั้น · จุดไม่เรียบที่ทำเครื่องหมายไว้ในขั้น {step:clear_mark}"
+en = "**Walls and column:** fill with TPI M300 — the broken edges where the old door wall came out · every pipe and cable chase, deep ones in 2 layers · the uneven spots marked in step {step:clear_mark}"
 
 [[phase.step]]
 id = "plaster"
-th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา TPI M210 ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. สำหรับกระเบื้องขอบตรง แล้วปล่อยให้แห้ง"
-en = "**Plaster:** plaster both faces of the new wall with TPI M210 AAC plaster; check with a 2 m straightedge for the rectified tiles, then let it cure"
+th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด้านด้วยปูนฉาบอิฐมวลเบา TPI M210 ตรวจระนาบด้วยไม้บรรทัดยาว 2 ม. (กระเบื้องขอบตรงจะเห็นทุกจุดที่ไม่เรียบ) แล้วปล่อยให้แห้ง"
+en = "**Plaster:** plaster both faces of the new wall with TPI M210 AAC plaster, check it is flat with a 2 m straightedge (rectified tiles show every bump), then let it cure"
+
+[[phase.step]]
+id = "skim"
+th = "**ส่วนที่ทาสี:** ร่องที่อยู่เหนือแนวกระเบื้อง ปิดผิวบางๆ ด้วยปูนฉาบ M210 ที่เหลือ ให้เรียบพร้อมทาสี"
+en = "**Painted area:** skim any chase above the tile line with leftover M210 so it paints smooth"
 
 [[phase.step]]
 id = "ceiling_joints"
