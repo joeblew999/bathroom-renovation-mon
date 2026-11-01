@@ -287,10 +287,11 @@ items = { th = "รายการ", en = "Items" }
 x_from = { th = "{axis} จาก{wall}", en = "{axis} from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
-all_clear = { th = "ทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
+all_clear = { th = "จุดกึ่งกลางทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }
 warn_joint = { th = "{item}: {axis} {v} ห่างแนวยาแนวเพียง {d} มม.", en = "{item}: {axis} {v} is only {d} mm from a joint" }
-warn_past_end = { th = "{item}: เลยปลายผนัง", en = "{item}: runs past the end of the wall" }
+warn_off_wall = { th = "{item}: เลยขอบผนัง", en = "{item}: runs off the wall" }
+warn_off_floor = { th = "{item}: เลยขอบพื้น", en = "{item}: runs off the floor" }
 warn_overlap = { th = "{a} ทับ {b}", en = "{a} overlaps {b}" }
 warn_outside = { th = "{item}: {axis} {v} อยู่นอก{parent} ({low}–{high})", en = "{item}: {axis} {v} is outside {parent} ({low}–{high})" }
 warn_above = { th = "{item}: {axis} {v} สูงเกินขอบบนของ{parent}", en = "{item}: {axis} {v} is above the top of {parent}" }

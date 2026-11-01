@@ -92,7 +92,7 @@ def assemble(md):
     r = room.load(md.with_name(room.FILE), m.products)
     tiles, tile_warnings = tile_check(m, r)
     doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
-    return Quote(doc, r.render(), work, m, r, tiles, r.warnings() + tile_warnings)
+    return Quote(doc, r.render([w for _, w in tile_warnings]), work, m, r, tiles, r.warnings() + tile_warnings)
 
 
 def html(doc, svgs):

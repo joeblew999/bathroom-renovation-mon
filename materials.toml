@@ -780,8 +780,8 @@ sku = "1055229"
   group = "plumbing_shared"
   status = "buy"
   n = 1
-  note_th = "สต็อปวาล์วทั้งสองและเกลียวอื่นๆ"
-  note_en = "both stop valves and the other threads"
+  note_th = "สต็อปวาล์วและเกลียวอื่นๆ"
+  note_en = "the stop valves and the other threads"
 
 [[entry]]
 id = "pvc_cement"

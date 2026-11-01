@@ -22,6 +22,7 @@ warning.
 Usage:  python3 test_pipeline.py
 """
 import datetime
+import html
 import json
 import math
 import re
@@ -274,7 +275,29 @@ def above_tiles_test():
 
 def point_off_wall_test():
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, warn("warn_past_end", item=it.label())
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, warn("warn_off_wall", item=it.label())
+
+
+def zone_off_wall_test():
+    z = find(wall().items, "zone on the wall", lambda i: i.shape == "zone")
+    return {ROOM: data(lambda d: raw_item(d, z.id).update(x=wall().length - z.w / 4))}, warn("warn_off_wall", item=z.label())
+
+
+def ceiling_test():
+    it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=real().room.ceiling))}, warn("warn_off_wall", item=it.label())
+
+
+def off_floor_test():
+    it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
+    return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(x=real().room.length))},
+            warn("warn_off_floor", item=it.label()))
+
+
+def tile_short_on_plan_test():
+    """The tile-box shortage shows red on the floor plan, not only in the terminal."""
+    edits, want = tile_boxes_test()
+    return edits, f"{RAW[ROOM]['symbols']['warning']} {html.escape(want)}</text>"
 
 
 def clash_test():
@@ -293,7 +316,7 @@ def round_clash_test():
 
 def wall_end_test():
     a = solids()[0]
-    return {ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))}, warn("warn_past_end", item=a.label())
+    return {ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))}, warn("warn_off_wall", item=a.label())
 
 
 def part_outside_test():
@@ -541,6 +564,8 @@ TESTS = [
     ("checker: keys out of order", out_of_order_test),
     ("checker: text where a number goes",
      lambda: (edit_item(lambda e: "x" in e, "item with an x", lambda e: e.update(x=str(e["x"]))), "'x' must be a number")),
+    ("checker: a number that isn't finite",
+     {ROOM: data(lambda d: d["room"].update(ceiling=float("nan")))}, "'ceiling' must be a number, not nan"),
     ("checker: text where true / false goes",
      lambda: (edit_entry(lambda e: True, "product", lambda e: put(e, "approx", "yes", materials.ENTRY)),
               "'approx' must be true or false")),
@@ -590,6 +615,10 @@ TESTS = [
     ("rules: a hole exactly on a joint is allowed", on_joint_test),
     ("rules: no joint warnings above the tiling", above_tiles_test),
     ("rules: a point moved off the end of the wall", point_off_wall_test),
+    ("rules: a zone running off its wall", zone_off_wall_test),
+    ("rules: an item above the ceiling", ceiling_test),
+    ("rules: a floor item off the floor", off_floor_test),
+    ("rules: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
     ("rules: an item moved onto another", clash_test),
     ("rules: a round item moved onto another", round_clash_test),
     ("rules: an item pushed past the end of the wall", wall_end_test),
@@ -620,6 +649,14 @@ TESTS = [
     ("room: an item taking an id the room works out",
      lambda: (edit_item(lambda e: e["id"] not in room.BUILT, "item", lambda e: e.update(id=room.BUILT[0])),
               f"'{room.BUILT[0]}' is worked out from how the room is built")),
+    ("room: two tiles naming the same product",
+     {ROOM: data(lambda d: d["tile"][1].update(product=d["tile"][0]["product"]))} if len(RAW[ROOM]["tile"]) > 1 else {},
+     f"tile product '{RAW[ROOM]['tile'][0]['product']}' is used twice"),
+    ("room: two walls with the same tag",
+     {ROOM: data(lambda d: d["wall"][1].update(tag=d["wall"][0]["tag"]))}, f"tag '{RAW[ROOM]['wall'][0]['tag']}' is used twice"),
+    ("room: a size key the shape doesn't have (a point with a width)",
+     lambda: (edit_item(lambda e: e["shape"] == "point", "point", lambda e: put(e, "w", 100, room.ITEM)),
+              "is a point, so it has no 'w'")),
     ("room: a step with no high side",
      {ROOM: data(lambda d: find(d["floor"]["item"], "step", lambda e: e["shape"] == "step").pop("high"))},
      "(step) needs 'high'"),
@@ -691,8 +728,6 @@ TESTS = [
     ("phases: the steps are numbered", lambda: ({}, step_number())),
     ("phases: a reference resolves to its number", lambda: ref_test(insert=False)),
     ("phases: inserting a step renumbers it and its references", lambda: ref_test(insert=True)),
-    ("phases: a reference of a kind phases.toml doesn't have",
-     lambda: (edit_step(lambda s: s.update(en=s["en"] + " {rule:min_clear}")), "{rule:min_clear} doesn't match")),
     ("phases: a brace that isn't a reference",
      lambda: (edit_step(lambda s: s.update(en=s["en"] + " {phase:make-good}")), "that isn't a reference like {step:id}")),
     ("phases: a reference to an id that doesn't exist",

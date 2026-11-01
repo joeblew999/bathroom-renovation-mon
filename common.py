@@ -5,6 +5,7 @@ checking what is in it. They know nothing about bathrooms; each part owns its ow
 Bad data raises DataError, with a message naming the file and the problem.
 """
 import datetime
+import math
 import string
 import sys
 import tomllib
@@ -38,7 +39,7 @@ def need(file, where, entry, keys):
 
 
 def number(file, where, key, v):
-    if isinstance(v, bool) or not isinstance(v, (int, float)):
+    if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v):
         raise DataError(f"{file}: {where} '{key}' must be a number, not {v!r}")
 
 

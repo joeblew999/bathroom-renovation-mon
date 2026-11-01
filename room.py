@@ -56,9 +56,12 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "dashed": (),
           "all_clear": ("min_clear",), "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare"),
-          "warn_joint": ("item", "axis", "v", "d"), "warn_past_end": ("item",), "warn_overlap": ("a", "b"),
+          "warn_joint": ("item", "axis", "v", "d"), "warn_off_wall": ("item",), "warn_off_floor": ("item",), "warn_overlap": ("a", "b"),
           "warn_outside": ("item", "axis", "v", "parent", "low", "high"), "warn_above": ("item", "axis", "v", "parent"),
           "tile_short": ("tile", "planned", "boxes")}
+# The position and size keys each shape may have; an item gives no others.
+WALL_KEYS = {"rect": "xywhd", "circle": "xywd", "point": "xy", "zone": "xwd", "opening": "xywh"}
+FLOOR_KEYS = {"rect": "xywd", "step": "xhd"}
 # What each shape needs to be drawn (after its product's size is filled in).
 WALL_SHAPES = {"rect": ("x", "y", "w", "h"), "circle": ("x", "y", "w"), "point": ("x", "y"),
                "zone": ("x", "w"), "opening": ("x", "y", "w", "h")}
@@ -72,6 +75,11 @@ def _check(raw):
     tiles = check_each(FILE, "tile", raw["tile"], TILE)
     known = {"tile": [t["id"] for t in tiles]}
     walls = check_each(FILE, "wall", raw["wall"], WALL, known)
+    for kind, values in (("tile product", [t["product"] for t in tiles]),
+                         ("tag", [w["tag"] for w in walls] + [raw["floor"]["tag"]])):
+        twice = next((v for v in values if values.count(v) > 1), None)
+        if twice:
+            raise DataError(f"{FILE}: {kind} '{twice}' is used twice — each one names one thing")
     if len(walls) != len(PLAN_SIDES):
         raise DataError(f"{FILE}: {len(walls)} walls — the room has {len(PLAN_SIDES)}, in order round the plan")
     known["wall"] = [w["id"] for w in walls]
@@ -183,12 +191,24 @@ class Room:
         return (_joint_warnings(self, wall, t.size, t.top)
                 + _clash_warnings(self, wall.items, wall.length) + _part_warnings(self, wall.items))
 
-    def warnings(self):
-        return [(w.id, x) for w in self.walls.values() for x in self.wall_warnings(w)]
+    def floor_warnings(self):
+        """An item off the floor (a step's face is its x)."""
+        out = []
+        for it in self.floor:
+            half_w, half_d = (it.w or 0) / 2, (it.d or 0) / 2 if it.shape == "rect" else 0
+            y = it.y if it.y is not None else 0
+            if it.x - half_w < 0 or it.x + half_w > self.length or y - half_d < 0 or y + half_d > self.width:
+                out.append(_warn(self, "warn_off_floor", item=it.label()))
+        return out
 
-    def render(self):
-        """Every drawing as svg text: the floor plan, then each drawn wall."""
-        return [draw_plan(self)] + [draw_wall(self, w) for w in self.walls.values() if w.drawn]
+    def warnings(self):
+        return [(w.id, x) for w in self.walls.values() for x in self.wall_warnings(w)] + \
+            [("floor", x) for x in self.floor_warnings()]
+
+    def render(self, plan_warnings=()):
+        """Every drawing as svg text: the floor plan (with the floor's warnings and `plan_warnings`,
+        each (th, en)), then each drawn wall."""
+        return [draw_plan(self, list(plan_warnings))] + [draw_wall(self, w) for w in self.walls.values() if w.drawn]
 
 
 # ======================================== 2. work out ========================================
@@ -198,7 +218,7 @@ def load(path, products):
     _check(raw)
     r = raw["room"]
     tiles = {t["id"]: _tile(t, products) for t in raw["tile"]}
-    floor = _items(raw["floor"].get("item", []), "floor item", FLOOR_SHAPES, products, r["width"])  # a step runs
+    floor = _items(raw["floor"].get("item", []), "floor item", FLOOR_SHAPES, FLOOR_KEYS, products, r["width"])  # a step runs
                                                                                     # from the first wall
     walls = _walls(raw, products)
     return Room(r["length"], r["width"], r["ceiling"], r["min_clear"], tiles, raw["floor"]["tag"],
@@ -235,7 +255,7 @@ def _notes(e, where):
     return {k: _note(e, k, where) for k in ("note_th", "note_en")}
 
 
-def _items(entries, kind, shapes, products, across):
+def _items(entries, kind, shapes, keys, products, across):
     """The items of one wall or the floor, numbered by their order, each with its product's name and
     size. A zone or a step with no depth runs `across` the room, out from its wall."""
     out = []
@@ -247,6 +267,9 @@ def _items(entries, kind, shapes, products, across):
         if ("product" in e) == ("th" in e):
             raise DataError(f"{FILE}: {where} needs a product or a name (th, en) — one, not both")
         p = _product(products, where, e["product"]) if "product" in e else None
+        extra = next((k for k in "xywhd" if k in e and k not in keys[e["shape"]]), None)
+        if extra:
+            raise DataError(f"{FILE}: {where} is a {e['shape']}, so it has no '{extra}'")
         if p and any(k in e for k in ("w", "h", "d")):
             raise DataError(f"{FILE}: {where} takes its size from product '{p.id}' — give no w, h or d here")
         have = {**(p.size() if p else {}), **{k: e[k] for k in ("x", "y", "w", "h", "d", "high") if k in e}}
@@ -276,7 +299,7 @@ def _walls(raw, products):
     for i, e in enumerate(order):
         along = i % 2 == 0                                            # the first and third run along the room
         length, across = (r["length"], r["width"]) if along else (r["width"], r["length"])
-        items = _items(e.get("item", []), f"wall '{e['id']}' item", WALL_SHAPES, products, across)
+        items = _items(e.get("item", []), f"wall '{e['id']}' item", WALL_SHAPES, WALL_KEYS, products, across)
         run = length
         if e["id"] == col["wall"]:
             # How this room is built: the column at x = 0, the door opening beside it, the lintel over it.
@@ -341,14 +364,19 @@ def _box(it):
 
 
 def _span(it):
-    """(x0, x1) of an item along its wall: its box, or its point."""
+    """(x0, x1, y0, y1) of an item on its wall: its box; a zone its width, a point itself (a missing
+    height counts as the floor)."""
     b = _box(it)
-    return (b[0], b[1]) if b else (it.x, it.x)
+    if b:
+        return b
+    half = (it.w or 0) / 2
+    return it.x - half, it.x + half, it.y or 0, it.y or 0
 
 
 def _clash_warnings(room, items, length):
     solids = [(it, _box(it)) for it in items if _box(it)]
-    out = [_warn(room, "warn_past_end", item=it.label()) for it in items if _span(it)[0] < 0 or _span(it)[1] > length]
+    out = [_warn(room, "warn_off_wall", item=it.label()) for it in items
+           if _span(it)[0] < 0 or _span(it)[1] > length or _span(it)[3] > room.ceiling]
     for i, (a, ba) in enumerate(solids):
         for b, bb in solids[i + 1:]:
             if ba[0] < bb[1] and bb[0] < ba[1] and ba[2] < bb[3] and bb[2] < ba[3]:
@@ -603,7 +631,7 @@ def _wall_ticks(a, xs, X, floor_y, ML, W):
 OUT = {"top": (0, -1), "right": (1, 0), "bottom": (0, 1), "left": (-1, 0)}       # outwards, in px
 
 
-def draw_plan(room):
+def draw_plan(room, more_warnings):
     """The floor plan: svg text."""
     lab, s, L, D = room.labels, room.symbols, room.length, room.width
     ML, MR, MT, MB = PLAN_MARGINS
@@ -637,7 +665,8 @@ def draw_plan(room):
     keys.append(f"{room.floor_tag}{s['eq']}{lab.both('floor')}")
     text(a, "heading", ML, ly0, f"{lab.both('items')}{s['dash']}{s['dot'].join(keys)}")
     text(a, "key", ML, ly0 + KEY_DOWN, lab.both("dashed"))
-    draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"])
+    draw_warnings(a, room, room.floor_warnings() + more_warnings, ML,
+                  draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
     a("</svg>")
     return "\n".join(out)
 

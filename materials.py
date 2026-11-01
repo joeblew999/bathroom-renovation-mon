@@ -232,7 +232,9 @@ class Materials:
         """What is still to pay, or what was paid."""
         if m.rule.to_buy:
             return (f"{self.labels.both('approx')} " if m.entry.approx else "") + self.money(m.total)
-        return self.money(m.paid) if m.paid else self.symbols["none"]
+        if not m.paid:
+            return self.symbols["none"]
+        return (f"{self.labels.both('approx')} " if m.entry.approx else "") + self.money(m.paid)
 
     def name_cell(self, m):
         """The name and detail (linked to the shop's page), then the shop and code, then the line's note."""
