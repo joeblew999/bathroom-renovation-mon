@@ -26,7 +26,7 @@ from pathlib import Path
 import tomli_w
 
 from common import DataError
-from materials import STATUS, baht, name_cell
+from materials import STATUS, TEXT_KEYS, baht, name_cell
 from build import assemble
 
 HERE = Path(__file__).resolve().parent
@@ -51,14 +51,14 @@ def wall():
     return REAL.room.walls[WALL]
 
 
-def raw_item(d, no):
-    return find(d["positions"][WALL], f"item {no} on the {WALL}", lambda e: str(e["no"]) == str(no))
+def raw_item(d, id_):
+    return find(d["positions"][WALL], f"item {id_} on the {WALL}", lambda e: e["id"] == id_)
 
 
 def solids():
     """Items on the wall from layout.toml with a full box (they can clash or run off the end)."""
-    nos = {str(e["no"]) for e in RAW[ROOM]["positions"][WALL]}
-    out = [it for it in wall().items if it.no in nos and it.shape in ("rect", "circle")
+    ids = {e["id"] for e in RAW[ROOM]["positions"][WALL]}
+    out = [it for it in wall().items if it.id in ids and it.shape in ("rect", "circle")
            and None not in (it.x, it.w, it.y, it.h)]
     if len(out) < 2:
         raise LookupError(f"the {WALL} has fewer than two solid items, so nothing can clash")
@@ -67,9 +67,9 @@ def solids():
 
 def a_part():
     """An item that belongs to another item, and that item."""
-    by_no = {it.no: it for it in wall().items}
+    by_id = {it.id: it for it in wall().items}
     it = find(wall().items, f"item on the {WALL} that belongs to another", lambda i: i.part and i.x is not None)
-    return it, by_no[it.part]
+    return it, by_id[it.part]
 
 
 def an_entry(what, cond):
@@ -97,7 +97,7 @@ def entry_by_id(d, pid):
 def item_where(key, cond, change):
     """An edit of the first item on the wall whose `key` matches `cond`."""
     no = find(RAW[ROOM]["positions"][WALL], f"item on the {WALL} with a matching '{key}'",
-              lambda e: key in e and cond(e[key]))["no"]
+              lambda e: key in e and cond(e[key]))["id"]
     return {ROOM: data(lambda d: change(raw_item(d, no)))}
 
 
@@ -138,37 +138,37 @@ def joint_test():
     it = find(wall().items, f"point on the {WALL}", lambda i: i.shape == "point")
     off = REAL.room.min_clear / 2
     x = REAL.room.tiles[wall().tile].size + off            # just past the first vertical joint
-    return ({ROOM: data(lambda d: raw_item(d, it.no).update(x=x))},
+    return ({ROOM: data(lambda d: raw_item(d, it.id).update(x=x))},
             f"{it.no} {it.en}: x {x:g} is only {off:g} mm from a joint")
 
 
 def clash_test():
     a, b = solids()[:2]
-    return {ROOM: data(lambda d: raw_item(d, b.no).update(x=a.x, y=a.y))}, f"{a.no} {a.en} overlaps {b.no} {b.en}"
+    return {ROOM: data(lambda d: raw_item(d, b.id).update(x=a.x, y=a.y))}, f"{a.no} {a.en} overlaps {b.no} {b.en}"
 
 
 def wall_end_test():
     a = solids()[0]
-    return ({ROOM: data(lambda d: raw_item(d, a.no).update(x=wall().length))},
+    return ({ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))},
             f"{a.no} {a.en}: runs past the end of the wall")
 
 
 def part_test():
     it, parent = a_part()
-    return ({ROOM: data(lambda d: raw_item(d, parent.no).update(x=parent.x + parent.w))},
+    return ({ROOM: data(lambda d: raw_item(d, parent.id).update(x=parent.x + parent.w))},
             f"{it.no} {it.en}: x {it.x:g} is outside {parent.en}")
 
 
 def missing_parent_test():
     it, _ = a_part()
-    gone = max(int(i.no) for i in wall().items) + 99
-    return ({ROOM: data(lambda d: raw_item(d, it.no).update(part=gone))},
-            f"belongs to item {gone}, which is not in [[positions.{WALL}]]")
+    gone = "no_such_item"
+    return ({ROOM: data(lambda d: raw_item(d, it.id).update(part=gone))},
+            f"belongs to {gone}, which is not in [[positions.{WALL}]]")
 
 
-def duplicate_number_test():
-    first = RAW[ROOM]["positions"][WALL][0]["no"]
-    return {ROOM: data(lambda d: d["positions"][WALL][1].update(no=first))}, f"number {first} is used twice"
+def duplicate_id_test():
+    first = RAW[ROOM]["positions"][WALL][0]["id"]
+    return {ROOM: data(lambda d: d["positions"][WALL][1].update(id=first))}, f"id {first} is used twice"
 
 
 def tile_top_test():
@@ -184,7 +184,8 @@ def door_test():
 
 
 def size_in_name_test():
-    pid = find(RAW[MATERIALS]["entry"], "product whose name shows {w}", lambda p: "{w}" in p["name_en"])["id"]
+    pid = find(RAW[MATERIALS]["entry"], "product whose name or detail shows {w}",
+               lambda p: any("{w}" in p[k] for k in TEXT_KEYS))["id"]
 
     def change(d):
         size = find(d["entry"], "-", lambda p: p["id"] == pid)["size"]
@@ -301,7 +302,7 @@ TESTS = [
     ("data: an item without an English name", {ROOM: data(lambda d: d["positions"][WALL][0].pop("en"))}, "has no 'en'"),
     ("keys: a typo in a positioned item", {ROOM: data(lambda d: d["positions"][WALL][0].update(xx=1))}, "unknown key 'xx'"),
     ("keys: a typo in room.toml", {ROOM: data(lambda d: d["window"].update(widht=1))}, "[window] has unknown key 'widht'"),
-    ("links: two items with the same number", duplicate_number_test),
+    ("links: two items with the same id", duplicate_id_test),
     ("links: a misspelt shape", {ROOM: data(lambda d: d["positions"][WALL][0].update(shape="rectangle"))}, "has shape 'rectangle'"),
     ("links: a point with no x",
      lambda: (item_where("shape", lambda v: v == "point", lambda e: e.pop("x")), "(point) needs 'x'")),
@@ -327,9 +328,9 @@ TESTS = [
     # ---- products: on the material list, sizes used by the drawings ----
     ("products: a product's size reaches the drawings (door wider than the new wall)", door_test),
     ("products: a product's size reaches its name on the list", size_in_name_test),
-    ("products: a name showing a size the product doesn't have",
+    ("products: a detail showing a size the product doesn't have",
      {MATERIALS: data(lambda d: find(d["entry"], "product without a size", lambda p: "size" not in p)
-                      .update(name_en="sized {w}"))},
+                      .update(detail_en="sized {w}"))},
      "shows {w}, but its size has no w"),
     # ---- materials.toml ----
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),

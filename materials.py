@@ -34,7 +34,9 @@ FILE = "materials.toml"
 GROUP_KEYS = {"id", *NAMED}
 SHOP_KEYS = {"id", "name", "sku", "link"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
-ENTRY_KEYS = {"id", "name_th", "name_en", "size", "per_box", "unit", "price", "approx", "shop", "sku", "line"}
+TEXT_KEYS = ("name_th", "detail_th", "name_en", "detail_en")   # every product has all four
+ENTRY_KEYS = {"id", *TEXT_KEYS, "size", "per_box", "unit", "price", "approx",
+              "shop", "sku", "line"}
 LINE_KEYS = {"group", "status", "n", "note_th", "note_en", "by_th", "by_en"}
 SIZE_KEYS = ("w", "h", "d")
 SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
@@ -79,10 +81,13 @@ class Shop:
 
 @dataclass(frozen=True)
 class Product:
-    """What a product is: its names (any size filled in) and its size in mm."""
+    """What a product is: what it's called and its detail (model, size, pack, colour — any size
+    filled in), in Thai and English, and its size in mm."""
     id: str
     name_th: str
+    detail_th: str
     name_en: str
+    detail_en: str
     w: float = None
     h: float = None
     d: float = None
@@ -257,8 +262,8 @@ def _defined(raw, kind, keys, required=None):
 
 
 def _product(e, where):
-    """The product's names, with its size filled in, and its size."""
-    need(FILE, where, e, ("name_th", "name_en"))
+    """The product's name and detail, with its size filled in, and its size."""
+    need(FILE, where, e, TEXT_KEYS)
     size = e.get("size", {})
     if not isinstance(size, dict):
         raise DataError(f"{FILE}: {where} 'size' must be {{ w = …, h = …, d = … }}")
@@ -269,17 +274,18 @@ def _product(e, where):
         number(FILE, where, "per_box", e["per_box"])
     fill = {f"{k}{u}": f"{v / div:g}" for k, v in size.items() for u, div in SIZE_UNITS.items()}
     names = {}
-    for lang in ("th", "en"):
-        text = e[f"name_{lang}"]
+    for field in TEXT_KEYS:
+        text = e[field]
         for _, f, _, _ in string.Formatter().parse(text):
             if f is not None and f not in fill:
                 k = f.split("_")[0]
-                raise DataError(f"{FILE}: {where} name_{lang} shows {{{f}}}, but its size has no {k}"
+                raise DataError(f"{FILE}: {where} {field} shows {{{f}}}, but its size has no {k}"
                                 if k in SIZE_KEYS and f in {k + u for u in SIZE_UNITS} else
-                                f"{FILE}: {where} name_{lang} has {{{f}}} (a name can show: "
+                                f"{FILE}: {where} {field} has {{{f}}} (a name can show: "
                                 f"{', '.join(k + u for u in SIZE_UNITS for k in SIZE_KEYS)})")
-        names[lang] = text.format(**fill)
-    return Product(e["id"], names["th"], names["en"], *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
+        names[field] = text.format(**fill)
+    return Product(e["id"], names["name_th"], names["detail_th"], names["name_en"], names["detail_en"],
+                   *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
 
 
 def _entry(e, shops, units):
@@ -359,7 +365,8 @@ def site_cell(m, L):
 def name_cell(m):
     """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
     p = m.entry
-    name = md_cell(both(p.product.name_th, p.product.name_en))
+    pr = p.product
+    name = md_cell(both(f"{pr.name_th} {pr.detail_th}", f"{pr.name_en}, {pr.detail_en}"))
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:

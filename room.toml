@@ -156,7 +156,8 @@ fill = "#f1f1ee"
 # product = an entry in materials.toml (its w, h, d are taken from there; give them here only to override)
 # The column, door opening, lintel, window and floor-plan door follow from room.toml: only their
 # names are here, under [room_items].
-# part = number of the item this one belongs to (checked: it must sit within it)
+# id = what a part names it by (unique on its wall). Its number on the drawing comes from its order here.
+# part = the id of the item this one belongs to (checked: it must sit within it)
 # Leave a key out when it does not apply.
 # Notes say why or how, not where: a note never repeats a position or size the drawing
 # already shows (x, y, w, h, or anything worked out from them).
@@ -187,7 +188,7 @@ en = "Door (hinged on the column side, opens in)"
 
 # ---------- main wall ----------
 [[positions.main_wall]]
-no = 1
+id = "lamp_1"
 product = "lamp"
 th = "โคมไฟ 1"
 en = "Lamp 1"
@@ -198,7 +199,7 @@ note_th = "ข้างกระจก ขอบบนตรงกับขอ�
 note_en = "beside the mirror, top lined up with the mirror top · wholly in the top tile row, clear of the joints"
 
 [[positions.main_wall]]
-no = 2
+id = "basin"
 product = "basin"
 th = "ตัวอ่าง"
 en = "Basin"
@@ -209,29 +210,29 @@ note_th = "อ่างและกระจกอยู่กึ่งกลา
 note_en = "basin and mirror centred on the same joint"
 
 [[positions.main_wall]]
-no = 3
+id = "basin_waste"
 th = "ท่อน้ำทิ้งอ่าง 1½\""
 en = "1½\" basin waste"
 shape = "point"
 x = 600
 y = 550
-part = 2
+part = "basin"
 note_th = "ก๊อกอยู่แนวเดียวกันบนอ่าง · ท่อยืดหด KARAT ยาวสุด 200 + กระปุก 120 สะดืออ่างเกลียวยาว ~50 ปรับได้อีก พ้นแนวยาแนวนอนด้วยการปรับท่อยืดหด — ลองขันเข้ากันก่อนปูกระเบื้อง"
 note_en = "tap in line above, on the basin · KARAT trap: telescopic pipe up to 200 + S-bend 120, basin waste thread ~50 for more adjustment, set to keep clear of the horizontal joint — test-fit before tiling"
 
 [[positions.main_wall]]
-no = 4
+id = "basin_water"
 th = "จุดน้ำดีอ่าง ½\" + สต็อปวาล์ว"
 en = "Basin ½\" water outlet + stop valve"
 shape = "point"
 x = 400
 y = 550
-part = 2
+part = "basin"
 note_th = "สมมาตรกับท่อน้ำทิ้งรอบแนวยาแนวใต้กึ่งกลางอ่าง ความสูงเท่ากัน · ต่อก๊อกด้วยสายน้ำดี ซ่อนใต้อ่าง"
 note_en = "mirrors the waste about the joint under the basin centre, same height · joined to the tap by a flexible hose, hidden under the basin"
 
 [[positions.main_wall]]
-no = 5
+id = "mirror"
 product = "mirror"
 th = "กระจกกลม"
 en = "Round mirror"
@@ -242,7 +243,7 @@ note_th = "กึ่งกลางแนวยาแนว ตรงกับ�
 note_en = "centred on a joint, in line with the basin · suits a 183 cm person (eyes ~1700) and a 152 cm person (eyes ~1420)"
 
 [[positions.main_wall]]
-no = 6
+id = "lamp_2"
 product = "lamp"
 th = "โคมไฟ 2"
 en = "Lamp 2"
@@ -253,7 +254,7 @@ note_th = "เหมือนโคมไฟ 1"
 note_en = "as lamp 1"
 
 [[positions.main_wall]]
-no = 7
+id = "bum_gun_holder"
 th = "ขอแขวนสายฉีดชำระ"
 en = "Bum gun holder"
 shape = "point"
@@ -263,7 +264,7 @@ note_th = "ใต้ที่ใส่กระดาษชำระ กึ่�
 note_en = "below the roll holder, centred on a joint, screws either side"
 
 [[positions.main_wall]]
-no = 8
+id = "roll_holder"
 product = "roll_holder"
 th = "ที่ใส่กระดาษชำระ"
 en = "Roll holder"
@@ -274,7 +275,7 @@ note_th = "ระหว่างอ่างกับชักโครก ก�
 note_en = "between the basin and the toilet, centred on a joint, screws either side"
 
 [[positions.main_wall]]
-no = 9
+id = "toilet"
 product = "toilet"
 th = "ชักโครก"
 en = "Toilet"
@@ -285,18 +286,18 @@ note_th = "กึ่งกลางแนวยาแนว ตรงกับ�
 note_en = "centred on a joint, in line with the shelf above · the floor waste is hidden under the toilet, so landing on a floor-tile joint doesn't matter"
 
 [[positions.main_wall]]
-no = 10
+id = "toilet_water"
 th = "จุดน้ำชักโครก + สต็อปวาล์ว 2 ทาง"
 en = "Toilet water outlet + 2-way valve"
 shape = "point"
 x = 1450
 y = 200
-part = 9
+part = "toilet"
 note_th = "ต่ำ ซ่อนในช่องหลังชักโครก · เลื่อนจากกึ่งกลางชักโครกไปทางสายฉีดชำระ ให้พ้นแนวยาแนว — ยืนยันความสูงกับแบบชักโครก"
 note_en = "low, hidden in the toilet's rear gap · offset from the toilet centre towards the bum gun, clear of the joint — confirm the height against the toilet diagram"
 
 [[positions.main_wall]]
-no = 11
+id = "shelf"
 product = "shelf"
 th = "ชั้นวางพร้อมราวแขวนผ้า"
 en = "Shelf with towel rail"
@@ -307,7 +308,7 @@ note_th = "เหนือชักโครก ตรงแนวเดีย�
 note_en = "above the toilet, on the same line · mounting points at the two ends · within one tile row, towels clear the cistern"
 
 [[positions.main_wall]]
-no = 12
+id = "shower_zone"
 th = "ส่วนอาบน้ำ"
 en = "Shower zone"
 shape = "zone"
@@ -315,7 +316,7 @@ x = 2450
 w = 1100
 
 [[positions.main_wall]]
-no = 13
+id = "shower"
 product = "shower"
 th = "ชุดฝักบัวพร้อมฝักบัวก้านแข็ง (Rain shower)"
 en = "Shower unit with rain head"
@@ -326,29 +327,29 @@ note_th = "ส่วนบนเหนือขอบกระเบื้อง
 note_en = "the top may pass above the tile edge; both fixings are in tile"
 
 [[positions.main_wall]]
-no = 14
+id = "shower_lower_fixing"
 th = "ชุดฝักบัว จุดยึดล่าง"
 en = "Shower unit, lower fixing"
 shape = "point"
 x = 2500
 y = 1450
-part = 13
+part = "shower"
 note_th = "กึ่งกลางแนวยาแนว · สกรูยึดต้องอยู่สองข้างของแนว ไม่ตรงร่องยาแนว · ต่ำกว่าเดิมเล็กน้อย ให้จุดยึดทั้งสองพ้นแนวยาแนวและขอบกระเบื้อง"
 note_en = "centred on a joint · the bracket screws go either side of it, not in the grout line · a little lower than now, so both fixings clear the joints and the tile edge"
 
 [[positions.main_wall]]
-no = 15
+id = "shower_upper_fixing"
 th = "ชุดฝักบัว จุดยึดบน"
 en = "Shower unit, upper fixing"
 shape = "point"
 x = 2500
 y = 1953
-part = 13
+part = "shower"
 note_th = "ระยะห่างตามชุดฝักบัว"
 note_en = "the unit's own fixing spacing"
 
 [[positions.main_wall]]
-no = 16
+id = "heater"
 product = "heater"
 th = "เครื่องทำน้ำอุ่นพร้อมกล่องไฟฟ้า"
 en = "Water heater with electrical box"
@@ -360,7 +361,7 @@ note_en = "moved closer to the window-wall corner to make room for the shower un
 
 # ---------- window wall ----------
 [[positions.window_wall]]
-no = 1
+id = "heater_stop_tap"
 th = "สต็อปวาล์วเครื่องทำน้ำอุ่น"
 en = "Water heater stop tap"
 shape = "point"
@@ -370,7 +371,7 @@ note_th = "ที่เดิม ไม่ย้าย จ่ายน้ำเ�
 note_en = "unchanged position, feeds the heater on the main wall round the corner · its sliding cover plate takes up the new tile thickness"
 
 [[positions.floor]]
-no = 1
+id = "drain"
 product = "drain"
 th = "ท่อระบายน้ำพื้นเดิม ตะแกรง DEXZON"
 en = "Existing floor drain, DEXZON grate"
@@ -381,7 +382,7 @@ note_th = "ชิดผนังหลักพอดี ไม่มีกร�
 note_en = "tight against the main wall with no tile between (existing pipe top moved ~5 mm) · inside one floor tile, notched at its wall edge"
 
 [[positions.floor]]
-no = 2
+id = "floor_step"
 th = "ขั้นพื้น"
 en = "Floor step"
 shape = "step"

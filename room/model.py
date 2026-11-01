@@ -44,7 +44,7 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside"
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
 NAME_KEYS = {"th", "en", "note_th", "note_en"}
-LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
+LAYOUT_KEYS = {"id", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
 # What each shape needs to be drawn (after the product's size is filled in).
 SHAPE_NEEDS = {"rect": ("x", "y", "w", "h"), "circle": ("x", "y", "w"), "point": ("x", "y"),
                "vline": ("x",), "zone": ("x", "w"), "step": ("x",)}
@@ -65,7 +65,7 @@ class Tile:
 
 @dataclass(frozen=True)
 class Item:
-    no: str
+    no: str              # its number on the drawing: from its order in room.toml
     th: str
     en: str
     shape: str
@@ -77,6 +77,7 @@ class Item:
     part: str = None
     note_th: str = ""
     note_en: str = ""
+    id: str = ""         # what a part names it by
 
 
 @dataclass(frozen=True)
@@ -301,7 +302,7 @@ def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
     def named(k, no, shape, **dims):
         e, where = names[k], f"[room_items.{k}]"
         return Item(str(no), e["th"], e["en"], shape, note_th=_note(e, "note_th", where),
-                    note_en=_note(e, "note_en", where), **{a: float(v) for a, v in dims.items()})
+                    note_en=_note(e, "note_en", where), id=k, **{a: float(v) for a, v in dims.items()})
 
     v = lambda key, name_: _value(room, key, name_)             # noqa: E731
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
@@ -344,11 +345,11 @@ def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
 def _layout_items(layout, key, catalogue, room_w):
     out = []
     needs = FLOOR_SHAPE_NEEDS if key == "floor" else SHAPE_NEEDS
-    for e in layout.get(key, []):
-        where = f"[[positions.{key}]] entry {e.get('no', '?')}"
+    for i, e in enumerate(layout.get(key, []), 1):
+        where = f"[[positions.{key}]] entry {e.get('id', i)}"
         only(ROOM_FILE, where, e, LAYOUT_KEYS)
-        need(ROOM_FILE, where, e, ("no", "th", "en", "shape"))
-        for k in ("no", "x", "y", "w", "h", "d", "part"):
+        need(ROOM_FILE, where, e, ("id", "th", "en", "shape"))
+        for k in ("x", "y", "w", "h", "d"):
             if k in e:
                 number(ROOM_FILE, where, k, e[k])
         if e["shape"] not in needs:
@@ -366,16 +367,15 @@ def _layout_items(layout, key, catalogue, room_w):
             raise DataError(f"{ROOM_FILE}: {where} ({e['shape']}) needs '{missing[0]}' "
                             f"(give it here, or through its product)")
         f = lambda k: None if k not in have else float(have[k])     # noqa: E731
-        out.append(Item(str(e["no"]), e["th"], e["en"], e["shape"], f("x"), f("w"), f("y"), f("h"), f("d"),
-                        None if "part" not in e else str(e["part"]),
-                        _note(e, "note_th", where), _note(e, "note_en", where)))
-    nos = [it.no for it in out]
-    for no in nos:
-        if nos.count(no) > 1:
-            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] number {no} is used twice")
+        out.append(Item(str(i), e["th"], e["en"], e["shape"], f("x"), f("w"), f("y"), f("h"), f("d"),
+                        e.get("part"), _note(e, "note_th", where), _note(e, "note_en", where), id=e["id"]))
+    ids = [it.id for it in out]
+    for id_ in ids:
+        if ids.count(id_) > 1:
+            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] id {id_} is used twice")
     for it in out:
-        if it.part and it.part not in nos:
-            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] entry {it.no} belongs to item {it.part}, "
+        if it.part and it.part not in ids:
+            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] entry {it.id} belongs to {it.part}, "
                             f"which is not in [[positions.{key}]]")
     return out
 
@@ -428,12 +428,12 @@ def _part_warnings(items):
     """A part (e.g. a screw fixing, a pipe outlet) must still sit within the item it
     belongs to: inside its width, and not above its top. Catches an item that was
     moved without its parts."""
-    by_no = {it.no: it for it in items}
+    by_id = {it.id: it for it in items}
     out = []
     for it in items:
         if not it.part:
             continue
-        parent = by_no[it.part]                 # checked at load: it exists
+        parent = by_id[it.part]                 # checked at load: it exists
         if None in (it.x, parent.x, parent.w):
             continue
         if abs(it.x - parent.x) > parent.w / 2:
