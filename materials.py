@@ -5,16 +5,17 @@ about the phases or the drawings.
     m = load(Path("materials.toml"))
     m.render()          # the material list as Markdown table rows — the PDF prints exactly this
     m.still_to_buy()    # (total, whether any of it is approximate)
-    m.on_site()         # how many items are already on site (bought or reused)
+    m.on_site()         # how many lines are already on site (bought or reused)
     m.tile_colours()    # the tile colours the list names
     m.tile_boxes(c)     # how many boxes of one tile colour are on the list
 
-The groups, the shops and the suppliers are defined in materials.toml; the only fixed list
-here is the four statuses, because each one has its own rules (what needs a price, a shop…).
+Each product is written once in the file, with a use for every line it takes on the list.
+The shops, suppliers, units and groups are defined in the file too; the only fixed list here
+is the four statuses, because each one has its own rules (what needs a price, a shop…).
 
 Ordered by exactly two things written in the file: the group (in the order the groups are
-listed), then the status (buy, bought, reused, supplied); items with the same group and status keep
-their order in the file.
+listed), then the status (buy, bought, reused, supplied); lines with the same group and status
+keep the order of their products in the file.
 
 Usage:  python3 materials.py [materials.toml]    (prints the material list)
 """
@@ -29,7 +30,9 @@ FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
 SHOP_KEYS = {"id", "name", "sku", "link"}
 SUPPLIER_KEYS = {"id", "th", "en"}
-ITEM_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku", "by"}
+UNIT_KEYS = {"id", "th", "en_one", "en_many"}
+PRODUCT_KEYS = {"name_th", "name_en", "unit", "price", "approx", "tile", "shop", "sku", "use"}
+USE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
 STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
 APPROX = "ประมาณ / approx."
 ABOUT = "ประมาณ / about"
@@ -61,69 +64,84 @@ class Supplier:
 
 
 @dataclass(frozen=True)
-class Material:
-    name: str
-    note: str
-    group: str           # the id of its group
-    status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting),
-                         # "supplied" (the trade brings it)
-    n: float             # how many
+class Unit:
+    id: str
+    th: str              # Thai has one form: 1 ถุง, 7 ถุง
+    en_one: str          # 1 bag
+    en_many: str         # 7 bags
+
+    def of(self, n):
+        return f"{self.th} / {self.en_one if n == 1 else self.en_many}"
+
+
+@dataclass(frozen=True)
+class Product:
+    name_th: str
+    name_en: str
+    unit: Unit = None
     price: float = None  # unit price in baht
-    unit: str = ""
     approx: bool = False
     tile: str = None
     shop: Shop = None    # where it is bought
     sku: str = None      # the shop's product code
-    by: Supplier = None  # who brings a supplied item
-
-    @property
-    def shop_name(self):
-        return self.shop.name if self.shop else ""
 
     @property
     def link(self):
         """The product page, built from the shop and the SKU."""
         return self.shop.url(self.sku) if self.shop else None
 
+
+@dataclass(frozen=True)
+class Material:
+    """One line on the list: a product, where it goes, and how many."""
+    product: Product
+    group: str           # the id of its group
+    status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting),
+                         # "supplied" (the trade brings it)
+    n: float             # how many
+    note_th: str = ""
+    note_en: str = ""
+    by: Supplier = None  # who brings a supplied product
+
     @property
     def total(self):
         """What is still to pay for it."""
-        return self.n * self.price if self.status == "buy" else 0
+        return self.n * self.product.price if self.status == "buy" else 0
 
     @property
     def paid(self):
         """What was paid for it, if it is on site and the price is known."""
-        return self.n * self.price if self.status == "bought" and self.price is not None else 0
+        return self.n * self.product.price if self.status == "bought" and self.product.price is not None else 0
 
 
 @dataclass(frozen=True)
 class Materials:
     groups: tuple
-    items: tuple
+    items: tuple         # every line on the list, in file order
 
     def in_order(self, group):
-        """The materials of one group as the list shows them: by status, then file order."""
+        """The lines of one group as the list shows them: by status, then file order."""
         return sorted((m for m in self.items if m.group == group.id), key=lambda m: STATUSES.index(m.status))
 
     def on_site(self):
-        """How many items are already on site."""
+        """How many lines are already on site."""
         return sum(1 for m in self.items if m.status in ("bought", "reused"))
 
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
         buy = [m for m in self.items if m.status == "buy"]
-        return sum(m.total for m in buy), any(m.approx for m in buy)
+        return sum(m.total for m in buy), any(m.product.approx for m in buy)
 
     def tile_colours(self):
         """Every tile colour the list names, as written. Whether the room has that tile is
         not this file's business: build_pdf.py checks it against the drawings."""
-        return sorted({m.tile for m in self.items if m.tile})
+        return sorted({m.product.tile for m in self.items if m.product.tile})
 
     def tile_boxes(self, colour):
-        return sum(m.n for m in self.items if m.tile == colour)
+        return sum(m.n for m in self.items if m.product.tile == colour)
 
     def render(self):
-        """The material list as Markdown table rows: a heading row per group, then its items."""
+        """The material list as Markdown table rows: a heading row per group, then its lines."""
         rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
         for g in self.groups:
             items = self.in_order(g)
@@ -138,7 +156,7 @@ class Materials:
 def load(path):
     """Read and check materials.toml."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"shop", "supplier", "group", "item"})
+    only(FILE, "the file", raw, {"shop", "supplier", "unit", "group", "product"})
     shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
     for s in shops.values():
         try:
@@ -147,9 +165,17 @@ def load(path):
         except (re.error, KeyError, IndexError, ValueError) as e:
             raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
     suppliers = {e["id"]: Supplier(**e) for e in _defined(raw, "supplier", SUPPLIER_KEYS)}
+    units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
     groups = tuple(Group(**e) for e in _defined(raw, "group", GROUP_KEYS))
     ids = {g.id for g in groups}
-    return Materials(groups, tuple(_item(it, ids, shops, suppliers) for it in raw.get("item", [])))
+    items = []
+    for e in raw.get("product", []):
+        product = _product(e, shops, units)
+        uses = e.get("use", [])
+        if not uses:
+            raise DataError(f"{FILE}: '{product.name_en[:40]}' has no [[product.use]] — it isn't on the list")
+        items += [_use(u, product, ids, suppliers) for u in uses]
+    return Materials(groups, tuple(items))
 
 
 def _defined(raw, kind, keys):
@@ -165,49 +191,64 @@ def _defined(raw, kind, keys):
     return raw.get(kind, [])
 
 
-def _item(it, group_ids, shops, suppliers):
-    where = f"'{it.get('name', '?')[:40]}'"
-    only(FILE, where, it, ITEM_KEYS)
-    need(FILE, where, it, ("name", "group", "status", "n"))
-    if it["group"] not in group_ids:
-        raise DataError(f"{FILE}: {where} names group '{it['group']}', which is not one of its groups")
-    if it["status"] not in STATUSES:
-        raise DataError(f"{FILE}: {where} has status {it['status']!r} (must be one of: {', '.join(STATUSES)})")
-    for k in ("n", "price"):
-        if k in it:
-            number(FILE, where, k, it[k])
-    if it["n"] <= 0:
+def _one_of(where, key, v, known):
+    if v not in known:
+        raise DataError(f"{FILE}: {where} has {key} = {v!r} (must be one of: {', '.join(known)})")
+    return known[v]
+
+
+def _product(e, shops, units):
+    where = f"'{e.get('name_en', '?')[:40]}'"
+    only(FILE, where, e, PRODUCT_KEYS)
+    need(FILE, where, e, ("name_th", "name_en"))
+    if "price" in e:
+        number(FILE, where, "price", e["price"])
+        if e["price"] < 0:
+            raise DataError(f"{FILE}: {where} 'price' can't be negative")
+    if "approx" in e:
+        flag(FILE, where, "approx", e["approx"])
+    if "tile" in e and not isinstance(e["tile"], str):
+        raise DataError(f"{FILE}: {where} 'tile' must be text (a tile colour), not {e['tile']!r}")
+    shop = None
+    if "shop" in e or "sku" in e:
+        need(FILE, where, e, ("shop", "sku"))
+        shop = _one_of(where, "shop", e["shop"], shops)
+        if not isinstance(e["sku"], str) or not re.fullmatch(shop.sku, e["sku"]):
+            raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.name} code")
+    unit = _one_of(where, "unit", e["unit"], units) if "unit" in e else None
+    return Product(e["name_th"], e["name_en"], unit, e.get("price"), e.get("approx", False),
+                   e.get("tile"), shop, e.get("sku"))
+
+
+def _use(u, p, group_ids, suppliers):
+    """One line on the list, checked against its product: what is bought has a shop, what is
+    to buy has a price, what is reused or supplied has neither."""
+    where = f"'{p.name_en[:40]}'"
+    only(FILE, where, u, USE_KEYS)
+    need(FILE, where, u, ("group", "status", "n"))
+    if u["group"] not in group_ids:
+        raise DataError(f"{FILE}: {where} names group '{u['group']}', which is not one of its groups")
+    if u["status"] not in STATUSES:
+        raise DataError(f"{FILE}: {where} has status {u['status']!r} (must be one of: {', '.join(STATUSES)})")
+    number(FILE, where, "n", u["n"])
+    if u["n"] <= 0:
         raise DataError(f"{FILE}: {where} 'n' must be more than 0")
-    if "price" in it and it["price"] < 0:
-        raise DataError(f"{FILE}: {where} 'price' can't be negative")
-    if "approx" in it:
-        flag(FILE, where, "approx", it["approx"])
-    if it["status"] == "buy" and "price" not in it:
+    s = u["status"]
+    if s == "buy" and p.price is None:
         raise DataError(f"{FILE}: {where} is to buy but has no price")
-    if it["status"] in ("reused", "supplied") and "price" in it:
-        raise DataError(f"{FILE}: {where} is {it['status']}, so it has no price")
-    if it["status"] == "supplied":
-        need(FILE, where, it, ("by",))
-        if it["by"] not in suppliers:
-            raise DataError(f"{FILE}: {where} has by = {it['by']!r} (must be one of: {', '.join(suppliers)})")
-    elif "by" in it:
-        raise DataError(f"{FILE}: {where} is {it['status']}, so it has no 'by' (only supplied items do)")
-    if "tile" in it and not isinstance(it["tile"], str):
-        raise DataError(f"{FILE}: {where} 'tile' must be text (a tile colour), not {it['tile']!r}")
-    if it["status"] in ("reused", "supplied"):
-        if "shop" in it or "sku" in it:
-            raise DataError(f"{FILE}: {where} is {it['status']}, so it has no shop or sku")
-    else:
-        need(FILE, where, it, ("shop", "sku"))
-        if it["shop"] not in shops:
-            raise DataError(f"{FILE}: {where} has shop {it['shop']!r} (must be one of: {', '.join(shops)})")
-        shop = shops[it["shop"]]
-        if not isinstance(it["sku"], str) or not re.fullmatch(shop.sku, it["sku"]):
-            raise DataError(f"{FILE}: {where} has sku {it['sku']!r}, which isn't a {shop.name} code")
-    return Material(name=it["name"], note=it.get("note", ""), group=it["group"], status=it["status"],
-                    n=it["n"], price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
-                    tile=it.get("tile"), shop=shops.get(it.get("shop")), sku=it.get("sku"),
-                    by=suppliers.get(it.get("by")))
+    if s in ("reused", "supplied") and p.price is not None:
+        raise DataError(f"{FILE}: {where} is {s}, so it has no price")
+    if s in ("reused", "supplied") and p.shop:
+        raise DataError(f"{FILE}: {where} is {s}, so it has no shop or sku")
+    if s in ("buy", "bought") and not p.shop:
+        raise DataError(f"{FILE}: {where} is {s}, so it needs a shop and sku")
+    by = None
+    if s == "supplied":
+        need(FILE, where, u, ("by",))
+        by = _one_of(where, "by", u["by"], suppliers)
+    elif "by" in u:
+        raise DataError(f"{FILE}: {where} is {s}, so it has no 'by' (only supplied items do)")
+    return Material(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""), by)
 
 
 # ---------- the cells of the list ----------
@@ -216,15 +257,16 @@ def baht(v):
 
 
 def qty(m):
-    """How many, and for what is to buy, × the unit price."""
-    n = f"{m.n:g} {m.unit}" if m.unit else f"{m.n:g}"
-    return f"{n} × {baht(m.price)}" if m.status == "buy" else n
+    """How many (with the unit, singular or plural), and for what is to buy, × the unit price."""
+    p = m.product
+    n = f"{m.n:g} {p.unit.of(m.n)}" if p.unit else f"{m.n:g}"
+    return f"{n} × {baht(p.price)}" if m.status == "buy" else n
 
 
 def money_cell(m):
     """What is still to pay, or what was paid for what is on site."""
     if m.status == "buy":
-        return (f"{APPROX} " if m.approx else "") + baht(m.total)
+        return (f"{APPROX} " if m.product.approx else "") + baht(m.total)
     return baht(m.paid) if m.paid else "—"
 
 
@@ -235,11 +277,14 @@ def site_cell(m):
 
 
 def name_cell(m):
-    """The name (linked to the shop's page), then its shop and SKU, then its note."""
-    name = f"[{md_cell(m.name)}]({m.link})" if m.link else md_cell(m.name)
-    if m.sku:
-        name += f"<br>{m.shop_name} {m.sku}"
-    return f"{name}<br>*{md_cell(m.note)}*" if m.note else name
+    """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
+    p = m.product
+    name = md_cell(f"{p.name_th} / {p.name_en}")
+    if p.link:
+        name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
+    if m.note_th or m.note_en:
+        name += f"<br>*{md_cell(m.note_th)} / {md_cell(m.note_en)}*"
+    return name
 
 
 def sum_cell(total, approx, bold=True):
