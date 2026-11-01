@@ -21,6 +21,8 @@ problems and their count are printed. The template is
 never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
+        python3 build.py --publishable [template.md] [out-folder]  (the same, then an ERROR if there is
+                                                                    any design problem: mise run publish)
         python3 build.py --summary [template.md]  (tile counts, total, design problems; no build)
 """
 import sys
@@ -142,6 +144,9 @@ def print_warnings(warnings):
 
 def main(argv):
     args = argv[1:]
+    publishable = args[:1] == ["--publishable"]
+    if publishable:
+        args = args[1:]
     if args[:1] == ["--summary"]:
         summary(Path(args[1] if len(args) > 1 else TEMPLATE))
         return
@@ -150,6 +155,9 @@ def main(argv):
     warnings = build(md, out)
     print_warnings(warnings)
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {problems(warnings)}")
+    if publishable and warnings:
+        raise DataError(f"{problems(warnings)}, in red on the drawings in {out / PDF_NAME} — not published; "
+                        f"fix them, then run mise run publish again")
 
 
 if __name__ == "__main__":

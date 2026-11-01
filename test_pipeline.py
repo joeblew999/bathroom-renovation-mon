@@ -21,8 +21,10 @@ design check (room_design_checks.py, materials_design_checks.py).
 
 Usage:  python3 test_pipeline.py
 """
+import contextlib
 import datetime
 import html
+import io
 import json
 import math
 import re
@@ -657,6 +659,26 @@ def same_numbers_reordered_test():
     return edit_step(lambda x: x.update(th="1 ก 22", en="22 a 1")), CLEAN
 
 
+def publishable_test():
+    """mise run publish builds with --publishable: with a design problem it still writes the page and the PDF
+    (to look at), then refuses — so the push after it never runs."""
+    edits, want = clash_test()
+
+    def expect(p):
+        with tempfile.TemporaryDirectory() as tmp:
+            copy_to(Path(tmp), edits)
+            out = Path(tmp) / "out"
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):          # its own output isn't the test's
+                    build.main(["build.py", "--publishable", str(Path(tmp) / MD), str(out)])
+                refused = False
+            except DataError:
+                refused = True
+            written = (out / build.PDF_NAME).exists()
+        return want if refused and written else f"(refused: {refused}; PDF written: {written})"
+    return edits, expect
+
+
 def problems_fit_test():
     """Every design problem's lines (Thai and English, long ones wrapped) fit inside its drawing, across and
     down, however many there are — measured in Chromium, the browser that prints the PDF."""
@@ -799,6 +821,7 @@ TESTS = [
     ("materials design check: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
     ("design check: every design problem's lines fit inside its drawing", problems_fit_test),
+    ("design check: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),

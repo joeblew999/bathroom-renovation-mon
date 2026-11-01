@@ -22,12 +22,22 @@ description = "Check the code for unused imports and undefined names"
 run = "python -m pyflakes *.py"
 
 [tasks.build]
-description = "Build out/index.html and out/bathroom-renovation-quote.pdf (the same page, as web page and PDF)"
+description = "Build out/index.html and out/bathroom-renovation-quote.pdf; design problems are shown in red on the drawings and counted at the end"
 run = "python build.py"
 
 [tasks.test]
 description = "Break copies of the data on purpose and confirm every check fires"
 run = "python test_pipeline.py"
+
+[tasks.publish]
+description = "Lint, test and build, and push to main (which publishes) only if there are no design problems"
+depends = ["lint", "test"]
+run = [
+  # what is checked must be what is pushed: nothing left uncommitted
+  "test -z \"$(git status --porcelain)\" || (echo 'ERROR: uncommitted changes or new files — commit them first, so what is checked is what is pushed' && exit 1)",
+  "python build.py --publishable",
+  "git push origin main",
+]
 
 [tasks.summary]
 description = "Print the tile counts, the still-to-buy total and any design problems, without building"
