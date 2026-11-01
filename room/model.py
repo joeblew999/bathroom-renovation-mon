@@ -29,7 +29,6 @@ ROOM_FILE, LAYOUT = "room.toml", "layout.toml"
 ROOM_KEYS = {
     "room": {"length", "width", "ceiling"},
     "new_wall": {"length"},
-    "lintel": {"height", "bearing"},
     "old_wall": {"step"},
     "window": {"from_main_wall", "width", "sill", "height"},
     "rules": {"min_clear"},
@@ -175,12 +174,13 @@ def load(folder, catalogue):
     layout = read_toml(folder / LAYOUT, "all the positions")
     tiles = _tiles(room, catalogue)
     door = _door(room, catalogue)
+    lintel, bearing = _lintel(room, catalogue)
     _check_room(room, tiles, door)
     labels = Labels(ROOM_FILE, room.get("labels", {}), LABELS)
     only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "room_items"})
-    walls, floor = _walls(room, layout, door, catalogue)
+    walls, floor = _walls(room, layout, door, lintel.h, bearing, catalogue)
     used = ({e["product"] for k in DRAWN + ("floor",) for e in layout.get(k, []) if "product" in e}
-            | {t.product for t in tiles.values()} | {door.id})
+            | {t.product for t in tiles.values()} | {door.id, lintel.id})
     v = lambda key, name_: _value(room, key, name_)             # noqa: E731
     return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("new_wall", "length"),
                 v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels, frozenset(used))
@@ -211,6 +211,15 @@ def _door(room, catalogue):
     return _product(catalogue, f"{ROOM_FILE}: [door]", e["product"], ("w", "h"))
 
 
+def _lintel(room, catalogue):
+    """The lintel's product (for its height) and how far it bears onto the wall."""
+    e = room.get("lintel", {})
+    only(ROOM_FILE, "[lintel]", e, {"product", "bearing"})
+    need(ROOM_FILE, "[lintel]", e, ("product", "bearing"))
+    number(ROOM_FILE, "[lintel]", "bearing", e["bearing"])
+    return _product(catalogue, f"{ROOM_FILE}: [lintel]", e["product"], ("h",)), e["bearing"]
+
+
 def _tiles(room, catalogue):
     """Every [tiles.NAME] table in room.toml, with its size and box from its product."""
     raw = room.get("tiles", {})
@@ -239,7 +248,7 @@ def _note(e, key, where):
 
 
 def _check_room(room, tiles, door):
-    only(ROOM_FILE, "the file", room, set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "labels"})
+    only(ROOM_FILE, "the file", room, set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels"})
     only(ROOM_FILE, "[floor]", room.get("floor", {}), {"tile"})
     need(ROOM_FILE, "[floor]", room.get("floor", {}), ("tile",))
     one_of(ROOM_FILE, "[floor]", "tile", room["floor"]["tile"], tiles)
@@ -261,7 +270,7 @@ def _check_room(room, tiles, door):
                         f"in the new wall ({_value(room, 'new_wall', 'length')})")
 
 
-def _walls(room, layout, door, catalogue):
+def _walls(room, layout, door, lt, lb, catalogue):
     """Every wall with its items (from layout.toml, plus those that follow from the room)."""
     names = layout.get("room_items", {})
     only(LAYOUT, "[room_items]", names, ROOM_ITEMS)
@@ -284,7 +293,6 @@ def _walls(room, layout, door, catalogue):
 
     # new wall, seen from inside facing it: x from the opposite long wall (the column side)
     n = _next(items["new_wall"])
-    lt, lb = v("lintel", "height"), v("lintel", "bearing")
     items["new_wall"] += [
         named("column", n, "column", x=column / 2, w=column, y=ceiling / 2, h=ceiling),
         named("door_opening", n + 1, "opening", x=column + door_w / 2, w=door_w, y=door_h / 2, h=door_h),

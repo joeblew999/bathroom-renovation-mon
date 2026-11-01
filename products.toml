@@ -4,21 +4,25 @@
 #
 # Each product:
 #   id         what materials.toml, layout.toml and room.toml call it
-#   name_th, name_en   the product only (no shop codes). A name can show the size below:
-#              {w} {h} {d} in mm, or {w_cm} {h_cm} {d_cm} in cm — never type the size twice.
-#   size       { w, h, d } in mm — only for products the drawings or the tile count use
-#              (w wide, h high, d deep; a tile is w × h)
+#   name_th, name_en   the product only (no shop codes). A name shows the size below with
+#              {w} {h} {d} in mm, {w_cm} … in cm or {w_m} … in m — never type a dimension twice.
+#   size       { w, h, d } in mm: every product's dimensions (w wide, h high, d deep; a tile
+#              is w × h), and any size the drawings use. A single figure that isn't a
+#              dimension — a weight, a volume, a stock length, an inch trade size — stays in
+#              the name ("50 kg", "4 m", "½\"").
 #   per_box    tiles in a box (tiles only)
 
 [[product]]
 id = "aac_block"
-name_th = "อิฐมวลเบา TPI 60 × 20 × 7.5 ซม."
-name_en = "TPI AAC block"
+name_th = "อิฐมวลเบา TPI {w_cm} × {h_cm} × {d_cm} ซม."
+name_en = "TPI AAC block {w_cm} × {h_cm} × {d_cm} cm"
+size = { w = 600, h = 200, d = 75 }
 
 [[product]]
 id = "lintel"
-name_th = "คานทับหลังสำเร็จรูป DIAMOND 20 × 150 × 7.5 ซม."
-name_en = "DIAMOND precast lintel 20 × 150 × 7.5 cm"
+name_th = "คานทับหลังสำเร็จรูป DIAMOND {h_cm} × {w_cm} × {d_cm} ซม."
+name_en = "DIAMOND precast lintel {h_cm} × {w_cm} × {d_cm} cm"
+size = { w = 1500, h = 200, d = 75 }
 
 [[product]]
 id = "block_mortar"
@@ -27,8 +31,9 @@ name_en = "TPI M319 block mortar, 50 kg"
 
 [[product]]
 id = "wall_tie"
-name_th = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL 3.2 × 22 ซม."
-name_en = "AAC wall tie plate MEGA STEEL 3.2 × 22 cm"
+name_th = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL {w_cm} × {h_cm} ซม."
+name_en = "AAC wall tie plate MEGA STEEL {w_cm} × {h_cm} cm"
+size = { w = 32, h = 220 }
 
 [[product]]
 id = "aac_plaster"
@@ -43,8 +48,9 @@ size = { w = 800, h = 2000 }
 
 [[product]]
 id = "door"
-name_th = "ประตู AZLE WB2 UPVC 80 × 200 ซม. สีน้ำตาลอ่อน"
-name_en = "Door AZLE WB2 UPVC 80 × 200 cm, light brown"
+name_th = "ประตู AZLE WB2 UPVC {w_cm} × {h_cm} ซม. สีน้ำตาลอ่อน"
+name_en = "Door AZLE WB2 UPVC {w_cm} × {h_cm} cm, light brown"
+size = { w = 800, h = 2000 }
 
 [[product]]
 id = "door_knob"
@@ -58,8 +64,9 @@ name_en = "Hinges YALE 4×3 inch, 304 stainless, pack of 3"
 
 [[product]]
 id = "gypsum_board"
-name_th = "แผ่นยิปซัมทนชื้น DURAONE 9 มม. 120 × 240 ซม."
-name_en = "Moisture-resistant gypsum board DURAONE 9 mm, 120 × 240 cm"
+name_th = "แผ่นยิปซัมทนชื้น DURAONE {d} มม. {w_cm} × {h_cm} ซม."
+name_en = "Moisture-resistant gypsum board DURAONE {d} mm, {w_cm} × {h_cm} cm"
+size = { w = 1200, h = 2400, d = 9 }
 
 [[product]]
 id = "c_channel"
@@ -241,8 +248,9 @@ name_en = "Crocodile FLEX SHIELD 20 kg"
 
 [[product]]
 id = "fibre_mesh"
-name_th = "ตาข่ายไฟเบอร์ จระเข้ 0.2 × 10 ม."
-name_en = "Fibre mesh Crocodile 0.2 × 10 m"
+name_th = "ตาข่ายไฟเบอร์ จระเข้ {w_m} × {h_m} ม."
+name_en = "Fibre mesh Crocodile {w_m} × {h_m} m"
+size = { w = 200, h = 10000 }
 
 [[product]]
 id = "grey_tile"

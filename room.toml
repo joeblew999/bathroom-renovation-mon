@@ -17,7 +17,7 @@ length = 1300              # the rest of the room width is the existing column
 product = "door_frame"     # the opening is the frame's size (products.toml); hinged on the column side, opens in
 
 [lintel]
-height = 200               # precast AAC, one block course high
+product = "lintel"         # its height comes from the product (products.toml): one block course high
 bearing = 150              # onto the wall; the column end sits in a shallow pocket
 
 [old_wall]

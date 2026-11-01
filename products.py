@@ -6,8 +6,8 @@ drawings — like common.py, it knows nothing about either; both read it, neithe
     cat["toilet"].w                        # 375
     cat["grey_tile"].name_en               # "Grey tile TARA Stone Blast 500 × 500 mm, …"
 
-A name can show the product's size with {w} {h} {d} (mm) or {w_cm} {h_cm} {d_cm} (cm), so the
-size is typed once.
+A name shows the product's size with {w} {h} {d} (mm), {w_cm} … (cm) or {w_m} … (m), so a
+dimension is typed once.
 """
 import string
 import sys
@@ -19,6 +19,7 @@ from common import DataError, cli, need, number, only, read_toml
 FILE = "products.toml"
 KEYS = {"id", "name_th", "name_en", "size", "per_box"}
 SIZE_KEYS = ("w", "h", "d")
+UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
 
 
 @dataclass(frozen=True)
@@ -54,16 +55,17 @@ def load(path):
             number(FILE, f"{where} size", k, v)
         if "per_box" in e:
             number(FILE, where, "per_box", e["per_box"])
-        fill = {**{k: f"{v:g}" for k, v in size.items()}, **{f"{k}_cm": f"{v / 10:g}" for k, v in size.items()}}
+        fill = {f"{k}{unit}": f"{v / div:g}" for k, v in size.items() for unit, div in UNITS.items()}
         names = {}
         for lang in ("th", "en"):
             text = e[f"name_{lang}"]
             for _, f, _, _ in string.Formatter().parse(text):
                 if f is not None and f not in fill:
-                    raise DataError(f"{FILE}: {where} name_{lang} shows {{{f}}}, but its size has no "
-                                    f"{f.removesuffix('_cm')}" if f.removesuffix('_cm') in SIZE_KEYS else
+                    k = f.split("_")[0]
+                    raise DataError(f"{FILE}: {where} name_{lang} shows {{{f}}}, but its size has no {k}"
+                                    if k in SIZE_KEYS and f in {k + u for u in UNITS} else
                                     f"{FILE}: {where} name_{lang} has {{{f}}} (a name can show: "
-                                    f"{', '.join(k + s for s in ('', '_cm') for k in SIZE_KEYS)})")
+                                    f"{', '.join(k + u for u in UNITS for k in SIZE_KEYS)})")
             names[lang] = text.format(**fill)
         out[e["id"]] = Product(e["id"], names["th"], names["en"], *(size.get(k) for k in SIZE_KEYS),
                                e.get("per_box"))
