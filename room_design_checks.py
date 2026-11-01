@@ -34,7 +34,7 @@ def warnings(room):
 def wall_warnings(room, wall):
     """Every setting-out or clash problem on one wall, as (th, en)."""
     t = room.tiles[wall.tile]
-    return (_construction_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.top)
+    return (_construction_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.tiling_height)
             + _clash_warnings(room, wall) + _part_warnings(room, wall))
 
 
@@ -80,7 +80,7 @@ def joints_x(wall, tile):
 
 
 def _joint_warnings(room, wall, tile, top):
-    """A hole (a fixing, an outlet, an item's centre) too near a tile joint: closer than min_clear
+    """A hole (a fixing, an outlet, an item's centre) too near a tile joint: closer than joint_clearance
     but not exactly on it, below the tile top."""
     jx = joints_x(wall, tile)
     jy = sorted(set(range(tile, top, tile)) | {top})   # the tile top edge counts as a joint
@@ -93,9 +93,9 @@ def _joint_warnings(room, wall, tile, top):
             checks.append(("axis_y", it.y, jy))
         for axis, v, joints in checks:
             d = min(abs(v - j) for j in joints)
-            if 0 < d < room.min_clear:
+            if 0 < d < room.joint_clearance:
                 out.append(_warn(room, "warn_joint", wall=_name(wall), item=it.label(), axis=room.symbols[axis],
-                                 v=f"{v:g}", d=f"{d:g}", min=f"{room.min_clear:g}"))
+                                 v=f"{v:g}", d=f"{d:g}", min=f"{room.joint_clearance:g}"))
     return out
 
 
@@ -152,7 +152,7 @@ def _part_warnings(room, wall):
     by_id = {it.id: it for it in items}
     out = []
     for it in items:
-        parent = by_id.get(it.part)
+        parent = by_id.get(it.fitting)
         if not parent or None in (it.x, parent.x, parent.w):
             continue
         if abs(it.x - parent.x) > parent.w / 2:

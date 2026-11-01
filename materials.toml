@@ -1,24 +1,24 @@
 # materials.toml — every product, once: what it is, how it's bought, and its lines on the list.
 # materials.py reads it and renders the materials list; room.toml names products by id and takes
 # their names and sizes from here. The list is ordered by exactly two things written here:
-#   1. group   — one section per group, in the order the groups are written below
-#   2. status  — within a group: buy, then bought, then reused, then supplied
-# Lines with the same group and status keep the order of their entries here.
+#   1. work_section — one section per work section (by trade), in the order they are written below
+#   2. status       — within a work section: procure, then procured, then existing, then by_trade
+# Lines with the same work section and status keep the order of their entries here.
 # Nothing here refers to the phases or the room, and the phases don't refer to it.
 # Keys are written in the order shown here; leave a key out when it doesn't apply.
 #
 # prices_date, date_format: the day the prices were checked, and how it is shown.
 # round_approx: an approximate total is rounded to this many baht.
-# [section]: this part's heading and note (th, en, note_th, note_en — the shape of a group or a
+# [section]: this part's heading and note (th, en, note_th, note_en — the shape of a work section or a
 #   phase). The note can show {prices_date} and {approx} (the "approx." label).
 # [labels]: the fixed wording of the list. [symbols]: its marks, the same in both languages.
 #
-# Every named thing here — a shop, a unit, a group, a product — has th and en, its name; each id
+# Every named thing here — a shop, a unit, a work section, a product — has th and en, its name; each id
 #   says what it is.
 # Each shop: id, th, en, sku (what its product codes look like, a regular expression), link (the
 #   product page: {sku} is the code, {sku_digits} the code without its dots).
 # Each unit: id, th, en, en_many — "1 ถุง / bag", "7 ถุง / bags" (Thai has one form).
-# Each group: id, th, en, and an optional note (note_th, note_en) shown under its heading.
+# Each work section: id, th, en, and an optional note (note_th, note_en) shown under its heading.
 #
 # Each [[entry]] is one product:
 #   id         what room.toml calls it
@@ -37,21 +37,21 @@
 #              trade size — stays in the detail ("50 kg", "4 m", "½\"")
 #   per_box    tiles in a box (tiles only)
 #   unit       the id of its unit, shown after the quantity
-#   price      the unit price, in baht (to buy: needed; bought: what it cost, if known; else none)
+#   price      the unit price, in baht (procure: needed; procured: what it cost, if known; else none)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   shop, sku  where it is bought and its product code, together; the link is made from them
-#              (not for reused or supplied products)
+#              (not for existing or by_trade products)
 # and one [[entry.line]] for each line it takes on the list:
-#   group      the id of a group (things used all over go under whole_room)
-#   status     "buy"      — still to buy
-#              "bought"   — already on site, paid for
-#              "reused"   — an old fitting on site, reused
-#              "supplied" — the trade brings it ("ช่างไฟนำมา / electrician provides")
+#   work_section  the id of a work section (things used all over go under whole_room)
+#   status     "procure"  — still to procure (buy)
+#              "procured" — already on site, paid for
+#              "existing" — an existing fitting on site, reused
+#              "by_trade" — supplied by the trade ("ช่างไฟนำมา / electrician provides")
 #   n          how many
 #   note_th, note_en   what it is for here, or advice when buying — never a figure the room
 #              works out, never a fact held in the phases or the room, never the same note twice
-#   by_th, by_en       supplied lines only: who brings it
-# A product partly on site and partly to buy has two lines (bought n, buy n).
+#   by_th, by_en       by_trade lines only: who brings it
+# A product partly on site and partly to procure has two lines (procured n, procure n).
 
 prices_date = 2026-10-31
 date_format = "%d/%m/%Y"    # how the prices date is shown
@@ -193,62 +193,62 @@ th = "กระป๋อง"
 en = "can"
 en_many = "cans"
 
-[[group]]
+[[work_section]]
 id = "new_wall"
 th = "ผนังใหม่"
 en = "New wall"
 
-[[group]]
+[[work_section]]
 id = "door"
 th = "ประตู"
 en = "Door"
 
-[[group]]
+[[work_section]]
 id = "new_ceiling"
 th = "ฝ้าใหม่"
 en = "New ceiling"
 
-[[group]]
+[[work_section]]
 id = "plumbing_basin"
 th = "ประปา (อ่างล้างหน้า)"
 en = "Plumbing, basin"
 
-[[group]]
+[[work_section]]
 id = "plumbing_toilet"
 th = "ประปา (ชักโครก)"
 en = "Plumbing, toilet"
 
-[[group]]
+[[work_section]]
 id = "plumbing_shared"
 th = "ประปา (ใช้ร่วม)"
 en = "Plumbing, shared"
 
-[[group]]
+[[work_section]]
 id = "electrical_lamps"
 th = "ไฟฟ้า (โคมไฟ)"
 en = "Electrical, lamps"
 
-[[group]]
+[[work_section]]
 id = "electrical_switch"
 th = "ไฟฟ้า (สวิตช์)"
 en = "Electrical, switch"
 
-[[group]]
+[[work_section]]
 id = "shower_heater"
 th = "ฝักบัวและเครื่องทำน้ำอุ่น"
 en = "Shower and water heater"
 
-[[group]]
+[[work_section]]
 id = "accessories"
 th = "อุปกรณ์ในห้องน้ำ"
 en = "Accessories"
 
-[[group]]
+[[work_section]]
 id = "waterproofing_tiles"
 th = "กันซึมและกระเบื้อง"
 en = "Waterproofing and tiles"
 
-[[group]]
+[[work_section]]
 id = "whole_room"
 th = "ใช้ทั้งห้อง"
 en = "Whole room"
@@ -267,8 +267,8 @@ price = 26
 shop = "homepro"
 sku = "1110154"
   [[entry.line]]
-  group = "new_wall"
-  status = "buy"
+  work_section = "new_wall"
+  status = "procure"
   n = 18
 
 [[entry]]
@@ -284,8 +284,8 @@ approx = true
 shop = "homepro"
 sku = "1195815"
   [[entry.line]]
-  group = "new_wall"
-  status = "buy"
+  work_section = "new_wall"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -300,8 +300,8 @@ approx = true
 shop = "homepro"
 sku = "1127448"
   [[entry.line]]
-  group = "new_wall"
-  status = "buy"
+  work_section = "new_wall"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -316,8 +316,8 @@ price = 6
 shop = "homepro"
 sku = "1110170"
   [[entry.line]]
-  group = "new_wall"
-  status = "buy"
+  work_section = "new_wall"
+  status = "procure"
   n = 8
 
 [[entry]]
@@ -332,8 +332,8 @@ approx = true
 shop = "homepro"
 sku = "1109616"
   [[entry.line]]
-  group = "new_wall"
-  status = "buy"
+  work_section = "new_wall"
+  status = "procure"
   n = 2
 
 [[entry]]
@@ -348,8 +348,8 @@ price = 850
 shop = "homepro"
 sku = "1014768"
   [[entry.line]]
-  group = "door"
-  status = "buy"
+  work_section = "door"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -364,8 +364,8 @@ price = 2085
 shop = "homepro"
 sku = "1320577"
   [[entry.line]]
-  group = "door"
-  status = "buy"
+  work_section = "door"
+  status = "procure"
   n = 1
   note_th = "ไม่เจาะรูลูกบิดมา รองรับลูกบิดทั่วไป ไม่รองรับกุญแจ Mortise"
   note_en = "undrilled, takes a standard knob, not a mortise lock"
@@ -381,8 +381,8 @@ price = 399
 shop = "homepro"
 sku = "89869"
   [[entry.line]]
-  group = "door"
-  status = "buy"
+  work_section = "door"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -396,8 +396,8 @@ price = 199
 shop = "homepro"
 sku = "1123585"
   [[entry.line]]
-  group = "door"
-  status = "buy"
+  work_section = "door"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -412,8 +412,8 @@ price = 245
 shop = "homepro"
 sku = "1110611"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 2
 
 [[entry]]
@@ -427,8 +427,8 @@ price = 29
 shop = "homepro"
 sku = "1110231"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 4
   note_th = "ตัดได้ 2 ท่อนต่อเส้น"
   note_en = "cut 2 pieces per length"
@@ -444,8 +444,8 @@ price = 16
 shop = "homepro"
 sku = "1110271"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 4
 
 [[entry]]
@@ -459,8 +459,8 @@ price = 89
 shop = "homepro"
 sku = "1110148"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 1
   note_th = "ยึดแผ่นยิปซัมกับซีลาย"
   note_en = "board to C-channel"
@@ -476,8 +476,8 @@ price = 16
 shop = "homepro"
 sku = "1110109"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 2
 
 [[entry]]
@@ -491,8 +491,8 @@ price = 42
 shop = "homepro"
 sku = "1024381"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -506,8 +506,8 @@ price = 65
 shop = "homepro"
 sku = "1064892"
   [[entry.line]]
-  group = "new_ceiling"
-  status = "buy"
+  work_section = "new_ceiling"
+  status = "procure"
   n = 1
   note_th = "ยึดฉากฝ้า"
   note_en = "for fixing the wall angle"
@@ -524,8 +524,8 @@ price = 1190
 shop = "homepro"
 sku = "1249118"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "bought"
+  work_section = "plumbing_basin"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -539,8 +539,8 @@ price = 929
 shop = "homepro"
 sku = "1254863"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "bought"
+  work_section = "plumbing_basin"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -554,8 +554,8 @@ price = 485
 shop = "homepro"
 sku = "1225658"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "bought"
+  work_section = "plumbing_basin"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -569,8 +569,8 @@ price = 155
 shop = "homepro"
 sku = "1040989"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "buy"
+  work_section = "plumbing_basin"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -584,12 +584,12 @@ price = 90
 shop = "homepro"
 sku = "1028226"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "buy"
+  work_section = "plumbing_basin"
+  status = "procure"
   n = 1
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "buy"
+  work_section = "plumbing_toilet"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -604,8 +604,8 @@ approx = true
 shop = "homepro"
 sku = "5577"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 2
   note_th = "สำหรับจุดน้ำที่ผนัง"
   note_en = "for the wall outlets"
@@ -621,8 +621,8 @@ price = 99
 shop = "homepro"
 sku = "1104514"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "buy"
+  work_section = "plumbing_basin"
+  status = "procure"
   n = 1
   note_th = "ท่อน้ำทิ้งในผนัง"
   note_en = "waste pipe in the wall"
@@ -638,8 +638,8 @@ price = 29
 shop = "homepro"
 sku = "5614"
   [[entry.line]]
-  group = "plumbing_basin"
-  status = "buy"
+  work_section = "plumbing_basin"
+  status = "procure"
   n = 2
 
 [[entry]]
@@ -654,8 +654,8 @@ price = 3490
 shop = "homepro"
 sku = "1170662"
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "bought"
+  work_section = "plumbing_toilet"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -669,8 +669,8 @@ price = 219
 shop = "homepro"
 sku = "1041021"
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "buy"
+  work_section = "plumbing_toilet"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -681,8 +681,8 @@ en = "Bum gun"
 detail_en = "hand spray with its hose and holder"
 unit = "set"
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "reused"
+  work_section = "plumbing_toilet"
+  status = "existing"
   n = 1
   note_th = "จากชักโครกเดิม"
   note_en = "from the old toilet"
@@ -698,8 +698,8 @@ price = 799
 shop = "homepro"
 sku = "5563"
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "buy"
+  work_section = "plumbing_toilet"
+  status = "procure"
   n = 1
   note_th = "ท่อโสโครกใต้พื้น"
   note_en = "waste pipe under the floor"
@@ -715,8 +715,8 @@ price = 310.4
 shop = "homepro"
 sku = "1136842"
   [[entry.line]]
-  group = "plumbing_toilet"
-  status = "buy"
+  work_section = "plumbing_toilet"
+  status = "procure"
   n = 3
 
 [[entry]]
@@ -730,8 +730,8 @@ price = 69
 shop = "homepro"
 sku = "5556"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 2
   note_th = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง"
   note_en = "water supply: toilet, bum gun, basin"
@@ -747,8 +747,8 @@ price = 6
 shop = "homepro"
 sku = "5569"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 10
 
 [[entry]]
@@ -762,8 +762,8 @@ price = 8
 shop = "homepro"
 sku = "5570"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 2
   note_th = "ตัวหนึ่งต่อจากท่อน้ำดีเดิม อีกตัวแยกไปชักโครกกับอ่าง"
   note_en = "one off the existing supply, one to branch to the toilet and the basin"
@@ -779,8 +779,8 @@ price = 27
 shop = "homepro"
 sku = "1055229"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 1
   note_th = "สต็อปวาล์วและเกลียวอื่นๆ"
   note_en = "the stop valves and the other threads"
@@ -796,8 +796,8 @@ price = 137.74
 shop = "homepro"
 sku = "5672"
   [[entry.line]]
-  group = "plumbing_shared"
-  status = "buy"
+  work_section = "plumbing_shared"
+  status = "procure"
   n = 1
   note_th = "ทุกรอยต่อท่อ PVC"
   note_en = "every PVC pipe joint"
@@ -814,8 +814,8 @@ price = 1290
 shop = "ikea"
 sku = "805.204.31"
   [[entry.line]]
-  group = "electrical_lamps"
-  status = "buy"
+  work_section = "electrical_lamps"
+  status = "procure"
   n = 2
   note_th = "เช็คสต็อกก่อนไป"
   note_en = "check stock before going"
@@ -828,8 +828,8 @@ en = "VAF-G cable"
 detail_en = "2 × 1.5/1.5 mm², with earth"
 unit = "metre"
   [[entry.line]]
-  group = "electrical_lamps"
-  status = "supplied"
+  work_section = "electrical_lamps"
+  status = "by_trade"
   n = 3
   note_th = "สำหรับโคมไฟผนัง"
   note_en = "for the wall lamps"
@@ -844,8 +844,8 @@ en = "Switch-and-socket plate"
 detail_en = "1 light switch, 2 sockets"
 unit = "set"
   [[entry.line]]
-  group = "electrical_switch"
-  status = "reused"
+  work_section = "electrical_switch"
+  status = "existing"
   n = 1
 
 [[entry]]
@@ -857,8 +857,8 @@ detail_en = "{w_cm} × {h_cm} × {d_cm} cm, with rain head"
 size = { w = 220, h = 830, d = 510 }
 unit = "set"
   [[entry.line]]
-  group = "shower_heater"
-  status = "reused"
+  work_section = "shower_heater"
+  status = "existing"
   n = 1
 
 [[entry]]
@@ -870,8 +870,8 @@ detail_en = "{w_cm} × {h_cm} × {d_cm} cm, with its electrical box, cable and c
 size = { w = 220, h = 400, d = 100 }
 unit = "appliance"
   [[entry.line]]
-  group = "shower_heater"
-  status = "reused"
+  work_section = "shower_heater"
+  status = "existing"
   n = 1
 
 [[entry]]
@@ -882,8 +882,8 @@ en = "Water heater hoses"
 detail_en = "flexible"
 unit = "length"
   [[entry.line]]
-  group = "shower_heater"
-  status = "reused"
+  work_section = "shower_heater"
+  status = "existing"
   n = 2
 
 [[entry]]
@@ -894,8 +894,8 @@ en = "Stop valve"
 detail_en = "with a sliding cover plate"
 unit = "fitting"
   [[entry.line]]
-  group = "shower_heater"
-  status = "reused"
+  work_section = "shower_heater"
+  status = "existing"
   n = 1
   note_th = "ของเครื่องทำน้ำอุ่น"
   note_en = "the water heater's"
@@ -912,8 +912,8 @@ price = 429
 shop = "homepro"
 sku = "1319896"
   [[entry.line]]
-  group = "accessories"
-  status = "bought"
+  work_section = "accessories"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -928,8 +928,8 @@ price = 799
 shop = "homepro"
 sku = "1215163"
   [[entry.line]]
-  group = "accessories"
-  status = "bought"
+  work_section = "accessories"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -944,8 +944,8 @@ price = 340
 shop = "homepro"
 sku = "105587"
   [[entry.line]]
-  group = "accessories"
-  status = "buy"
+  work_section = "accessories"
+  status = "procure"
   n = 1
   note_th = "เข้ากับสายฉีดชำระและโคมไฟ"
   note_en = "matches the bum gun and lamps"
@@ -961,8 +961,8 @@ price = 1990
 shop = "homepro"
 sku = "271155"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -977,8 +977,8 @@ price = 179
 shop = "homepro"
 sku = "1271924"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -994,12 +994,12 @@ price = 209
 shop = "homepro"
 sku = "1292488"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 9
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "bought"
+  work_section = "waterproofing_tiles"
+  status = "procured"
   n = 3
   note_th = "ตรวจว่ากล่องที่มีอยู่เป็นเฉดเดียวกันทั้งหมด"
   note_en = "check the boxes on site are all the same shade"
@@ -1017,8 +1017,8 @@ price = 197
 shop = "homepro"
 sku = "1076336"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 6
   note_th = "ออนไลน์แสดงสินค้าหมด (ลดราคามาก อาจเป็นสินค้าล้างสต็อก) ถามสต็อกที่สาขา ซื้อครบทีเดียว ล็อตเดียวกัน"
   note_en = "out of stock online (heavily discounted, may be clearance); ask a branch and buy them all at once, same batch"
@@ -1034,8 +1034,8 @@ price = 799
 shop = "homepro"
 sku = "14428"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 5
   note_th = "ปูทับกระเบื้องเดิมได้"
   note_en = "suits tiling over old tiles"
@@ -1051,8 +1051,8 @@ price = 143
 shop = "homepro"
 sku = "1092087"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 2
 
 [[entry]]
@@ -1066,8 +1066,8 @@ price = 185
 shop = "homepro"
 sku = "1092114"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -1081,8 +1081,8 @@ price = 63
 shop = "homepro"
 sku = "138786"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 2
   note_th = "กระเบื้องเทา"
   note_en = "grey tiles"
@@ -1098,8 +1098,8 @@ price = 63
 shop = "homepro"
 sku = "138771"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 2
   note_th = "กระเบื้องขาว"
   note_en = "white tiles"
@@ -1115,8 +1115,8 @@ price = 357.93
 shop = "homepro"
 sku = "1037342"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 1
   note_th = "ขั้นพื้น"
   note_en = "floor step"
@@ -1133,8 +1133,8 @@ price = 119
 shop = "homepro"
 sku = "1240420"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "bought"
+  work_section = "waterproofing_tiles"
+  status = "procured"
   n = 1
 
 [[entry]]
@@ -1148,8 +1148,8 @@ price = 139
 shop = "homepro"
 sku = "1157215"
   [[entry.line]]
-  group = "waterproofing_tiles"
-  status = "buy"
+  work_section = "waterproofing_tiles"
+  status = "procure"
   n = 1
 
 [[entry]]
@@ -1164,8 +1164,8 @@ approx = true
 shop = "homepro"
 sku = "1109515"
   [[entry.line]]
-  group = "whole_room"
-  status = "buy"
+  work_section = "whole_room"
+  status = "procure"
   n = 3
   note_th = "งานอุดทั้งหมด"
   note_en = "all the filling"
@@ -1178,6 +1178,6 @@ en = "Paint"
 detail_en = "white, semi-gloss"
 unit = "can"
   [[entry.line]]
-  group = "whole_room"
-  status = "reused"
+  work_section = "whole_room"
+  status = "existing"
   n = 1

@@ -11,11 +11,11 @@ about the phases or the drawings.
 
 Each [[entry]] is one product: what it is (name, detail, size), how it is bought (unit, price,
 shop, code) and, under it, an [[entry.line]] for every line it takes on the list. The shops,
-units and groups are defined in the file too; the only fixed list here is the four statuses,
+units and work sections are defined in the file too; the only fixed list here is the four statuses,
 because each one has its own rules (STATUS).
 
-Ordered by exactly two things written in the file: the group (in the order the groups are
-listed), then the status (in STATUS order); lines with the same group and status keep the order
+Ordered by exactly two things written in the file: the work section (in the order they are
+listed), then the status (in STATUS order); lines with the same work section and status keep the order
 of their products in the file.
 
 Usage:  python3 materials.py [materials.toml]    (prints the materials list)
@@ -31,17 +31,17 @@ from common import (NAME, NAMED, DataError, Labels, both, check, check_each, cli
 FILE = "materials.toml"
 # Every kind of entry in materials.toml, declared once (common.check).
 FILE_FIELDS = {"prices_date": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
-               "labels": "table!", "symbols": "table!", "shop": "list!", "unit": "list!", "group": "list!",
+               "labels": "table!", "symbols": "table!", "shop": "list!", "unit": "list!", "work_section": "list!",
                "entry": "list!"}
 SYMBOLS = {k: "text!" for k in ("currency", "on_site", "none", "times")}
 SHOP = {"id": "text!", **NAME, "sku": "text!", "link": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
-GROUP = {"id": "text!", **NAMED}
+WORK_SECTION = {"id": "text!", **NAMED}
 TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
 ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole",
          "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
          "line": "list!"}
-LINE = {"group": "@group!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
+LINE = {"work_section": "@work_section!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
         "by_th": "text", "by_en": "text"}
 SIZE_KEYS = ("w", "h", "d")
 SIZE = {k: "count" for k in SIZE_KEYS}
@@ -63,18 +63,18 @@ class Rule:
         return self.to_buy or self.paid
 
 
-# Each status's rules, stated once — and their order is the order within a group.
+# Each status's rules, stated once — and their order is the order within a work section.
 STATUS = {
-    "buy": Rule(to_buy=True, paid=False, on_site=False, by=False),
-    "bought": Rule(to_buy=False, paid=True, on_site=True, by=False),
-    "reused": Rule(to_buy=False, paid=False, on_site=True, by=False),
-    "supplied": Rule(to_buy=False, paid=False, on_site=False, by=True),
+    "procure": Rule(to_buy=True, paid=False, on_site=False, by=False),
+    "procured": Rule(to_buy=False, paid=True, on_site=True, by=False),
+    "existing": Rule(to_buy=False, paid=False, on_site=True, by=False),
+    "by_trade": Rule(to_buy=False, paid=False, on_site=False, by=True),
 }
 STATUSES = tuple(STATUS)
 
 
 @dataclass(frozen=True)
-class Group:
+class WorkSection:
     id: str
     th: str
     en: str
@@ -144,7 +144,7 @@ class Entry:
 class Line:
     """One line on the list: an entry (a product, as bought), where it goes, and how many."""
     entry: Entry
-    group: str           # the id of its group
+    work_section: str    # the id of its work section
     status: str          # one of STATUS
     n: float             # how many
     note_th: str = ""
@@ -170,15 +170,15 @@ class Line:
 @dataclass(frozen=True)
 class Materials:
     section: tuple       # (th, en, note_th, note_en): this part's heading and note, filled in
-    groups: tuple
+    work_sections: tuple
     lines: tuple         # every line on the list, in file order
     labels: Labels
     symbols: dict        # the marks on the list (materials.toml [symbols])
     round_approx: int    # an approximate total is rounded to this
 
-    def in_order(self, group):
-        """The lines of one group as the list shows them: by status, then file order."""
-        return sorted((m for m in self.lines if m.group == group.id), key=lambda m: STATUSES.index(m.status))
+    def in_order(self, section):
+        """The lines of one work section as the list shows them: by status, then file order."""
+        return sorted((m for m in self.lines if m.work_section == section.id), key=lambda m: STATUSES.index(m.status))
 
     def on_site(self):
         return sum(1 for m in self.lines if m.rule.on_site)
@@ -203,12 +203,12 @@ class Materials:
 
     def render(self):
         """The section as Markdown lines: its heading and note, then the table — a heading row (and
-        its note) per group, then its lines."""
+        its note) per work section, then its lines."""
         L = self.labels
         th, en, nth, nen = self.section
         rows = [heading(2, th, en), "", *note(nth, nen)]
         rows += [f"| {L.both('item')} | {L.both('qty')} | {L.both('price')} | {L.both('on_site')} |", "|---|---|---|---|"]
-        for g in self.groups:
+        for g in self.work_sections:
             lines = self.in_order(g)
             if lines:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
@@ -269,14 +269,14 @@ def load(path):
         except re.error as e:
             raise DataError(f"{FILE}: shop '{s.id}' sku isn't a pattern ({e})") from None
     units = {e["id"]: Unit(**e) for e in check_each(FILE, "unit", raw["unit"], UNIT)}
-    groups = tuple(Group(e["id"], *named(e)) for e in check_each(FILE, "group", raw["group"], GROUP))
-    known = {"shop": shops, "unit": units, "group": [g.id for g in groups], "status": STATUSES}
+    work_sections = tuple(WorkSection(e["id"], *named(e)) for e in check_each(FILE, "work section", raw["work_section"], WORK_SECTION))
+    known = {"shop": shops, "unit": units, "work_section": [g.id for g in work_sections], "status": STATUSES}
     lines = []
     for e in check_each(FILE, "product", raw["entry"], ENTRY, known):
         entry = _entry(e, shops, units)
         where = f"product '{e['id']}'"
         lines += [_line(u, entry, where) for u in check_each(FILE, f"{where} line", e["line"], LINE, known)]
-    return Materials(section, groups, tuple(lines), labels, raw["symbols"], raw["round_approx"])
+    return Materials(section, work_sections, tuple(lines), labels, raw["symbols"], raw["round_approx"])
 
 
 def _section(raw, labels):
@@ -318,10 +318,10 @@ def _line(u, p, where):
                                        ("a shop and sku", p.shop is not None, rule.shop, rule.shop),
                                        ("by_th and by_en", "by_th" in u, rule.by, rule.by)):
         if needed and not has:
-            raise DataError(f"{FILE}: {where} is {s}, so it needs {what}")
+            raise DataError(f"{FILE}: {where} has status {s}, so it needs {what}")
         if has and not allowed:
-            raise DataError(f"{FILE}: {where} is {s}, so it has no {what.removeprefix('a ')}")
-    return Line(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""),
+            raise DataError(f"{FILE}: {where} has status {s}, so it has no {what.removeprefix('a ')}")
+    return Line(p, u["work_section"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""),
                 u.get("by_th", ""), u.get("by_en", ""))
 
 

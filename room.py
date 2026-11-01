@@ -38,20 +38,20 @@ FILE = "room.toml"
 NUM = "count!"            # a size: more than 0
 FILE_FIELDS = {"room": "table!", "column": "table!", "door": "table!", "lintel": "table!", "tile": "list!",
                "floor": "table!", "wall": "list!", "labels": "table!", "symbols": "table!"}
-ROOM = {"length": NUM, "width": NUM, "ceiling": NUM, "min_clear": NUM}
+ROOM = {"length": NUM, "width": NUM, "ceiling": NUM, "joint_clearance": NUM}
 COLUMN = {**NAMED, "width": NUM, "wall": "@wall!"}
 DOOR = {"product": "text!", "note_th": "text", "note_en": "text"}
 LINTEL = {"product": "text!", "bearing": NUM, "note_th": "text", "note_en": "text"}
-TILE = {"id": "text!", "product": "text!", **NAME, "top": "whole!", "fill": "text!"}
-FLOOR = {"tag": "text!", "tile": "@tile!", "item": "list"}
-WALL = {"id": "text!", **NAME, "tag": "text!", "tile": "@tile!",
-        "drawn": "flag!", "item": "list"}
+TILE = {"id": "text!", "product": "text!", **NAME, "tiling_height": "whole!", "fill": "text!"}
+FLOOR = {"ref": "text!", "tile": "@tile!", "item": "list"}
+WALL = {"id": "text!", **NAME, "ref": "text!", "tile": "@tile!",
+        "elevation": "flag!", "item": "list"}
 # An item names a product (and takes its name from it) or has its own name (th, en) — checked in _items.
 ITEM = {"id": "text!", "product": "text", "th": "text", "en": "text", "shape": "@shape!",
-        "x": "amount", "y": "amount", "w": "count", "h": "count", "d": "count", "high": "@end", "part": "text",
+        "x": "amount", "y": "amount", "w": "count", "h": "count", "d": "count", "high": "@end", "fitting": "text",
         "note_th": "text", "note_en": "text"}
 WALL_ITEM = {k: v for k, v in ITEM.items() if k != "high"}       # a high side is a floor step's
-FLOOR_ITEM = {k: v for k, v in ITEM.items() if k != "part"}      # parts belong to wall items
+FLOOR_ITEM = {k: v for k, v in ITEM.items() if k != "fitting"}   # only wall items serve a fitting
 ENDS = ("start", "end")   # the ends of a wall or the floor: x = 0, and x = its length
 CONSTRUCTION = ("column", "door", "lintel")   # the items room.py works out — no item in room.toml takes these ids
 SYMBOLS = {k: "text!" for k in ("axis_x", "axis_y", "width", "height", "none", "times", "warning", "ok", "up", "down",
@@ -88,7 +88,7 @@ def _check(raw):
     known = {"tile": [t["id"] for t in tiles]}
     walls = check_each(FILE, "wall", raw["wall"], WALL, known)
     for kind, values in (("tile product", [t["product"] for t in tiles]),
-                         ("tag", [w["tag"] for w in walls] + [raw["floor"]["tag"]])):
+                         ("ref", [w["ref"] for w in walls] + [raw["floor"]["ref"]])):
         twice = next((v for v in values if values.count(v) > 1), None)
         if twice:
             raise DataError(f"{FILE}: {kind} '{twice}' is used twice — each one names one thing")
@@ -99,8 +99,8 @@ def _check(raw):
                         ("symbols", SYMBOLS)):
         check(FILE, f"[{key}]", raw[key], fields, known)
     for w in walls:
-        if w.get("item") and not w["drawn"]:
-            raise DataError(f"{FILE}: wall '{w['id']}' has items but isn't drawn")
+        if w.get("item") and not w["elevation"]:
+            raise DataError(f"{FILE}: wall '{w['id']}' has items but no elevation")
         check_each(FILE, f"wall '{w['id']}' item", w.get("item", []), WALL_ITEM, {"shape": WALL_SHAPES})
     check_each(FILE, "floor item", raw["floor"].get("item", []), FLOOR_ITEM, {"shape": FLOOR_SHAPES, "end": ENDS})
 
@@ -114,7 +114,7 @@ class Tile:
     en: str
     size: int            # square, mm (from the product)
     per_box: int         # (from the product)
-    top: int             # tiled up to this height on a wall
+    tiling_height: int   # tiled up to this height on a wall
     fill: str            # its colour on the drawings
 
 
@@ -131,7 +131,7 @@ class Item:
     h: float = None
     d: float = None
     high: str = None     # a step: which end is higher (start: x = 0, end: x = the length)
-    part: str = None     # the id of the item it belongs to
+    fitting: str = None  # the id of the fitting it serves (a services point or fixing)
     note_th: str = ""
     note_en: str = ""
 
@@ -145,7 +145,7 @@ class Wall:
     id: str
     th: str
     en: str
-    tag: str             # its letter on the floor plan
+    ref: str             # its wall reference: its letter on the floor plan
     side: str            # top, right, bottom or left on the floor plan (from its order)
     right: str           # the wall at x = 0, facing this one from inside (the next one round)
     left: str            # the wall at its far end (the one before)
@@ -153,7 +153,7 @@ class Wall:
     along_room: bool     # runs along the room's length (so the floor step meets it)
     tile: str
     tiled_run: float     # the length actually tiled (the door's wall: not the door opening)
-    drawn: bool
+    elevation: bool      # it gets an elevation drawing
     items: tuple
 
 
@@ -176,9 +176,9 @@ class Room:
     length: float
     width: float
     ceiling: float
-    min_clear: float     # every hole at least this far from a tile joint (a design check)
+    joint_clearance: float  # every hole at least this far from a tile joint (a design check)
     tiles: dict          # {id: Tile}
-    floor_tag: str
+    floor_ref: str
     floor_tile: str
     floor: tuple         # the floor's items
     walls: dict          # {id: Wall}, in order round the plan
@@ -194,7 +194,7 @@ class Room:
         for t in self.tiles.values():
             parts = [("floor", math.ceil(self.length / t.size) * math.ceil(self.width / t.size))] \
                 if self.floor_tile == t.id else []
-            parts += [(w.id, math.ceil(t.top / t.size) * math.ceil(w.tiled_run / t.size))
+            parts += [(w.id, math.ceil(t.tiling_height / t.size) * math.ceil(w.tiled_run / t.size))
                       for w in self.walls.values() if w.tile == t.id]
             out.append(TilesNeeded(t, tuple(parts)))
         return out
@@ -206,7 +206,7 @@ class Room:
     def render(self, plan_warnings=()):
         """Every drawing as svg text: the floor plan (with the floor's design problems and `plan_warnings`,
         each (th, en)), then each drawn wall."""
-        return [draw_plan(self, list(plan_warnings))] + [draw_wall(self, w) for w in self.walls.values() if w.drawn]
+        return [draw_plan(self, list(plan_warnings))] + [draw_wall(self, w) for w in self.walls.values() if w.elevation]
 
 
 # ======================================== 2. work out ========================================
@@ -219,7 +219,7 @@ def load(path, products):
     floor = _items(raw["floor"].get("item", []), "floor item", FLOOR_SHAPES, FLOOR_KEYS, products, r["width"])  # a step runs
                                                                                     # from the first wall
     walls = _walls(raw, products)
-    return Room(r["length"], r["width"], r["ceiling"], r["min_clear"], tiles, raw["floor"]["tag"],
+    return Room(r["length"], r["width"], r["ceiling"], r["joint_clearance"], tiles, raw["floor"]["ref"],
                 raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"],
                 products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"])
 
@@ -240,7 +240,7 @@ def _tile(e, products):
     if p.w != p.h or p.w != int(p.w):
         raise DataError(f"{FILE}: tile '{e['id']}' is {p.w:g} × {p.h:g} — the tile count needs square tiles, "
                         f"a whole number of mm")
-    return Tile(e["id"], p.id, e["th"], e["en"], int(p.w), p.per_box, int(e["top"]), e["fill"])
+    return Tile(e["id"], p.id, e["th"], e["en"], int(p.w), p.per_box, int(e["tiling_height"]), e["fill"])
 
 
 def _note(e, key, where):
@@ -279,11 +279,11 @@ def _items(entries, kind, shapes, keys, products, across):
             raise DataError(f"{FILE}: {where} ({e['shape']}) needs '{missing[0]}' (give it here, or through its product)")
         out.append(Item(str(i), e["id"], p.th if p else e["th"], p.en if p else e["en"], e["shape"],
                         **{k: float(have[k]) for k in ("x", "y", "w", "h", "d") if k in have}, high=e.get("high"),
-                        part=e.get("part"), **_notes(e, where)))
+                        fitting=e.get("fitting"), **_notes(e, where)))
     ids = {it.id for it in out}
     for it in out:
-        if it.part and it.part not in ids:
-            raise DataError(f"{FILE}: {kind} '{it.id}' belongs to '{it.part}', which isn't on the same wall")
+        if it.fitting and it.fitting not in ids:
+            raise DataError(f"{FILE}: {kind} '{it.id}' serves fitting '{it.fitting}', which isn't on the same wall")
     return out
 
 
@@ -313,9 +313,9 @@ def _walls(raw, products):
                      y=door.h + lintel.h / 2, w=door.w + bearing, h=lintel.h, **_notes(raw["lintel"], "[lintel]")),
             ]
             run = length - door.w                                       # the door opening isn't tiled
-        walls[e["id"]] = Wall(e["id"], e["th"], e["en"], e["tag"],
+        walls[e["id"]] = Wall(e["id"], e["th"], e["en"], e["ref"],
                               PLAN_SIDES[i], order[(i + 1) % len(order)]["id"], order[i - 1]["id"], length, along,
-                              e["tile"], run, e["drawn"], tuple(items))
+                              e["tile"], run, e["elevation"], tuple(items))
     return walls
 
 
@@ -438,7 +438,7 @@ def problem_lines(room, warnings, x, width):
     between x and the drawing's right edge — or the all-clear, in Thai then English."""
     s, lab = room.symbols, room.labels
     if not warnings:
-        return [("ok", f"{s['ok']} {f('all_clear', min_clear=room.min_clear)}", 0)
+        return [("ok", f"{s['ok']} {f('all_clear', min_clear=room.joint_clearance)}", 0)
                 for f in (lab.th, lab.en)]
     chars = int((width - x - PROBLEM_RIGHT) / PROBLEM_CHAR)
     return [("warning", line, PROBLEM_INDENT * PROBLEM_CHAR if k else 0) for w in warnings for t in w
@@ -491,7 +491,7 @@ def draw_wall(room, wall):
 
 def _wall_face(a, room, wall, t, X, Y, W):
     """The wall, its tiled part and tile joints, the height marks, and the floor step where it meets it."""
-    ML, lab, top = X(wall.length), room.labels, t.top
+    ML, lab, top = X(wall.length), room.labels, t.tiling_height
     a(f'<rect class="wall-face" x="{ML}" y="{Y(room.ceiling)}" width="{W}" height="{room.ceiling * WALL_SCALE}"/>')
     a(f'<rect x="{ML}" y="{Y(top)}" width="{W}" height="{top * WALL_SCALE}" fill="{t.fill}"/>')
     for k in room_design_checks.joints_x(wall, t.size):
@@ -529,8 +529,8 @@ def _wall_items(a, wall, t, X, Y):
         xs.add(x)
         lx, ly = X(x), Y(ZONE_TAG_HEIGHT if it.shape == "zone" else y)
         if it.shape == "zone":
-            a(f'<rect class="zone" x="{X(x + w / 2)}" y="{Y(t.top)}" width="{w * WALL_SCALE}" '
-              f'height="{t.top * WALL_SCALE}"/>')
+            a(f'<rect class="zone" x="{X(x + w / 2)}" y="{Y(t.tiling_height)}" width="{w * WALL_SCALE}" '
+              f'height="{t.tiling_height * WALL_SCALE}"/>')
         elif it.shape in BOXES:
             a(f'<rect class="{BOXES[it.shape]}" x="{X(x + w / 2)}" y="{Y(y + h / 2)}" '
               f'width="{w * WALL_SCALE}" height="{h * WALL_SCALE}"/>')
@@ -572,9 +572,9 @@ def draw_plan(room, more_warnings):
     ML, MR, MT, MB = PLAN_MARGINS
     PW, PH = L * PLAN_SCALE, D * PLAN_SCALE
     shown = {w.id: [it for it in w.items if _on_plan(it)] for w in room.walls.values()}
-    rows = [legend_row(room, it, w.tag + it.no, with_size=False, with_notes=False)
+    rows = [legend_row(room, it, w.ref + it.no, with_size=False, with_notes=False)
             for w in room.walls.values() for it in shown[w.id]]
-    rows += [legend_row(room, it, room.floor_tag + it.no, with_size=False) for it in room.floor]
+    rows += [legend_row(room, it, room.floor_ref + it.no, with_size=False) for it in room.floor]
     width = max(ML + PW + MR, MIN_WIDTH)
     lines = problem_lines(room, room_design_checks.floor_warnings(room) + more_warnings, ML, width)
 
@@ -598,8 +598,8 @@ def draw_plan(room, more_warnings):
         tag(a, tx, ty - TAG_H / 2, TAG_W["plan"], label)
     _plan_wall_names(a, room, ML, MT, PW, PH)
     ly0 = MT + PH + MB
-    keys = [f"{w.tag}{s['eq']}{both(w.th, w.en)}" for w in room.walls.values() if shown[w.id]]
-    keys.append(f"{room.floor_tag}{s['eq']}{lab.both('floor')}")
+    keys = [f"{w.ref}{s['eq']}{both(w.th, w.en)}" for w in room.walls.values() if shown[w.id]]
+    keys.append(f"{room.floor_ref}{s['eq']}{lab.both('floor')}")
     text(a, "heading", ML, ly0, f"{lab.both('items')}{s['dash']}{s['dot'].join(keys)}")
     text(a, "key", ML, ly0 + KEY_DOWN, lab.both("dashed"))
     draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
@@ -673,11 +673,11 @@ def _plan_openings(a, room, wall, P, shown, tags):
     ox, oy = OUT[wall.side]
     for it in shown:
         if it.shape == "door":
-            tags.append((wall.tag + it.no, *_plan_door(a, room, wall, P, it.x - it.w / 2, it.x + it.w / 2)))
+            tags.append((wall.ref + it.no, *_plan_door(a, room, wall, P, it.x - it.w / 2, it.x + it.w / 2)))
         elif it.shape == "opening":
             _rect(a, "plan-opening", _band(room, wall, P, it.x - it.w / 2, it.x + it.w / 2))
             px, py = P(*_to_floor(room, wall, it.x))
-            tags.append((wall.tag + it.no, px + ox * (PLAN_WALL + PLAN_TAG_OUT), py + oy * (PLAN_WALL + PLAN_TAG_OUT)))
+            tags.append((wall.ref + it.no, px + ox * (PLAN_WALL + PLAN_TAG_OUT), py + oy * (PLAN_WALL + PLAN_TAG_OUT)))
 
 
 def _plan_footprints(a, room, wall, P, shown, tags):
@@ -687,11 +687,11 @@ def _plan_footprints(a, room, wall, P, shown, tags):
         box = _px_box(P, _to_floor(room, wall, it.x - w / 2), _to_floor(room, wall, it.x + w / 2, it.d))
         if it.shape == "zone":
             _rect(a, "zone", box)
-            tags.append((wall.tag + it.no, *P(*_to_floor(room, wall, it.x, it.d - ZONE_TAG_IN))))
+            tags.append((wall.ref + it.no, *P(*_to_floor(room, wall, it.x, it.d - ZONE_TAG_IN))))
             continue
         overhead = it.y is not None and it.y - (it.h or 0) / 2 > OVERHEAD
         _rect(a, "footprint overhead" if overhead else "footprint", box)
-        tags.append((wall.tag + it.no, *P(*_to_floor(room, wall, it.x, it.d / 2))))
+        tags.append((wall.ref + it.no, *P(*_to_floor(room, wall, it.x, it.d / 2))))
 
 
 def _plan_door(a, room, wall, P, x0, x1):
@@ -712,7 +712,7 @@ def _plan_floor_items(a, room, P, tags):
     """The floor's items: a rectangle with its centre line, and the step with its high and low sides."""
     lab = room.labels
     for it in room.floor:
-        number = room.floor_tag + it.no
+        number = room.floor_ref + it.no
         if it.shape == "rect":
             _rect(a, "floor-item", _px_box(P, (it.x - it.w / 2, it.y - it.d / 2), (it.x + it.w / 2, it.y + it.d / 2)))
             (x0, y), (x1, _) = P(it.x + it.w / 2, it.y), P(it.x - it.w / 2, it.y)

@@ -58,7 +58,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | File | Holds |
 |---|---|
 | `phases.toml` | The work: phases and steps, in prose for the builder |
-| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the materials list (group, status, how many); the shops, units and groups; the list's wording and marks |
+| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor and the four walls in order round the room, each with its items; the drawings' wording and marks |
 | `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
 | `room_design_checks.py`, `materials_design_checks.py` | The design checks: setting out and clashes; quantities (see Checks) |
@@ -88,7 +88,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
    - Each part declares the fields of every kind of entry once, and `common.check` checks them all.
    - When data is messy, fix the data: code never works around it with special cases.
 3. **Names, in Thai and English.**
-   - A name is `th` and `en` (a shop, a unit, a tile, a wall, a step); a named thing that can carry a note adds an optional `note_th` and `note_en` (a section, a phase, a group, an item on a drawing).
+   - A name is `th` and `en` (a shop, a unit, a tile, a wall, a step); a named thing that can carry a note adds an optional `note_th` and `note_en` (a section, a phase, a work section, an item on a drawing).
    - Thai and English always say the same thing. `common.check` makes each pair fill in the same `{…}` placeholders and give the same numbers, in any order — so a number is written in digits in both ("1-piece", not "one-piece"), in the same unit.
    - Thai and English are never joined by hand; the one exception is the title line in the template.
 4. **One look for each shape**, from `common.py`: a heading is "Thai / English"; a note is Thai, with the English underneath.

@@ -12,7 +12,7 @@
 length = 3000              # along the first wall below
 width = 1380               # along the second
 ceiling = 2800
-min_clear = 20             # a design check: every hole at least this far from a tile joint
+joint_clearance = 20       # a design check: every hole at least this far from a tile joint
                            # (or exactly on one) — checked, and printed under each drawing
 
 [column]                   # the existing column; the rest of its wall is new
@@ -31,7 +31,7 @@ bearing = 150              # onto the wall; the column end sits in a shallow poc
 # ---------- tiles ----------
 # Each tile: id (what the floor and the walls call it), product (its size and tiles per box come
 # from there, and the tile count is matched against that product's boxes on the list), th, en
-# (its name, for the tile counts), top (tiled up to this height on a wall), fill (its colour on
+# (its name, for the tile counts), tiling_height (tiled up to this height on a wall), fill (its colour on
 # the drawings).
 
 [[tile]]
@@ -39,7 +39,7 @@ id = "grey"
 product = "grey_tile"
 th = "เทา"
 en = "grey"
-top = 2000
+tiling_height = 2000
 fill = "#d9d9d6"
 
 [[tile]]
@@ -47,25 +47,26 @@ id = "white"
 product = "white_tile"
 th = "ขาว"
 en = "white"
-top = 1200
+tiling_height = 1200
 fill = "#f1f1ee"
 
 # ---------- items: one shape for every item on a wall or the floor ----------
-#   id         what a part names it by (unique on its wall). Its number on the drawing is its order.
+#   id         what a services point names it by (unique on its wall). Its number on the drawing is its order.
 #   product    its name and size come from the product (so it has no th, en, w, h or d here)
 #   th, en     its name, when it has no product
-#   shape      on a wall: rect, circle, point (a fixing or outlet), zone, opening · on the floor: rect, step
+#   shape      on a wall: rect, circle (a fitting), point (a services point or fixing), zone (the wet zone),
+#              opening · on the floor: rect, step (a level change)
 #   x, y       its centre: x from the corner on your right, facing the wall from inside;
 #              y above the lower finished floor. On the floor: x from the second wall, y from the first.
 #   w, h, d    width, height, depth out from the wall (for the floor plan)
 #   high       a step: which end is higher — start (x = 0) or end
-#   part       the id of the item it belongs to (it must sit within it)
+#   fitting    a services point or fixing: the id of the fitting it serves (it must sit within it)
 #   note_th, note_en   why or how — never where: a note doesn't repeat what the drawing shows
 # Leave a key out when it does not apply.
 
 # ---------- the floor ----------
-[floor]                    # tag: its letter on the floor plan (F1, F2 …) · tile: which tile it gets
-tag = "F"
+[floor]                    # ref: its letter on the floor plan (F1, F2 …) · tile: which tile it gets
+ref = "F"
 tile = "grey"
 
 [[floor.item]]
@@ -86,13 +87,17 @@ h = 50
 high = "start"
 note_th = "ด้านสูงแห้ง ด้านต่ำรับน้ำจากฝักบัว"
 note_en = "the higher side stays dry; the lower side takes the shower water"
+
+# ---------- the walls, in order round the room ----------
+# Each wall: id, th, en, ref (its letter on the floor plan), tile (which tile it gets), elevation
+# (true: it gets an elevation drawing; a wall with items must have one), then its items.
 [[wall]]
 id = "main_wall"
 th = "ผนังหลัก"
 en = "Main wall"
-tag = "M"
+ref = "M"
 tile = "grey"
-drawn = true
+elevation = true
 
 [[wall.item]]
 id = "lamp_1"
@@ -113,7 +118,7 @@ en = "Basin waste"
 shape = "point"
 x = 600
 y = 550
-part = "basin"
+fitting = "basin"
 note_th = "ปรับท่อยืดหดของท่อน้ำทิ้งให้พ้นแนวยาแนวนอน — ลองขันเข้ากันก่อนปูกระเบื้อง"
 note_en = "set the trap's telescopic pipe to keep clear of the horizontal joint — test-fit before tiling"
 [[wall.item]]
@@ -122,7 +127,7 @@ product = "stop_valve"
 shape = "point"
 x = 400
 y = 550
-part = "basin"
+fitting = "basin"
 note_th = "จุดน้ำดีอ่าง · ต่อก๊อกด้วยสายน้ำดี ซ่อนใต้อ่าง"
 note_en = "the basin's water outlet · joined to the tap by a flexible hose, hidden under the basin"
 [[wall.item]]
@@ -167,7 +172,7 @@ product = "stop_valve_2way"
 shape = "point"
 x = 1450
 y = 200
-part = "toilet"
+fitting = "toilet"
 note_th = "เลื่อนจากกึ่งกลางชักโครกไปทางสายฉีดชำระ ให้พ้นแนวยาแนว"
 note_en = "offset from the toilet centre towards the bum gun, to clear the joint"
 [[wall.item]]
@@ -201,7 +206,7 @@ en = "Shower unit, lower fixing"
 shape = "point"
 x = 2500
 y = 1450
-part = "shower"
+fitting = "shower"
 note_th = "ต่ำกว่าเดิมเล็กน้อย ให้จุดยึดทั้งสองอยู่ในกระเบื้องและพ้นแนวยาแนว"
 note_en = "a little lower than now, so both fixings sit in tile, clear of the joints"
 [[wall.item]]
@@ -211,7 +216,7 @@ en = "Shower unit, upper fixing"
 shape = "point"
 x = 2500
 y = 1953
-part = "shower"
+fitting = "shower"
 note_th = "ระยะห่างตามชุดฝักบัว"
 note_en = "the unit's own fixing spacing"
 
@@ -229,27 +234,27 @@ note_en = "makes room for the shower unit · bottom at the same height as now ·
 id = "new_wall"
 th = "ผนังใหม่"
 en = "New wall"
-tag = "N"
+ref = "N"
 tile = "white"
-drawn = true
+elevation = true
 
 
 [[wall]]
 id = "opposite_wall"
 th = "ผนังยาวตรงข้าม"
 en = "Opposite long wall"
-tag = "O"
+ref = "O"
 tile = "white"
-drawn = false
+elevation = false
 
 
 [[wall]]
 id = "window_wall"
 th = "ผนังหน้าต่าง"
 en = "Window wall"
-tag = "W"
+ref = "W"
 tile = "white"
-drawn = true
+elevation = true
 
 [[wall.item]]
 id = "heater_stop_valve"
@@ -285,7 +290,7 @@ lower = { th = "ต่ำ", en = "lower" }
 floor = { th = "พื้น", en = "floor" }
 items = { th = "รายการอุปกรณ์", en = "Schedule of fittings" }
 x_from = { th = "{axis} จาก{wall}", en = "{axis} from the {wall}" }
-centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
+centre_height = { th = "ความสูงกึ่งกลางจากระดับพื้น", en = "centre height above floor level" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
 all_clear = { th = "จุดกึ่งกลางทุกจุดวางตำแหน่งห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรือตรงแนวพอดี และไม่มีชิ้นใดชนกัน", en = "Every centre is set out at least {min_clear} mm off a joint (or exactly on one), and nothing clashes" }
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }

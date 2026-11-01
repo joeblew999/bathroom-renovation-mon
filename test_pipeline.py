@@ -68,7 +68,7 @@ def real():
 
 def wall_raw(d=None):
     """A drawn wall with items, as written in room.toml (in `d`, an edited copy, if given)."""
-    wid = find(RAW[ROOM]["wall"], "drawn wall with items", lambda w: w["drawn"] and w.get("item"))["id"]
+    wid = find(RAW[ROOM]["wall"], "drawn wall with items", lambda w: w["elevation"] and w.get("item"))["id"]
     return find((d or RAW[ROOM])["wall"], wid, lambda w: w["id"] == wid)
 
 
@@ -93,8 +93,8 @@ def solids():
 def a_part():
     """An item that belongs to another item, and that item."""
     items = {it.id: it for it in wall().items}
-    it = find(wall().items, "item that belongs to another", lambda i: i.part and i.x is not None)
-    return it, items[it.part]
+    it = find(wall().items, "item that belongs to another", lambda i: i.fitting and i.x is not None)
+    return it, items[it.fitting]
 
 
 def an_entry(what, cond):
@@ -106,7 +106,7 @@ def has_status(status):
 
 
 def to_buy_with_shop(e):
-    return "price" in e and "shop" in e and has_status("buy")(e)
+    return "price" in e and "shop" in e and has_status("procure")(e)
 
 
 def steps(d):
@@ -265,31 +265,31 @@ def length_end():
 
 def joint_test(lang="en"):
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
-    off = real().room.min_clear / 2
+    off = real().room.joint_clearance / 2
     x = real().room.tiles[wall().tile].size + off            # just past the first vertical joint
     lab = real().room.labels
     want = getattr(lab, lang)("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_x"],
-                              v=f"{x:g}", d=f"{off:g}", min=f"{real().room.min_clear:g}")
+                              v=f"{x:g}", d=f"{off:g}", min=f"{real().room.joint_clearance:g}")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=x))}, want
 
 
 def joint_y_test():
-    it = find(wall().items, "point below the tile top", lambda i: i.shape == "point" and i.y < real().room.tiles[wall().tile].top)
+    it = find(wall().items, "point below the tile top", lambda i: i.shape == "point" and i.y < real().room.tiles[wall().tile].tiling_height)
     t = real().room.tiles[wall().tile]
-    off = real().room.min_clear / 2
+    off = real().room.joint_clearance / 2
     y = t.size + off                                         # just above the first horizontal joint
     return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=y))},
             warn("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}",
-                 d=f"{off:g}", min=f"{real().room.min_clear:g}"))
+                 d=f"{off:g}", min=f"{real().room.joint_clearance:g}"))
 
 
 def tile_top_joint_test():
     """The tile top edge counts as a joint: a point just below it is warned about."""
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
-    top, off = real().room.tiles[wall().tile].top, real().room.min_clear / 2
+    top, off = real().room.tiles[wall().tile].tiling_height, real().room.joint_clearance / 2
     return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=top - off))},
             warn("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_y"], v=f"{top - off:g}",
-                 d=f"{off:g}", min=f"{real().room.min_clear:g}"))
+                 d=f"{off:g}", min=f"{real().room.joint_clearance:g}"))
 
 
 def on_joint_test():
@@ -301,10 +301,10 @@ def on_joint_test():
 def above_tiles_test():
     """No joints above the tiling: a point well above the tile top, near where a vertical joint would be,
     gets no warning."""
-    it = find(wall().items, "point that belongs to nothing", lambda i: i.shape == "point" and not i.part)
+    it = find(wall().items, "point that belongs to nothing", lambda i: i.shape == "point" and not i.fitting)
     t = real().room.tiles[wall().tile]
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=t.size + real().room.min_clear / 2,
-                                                            y=t.top + t.size))}, CLEAN
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=t.size + real().room.joint_clearance / 2,
+                                                            y=t.tiling_height + t.size))}, CLEAN
 
 
 def point_off_wall_test():
@@ -395,7 +395,7 @@ def add_item(wid, item, first=False):
     """An edit adding an item to a wall (drawn, so it can have items), last or first."""
     def change(d):
         w = by_id(d["wall"], wid)
-        w["drawn"] = True
+        w["elevation"] = True
         items = w.setdefault("item", [])
         items.insert(0 if first else len(items), item)
     return {ROOM: data(change)}
@@ -430,7 +430,7 @@ def door_joint_test():
     def expect(p):                                   # the column's wall drawing, and only it
         svg = find(p.svgs, "the column's wall drawing", lambda s: title in s)
         return title if f'<line class="joint" x1="{x}"' not in svg else f"(no joint line at x {k:g} on {w.en})"
-    return {ROOM: data(lambda d: by_id(d["wall"], wid).update(drawn=True))}, built(expect)
+    return {ROOM: data(lambda d: by_id(d["wall"], wid).update(elevation=True))}, built(expect)
 
 
 def lintel_short_test():
@@ -441,7 +441,7 @@ def lintel_short_test():
 
 def point_in_opening_test():
     w = find(real().room.walls.values(), "wall with a window and a point",
-             lambda w: w.drawn and any(i.shape == "opening" for i in w.items) and any(i.shape == "point" for i in w.items))
+             lambda w: w.elevation and any(i.shape == "opening" for i in w.items) and any(i.shape == "point" for i in w.items))
     win = find(w.items, "window", lambda i: i.shape == "opening")
     pt = find(w.items, "point", lambda i: i.shape == "point")
     edit = {ROOM: data(lambda d: find(by_id(d["wall"], w.id)["item"], pt.id, lambda e: e["id"] == pt.id).update(x=win.x, y=win.y))}
@@ -469,7 +469,7 @@ def off_floor_y_test():
 
 def money_test():
     """A price that isn't whole baht shows to the satang, so the line adds up as shown."""
-    e = an_entry("product still to buy", lambda e: "price" in e and has_status("buy")(e))
+    e = an_entry("product still to buy", lambda e: "price" in e and has_status("procure")(e))
     m = real().materials
     return ({MATERIALS: data(lambda d: by_id(d["entry"], e["id"]).update(price=e["price"] + 0.4))},
             f"{m.symbols['times']} {m.symbols['currency']}{e['price'] + 0.4:,.2f}")
@@ -477,8 +477,8 @@ def money_test():
 
 def missing_parent_test():
     it, _ = a_part()
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(part="no_such_item"))}, \
-        "belongs to 'no_such_item', which isn't on the same wall"
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(fitting="no_such_item"))}, \
+        "serves fitting 'no_such_item', which isn't on the same wall"
 
 
 def tile_boxes_test():
@@ -497,9 +497,9 @@ def cut_row_test():
     """A tiling height that isn't a whole number of tiles: the cut row is counted."""
     w = wall()
     t = real().room.tiles[w.tile]
-    top = t.top // t.size * t.size + 1                         # one mm into a row: a cut row
-    n = (t.top // t.size + 1) * math.ceil(w.tiled_run / t.size)
-    return {ROOM: data(lambda d: by_id(d["tile"], t.id).update(top=top))}, f"{w.en} {n}"
+    top = t.tiling_height // t.size * t.size + 1                         # one mm into a row: a cut row
+    n = (t.tiling_height // t.size + 1) * math.ceil(w.tiled_run / t.size)
+    return {ROOM: data(lambda d: by_id(d["tile"], t.id).update(tiling_height=top))}, f"{w.en} {n}"
 
 
 def door_test():
@@ -517,8 +517,8 @@ def size_in_name_test():
 
 
 def price_test():
-    e = an_entry("entry still to buy", lambda e: "price" in e and has_status("buy")(e))
-    n = sum(ln["n"] for ln in e["line"] if ln["status"] == "buy")
+    e = an_entry("entry still to buy", lambda e: "price" in e and has_status("procure")(e))
+    n = sum(ln["n"] for ln in e["line"] if ln["status"] == "procure")
     m = real().materials
     total, approx = m.still_to_buy()
     new = total + 1000 * n
@@ -534,15 +534,15 @@ def sku_test():
 
 
 def no_price_test():
-    e = an_entry("entry still to buy", lambda e: "price" in e and has_status("buy")(e))
-    return {MATERIALS: data(lambda d: by_id(d["entry"], e["id"]).pop("price"))}, "is buy, so it needs a price"
+    e = an_entry("entry still to buy", lambda e: "price" in e and has_status("procure")(e))
+    return {MATERIALS: data(lambda d: by_id(d["entry"], e["id"]).pop("price"))}, "has status procure, so it needs a price"
 
 
 def reused_with_shop_test():
     def change(e):
         e.pop("price")
-        e["line"] = [{**e["line"][0], "status": "reused"}]
-    return edit_entry(to_buy_with_shop, "product still to buy with a shop", change), "is reused, so it has no shop and sku"
+        e["line"] = [{**e["line"][0], "status": "existing"}]
+    return edit_entry(to_buy_with_shop, "product still to buy with a shop", change), "has status existing, so it has no shop and sku"
 
 
 def make_approx_no_price():
@@ -550,20 +550,20 @@ def make_approx_no_price():
     def change(e):
         e.pop("price", None)
         put(e, "approx", True, materials.ENTRY)
-        e["line"] = [{**e["line"][0], "status": "bought"}]
+        e["line"] = [{**e["line"][0], "status": "procured"}]
     return edit_entry(to_buy_with_shop, "product still to buy with a shop", change)
 
 
 def unit_test(n, form):
     """A line still to buy, set to `n`: its unit's `form` shows (marked, so the test can't pass on
     text that happens to be in the data already)."""
-    e = an_entry("entry with a line still to buy", lambda e: "price" in e and has_status("buy")(e))
+    e = an_entry("entry with a line still to buy", lambda e: "price" in e and has_status("procure")(e))
     th = by_id(RAW[MATERIALS]["unit"], e["unit"])["th"]
     marker = f"{form.upper()}-UNIT"
 
     def change(d):
         by_id(d["unit"], e["unit"])[form] = marker
-        find(by_id(d["entry"], e["id"])["line"], "line", lambda ln: ln["status"] == "buy")["n"] = n
+        find(by_id(d["entry"], e["id"])["line"], "line", lambda ln: ln["status"] == "procure")["n"] = n
     m = real().materials
     return {MATERIALS: data(change)}, f"| {n} {th} / {marker} {m.symbols['times']} {m.money(e['price'])} |"
 
@@ -572,8 +572,8 @@ def buy_before_on_site(p):
     """In a group with lines both to buy and on site (found in the data), the first line on the list is
     one to buy — read off the page, not from the code that orders it."""
     lines = [ln for e in RAW[MATERIALS]["entry"] for ln in e["line"]]
-    g = find(RAW[MATERIALS]["group"], "group with lines both to buy and on site",
-             lambda g: {ln["status"] for ln in lines if ln["group"] == g["id"]} >= {"buy", "bought"})
+    g = find(RAW[MATERIALS]["work_section"], "work section with lines both to procure and on site",
+             lambda g: {ln["status"] for ln in lines if ln["work_section"] == g["id"]} >= {"procure", "procured"})
     page = p.doc.split("\n")
     first = page[page.index(f"| **{g['th']} / {g['en']}** | | | |") + 1]
     buy = p.materials.labels.both("buy")
@@ -598,7 +598,7 @@ def link_test():
 
 
 def group_heading(p):
-    g = find(p.materials.groups, "group with lines", lambda g: p.materials.in_order(g))
+    g = find(p.materials.work_sections, "work section with lines", lambda g: p.materials.in_order(g))
     return f"| **{g.th} / {g.en}** |"
 
 
@@ -720,10 +720,10 @@ def both_names(e):
     put(e, "en", "x", room.ITEM)
 
 
-def drawn_wall_test():
-    w = find(RAW[ROOM]["wall"], "wall that isn't drawn", lambda w: not w["drawn"])
+def elevation_wall_test():
+    w = find(RAW[ROOM]["wall"], "wall with no elevation", lambda w: not w["elevation"])
     lab = real().room.labels
-    return ({ROOM: data(lambda d: by_id(d["wall"], w["id"]).update(drawn=True))},
+    return ({ROOM: data(lambda d: by_id(d["wall"], w["id"]).update(elevation=True))},
             lab.en("elevation_title", wall=(w["th"], w["en"])))
 
 
@@ -749,7 +749,7 @@ TESTS = [
     ("checker: text where true / false goes",
      lambda: (edit_entry(lambda e: True, "product", lambda e: put(e, "approx", "yes", materials.ENTRY)),
               "'approx' must be true or false")),
-    ("checker: a number where text goes", {MATERIALS: data(lambda d: find(d["group"], "group").update(th=5))},
+    ("checker: a number where text goes", {MATERIALS: data(lambda d: find(d["work_section"], "work section").update(th=5))},
      "'th' must be text"),
     ("checker: a value where a table goes",
      lambda: (edit_entry(lambda e: "size" in e, "product with a size", lambda e: e.update(size=5)), "'size' must be a table")),
@@ -813,7 +813,7 @@ TESTS = [
     ("setting out and clashes: an item moved onto the column", column_clash_test),
     ("setting out and clashes: no tile joint inside the door opening", door_joint_test),
     ("setting out and clashes: the all-clear is printed on the drawings", {},
-     built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
+     built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.joint_clearance))),
     ("setting out and clashes: the door wider than its wall beside the column", door_test),
     ("setting out and clashes: a lintel shorter than the door and its bearing", lintel_short_test),
     # ---- quantities (materials_design_checks.py): the take-off against the materials list ----
@@ -825,8 +825,8 @@ TESTS = [
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
-    ("room: items on a wall that isn't drawn",
-     lambda: ({ROOM: data(lambda d: wall_raw(d).update(drawn=False))}, f"wall '{wall_raw()['id']}' has items but isn't drawn")),
+    ("room: items on a wall with no elevation",
+     lambda: ({ROOM: data(lambda d: wall_raw(d).update(elevation=False))}, f"wall '{wall_raw()['id']}' has items but no elevation")),
     ("room: an item naming a product that isn't on the materials list",
      lambda: (edit_item(lambda e: "product" in e, "item with a product", lambda e: e.update(product="no_such_product")),
               "names product 'no_such_product', which is not on the materials list")),
@@ -845,8 +845,8 @@ TESTS = [
     ("room: two tiles naming the same product",
      {ROOM: data(lambda d: d["tile"][1].update(product=d["tile"][0]["product"]))} if len(RAW[ROOM]["tile"]) > 1 else {},
      f"tile product '{RAW[ROOM]['tile'][0]['product']}' is used twice"),
-    ("room: two walls with the same tag",
-     {ROOM: data(lambda d: d["wall"][1].update(tag=d["wall"][0]["tag"]))}, f"tag '{RAW[ROOM]['wall'][0]['tag']}' is used twice"),
+    ("room: two walls with the same reference",
+     {ROOM: data(lambda d: d["wall"][1].update(ref=d["wall"][0]["ref"]))}, f"ref '{RAW[ROOM]['wall'][0]['ref']}' is used twice"),
     ("room: a size key the shape doesn't have (a point with a width)",
      lambda: (edit_item(lambda e: e["shape"] == "point", "point", lambda e: put(e, "w", 100, room.ITEM)),
               "is a point, so it has no 'w'")),
@@ -859,8 +859,8 @@ TESTS = [
     ("room: a tile whose product has no tiles-per-box",
      {MATERIALS: data(lambda d: tile_product(d).pop("per_box"))}, "on the materials list to have a per_box"),
     ("room: a tiling height that isn't a whole number",
-     {ROOM: data(lambda d: find(d["tile"], "tile").update(top=find(d["tile"], "tile")["top"] + 0.5))},
-     "'top' must be a whole number more than 0"),
+     {ROOM: data(lambda d: find(d["tile"], "tile").update(tiling_height=find(d["tile"], "tile")["tiling_height"] + 0.5))},
+     "'tiling_height' must be a whole number more than 0"),
     ("room: a tile that isn't a whole number of mm",
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(w=500.5, h=500.5))}, "a whole number of mm"),
     ("room: a tile that isn't square",
@@ -871,7 +871,7 @@ TESTS = [
     ("room: a drawing note that fills in a value",
      lambda: (edit_item(lambda e: "note_en" in e, "item with a note", lambda e: e.update(note_th="ดู {phase:x}", note_en="see {phase:x}")),
               "note_th uses {phase} (it can use: nothing)")),
-    ("room: a wall set to drawn gets its own drawing", drawn_wall_test),
+    ("room: a wall given an elevation gets its own drawing", elevation_wall_test),
     ("room: a tiling height that isn't whole tiles counts the cut row", cut_row_test),
     # ---- products: on the materials list; their names and sizes are used by the room ----
     ("products: a product's size reaches its detail on the list", size_in_name_test),
@@ -892,18 +892,18 @@ TESTS = [
      "link uses {nope} (it can use: sku, sku_digits)"),
     ("materials: approximate with no price", lambda: (make_approx_no_price(), "has approx but no price")),
     ("materials: a code that isn't the shop's kind of code", sku_test),
-    ("materials: still to buy with no price", no_price_test),
-    ("materials: still to buy with no shop", make("buy", price=10), "is buy, so it needs a shop and sku"),
-    ("materials: reused with a price", make("reused", price=10), "is reused, so it has no price"),
-    ("materials: reused with a shop", reused_with_shop_test),
-    ("materials: supplied with nobody to bring it", make("supplied"), "is supplied, so it needs by_th and by_en"),
+    ("materials: to procure with no price", no_price_test),
+    ("materials: to procure with no shop", make("procure", price=10), "has status procure, so it needs a shop and sku"),
+    ("materials: existing with a price", make("existing", price=10), "has status existing, so it has no price"),
+    ("materials: existing with a shop", reused_with_shop_test),
+    ("materials: by the trade with nobody to bring it", make("by_trade"), "has status by_trade, so it needs by_th and by_en"),
     ("materials: who brings it, on a line the trade doesn't bring",
      lambda: (edit_line(to_buy_with_shop, "product still to buy with a shop",
-                        lambda ln: ln.update(by_th="ช่าง", by_en="trade")), "is buy, so it has no by_th and by_en")),
-    ("materials: a supplied item shows who brings it",
-     make("supplied", by=("ช่าง-TEST", "BRINGER-TEST")), "| ช่าง-TEST / BRINGER-TEST |"),
-    ("materials: the list is in sections by group", {}, built(group_heading)),
-    ("materials: in a group, what is still to buy comes before what is on site", {}, built(buy_before_on_site)),
+                        lambda ln: ln.update(by_th="ช่าง", by_en="trade")), "has status procure, so it has no by_th and by_en")),
+    ("materials: an item by the trade shows who brings it",
+     make("by_trade", by=("ช่าง-TEST", "BRINGER-TEST")), "| ช่าง-TEST / BRINGER-TEST |"),
+    ("materials: the list is in sections by work section", {}, built(group_heading)),
+    ("materials: in a work section, what is still to procure comes before what is on site", {}, built(buy_before_on_site)),
     ("materials: the link is made from shop and code", link_test),
     ("materials: one takes the singular unit (en)", lambda: unit_test(1, "en")),
     ("materials: more than one takes the plural (en_many)", lambda: unit_test(3, "en_many")),
@@ -919,7 +919,7 @@ TESTS = [
                                                     note_en=d["section"]["note_en"] + " {nope}"))},
      "[section] note_th uses {nope}"),
     ("materials: a group's note shows under its heading",
-     {MATERIALS: data(lambda d: find(d["group"], "group").update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
+     {MATERIALS: data(lambda d: find(d["work_section"], "work section").update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
      "*GROUP-NOTE-TH*<br>*GROUP-NOTE-EN*"),
     # ---- phases.toml ----
     ("phases: the steps are numbered", lambda: ({}, step_number())),
