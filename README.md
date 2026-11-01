@@ -31,6 +31,8 @@ Nothing else is ever written. `out/` is not committed: on every push to `main`, 
 | `phases.toml` | The work, phase by phase: each phase and step with its Thai and English text. Numbered by position; refer to them within the phases, or in the skeleton, as `{phase:id}` / `{step:id}`, so inserting a step renumbers every reference. |
 | `materials.toml` | Every product, written once: its Thai and English name, unit, price, and where it's bought (`shop` and `sku` — the product link is built from them). Under each product, one `[[product.use]]` per line it takes on the list: its **group** and its **status** (`buy`, `bought`, `reused`, or `supplied` — the trade brings it, with `by` saying who) — the two things the list is ordered by — how many, and a note. The shops, suppliers, units (Thai, English singular and plural) and groups are all defined in this file. Stands on its own: it doesn't refer to the phases or the drawings, and they don't refer to it. |
 
+All the fixed wording the PDF prints — column headings, "Phase", "Still to buy", every label on the drawings — is in the `[labels]` table of the file its part reads (`phases.toml`, `materials.toml`, `site.toml`), in Thai and English. The code holds no wording, only layout. The page title is the document's own first heading.
+
 Each fact lives in one place. Things that follow from the site — the column, the door opening, the lintel, the window, the door on the floor plan — are worked out in `drawings/`, never typed twice. Nothing is printed twice either: sizes and positions are on the drawings only.
 
 ## The document

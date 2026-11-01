@@ -24,7 +24,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, flag, md_cell, need, number, only, read_toml
+from common import DataError, Labels, flag, md_cell, need, number, only, read_toml
 
 FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
@@ -34,8 +34,7 @@ UNIT_KEYS = {"id", "th", "en_one", "en_many"}
 PRODUCT_KEYS = {"name_th", "name_en", "unit", "price", "approx", "tile", "shop", "sku", "use"}
 USE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
 STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
-APPROX = "ประมาณ / approx."
-ABOUT = "ประมาณ / about"
+LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about")}
 
 
 @dataclass(frozen=True)
@@ -118,6 +117,7 @@ class Material:
 class Materials:
     groups: tuple
     items: tuple         # every line on the list, in file order
+    labels: Labels
 
     def in_order(self, group):
         """The lines of one group as the list shows them: by status, then file order."""
@@ -142,21 +142,29 @@ class Materials:
 
     def render(self):
         """The material list as Markdown table rows: a heading row per group, then its lines."""
-        rows = ["| สินค้า / Item | จำนวน / Qty | ราคา / Price | ที่หน้างาน / On site |", "|---|---|---|---|"]
+        L = self.labels
+        rows = [f"| {L.both('item')} | {L.both('qty')} | {L.both('price')} | {L.both('on_site')} |", "|---|---|---|---|"]
         for g in self.groups:
             items = self.in_order(g)
             if items:
                 rows.append(f"| **{g.th} / {g.en}** | | | |")
-            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m)} | {site_cell(m)} |" for m in items]
-        rows.append(f"| **ยังต้องซื้อ / Still to buy** | | {sum_cell(*self.still_to_buy())} | |")
+            rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in items]
+        rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
+
+    def total_cell(self, bold=True):
+        """The still-to-buy total: rounded, and marked "about", if any of it is approximate."""
+        total, approx = self.still_to_buy()
+        v = f"{self.labels.both('about')} {baht(round(total, -2))}" if approx else baht(total)
+        return f"**{v}**" if bold else v
 
 
 # ---------- reading ----------
 def load(path):
     """Read and check materials.toml."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"shop", "supplier", "unit", "group", "product"})
+    only(FILE, "the file", raw, {"labels", "shop", "supplier", "unit", "group", "product"})
+    labels = Labels(FILE, raw.get("labels", {}), LABELS)
     shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
     for s in shops.values():
         try:
@@ -175,7 +183,7 @@ def load(path):
         if not uses:
             raise DataError(f"{FILE}: '{product.name_en[:40]}' has no [[product.use]] — it isn't on the list")
         items += [_use(u, product, ids, suppliers) for u in uses]
-    return Materials(groups, tuple(items))
+    return Materials(groups, tuple(items), labels)
 
 
 def _defined(raw, kind, keys):
@@ -263,17 +271,17 @@ def qty(m):
     return f"{n} × {baht(p.price)}" if m.status == "buy" else n
 
 
-def money_cell(m):
+def money_cell(m, L):
     """What is still to pay, or what was paid for what is on site."""
     if m.status == "buy":
-        return (f"{APPROX} " if m.product.approx else "") + baht(m.total)
+        return (f"{L.both('approx')} " if m.product.approx else "") + baht(m.total)
     return baht(m.paid) if m.paid else "—"
 
 
-def site_cell(m):
+def site_cell(m, L):
     if m.status == "supplied":
         return f"{m.by.th} / {m.by.en}"
-    return "ซื้อ / buy" if m.status == "buy" else "✓"
+    return L.both("buy") if m.status == "buy" else "✓"
 
 
 def name_cell(m):
@@ -285,11 +293,6 @@ def name_cell(m):
     if m.note_th or m.note_en:
         name += f"<br>*{md_cell(m.note_th)} / {md_cell(m.note_en)}*"
     return name
-
-
-def sum_cell(total, approx, bold=True):
-    v = f"{ABOUT} {baht(round(total, -2))}" if approx else baht(total)
-    return f"**{v}**" if bold else v
 
 
 def main(argv):

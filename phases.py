@@ -16,11 +16,12 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from common import DataError, md_cell, need, only, read_toml
+from common import DataError, Labels, md_cell, need, only, read_toml
 
 FILE = "phases.toml"
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
+LABELS = {"phase_heading": ("number", "name"), "step_columns": ()}
 REF = re.compile(r"\{([a-z]+):([a-z0-9_]+)\}")
 
 
@@ -46,6 +47,7 @@ class Phase:
 @dataclass(frozen=True)
 class Phases:
     phases: tuple
+    labels: Labels = field(repr=False)
     numbers: dict = field(repr=False)     # {("phase" | "step", id): "5" | "1.8"}
 
     def resolve(self, text):
@@ -58,13 +60,13 @@ class Phases:
 
     def render(self):
         """The phases as Markdown lines: a heading, the note, and the step table for each."""
-        out = []
+        L, out = self.labels, []
         for ph in self.phases:
-            out += [f"### ขั้น {ph.number} — {ph.th} / Phase {ph.number} — {ph.en}", ""]
+            out += [f"### {L.both('phase_heading', number=ph.number, name=(ph.th, ph.en))}", ""]
             if ph.note_th or ph.note_en:
                 out += [f"> {ph.note_th}", f"> {ph.note_en}", ""]
             if ph.steps:
-                out += ["| # | ภาษาไทย | English |", "|---|---------|---------|"]
+                out += [f"| # | {L.th('step_columns')} | {L.en('step_columns')} |", "|---|---------|---------|"]
                 out += [f"| {st.number} | {md_cell(st.th)} | {md_cell(st.en)} |" for st in ph.steps]
                 out.append("")
         return out[:-1]
@@ -73,7 +75,8 @@ class Phases:
 def load(path):
     """Read and check phases.toml, and number every phase and step."""
     raw = read_toml(Path(path), "the work, phase by phase")
-    only(FILE, "the file", raw, {"phase"})
+    only(FILE, "the file", raw, {"labels", "phase"})
+    labels = Labels(FILE, raw.get("labels", {}), LABELS)
     numbers, found = {}, []
 
     def add(kind, key, num):
@@ -94,12 +97,12 @@ def load(path):
         found.append((ph, p_no, steps))
 
     # references are resolved once every number is known (a step may refer forward)
-    unresolved = Phases((), numbers)
+    unresolved = Phases((), labels, numbers)
     r = unresolved.resolve
     return Phases(tuple(
         Phase(ph["id"], p_no, ph["th"], ph["en"], r(ph.get("note_th", "")), r(ph.get("note_en", "")),
               tuple(Step(i, n, r(th), r(en)) for i, n, th, en in steps))
-        for ph, p_no, steps in found), numbers)
+        for ph, p_no, steps in found), labels, numbers)
 
 
 def main(argv):

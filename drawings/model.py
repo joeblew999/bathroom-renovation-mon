@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, need, number, only, read_toml
+from common import DataError, Labels, need, number, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
@@ -38,6 +38,11 @@ SITE_KEYS = {
 WALL_IDS = ("main_wall", "new_wall", "window_wall", "opposite_wall")
 WALL_KEYS = {"th", "en", "view_th", "view_en", "tile"}
 TILE_KEYS = {"th", "size", "per_box", "top", "fill"}
+LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
+          "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
+          "floor": (), "items": (), "x_from": ("wall",), "centre_height": (), "see_notes": (), "dashed": (),
+          "all_clear": ("min_clear",),
+          "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 ELEVATIONS = {"main_wall": "main-wall.svg", "new_wall": "new-wall.svg", "window_wall": "window-wall.svg"}
 PRODUCT_KEYS = {"w", "h", "d"}
 DRAWN = ("main_wall", "new_wall", "window_wall")            # walls with items in layout.toml
@@ -117,6 +122,7 @@ class Drawings:
     floor_tile: str      # the name of the floor's tile
     walls: dict
     floor: tuple
+    labels: Labels
 
     def value(self, key, name):
         return _value(self.site, key, name)
@@ -174,9 +180,10 @@ def load(folder):
     layout = read_toml(folder / LAYOUT, "all the positions")
     tiles = _tiles(site)
     _check_site(site, tiles)
+    labels = Labels(SITE, site.get("labels", {}), LABELS)
     only(LAYOUT, "the file", layout, set(DRAWN) | {"floor", "site_items"})
     walls, floor = _walls(site, layout)
-    return Drawings(site, tiles, site["floor"]["tile"], walls, floor)
+    return Drawings(site, tiles, site["floor"]["tile"], walls, floor, labels)
 
 
 def _value(site, key, name):
@@ -217,7 +224,7 @@ def _note(e, key, where):
 
 
 def _check_site(site, tiles):
-    only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "products", "tiles", "floor"})
+    only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "products", "tiles", "floor", "labels"})
     only(SITE, "[floor]", site.get("floor", {}), {"tile"})
     need(SITE, "[floor]", site.get("floor", {}), ("tile",))
     _tile_name("[floor]", site["floor"]["tile"], tiles)

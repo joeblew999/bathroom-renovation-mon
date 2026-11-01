@@ -1,7 +1,7 @@
 # phases.toml — the work, phase by phase. phases.py reads, numbers and renders it.
 #
 # Phases and steps are numbered by their position here (phase 1, 2, … · step 1.1, 1.2, …).
-# Refer to them anywhere — this file, layout.toml notes, the document — by id:
+# Refer to them in this file or in the document by id:
 #   {phase:make_good}  -> 5        {step:clear_mark}  -> 1.8
 # so inserting or moving a step renumbers every reference.
 #
@@ -12,6 +12,12 @@
 # Write what to do and in what order. Sizes and positions live in site.toml / layout.toml
 # and show on the drawings — don't copy them into the text; point to the drawing instead.
 # Numbers that are method (a 2–3 cm fall, 2 coats, 400 mm centres) belong here, once.
+#
+# [labels]: the fixed wording around the phases (heading, step-table columns).
+
+[labels]
+phase_heading = { th = "ขั้น {number} — {name}", en = "Phase {number} — {name}" }
+step_columns = { th = "ภาษาไทย", en = "English" }
 
 [[phase]]
 id = "strip_out"

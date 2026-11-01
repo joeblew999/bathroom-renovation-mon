@@ -18,7 +18,7 @@ from pathlib import Path
 
 from build_pdf import assemble
 from common import DataError
-from materials import baht, name_cell, sum_cell
+from materials import baht, name_cell
 
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
@@ -117,13 +117,15 @@ TESTS = [
      lambda p: f"at least {p.drawings.min_clear} mm off a joint"),
     ("notes: a drawing note that refers to a phase is refused",
      lambda t: t.replace('note_en = "', 'note_en = "see phase {phase:tile} · ', 1), None, "has a reference in braces"),
+    ("labels: a label filling in a name it doesn't have", None, None, "tile_top en uses {topp} (it can use: top)",
+     lambda t: t.replace("tile top {top}", "tile top {topp}", 1)),
     ("site: door wider than the new wall",
      None, None, "does not fit in the new wall", lambda t: t.replace("width = 800", "width = 1400", 1)),
 ]
 
 MAT_TESTS = [
     # (name, materials edit, text expected in the warnings or the filled document)
-    ("materials: the still-to-buy total is shown", None, lambda p: sum_cell(*p.materials.still_to_buy())),
+    ("materials: the still-to-buy total is shown", None, lambda p: p.materials.total_cell()),
     ("materials: a price change flows into the total",
      lambda t: re.sub(r"(?m)^price = 799$", "price = 899", t, count=1),
      lambda p: f"about {baht(round(REAL.materials.still_to_buy()[0] + 100, -2))}"),

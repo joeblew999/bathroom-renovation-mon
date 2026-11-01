@@ -30,11 +30,11 @@ def wrap(text, width=125):
     return lines + ([cur] if cur else [])
 
 
-def legend_rows(items, with_dims=True):
+def legend_rows(lab, items, with_dims=True):
     """(item, headline, [note lines]) for each item."""
     def f(v, it):
         if v is None:
-            return "—" if it.shape == "zone" else "ดูหมายเหตุ / see notes"
+            return "—" if it.shape == "zone" else lab.both("see_notes")
         return f"{v:g}"
     rows = []
     for it in items:
@@ -83,7 +83,8 @@ def draw_wall(d, wall):
     ML, MR, MT, MB = 70, 40, 70, 90
     W, H = L * S, CEIL * S
     svg_w = max(ML + W + MR, 900)
-    rows = [(it.no, head, notes) for it, head, notes in legend_rows(items)]
+    lab = d.labels
+    rows = [(it.no, head, notes) for it, head, notes in legend_rows(lab, items)]
     svg_h = MT + H + MB + legend_height(rows) + 90
 
     def X(mm):                      # x is measured from the right-hand corner
@@ -97,9 +98,10 @@ def draw_wall(d, wall):
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{svg_w:.0f}" height="{svg_h:.0f}" '
       f'viewBox="0 0 {svg_w:.0f} {svg_h:.0f}" font-family="Helvetica, Arial, sans-serif">')
     a('<rect width="100%" height="100%" fill="#ffffff"/>')
-    a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">{wall.th}{view_th} / {wall.en}{view_en} — elevation</text>')
-    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">มองจากในห้องน้ำ · Viewed from inside the bathroom · '
-      f'มม. / mm · generated from site.toml + layout.toml</text>')
+    title = lab.both("elevation_title", wall=(wall.th, wall.en), view=(view_th, view_en))
+    a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">{title}</text>')
+    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">{lab.both("viewed_inside", sep=" · ")} · '
+      f'{lab.both("mm")} · {lab.both("generated")}</text>')
 
     # wall, tiled area, grid
     a(f'<rect x="{ML}" y="{MT}" width="{W}" height="{H}" fill="#fbfbf8" stroke="#222" stroke-width="2"/>')
@@ -113,7 +115,7 @@ def draw_wall(d, wall):
         a(f'<text x="{ML - 8}" y="{Y(k) + 4}" font-size="10" fill="#777" text-anchor="end">{k}</text>')
     a(f'<line x1="{ML}" y1="{Y(top)}" x2="{ML + W}" y2="{Y(top)}" stroke="#555" stroke-width="1.5"/>')
     a(f'<text x="{ML + W - 4}" y="{Y(top) + 14}" font-size="10" fill="#444" text-anchor="end">'
-      f'ขอบกระเบื้อง / tile top {top}</text>')
+      f'{lab.both("tile_top", top=top)}</text>')
 
     # raised floor at the basin end: the floor step meets the walls that run along the room
     if wall.along_room:
@@ -122,7 +124,7 @@ def draw_wall(d, wall):
             a(f'<rect x="{X(step.x)}" y="{Y(step.h)}" width="{step.x * S}" height="{step.h * S}" '
               f'fill="#f5cba7" stroke="#e67e22" stroke-width="1.5"/>')
             a(f'<text x="{X(step.x / 2)}" y="{Y(step.h) - 4}" font-size="10" fill="#e67e22" '
-              f'text-anchor="middle">พื้นยกสูง {step.h:g} / floor {step.h:g} higher</text>')
+              f'text-anchor="middle">{lab.both("floor_higher", h=f"{step.h:g}")}</text>')
 
     # side labels
     cy = MT + H / 2
@@ -179,18 +181,16 @@ def draw_wall(d, wall):
 
     # legend
     ly0 = MT + H + MB
-    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">รายการ / Items '
-      f'(x จาก{right.th} / from the {right.en.lower()} · '
-      f'y = ความสูงกึ่งกลาง / centre height)</text>')
+    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">{lab.both("items")} '
+      f'({lab.both("x_from", wall=(right.th, right.en.lower()))} · '
+      f'y = {lab.both("centre_height")})</text>')
     yy = draw_legend(a, rows, ML, ly0) + 16
     if warnings:
         for k, w_ in enumerate(warnings):
             a(f'<text x="{ML}" y="{yy + 18 * k}" font-size="12" fill="{ACC}">⚠ {escape(w_)}</text>')
     else:
-        a(f'<text x="{ML}" y="{yy}" font-size="12" fill="#1e8449">✓ ทุกจุดห่างแนวยาแนวอย่างน้อย {d.min_clear} มม. '
-          f'หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน</text>')
-        a(f'<text x="{ML}" y="{yy + 18}" font-size="12" fill="#1e8449">✓ Every centre is at least {d.min_clear} mm '
-          f'off a joint (or exactly centred on one), and nothing overlaps</text>')
+        a(f'<text x="{ML}" y="{yy}" font-size="12" fill="#1e8449">{lab.th("all_clear", min_clear=d.min_clear)}</text>')
+        a(f'<text x="{ML}" y="{yy + 18}" font-size="12" fill="#1e8449">{lab.en("all_clear", min_clear=d.min_clear)}</text>')
     a('</svg>')
     return "\n".join(out)
 
@@ -200,6 +200,7 @@ def draw_plan(d):
     """The floor plan seen from above: returns svg text."""
     main, win, floor = d.walls["main_wall"].items, d.walls["window_wall"].items, d.floor
     names = {k: name(w) for k, w in d.walls.items()}
+    lab = d.labels
     L, Wd, NEW_WALL_L = d.room_l, d.room_w, d.new_wall_l
     FLOOR = d.tiles[d.floor_tile]
     col = d.column                              # column width at the end of the new wall
@@ -211,7 +212,7 @@ def draw_plan(d):
     # Wall items list names only (their notes are on the elevations); floor items carry their notes.
     rows = []
     for pre, it in legend:
-        (r,) = legend_rows([it], with_dims=False)
+        (r,) = legend_rows(lab, [it], with_dims=False)
         rows.append((pre + it.no, r[1], r[2] if pre == "F" else []))
     svg_h = MT + PH + MB + legend_height(rows) + 120
     T = 12                                      # drawn wall thickness, px
@@ -229,9 +230,9 @@ def draw_plan(d):
     a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{svg_w:.0f}" height="{svg_h:.0f}" '
       f'viewBox="0 0 {svg_w:.0f} {svg_h:.0f}" font-family="Helvetica, Arial, sans-serif">')
     a('<rect width="100%" height="100%" fill="#ffffff"/>')
-    a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">ผังพื้น / Floor plan</text>')
-    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">มองจากด้านบน · Seen from above · มม. / mm · '
-      f'generated from site.toml + layout.toml</text>')
+    a(f'<text x="{ML}" y="28" font-size="18" font-weight="bold">{lab.both("floor_plan")}</text>')
+    a(f'<text x="{ML}" y="48" font-size="12" fill="#555">{lab.both("seen_above", sep=" · ")} · '
+      f'{lab.both("mm")} · {lab.both("generated")}</text>')
 
     # floor + floor tile grid (full tiles set out from the new wall and the main wall)
     a(f'<rect x="{ML}" y="{MT}" width="{PW}" height="{PH}" fill="{FLOOR.fill}"/>')
@@ -295,9 +296,9 @@ def draw_plan(d):
             a(f'<line x1="{X(it.x)}" y1="{Y(0)}" x2="{X(it.x)}" y2="{Y(it.d)}" stroke="#e67e22" '
               f'stroke-width="4" stroke-dasharray="10 5"/>')
             a(f'<text x="{X(it.x) + 6}" y="{Y(it.d) - 6}" font-size="11" fill="#e67e22" '
-              f'font-weight="bold">▲ สูง / higher</text>')
+              f'font-weight="bold">{lab.both("higher")}</text>')
             a(f'<text x="{X(it.x) - 6}" y="{Y(it.d) - 6}" font-size="11" fill="#e67e22" '
-              f'font-weight="bold" text-anchor="end">ต่ำ / lower ▼</text>')
+              f'font-weight="bold" text-anchor="end">{lab.both("lower")}</text>')
             tags.append(("F" + it.no, X(it.x), Y(it.d / 2)))
         elif it.shape == "door":
             tags.append(("F" + it.no, ML + PW - door.w * SP / 2, Y(d1) - 12))
@@ -323,10 +324,9 @@ def draw_plan(d):
     # legend
     ly0 = MT + PH + MB
     mw, ww = d.walls["main_wall"], d.walls["window_wall"]
-    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">รายการ / Items — M = {mw.th} / {mw.en.lower()} · '
-      f'F = พื้น / floor · W = {ww.th} / {ww.en.lower()}</text>')
-    a(f'<text x="{ML}" y="{ly0 + 16}" font-size="11" fill="#555">เส้นประ = ติดผนังด้านบน (มองจากบน) / '
-      f'dashed = mounted higher on the wall, seen from above</text>')
+    a(f'<text x="{ML}" y="{ly0}" font-size="13" font-weight="bold">{lab.both("items")} — M = {mw.th} / {mw.en.lower()} · '
+      f'F = {lab.both("floor")} · W = {ww.th} / {ww.en.lower()}</text>')
+    a(f'<text x="{ML}" y="{ly0 + 16}" font-size="11" fill="#555">{lab.both("dashed")}</text>')
     ly0 += 16
     draw_legend(a, rows, ML, ly0, tag_w=26)
     a('</svg>')

@@ -32,6 +32,18 @@
 #   note_th, note_en   what it is for here, or advice when buying (optional)
 #   by         who brings a supplied product: the id of a supplier
 # A product partly on site and partly to buy has two uses (bought n, buy n).
+#
+# [labels]: the fixed wording of the list (column headings, the total, buy, approx.).
+
+[labels]
+item = { th = "สินค้า", en = "Item" }
+qty = { th = "จำนวน", en = "Qty" }
+price = { th = "ราคา", en = "Price" }
+on_site = { th = "ที่หน้างาน", en = "On site" }
+still_to_buy = { th = "ยังต้องซื้อ", en = "Still to buy" }
+buy = { th = "ซื้อ", en = "buy" }
+approx = { th = "ประมาณ", en = "approx." }
+about = { th = "ประมาณ", en = "about" }
 
 [[shop]]
 id = "homepro"

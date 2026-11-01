@@ -35,7 +35,6 @@ import phases
 from common import DataError
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
-TITLE = "รายละเอียดหน้างานห้องน้ำใหม่ / New Bathroom Work Details"
 CSS = """
   @page { size: A4; margin: 14mm 12mm; }
   body { font-family: "Helvetica", "Arial", "Loma", "Sarabun", "Noto Sans Thai", sans-serif;
@@ -81,15 +80,14 @@ def tile_check(m, d):
 
 
 def tile_lines(d, tiles):
-    names = {"floor": ("พื้น", "floor"), **{k: (w.th, w.en.lower()) for k, w in d.walls.items()}}
+    """One line per tile: what the room needs, surface by surface, against the boxes planned."""
+    lab = d.labels
+    names = {"floor": (lab.th("floor"), lab.en("floor")), **{k: (w.th, w.en.lower()) for k, w in d.walls.items()}}
     out = []
     for t, planned in tiles:
-        spare = planned * t.per_box - t.need
-        d_th = " + ".join(f"{names[s][0]} {n}" for s, n in t.parts)
-        d_en = " + ".join(f"{names[s][1]} {n}" for s, n in t.parts)
-        out.append(f"กระเบื้อง{t.th} {t.need} แผ่น ({d_th}) → ต้องใช้ {t.boxes} กล่อง "
-                   f"วางแผนไว้ {planned:g} กล่อง (เหลือ {spare:g} แผ่น) / {t.colour} {t.need} tiles ({d_en}) "
-                   f"→ {t.boxes} boxes needed, {planned:g} planned ({spare:g} spare tiles)")
+        parts = tuple(" + ".join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
+        out.append(lab.both("tile_count", tile=(t.th, t.colour), need=t.need, parts=parts, boxes=t.boxes,
+                            planned=f"{planned:g}", spare=f"{planned * t.per_box - t.need:g}"))
     return out
 
 
@@ -119,12 +117,14 @@ def assemble(md):
 
 
 def html(doc, svgs):
-    """The filled document plus the drawings (in the order given), one per page, as one HTML page."""
+    """The filled document plus the drawings (in the order given), one per page, as one HTML page.
+    The page title is the document's own first heading."""
     body = markdown.markdown(doc, extensions=["tables", "sane_lists"])
+    title = next((line[2:].strip() for line in doc.splitlines() if line.startswith("# ")), "")
     pages = "".join(f'<section class="drawing">{svg}</section>' for svg in svgs)
     return (f'<!doctype html><html lang="th"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f'<title>{TITLE}</title><style>{CSS}</style></head><body>{body}{pages}</body></html>')
+            f'<title>{title}</title><style>{CSS}</style></head><body>{body}{pages}</body></html>')
 
 
 def pdf(page_html, out):
@@ -152,7 +152,7 @@ def check(md):
     """Print the tile counts, the still-to-buy total and every warning, without building."""
     q = assemble(md)
     print("\n".join(tile_lines(q.drawings, q.tiles)))
-    print("Still to buy:", materials.sum_cell(*q.materials.still_to_buy(), bold=False))
+    print("Still to buy:", q.materials.total_cell(bold=False))
     for where, w in q.warnings:
         print(f"WARNING ({where}): {w}")
     print(f"Materials: {len(q.materials.items)} items, {q.materials.on_site()} on site · "
