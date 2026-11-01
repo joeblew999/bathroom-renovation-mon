@@ -73,6 +73,8 @@ buy = { th = "ซื้อ", en = "buy" }
 approx = { th = "ประมาณ", en = "approx." }
 about = { th = "ประมาณ", en = "about" }
 detail = { th = " ", en = ", " }     # between a product's name and its detail
+# A design problem (materials_design_checks.py), as a note for the architect.
+tile_short = { th = "กระเบื้อง{tile}: ในรายการมี {planned} กล่อง แต่ห้องต้องใช้ {boxes} กล่อง — สั่งเพิ่มเสียตั้งแต่ตอนนี้ เพราะล็อตที่สั่งทีหลังสีอาจไม่ตรงกัน", en = "{tile} tile: {planned} boxes on the list, but the room needs {boxes} — order the rest now, as a later batch may not match in colour" }
 
 # The marks on the list — the same in both languages, so one value each.
 [symbols]

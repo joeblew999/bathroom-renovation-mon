@@ -46,7 +46,8 @@ LINE = {"group": "@group!", "status": "@status!", "n": "count!", "note_th": "tex
 SIZE_KEYS = ("w", "h", "d")
 SIZE = {k: "count" for k in SIZE_KEYS}
 SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
-LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about", "detail")}
+LABELS = {**{k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about", "detail")},
+          "tile_short": ("tile", "planned", "boxes")}     # a design check (materials_design_checks.py)
 
 
 @dataclass(frozen=True)

@@ -11,15 +11,42 @@ A bilingual (Thai / English) quote for the builder, published as:
 
 ## How it's built
 
-Three parts, each one data file read by one piece of code. `build.py` hands the products on the material list to the room, checks the tile boxes, and puts the three sections in the template.
+The quote has three **parts** — phases, materials and room. A part is its data file, the code that reads it, and (for materials and room) its design checks. `build.py` is the only place the parts meet: it hands the products on the material list to the room, hands the tiles the room needs to the material list's design checks, and puts the three sections in the template.
 
 ```
-phases.toml     ──► phases.py     ─┐
-materials.toml  ──► materials.py  ─┼──► build.py ──► out/index.html ──► out/…pdf (printed by Chromium)
-room.toml       ──► room.py       ─┘    (+ the template, style.css)
+phases.toml     ──► phases.py                                      ─┐
+materials.toml  ──► materials.py    + materials_design_checks.py   ─┼──► build.py ──► out/index.html ──► out/…pdf (printed by Chromium)
+     ▲                                                              │    (+ the template, style.css)
+     │ the room names products by id (rule 6)                       │
+room.toml       ──► room.py         + room_design_checks.py        ─┘
 ```
 
 On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build` and publishes `out/`. `out/` is never committed.
+
+## Design checks
+
+Two kinds of check stop the build. **Data checks** ask whether a data file is written correctly — a missing field, an id that points at nothing, Thai without English. **Design checks** ask whether the bathroom it describes works — the things an architect and a builder care about: clearances, clashes, fit and quantities. They are kept apart from the data checks, in their own files, named for the part they check:
+
+| Part | Data | Code | Design checks |
+|---|---|---|---|
+| room | `room.toml` | `room.py` | `room_design_checks.py` — the space |
+| materials | `materials.toml` | `materials.py` | `materials_design_checks.py` — the quantities |
+| phases | `phases.toml` | `phases.py` | none yet (a `phases_design_checks.py` would check the order of the work) |
+
+`room_design_checks.py` — the space:
+- a hole (a fixing, an outlet, an item's centre) too near a tile joint (the clearance is `min_clear` in `room.toml`)
+- an item off its wall: past an end, below the floor or above the ceiling
+- a floor item off the floor
+- two items overlapping, the column, door and lintel included
+- a fixing or outlet in a window or the door opening
+- a part (a pipe, a fixing) outside the width, or above the top, of the fitting it belongs to
+- the door opening too wide to fit beside the column
+- the lintel shorter than the door opening plus its bearing
+
+`materials_design_checks.py` — the quantities:
+- too few tile boxes on the list for the tiles the room needs (the room works out the count; the list's check compares)
+
+A design problem stops the build — after the page and the PDF are written to `out/`, so it can be seen there, listed in red under its drawing; GitHub runs the same build, so nothing with a design problem is published. Each problem is written as a note for the architect, in Thai and English: where, what, the rule, and what to do. Its wording is a label in the part's data file. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
 
 ## Files
 
@@ -31,6 +58,7 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 | `bathroom-renovation-quote.md` | The template: the title, then a section marker for the phases and the materials, in page order (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `phases.py`, `materials.py`, `room.py` | The parts (see How it's built) |
+| `room_design_checks.py`, `materials_design_checks.py` | The design checks (see Design checks) |
 | `build.py` | The only place the parts meet (see How it's built) |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes |
 | `test_pipeline.py` | The tests |
@@ -47,9 +75,9 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 3. **Two shapes for a name.** A name is `th` and `en` (a shop, a unit, a tile, a wall, a step); a named thing that can carry a note adds an optional `note_th` / `note_en` (a section, a phase, a group, an item on a drawing). Thai and English always say the same thing (rule 2 says what the checker compares), and are never joined by hand (the one exception is the title line in the template).
 4. **One look for each shape**, from `common.py`: a heading is "Thai / English"; a note is Thai, with the English underneath.
 5. **Parts don't know each other.** No part imports another, and no data file holds a fact about another part; the one link is rule 6. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never the room's facts (which tile is where) — the list and the room are the only places for those.
-6. **The only link between parts:** the room names products on the material list by id, for their names and sizes and to match its tiles to the boxes on the list. `build.py` hands the products over and `room.py` checks every id. Nothing links the phases to anything.
+6. **The only link between parts:** the room names products on the material list by id, for their names and sizes, and the tiles it needs are matched to the boxes on the list by product. `build.py` hands the products to the room and the tiles needed to `materials_design_checks.py`; `room.py` checks every id. Nothing links the phases to anything.
 7. **Every fact once.** A product's name, detail and size are on its entry in `materials.toml` (the detail shows the size with `{w}`, `{w_cm}` …), and the room takes them from there (rule 6); what follows from the room — where each wall is, the column, door and lintel, the tile counts — is worked out in `room.py`; numbers come from order, never typed; things point at each other by id. A note never repeats a fact held elsewhere, or a figure that can be worked out.
-8. **Bad data stops the build** with one error naming the file and the problem. A broken design rule (a hole near a tile joint, a clash) is a warning, in Thai and English, shown red on the drawing.
+8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem stops it too (see Design checks).
 9. **Tests never depend on today's numbers or wording.** A test finds what it breaks by what it is and works out the expected message from the real data and its labels. There is a test for every check; `mise run test` lists them.
 
-**Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `lint`, `test` and `build` (all clean, 0 warnings), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — then watch the GitHub build until it passes.
+**Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `lint`, `test` and `build` (all clean, 0 design problems), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — then watch the GitHub build until it passes.

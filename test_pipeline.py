@@ -4,11 +4,12 @@
 Each test copies the template and the three data files into a temporary folder, breaks one
 thing on purpose, then puts the quote together in this process:
 
-    q = assemble(md)      phases + materials + room, the tile check, the filled document
+    q = assemble(md)      phases + materials + room, the design checks, the filled document
 
-and looks for the expected text in what comes back: the error message, the warnings, the tile
-counts, the filled-in document or the drawings. No PDF is printed and the real files are never
-touched.
+and looks for the expected text in what comes back: the error message, the design problems, the
+tile counts, the filled-in document or the drawings. The real files are never touched. Two tests go
+further: one runs the whole build (page and PDF) to see a design problem stop it, and one measures
+the problem lines in Chromium to see they fit their drawing.
 
 No test depends on today's numbers or wording. A test picks what it breaks by what it is — "an
 item that belongs to another item", "a product still to buy with a shop" — edits it in the loaded
@@ -16,13 +17,15 @@ data, and works out the message it expects from the real data and its labels. So
 price, a position, a quantity or a label never breaks a test; only a broken check does. If the
 data has nothing of the kind a test needs, that test fails and says so.
 
-There is a test for every check in the code: every DataError (bad data) and every design-rule
-warning.
+There is a test for every check in the code: every DataError (bad data, a data check) and every
+design check (room_design_checks.py, materials_design_checks.py).
 
 Usage:  python3 test_pipeline.py
 """
+import contextlib
 import datetime
 import html
+import io
 import json
 import math
 import re
@@ -31,9 +34,12 @@ import tempfile
 import tomllib
 from pathlib import Path
 
+from playwright.sync_api import sync_playwright
+
 import materials
 import phases
 import room
+import build
 from build import assemble, tile_lines
 import common
 from common import DataError
@@ -209,15 +215,20 @@ def make(status, by=None, price=None):
     return edit_entry(to_buy_with_shop, "product still to buy with a shop", change)
 
 
+def copy_to(folder, edits):
+    """The template and the data files, copied into `folder` with `edits` made."""
+    for name in (MD, *DATA):
+        if name in edits and edits[name] is None:
+            continue
+        text = (HERE / name).read_text(encoding="utf-8")
+        (folder / name).write_text(edits[name](text) if name in edits else text, encoding="utf-8")
+
+
 def run(edits):
     """Assemble the quote from copies, with `edits` = {file: edit(text) -> text, or None to leave
     the file out}. Returns (warnings, text to search, quote) — the ERROR line if the data was refused."""
     with tempfile.TemporaryDirectory() as tmp:
-        for name in (MD, *DATA):
-            if name in edits and edits[name] is None:
-                continue
-            text = (HERE / name).read_text(encoding="utf-8")
-            (Path(tmp) / name).write_text(edits[name](text) if name in edits else text, encoding="utf-8")
+        copy_to(Path(tmp), edits)
         try:
             q = assemble(Path(tmp) / MD)
         except DataError as e:
@@ -226,19 +237,40 @@ def run(edits):
     return warnings, "\n".join([*warnings, *tile_lines(q.room, q.tiles), q.doc, *q.svgs]), q
 
 
+def built_item(shape):
+    """The column, door or lintel, as room.py worked it out on the column's wall."""
+    return find(column_wall()[1].items, shape, lambda i: i.shape == shape)
+
+
 def built(f):
     """An expectation read off the built quote."""
     return lambda p: f(p) if p else "(the data was refused, so there was no quote to look at)"
 
 
 # ---------- tests that need working out: each returns (edits, expected) ----------
+def wall_name(w=None):
+    """A wall's name as a design problem gives it: (th, en)."""
+    w = w or wall()
+    return w.th, w.en
+
+
+def edge(key, **values):
+    """Which edge an item runs off, as the room's labels word it: (th, en)."""
+    lab = real().room.labels
+    return lab.th(key, **values), lab.en(key, **values)
+
+
+def length_end():
+    return edge("edge_end", length=f"{wall().length:g}")
+
+
 def joint_test(lang="en"):
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
     off = real().room.min_clear / 2
     x = real().room.tiles[wall().tile].size + off            # just past the first vertical joint
     lab = real().room.labels
-    want = getattr(lab, lang)("warn_joint", item=it.label(), axis=real().room.symbols["axis_x"], v=f"{x:g}",
-                              d=f"{off:g}")
+    want = getattr(lab, lang)("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_x"],
+                              v=f"{x:g}", d=f"{off:g}", min=f"{real().room.min_clear:g}")
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=x))}, want
 
 
@@ -248,7 +280,8 @@ def joint_y_test():
     off = real().room.min_clear / 2
     y = t.size + off                                         # just above the first horizontal joint
     return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=y))},
-            warn("warn_joint", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}", d=f"{off:g}"))
+            warn("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}",
+                 d=f"{off:g}", min=f"{real().room.min_clear:g}"))
 
 
 def tile_top_joint_test():
@@ -256,7 +289,8 @@ def tile_top_joint_test():
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
     top, off = real().room.tiles[wall().tile].top, real().room.min_clear / 2
     return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=top - off))},
-            warn("warn_joint", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{top - off:g}", d=f"{off:g}"))
+            warn("warn_joint", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_y"], v=f"{top - off:g}",
+                 d=f"{off:g}", min=f"{real().room.min_clear:g}"))
 
 
 def on_joint_test():
@@ -276,35 +310,50 @@ def above_tiles_test():
 
 def point_off_wall_test():
     it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, warn("warn_off_wall", item=it.label())
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, \
+        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=length_end())
 
 
 def zone_off_wall_test():
     z = find(wall().items, "zone on the wall", lambda i: i.shape == "zone")
-    return {ROOM: data(lambda d: raw_item(d, z.id).update(x=wall().length - z.w / 4))}, warn("warn_off_wall", item=z.label())
+    return {ROOM: data(lambda d: raw_item(d, z.id).update(x=wall().length - z.w / 4))}, \
+        warn("warn_off_wall", wall=wall_name(), item=z.label(), edge=length_end())
 
 
 def ceiling_test():
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=real().room.ceiling))}, warn("warn_off_wall", item=it.label())
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=real().room.ceiling))}, \
+        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_ceiling", ceiling=f"{real().room.ceiling:g}"))
 
 
 def off_floor_test():
     it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
     return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(x=real().room.length))},
-            warn("warn_off_floor", item=it.label()))
+            warn("warn_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
+
+
+def problem_text(svg):
+    """The design problems under a drawing, as one text: its wrapped lines joined back up."""
+    lines = re.findall(r'<text class="warning"[^>]*>([^<]*)</text>', svg)
+    return " ".join(html.unescape(line).strip() for line in lines)
 
 
 def tile_short_on_plan_test():
     """The tile-box shortage shows red on the floor plan, not only in the terminal."""
     edits, want = tile_boxes_test()
-    return edits, f"{RAW[ROOM]['symbols']['warning']} {html.escape(want)}</text>"
+    plan = real().room.labels.en("floor_plan")
+
+    def expect(p):
+        svg = find(p.svgs, "the floor plan", lambda s: plan in s)
+        mark = f"{RAW[ROOM]['symbols']['warning']} {want}"
+        return want if mark in problem_text(svg) else f"(the floor plan's problems: {problem_text(svg)[:200]})"
+    return edits, expect
 
 
 def clash_test():
     a, b = solids()[:2]
     return {ROOM: data(lambda d: raw_item(d, b.id).update(x=a.x, y=a.y))}, \
-        warn("warn_overlap", a=a.label(), b=b.label())
+        warn("warn_overlap", wall=wall_name(), a=a.label(), b=b.label())
 
 
 def round_clash_test():
@@ -312,19 +361,20 @@ def round_clash_test():
     c = find(solids(), "round item on the wall", lambda i: i.shape == "circle")
     b = find(solids(), "other solid item", lambda i: i is not c)
     return {ROOM: data(lambda d: raw_item(d, c.id).update(x=b.x, y=b.y))}, \
-        warn("warn_overlap", **dict(zip("ab", (x.label() for x in sorted((c, b), key=wall().items.index)))))
+        warn("warn_overlap", wall=wall_name(), **dict(zip("ab", (x.label() for x in sorted((c, b), key=wall().items.index)))))
 
 
 def wall_end_test():
     a = solids()[0]
-    return {ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))}, warn("warn_off_wall", item=a.label())
+    return {ROOM: data(lambda d: raw_item(d, a.id).update(x=wall().length))}, \
+        warn("warn_off_wall", wall=wall_name(), item=a.label(), edge=length_end())
 
 
 def part_outside_test():
     it, parent = a_part()
     moved = parent.x + parent.w
     return ({ROOM: data(lambda d: raw_item(d, parent.id).update(x=moved))},
-            warn("warn_outside", item=it.label(), axis=real().room.symbols["axis_x"], v=f"{it.x:g}",
+            warn("warn_outside", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_x"], v=f"{it.x:g}",
                  parent=(parent.th, parent.en), low=f"{moved - parent.w / 2:g}", high=f"{moved + parent.w / 2:g}"))
 
 
@@ -332,8 +382,8 @@ def part_above_test():
     it, parent = a_part()
     y = parent.y + parent.h                                  # above its parent's top edge
     return ({ROOM: data(lambda d: raw_item(d, it.id).update(y=y))},
-            warn("warn_above", item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}",
-                 parent=(parent.th, parent.en)))
+            warn("warn_above", wall=wall_name(), item=it.label(), axis=real().room.symbols["axis_y"], v=f"{y:g}",
+                 parent=(parent.th, parent.en), top=f"{parent.y + parent.h / 2:g}"))
 
 
 def column_wall():
@@ -363,7 +413,7 @@ def column_clash_test():
     box = {"id": "test_box", "th": "กล่องทดสอบ", "en": "Test box", "shape": "rect",
            "x": col.x, "y": col.y, "w": col.w, "h": col.h / 4}
     n = 1                                                       # the test box comes first on its wall
-    return add_item(wid, box, first=True), warn("warn_overlap", a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
+    return add_item(wid, box, first=True), warn("warn_overlap", wall=wall_name(w), a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
                                       b=(f"{int(col.no) + 1} {col.th}", f"{int(col.no) + 1} {col.en}"))
 
 
@@ -385,8 +435,9 @@ def door_joint_test():
 
 
 def lintel_short_test():
-    lid = RAW[ROOM]["lintel"]["product"]
-    return {MATERIALS: data(lambda d: by_id(d["entry"], lid)["size"].update(w=1))}, "is shorter than the door and its bearing"
+    lid, door = RAW[ROOM]["lintel"]["product"], built_item("door")
+    return {MATERIALS: data(lambda d: by_id(d["entry"], lid)["size"].update(w=1))}, \
+        warn("warn_lintel_short", wall=wall_name(column_wall()[1]), lintel="1", door=f"{door.w:g}", bearing=f"{RAW[ROOM]['lintel']['bearing']:g}")
 
 
 def point_in_opening_test():
@@ -395,24 +446,26 @@ def point_in_opening_test():
     win = find(w.items, "window", lambda i: i.shape == "opening")
     pt = find(w.items, "point", lambda i: i.shape == "point")
     edit = {ROOM: data(lambda d: find(by_id(d["wall"], w.id)["item"], pt.id, lambda e: e["id"] == pt.id).update(x=win.x, y=win.y))}
-    return edit, warn("warn_overlap", a=pt.label(), b=win.label())
+    return edit, warn("warn_in_opening", wall=wall_name(w), a=pt.label(), b=win.label())
 
 
 def below_floor_test():
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=it.h / 4))}, warn("warn_off_wall", item=it.label())
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=it.h / 4))}, \
+        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_floor"))
 
 
 def off_wall_start_test():
     """A box poking out past the wall's start (x = 0)."""
     it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
-    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=it.w / 4))}, warn("warn_off_wall", item=it.label())
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=it.w / 4))}, \
+        warn("warn_off_wall", wall=wall_name(), item=it.label(), edge=edge("edge_start"))
 
 
 def off_floor_y_test():
     it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
     return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(y=real().room.width))},
-            warn("warn_off_floor", item=it.label()))
+            warn("warn_off_floor", item=it.label(), length=f"{real().room.length:g}", width=f"{real().room.width:g}"))
 
 
 def money_test():
@@ -438,7 +491,7 @@ def tile_boxes_test():
         for ln in by_id(d["entry"], t.tile.product)["line"]:
             ln["n"] = 1
     return {MATERIALS: data(change)}, \
-        real().room.labels.en("tile_short", tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
+        real().materials.labels.en("tile_short", tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
 
 
 def cut_row_test():
@@ -453,7 +506,8 @@ def cut_row_test():
 def door_test():
     door = RAW[ROOM]["door"]["product"]
     length = real().room.walls[RAW[ROOM]["column"]["wall"]].length
-    return {MATERIALS: data(lambda d: by_id(d["entry"], door)["size"].update(w=length))}, "doesn't fit beside the column"
+    return {MATERIALS: data(lambda d: by_id(d["entry"], door)["size"].update(w=length))}, \
+        warn("warn_door_fit", wall=wall_name(column_wall()[1]), door=f"{length:g}", column=f"{built_item("column").w:g}", length=f"{length:g}")
 
 
 def size_in_name_test():
@@ -606,6 +660,53 @@ def same_numbers_reordered_test():
     return edit_step(lambda x: x.update(th="1 ก 22", en="22 a 1")), CLEAN
 
 
+def stops_build_test():
+    """A design problem stops the build — after the page and the PDF are written, so it can be seen."""
+    edits, want = clash_test()
+
+    def expect(p):
+        with tempfile.TemporaryDirectory() as tmp:
+            copy_to(Path(tmp), edits)
+            out = Path(tmp) / "out"
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):          # its own output isn't the test's
+                    build.main(["build.py", str(Path(tmp) / MD), str(out)])
+            except SystemExit as e:
+                stopped = e.code not in (None, 0)
+            else:
+                stopped = False
+            written = (out / "index.html").exists() and (out / build.PDF_NAME).exists()
+        return want if stopped and written else f"(stopped: {stopped}; page and PDF written: {written})"
+    return edits, expect
+
+
+def problems_fit_test():
+    """Every design problem's lines (Thai and English, long ones wrapped) fit inside its drawing, across and
+    down, however many there are — measured in Chromium, the browser that prints the PDF."""
+    edits_a, _ = clash_test()
+    edits_b, _ = joint_test()
+    a, b = edits_a[ROOM], edits_b[ROOM]
+    title = real().room.labels.en("elevation_title", wall=(wall().th, wall().en))
+
+    def expect(p):
+        svg = find(p.svgs, "the wall's drawing", lambda s: title in s)
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch()
+            page = browser.new_page()
+            page.set_content(f"<style>{build.STYLE.read_text(encoding='utf-8')}</style><section class=drawing>{svg}</section>")
+            size, boxes = page.evaluate("""() => { const s = document.querySelector('svg');
+                return [[s.viewBox.baseVal.width, s.viewBox.baseVal.height],
+                        [...s.querySelectorAll('text.warning')].map(t => { const b = t.getBBox();
+                            return [b.x + b.width, b.y + b.height]; })]; }""")
+            browser.close()
+        if len(boxes) < 4:
+            return f"(only {len(boxes)} problem lines on the drawing, so nothing to test)"
+        right, bottom = max(x for x, _ in boxes), max(y for _, y in boxes)
+        return title if right <= size[0] and bottom <= size[1] else \
+            f"(problem lines reach {right:.0f} × {bottom:.0f}, past the drawing's {size[0]:.0f} × {size[1]:.0f})"
+    return {ROOM: lambda t: b(a(t))}, expect
+
+
 def out_of_order_test():
     e = an_entry("product", lambda e: True)
     second = next(k for k in materials.ENTRY if k in e and k != "id")
@@ -690,32 +791,38 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- the room: design rules (warnings, in Thai and English) ----
-    ("rules: a point moved just off a joint", joint_test),
-    ("rules: the same warning, in Thai", lambda: joint_test("th")),
-    ("rules: a point moved just off a horizontal joint", joint_y_test),
-    ("rules: the tile top edge counts as a joint", tile_top_joint_test),
-    ("rules: a hole exactly on a joint is allowed", on_joint_test),
-    ("rules: no joint warnings above the tiling", above_tiles_test),
-    ("rules: a point moved off the end of the wall", point_off_wall_test),
-    ("rules: a zone running off its wall", zone_off_wall_test),
-    ("rules: a box poking out past the wall's start", off_wall_start_test),
-    ("rules: an item running below the floor", below_floor_test),
-    ("rules: a fixing in a window", point_in_opening_test),
-    ("rules: a floor item off the floor, across the room", off_floor_y_test),
-    ("rules: an item above the ceiling", ceiling_test),
-    ("rules: a floor item off the floor", off_floor_test),
-    ("rules: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
-    ("rules: an item moved onto another", clash_test),
-    ("rules: a round item moved onto another", round_clash_test),
-    ("rules: an item pushed past the end of the wall", wall_end_test),
-    ("rules: an item moved without the part that belongs to it", part_outside_test),
-    ("rules: a part moved above the item it belongs to", part_above_test),
-    ("rules: an item moved onto the column", column_clash_test),
-    ("rules: no tile joint inside the door opening", door_joint_test),
-    ("rules: the all-clear is printed on the drawings", {},
+    # ---- room design (room_design_checks.py): problems with the space, in Thai and English; any stops the build ----
+    ("room design check: a point moved just off a joint", joint_test),
+    ("room design check: the same problem, in Thai", lambda: joint_test("th")),
+    ("room design check: a point moved just off a horizontal joint", joint_y_test),
+    ("room design check: the tile top edge counts as a joint", tile_top_joint_test),
+    ("room design check: a hole exactly on a joint is allowed", on_joint_test),
+    ("room design check: no joint problems above the tiling", above_tiles_test),
+    ("room design check: a point moved off the end of the wall", point_off_wall_test),
+    ("room design check: a zone running off its wall", zone_off_wall_test),
+    ("room design check: a box poking out past the wall's start", off_wall_start_test),
+    ("room design check: an item running below the floor", below_floor_test),
+    ("room design check: a fixing in a window", point_in_opening_test),
+    ("room design check: a floor item off the floor, across the room", off_floor_y_test),
+    ("room design check: an item above the ceiling", ceiling_test),
+    ("room design check: a floor item off the floor", off_floor_test),
+    ("room design check: an item moved onto another", clash_test),
+    ("room design check: a round item moved onto another", round_clash_test),
+    ("room design check: an item pushed past the end of the wall", wall_end_test),
+    ("room design check: an item moved without the part that belongs to it", part_outside_test),
+    ("room design check: a part moved above the item it belongs to", part_above_test),
+    ("room design check: an item moved onto the column", column_clash_test),
+    ("room design check: no tile joint inside the door opening", door_joint_test),
+    ("room design check: the all-clear is printed on the drawings", {},
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.min_clear))),
-    ("rules: too few tile boxes for the room", tile_boxes_test),
+    ("room design check: the door wider than its wall beside the column", door_test),
+    ("room design check: a lintel shorter than the door and its bearing", lintel_short_test),
+    # ---- materials design (materials_design_checks.py): problems with the quantities on the list ----
+    ("materials design check: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
+    ("materials design check: too few tile boxes for the room", tile_boxes_test),
+    # ---- design problems and the build ----
+    ("design check: a design problem stops the build, after the page and the PDF are written", stops_build_test),
+    ("design check: every design problem's lines fit inside its drawing", problems_fit_test),
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
@@ -759,8 +866,6 @@ TESTS = [
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(w=500.5, h=500.5))}, "a whole number of mm"),
     ("room: a tile that isn't square",
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(h=1))}, "the tile count needs square tiles"),
-    ("room: the door wider than its wall beside the column", door_test),
-    ("room: a lintel shorter than the door and its bearing", lintel_short_test),
     ("room: a step's high side on a floor item that isn't a step",
      lambda: ({ROOM: data(lambda d: put(find(d["floor"]["item"], "floor rect", lambda e: e["shape"] == "rect"),
                                         "high", "end", room.ITEM))}, "is a rect, so it has no 'high'")),

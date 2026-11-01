@@ -7,18 +7,20 @@ The only place the three parts meet. Each part reads its own file and renders it
   materials.py   materials.toml   → the material list (and every product's names and size)
   room.py        room.toml        → the floor plan and the wall drawings
 
-This file hands the products on the material list to the room (for their sizes), checks the
-tile boxes on the list against the tiles the room needs, and puts each part's section into the
-template (bathroom-renovation-quote.md). Then:
+This file hands the products on the material list to the room (for their sizes), hands the tiles
+the room needs to the material list's design check (materials_design_checks.py), and puts each part's
+section into the template (bathroom-renovation-quote.md). Then:
 
   html     Markdown → HTML, drawings appended one per page   → out/index.html
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
 Bad data stops the build with one ERROR line naming the file and the problem, before
-anything is written. The template is never rewritten.
+anything is written. A design problem (room_design_checks.py, materials_design_checks.py) stops it too, after
+the page and the PDF are written, so it can be seen there; nothing is published. The template is
+never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
-        python3 build.py --summary [template.md]  (tile counts, total, warnings; no build)
+        python3 build.py --summary [template.md]  (tile counts, total, design problems; no build)
 """
 import sys
 from dataclasses import dataclass
@@ -28,6 +30,7 @@ import markdown
 from playwright.sync_api import sync_playwright
 
 import materials
+import materials_design_checks
 import phases
 import room
 from common import DataError, cli
@@ -46,16 +49,6 @@ class Quote:
     room: room.Room
     tiles: list          # [(TilesNeeded, boxes planned)]
     warnings: list       # [(where, (th, en))]
-
-
-# ---------- the one fact two parts share ----------
-def tile_check(m, r):
-    """[(tiles needed, boxes on the list)] per tile, and a warning where there are too few. A
-    tile and its boxes are matched by product: both name the same entry on the material list."""
-    tiles = [(t, m.boxes_of(t.tile.product)) for t in r.tiles_needed()]
-    short = [dict(tile=(t.tile.th, t.tile.en), planned=f"{planned:g}", boxes=t.boxes)
-             for t, planned in tiles if planned < t.boxes]
-    return tiles, [("materials", (r.labels.th("tile_short", **v), r.labels.en("tile_short", **v))) for v in short]
 
 
 def tile_lines(r, tiles):
@@ -90,7 +83,7 @@ def assemble(md):
     work = phases.load(md.with_name(phases.FILE))
     m = materials.load(md.with_name(materials.FILE))
     r = room.load(md.with_name(room.FILE), m.products)
-    tiles, tile_warnings = tile_check(m, r)
+    tiles, tile_warnings = materials_design_checks.tile_check(m, r.tiles_needed())
     doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
     return Quote(doc, r.render([w for _, w in tile_warnings]), work, m, r, tiles, r.warnings() + tile_warnings)
 
@@ -116,7 +109,7 @@ def pdf(page_html, out):
 
 
 def build(md, out_dir):
-    """Run the whole pipeline. Returns the warnings. Raises DataError on bad data
+    """Run the whole pipeline. Returns the design problems. Raises DataError on bad data
     (before anything is written)."""
     q = assemble(md)
     page = html(q.doc, q.svgs)
@@ -127,18 +120,18 @@ def build(md, out_dir):
 
 
 def summary(md):
-    """Print the tile counts, the still-to-buy total and every warning, without building."""
+    """Print the tile counts, the still-to-buy total and every design problem, without building."""
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
     print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
     print_warnings(q.warnings)
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
-          f"{len(q.warnings)} warnings")
+          f"{len(q.warnings)} design problems")
 
 
 def print_warnings(warnings):
     for where, (_, en) in warnings:
-        print(f"WARNING ({where}): {en}")
+        print(f"DESIGN PROBLEM ({where}): {en}")
 
 
 def main(argv):
@@ -150,7 +143,10 @@ def main(argv):
     out = Path(args[1] if len(args) > 1 else "out")
     warnings = build(md, out)
     print_warnings(warnings)
-    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} warnings")
+    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} design problems")
+    if warnings:
+        sys.exit(f"ERROR: {len(warnings)} design problems, listed above and under the drawings in {out / PDF_NAME} "
+                 f"— the build stops, so nothing is published")
 
 
 if __name__ == "__main__":

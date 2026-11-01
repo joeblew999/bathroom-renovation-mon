@@ -3,27 +3,31 @@ the products on the material list are handed to it (for their names and sizes).
 
     r = load(Path("room.toml"), products)   # products = {id: Product}, from materials.load()
     r.render()          # [svg text] — the floor plan, then each drawn wall
-    r.warnings()        # [(wall id or "floor", (th, en))] — every design rule broken
+    r.warnings()        # [(wall id or "floor", (th, en))] — every space problem (room_design_checks.py)
     r.tiles_needed()    # [TilesNeeded] — tiles per tile, worked out from the room
 
   1. read       room.toml against the fields declared below (common.check)
   2. work out   each wall's place from the order of the walls; each item's name and size from
                 its product; the column, door and lintel from how the room is built; tile counts
-  3. rules      a hole too near a tile joint, items that clash or run off the wall, a part
-                outside the item it belongs to — warnings, shown under the drawing
-  4. draw       the floor plan and each drawn wall, as SVG; their look is in style.css
+  3. draw       the floor plan and each drawn wall, as SVG, each with its design problems under it;
+                their look is in style.css
+
+The design checks (a hole too near a tile joint, items that clash or run off the wall, a part outside
+the item it belongs to, the door and lintel) are in room_design_checks.py.
 
 How this room is built is the one thing written here rather than in room.toml (README rule 1):
 the existing column stands at the x = 0 end of its wall, the door opening beside it and the
 lintel over the opening.
 
-The tiles needed and any warnings print with `mise run summary`; the drawings are in the PDF.
+The tiles needed and any design problems print with `mise run summary`; the drawings are in the PDF.
 """
 import math
+import textwrap
 from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 
+import room_design_checks
 from common import NAME, NAMED, DataError, Labels, both, check, check_each, placeholders, read_toml
 
 FILE = "room.toml"
@@ -56,9 +60,15 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "dashed": (),
           "all_clear": ("min_clear",), "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare"),
-          "warn_joint": ("item", "axis", "v", "d"), "warn_off_wall": ("item",), "warn_off_floor": ("item",), "warn_overlap": ("a", "b"),
-          "warn_outside": ("item", "axis", "v", "parent", "low", "high"), "warn_above": ("item", "axis", "v", "parent"),
-          "tile_short": ("tile", "planned", "boxes")}
+          # the design problems (room_design_checks.py), each a note for the architect: where, what, the rule, what to do
+          "warn_joint": ("wall", "item", "axis", "v", "d", "min"),
+          "warn_off_wall": ("wall", "item", "edge"),
+          "edge_start": (), "edge_end": ("length",), "edge_floor": (), "edge_ceiling": ("ceiling",),
+          "warn_off_floor": ("item", "length", "width"),
+          "warn_overlap": ("wall", "a", "b"), "warn_in_opening": ("wall", "a", "b"),
+          "warn_outside": ("wall", "item", "axis", "v", "parent", "low", "high"),
+          "warn_above": ("wall", "item", "axis", "v", "parent", "top"),
+          "warn_door_fit": ("wall", "door", "column", "length"), "warn_lintel_short": ("wall", "lintel", "door", "bearing")}
 # The position and size keys each shape may have; an item gives no others.
 WALL_KEYS = {"rect": ("x", "y", "w", "h", "d"), "circle": ("x", "y", "w", "d"), "point": ("x", "y"),
              "zone": ("x", "w", "d"), "opening": ("x", "y", "w", "h")}
@@ -126,7 +136,7 @@ class Item:
     note_en: str = ""
 
     def label(self):
-        """'3 ท่อน้ำทิ้งอ่าง', '3 Basin waste': how a warning names it."""
+        """'3 ท่อน้ำทิ้งอ่าง', '3 Basin waste': how a design problem names it."""
         return f"{self.no} {self.th}", f"{self.no} {self.en}"
 
 
@@ -166,7 +176,7 @@ class Room:
     length: float
     width: float
     ceiling: float
-    min_clear: float     # the design rule: every hole at least this far from a tile joint
+    min_clear: float     # every hole at least this far from a tile joint (a design check)
     tiles: dict          # {id: Tile}
     floor_tag: str
     floor_tile: str
@@ -174,6 +184,8 @@ class Room:
     walls: dict          # {id: Wall}, in order round the plan
     labels: Labels
     symbols: dict        # the marks on the drawings (room.toml [symbols])
+    lintel_length: float  # the lintel product's length, or None if the list gives none (a design check)
+    bearing: float        # how far the lintel rests on the wall each side of the opening
 
     def tiles_needed(self):
         """Tiles needed per tile: the floor, and each wall's tiled run up to its tile's top (a cut
@@ -187,28 +199,12 @@ class Room:
             out.append(TilesNeeded(t, tuple(parts)))
         return out
 
-    def wall_warnings(self, wall):
-        """Every design rule broken on one wall, as (th, en)."""
-        t = self.tiles[wall.tile]
-        return (_joint_warnings(self, wall, t.size, t.top)
-                + _clash_warnings(self, wall.items, wall.length) + _part_warnings(self, wall.items))
-
-    def floor_warnings(self):
-        """An item off the floor (a step's face is its x)."""
-        out = []
-        for it in self.floor:
-            half_w, half_d = (it.w or 0) / 2, (it.d or 0) / 2 if it.shape == "rect" else 0
-            y = it.y if it.y is not None else 0
-            if it.x - half_w < 0 or it.x + half_w > self.length or y - half_d < 0 or y + half_d > self.width:
-                out.append(_warn(self, "warn_off_floor", item=it.label()))
-        return out
-
     def warnings(self):
-        return [(w.id, x) for w in self.walls.values() for x in self.wall_warnings(w)] + \
-            [("floor", x) for x in self.floor_warnings()]
+        """Every space problem: the design checks in room_design_checks.py."""
+        return room_design_checks.warnings(self)
 
     def render(self, plan_warnings=()):
-        """Every drawing as svg text: the floor plan (with the floor's warnings and `plan_warnings`,
+        """Every drawing as svg text: the floor plan (with the floor's design problems and `plan_warnings`,
         each (th, en)), then each drawn wall."""
         return [draw_plan(self, list(plan_warnings))] + [draw_wall(self, w) for w in self.walls.values() if w.drawn]
 
@@ -224,7 +220,8 @@ def load(path, products):
                                                                                     # from the first wall
     walls = _walls(raw, products)
     return Room(r["length"], r["width"], r["ceiling"], r["min_clear"], tiles, raw["floor"]["tag"],
-                raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"])
+                raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"],
+                products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"])
 
 
 def _product(products, where, pid, needs=()):
@@ -305,12 +302,7 @@ def _walls(raw, products):
         run = length
         if e["id"] == col["wall"]:
             # How this room is built: the column at x = 0, the door opening beside it, the lintel over it.
-            if col["width"] + door.w >= length:
-                raise DataError(f"{FILE}: the door ({door.w:g}) doesn't fit beside the column ({col['width']:g}) "
-                                f"in wall '{e['id']}' ({length:g})")
-            if lintel.w is not None and lintel.w < door.w + bearing:
-                raise DataError(f"{FILE}: the lintel ({lintel.w:g}) is shorter than the door and its bearing "
-                                f"({door.w:g} + {bearing:g})")
+            # Whether they fit is a design check (room_design_checks.py).
             n = len(items)
             items += [
                 Item(str(n + 1), "column", col["th"], col["en"], "column", x=col["width"] / 2, y=r["ceiling"] / 2,
@@ -327,93 +319,7 @@ def _walls(raw, products):
     return walls
 
 
-# ======================================== 3. rules ========================================
-# Warnings, not errors: each is (th, en), worded by its label.
-def _warn(room, key, **values):
-    return room.labels.th(key, **values), room.labels.en(key, **values)
-
-
-def joints_x(wall, tile):
-    """The vertical tile joints on a wall: set out from x = 0, and again from the far side of the door
-    opening — none inside it."""
-    door = next((it for it in wall.items if it.shape == "door"), None)
-    runs = [(0, wall.length)] if not door else [(0, door.x - door.w / 2), (door.x + door.w / 2, wall.length)]
-    return [s + k * tile for s, e in runs for k in range(1, int((e - s) // tile) + 1) if s + k * tile < e]
-
-
-def _joint_warnings(room, wall, tile, top):
-    """A hole (a fixing, an outlet, an item's centre) too near a tile joint: closer than min_clear
-    but not exactly on it, below the tile top."""
-    jx = joints_x(wall, tile)
-    jy = sorted(set(range(tile, top, tile)) | {top})   # the tile top edge counts as a joint
-    out = []
-    for it in wall.items:
-        if it.shape not in ("point", "rect", "circle") or it.y >= top:      # no joints above the tiling
-            continue
-        checks = [("axis_x", it.x, jx)] if jx else []
-        if jy:
-            checks.append(("axis_y", it.y, jy))
-        for axis, v, joints in checks:
-            d = min(abs(v - j) for j in joints)
-            if 0 < d < room.min_clear:
-                out.append(_warn(room, "warn_joint", item=it.label(), axis=room.symbols[axis], v=f"{v:g}", d=f"{d:g}"))
-    return out
-
-
-def _box(it):
-    """(x0, x1, y0, y1) of a solid item (a circle: its diameter both ways), or None."""
-    h = it.w if it.shape == "circle" else it.h
-    if it.shape not in ("rect", "circle", "opening", "door", "column", "lintel") or None in (it.x, it.w, it.y, h):
-        return None
-    return it.x - it.w / 2, it.x + it.w / 2, it.y - h / 2, it.y + h / 2
-
-
-def _span(it):
-    """(x0, x1, y0, y1) of an item on its wall: its box; a zone its width, a point itself (a missing
-    height counts as the floor)."""
-    b = _box(it)
-    if b:
-        return b
-    half = (it.w or 0) / 2
-    return it.x - half, it.x + half, it.y or 0, it.y or 0
-
-
-def _clash_warnings(room, items, length):
-    solids = [(it, _box(it)) for it in items if _box(it)]
-    out = [_warn(room, "warn_off_wall", item=it.label()) for it in items
-           if _span(it)[0] < 0 or _span(it)[1] > length or _span(it)[2] < 0 or _span(it)[3] > room.ceiling]
-    # a fixing or outlet in a window or the door opening has no wall to go in
-    for p in (it for it in items if it.shape == "point"):
-        for o, b in solids:
-            if o.shape in ("opening", "door") and b[0] < p.x < b[1] and b[2] < p.y < b[3]:
-                out.append(_warn(room, "warn_overlap", a=p.label(), b=o.label()))
-    for i, (a, ba) in enumerate(solids):
-        for b, bb in solids[i + 1:]:
-            if ba[0] < bb[1] and bb[0] < ba[1] and ba[2] < bb[3] and bb[2] < ba[3]:
-                out.append(_warn(room, "warn_overlap", a=a.label(), b=b.label()))
-    return out
-
-
-def _part_warnings(room, items):
-    """A part (a fixing, an outlet) must sit within the item it belongs to: inside its width and
-    not above its top — catches an item moved without its parts."""
-    by_id = {it.id: it for it in items}
-    out = []
-    for it in items:
-        parent = by_id.get(it.part)
-        if not parent or None in (it.x, parent.x, parent.w):
-            continue
-        if abs(it.x - parent.x) > parent.w / 2:
-            out.append(_warn(room, "warn_outside", item=it.label(), axis=room.symbols["axis_x"], v=f"{it.x:g}",
-                             parent=(parent.th, parent.en), low=f"{parent.x - parent.w / 2:g}",
-                             high=f"{parent.x + parent.w / 2:g}"))
-        if None not in (it.y, parent.y, parent.h) and it.y > parent.y + parent.h / 2:
-            out.append(_warn(room, "warn_above", item=it.label(), axis=room.symbols["axis_y"], v=f"{it.y:g}",
-                             parent=(parent.th, parent.en)))
-    return out
-
-
-# ======================================== 4. draw ========================================
+# ======================================== 3. draw ========================================
 # How the drawings are laid out. Their look (colours, line styles, text sizes) is in style.css.
 WALL_SCALE = 0.3          # px per mm on a wall drawing
 PLAN_SCALE = 0.25         # px per mm on the floor plan
@@ -421,7 +327,8 @@ MIN_WIDTH = 900           # every drawing at least this wide, so they line up on
 TITLE_Y, SUBTITLE_Y = 28, 48
 WALL_MARGINS = (70, 40, 70, 90)          # px round the wall: left, right, top, bottom
 PLAN_MARGINS = (90, 90, 90, 80)          # px round the floor
-BOTTOM_SPACE = {"wall": 90, "plan": 120}  # px below the legend
+BOTTOM_SPACE = {"wall": 90, "plan": 120}  # px below the legend: room for the two all-clear lines; each
+                                          # design problem past those adds its own (warnings_space)
 HEIGHT_STEP = 500         # mm between the height marks up a wall drawing
 # Where things sit, in mm.
 ZONE_TAG_HEIGHT = 200     # a zone's number on a wall drawing
@@ -453,6 +360,10 @@ KEY_DOWN = 16              # the plan's dashed-line key, under its heading
 WARNINGS_DOWN = 16         # the warnings, below a wall drawing's legend
 LEGEND_ROW, LEGEND_LINE, LEGEND_GAP, LEGEND_TAG_UP = 20, 14, 4, 12
 WARNING_LINE = 18
+PROBLEM_CHAR = 7.2        # px a character of a design problem may take at its size (style.css) — generous,
+                          # so a wrapped line always fits
+PROBLEM_RIGHT = 20        # px kept clear at the drawing's right edge
+PROBLEM_INDENT = 4        # characters the second line of a wrapped design problem is set in
 WRAP = 125                # characters per legend note line
 
 
@@ -522,13 +433,26 @@ def draw_legend(a, rows, x0, y0, tag_w):
     return yy
 
 
-def draw_warnings(a, room, warnings, x, y):
-    """Each warning in Thai, then English — or the all-clear, in Thai then English."""
+def problem_lines(room, warnings, x, width):
+    """The lines under a drawing: each design problem in Thai, then English, wrapped (indented) to fit
+    between x and the drawing's right edge — or the all-clear, in Thai then English."""
     s, lab = room.symbols, room.labels
-    lines = [("warning", f"{s['warning']} {t}") for w in warnings for t in w] or \
-        [("ok", f"{s['ok']} {f('all_clear', min_clear=room.min_clear)}") for f in (lab.th, lab.en)]
-    for k, (cls, line) in enumerate(lines):
-        text(a, cls, x, y + WARNING_LINE * k, line)
+    if not warnings:
+        return [("ok", f"{s['ok']} {f('all_clear', min_clear=room.min_clear)}", 0)
+                for f in (lab.th, lab.en)]
+    chars = int((width - x - PROBLEM_RIGHT) / PROBLEM_CHAR)
+    return [("warning", line, PROBLEM_INDENT * PROBLEM_CHAR if k else 0) for w in warnings for t in w
+            for k, line in enumerate(textwrap.wrap(f"{s['warning']} {t}", chars - PROBLEM_INDENT))]
+
+
+def warnings_space(lines):
+    """Extra px below the legend so every line fits, past the two lines BOTTOM_SPACE already holds."""
+    return max(0, len(lines) - 2) * WARNING_LINE
+
+
+def draw_warnings(a, lines, x, y):
+    for k, (cls, line, indent) in enumerate(lines):
+        text(a, cls, x + indent, y + WARNING_LINE * k, line)
 
 
 # ---------- a wall drawing ----------
@@ -539,6 +463,8 @@ def draw_wall(room, wall):
     ML, MR, MT, MB = WALL_MARGINS
     W, H = L * WALL_SCALE, CEIL * WALL_SCALE
     rows = [legend_row(room, it, it.no) for it in wall.items]
+    width = max(ML + W + MR, MIN_WIDTH)
+    lines = problem_lines(room, room_design_checks.wall_warnings(room, wall), ML, width)
 
     def X(mm):                                      # x is measured from the right-hand corner
         return ML + (L - mm) * WALL_SCALE
@@ -548,7 +474,7 @@ def draw_wall(room, wall):
 
     out = []
     a = out.append
-    start(a, max(ML + W + MR, MIN_WIDTH), MT + H + MB + legend_height(rows) + BOTTOM_SPACE["wall"], ML,
+    start(a, width, MT + H + MB + legend_height(rows) + BOTTOM_SPACE["wall"] + warnings_space(lines), ML,
           lab.both("elevation_title", wall=(wall.th, wall.en)),
           s["dot"].join([lab.both("viewed_inside", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
     _wall_face(a, room, wall, t, X, Y, W)
@@ -558,8 +484,7 @@ def draw_wall(room, wall):
     right = room.walls[wall.right]
     text(a, "heading", ML, ly0, f'{lab.both("items")} ({lab.both("x_from", wall=(right.th, right.en), axis=s["axis_x"])}'
                                 f'{s["dot"]}{s["axis_y"]}{s["eq"]}{lab.both("centre_height")})')
-    draw_warnings(a, room, room.wall_warnings(wall), ML,
-                  draw_legend(a, rows, ML, ly0, TAG_W["wall"]) + WARNINGS_DOWN)
+    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0, TAG_W["wall"]) + WARNINGS_DOWN)
     a("</svg>")
     return "\n".join(out)
 
@@ -569,7 +494,7 @@ def _wall_face(a, room, wall, t, X, Y, W):
     ML, lab, top = X(wall.length), room.labels, t.top
     a(f'<rect class="wall-face" x="{ML}" y="{Y(room.ceiling)}" width="{W}" height="{room.ceiling * WALL_SCALE}"/>')
     a(f'<rect x="{ML}" y="{Y(top)}" width="{W}" height="{top * WALL_SCALE}" fill="{t.fill}"/>')
-    for k in joints_x(wall, t.size):
+    for k in room_design_checks.joints_x(wall, t.size):
         a(f'<line class="joint" x1="{X(k)}" y1="{Y(top)}" x2="{X(k)}" y2="{Y(0)}"/>')
         text(a, "joint-text", X(k), Y(top) - TILE_TEXT_UP, f"{k:g}", "middle")
     for k in range(t.size, top, t.size):
@@ -650,13 +575,15 @@ def draw_plan(room, more_warnings):
     rows = [legend_row(room, it, w.tag + it.no, with_size=False, with_notes=False)
             for w in room.walls.values() for it in shown[w.id]]
     rows += [legend_row(room, it, room.floor_tag + it.no, with_size=False) for it in room.floor]
+    width = max(ML + PW + MR, MIN_WIDTH)
+    lines = problem_lines(room, room_design_checks.floor_warnings(room) + more_warnings, ML, width)
 
     def P(fx, fy):                                  # a floor position → px
         return ML + (L - fx) * PLAN_SCALE, MT + fy * PLAN_SCALE
 
     out, tags = [], []
     a = out.append
-    start(a, max(ML + PW + MR, MIN_WIDTH), MT + PH + MB + legend_height(rows) + BOTTOM_SPACE["plan"], ML,
+    start(a, width, MT + PH + MB + legend_height(rows) + BOTTOM_SPACE["plan"] + warnings_space(lines), ML,
           lab.both("floor_plan"), s["dot"].join([lab.both("seen_above", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
     _plan_floor(a, room, P, ML, MT, PW, PH)
     walls = room.walls.values()
@@ -675,8 +602,7 @@ def draw_plan(room, more_warnings):
     keys.append(f"{room.floor_tag}{s['eq']}{lab.both('floor')}")
     text(a, "heading", ML, ly0, f"{lab.both('items')}{s['dash']}{s['dot'].join(keys)}")
     text(a, "key", ML, ly0 + KEY_DOWN, lab.both("dashed"))
-    draw_warnings(a, room, room.floor_warnings() + more_warnings, ML,
-                  draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
+    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
     a("</svg>")
     return "\n".join(out)
 
