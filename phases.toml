@@ -235,8 +235,8 @@ en = "**Main wall:** grey tile, no cuts — every grey tile, floor and wall, fac
 
 [[phase.step]]
 id = "white_tiles"
-th = "**ผนังอีก 3 ด้าน:** กระเบื้องขาว · ผนังด้านประตู: ผนังข้างประตูและหน้าเสาตัดจากกระเบื้อง 1 แผ่นต่อแถว · ถ้าใช้กระเบื้องตัวสำรอง ปูแนวนอน"
-en = "**Other 3 walls:** white tile · door end: the wall beside the door and the column face are both cut from one tile per row · the fallback tile, if used, is laid landscape"
+th = "**ผนังอีก 3 ด้าน:** กระเบื้องขาว · ผนังด้านประตู: ผนังข้างประตูและหน้าเสาตัดจากกระเบื้อง 1 แผ่นต่อแถว"
+en = "**Other 3 walls:** white tile · door end: the wall beside the door and the column face are both cut from one tile per row"
 
 [[phase.step]]
 id = "step_tiles"

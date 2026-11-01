@@ -76,7 +76,7 @@ PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
 AREA_KEYS = {"id", "th", "en"}
 MATERIAL_KEYS = {"area", "name", "note", "buy", "have", "reused", "price", "unit", "approx",
-                 "tile", "fallback", "link"}
+                 "tile", "link"}
 TILE_COLOURS = ("grey", "white")
 
 # What each shape needs to be drawn (after the product's size is filled in).
@@ -124,15 +124,12 @@ class Material:
     unit: str = ""
     approx: bool = False
     tile: str = None
-    fallback: bool = False
     link: str = None
 
     @property
     def status(self):
-        """'buy' (some still to buy), 'bought' (all on site, paid for), 'reused' (an old
-        fitting on site) or 'fallback' (listed, not bought unless needed)."""
-        if self.fallback:
-            return "fallback"
+        """'buy' (some still to buy), 'bought' (all on site, paid for) or 'reused' (an old
+        fitting on site)."""
         if self.buy:
             return "buy"
         return "reused" if self.reused else "bought"
@@ -447,7 +444,7 @@ def _materials(raw):
                 _number("materials.toml", where, k, it[k])
                 if it[k] < 0:
                     raise ProjectError(f"materials.toml: {where} '{k}' can't be negative")
-        for k in ("reused", "approx", "fallback"):
+        for k in ("reused", "approx"):
             if k in it:
                 _flag("materials.toml", where, k, it[k])
         if "tile" in it and it["tile"] not in TILE_COLOURS:
@@ -458,11 +455,8 @@ def _materials(raw):
         m = Material(name=it["name"], note=it.get("note", ""), area=it["area"],
                      buy=it.get("buy", 0), have=it.get("have", 0), reused=it.get("reused", False),
                      price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
-                     tile=it.get("tile"), fallback=it.get("fallback", False), link=it.get("link"))
-        if m.fallback:
-            if m.price is None or m.buy:
-                raise ProjectError(f"materials.toml: {where} is a fallback: give its price, and no 'buy'")
-        elif m.buy == 0 and m.have == 0:
+                     tile=it.get("tile"), link=it.get("link"))
+        if m.buy == 0 and m.have == 0:
             raise ProjectError(f"materials.toml: {where} has nothing to buy and nothing on site (give buy or have)")
         if m.buy and m.price is None:
             raise ProjectError(f"materials.toml: {where} is still to buy but has no price")

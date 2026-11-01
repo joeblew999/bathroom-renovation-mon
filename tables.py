@@ -47,7 +47,7 @@ def phases_section(p):
 
 
 # ---------- the material list ----------
-STATUS_ORDER = ("buy", "bought", "reused", "fallback")
+STATUS_ORDER = ("buy", "bought", "reused")
 
 
 def _n(v, unit):
@@ -55,9 +55,7 @@ def _n(v, unit):
 
 
 def qty(m):
-    """Quantity cell: what to buy (× unit price), or what is on site; a fallback shows its price."""
-    if m.status == "fallback":
-        return f"{baht(m.price)} / {m.unit}" if m.unit else baht(m.price)
+    """Quantity cell: what to buy (× unit price), or what is on site."""
     if m.status == "buy":
         return f"{_n(m.buy, m.unit)} × {baht(m.price)}"
     return _n(m.have, m.unit)
@@ -71,8 +69,6 @@ def money_cell(m):
 
 
 def site_cell(m):
-    if m.status == "fallback":
-        return "—"
     if m.status != "buy":
         return "✓"
     return f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}" if m.have else "ซื้อ / buy"
@@ -90,7 +86,7 @@ def sum_cell(total, approx, bold=True):
 
 def in_list_order(p, area):
     """The materials of one area as the list shows them: to buy first, then on site (bought),
-    then reused, then a fallback; items with the same status keep their order in the file."""
+    then reused; items with the same status keep their order in the file."""
     return sorted((m for m in p.materials if m.area == area.id), key=lambda m: STATUS_ORDER.index(m.status))
 
 

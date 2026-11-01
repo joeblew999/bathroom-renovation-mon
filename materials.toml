@@ -1,7 +1,7 @@
 # materials.toml — every material, by area. tables.py turns it into the material list in the
 # document: one section per area, in the order the areas are written here. Within an area the
-# order follows from the data: to buy first, then on site (bought), then reused, then a
-# fallback; items with the same status keep the order written here.
+# order follows from the data: to buy first, then on site (bought), then reused; items with
+# the same status keep the order written here.
 #
 # The areas are defined here and nowhere else: materials don't refer to the phases or the
 # drawings, and they don't refer to materials. The work can be rewritten, split or reordered
@@ -19,7 +19,6 @@
 #   unit     shown after the quantity, e.g. "กล่อง / boxes"
 #   approx   true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   tile     "grey" / "white": have + buy count in the tile check
-#   fallback true: listed as a fallback, never bought unless the first choice is unavailable
 
 [[area]]
 id = "new_wall"
@@ -378,15 +377,6 @@ price = 197
 unit = "กล่อง / boxes"
 tile = "white"
 link = "https://www.homepro.co.th/p/1076336"
-
-[[item]]
-area = "tiles"
-name = "COTTO ไฮด์อเวย์ สโนว์ 30 × 60 ซม. ผิวด้าน ขอบตรง / COTTO Hyde Way Snow 300 × 600 mm, matt, rectified"
-note = "ตัวสำรอง ใช้เฉพาะถ้าไม่มีกระเบื้องขาวข้างบน / fallback, only if the white tile above is unavailable"
-price = 959
-unit = "กล่อง 1.44 ตร.ม. / box of 1.44 m²"
-fallback = true
-link = "https://www.homepro.co.th/p/1235615"
 
 [[item]]
 area = "tiles"
