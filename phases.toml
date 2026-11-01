@@ -205,9 +205,9 @@ th = "**ฉาบ:** ฉาบผนังใหม่ทั้งสองด�
 en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it is flat as in step {step:clear_mark}, then let it cure · on the bathroom side, above the tile line, build the plaster out in 2 coats to the face the tiles below will finish at (adhesive and tile together), working to a straight batten fixed at the tile line — so the bathroom face is one plane from floor to ceiling, with no tile ledge, and the frame is flush with it all the way up"
 
 [[phase.step]]
-id = "skim"
-th = "**ส่วนที่ทาสี:** ร่องที่อยู่เหนือแนวกระเบื้อง ปิดผิวบางๆ ด้วยปูนฉาบที่เหลือ ให้เรียบพร้อมทาสี"
-en = "**Painted area:** skim any chase above the tile line with leftover AAC plaster so it paints smooth"
+id = "build_out"
+th = "**ผนังเดิมเหนือแนวกระเบื้อง:** ผนังหลัก ผนังยาวตรงข้าม และผนังหน้าต่าง ฉาบเหนือแนวขอบกระเบื้องให้หนาขึ้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง เหมือนผนังใหม่ — ขูดหรือเจียสีเดิมออกจนถึงเนื้อปูนฉาบที่แน่น ราดน้ำให้ชื้น ทาน้ำปูนผสมน้ำยาประสาน (น้ำยาประสาน น้ำ และปูนซีเมนต์ ตามฉลาก) แล้วฉาบชั้นแรกทับขณะน้ำปูนยังเปียก จากนั้นฉาบชั้นที่สองตามไม้บรรทัดที่ตีไว้ที่แนวขอบกระเบื้อง · ร่องท่อและสายไฟเหนือแนวกระเบื้องถูกฉาบทับไปด้วย · ขอบช่องหน้าต่างเหนือแนวกระเบื้องฉาบเสริมให้เสมอกัน"
+en = "**Existing walls above the tiles:** on the main, opposite and window walls, build the face above the tile line out flush with the face the tiles below will finish at, as on the new wall — grind or scrape the old paint off back to sound plaster, wet it, brush on a bonding slurry (bonding agent, water and cement, as on its label), and lay the first coat into it while it is still wet; then a second coat to a straight batten fixed at the tile line · this covers any chase above the tile line too · build the window reveal out above the tile line to match"
 
 [[phase.step]]
 id = "ceiling_joints"
@@ -243,8 +243,8 @@ en = "Embed fibre mesh tape in the first coat at every joint that can crack: the
 id = "tile"
 th = "ปูกระเบื้อง"
 en = "Tile"
-note_th = "ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวตามระยะที่ระบุในภาพ หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
-note_en = "Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp fixings, screws) clear of the joints by the distance stated on the drawings, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
+note_th = "ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ขอบบนของกระเบื้องทุกผนังเสมอกับปูนฉาบด้านบน ไม่ใช้คิ้ว ยาแนวรอยต่อใต้ปูนฉาบเหมือนร่องยาแนวอื่น ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวตามระยะที่ระบุในภาพ หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
+note_en = "Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. On every wall the top edge of the tiles finishes flush with the plaster above, with no trim: grout the joint under the plaster like any other joint. Every hole (pipes, lamp fixings, screws) clear of the joints by the distance stated on the drawings, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
 
 [[phase.step]]
 id = "main_wall_tiles"
@@ -283,8 +283,8 @@ en = "Paint walls"
 
 [[phase.step]]
 id = "paint"
-th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเดิมสภาพดี อุดรอยเล็กน้อย) — คลุมพื้นและกระเบื้องก่อน"
-en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls are in good condition, small patches only) — cover the floor and tiles first"
+th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเหนือแนวกระเบื้องฉาบใหม่ทั้งหมด รอให้ปูนแห้งก่อน) — คลุมพื้นและกระเบื้องก่อน"
+en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls above the tiles are all newly plastered — let the plaster cure first) — cover the floor and tiles first"
 
 [[phase]]
 id = "fit_out"

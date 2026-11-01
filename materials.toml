@@ -1164,6 +1164,59 @@ sku = "1109515"
   note_en = "all the filling"
 
 [[entry]]
+id = "m200_plaster"
+th = "ปูนฉาบทั่วไป TPI"
+detail_th = "M200 50 กก."
+en = "TPI general plaster"
+detail_en = "M200, 50 kg"
+unit = "bag"
+price = 150
+approx = true
+shop = "homepro"
+sku = "1109514"
+  [[entry.line]]
+  work_section = "whole_room"
+  status = "procure"
+  n = 5
+  note_th = "ผนังเดิมเหนือแนวกระเบื้อง ฉาบเสมอผิวกระเบื้อง"
+  note_en = "existing walls above the tile line, flush with the tiles"
+
+[[entry]]
+id = "bonding_agent"
+th = "น้ำยาประสาน SIKA"
+detail_th = "SikaLatex 5 กก."
+en = "SIKA bonding agent"
+detail_en = "SikaLatex, 5 kg"
+unit = "can"
+price = 975
+shop = "homepro"
+sku = "117414"
+  [[entry.line]]
+  work_section = "whole_room"
+  status = "procure"
+  n = 1
+  note_th = "น้ำปูนประสานใต้ปูนฉาบบนผนังเดิม"
+  note_en = "bonding slurry under the plaster on the existing walls"
+
+[[entry]]
+id = "cement"
+th = "ปูนซีเมนต์ TPI"
+detail_th = "ปอร์ตแลนด์ประเภท 1 50 กก."
+en = "TPI cement"
+detail_en = "Portland type 1, 50 kg"
+unit = "bag"
+price = 200
+approx = true
+shop = "homepro"
+sku = "1109561"
+  [[entry.line]]
+  work_section = "whole_room"
+  status = "procure"
+  n = 1
+  note_th = "น้ำปูนประสาน"
+  note_en = "the bonding slurry"
+
+[[entry]]
 id = "paint"
 th = "สี"
 detail_th = "สีขาว กึ่งเงา"
