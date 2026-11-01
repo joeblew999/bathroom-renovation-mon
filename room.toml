@@ -24,7 +24,7 @@ wall = "new_wall"
 [door]                     # beside the column: the opening is its product's size
 product = "door_frame"
 hinge = "start"            # the end of the opening the leaf is hinged at: start (the column side) or end
-swing = "in"               # in: the leaf opens into the room; out: out of it
+swing = "out"              # in: the leaf opens into the room; out: out of it
 
 [lintel]                   # over the door opening; its height is its product's
 product = "lintel"

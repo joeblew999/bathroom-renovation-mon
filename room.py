@@ -629,7 +629,8 @@ OUT = {"top": (0, -1), "right": (1, 0), "bottom": (0, 1), "left": (-1, 0)}      
 def draw_plan(room, more_warnings):
     """The floor plan: svg text."""
     lab, s, L, D = room.labels, room.symbols, room.length, room.width
-    ML, MR, MT, MB = PLAN_MARGINS
+    swing = _swing_out(room)                        # {side: px} the door's swing takes outside the room
+    ML, MR, MT, MB = (m + swing.get(side, 0) for m, side in zip(PLAN_MARGINS, ("left", "right", "top", "bottom")))
     PW, PH = L * PLAN_SCALE, D * PLAN_SCALE
     shown = {w.id: [it for it in w.items if _on_plan(it)] for w in room.walls.values()}
     rows = [legend_row(room, it, w.ref + it.no, with_size=False, with_notes=False)
@@ -645,7 +646,7 @@ def draw_plan(room, more_warnings):
     a = out.append
     start(a, width, MT + PH + MB + 2 * KEY_DOWN + legend_height(rows) + BOTTOM_SPACE["plan"] + warnings_space(lines), ML,
           lab.both("floor_plan"), s["dot"].join([lab.both("seen_above", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
-    _plan_floor(a, room, P, ML, MT, PW, PH)
+    _plan_floor(a, room, P, ML, MT, PW, PH, swing)
     walls = room.walls.values()
     for w in walls:                                 # the walls first, then what's in and on them
         _plan_wall(a, room, w, P)
@@ -656,7 +657,7 @@ def draw_plan(room, more_warnings):
     _plan_floor_items(a, room, P, tags)
     for label, tx, ty in tags:
         tag(a, tx, ty - TAG_H / 2, TAG_W["plan"], label)
-    _plan_wall_names(a, room, ML, MT, PW, PH)
+    _plan_wall_names(a, room, ML, MT, PW, PH, swing)
     ly0 = MT + PH + MB
     keys = [f"{w.ref}{s['eq']}{both(w.th, w.en)}" for w in room.walls.values() if shown[w.id]]
     keys.append(f"{room.floor_ref}{s['eq']}{lab.both('floor')}")
@@ -691,18 +692,27 @@ def _rect(a, cls, box):
     a('<rect class="{}" x="{}" y="{}" width="{}" height="{}"/>'.format(cls, *box))
 
 
-def _plan_floor(a, room, P, ML, MT, PW, PH):
+def _swing_out(room):
+    """{side of the plan: px} — a door opening out swings over this much beyond its wall, so the margin, the
+    joint marks and the wall's name on that side move out past it."""
+    if room.door_swing != "out":
+        return {}
+    wall, door = next((w, i) for w in room.walls.values() for i in w.items if i.shape == "door")
+    return {wall.side: door.w * PLAN_SCALE}
+
+
+def _plan_floor(a, room, P, ML, MT, PW, PH, swing):
     """The floor in its tile's colour, its tile joints set out from the right and top walls."""
     t, L, D = room.tiles[room.floor_tile], room.length, room.width
     a(f'<rect x="{ML}" y="{MT}" width="{PW}" height="{PH}" fill="{t.fill}"/>')
     for k in range(t.size, int(L), t.size):
         (x, y0), (_, y1) = P(k, 0), P(k, D)
         a(f'<line class="joint" x1="{x}" y1="{y0}" x2="{x}" y2="{y1}"/>')
-        text(a, "joint-text", x, y1 + PLAN_WALL + PLAN_GRID_TEXT[0], k, "middle")
+        text(a, "joint-text", x, y1 + PLAN_WALL + PLAN_GRID_TEXT[0] + swing.get("bottom", 0), k, "middle")
     for k in range(t.size, int(D), t.size):
         y = P(0, k)[1]
         a(f'<line class="joint" x1="{ML}" y1="{y}" x2="{ML + PW}" y2="{y}"/>')
-        text(a, "joint-text", ML + PW + PLAN_GRID_TEXT[1], y + TEXT_DOWN, k)
+        text(a, "joint-text", ML + PW + PLAN_GRID_TEXT[1] + swing.get("right", 0), y + TEXT_DOWN, k)
 
 
 def _band(room, wall, P, x0, x1, thick=PLAN_WALL):
@@ -793,11 +803,11 @@ def _plan_floor_items(a, room, P, tags):
             tags.append((number, *P(it.x, it.d / 2)))
 
 
-def _plan_wall_names(a, room, ML, MT, PW, PH):
-    """Each wall's name, outside its side of the plan."""
+def _plan_wall_names(a, room, ML, MT, PW, PH, swing):
+    """Each wall's name, outside its side of the plan (past the door's swing, when it opens out there)."""
     T, cx, cy = PLAN_WALL, ML + PW / 2, MT + PH / 2
     for w in room.walls.values():
-        g = WALL_NAME_OUT[w.side]
+        g = WALL_NAME_OUT[w.side] + swing.get(w.side, 0)
         x, y, rot = {"top": (cx, MT - T - g, 0), "bottom": (cx, MT + PH + T + g, 0),
                      "left": (ML - T - g, cy, -90), "right": (ML + PW + T + g, cy, 90)}[w.side]
         text(a, "wall-name", x, y, both(w.th, w.en), "middle", rot)
