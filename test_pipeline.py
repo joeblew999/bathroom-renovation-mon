@@ -132,11 +132,11 @@ MAT_TESTS = [
 PHASE_TESTS = [
     # (name, phases edit, expected) — section 3 and every {step:id} reference
     ("phases: real data numbers the steps", None, "| 1.8 |"),
-    ("phases: a reference resolves to its number", None, "marked in step 1.8"),
+    ("phases: a reference resolves to its number", None, "marked in step 1.10"),
     ("phases: inserting a step renumbers it and its references",
      lambda t: t.replace('[[phase.step]]\nid = "isolate"',
                          '[[phase.step]]\nid = "photos"\nth = "ถ่ายรูป"\nen = "Take photos"\n\n[[phase.step]]\nid = "isolate"', 1),
-     "marked in step 1.9"),
+     "marked in step 1.11"),
     ("rules: the tiling note quotes the clearance from site.toml", None, "at least 20 mm off a joint"),
     ("rules: a reference to a rule that doesn't exist",
      lambda t: t.replace("{rule:min_clear} mm", "{rule:min_gap} mm", 1), "{rule:min_gap} doesn't match site.toml [rules]"),
