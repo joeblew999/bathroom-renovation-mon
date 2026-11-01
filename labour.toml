@@ -254,7 +254,7 @@ en = "Galvanised steel ceiling frame and gypsum board, joints finished"
 unit = "m2"
 rate = 77
 book = "cgd_w480"
-item = "2.2.1"
+item = "2.2.3"
 url = "https://www.yotathai.com/labor-rates/architecture"
 
 [[rate]]
@@ -369,33 +369,43 @@ url = "https://yotathai.com/labor-rates/electrical/4-58"
 
 [[rate]]
 id = "cable_run"
-th = "เดินระบบไฟฟ้า 2 × 1.5 ตร.มม."
-en = "Install an electrical run, 2 × 1.5 mm²"
+th = "เดินสายไฟ VAF/G 1.5/1 ตร.มม."
+en = "VAF/G cable, 1.5/1 mm²"
 unit = "metre"
-rate = 100
-book = "homepro_services"
-item = "1145525"
-url = "https://homepro.co.th/p/1145525?lang=en"
+rate = 14
+book = "cgd_w480"
+item = "4.23"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
 
 [[rate]]
-id = "socket_switch"
-th = "ติดตั้งปลั๊ก สวิตช์"
-en = "Install a socket or switch"
+id = "switch"
+th = "ติดตั้งสวิตช์ทางเดียว 1 ช่อง"
+en = "Install a single switch, 1 gang"
 unit = "set"
-rate = 650
-book = "homepro_services"
-item = "7000164"
-url = "https://www.homepro.co.th/p/7000164"
+rate = 82
+book = "cgd_w480"
+item = "4.53"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+
+[[rate]]
+id = "socket"
+th = "ติดตั้งเต้ารับคู่ 2 ขามีกราวด์"
+en = "Install a duplex socket, 2P + G"
+unit = "set"
+rate = 92
+book = "cgd_w480"
+item = "4.53"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
 
 [[rate]]
 id = "breaker"
-th = "ติดตั้งเบรกเกอร์"
-en = "Install a circuit breaker"
+th = "ติดตั้งเบรกเกอร์ 2 ขั้ว"
+en = "Install a circuit breaker, 2 pole"
 unit = "set"
-rate = 300
-book = "homepro_services"
-item = "1145525"
-url = "https://homepro.co.th/p/1145525?lang=en"
+rate = 113
+book = "cgd_w480"
+item = "4.57"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
 
 [[rate]]
 id = "heater_refit"
@@ -436,6 +446,16 @@ rate = 178
 book = "cgd_w480"
 item = "2.4.6"
 url = "https://www.yotathai.com/labor-rates/architecture/2-4"
+
+[[rate]]
+id = "step_nosing"
+th = "ติดตั้งจมูกบันได PVC"
+en = "Fit a PVC stair nosing"
+unit = "metre"
+rate = 44
+book = "cgd_w480"
+item = "2.7.3"
+url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
 
 [[rate]]
 id = "paint"
@@ -594,22 +614,29 @@ count = ["stop_valve", "stop_valve_2way", "heater_stop_valve"]
 rate = "cable_run"
 work_section = "electrical"
 count = ["lamp_cable"]
-note_th = "ราคาจากตารางค่าใช้จ่ายเพิ่มเติม ในหน้าบริการติดตั้งโคมไฟของโฮมโปร"
-note_en = "the price from the extra-cost table on HomePro's lamp installation page"
+note_th = "ขนาดที่ใกล้ที่สุดในบัญชี"
+note_en = "the nearest size in the book"
 
 [[line]]
-rate = "socket_switch"
+rate = "switch"
 work_section = "electrical"
 count = ["switch_plate"]
-note_th = "ย้ายไปฝังในผนังใหม่ — ราคาบริการโฮมโปรเป็นแบบเดินท่อลอย ใกล้เคียงที่สุดที่มีราคาประกาศ"
-note_en = "moved into the new wall — HomePro's price is for surface conduit, the nearest published one"
+note_th = "ย้ายไปฝังในผนังใหม่"
+note_en = "moved into the new wall"
+
+[[line]]
+rate = "socket"
+work_section = "electrical"
+count = ["switch_plate"]
+note_th = "ย้ายไปฝังในผนังใหม่"
+note_en = "moved into the new wall"
 
 [[line]]
 rate = "breaker"
 work_section = "electrical"
 n = 1
-note_th = "เบรกเกอร์เครื่องทำน้ำอุ่นเดิม ย้ายไปผนังใหม่ · ราคาจากตารางค่าใช้จ่ายเพิ่มเติม ในหน้าบริการติดตั้งโคมไฟของโฮมโปร"
-note_en = "the existing water-heater breaker, moved to the new wall · the price from the extra-cost table on HomePro's lamp installation page"
+note_th = "เบรกเกอร์เครื่องทำน้ำอุ่นเดิม ย้ายไปผนังใหม่"
+note_en = "the existing water-heater breaker, moved to the new wall"
 
 [[line]]
 rate = "wall_lamp"
@@ -632,6 +659,11 @@ work_section = "waterproofing_tiles"
 take_off = "floor_tiling_m2"
 note_th = "รวมผิวขั้นพื้น"
 note_en = "with the step face"
+
+[[line]]
+rate = "step_nosing"
+work_section = "waterproofing_tiles"
+take_off = "step_nosing_m"
 
 [[line]]
 rate = "floor_drain"
