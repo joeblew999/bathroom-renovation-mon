@@ -7,9 +7,8 @@ thing on purpose, then puts the quote together in this process:
     q = assemble(md)      phases + materials + room, the design checks, the filled document
 
 and looks for the expected text in what comes back: the error message, the design problems, the
-tile counts, the filled-in document or the drawings. The real files are never touched. Two tests go
-further: one runs the whole build (page and PDF) to see a design problem fail it, and one measures
-the problem lines in Chromium to see they fit their drawing.
+tile counts, the filled-in document or the drawings. The real files are never touched. One test goes
+further: it measures the design problems' lines in Chromium to see they fit their drawing.
 
 No test depends on today's numbers or wording. A test picks what it breaks by what it is — "an
 item that belongs to another item", "a product still to buy with a shop" — edits it in the loaded
@@ -22,10 +21,8 @@ design check (room_design_checks.py, materials_design_checks.py).
 
 Usage:  python3 test_pipeline.py
 """
-import contextlib
 import datetime
 import html
-import io
 import json
 import math
 import re
@@ -660,26 +657,6 @@ def same_numbers_reordered_test():
     return edit_step(lambda x: x.update(th="1 ก 22", en="22 a 1")), CLEAN
 
 
-def fails_build_test():
-    """A design problem fails the build — after the page and the PDF are written, so it can be seen."""
-    edits, want = clash_test()
-
-    def expect(p):
-        with tempfile.TemporaryDirectory() as tmp:
-            copy_to(Path(tmp), edits)
-            out = Path(tmp) / "out"
-            try:
-                with contextlib.redirect_stdout(io.StringIO()):          # its own output isn't the test's
-                    build.main(["build.py", str(Path(tmp) / MD), str(out)])
-            except SystemExit as e:
-                stopped = e.code not in (None, 0)
-            else:
-                stopped = False
-            written = (out / "index.html").exists() and (out / build.PDF_NAME).exists()
-        return want if stopped and written else f"(stopped: {stopped}; page and PDF written: {written})"
-    return edits, expect
-
-
 def problems_fit_test():
     """Every design problem's lines (Thai and English, long ones wrapped) fit inside its drawing, across and
     down, however many there are — measured in Chromium, the browser that prints the PDF."""
@@ -791,7 +768,7 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- room design (room_design_checks.py): problems with the space, in Thai and English; any fails the build ----
+    # ---- room design (room_design_checks.py): problems with the space, in Thai and English, in red under the drawing ----
     ("room design check: a point moved just off a joint", joint_test),
     ("room design check: the same problem, in Thai", lambda: joint_test("th")),
     ("room design check: a point moved just off a horizontal joint", joint_y_test),
@@ -821,7 +798,6 @@ TESTS = [
     ("materials design check: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
     ("materials design check: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
-    ("design check: a design problem fails the build, after the page and the PDF are written", fails_build_test),
     ("design check: every design problem's lines fit inside its drawing", problems_fit_test),
     # ---- the room: bad data ----
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},

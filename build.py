@@ -15,9 +15,9 @@ section into the template (bathroom-renovation-quote.md). Then:
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
 Bad data stops the build with one ERROR line naming the file and the problem, before
-anything is written. A design problem (room_design_checks.py, materials_design_checks.py) fails the
-build: the page and the PDF are written, showing it, and then the build ends with an error, so
-GitHub does not publish them. The template is
+anything is written. A design problem (room_design_checks.py, materials_design_checks.py) doesn't
+stop it: the page and the PDF are written with each problem in red under its drawing, and the
+problems and their count are printed. The template is
 never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
@@ -127,7 +127,12 @@ def summary(md):
     print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
     print_warnings(q.warnings)
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
-          f"{len(q.warnings)} design problems")
+          f"{problems(q.warnings)}")
+
+
+def problems(warnings):
+    """'0 design problems', '1 design problem', '4 design problems'."""
+    return f"{len(warnings)} design problem{'' if len(warnings) == 1 else 's'}"
 
 
 def print_warnings(warnings):
@@ -144,10 +149,7 @@ def main(argv):
     out = Path(args[1] if len(args) > 1 else "out")
     warnings = build(md, out)
     print_warnings(warnings)
-    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} design problems")
-    if warnings:
-        sys.exit(f"ERROR: {len(warnings)} design problems, listed above and under the drawings in {out / PDF_NAME} "
-                 f"— the build fails, so GitHub will not publish it")
+    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {problems(warnings)}")
 
 
 if __name__ == "__main__":

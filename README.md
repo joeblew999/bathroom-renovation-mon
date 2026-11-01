@@ -25,7 +25,7 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 
 ## Checks: data and design
 
-There are two kinds of check, and they never mix. Bad data **stops** the build: nothing is written. A design problem **fails** the build: the page and the PDF are written so you can see it, but the build ends with an error, so nothing is published.
+There are two kinds of check, and they never mix. Bad data stops the build: nothing is written. A design problem doesn't stop it: the PDF is made, with the problem in red under its drawing and counted in the terminal, and the owner doesn't push until there are none.
 
 **A data check** asks whether a data file is written correctly. Fixing it means correcting the file: a missing or misspelt field, an id that points at nothing, Thai without English, an item that names both a product and its own name.
 - It lives in the part's own code (`room.py`, `materials.py`, `phases.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
@@ -41,7 +41,7 @@ There are two kinds of check, and they never mix. Bad data **stops** the build: 
 | phases | `phases.toml` | `phases.py` | none |
 
 - It never raises `DataError`. It returns a design problem: a note for the architect, worded by a label in the part's `[labels]`, in Thai and English, saying where, what, the rule and what to do.
-- It fails the build: the page and the PDF are written to `out/`, listing each problem in red under its drawing, and then the build ends with an error. GitHub runs the same build, and a failed build is never published.
+- The build finishes: the page and the PDF are written to `out/`, each problem listed in red under its drawing, and the terminal prints each one and the count. Nothing is published until the owner says push, so a PDF with a design problem never reaches the builder.
 - Each design-checks file lists its checks at the top. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
 
 **To place a new check, ask what fixing it would take.** Correcting the file makes it a data check. Changing the design makes it a design check. Two real examples:
@@ -77,7 +77,7 @@ There are two kinds of check, and they never mix. Bad data **stops** the build: 
 5. **Parts don't know each other.** No part imports another, and no data file holds a fact about another part; the one link is rule 6. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never the room's facts (which tile is where) — the list and the room are the only places for those.
 6. **The only link between parts:** the room names products on the material list by id, for their names and sizes, and the tiles it needs are matched to the boxes on the list by product. `build.py` hands the products to the room and the tiles needed to `materials_design_checks.py`; `room.py` checks every id. Nothing links the phases to anything.
 7. **Every fact once.** A product's name, detail and size are on its entry in `materials.toml` (the detail shows the size with `{w}`, `{w_cm}` …), and the room takes them from there (rule 6); what follows from the room — where each wall is, the column, door and lintel, the tile counts — is worked out in `room.py`; numbers come from order, never typed; things point at each other by id. A note never repeats a fact held elsewhere, or a figure that can be worked out.
-8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem fails it, after the page and the PDF are written (see Checks: data and design).
+8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem is shown in red on the PDF and counted in the terminal (see Checks: data and design).
 9. **Tests never depend on today's numbers or wording.** A test finds what it breaks by what it is and works out the expected message from the real data and its labels. There is a test for every check; `mise run test` lists them.
 
 **Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `lint`, `test` and `build` (all clean, 0 design problems), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — then watch the GitHub build until it passes.
