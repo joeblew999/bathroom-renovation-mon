@@ -34,7 +34,7 @@ description = "The tests again, with every broken copy's drawings measured in Ch
 run = "python test_pipeline.py --fuzz"
 
 [tasks.ci]
-description = "Lint, test and build — and fail on any design problem. Exactly what GitHub runs on every push to main"
+description = "Lint, test and build — and fail on any design problem. What publish runs before pushing; GitHub runs it, then fuzz"
 depends = ["lint", "test"]
 run = "python build.py --publishable"
 
