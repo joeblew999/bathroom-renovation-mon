@@ -279,7 +279,8 @@ class Room:
                 "new_wall_block_m2": ((living - lintel.w * lintel.h) / m2, "m2"),
                 "lintel_m": (lintel.w / 1000, "metre"),
                 "new_wall_plaster_m2": ((living + (wall.tiled_run - col.w) * top) / m2, "m2"),   # both faces, below the tiles
-                "build_out_m2": (above / m2, "m2"),                  # every face above the tile line
+                "build_out_m2": (((wall.tiled_run - col.w) * (C - top) + door.w * (C - door.h)) / m2, "m2"),  # the new
+                                                                     # wall above the tile line, built out flush
                 "paint_walls_m2": ((above + living) / m2, "m2"),
                 "door_m2": (door.w * door.h / m2, "m2")}
 

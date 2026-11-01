@@ -533,8 +533,8 @@ rate = "plaster"
 work_section = "new_wall"
 take_off = "build_out_m2"
 times = 2
-note_th = "เหนือแนวกระเบื้องทุกผนัง ฉาบเสมอผิวกระเบื้อง 2 ชั้น"
-note_en = "above the tile line on every wall, built out flush with the tiles in 2 coats"
+note_th = "ผนังใหม่เหนือแนวกระเบื้อง ฉาบเสมอผิวกระเบื้อง 2 ชั้น"
+note_en = "the new wall above the tile line, built out flush with the tiles in 2 coats"
 
 [[line]]
 rate = "not_listed"
@@ -542,13 +542,6 @@ work_section = "new_wall"
 of_products = ["m300_mortar"]
 note_th = "อุดร่องและรอยแหว่ง"
 note_en = "filling the chases and broken edges"
-
-[[line]]
-rate = "not_listed"
-work_section = "new_wall"
-of_products = ["bonding_agent", "cement"]
-note_th = "เตรียมผนังเดิมก่อนฉาบเสริม: เจียสีเดิมออก ทาน้ำปูนประสาน"
-note_en = "preparing the existing walls for the build-out: grinding off the old paint, the bonding slurry"
 
 [[line]]
 rate = "ceiling"
