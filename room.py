@@ -17,7 +17,7 @@ How this room is built is the one thing written here rather than in room.toml (R
 the existing column stands at the x = 0 end of its wall, the door opening beside it and the
 lintel over the opening.
 
-The tiles needed and any warnings print with `mise run check`; the drawings are in the PDF.
+The tiles needed and any warnings print with `mise run summary`; the drawings are in the PDF.
 """
 import math
 from dataclasses import dataclass

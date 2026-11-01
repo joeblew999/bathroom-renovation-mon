@@ -18,7 +18,7 @@ Bad data stops the build with one ERROR line naming the file and the problem, be
 anything is written. The template is never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
-        python3 build.py --check [template.md]    (tile counts, total, warnings; no build)
+        python3 build.py --summary [template.md]  (tile counts, total, warnings; no build)
 """
 import sys
 from dataclasses import dataclass
@@ -126,7 +126,7 @@ def build(md, out_dir):
     return q.warnings
 
 
-def check(md):
+def summary(md):
     """Print the tile counts, the still-to-buy total and every warning, without building."""
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
@@ -143,8 +143,8 @@ def print_warnings(warnings):
 
 def main(argv):
     args = argv[1:]
-    if args[:1] == ["--check"]:
-        check(Path(args[1] if len(args) > 1 else TEMPLATE))
+    if args[:1] == ["--summary"]:
+        summary(Path(args[1] if len(args) > 1 else TEMPLATE))
         return
     md = Path(args[0] if args else TEMPLATE)
     out = Path(args[1] if len(args) > 1 else "out")
