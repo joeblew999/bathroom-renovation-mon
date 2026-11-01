@@ -58,12 +58,20 @@ standard = "กค ว481"
 url = "https://www.yotathai.com/factorf/building/adv15-retain10"
 checked = 2026-11-01
 
+# To get the Comptroller General's book again, or a newer edition: `url` downloads this copy; `published` is the
+# page that publishes it (with the download link); `official` is a government page for the circular. A new edition
+# comes as a new circular titled "การปรับปรุงบัญชีค่าแรงงาน/ดำเนินการสำหรับถอดแบบคำนวณราคากลางงานก่อสร้าง" — the
+# edition before this one was กค 0433.2/ว 809 of 14/11/2568 (https://www.yotathai.com/passadu/w809). For a new
+# edition: keep its PDF in sources/ under its own date, point file, url, published and standard at it, check every
+# rate's item, page and value against it, and set checked.
 [[book]]
 id = "cgd_w480"
 th = "บัญชีค่าแรงงานของกรมบัญชีกลาง"
 en = "Comptroller General's labour rates"
 standard = "กค 0433.2/ว 480, 26/06/2569"
 url = "https://data.yotathai.org/drive/1H8FfYT1oY0xFkb5846oMZC8tlrCY2CnB/%E0%B8%A7480-%E0%B8%A5%E0%B8%A726%E0%B8%A1%E0%B8%B4%E0%B8%A269-%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%96%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87.pdf"
+published = "https://www.yotathai.com/passadu/w480"
+official = "https://www.moc.go.th/th/content/category/detail/id/8/cid/36/iid/10214"
 file = "sources/2026-06-26-cgd-w480-labour-rates.pdf"   # a copy of the book, kept: each rate gives its page in it
 checked = 2026-11-02
 item_th = "ข้อ {item}"       # how a rate names its place in this book

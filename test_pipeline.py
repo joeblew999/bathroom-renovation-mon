@@ -1269,6 +1269,10 @@ TESTS = [
      lambda: (lambda b: ({LABOUR: data(lambda d: by_id(d["book"], b["id"]).update(file="sources/no-such-book.pdf"))},
                          f"book '{b['id']}' is kept as sources/no-such-book.pdf, which isn't there"))(
          find(RAW[LABOUR]["book"], "book kept as a file", lambda b: "file" in b))),
+    ("labour: a book kept as a file with no page it is published on",
+     lambda: (lambda b: ({LABOUR: data(lambda d: by_id(d["book"], b["id"]).pop("published"))},
+                         f"book '{b['id']}' has file but no published"))(
+         find(RAW[LABOUR]["book"], "book kept as a file", lambda b: "file" in b))),
     ("labour: a rate from a kept book with no page",
      lambda: (lambda r: ({LABOUR: data(lambda d: by_id(d["rate"], r["id"]).pop("page"))},
                          f"rate '{r['id']}' must give its page in its book's file"))(

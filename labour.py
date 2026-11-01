@@ -26,8 +26,8 @@ FILE_FIELDS = {"date_format": "text!", "round_approx": "count!", "section": "tab
                "labels": "table!", "symbols": "table!", "factor_f": "table!", "book": "list!", "unit": "list!", "work_section": "list!",
                "rate": "list!", "line": "list!"}
 SYMBOLS = {k: "text!" for k in ("currency", "times", "percent", "dot")}
-BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "file": "text", "checked": "date!", "item_th": "text!",
-        "item_en": "text!", "bare": "flag"}
+BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "published": "text", "official": "text",
+        "file": "text+published", "checked": "date!", "item_th": "text!", "item_en": "text!", "bare": "flag"}
 FACTOR_F = {**NAME, "value": "count!", "standard": "text!", "url": "text!", "checked": "date!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
