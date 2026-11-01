@@ -316,7 +316,7 @@ TESTS = [
          find([w for w, e in RAW[ROOM]["walls"].items() if not e["drawn"]], "wall that isn't drawn"))),
     ("notes: a drawing note that refers to a phase",
      lambda: (item_where("note_en", lambda v: True, lambda e: e.update(note_en="see {phase:x} " + e["note_en"])),
-              "has a reference in braces")),
+              "note_en uses {phase} (it can use: nothing)")),
     ("labels: a label filling in a name it doesn't have",
      {ROOM: data(lambda d: d["labels"]["tile_top"].update(en=d["labels"]["tile_top"]["en"] + " {topp}"))},
      "tile_top en uses {topp} (it can use: top)"),
@@ -326,7 +326,7 @@ TESTS = [
     ("products: a detail showing a size the product doesn't have",
      {MATERIALS: data(lambda d: find(d["entry"], "product without a size", lambda p: "size" not in p)
                       .update(detail_en="sized {w}"))},
-     "shows {w}, but its size has no w"),
+     "detail_en uses {w} (it can use: nothing)"),
     # ---- materials.toml ----
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
     ("materials: a price change flows into the total", price_test),

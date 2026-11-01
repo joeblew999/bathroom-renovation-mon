@@ -25,10 +25,8 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-import string
-
 from common import (NAMED, DataError, Labels, both, check, check_each, cli, heading, md_cell, named,
-                    note, note_cell, read_toml)
+                    note, note_cell, placeholders, read_toml)
 
 FILE = "materials.toml"
 # Every kind of entry in materials.toml, declared once (common.check: "!" = required, "@x" = one
@@ -239,31 +237,19 @@ def _section(raw):
     th, en, nth, nen = named(check(FILE, "[section]", raw["section"], NAMED))
     date = raw.get("prices_date")
     for lang, text in (("note_th", nth), ("note_en", nen)):
-        for _, f, _, _ in string.Formatter().parse(text):
-            if f is not None and f != "prices_date":
-                raise DataError(f"{FILE}: [section] {lang} has {{{f}}} (it can show: prices_date)")
-            if f == "prices_date" and date is None:
-                raise DataError(f"{FILE}: [section] {lang} shows {{prices_date}}, but the file has no prices_date")
+        placeholders(FILE, f"[section] {lang}", text, ("prices_date",) if date else ())
     shown = date.strftime("%d/%m/%Y") if date else ""
     return th, en, nth.format(prices_date=shown), nen.format(prices_date=shown)
 
 
 def _product(e, where):
-    """The product's name and detail, with its size filled in, and its size."""
+    """The product's name and detail, with its size filled in ({w} in mm, {w_cm}, {w_m} …), and its size."""
     size = check(FILE, f"{where} size", e.get("size", {}), SIZE)
     fill = {f"{k}{u}": f"{v / div:g}" for k, v in size.items() for u, div in SIZE_UNITS.items()}
-    names = {}
     for field in TEXT_KEYS:
-        text = e[field]
-        for _, f, _, _ in string.Formatter().parse(text):
-            if f is not None and f not in fill:
-                k = f.split("_")[0]
-                raise DataError(f"{FILE}: {where} {field} shows {{{f}}}, but its size has no {k}"
-                                if k in SIZE_KEYS and f in {k + u for u in SIZE_UNITS} else
-                                f"{FILE}: {where} {field} has {{{f}}} (a name can show: "
-                                f"{', '.join(k + u for u in SIZE_UNITS for k in SIZE_KEYS)})")
-        names[field] = text.format(**fill)
-    return Product(e["id"], *(names[k] for k in TEXT_KEYS), *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
+        placeholders(FILE, f"{where} {field}", e[field], tuple(fill))
+    return Product(e["id"], *(e[k].format(**fill) for k in TEXT_KEYS), *(size.get(k) for k in SIZE_KEYS),
+                   e.get("per_box"))
 
 
 def _entry(e, shops, units):

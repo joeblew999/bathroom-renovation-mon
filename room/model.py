@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import NAMED, DataError, Labels, check, check_each, only, read_toml
+from common import NAMED, DataError, Labels, check, check_each, only, placeholders, read_toml
 
 from .svg import draw_plan, draw_wall
 
@@ -32,7 +32,9 @@ RUNS = ("length", "width")
 # Every kind of entry in room.toml, declared once (common.check: "!" = required, "@x" = one of
 # the x ids). Every named thing has th and en. A product is named by its id on the material list.
 FILE_FIELDS = {k: "table!" for k in ("room", "column", "door", "lintel", "old_wall", "window", "rules",
-                                     "labels", "walls", "plan", "floor", "tiles", "room_items", "positions")}
+                                     "labels", "symbols", "walls", "plan", "floor", "tiles", "room_items",
+                                     "positions")}
+SYMBOLS = ("tag_main", "tag_floor", "tag_window", "axis_x", "axis_y", "width", "height")
 NUM = "number!"
 TABLES = {
     "room": {"length": NUM, "width": NUM, "ceiling": NUM},
@@ -45,6 +47,7 @@ TABLES = {
     "floor": {"tile": "@tile!"},
     "plan": {side: "@wall!" for side in PLAN_SIDES},
     "room_items": {k: "table!" for k in ROOM_ITEMS},
+    "symbols": {k: "text!" for k in SYMBOLS},
 }
 WALL = {"th": "text!", "en": "text!", "view_th": "text", "view_en": "text", "tile": "@tile!",
         "runs": "@runs!", "right": "@wall!", "left": "@wall!", "drawn": "flag!"}
@@ -55,9 +58,7 @@ POSITION = {"id": "text!", "th": "text!", "en": "text!", "product": "text", "sha
 LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "see_notes": (), "dashed": (),
-          "all_clear": ("min_clear",), "tag_main": (), "tag_floor": (), "tag_window": (),
-          "axis_x": (), "axis_y": (), "width": (), "height": (),
-          "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
+          "all_clear": ("min_clear",), "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
 # What each shape needs to be drawn (after the product's size is filled in).
 SHAPE_NEEDS = {"rect": ("x", "y", "w", "h"), "circle": ("x", "y", "w"), "point": ("x", "y"),
                "vline": ("x",), "zone": ("x", "w"), "step": ("x",)}
@@ -142,6 +143,7 @@ class Room:
     walls: dict
     floor: tuple
     labels: Labels
+    symbols: dict        # the letters on the drawings, the same in both languages: tags (M1), x, y, W, H
     plan: dict           # {"top" | "right" | "bottom" | "left": wall id} — the floor plan seen from above
     products_used: frozenset   # every product id the drawings take a size from
 
@@ -205,7 +207,7 @@ def load(path, catalogue):
             | {t.product for t in tiles.values()} | {door.id, lintel.id})
     r = room["room"]
     return Room(r["length"], r["width"], r["ceiling"], room["column"]["width"], room["rules"]["min_clear"],
-                tiles, room["floor"]["tile"], walls, floor, labels, room["plan"], frozenset(used))
+                tiles, room["floor"]["tile"], walls, floor, labels, room["symbols"], room["plan"], frozenset(used))
 
 
 def _check(room):
@@ -250,11 +252,9 @@ def _tiles(room, catalogue):
 
 
 def _note(e, key, where):
-    """A note as written. It stands on its own, so a {phase:…}-style reference is refused."""
+    """A note as written. It stands on its own: it fills in nothing and refers to nothing."""
     t = e.get(key, "")
-    if "{" in t:
-        raise DataError(f"{ROOM_FILE}: {where} '{key}' has a reference in braces — a drawing note "
-                        f"can't refer to a phase, step or rule; write it out")
+    placeholders(ROOM_FILE, f"{where} {key}", t, ())
     return t
 
 

@@ -145,39 +145,39 @@ def note_cell(th, en):
     return f"*{md_cell(th)}*<br>*{md_cell(en)}*"
 
 
+def placeholders(file, where, text, allowed):
+    """Every {name} in `text` must be one of `allowed` — the one check for text that fills in values."""
+    try:
+        used = [f for _, f, _, _ in string.Formatter().parse(text) if f is not None]
+    except ValueError:
+        raise DataError(f"{file}: {where} has a stray {{ or }}") from None
+    for f in used:
+        if f not in allowed:
+            raise DataError(f"{file}: {where} uses {{{f}}} (it can use: {', '.join(allowed) or 'nothing'})")
+
+
 class Labels:
     """The fixed wording a part prints, read from its own data file's [labels] table:
 
         [labels]
         tile_top = { th = "ขอบกระเบื้อง", en = "tile top {top}" }
 
-    Each label has `en` and, unless there is nothing to translate, `th`. {name} fills in a
-    value; a value given as a (th, en) pair fills each language with its own text.
-    `needed` is {label: (the names it may fill in)} — every label must be there, no others,
-    and each may only use its own names, so a typo stops the build at load."""
+    Every label has th and en. {name} fills in a value; a value given as a (th, en) pair fills
+    each language with its own text. `needed` is {label: (the names it may fill in)} — every
+    label must be there, no others, and each may only use its own names, so a typo stops the
+    build at load."""
 
     def __init__(self, file, raw, needed):
-        only(file, "[labels]", raw, needed)
+        check(file, "[labels]", raw, {k: "table!" for k in needed})
         for key, names in needed.items():
-            where = f"[labels] {key}"
-            if key not in raw:
-                raise DataError(f"{file}: [labels] has no '{key}'")
-            if not isinstance(raw[key], dict):
-                raise DataError(f"{file}: {where} must be {{ th = \"…\", en = \"…\" }}")
-            only(file, where, raw[key], {"th", "en"})
-            need(file, where, raw[key], ("en",))
-            for lang, text in raw[key].items():
-                used = {f for _, f, _, _ in string.Formatter().parse(text) if f is not None}
-                if not used <= set(names):
-                    bad = sorted(used - set(names))[0]
-                    raise DataError(f"{file}: {where} {lang} uses {{{bad}}} "
-                                    f"(it can use: {', '.join(names) or 'nothing'})")
+            check(file, f"[labels] {key}", raw[key], {"th": "text!", "en": "text!"})
+            for lang in ("th", "en"):
+                placeholders(file, f"[labels] {key} {lang}", raw[key][lang], names)
         self.raw = raw
 
     def _fill(self, key, lang, values):
-        text = self.raw[key].get(lang, "")
-        return text.format(**{k: (v[0 if lang == "th" else 1] if isinstance(v, tuple) else v)
-                              for k, v in values.items()})
+        return self.raw[key][lang].format(**{k: (v[0 if lang == "th" else 1] if isinstance(v, tuple) else v)
+                                             for k, v in values.items()})
 
     def th(self, key, **values):
         return self._fill(key, "th", values)
@@ -186,6 +186,5 @@ class Labels:
         return self._fill(key, "en", values)
 
     def both(self, key, sep=" / ", **values):
-        """'ไทย / English', or just the English when the label has no Thai."""
-        th = self.th(key, **values)
-        return both(th, self.en(key, **values), sep) if th else self.en(key, **values)
+        """'ไทย / English'."""
+        return both(self.th(key, **values), self.en(key, **values), sep)

@@ -80,8 +80,10 @@ def wrap(text, width=125):
     return lines + ([cur] if cur else [])
 
 
-def legend_rows(lab, items, with_dims=True):
+def legend_rows(room, items, with_dims=True):
     """(item, headline, [note lines]) for each item."""
+    lab = room.labels
+
     def f(v, it):
         if v is None:
             return "—" if it.shape == "zone" else lab.both("see_notes")
@@ -90,7 +92,7 @@ def legend_rows(lab, items, with_dims=True):
     for it in items:
         head = both(it.th, it.en)
         if with_dims:
-            x_, y_, w_, h_ = (lab.en(k) for k in ("axis_x", "axis_y", "width", "height"))
+            x_, y_, w_, h_ = (room.symbols[k] for k in ("axis_x", "axis_y", "width", "height"))
             size = "" if it.w is None else f"  {w_} {f(it.w, it)}" + \
                 ("" if it.h is None else f" × {h_} {f(it.h, it)}")
             head += f' — {x_} {f(it.x, it)}  {y_} {f(it.y, it)}{size}'
@@ -133,7 +135,7 @@ def draw_wall(room, wall):
     W, H = L * S, CEIL * S
     svg_w = max(ML + W + MR, 900)
     lab = room.labels
-    rows = [(it.no, head, notes) for it, head, notes in legend_rows(lab, items)]
+    rows = [(it.no, head, notes) for it, head, notes in legend_rows(room, items)]
     svg_h = MT + H + MB + legend_height(rows) + 90
 
     def X(mm):                      # x is measured from the right-hand corner
@@ -176,9 +178,9 @@ def draw_wall(room, wall):
     # side labels
     cy = MT + H / 2
     a(f'<text x="{ML + W + 14}" y="{cy}" font-size="{TEXT_SIZE}" text-anchor="middle" '
-      f'transform="rotate(90 {ML + W + 14} {cy})">{name(right)} ({lab.en("axis_x")} = 0)</text>')
+      f'transform="rotate(90 {ML + W + 14} {cy})">{name(right)} ({room.symbols["axis_x"]} = 0)</text>')
     a(f'<text x="{ML - 44}" y="{cy}" font-size="{TEXT_SIZE}" text-anchor="middle" '
-      f'transform="rotate(-90 {ML - 44} {cy})">{name(left)} ({lab.en("axis_x")} = {L})</text>')
+      f'transform="rotate(-90 {ML - 44} {cy})">{name(left)} ({room.symbols["axis_x"]} = {L})</text>')
 
     # items
     xs = set()
@@ -229,8 +231,8 @@ def draw_wall(room, wall):
     # legend
     ly0 = MT + H + MB
     a(f'<text x="{ML}" y="{ly0}" font-size="{HEADING_SIZE}" font-weight="bold">{lab.both("items")} '
-      f'({lab.both("x_from", wall=(right.th, right.en.lower()), axis=lab.en("axis_x"))} · '
-      f'{lab.en("axis_y")} = {lab.both("centre_height")})</text>')
+      f'({lab.both("x_from", wall=(right.th, right.en.lower()), axis=room.symbols["axis_x"])} · '
+      f'{room.symbols["axis_y"]} = {lab.both("centre_height")})</text>')
     yy = draw_legend(a, rows, ML, ly0) + 16
     if warnings:
         for k, w_ in enumerate(warnings):
@@ -255,12 +257,12 @@ def draw_plan(room):
     ML, MR, MT, MB = 90, 90, 90, 80
     PW, PH = L * SP, Wd * SP
     svg_w = max(ML + PW + MR, 900)
-    M, F, W = lab.en("tag_main"), lab.en("tag_floor"), lab.en("tag_window")    # the tag letters
+    M, F, W = room.symbols["tag_main"], room.symbols["tag_floor"], room.symbols["tag_window"]    # the tag letters
     legend = [(M, it) for it in main if it.d] + [(F, it) for it in floor] + [(W, it) for it in win]
     # Wall items list names only (their notes are on the elevations); floor items carry their notes.
     rows = []
     for pre, it in legend:
-        (r,) = legend_rows(lab, [it], with_dims=False)
+        (r,) = legend_rows(room, [it], with_dims=False)
         rows.append((pre + it.no, r[1], r[2] if pre == F else []))
     svg_h = MT + PH + MB + legend_height(rows) + 120
     T = 12                                      # drawn wall thickness, px

@@ -37,26 +37,19 @@ min_clear = 20             # every hole at least this far from a tile joint (or 
                            # — checked on the drawings, and printed under each one
 
 # ---------- the wording on the drawings ----------
-# {name} fills in a value. A label with only `en` has nothing to translate.
+# {name} fills in a value. Every label has th and en.
 [labels]
 floor_plan = { th = "ผังพื้น", en = "Floor plan" }
 elevation_title = { th = "{wall}{view}", en = "{wall}{view} — elevation" }
 viewed_inside = { th = "มองจากในห้องน้ำ", en = "Viewed from inside the bathroom" }
 seen_above = { th = "มองจากด้านบน", en = "Seen from above" }
 mm = { th = "มม.", en = "mm" }
-generated = { en = "generated from room.toml" }
+generated = { th = "สร้างจาก room.toml", en = "generated from room.toml" }
 tile_top = { th = "ขอบกระเบื้อง", en = "tile top {top}" }
 floor_higher = { th = "พื้นยกสูง {h}", en = "floor {h} higher" }
 higher = { th = "▲ สูง", en = "higher" }
 lower = { th = "ต่ำ", en = "lower ▼" }
 floor = { th = "พื้น", en = "floor" }
-tag_main = { en = "M" }       # floor-plan tags: M1, F2, W3 … (the main wall, the floor, the window wall)
-tag_floor = { en = "F" }
-tag_window = { en = "W" }
-axis_x = { en = "x" }         # the letters for position and size in the legends: x 1500  y 400  W 375 × H 700
-axis_y = { en = "y" }
-width = { en = "W" }
-height = { en = "H" }
 items = { th = "รายการ", en = "Items" }
 x_from = { th = "{axis} จาก{wall}", en = "from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
@@ -64,6 +57,16 @@ see_notes = { th = "ดูหมายเหตุ", en = "see notes" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
 all_clear = { th = "✓ ทุกจุดห่างแนวยาแนวอย่างน้อย {min_clear} มม. หรืออยู่กึ่งกลางแนวพอดี และไม่มีชิ้นใดทับกัน", en = "✓ Every centre is at least {min_clear} mm off a joint (or exactly centred on one), and nothing overlaps" }
 tile_count = { th = "กระเบื้อง{tile} {need} แผ่น ({parts}) → ต้องใช้ {boxes} กล่อง วางแผนไว้ {planned} กล่อง (เหลือ {spare} แผ่น)", en = "{tile} {need} tiles ({parts}) → {boxes} boxes needed, {planned} planned ({spare} spare tiles)" }
+
+# The letters on the drawings — the same in both languages, so one value each.
+[symbols]
+tag_main = "M"       # floor-plan tags: M1, F2, W3 … (the main wall, the floor, the window wall)
+tag_floor = "F"
+tag_window = "W"
+axis_x = "x"         # position and size in the legends: x 1500  y 400  W 375 × H 700
+axis_y = "y"
+width = "W"
+height = "H"
 
 # ---------- the four walls ----------
 # Each wall, seen from inside the bathroom facing it:

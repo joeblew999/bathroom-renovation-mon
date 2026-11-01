@@ -25,7 +25,7 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 |---|---|
 | `phases.toml` | The work: phases and steps — prose for the builder |
 | `materials.toml` | Every product, once: its name and detail (Thai and English) and size, how it's bought (unit, price, shop, code) and its lines on the list (group, status, how many); the shops, units and groups |
-| `room.toml` | The room: its size; each wall (which way it runs, the walls at either end, whether it's drawn); the floor plan's sides; the existing column, the tiles, door, lintel and window (and which wall each is in); the clearance rule (how far a hole must be from a tile joint); the drawing wording; and every position on the walls and floor (each with an id; its number comes from its order) |
+| `room.toml` | The room: its size; each wall (which way it runs, the walls at either end, whether it's drawn); the floor plan's sides; the existing column, the tiles, door, lintel and window (and which wall each is in); the clearance rule (how far a hole must be from a tile joint); the drawing wording, and the letters used on the drawings (the same in both languages); and every position on the walls and floor (each with an id; its number comes from its order) |
 | `bathroom-renovation-quote.md` | The template: the title, then a section marker per part, in page order |
 | `style.css` | The page's look |
 | `phases.py`, `materials.py`, `room/` | The parts: each reads its own file and renders its section |
@@ -38,7 +38,7 @@ On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build
 
 ## Rules for every change
 
-1. **Content is data; the template is layout.** If a different bathroom would change it, it's data — every word, number, date and name — in the file of the part it's about. Fixed wording is `[labels]` in that file; code holds none. The one exception is how this bathroom is built, which stays in `room/` and is labelled there: the existing column at the start of the door's wall, with the door opening beside it and the lintel over it.
+1. **Content is data; the template is layout.** If a different bathroom would change it, it's data — every word, number, date and name — in the file of the part it's about. Fixed wording is `[labels]` in that file, every label in both languages; code holds none. The one exception is how this bathroom is built, which stays in `room/` and is labelled there: the existing column at the start of the door's wall, with the door opening beside it and the lintel over it.
 2. **The data files are consistent.** Every entry of one kind has the same fields, in the same order, written to the same pattern. Every named thing has `th` and `en`; a product also has `detail_th`, `detail_en`; things that are pointed at have an `id`. Optional fields are left out, never moved. Each part declares the fields of every kind of entry once, and one checker (`common.check`) checks them all. When data is messy, fix the data: code never works around it with special cases.
 3. **One shape for every named thing** (a section, a phase, a step, a group, a product, a shop, a unit, a tile, a wall, a position): `th`, `en`, and an optional `note_th` / `note_en`. Thai and English are never joined by hand — the one exception is the title line in the template.
 4. **One look for each shape**, from `common.py`: a heading is "Thai / English"; a note is Thai, with the English underneath.
