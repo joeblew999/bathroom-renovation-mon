@@ -17,8 +17,8 @@ and returns a Project:
 
   p.phases      [Phase]     each with its number and its [Step]s, each step with "1.8"
   p.groups      [Group]     the material list's sections, in order (defined in materials.toml)
-  p.materials   [Material]  each with its group, quantities to buy and on site, and what still
-                            has to be paid — materials don't refer to phases or drawings, or back
+  p.materials   [Material]  each with its group and status (buy / bought / reused), how many,
+                            and price — materials don't refer to phases or drawings, or back
   p.walls       {id: Wall}  main_wall, new_wall, window_wall, opposite_wall: name, length,
                             tile, tiled run, and every item on it (layout + worked out)
   p.floor       [Item]      the floor-plan items (drain, step, door)
@@ -75,8 +75,8 @@ LAYOUT_KEYS = {"no", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "p
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
 STEP_KEYS = {"id", "th", "en"}
 GROUP_KEYS = {"id", "th", "en"}
-MATERIAL_KEYS = {"group", "name", "note", "buy", "have", "reused", "price", "unit", "approx",
-                 "tile", "link"}
+MATERIAL_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "link"}
+STATUSES = ("buy", "bought", "reused")          # also the order within a group
 TILE_COLOURS = ("grey", "white")
 
 # What each shape needs to be drawn (after the product's size is filled in).
@@ -117,9 +117,8 @@ class Material:
     name: str
     note: str
     group: str           # the id of its group in materials.toml
-    buy: float = 0       # how many still to buy
-    have: float = 0      # how many already on site
-    reused: bool = False # what is on site is an old fitting, reused
+    status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting)
+    n: float             # how many
     price: float = None  # unit price in baht
     unit: str = ""
     approx: bool = False
@@ -127,31 +126,14 @@ class Material:
     link: str = None
 
     @property
-    def status(self):
-        """'buy' (some still to buy), 'bought' (all on site, paid for) or 'reused' (an old
-        fitting on site)."""
-        if self.buy:
-            return "buy"
-        return "reused" if self.reused else "bought"
-
-    @property
-    def to_buy(self):
-        """Still to buy, and counted in the total."""
-        return self.status == "buy"
-
-    @property
     def total(self):
         """What is still to pay for it."""
-        return self.buy * self.price if self.to_buy else 0
+        return self.n * self.price if self.status == "buy" else 0
 
     @property
     def paid(self):
-        """What was paid for what is on site (nothing for a reused fitting, or if unknown)."""
-        return self.have * self.price if self.status in ("buy", "bought") and self.price is not None else 0
-
-    @property
-    def tile_boxes(self):
-        return self.have + self.buy
+        """What was paid for it, if it is on site and the price is known."""
+        return self.n * self.price if self.status == "bought" and self.price is not None else 0
 
 
 @dataclass(frozen=True)
@@ -245,7 +227,7 @@ class Project:
 
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
-        items = [m for m in self.materials if m.to_buy]
+        items = [m for m in self.materials if m.status == "buy"]
         return sum(m.total for m in items), any(m.approx for m in items)
 
     def tile_counts(self):
@@ -260,7 +242,7 @@ class Project:
             for w in self.walls.values():
                 if w.tile == colour:
                     parts.append((w.id, rows * math.ceil(w.tiled_run / size)))
-            planned = sum(m.tile_boxes for m in self.materials if m.tile == colour)
+            planned = sum(m.n for m in self.materials if m.tile == colour)
             out.append(TileCount(colour, size, per_box, tuple(parts), planned))
         return out
 
@@ -439,29 +421,31 @@ def _materials(raw):
         _need("materials.toml", where, it, ("name", "group"))
         if it["group"] not in ids:
             raise ProjectError(f"materials.toml: {where} names group '{it['group']}', which is not one of its groups")
-        for k in ("buy", "have", "price"):
+        _need("materials.toml", where, it, ("status", "n"))
+        if it["status"] not in STATUSES:
+            raise ProjectError(f"materials.toml: {where} has status {it['status']!r} "
+                               f"(must be one of: {', '.join(STATUSES)})")
+        for k in ("n", "price"):
             if k in it:
                 _number("materials.toml", where, k, it[k])
-                if it[k] < 0:
-                    raise ProjectError(f"materials.toml: {where} '{k}' can't be negative")
-        for k in ("reused", "approx"):
-            if k in it:
-                _flag("materials.toml", where, k, it[k])
+        if it["n"] <= 0:
+            raise ProjectError(f"materials.toml: {where} 'n' must be more than 0")
+        if "price" in it and it["price"] < 0:
+            raise ProjectError(f"materials.toml: {where} 'price' can't be negative")
+        if "approx" in it:
+            _flag("materials.toml", where, "approx", it["approx"])
+        if it["status"] == "buy" and "price" not in it:
+            raise ProjectError(f"materials.toml: {where} is to buy but has no price")
+        if it["status"] == "reused" and "price" in it:
+            raise ProjectError(f"materials.toml: {where} is reused, so it has no price")
         if "tile" in it and it["tile"] not in TILE_COLOURS:
             raise ProjectError(f"materials.toml: {where} has tile = {it['tile']!r} "
                                f"(must be one of: {', '.join(TILE_COLOURS)})")
         if "link" in it and not str(it["link"]).startswith("https://"):
             raise ProjectError(f"materials.toml: {where} link must start with https://")
-        m = Material(name=it["name"], note=it.get("note", ""), group=it["group"],
-                     buy=it.get("buy", 0), have=it.get("have", 0), reused=it.get("reused", False),
-                     price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
-                     tile=it.get("tile"), link=it.get("link"))
-        if m.buy == 0 and m.have == 0:
-            raise ProjectError(f"materials.toml: {where} has nothing to buy and nothing on site (give buy or have)")
-        if m.buy and m.price is None:
-            raise ProjectError(f"materials.toml: {where} is still to buy but has no price")
-        if m.reused and (m.buy or not m.have):
-            raise ProjectError(f"materials.toml: {where} is reused: give 'have' and no 'buy'")
+        m = Material(name=it["name"], note=it.get("note", ""), group=it["group"], status=it["status"],
+                     n=it["n"], price=it.get("price"), unit=it.get("unit", ""),
+                     approx=it.get("approx", False), tile=it.get("tile"), link=it.get("link"))
         out.append(m)
     return tuple(groups), tuple(out)
 

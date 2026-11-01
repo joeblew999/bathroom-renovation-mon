@@ -1,7 +1,8 @@
 # materials.toml — every material, in groups. tables.py turns it into the material list in
-# the document: one section per group, in the order the groups are written here. Within a
-# group the order follows from the data: to buy first, then on site (bought), then reused;
-# items with the same status keep the order written here.
+# the document, ordered by exactly two things written here:
+#   1. group   — one section per group, in the order the groups are written below
+#   2. status  — within a group: buy, then bought, then reused
+# Items with the same group and status keep the order written here.
 #
 # The groups are defined here and nowhere else: materials don't refer to the phases or the
 # drawings, and they don't refer to materials. The work can be rewritten, split or reordered
@@ -10,15 +11,17 @@
 # Each group: id, th, en.
 # Each item:
 #   group    the id of one of the groups below (things used all over go under whole_room)
+#   status   "buy"    — still to buy (needs a price)
+#            "bought" — already on site, paid for (price optional: what it cost)
+#            "reused" — an old fitting on site, reused (no price)
 #   name     "ไทย / English" — the product only; it links to `link`
 #   note     "ไทย / English" — what it is for, or advice when buying (optional)
-#   buy      how many still to buy                                     (default 0)
-#   have     how many are already on site                              (default 0)
-#   reused   true: what is on site is an old fitting, reused          (default false)
-#   price    the unit price, in baht — needed for anything to buy
+#   n        how many
+#   price    the unit price, in baht
 #   unit     shown after the quantity, e.g. "กล่อง / boxes"
 #   approx   true: the price is approximate ("ประมาณ / approx."), and the total is rounded
-#   tile     "grey" / "white": have + buy count in the tile check
+#   tile     "grey" / "white": n counts in the tile check
+# An item that is partly on site and partly to buy is two items (bought n, buy n).
 
 [[group]]
 id = "new_wall"
@@ -82,26 +85,29 @@ en = "Whole room"
 
 [[item]]
 group = "new_wall"
+status = "buy"
 name = "อิฐมวลเบา TPI 60 × 20 × 7.5 ซม. / TPI AAC block"
-buy = 18
+n = 18
 price = 26
 unit = "ก้อน / blocks"
 link = "https://www.homepro.co.th/p/1110154"
 
 [[item]]
 group = "new_wall"
+status = "buy"
 name = "คานทับหลังสำเร็จรูป DIAMOND 20 × 150 × 7.5 ซม. / DIAMOND precast lintel 20 × 150 × 7.5 cm"
 note = "ตัดให้ได้ความยาวที่หน้างาน / cut to length on site"
-buy = 1
+n = 1
 price = 400
 approx = true
 link = "https://www.homepro.co.th/p/1195815"
 
 [[item]]
 group = "new_wall"
+status = "buy"
 name = "ปูนก่ออิฐมวลเบา TPI M319 50 กก. / TPI M319 block mortar, 50 kg"
 note = "ที่เหลือใช้อุดรอบวงกบและช่องทับหลัง / the leftover fills round the frame and the lintel pocket"
-buy = 1
+n = 1
 price = 200
 unit = "ถุง / bag"
 approx = true
@@ -109,16 +115,18 @@ link = "https://www.homepro.co.th/p/1127448"
 
 [[item]]
 group = "new_wall"
+status = "buy"
 name = "เหล็กแผ่นยึดอิฐมวลเบา MEGA STEEL 3.2 × 22 ซม. / AAC wall tie plate MEGA STEEL 3.2 × 22 cm"
-buy = 8
+n = 8
 price = 6
 unit = "ชิ้น / pcs"
 link = "https://www.homepro.co.th/p/1110170"
 
 [[item]]
 group = "new_wall"
+status = "buy"
 name = "ปูนฉาบอิฐมวลเบา TPI M210 50 กก. / TPI M210 AAC plaster, 50 kg"
-buy = 2
+n = 2
 price = 150
 unit = "ถุง / bags"
 approx = true
@@ -126,134 +134,151 @@ link = "https://www.homepro.co.th/p/1109616"
 
 [[item]]
 group = "door"
+status = "buy"
 name = "วงกบ AZLE UPVC 80 × 200 ซม. สีขาว / Frame AZLE UPVC 80 × 200 cm, white"
-buy = 1
+n = 1
 price = 850
 link = "https://www.homepro.co.th/p/1014768"
 
 [[item]]
 group = "door"
+status = "buy"
 name = "ประตู AZLE WB2 UPVC 80 × 200 ซม. สีน้ำตาลอ่อน / Door AZLE WB2 UPVC 80 × 200 cm, light brown"
 note = "ไม่เจาะรูลูกบิดมา รองรับลูกบิดทั่วไป ไม่รองรับกุญแจ Mortise / undrilled, takes a standard knob, not a mortise lock"
-buy = 1
+n = 1
 price = 2085
 link = "https://www.homepro.co.th/p/1320577"
 
 [[item]]
 group = "door"
+status = "buy"
 name = "ลูกบิดห้องน้ำ SOLEX 9500 SS-BK สเตนเลส / Bathroom knob SOLEX 9500 SS-BK, stainless"
-buy = 1
+n = 1
 price = 399
 link = "https://www.homepro.co.th/p/89869"
 
 [[item]]
 group = "door"
+status = "buy"
 name = "บานพับ YALE 4×3 นิ้ว สเตนเลส 304 แพ็ก 3 ชิ้น / Hinges YALE 4×3 inch, 304 stainless, pack of 3"
-buy = 1
+n = 1
 price = 199
 link = "https://www.homepro.co.th/p/1123585"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "แผ่นยิปซัมทนชื้น DURAONE 9 มม. 120 × 240 ซม. / Moisture-resistant gypsum board DURAONE 9 mm, 120 × 240 cm"
-buy = 2
+n = 2
 price = 245
 unit = "แผ่น / sheets"
 link = "https://www.homepro.co.th/p/1110611"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "ซีลาย SANKI 0.50–0.55 กก. ยาว 4 ม. ชุบสังกะสี / SANKI galvanised C-channel 0.50–0.55 kg, 4 m"
 note = "ตัดได้ 2 ท่อนต่อเส้น / cut 2 pieces per length"
-buy = 4
+n = 4
 price = 29
 unit = "เส้น / lengths"
 link = "https://www.homepro.co.th/p/1110231"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "ฉากซีลาย SANKI 0.20A ยาว 2.44 ม. / SANKI wall angle 0.20A, 2.44 m"
 note = "รอบห้อง / round the room"
-buy = 4
+n = 4
 price = 16
 unit = "เส้น / lengths"
 link = "https://www.homepro.co.th/p/1110271"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "สกรูไดร์วอลล์ TPI 6 × 1 นิ้ว สีดำ / TPI drywall screws 6 × 1\", black"
 note = "ยึดแผ่นยิปซัมกับซีลาย / board to C-channel"
-buy = 1
+n = 1
 price = 89
 unit = "กล่อง / box"
 link = "https://www.homepro.co.th/p/1110148"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "ปูนฉาบรอยต่อแผ่นยิปซัม DURAONE 1 กก. / DURAONE gypsum jointing compound, 1 kg"
-buy = 2
+n = 2
 price = 16
 unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/1110109"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "เทปปิดรอยต่อยิปซัม PYRAMID 1 นิ้ว (แพ็ก 3 ม้วน) / PYRAMID gypsum joint tape, 1\" (pack of 3)"
-buy = 1
+n = 1
 price = 42
 unit = "แพ็ก / pack"
 link = "https://www.homepro.co.th/p/1024381"
 
 [[item]]
 group = "new_ceiling"
+status = "buy"
 name = "พุกพลาสติกพร้อมสกรู BY TORA เบอร์ 7 50 ตัว / Wall plugs with screws BY TORA no. 7, 50 pcs"
 note = "ยึดฉากฝ้า / for fixing the wall angle"
-buy = 1
+n = 1
 price = 65
 unit = "แพ็ก / pack"
 link = "https://www.homepro.co.th/p/1064892"
 
 [[item]]
 group = "plumbing_basin"
+status = "bought"
 name = "อ่างล้างหน้าแขวน MOYA 179 สีขาว / Wall-hung basin MOYA 179, white"
-have = 1
+n = 1
 price = 1190
 link = "https://www.homepro.co.th/p/1249118"
 
 [[item]]
 group = "plumbing_basin"
+status = "bought"
 name = "ก๊อกอ่างล้างหน้า MOYA 832-1 / Basin faucet MOYA 832-1"
-have = 1
+n = 1
 price = 929
 link = "https://www.homepro.co.th/p/1254863"
 
 [[item]]
 group = "plumbing_basin"
+status = "bought"
 name = "ท่อน้ำทิ้งอ่างล้างหน้ากระปุก KARAT KA-02-112-50 25 ซม. / Basin bottle trap KARAT KA-02-112-50, 25 cm"
-have = 1
+n = 1
 price = 485
 link = "https://www.homepro.co.th/p/1225658"
 
 [[item]]
 group = "plumbing_basin"
+status = "buy"
 name = "สต็อปวาล์ว HOEN HT-011 / Stop valve HOEN HT-011"
-buy = 1
+n = 1
 price = 155
 link = "https://www.homepro.co.th/p/1040989"
 
 [[item]]
 group = "plumbing_basin"
+status = "buy"
 name = "สายน้ำดีสเตนเลส MOYA MY-SSB20 20 นิ้ว (50 ซม.) / Stainless supply hose MOYA MY-SSB20, 20\" (50 cm)"
-buy = 1
+n = 1
 price = 90
 unit = "เส้น / pcs"
 link = "https://www.homepro.co.th/p/1028226"
 
 [[item]]
 group = "plumbing_basin"
+status = "buy"
 name = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย ½ นิ้ว / Brass-thread elbow Thai Pipe ½\""
 note = "จุดน้ำที่ผนัง / wall outlet"
-buy = 1
+n = 1
 price = 35
 unit = "ตัว / pcs"
 approx = true
@@ -261,49 +286,55 @@ link = "https://www.homepro.co.th/p/5577"
 
 [[item]]
 group = "plumbing_basin"
+status = "buy"
 name = "ท่อประปา SCG ชั้น 8.5 1½ นิ้ว 2 ม. / Pipe SCG class 8.5, 1½\", 2 m"
 note = "ท่อน้ำทิ้งในผนัง / waste pipe in the wall"
-buy = 1
+n = 1
 price = 99
 unit = "เส้น / length"
 link = "https://www.homepro.co.th/p/1104514"
 
 [[item]]
 group = "plumbing_basin"
+status = "buy"
 name = "ข้องอ 90° ท่อน้ำไทย 1½ นิ้ว / 90° elbow Thai Pipe 1½\""
-buy = 2
+n = 2
 price = 29
 unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/5614"
 
 [[item]]
 group = "plumbing_toilet"
+status = "bought"
 name = "ชักโครก 1 ชิ้น MOYA 323 3/6 ลิตร สีขาว / One-piece toilet MOYA 323, 3/6 L, white"
-have = 1
+n = 1
 price = 3490
 link = "https://www.homepro.co.th/p/1170662"
 
 [[item]]
 group = "plumbing_toilet"
+status = "buy"
 name = "สต็อปวาล์ว 2 ทาง HOEN HT-333 / 2-way stop valve HOEN HT-333"
 note = "หลังชักโครก: ทางหนึ่งไปชักโครก อีกทางไปสายฉีดชำระ / behind the toilet: one outlet to the toilet, one to the bum gun"
-buy = 1
+n = 1
 price = 219
 link = "https://www.homepro.co.th/p/1041021"
 
 [[item]]
 group = "plumbing_toilet"
+status = "buy"
 name = "สายน้ำดีสเตนเลส MOYA MY-SSB20 20 นิ้ว (50 ซม.) / Stainless supply hose MOYA MY-SSB20, 20\" (50 cm)"
-buy = 1
+n = 1
 price = 90
 unit = "เส้น / pcs"
 link = "https://www.homepro.co.th/p/1028226"
 
 [[item]]
 group = "plumbing_toilet"
+status = "buy"
 name = "ข้องอเกลียวในทองเหลือง ท่อน้ำไทย ½ นิ้ว / Brass-thread elbow Thai Pipe ½\""
 note = "จุดน้ำที่ผนัง / wall outlet"
-buy = 1
+n = 1
 price = 35
 unit = "ตัว / pcs"
 approx = true
@@ -311,144 +342,157 @@ link = "https://www.homepro.co.th/p/5577"
 
 [[item]]
 group = "plumbing_toilet"
+status = "reused"
 name = "สายฉีดชำระ / Bum gun"
 note = "จากชักโครกเดิม / from the old toilet"
-have = 1
-reused = true
+n = 1
 
 [[item]]
 group = "plumbing_toilet"
+status = "buy"
 name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 8.5 4 นิ้ว 4 ม. / Blue pipe Thai Pipe class 8.5, 4\", 4 m"
 note = "ท่อโสโครกใต้พื้น / waste pipe under the floor"
-buy = 1
+n = 1
 price = 799
 unit = "เส้น / length"
 link = "https://www.homepro.co.th/p/5563"
 
 [[item]]
 group = "plumbing_toilet"
+status = "buy"
 name = "ข้องอ 45° ท่อน้ำไทย 4 นิ้ว / 45° bend Thai Pipe 4\""
 note = "ไม่ใช้ข้องอ 90° / no tight 90° elbows"
-buy = 3
+n = 3
 price = 310.4
 unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/1136842"
 
 [[item]]
 group = "plumbing_shared"
+status = "buy"
 name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
 note = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง / cold supply: toilet, bum gun, basin"
-buy = 2
+n = 2
 price = 69
 unit = "เส้น / lengths"
 link = "https://www.homepro.co.th/p/5556"
 
 [[item]]
 group = "plumbing_shared"
+status = "buy"
 name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
-buy = 10
+n = 10
 price = 6
 unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/5569"
 
 [[item]]
 group = "plumbing_shared"
+status = "buy"
 name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
 note = "ต่อจากท่อน้ำดีเดิม และแยกไปชักโครกกับอ่าง / one off the existing cold line, one to branch to the toilet and the basin"
-buy = 2
+n = 2
 price = 8
 unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/5570"
 
 [[item]]
 group = "plumbing_shared"
+status = "buy"
 name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
 note = "สต็อปวาล์วทั้งสองและเกลียวอื่นๆ / both stop valves and the other threads"
-buy = 1
+n = 1
 price = 27
 unit = "ม้วน / roll"
 link = "https://www.homepro.co.th/p/1055229"
 
 [[item]]
 group = "plumbing_shared"
+status = "buy"
 name = "น้ำยาประสานท่อ ท่อน้ำไทย 250 ก. / PVC solvent cement Thai Pipe 250 g"
 note = "ทุกรอยต่อท่อ PVC / every PVC pipe joint"
-buy = 1
+n = 1
 price = 137.74
 link = "https://www.homepro.co.th/p/5672"
 
 [[item]]
 group = "electrical_lamps"
+status = "buy"
 name = "โคมไฟผนัง IKEA HAVSDUN LED โป๊ะแก้วฝ้า สีขาว หรี่แสงได้ IP44 690 ลูเมน รหัส 805.204.31 / IKEA HAVSDUN LED wall lamp, frosted glass, white, dimmable, IP44, 690 lumens, article 805.204.31"
 note = "เช็คสต็อกก่อนไป / check stock before going"
-buy = 2
+n = 2
 price = 1290
 unit = "ดวง / lamps"
 link = "https://www.ikea.com/th/th/p/-80520431/"
 
 [[item]]
 group = "electrical_switch"
+status = "reused"
 name = "ชุดสวิตช์ไฟพร้อมปลั๊ก 2 ช่อง / Switch-and-socket plate (light switch + 2 sockets)"
-have = 1
-reused = true
+n = 1
 
 [[item]]
 group = "shower"
+status = "reused"
 name = "ชุดฝักบัว (Rain shower) / Shower unit with rain head"
-have = 1
-reused = true
+n = 1
 
 [[item]]
 group = "shower"
+status = "reused"
 name = "เครื่องทำน้ำอุ่นพร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์ / Water heater with its electrical box, cable and circuit breaker"
-have = 1
-reused = true
+n = 1
 
 [[item]]
 group = "accessories"
+status = "bought"
 name = "กระจกเงากลม MOYA HLP004 Ø 60 ซม. / Round mirror MOYA HLP004, 60 cm"
-have = 1
+n = 1
 price = 429
 link = "https://www.homepro.co.th/p/1319896"
 
 [[item]]
 group = "accessories"
+status = "bought"
 name = "ชั้นวางพร้อมราวแขวนผ้า LUZERN AS-5012S สีโครม / Shelf with towel rail LUZERN AS-5012S, chrome"
-have = 1
+n = 1
 price = 799
 link = "https://www.homepro.co.th/p/1215163"
 
 [[item]]
 group = "accessories"
+status = "buy"
 name = "ที่ใส่กระดาษชำระ KARAT K-17053X เซรามิก สีขาวเงา / Toilet roll holder KARAT K-17053X, glossy white ceramic"
 note = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน / matches the white bum gun and lamps on the same wall"
-buy = 1
+n = 1
 price = 340
 link = "https://www.homepro.co.th/p/105587"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ซีเมนต์กันซึม จระเข้ FLEX SHIELD 20 กก. / Crocodile FLEX SHIELD 20 kg"
 note = "ประมาณ 11.6 ตร.ม. / about 11.6 m²"
-buy = 1
+n = 1
 price = 1990
 unit = "ถุง / bag"
 link = "https://www.homepro.co.th/p/271155"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ตาข่ายไฟเบอร์ จระเข้ 0.2 × 10 ม. / Fibre mesh Crocodile 0.2 × 10 m"
-buy = 1
+n = 1
 price = 179
 unit = "ม้วน / roll"
 link = "https://www.homepro.co.th/p/1271924"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "กระเบื้องเทา TARA สโตนบลาสด์ 50 × 50 ซม. ขอบตรง ผิวด้าน / Grey tile TARA Stone Blast 500 × 500 mm, rectified, matt"
 note = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด / shade H07 only — check the boxes on site are all H07"
-buy = 9
-have = 3
+n = 9
 price = 209
 unit = "กล่อง / boxes"
 tile = "grey"
@@ -456,9 +500,21 @@ link = "https://www.homepro.co.th/p/1292488"
 
 [[item]]
 group = "tiles"
+status = "bought"
+name = "กระเบื้องเทา TARA สโตนบลาสด์ 50 × 50 ซม. ขอบตรง ผิวด้าน / Grey tile TARA Stone Blast 500 × 500 mm, rectified, matt"
+note = "เฉด H07 เท่านั้น — ตรวจว่ากล่องที่มีอยู่เป็นเฉด H07 ทั้งหมด / shade H07 only — check the boxes on site are all H07"
+n = 3
+price = 209
+unit = "กล่อง / boxes"
+tile = "grey"
+link = "https://www.homepro.co.th/p/1292488"
+
+[[item]]
+group = "tiles"
+status = "buy"
 name = "กระเบื้องขาว TARA ทริปเปิ้ล ไวท์ นิว พอร์ซเลน 60 × 60 ซม. ขาวเรียบ ผิวมัน ขอบตรง / White tile TARA Triple White New porcelain 600 × 600 mm, plain, glossy, rectified"
 note = "ออนไลน์แสดงสินค้าหมด (ลดราคามาก อาจเป็นสินค้าล้างสต็อก) ถามสต็อกที่สาขา ซื้อครบทีเดียว ล็อตเดียวกัน / out of stock online (heavily discounted, may be clearance); ask a branch and buy them all at once, same batch"
-buy = 6
+n = 6
 price = 197
 unit = "กล่อง / boxes"
 tile = "white"
@@ -466,74 +522,83 @@ link = "https://www.homepro.co.th/p/1076336"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "กาวซีเมนต์ จระเข้ ทอง 20 กก. / Crocodile Gold tile adhesive 20 kg"
 note = "ปูทับกระเบื้องเดิมได้ กระเบื้องประมาณ 16 ตร.ม. / suits tiling over old tiles; about 16 m² of tile"
-buy = 5
+n = 5
 price = 799
 unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/14428"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "คลิปปรับระดับ TARA DL-D01 1.5 มม. / TARA levelling clips 1.5 mm"
-buy = 2
+n = 2
 price = 143
 unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/1092087"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ลิ่มปรับระดับ TARA DL-D02 / TARA levelling wedges"
-buy = 1
+n = 1
 price = 185
 link = "https://www.homepro.co.th/p/1092114"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีเทาแกรนิต 1 กก. / Crocodile Premium Plus grout, granite grey, 1 kg"
 note = "กระเบื้องเทา / grey tiles"
-buy = 2
+n = 2
 price = 63
 unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/138786"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ยาแนว จระเข้ พรีเมี่ยมพลัส สีขาวไข่มุก 1 กก. / Crocodile Premium Plus grout, pearl white, 1 kg"
 note = "กระเบื้องขาว / white tiles"
-buy = 2
+n = 2
 price = 63
 unit = "ถุง / bags"
 link = "https://www.homepro.co.th/p/138771"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "จมูกบันไดอะลูมิเนียม HOME NAS-451510 1.5 ม. สีเงินเงา / Aluminium step nosing HOME NAS-451510, 1.5 m, bright silver"
 note = "ขั้นพื้น / floor step"
-buy = 1
+n = 1
 price = 357.93
 link = "https://www.homepro.co.th/p/1037342"
 
 [[item]]
 group = "tiles"
+status = "bought"
 name = "ตะแกรงกันกลิ่นพลาสติกเหลี่ยม DEXZON 4 นิ้ว / Square anti-odour floor drain grate DEXZON 4\""
-have = 1
+n = 1
 price = 119
 link = "https://www.homepro.co.th/p/1240420"
 
 [[item]]
 group = "tiles"
+status = "buy"
 name = "ซิลิโคนไร้กรดกันเชื้อรา SIKA SIKASIL-129 300 มล. สีขาว / Anti-fungal neutral silicone SIKA SIKASIL-129, 300 ml, white"
-buy = 1
+n = 1
 price = 139
 unit = "หลอด / tube"
 link = "https://www.homepro.co.th/p/1157215"
 
 [[item]]
 group = "whole_room"
+status = "buy"
 name = "ปูนก่อสำเร็จรูป TPI M300 50 กก. / TPI M300 ready-mix mortar, 50 kg"
 note = "งานอุดทั้งหมด / all the filling"
-buy = 3
+n = 3
 price = 150
 unit = "ถุง / bags"
 approx = true
@@ -541,6 +606,6 @@ link = "https://www.homepro.co.th/p/1109515"
 
 [[item]]
 group = "whole_room"
+status = "reused"
 name = "สีขาวกึ่งเงา / White semi-gloss paint"
-have = 1
-reused = true
+n = 1

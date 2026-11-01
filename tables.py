@@ -16,7 +16,7 @@ Usage:  python3 tables.py [quote.md]    (prints the tile counts, the still-to-bu
 import re
 import sys
 
-from project import ProjectError, load
+from project import STATUSES, ProjectError, load
 
 APPROX = "ประมาณ / approx."
 ABOUT = "ประมาณ / about"
@@ -47,18 +47,16 @@ def phases_section(p):
 
 
 # ---------- the material list ----------
-STATUS_ORDER = ("buy", "bought", "reused")
-
-
-def _n(v, unit):
-    return f"{v:g} {unit}" if unit else f"{v:g}"
+def in_list_order(p, group):
+    """The materials of one group as the list shows them: by status (buy, bought, reused), and
+    items with the same status in their order in the file."""
+    return sorted((m for m in p.materials if m.group == group.id), key=lambda m: STATUSES.index(m.status))
 
 
 def qty(m):
-    """Quantity cell: what to buy (× unit price), or what is on site."""
-    if m.status == "buy":
-        return f"{_n(m.buy, m.unit)} × {baht(m.price)}"
-    return _n(m.have, m.unit)
+    """Quantity cell: how many, and for what is to buy, × the unit price."""
+    n = f"{m.n:g} {m.unit}" if m.unit else f"{m.n:g}"
+    return f"{n} × {baht(m.price)}" if m.status == "buy" else n
 
 
 def money_cell(m):
@@ -69,9 +67,7 @@ def money_cell(m):
 
 
 def site_cell(m):
-    if m.status != "buy":
-        return "✓"
-    return f"✓ {m.have:g} · ซื้อ / buy {m.buy:g}" if m.have else "ซื้อ / buy"
+    return "ซื้อ / buy" if m.status == "buy" else "✓"
 
 
 def name_cell(m):
@@ -82,12 +78,6 @@ def name_cell(m):
 def sum_cell(total, approx, bold=True):
     v = f"{ABOUT} {baht(round(total, -2))}" if approx else baht(total)
     return f"**{v}**" if bold else v
-
-
-def in_list_order(p, group):
-    """The materials of one group as the list shows them: to buy first, then on site (bought),
-    then reused; items with the same status keep their order in the file."""
-    return sorted((m for m in p.materials if m.group == group.id), key=lambda m: STATUS_ORDER.index(m.status))
 
 
 def material_list(p):
@@ -140,7 +130,7 @@ def main(argv):
     print("Still to buy:", sum_cell(*p.still_to_buy(), bold=False))
     for w in warnings:
         print("WARNING (materials):", w)
-    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if m.status in ("bought", "reused"))} fully on site, "
+    print(f"Materials: {len(p.materials)} items, {sum(1 for m in p.materials if m.status != 'buy')} on site, "
           f"{len(warnings)} warnings")
 
 
