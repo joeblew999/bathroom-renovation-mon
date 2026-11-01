@@ -29,18 +29,18 @@ run = "python build.py"
 description = "Break copies of the data on purpose and confirm every check fires"
 run = "python test_pipeline.py"
 
-[tasks.check]
-description = "Lint, test and build — and fail on any design problem. What GitHub runs on every push to main, exactly"
+[tasks.ci]
+description = "Lint, test and build — and fail on any design problem. Exactly what GitHub runs on every push to main"
 depends = ["lint", "test"]
 run = "python build.py --publishable"
 
 [tasks.publish]
-description = "Push to main (which publishes) — only from main, with nothing uncommitted, and if check passes"
+description = "Push to main (which publishes) — only from main, with nothing uncommitted, and if ci passes"
 run = [
   # what is checked must be what is pushed: on main, nothing left uncommitted
   "test \"$(git branch --show-current)\" = main || (echo 'ERROR: not on main — publish checks the files here and pushes main, so it must be run on main' && exit 1)",
   "test -z \"$(git status --porcelain)\" || (echo 'ERROR: uncommitted changes or new files — commit them first, so what is checked is what is pushed' && exit 1)",
-  "mise run check",
+  "mise run ci",
   "git push origin main",
 ]
 

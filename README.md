@@ -21,7 +21,7 @@ materials.toml  ──► materials.py    + materials_design_checks.py   ─┼�
 room.toml       ──► room.py         + room_design_checks.py        ─┘
 ```
 
-On every push to `main`, GitHub runs `mise run setup` and `mise run check` — exactly what you can run here — and publishes `out/` only if check passes. `out/` is never committed.
+On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — exactly what you can run here — and publishes `out/` only if ci passes. `out/` is never committed.
 
 ## Checks: data and design
 
@@ -80,4 +80,4 @@ There are two kinds of check, and they never mix. Bad data stops the build: noth
 8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem is shown in red on the PDF and counted in the terminal (see Checks: data and design).
 9. **Tests never depend on today's numbers or wording.** A test finds what it breaks by what it is and works out the expected message from the real data and its labels. There is a test for every check; `mise run test` lists them.
 
-**Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `mise run check` (clean, 0 design problems), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — and only with `mise run publish`, which refuses if anything is uncommitted, a test fails or there is a design problem; then watch the GitHub build until it passes.
+**Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `mise run ci` (clean, 0 design problems), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — and only with `mise run publish`, which refuses if anything is uncommitted, a test fails or there is a design problem; then watch the GitHub build until it passes.

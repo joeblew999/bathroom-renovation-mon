@@ -660,7 +660,7 @@ def same_numbers_reordered_test():
 
 
 def publishable_test():
-    """mise run check builds with --publishable: with a design problem it still writes the page and the PDF
+    """mise run ci builds with --publishable: with a design problem it still writes the page and the PDF
     (to look at), then refuses — so mise run publish never pushes, and GitHub never publishes."""
     edits, want = clash_test()
 
