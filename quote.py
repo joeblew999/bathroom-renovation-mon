@@ -9,20 +9,19 @@ none of them knows the others exist:
   room/          room.toml + layout.toml   → the floor plan and the wall elevations
 
 The material list and the drawings both take their products from products.toml (products.py),
-which this file loads once and hands to both. It puts the parts into the document skeleton
-(bathroom-renovation-quote.md) and runs the two checks that need more than one part: the tile
+which this file loads once and hands to both. It puts the quote's title (quote.toml) and each
+part's section into the template (bathroom-renovation-quote.md: layout only), and runs the two checks that need more than one part: the tile
 boxes on the list against the tiles the room needs, and every product used somewhere. Then:
 
   html     Markdown → HTML, drawings appended one per page   → out/index.html
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
 Bad data stops the build with one ERROR line naming the file and the problem, before
-anything is written. The Markdown skeleton is never rewritten.
+anything is written. The template is never rewritten.
 
 Usage:  python3 quote.py [quote.md] [out-folder]
         python3 quote.py --check [quote.md]    (tile counts, total, warnings; no build)
 """
-import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,9 +33,10 @@ import materials
 import phases
 import products
 import room
-from common import DataError, cli
+from common import DataError, both, cli, named, only, read_toml
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
+QUOTE = "quote.toml"
 STYLE = Path(__file__).with_name("style.css")      # the page's look: fonts, tables, page breaks
 
 
@@ -73,14 +73,26 @@ def tile_lines(r, tiles):
 
 
 # ---------- putting it together ----------
-def fill(skeleton, name, blocks):
-    """The skeleton with each <!-- generated:NAME --> … <!-- /generated --> block filled in."""
-    for key, lines in blocks.items():
-        pat = re.compile(rf"(<!-- generated:{key} -->\n).*?(\n<!-- /generated -->)", re.S)
-        if not pat.search(skeleton):
-            raise DataError(f"{name}: marker <!-- generated:{key} --> … <!-- /generated --> not found")
-        skeleton = pat.sub(lambda mt: mt.group(1) + "\n".join(lines) + mt.group(2), skeleton)
-    return skeleton
+def fill(template, name, title, sections):
+    """The template with its {title} and each <!-- section:NAME --> filled in."""
+    if "{title}" not in template:
+        raise DataError(f"{name}: {{title}} not found")
+    doc = template.replace("{title}", title)
+    for key, lines in sections.items():
+        marker = f"<!-- section:{key} -->"
+        if marker not in doc:
+            raise DataError(f"{name}: marker {marker} not found")
+        doc = doc.replace(marker, "\n".join(lines))
+    return doc
+
+
+def load_title(path):
+    """The quote's title, from quote.toml: 'Thai / English'."""
+    raw = read_toml(path, "the quote's own content: its title")
+    only(QUOTE, "the file", raw, {"title"})
+    only(QUOTE, "[title]", raw.get("title", {}), {"th", "en"})
+    th, en, _, _ = named(QUOTE, "[title]", raw.get("title", {}))
+    return both(th, en)
 
 
 def assemble(md):
@@ -96,8 +108,8 @@ def assemble(md):
     if unused:
         raise DataError(f"{products.FILE}: product '{unused[0]}' isn't on the material list or the drawings")
     tiles, tile_warnings = tile_check(m, r)
-    skeleton = work.resolve(md.read_text(encoding="utf-8"))    # the skeleton may name a phase
-    doc = fill(skeleton, md.name, {"phases": work.render(), "list": m.render()})
+    doc = fill(md.read_text(encoding="utf-8"), md.name, load_title(md.with_name(QUOTE)),
+               {"phases": work.render(), "materials": m.render()})
     return Quote(doc, r.render(), work, m, r, tiles, r.warnings() + tile_warnings)
 
 

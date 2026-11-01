@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Tests for the bathroom pipeline — proves every check really fires.
 
-Each test copies the document and the five data files into a temporary folder, breaks one
+Each test copies the template and the six data files into a temporary folder, breaks one
 thing on purpose, then puts the quote together in this process:
 
     q = assemble(md)      phases + materials + room, the tile check, the filled document
@@ -17,6 +17,7 @@ has nothing of the kind a test needs (no point on the wall, say), that test fail
 
 Usage:  python3 test_pipeline.py
 """
+import datetime
 import sys
 import tempfile
 import tomllib
@@ -31,7 +32,9 @@ from quote import assemble
 HERE = Path(__file__).resolve().parent
 MD = "bathroom-renovation-quote.md"
 LAYOUT, MATERIALS, ROOM, PHASES, PRODUCTS = "layout.toml", "materials.toml", "room.toml", "phases.toml", "products.toml"
-RAW = {f: tomllib.loads((HERE / f).read_text(encoding="utf-8")) for f in (LAYOUT, MATERIALS, ROOM, PHASES, PRODUCTS)}
+QUOTE = "quote.toml"
+DATA = (LAYOUT, MATERIALS, ROOM, PHASES, PRODUCTS, QUOTE)
+RAW = {f: tomllib.loads((HERE / f).read_text(encoding="utf-8")) for f in DATA}
 REAL = assemble(HERE / MD)
 WALL = "main_wall"                 # the wall the layout tests use (a wall the code always draws)
 CLEAN = None                       # expect: no error and no warnings
@@ -122,7 +125,7 @@ def run(edits):
     """Assemble the quote from copies, with `edits` = {file: edit(text) -> text}.
     Returns (warnings, text to search, quote) — the ERROR line if the data was refused."""
     with tempfile.TemporaryDirectory() as tmp:
-        for name in (MD, LAYOUT, MATERIALS, ROOM, PHASES, PRODUCTS):
+        for name in (MD, *DATA):
             text = (HERE / name).read_text(encoding="utf-8")
             (Path(tmp) / name).write_text(edits[name](text) if name in edits else text, encoding="utf-8")
         try:
@@ -263,11 +266,6 @@ def duplicate_step_test():
     return {PHASES: data(lambda d: d["phase"][0]["step"][1].update(id=steps[0]["id"]))}, f"step id '{steps[0]['id']}' is used twice"
 
 
-def skeleton_ref_test():
-    ph = RAW[PHASES]["phase"][-1]["id"]
-    return {MD: lambda t: t + f"\nsee phase {{phase:{ph}}}\n"}, f"see phase {REAL.work.numbers[('phase', ph)]}"
-
-
 def first_step(change):
     return {PHASES: data(lambda d: change(d["phase"][0]["step"][0]))}
 
@@ -379,10 +377,18 @@ TESTS = [
     ("keys: a typo in a step", first_step(lambda s: s.update(eng=s.pop("en"))), "unknown key 'eng'"),
     ("phases: the same step id twice", duplicate_step_test),
     # ---- the document skeleton ----
-    ("document: a phase reference in the skeleton resolves", skeleton_ref_test),
-    ("document: the phases go into their block", {}, built(lambda p: p.work.render()[0])),
-    ("document: a generated block whose marker is missing",
-     {MD: lambda t: t.replace("<!-- generated:list -->", "", 1)}, "marker <!-- generated:list -->"),
+    ("document: the title comes from quote.toml",
+     {QUOTE: data(lambda d: d["title"].update(en="TITLE-FROM-DATA"))}, " / TITLE-FROM-DATA"),
+    ("document: each part's section goes where its marker is", {}, built(lambda p: p.work.render()[0])),
+    ("document: a section marker missing from the template",
+     {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
+    ("notes: a note in one language only",
+     {PHASES: data(lambda d: d["section"].pop("note_en"))}, "has a note in one language only"),
+    ("materials: the prices date reaches the section note",
+     {MATERIALS: data(lambda d: d.update(prices_date=datetime.date(2030, 1, 2)))}, "02/01/2030"),
+    ("materials: a group's note shows under its heading",
+     {MATERIALS: data(lambda d: d["group"][0].update(note_th="GROUP-NOTE-TH", note_en="GROUP-NOTE-EN"))},
+     "*GROUP-NOTE-TH*<br>*GROUP-NOTE-EN*"),
 ]
 
 

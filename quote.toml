@@ -1,0 +1,7 @@
+# quote.toml — the quote's own content: the content that belongs to the whole document, not to
+# one part. Each part's heading and note live in that part's file ([section] in phases.toml and
+# materials.toml); the template (bathroom-renovation-quote.md) holds layout only.
+
+[title]
+th = "รายละเอียดหน้างานห้องน้ำใหม่"
+en = "New Bathroom Work Details"

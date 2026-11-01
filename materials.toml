@@ -12,7 +12,7 @@
 #   product page: {sku} is the code, {sku_digits} the code without its dots).
 # Each supplier (a trade that brings things itself): id, th, en — shown as "th / en".
 # Each unit: id, th, en_one, en_many — "1 ถุง / bag", "7 ถุง / bags" (Thai has one form).
-# Each group: id, th, en.
+# Each group: id, th, en, and an optional note (note_th, note_en) shown under its heading.
 #
 # Each [[entry]] is one product, listed once by its id in products.toml (what it is: its names,
 # its size), with how it is bought:
@@ -33,7 +33,18 @@
 #   by         who brings a supplied product: the id of a supplier
 # A product partly on site and partly to buy has two lines (bought n, buy n).
 #
+# [section]: this part's heading in the document and its note (th, en, note_th, note_en — the
+# same shape as a group or a phase); the note can show {prices_date}.
+# prices_date: the day the prices were checked.
 # [labels]: the fixed wording of the list (column headings, the total, buy, approx.).
+
+prices_date = 2026-10-31
+
+[section]
+th = "วัสดุ"
+en = "Materials"
+note_th = "ราคา ณ วันที่ {prices_date} · \"ประมาณ\" = ราคาอาจเปลี่ยนแปลง"
+note_en = "Prices as of {prices_date} · \"approx.\" = the price may change"
 
 [labels]
 item = { th = "สินค้า", en = "Item" }
@@ -143,6 +154,8 @@ en = "New wall"
 id = "door"
 th = "ประตู"
 en = "Door"
+note_th = "วงกบติดตั้งพร้อมผนังใหม่ · ประตู ลูกบิด และบานพับ ใช้ตอนติดตั้งอุปกรณ์ จึงซื้อทีหลังได้"
+note_en = "The frame goes in with the new wall · the door, knob and hinges are only needed at fit-out, so they can be bought later"
 
 [[group]]
 id = "new_ceiling"

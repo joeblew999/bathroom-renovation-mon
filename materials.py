@@ -26,10 +26,13 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import products as catalogue_file
-from common import DataError, Labels, both, cli, flag, md_cell, need, number, one_of, only, read_toml
+import string
+
+from common import (NAMED, DataError, Labels, both, cli, flag, heading, md_cell, named, need, note,
+                    note_cell, number, one_of, only, read_toml)
 
 FILE = "materials.toml"
-GROUP_KEYS = {"id", "th", "en"}
+GROUP_KEYS = {"id", *NAMED}
 SHOP_KEYS = {"id", "name", "sku", "link"}
 SUPPLIER_KEYS = {"id", "th", "en"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
@@ -59,6 +62,8 @@ class Group:
     id: str
     th: str
     en: str
+    note_th: str = ""
+    note_en: str = ""
 
 
 @dataclass(frozen=True)
@@ -131,6 +136,7 @@ class Line:
 
 @dataclass(frozen=True)
 class Materials:
+    section: tuple       # (th, en, note_th, note_en): this part's heading and note, date filled in
     groups: tuple
     lines: tuple         # every line on the list, in file order
     labels: Labels
@@ -156,13 +162,18 @@ class Materials:
         return sum(m.n for m in self.lines if m.entry.product.id == product_id and STATUS[m.status].shop)
 
     def render(self):
-        """The material list as Markdown table rows: a heading row per group, then its lines."""
+        """The section as Markdown lines: its heading and note, then the table — a heading row
+        (and its note) per group, then its lines."""
         L = self.labels
-        rows = [f"| {L.both('item')} | {L.both('qty')} | {L.both('price')} | {L.both('on_site')} |", "|---|---|---|---|"]
+        th, en, nth, nen = self.section
+        rows = [heading(2, th, en), ""] + ([*note(nth, nen), ""] if nth else [])
+        rows += [f"| {L.both('item')} | {L.both('qty')} | {L.both('price')} | {L.both('on_site')} |", "|---|---|---|---|"]
         for g in self.groups:
             lines = self.in_order(g)
             if lines:
                 rows.append(f"| **{both(g.th, g.en)}** | | | |")
+                if g.note_th:
+                    rows.append(f"| {note_cell(g.note_th, g.note_en)} | | | |")
             rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in lines]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
@@ -178,7 +189,8 @@ class Materials:
 def load(path, catalogue):
     """Read and check materials.toml; each entry names a product in the catalogue."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"labels", "shop", "supplier", "unit", "group", "entry"})
+    only(FILE, "the file", raw, {"prices_date", "section", "labels", "shop", "supplier", "unit", "group", "entry"})
+    section = _section(raw)
     labels = Labels(FILE, raw.get("labels", {}), LABELS)
     shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
     for s in shops.values():
@@ -189,7 +201,8 @@ def load(path, catalogue):
             raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
     suppliers = {e["id"]: Supplier(**e) for e in _defined(raw, "supplier", SUPPLIER_KEYS)}
     units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
-    groups = tuple(Group(**e) for e in _defined(raw, "group", GROUP_KEYS))
+    groups = tuple(Group(e["id"], *named(FILE, f"group '{e['id']}'", e))
+                   for e in _defined(raw, "group", GROUP_KEYS, required=("id",)))
     ids = {g.id for g in groups}
     lines, seen = [], set()
     for e in raw.get("entry", []):
@@ -200,16 +213,32 @@ def load(path, catalogue):
         if not e.get("line"):
             raise DataError(f"{FILE}: product '{entry.product.id}' has no [[entry.line]] — it isn't on the list")
         lines += [_line(u, entry, ids, suppliers) for u in e["line"]]
-    return Materials(groups, tuple(lines), labels)
+    return Materials(section, groups, tuple(lines), labels)
 
 
-def _defined(raw, kind, keys):
-    """The [[kind]] entries, each with exactly `keys` and a unique id."""
+def _section(raw):
+    """This part's heading and note; the note's {prices_date} filled in."""
+    e = raw.get("section", {})
+    only(FILE, "[section]", e, NAMED)
+    th, en, nth, nen = named(FILE, "[section]", e)
+    date = raw.get("prices_date")
+    for lang, text in (("note_th", nth), ("note_en", nen)):
+        for _, f, _, _ in string.Formatter().parse(text):
+            if f is not None and f != "prices_date":
+                raise DataError(f"{FILE}: [section] {lang} has {{{f}}} (it can show: prices_date)")
+            if f == "prices_date" and date is None:
+                raise DataError(f"{FILE}: [section] {lang} shows {{prices_date}}, but the file has no prices_date")
+    shown = date.strftime("%d/%m/%Y") if date else ""
+    return th, en, nth.format(prices_date=shown), nen.format(prices_date=shown)
+
+
+def _defined(raw, kind, keys, required=None):
+    """The [[kind]] entries, each with only `keys` (all of them, or `required`) and a unique id."""
     seen = set()
     for e in raw.get(kind, []):
         where = f"{kind} '{e.get('id', '?')}'"
         only(FILE, where, e, keys)
-        need(FILE, where, e, sorted(keys))
+        need(FILE, where, e, sorted(required or keys))
         if e["id"] in seen:
             raise DataError(f"{FILE}: {kind} id '{e['id']}' is used twice")
         seen.add(e["id"])
@@ -299,7 +328,7 @@ def name_cell(m):
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:
-        name += f"<br>*{md_cell(both(m.note_th, m.note_en))}*"
+        name += f"<br>{note_cell(m.note_th, m.note_en)}"
     return name
 
 

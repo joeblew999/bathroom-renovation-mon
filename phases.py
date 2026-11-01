@@ -17,7 +17,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from common import DataError, Labels, cli, md_cell, need, only, read_toml
+from common import NAMED, DataError, Labels, cli, heading, md_cell, named, need, note, only, read_toml
 
 FILE = "phases.toml"
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
@@ -48,6 +48,7 @@ class Phase:
 @dataclass(frozen=True)
 class Work:
     """The work, phase by phase."""
+    section: tuple                        # (th, en, note_th, note_en): this part's heading and note
     phases: tuple
     labels: Labels = field(repr=False)
     numbers: dict = field(repr=False)     # {("phase" | "step", id): "5" | "1.8"}
@@ -61,12 +62,16 @@ class Work:
         return REF.sub(sub, text)
 
     def render(self):
-        """The phases as Markdown lines: a heading, the note, and the step table for each."""
-        L, out = self.labels, []
+        """The section as Markdown lines: its heading and note, then for each phase a heading,
+        its note and its step table."""
+        L = self.labels
+        th, en, nth, nen = self.section
+        out = [heading(2, th, en), ""] + ([*note(nth, nen), ""] if nth else [])
         for ph in self.phases:
-            out += [f"### {L.both('phase_heading', number=ph.number, name=(ph.th, ph.en))}", ""]
-            if ph.note_th or ph.note_en:
-                out += [f"> {ph.note_th}", f"> {ph.note_en}", ""]
+            name = dict(number=ph.number, name=(ph.th, ph.en))
+            out += [heading(3, L.th("phase_heading", **name), L.en("phase_heading", **name)), ""]
+            if ph.note_th:
+                out += [*note(ph.note_th, ph.note_en), ""]
             if ph.steps:
                 out += [f"| # | {L.th('step_columns')} | {L.en('step_columns')} |", "|---|---------|---------|"]
                 out += [f"| {st.number} | {md_cell(st.th)} | {md_cell(st.en)} |" for st in ph.steps]
@@ -77,7 +82,9 @@ class Work:
 def load(path):
     """Read and check phases.toml, and number every phase and step."""
     raw = read_toml(Path(path), "the work, phase by phase")
-    only(FILE, "the file", raw, {"labels", "phase"})
+    only(FILE, "the file", raw, {"section", "labels", "phase"})
+    only(FILE, "[section]", raw.get("section", {}), NAMED)
+    section = named(FILE, "[section]", raw.get("section", {}))
     labels = Labels(FILE, raw.get("labels", {}), LABELS)
     numbers, found = {}, []
 
@@ -88,7 +95,8 @@ def load(path):
 
     for p_no, ph in enumerate(raw.get("phase", []), 1):
         only(FILE, f"phase '{ph.get('id', p_no)}'", ph, PHASE_KEYS)
-        need(FILE, f"phase {p_no}", ph, ("id", "th", "en"))
+        need(FILE, f"phase {p_no}", ph, ("id",))
+        named(FILE, f"phase '{ph['id']}'", ph)
         add("phase", ph["id"], str(p_no))
         steps = []
         for s_no, st in enumerate(ph.get("step", []), 1):
@@ -99,9 +107,9 @@ def load(path):
         found.append((ph, p_no, steps))
 
     # references are resolved once every number is known (a step may refer forward)
-    unresolved = Work((), labels, numbers)
+    unresolved = Work(section, (), labels, numbers)
     r = unresolved.resolve
-    return Work(tuple(
+    return Work(tuple(r(s) for s in section), tuple(
         Phase(ph["id"], p_no, ph["th"], ph["en"], r(ph.get("note_th", "")), r(ph.get("note_en", "")),
               tuple(Step(i, n, r(th), r(en)) for i, n, th, en in steps))
         for ph, p_no, steps in found), labels, numbers)

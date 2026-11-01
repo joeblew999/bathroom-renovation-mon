@@ -71,6 +71,35 @@ def md_cell(v):
     return v.replace("|", "\\|").replace("\n", " ")
 
 
+# ---------- the one shape of a named thing, and how it is printed ----------
+# A section, a phase, a material group, the quote itself: th and en (its name), and an
+# optional note under it, note_th and note_en. Every one is checked and printed the same way.
+NAMED = ("th", "en", "note_th", "note_en")
+
+
+def named(file, where, e):
+    """Check the name and optional note of a named thing; returns (th, en, note_th, note_en)."""
+    need(file, where, e, ("th", "en"))
+    if ("note_th" in e) != ("note_en" in e):
+        raise DataError(f"{file}: {where} has a note in one language only — give note_th and note_en")
+    return e["th"], e["en"], e.get("note_th", ""), e.get("note_en", "")
+
+
+def heading(level, th, en):
+    """A heading: 'Thai / English'."""
+    return f"{'#' * level} {both(th, en)}"
+
+
+def note(th, en):
+    """A note under a heading: a Thai paragraph, then an English paragraph."""
+    return [f"> {th}", ">", f"> {en}"] if th or en else []
+
+
+def note_cell(th, en):
+    """The same note inside a table cell: Thai, then English underneath."""
+    return f"*{md_cell(th)}*<br>*{md_cell(en)}*"
+
+
 class Labels:
     """The fixed wording a part prints, read from its own data file's [labels] table:
 

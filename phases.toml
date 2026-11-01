@@ -13,7 +13,15 @@
 # and show on the drawings — don't copy them into the text; point to the drawing instead.
 # Numbers that are method (a 2–3 cm fall, 2 coats, 400 mm centres) belong here, once.
 #
+# [section]: this part's heading in the document, and its note (th, en, note_th, note_en —
+# the same shape as a phase).
 # [labels]: the fixed wording around the phases (heading, step-table columns).
+
+[section]
+th = "งานตามขั้นตอน"
+en = "Work by phase"
+note_th = "เรียงตามลำดับการทำงาน แต่ละขั้นต้องเสร็จก่อนเริ่มขั้นถัดไป"
+note_en = "In working order — each phase finishes before the next starts."
 
 [labels]
 phase_heading = { th = "ขั้น {number} — {name}", en = "Phase {number} — {name}" }
