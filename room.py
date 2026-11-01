@@ -61,7 +61,7 @@ ENDS = ("start", "end")   # the ends of a wall or the floor: x = 0, and x = its 
 SWINGS = ("in", "out")    # which way the door leaf opens: into the room, or out of it
 CONSTRUCTION = ("column", "door", "lintel")   # the items room.py works out — no item in room.toml takes these ids
 SYMBOLS = {k: "text!" for k in ("axis_x", "axis_y", "width", "height", "none", "times", "warning", "ok", "up", "down",
-                                 "dash", "dot", "eq", "plus")}
+                                 "dash", "dot", "eq", "plus", "more")}
 LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "dashed": (),
@@ -78,7 +78,8 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "warn_clearance": ("wall", "item", "clear", "need"), "warn_rim_height": ("wall", "item", "rim", "low", "high"),
           "warn_zone_ip": ("wall", "item", "zone", "ip", "need"), "warn_zone_no_ip": ("wall", "item", "zone"),
           "warn_clearance_door": ("wall", "item", "door"), "warn_waterproofing": ("zone", "height", "need"),
-          "warn_fall": ("fall", "need"), "warn_drain_side": ("drain", "step"),
+          "warn_fall": ("fall", "need"), "warn_off_drawing": ("what",),
+          "warn_overlap": ("what", "other"), "warn_covered": ("what",), "drawing_line": (), "warn_drain_side": ("drain", "step"),
           "waterproofing_line": ("walls", "zone"), "fall_line": ("wet", "dry")}
 # The position and size keys each shape may have; an item gives no others.
 WALL_KEYS = {"rect": ("x", "y", "w", "h", "d"), "circle": ("x", "y", "w", "d"), "point": ("x", "y"),
@@ -254,10 +255,27 @@ class Room:
         """Every setting-out or clash problem: the design checks in room_design_checks.py."""
         return room_design_checks.warnings(self)
 
-    def render(self, plan_warnings=()):
-        """Every drawing as svg text: the floor plan (with the floor's design problems and `plan_warnings`,
-        each (th, en)), then each drawn wall."""
-        return [draw_plan(self, list(plan_warnings))] + [draw_wall(self, w) for w in self.walls.values() if w.elevation]
+    def drawings(self):
+        """Which drawing is which, in the order render() gives them: "floor", then each drawn wall's id."""
+        return ["floor"] + [w.id for w in self.walls.values() if w.elevation]
+
+    def render(self, more=None):
+        """Every drawing as svg text: the floor plan, then each drawn wall — each with its own design problems
+        and any `more` for it ({drawing: [(th, en)]}, drawing as in drawings())."""
+        more = more or {}
+        return [draw_plan(self, list(more.get("floor", ())))] + \
+            [draw_wall(self, w, list(more.get(w.id, ()))) for w in self.walls.values() if w.elevation]
+
+    def drawing_warnings(self, found):
+        """The drawings' layout problems (drawing_design_checks.py), worded: found = [(index of the drawing,
+        kind, what, other)] → [(drawing, (th, en))], drawing as in drawings()."""
+        key = {"off": "warn_off_drawing", "overlap": "warn_overlap", "covered": "warn_covered"}
+        names = self.drawings()
+
+        def name(lang, what):
+            return drawing_name(self, what) if what else getattr(self.labels, lang)("drawing_line")
+        return [(names[i], tuple(getattr(self.labels, lang)(key[kind], what=name(lang, what), other=name(lang, other))
+                                 for lang in ("th", "en"))) for i, kind, what, other in found]
 
 
 # ======================================== 2. work out ========================================
@@ -408,12 +426,15 @@ TEXT_DOWN = 4             # a small text's baseline below the point it marks
 GAP = 8                   # text clear of what it labels
 SIDE_NAME_OUT = (14, 44)  # a wall drawing's side names, out from the right and left edges
 TICKS_DOWN, TICK_ARM, TICK_TEXT_DOWN, TICK_TURN = 18, 5, 18, -45     # the x marks under a wall
+TICK_CLOSE, TICK_STAGGER = 18, 18   # a mark nearer than this to the one before has its number set this much lower
 TILE_TEXT_UP, TILE_TOP_TEXT_DOWN, TILE_TOP_TEXT_IN = 5, 14, 4
 STEP_TEXT_UP = 4
 PLAN_GRID_TEXT = (34, 20)  # the plan's joint numbers: below the bottom wall, right of the floor
 PLAN_TAG_OUT = 16          # an opening's tag, out from the wall
 FLOOR_TAG = (-18, 4)       # a floor item's tag, from its centre
 DOOR_TAG_UP = 12           # the door's tag, above its leaf
+TAG_CLEAR, TAG_STEP = 2, 4 # px kept round a placed tag or number; how far it is moved each try
+DIGIT_W, DIGIT_H = 6, 10   # px a digit of a joint mark takes (10px text), so a number can keep clear of it
 WALL_NAME_OUT = {"top": 8, "bottom": 16, "left": 40, "right": 40}    # the wall names round the plan
 STEP_MARK = 6              # "higher" / "lower" either side of the floor step
 KEY_DOWN = 16              # the plan's dashed-line key, under its heading
@@ -425,6 +446,7 @@ PROBLEM_CHAR = 7.2        # px a character of a design problem may take at its s
 PROBLEM_RIGHT = 20        # px kept clear at the drawing's right edge
 PROBLEM_INDENT = 4        # characters the second line of a wrapped design problem is set in
 WRAP = 125                # characters per legend note line
+DRAWING_NAME = 60         # characters a design problem quotes of something on a drawing
 
 
 def start(a, width, height, ml, title, subtitle):
@@ -516,7 +538,12 @@ def draw_warnings(a, lines, x, y):
 
 
 # ---------- a wall drawing ----------
-def draw_wall(room, wall):
+def drawing_name(room, what):
+    """Something on a drawing, as a design problem names it: its own text, shortened."""
+    return textwrap.shorten(what, DRAWING_NAME, placeholder=room.symbols["more"])
+
+
+def draw_wall(room, wall, more_warnings=()):
     """One wall, seen from inside the bathroom, x from the corner on your right: svg text."""
     t, lab, s = room.tiles[wall.tile], room.labels, room.symbols
     L, CEIL = wall.length, room.ceiling
@@ -524,7 +551,7 @@ def draw_wall(room, wall):
     W, H = L * WALL_SCALE, CEIL * WALL_SCALE
     rows = [legend_row(room, it, it.no) for it in wall.items]
     width = max(ML + W + MR, MIN_WIDTH)
-    lines = problem_lines(room, room_design_checks.wall_warnings(room, wall), ML, width)
+    lines = problem_lines(room, room_design_checks.wall_warnings(room, wall) + list(more_warnings), ML, width)
 
     def X(mm):                                      # x is measured from the right-hand corner
         return ML + (L - mm) * WALL_SCALE
@@ -534,17 +561,18 @@ def draw_wall(room, wall):
 
     out = []
     a = out.append
-    start(a, width, MT + H + MB + legend_height(rows) + BOTTOM_SPACE["wall"] + warnings_space(lines), ML,
+    start(a, width, MT + H + MB + KEY_DOWN + legend_height(rows) + BOTTOM_SPACE["wall"] + warnings_space(lines), ML,
           lab.both("elevation_title", wall=(wall.th, wall.en)),
           s["dot"].join([lab.both("viewed_inside", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
-    _wall_face(a, room, wall, t, X, Y, W)
+    marks = _wall_face(a, room, wall, t, X, Y, W)
     _wall_sides(a, room, wall, ML, MT, W, H)
-    _wall_ticks(a, _wall_items(a, wall, t, X, Y), X, Y(0), ML, W)
+    _wall_ticks(a, _wall_items(a, wall, t, X, Y, marks), X, Y(0), ML, W)
     ly0 = MT + H + MB
     right = room.walls[wall.right]
-    text(a, "heading", ML, ly0, f'{lab.both("items")} ({lab.both("x_from", wall=(right.th, right.en), axis=s["axis_x"])}'
-                                f'{s["dot"]}{s["axis_y"]}{s["eq"]}{lab.both("centre_height")})')
-    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0, TAG_W["wall"]) + WARNINGS_DOWN)
+    text(a, "heading", ML, ly0, lab.both("items"))
+    text(a, "key", ML, ly0 + KEY_DOWN, f'{lab.both("x_from", wall=(right.th, right.en), axis=s["axis_x"])}'
+                                       f'{s["dot"]}{s["axis_y"]}{s["eq"]}{lab.both("centre_height")}')
+    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["wall"]) + WARNINGS_DOWN)
     a("</svg>")
     return "\n".join(out)
 
@@ -554,9 +582,11 @@ def _wall_face(a, room, wall, t, X, Y, W):
     ML, lab, top = X(wall.length), room.labels, t.tiling_height
     a(f'<rect class="wall-face" x="{ML}" y="{Y(room.ceiling)}" width="{W}" height="{room.ceiling * WALL_SCALE}"/>')
     a(f'<rect x="{ML}" y="{Y(top)}" width="{W}" height="{top * WALL_SCALE}" fill="{t.fill}"/>')
+    marks = []                                      # the joint marks' boxes, for the numbers to keep clear of
     for k in room_design_checks.joints_x(wall, t.size):
         a(f'<line class="joint" x1="{X(k)}" y1="{Y(top)}" x2="{X(k)}" y2="{Y(0)}"/>')
         text(a, "joint-text", X(k), Y(top) - TILE_TEXT_UP, f"{k:g}", "middle")
+        marks.append((X(k), Y(top) - TILE_TEXT_UP - DIGIT_H / 2, DIGIT_W * len(f"{k:g}"), DIGIT_H))
     for k in range(t.size, top, t.size):
         a(f'<line class="joint" x1="{ML}" y1="{Y(k)}" x2="{ML + W}" y2="{Y(k)}"/>')
     for k in range(0, int(room.ceiling) + 1, HEIGHT_STEP):
@@ -571,6 +601,7 @@ def _wall_face(a, room, wall, t, X, Y, W):
         a(f'<rect class="step-face" x="{X(x1)}" y="{Y(step.h)}" width="{(x1 - x0) * WALL_SCALE}" '
           f'height="{step.h * WALL_SCALE}"/>')
         text(a, "step-text", X((x0 + x1) / 2), Y(step.h) - STEP_TEXT_UP, lab.both("floor_higher", h=f"{step.h:g}"), "middle")
+    return marks
 
 
 def _wall_sides(a, room, wall, ML, MT, W, H):
@@ -581,8 +612,9 @@ def _wall_sides(a, room, wall, ML, MT, W, H):
         text(a, "side-name", x, cy, f'{both(w.th, w.en)} ({s["axis_x"]}{s["eq"]}{at:g})', "middle", rot)
 
 
-def _wall_items(a, wall, t, X, Y):
-    """Every item on the wall, with its number; returns the x of each, for the ticks."""
+def _wall_items(a, wall, t, X, Y, taken):
+    """Every item on the wall, with its number placed clear of what is `taken` and of the other numbers;
+    returns the x of each, for the ticks."""
     xs = set()
     for it in wall.items:
         x, w, y, h = it.x, it.w, it.y, it.h
@@ -600,9 +632,9 @@ def _wall_items(a, wall, t, X, Y):
             for s in (1, -1):
                 a(f'<line class="point" x1="{lx - POINT_ARM}" y1="{ly - POINT_ARM * s}" '
                   f'x2="{lx + POINT_ARM}" y2="{ly + POINT_ARM * s}"/>')
-        nx = lx + (NUMBER_BESIDE if it.shape == "point" else 0)
-        a(f'<circle class="number" cx="{nx}" cy="{ly}" r="{NUMBER_R}"/>')
-        text(a, "number-text", nx, ly + NUMBER_TEXT_DOWN, it.no, "middle")
+        nx, ny = place(lx + (NUMBER_BESIDE if it.shape == "point" else 0), ly, 2 * NUMBER_R, 2 * NUMBER_R, taken)
+        a(f'<circle class="number" cx="{nx}" cy="{ny}" r="{NUMBER_R}"/>')
+        text(a, "number-text", nx, ny + NUMBER_TEXT_DOWN, it.no, "middle")
     return xs
 
 
@@ -610,13 +642,18 @@ BOXES = {"rect": "item", "lintel": "item", "column": "column", "opening": "openi
 
 
 def _wall_ticks(a, xs, X, floor_y, ML, W):
-    """Each item's x, marked along the floor."""
+    """Each item's x, marked along the floor. A mark too close to the one before has its number set lower,
+    so the two (slanting the same way) don't run into each other."""
     base = floor_y + TICKS_DOWN
     a(f'<line class="axis" x1="{ML}" y1="{base}" x2="{ML + W}" y2="{base}"/>')
-    for x in sorted(xs):
-        ty = base + TICK_TEXT_DOWN
+    last, low = None, False
+    for x in sorted(xs, reverse=True):              # left to right: the numbers slant down to the left, so the
+                                                    # lower of two close ones is the right-hand one
+        low = last is not None and abs(X(x) - X(last)) < TICK_CLOSE and not low
+        ty = base + TICK_TEXT_DOWN + (TICK_STAGGER if low else 0)
         a(f'<line class="axis" x1="{X(x)}" y1="{base - TICK_ARM}" x2="{X(x)}" y2="{base + TICK_ARM}"/>')
         text(a, "tick-text", X(x), ty, f"{x:g}", "end", TICK_TURN)
+        last = x
 
 
 # ---------- the floor plan ----------
@@ -655,7 +692,7 @@ def draw_plan(room, more_warnings):
     for w in walls:
         _plan_footprints(a, room, w, P, shown[w.id], tags)
     _plan_floor_items(a, room, P, tags)
-    for label, tx, ty in tags:
+    for label, tx, ty in _spread(tags, TAG_W["plan"], TAG_H):
         tag(a, tx, ty - TAG_H / 2, TAG_W["plan"], label)
     _plan_wall_names(a, room, ML, MT, PW, PH, swing)
     ly0 = MT + PH + MB
@@ -747,7 +784,7 @@ def _plan_openings(a, room, wall, P, shown, tags):
         if it.shape == "door":
             ends = (it.x - it.w / 2, it.x + it.w / 2)
             hinge, latch = ends if room.door_hinge == "start" else ends[::-1]
-            tags.append((wall.ref + it.no, *_plan_door(a, room, wall, P, hinge, latch)))
+            tags.append((wall.ref + it.no, *_plan_door(a, room, wall, P, hinge, latch, wall.ref + it.no)))
         elif it.shape == "opening":
             _rect(a, "plan-opening", _band(room, wall, P, it.x - it.w / 2, it.x + it.w / 2))
             px, py = P(*_to_floor(room, wall, it.x))
@@ -768,7 +805,31 @@ def _plan_footprints(a, room, wall, P, shown, tags):
         tags.append((wall.ref + it.no, *P(*_to_floor(room, wall, it.x, it.d / 2))))
 
 
-def _plan_door(a, room, wall, P, x0, x1):
+def place(x, y, w, h, taken):
+    """Where a tag or number w × h wants to sit, centred on (x, y), moved the least it takes to sit clear of every
+    box already `taken` ([(cx, cy, w, h)]): tried below, beside and above, a step further each time. The box it
+    takes is added to `taken`, so what is placed after keeps clear of it."""
+    def clear(cx, cy):
+        return all(abs(cx - tx) * 2 >= w + tw + 2 * TAG_CLEAR or abs(cy - ty) * 2 >= h + th + 2 * TAG_CLEAR
+                   for tx, ty, tw, th in taken)
+    k = 0
+    while not clear(x, y):
+        k += 1
+        free = [(x + dx, y + dy) for dx, dy in ((0, k * TAG_STEP), (k * TAG_STEP, 0), (-k * TAG_STEP, 0), (0, -k * TAG_STEP))
+                if clear(x + dx, y + dy)]
+        if free:
+            x, y = free[0]
+    taken.append((x, y, w, h))
+    return x, y
+
+
+def _spread(tags, w, h):
+    """The floor plan's tags, each placed clear of the ones before it."""
+    taken = []
+    return [(label, *place(x, y, w, h, taken)) for label, x, y in tags]
+
+
+def _plan_door(a, room, wall, P, x0, x1, ref):
     """The door leaf, hinged at x0 of the opening and opening in or out as the data says, and its swing.
     Returns where its tag goes: over the middle of the leaf."""
     r = (x1 - x0) * PLAN_SCALE
@@ -777,8 +838,8 @@ def _plan_door(a, room, wall, P, x0, x1):
     ix, iy = (-1 if room.door_swing == "in" else 1) * OUT[wall.side][0], (-1 if room.door_swing == "in" else 1) * OUT[wall.side][1]
     ex, ey = hx + ix * r, hy + iy * r
     sweep = 1 if (ex - hx) * (jy - hy) - (ey - hy) * (jx - hx) > 0 else 0
-    a(f'<line class="door-leaf" x1="{hx}" y1="{hy}" x2="{ex}" y2="{ey}"/>')
-    a(f'<path class="door-swing" d="M {ex} {ey} A {r} {r} 0 0 {sweep} {jx} {jy}"/>')
+    a(f'<line class="door-leaf" data-of="{ref}" x1="{hx}" y1="{hy}" x2="{ex}" y2="{ey}"/>')    # data-of: what a
+    a(f'<path class="door-swing" data-of="{ref}" d="M {ex} {ey} A {r} {r} 0 0 {sweep} {jx} {jy}"/>')  # problem calls it
     return hx + ix * r / 2, hy + iy * r / 2 - DOOR_TAG_UP
 
 

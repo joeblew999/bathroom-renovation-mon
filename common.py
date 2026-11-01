@@ -4,6 +4,7 @@ checking what is in it. They know nothing about bathrooms; each part owns its ow
 
 Bad data raises DataError, with a message naming the file and the problem.
 """
+import atexit
 import datetime
 import math
 import re
@@ -159,6 +160,21 @@ def check_each(file, kind, entries, fields, known=None):
 def both(th, en, sep=" / "):
     """Thai and English side by side: 'ไทย / English' — the one place they are joined."""
     return f"{th}{sep}{en}"
+
+
+_chromium = []
+
+
+def chromium():
+    """The one Chromium a run uses — to measure the drawings and to print the PDF — started the first time it is
+    asked for and closed when the run ends (Playwright allows one per process)."""
+    if not _chromium:
+        from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        browser = pw.chromium.launch()
+        atexit.register(lambda: (browser.close(), pw.stop()))
+        _chromium.append(browser)
+    return _chromium[0]
 
 
 def cli(run):

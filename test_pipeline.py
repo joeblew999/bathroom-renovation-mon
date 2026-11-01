@@ -33,12 +33,12 @@ import tempfile
 import tomllib
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
 
 import materials
 import phases
 import room
 import room_design_checks
+import drawing_design_checks
 import build
 from build import assemble, tile_lines
 import common
@@ -690,15 +690,13 @@ def problems_fit_test():
 
     def expect(p):
         svg = find(p.svgs, "the wall's drawing", lambda s: title in s)
-        with sync_playwright() as pw:
-            browser = pw.chromium.launch()
-            page = browser.new_page()
-            page.set_content(f"<style>{build.STYLE.read_text(encoding='utf-8')}</style><section class=drawing>{svg}</section>")
-            size, boxes = page.evaluate("""() => { const s = document.querySelector('svg');
-                return [[s.viewBox.baseVal.width, s.viewBox.baseVal.height],
-                        [...s.querySelectorAll('text.warning')].map(t => { const b = t.getBBox();
-                            return [b.x + b.width, b.y + b.height]; })]; }""")
-            browser.close()
+        page = common.chromium().new_page()
+        page.set_content(f"<style>{build.STYLE.read_text(encoding='utf-8')}</style><section class=drawing>{svg}</section>")
+        size, boxes = page.evaluate("""() => { const s = document.querySelector('svg');
+            return [[s.viewBox.baseVal.width, s.viewBox.baseVal.height],
+                    [...s.querySelectorAll('text.warning')].map(t => { const b = t.getBBox();
+                        return [b.x + b.width, b.y + b.height]; })]; }""")
+        page.close()
         if len(boxes) < 4:
             return f"(only {len(boxes)} problem lines on the drawing, so nothing to test)"
         right, bottom = max(x for x, _ in boxes), max(y for _, y in boxes)
@@ -770,6 +768,39 @@ def outside_zones_test():
         about_it = [en for _, (th, en) in p.warnings if it.label()[1] in en]
         return marker if not about_it else f"(a problem about {it.label()[1]}, outside the zones: {about_it[0]})"
     return {MATERIALS: data(lambda d: by_id(d["entry"], pid).update(ip="IP21"))}, built(expect)
+
+
+def off_drawing_test():
+    """A wall name too long for the line that names it under another wall's drawing: that drawing gets the
+    problem that something runs off its edge (worded by its label), in red under it."""
+    r = real().room
+    w = find([x for x in r.walls.values() if x.elevation], "drawn wall")
+    right = r.walls[w.right]
+    long = "X" * 400
+    off = r.labels.en("warn_off_drawing", what="\0").split("\0")          # the label's words either side of {what}
+
+    def expect(p):
+        mine = [en for d, (_, en) in p.warnings if d == w.id and en.startswith(off[0]) and en.endswith(off[1])]
+        return off[1] if mine else f"(no problem under {w.en} that something runs off it: {p.warnings})"
+    return {ROOM: data(lambda d: by_id(d["wall"], right.id).update(th=long, en=long))}, built(expect)
+
+
+def drawing(*parts):
+    """A small drawing to measure: 400 × 200, white paper, with `parts` (svg)."""
+    return ('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">'
+            '<rect class="paper" width="100%" height="100%"/>' + "".join(parts) + "</svg>")
+
+
+def measured(kind, *parts):
+    """What the drawing checks find of `kind` on a small drawing: [(what, other)]."""
+    style = build.STYLE.read_text(encoding="utf-8")
+    return [(w, o) for _, k, w, o in drawing_design_checks.check([drawing(*parts)], style) if k == kind]
+
+
+def drawing_check_test(kind, want, *parts):
+    """The drawing checks, on a small drawing made for the test: they find `want` ([(what, other)]) of `kind`."""
+    marker = real().room.labels.en("floor_plan")
+    return {}, lambda p: marker if measured(kind, *parts) == want else f"(found {measured(kind, *parts)}, not {want})"
 
 
 def item_raw(d, iid):
@@ -1008,6 +1039,29 @@ TESTS = [
     ("design problems: every design problem's lines fit inside its drawing", problems_fit_test),
     ("design problems: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
     ("assumed values: each is listed by the build, with its value", assumed_listed_test),
+    # ---- drawing design (drawing_design_checks.py): how each drawing reads, measured as drawn ----
+    ("drawing design: a name too long for its drawing shows as a problem under it", off_drawing_test),
+    ("drawing design: a text running off the edge",
+     lambda: drawing_check_test(drawing_design_checks.OFF, [("RUNS-OFF", "")],
+                                '<text class="key" x="380" y="100">RUNS-OFF</text>')),
+    ("drawing design: two words drawn over each other",
+     lambda: drawing_check_test(drawing_design_checks.OVERLAP, [("AAAA", "BBBB")],
+                                '<text class="key" x="100" y="100">AAAA</text>', '<text class="key" x="110" y="102">BBBB</text>')),
+    ("drawing design: two words with a clear gap between them",
+     lambda: drawing_check_test(drawing_design_checks.OVERLAP, [],
+                                '<text class="key" x="100" y="100">AAAA</text>', '<text class="key" x="100" y="130">BBBB</text>')),
+    ("drawing design: a tag drawn over a word",
+     lambda: drawing_check_test(drawing_design_checks.OVERLAP, [("WORD", "T1")],
+                                '<text class="key" x="100" y="100">WORD</text>',
+                                '<rect class="tag" x="105" y="88" width="24" height="16"/><text class="tag-text" x="117" y="99">T1</text>')),
+    ("drawing design: a line drawn through a label that needs clear ground",
+     lambda: drawing_check_test(drawing_design_checks.COVERED, [("A WALL NAME", "")],
+                                '<text class="wall-name" x="100" y="100">A WALL NAME</text>',
+                                '<line class="axis" x1="90" y1="96" x2="200" y2="96"/>')),
+    ("drawing design: a line clear of a label",
+     lambda: drawing_check_test(drawing_design_checks.COVERED, [],
+                                '<text class="wall-name" x="100" y="100">A WALL NAME</text>',
+                                '<line class="axis" x1="90" y1="130" x2="200" y2="130"/>')),
     # ---- the room: bad data ----
     ("room: a value marked as assumed that isn't there", assumed_missing_test),
     ("room: waterproofing on an item that isn't a zone", waterproofing_not_zone_test),

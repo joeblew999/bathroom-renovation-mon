@@ -445,6 +445,10 @@ warn_zone_no_ip = { th = "{wall}, {item}: เป็นอุปกรณ์ไ�
 warn_clearance_door = { th = "{wall}, {item}: บานประตู {door} เปิดกวาดเข้ามาในที่ว่างด้านหน้า — วางตำแหน่งใหม่ หรือเปลี่ยนทิศการเปิดประตู", en = "{wall}, {item}: the door {door} swings into the clear space in front of it — set it out again, or change how the door opens" }
 warn_waterproofing = { th = "{zone}: กันซึมสูง {height} มม. — ผนังส่วนอาบน้ำต้องกันซึมสูงอย่างน้อย {need} มม.", en = "{zone}: waterproofed to {height} mm — the shower walls must be waterproofed to at least {need} mm" }
 warn_fall = { th = "พื้นลาดเอียง 1:{fall} สู่ท่อระบายน้ำ — ต้องลาดอย่างน้อย 1:{need}", en = "the floor falls 1:{fall} to the drain — make it at least 1:{need}" }
+warn_off_drawing = { th = "{what}: ล้นออกนอกขอบแบบ — ขยายแบบ หรือย้ายเข้ามาในแบบ", en = "{what}: runs off the edge of the drawing — make the drawing bigger, or move it in" }
+warn_overlap = { th = "{what} กับ {other}: ซ้อนทับกันในแบบ — ย้ายอันใดอันหนึ่งออกให้อ่านได้", en = "{what} and {other}: drawn over each other — move one clear so both can be read" }
+warn_covered = { th = "{what}: มีเส้นหรือสีลากทับ — ย้ายออกให้พ้น", en = "{what}: a line or fill is drawn through it — move it clear" }
+drawing_line = { th = "เส้นในแบบ", en = "a line of the drawing" }
 warn_drain_side = { th = "{drain} อยู่ด้านสูง (ด้านแห้ง) ของ{step} — ท่อระบายน้ำต้องอยู่ด้านต่ำที่รับน้ำจากฝักบัว", en = "{drain} is on the high (dry) side of {step} — the drain must be on the low side, which takes the shower water" }
 waterproofing_line = { th = "กันซึม: ทั้งพื้น · ผนัง {walls} มม. · ในส่วนอาบน้ำ {zone} มม.", en = "Waterproofing: the whole floor · walls {walls} mm · in the shower zone {zone} mm" }
 fall_line = { th = "พื้นลาดเอียง 1:{wet} สู่ท่อระบายน้ำด้านอาบน้ำ · 1:{dry} เข้าหาขั้นพื้นด้านแห้ง", en = "The floor falls 1:{wet} to the drain on the shower side · 1:{dry} towards the step on the dry side" }
@@ -465,3 +469,4 @@ dash = " — "   # between a name and what follows it
 dot = " · "    # between items in a line
 eq = " = "     # a letter and what it stands for
 plus = " + "   # the parts of a tile count
+more = "…"     # the end of a text a design problem shortens

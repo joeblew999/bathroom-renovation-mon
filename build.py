@@ -15,7 +15,8 @@ section into the template (bathroom-renovation-quote.md). Then:
   pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
 
 Bad data stops the build with one ERROR line naming the file and the problem, before
-anything is written. A design problem (room_design_checks.py, materials_design_checks.py) doesn't
+anything is written. A design problem (room_design_checks.py, materials_design_checks.py,
+drawing_design_checks.py) doesn't
 stop it: the page and the PDF are written with each problem in red under its drawing, and the
 problems and their count are printed. The template is
 never rewritten.
@@ -30,13 +31,13 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import markdown
-from playwright.sync_api import sync_playwright
 
+import drawing_design_checks
 import materials
 import materials_design_checks
 import phases
 import room
-from common import DataError, cli
+from common import DataError, chromium, cli
 
 TEMPLATE = "bathroom-renovation-quote.md"
 PDF_NAME = "bathroom-renovation-quote.pdf"
@@ -88,7 +89,15 @@ def assemble(md):
     r = room.load(md.with_name(room.FILE), m.products)
     tiles, tile_warnings = materials_design_checks.tile_check(m, r.tiles_needed())
     doc = fill(md.read_text(encoding="utf-8"), md.name, {"phases": work.render(), "materials": m.render()})
-    return Quote(doc, r.render([w for _, w in tile_warnings]), work, m, r, tiles, r.warnings() + tile_warnings)
+    more = {"floor": [w for _, w in tile_warnings]}
+    svgs = r.render(more)
+    # How the drawings read, measured as drawn; any problem is drawn again in red under its drawing.
+    drawing_warnings = r.drawing_warnings(drawing_design_checks.check(svgs, STYLE.read_text(encoding="utf-8")))
+    if drawing_warnings:
+        for d, w in drawing_warnings:
+            more.setdefault(d, []).append(w)
+        svgs = r.render(more)
+    return Quote(doc, svgs, work, m, r, tiles, r.warnings() + tile_warnings + drawing_warnings)
 
 
 def html(doc, svgs):
@@ -103,12 +112,10 @@ def html(doc, svgs):
 
 
 def pdf(page_html, out):
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch()
-        page = browser.new_page()
-        page.set_content(page_html, wait_until="load")
-        page.pdf(path=str(out), print_background=True, prefer_css_page_size=True)   # size and margins: style.css
-        browser.close()
+    page = chromium().new_page()
+    page.set_content(page_html, wait_until="load")
+    page.pdf(path=str(out), print_background=True, prefer_css_page_size=True)   # size and margins: style.css
+    page.close()
 
 
 def build(md, out_dir):

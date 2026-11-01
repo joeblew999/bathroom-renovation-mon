@@ -53,9 +53,10 @@ materials.toml  ──► materials.py    + materials_design_checks.py   ─┼�
      ▲                                                              │
      │ the room names products by id (rule 6)                       │
 room.toml       ──► room.py         + room_design_checks.py        ─┘
+                         └─► the drawings ──► drawing_design_checks.py (in build.py)
 ```
 
-`build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, adds the drawings after them, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
+`build.py` is the only place the parts meet. It puts the phases and the materials list into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
 
 On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
 
@@ -67,11 +68,11 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `materials.toml` | Every product once — its name and detail in Thai and English, its size, whether it's electrical and its IP rating, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door (which end it's hinged at, and whether it opens in or out) and lintel; the tiles; the floor (its drain, and its fall on each side of the step) and the four walls (each with its waterproofing height; the shower zone has its own) in order round the room, each with its items, the shower head among them; the norms the design checks use, each with its source; the drawings' wording and marks |
 | `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
-| `room_design_checks.py`, `materials_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities (see Checks) |
+| `room_design_checks.py`, `materials_design_checks.py`, `drawing_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities; how the drawings read (see Checks) |
 | `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
-| `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes |
+| `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes, the one Chromium a run uses |
 | `test_pipeline.py` | The tests |
 | `mise.toml` | The commands, and the pinned tools (Python and uv) |
 | `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run setup` installs exactly the lock |
@@ -85,7 +86,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
    - Every word, number, date, name and mark on the page is in the data file of the part it's about.
    - Fixed wording is that file's `[labels]`, each label in Thai and English; marks that are the same in both languages are its `[symbols]`.
    - The code holds no wording, except the messages printed for whoever runs the build: English only, never on the page or the PDF.
-   - Layout is code; the look is `style.css`.
+   - Layout is code; the look is `style.css`. What is the same for any bathroom — the drawing scale, margins, gaps, how far a tag moves to clear another, the drawing checks' tolerances — is a named constant at the top of the code file that uses it, each with a comment saying what it is; never a bare number in the middle of the code, and never in a data file.
    - The one exception: the existing structure and the opening — the existing column at the start of its wall, the door opening beside it, the lintel over it — are set out in `room.py`, labelled there.
 2. **The data files are consistent.**
    - Every entry of one kind has the same fields, in the same order, written to the same pattern; a product's detail, for one, follows the pattern at the top of `materials.toml`.
@@ -127,10 +128,13 @@ A data file written wrongly: a missing or misspelt field, an id that points at n
 
 ### Design checks
 
-The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design. There are two aspects, each in its own file, named for the part it checks:
+The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design. There are three aspects, each in its own file:
 
 - **The room** — `room_design_checks.py`, beside `room.toml` and `room.py`: setting out and clashes — every item set out where it belongs and fits, clear of the tile joints, not clashing with another item or sitting in an opening; clearances and heights — enough space in front of each fitting, clear of the door's swing when it opens in, the basin rim at its height; wet areas — every electrical item in the zones round the shower head with an IP rating recorded and high enough, the shower zone waterproofed high enough, the floor's wet side falling enough to the drain, and the drain on the wet (low) side of the step.
 - **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials list — whether enough is ordered.
+- **The drawings** — `drawing_design_checks.py`: how each drawing reads, measured in Chromium on the drawings as drawn — nothing runs off the edge of its drawing; no two words or tags are drawn over each other or closer than a clear gap; no line or fill runs through a label that needs clear ground (a wall name, a joint mark, a heading). The layout code places things so these hold — a tag or number moves the least it takes to clear what is already placed (`place` in `room.py`) — and the check proves it on every build.
+
+The room and the drawings are told apart by what fixing a problem changes: a room problem changes what is constructed; a drawing problem changes only how the drawing is laid out or worded — nothing on site.
 
 The phases have no design checks. Each design-checks file lists its checks at the top.
 
@@ -149,11 +153,13 @@ Ask what fixing it would take:
 - **Correcting the file** → a data check, in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` if every entry shares it.
 - **Changing the room** — where something goes, its size, how it fits or looks, its waterproofing or fall → a room design check, in `room_design_checks.py`.
 - **Ordering more, or ordering something different** → a quantities check, in `materials_design_checks.py`.
+- **Changing only how a drawing is laid out or worded** — nothing on site → a drawing design check, in `drawing_design_checks.py`.
 
 A design check never goes in a part's own code, and a data check never goes in a design-checks file. A value a design check holds the room to from outside — a clearance, a height, a fall — is a `[[norm]]` in `room.toml`, with its source (rule 10). For example:
 - "An item names a product that isn't on the materials list": correct the id — a data check, in `room.py`.
 - "The door is too wide to fit beside the column": a different door frame — a room design check, in `room_design_checks.py`.
 - "Too few tile boxes for the tiles the room needs": order more — a quantities check, in `materials_design_checks.py`.
+- "The door's swing runs off the floor plan": make the drawing bigger on that side — a drawing design check, in `drawing_design_checks.py`.
 
 ## Before a change is done
 
