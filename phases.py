@@ -17,11 +17,13 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from common import NAMED, DataError, Labels, cli, heading, md_cell, named, need, note, only, read_toml
+from common import NAMED, DataError, Labels, check, check_each, cli, heading, md_cell, named, note, read_toml
 
 FILE = "phases.toml"
-PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
-STEP_KEYS = {"id", "th", "en"}
+# Every kind of entry in phases.toml, declared once (common.check: "!" = required).
+FILE_FIELDS = {"section": "table!", "labels": "table!", "phase": "list!"}
+PHASE = {"id": "text!", **NAMED, "step": "list"}
+STEP = {"id": "text!", "th": "text!", "en": "text!"}
 LABELS = {"phase_heading": ("number", "name"), "step_columns": ()}
 REF = re.compile(r"\{([a-z]+):([a-z0-9_]+)\}")
 
@@ -82,27 +84,17 @@ class Work:
 def load(path):
     """Read and check phases.toml, and number every phase and step."""
     raw = read_toml(Path(path), "the work, phase by phase")
-    only(FILE, "the file", raw, {"section", "labels", "phase"})
-    only(FILE, "[section]", raw.get("section", {}), NAMED)
-    section = named(FILE, "[section]", raw.get("section", {}))
-    labels = Labels(FILE, raw.get("labels", {}), LABELS)
+    check(FILE, "the file", raw, FILE_FIELDS)
+    section = named(check(FILE, "[section]", raw["section"], NAMED))
+    labels = Labels(FILE, raw["labels"], LABELS)
+    check_each(FILE, "phase", raw["phase"], PHASE)
+    check_each(FILE, "step", [st for ph in raw["phase"] for st in ph.get("step", [])], STEP)
     numbers, found = {}, []
-
-    def add(kind, key, num):
-        if (kind, key) in numbers:
-            raise DataError(f"{FILE}: {kind} id '{key}' is used twice")
-        numbers[(kind, key)] = num
-
-    for p_no, ph in enumerate(raw.get("phase", []), 1):
-        only(FILE, f"phase '{ph.get('id', p_no)}'", ph, PHASE_KEYS)
-        need(FILE, f"phase {p_no}", ph, ("id",))
-        named(FILE, f"phase '{ph['id']}'", ph)
-        add("phase", ph["id"], str(p_no))
+    for p_no, ph in enumerate(raw["phase"], 1):
+        numbers[("phase", ph["id"])] = str(p_no)
         steps = []
         for s_no, st in enumerate(ph.get("step", []), 1):
-            only(FILE, f"step '{st.get('id', '?')}'", st, STEP_KEYS)
-            need(FILE, f"step {p_no}.{s_no} in '{ph['id']}'", st, ("id", "th", "en"))
-            add("step", st["id"], f"{p_no}.{s_no}")
+            numbers[("step", st["id"])] = f"{p_no}.{s_no}"
             steps.append((st["id"], f"{p_no}.{s_no}", st["th"], st["en"]))
         found.append((ph, p_no, steps))
 

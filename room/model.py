@@ -21,30 +21,43 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, Labels, flag, need, number, one_of, only, read_toml
+from common import NAMED, DataError, Labels, check, check_each, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
 ROOM_FILE = "room.toml"
-ROOM_KEYS = {
-    "room": {"length", "width", "ceiling"},
-    "column": {"width"},
-    "old_wall": {"step"},
-    "window": {"from_corner", "width", "sill", "height"},
-    "rules": {"min_clear"},
-}
-WALL_KEYS = {"th", "en", "view_th", "view_en", "tile", "runs", "right", "left", "drawn"}
 PLAN_SIDES = ("top", "right", "bottom", "left")
-TILE_KEYS = {"product", "th", "top", "fill"}
+ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
+RUNS = ("length", "width")
+# Every kind of entry in room.toml, declared once (common.check: "!" = required, "@x" = one of
+# the x ids). Every named thing has th and en. A product is named by its id on the material list.
+FILE_FIELDS = {k: "table!" for k in ("room", "column", "door", "lintel", "old_wall", "window", "rules",
+                                     "labels", "walls", "plan", "floor", "tiles", "room_items", "positions")}
+NUM = "number!"
+TABLES = {
+    "room": {"length": NUM, "width": NUM, "ceiling": NUM},
+    "column": {"width": NUM},
+    "door": {"product": "text!", "wall": "@wall!"},
+    "lintel": {"product": "text!", "bearing": NUM},
+    "old_wall": {"step": NUM},
+    "window": {"wall": "@wall!", "from_corner": NUM, "width": NUM, "sill": NUM, "height": NUM},
+    "rules": {"min_clear": NUM},
+    "floor": {"tile": "@tile!"},
+    "plan": {side: "@wall!" for side in PLAN_SIDES},
+    "room_items": {k: "table!" for k in ROOM_ITEMS},
+}
+WALL = {"th": "text!", "en": "text!", "view_th": "text", "view_en": "text", "tile": "@tile!",
+        "runs": "@runs!", "right": "@wall!", "left": "@wall!", "drawn": "flag!"}
+TILE = {"product": "text!", "th": "text!", "en": "text!", "top": NUM, "fill": "text!"}
+POSITION = {"id": "text!", "th": "text!", "en": "text!", "product": "text", "shape": "@shape!",
+            **{k: "number" for k in ("x", "y", "w", "h", "d")}, "part": "text",
+            "note_th": "text", "note_en": "text"}
 LABELS = {"floor_plan": (), "elevation_title": ("wall", "view"), "viewed_inside": (), "seen_above": (),
           "mm": (), "generated": (), "tile_top": ("top",), "floor_higher": ("h",), "higher": (), "lower": (),
           "floor": (), "items": (), "x_from": ("wall", "axis"), "centre_height": (), "see_notes": (), "dashed": (),
           "all_clear": ("min_clear",), "tag_main": (), "tag_floor": (), "tag_window": (),
           "axis_x": (), "axis_y": (), "width": (), "height": (),
           "tile_count": ("tile", "need", "parts", "boxes", "planned", "spare")}
-ROOM_ITEMS = ("column", "door_opening", "lintel", "window", "door")
-NAME_KEYS = {"th", "en", "note_th", "note_en"}
-LAYOUT_KEYS = {"id", "th", "en", "product", "shape", "x", "y", "w", "h", "d", "part", "note_th", "note_en"}
 # What each shape needs to be drawn (after the product's size is filled in).
 SHAPE_NEEDS = {"rect": ("x", "y", "w", "h"), "circle": ("x", "y", "w"), "point": ("x", "y"),
                "vline": ("x",), "zone": ("x", "w"), "step": ("x",)}
@@ -54,9 +67,10 @@ FLOOR_SHAPE_NEEDS = {"rect": ("x", "y", "w", "d"), "step": ("x",)}   # floor ite
 # ---------- the model ----------
 @dataclass(frozen=True)
 class Tile:
-    name: str            # what the floor and walls call it: "grey"
+    id: str              # what the floor and walls call it: "grey"
     product: str         # its id on the material list
     th: str
+    en: str
     size: int            # square, mm (from the product)
     per_box: int         # (from the product)
     top: int             # tiled up to this height on a wall
@@ -88,7 +102,7 @@ class Wall:
     view_th: str
     view_en: str
     length: float        # along the wall
-    tile: str            # the name of its tile in room.toml
+    tile: str            # the id of its tile in room.toml
     tiled_run: float     # the length that is actually tiled (the door's wall: not the door opening)
     along_room: bool     # runs along the room's length (so the floor step meets it)
     right: str           # the wall at x = 0, seen from inside facing this wall
@@ -99,9 +113,10 @@ class Wall:
 
 @dataclass(frozen=True)
 class TilesNeeded:
-    name: str            # the tile's name
+    id: str              # the tile's id
     product: str         # its id on the material list
     th: str
+    en: str
     size: int
     per_box: int
     parts: tuple         # ((surface, tiles), …) — surface is "floor" or a wall id
@@ -122,8 +137,8 @@ class Room:
     ceiling: float
     column: float        # the existing column's width, at the start of the door's wall
     min_clear: float     # the design rule: every hole at least this far from a tile joint
-    tiles: dict          # {name: Tile}
-    floor_tile: str      # the name of the floor's tile
+    tiles: dict          # {id: Tile}
+    floor_tile: str      # the id of the floor's tile
     walls: dict
     floor: tuple
     labels: Labels
@@ -140,12 +155,12 @@ class Room:
         out = []
         for t in self.tiles.values():
             parts = []
-            if self.floor_tile == t.name:
+            if self.floor_tile == t.id:
                 parts.append(("floor", math.ceil(self.length / t.size) * math.ceil(self.width / t.size)))
             for w in self.walls.values():
-                if w.tile == t.name:
+                if w.tile == t.id:
                     parts.append((w.id, t.top // t.size * math.ceil(w.tiled_run / t.size)))
-            out.append(TilesNeeded(t.name, t.product, t.th, t.size, t.per_box, tuple(parts)))
+            out.append(TilesNeeded(t.id, t.product, t.th, t.en, t.size, t.per_box, tuple(parts)))
         return out
 
     def wall_warnings(self, wall_id):
@@ -173,28 +188,43 @@ def load(path, catalogue):
     """Read and check room.toml and build every wall. Every product's size comes from
     `catalogue` = {id: Product}, the products on the material list."""
     room = read_toml(Path(path), "the room, its walls and tiles, and every position")
+    _check(room)
     tiles = _tiles(room, catalogue)
-    door, door_wall = _door(room, catalogue)
-    drawn = tuple(wid for wid, e in room.get("walls", {}).items() if e.get("drawn"))
-    layout = room.get("positions", {})
-    only(ROOM_FILE, "[positions]", layout, set(drawn) | {"floor"})
-    lintel, bearing = _lintel(room, catalogue)
-    _check_room(room, tiles, door, door_wall)
-    labels = Labels(ROOM_FILE, room.get("labels", {}), LABELS)
-    walls, floor = _walls(room, layout, drawn, door, door_wall, lintel.h, bearing, catalogue)
+    door = _product(catalogue, f"{ROOM_FILE}: [door]", room["door"]["product"], ("w", "h"))
+    lintel = _product(catalogue, f"{ROOM_FILE}: [lintel]", room["lintel"]["product"], ("h",))
+    new_wall = room["room"]["width"] - room["column"]["width"]
+    if new_wall - door.w <= 0:
+        raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit in the new wall ({new_wall:g}: "
+                        f"the room's width less the column)")
+    drawn = tuple(wid for wid, e in room["walls"].items() if e["drawn"])
+    layout = room["positions"]
+    labels = Labels(ROOM_FILE, room["labels"], LABELS)
+    walls, floor = _walls(room, layout, drawn, door, room["door"]["wall"], lintel.h, room["lintel"]["bearing"],
+                          catalogue)
     used = ({e["product"] for k in drawn + ("floor",) for e in layout.get(k, []) if "product" in e}
             | {t.product for t in tiles.values()} | {door.id, lintel.id})
-    v = lambda key, name_: _value(room, key, name_)             # noqa: E731
-    return Room(v("room", "length"), v("room", "width"), v("room", "ceiling"), v("column", "width"),
-                v("rules", "min_clear"), tiles, room["floor"]["tile"], walls, floor, labels,
-                room["plan"], frozenset(used))
+    r = room["room"]
+    return Room(r["length"], r["width"], r["ceiling"], room["column"]["width"], room["rules"]["min_clear"],
+                tiles, room["floor"]["tile"], walls, floor, labels, room["plan"], frozenset(used))
 
 
-def _value(room, key, name):
-    try:
-        return room[key][name]
-    except KeyError:
-        raise DataError(f"{ROOM_FILE}: [{key}] needs '{name}'") from None
+def _check(room):
+    """Every table and entry in room.toml against its declared fields."""
+    check(ROOM_FILE, "the file", room, FILE_FIELDS)
+    known = {"wall": room["walls"], "tile": room["tiles"], "runs": RUNS}
+    for k, fields in TABLES.items():
+        check(ROOM_FILE, f"[{k}]", room[k], fields, known)
+    for k, e in room["room_items"].items():
+        check(ROOM_FILE, f"[room_items.{k}]", e, NAMED)
+    for wid, e in room["walls"].items():
+        check(ROOM_FILE, f"[walls.{wid}]", e, WALL, known)
+    for tid, e in room["tiles"].items():
+        check(ROOM_FILE, f"[tiles.{tid}]", e, TILE)
+    drawn = [wid for wid, e in room["walls"].items() if e["drawn"]]
+    only(ROOM_FILE, "[positions]", room["positions"], set(drawn) | {"floor"})
+    for key, entries in room["positions"].items():
+        check_each(ROOM_FILE, f"[[positions.{key}]] entry", entries, POSITION,
+                   {"shape": FLOOR_SHAPE_NEEDS if key == "floor" else SHAPE_NEEDS})
 
 
 def _product(catalogue, where, pid, needs):
@@ -208,38 +238,14 @@ def _product(catalogue, where, pid, needs):
     return p
 
 
-def _door(room, catalogue):
-    """The door's product (its opening is the product's size) and the wall it is in."""
-    e = room.get("door", {})
-    only(ROOM_FILE, "[door]", e, {"product", "wall"})
-    need(ROOM_FILE, "[door]", e, ("product", "wall"))
-    return _product(catalogue, f"{ROOM_FILE}: [door]", e["product"], ("w", "h")), e["wall"]
-
-
-def _lintel(room, catalogue):
-    """The lintel's product (for its height) and how far it bears onto the wall."""
-    e = room.get("lintel", {})
-    only(ROOM_FILE, "[lintel]", e, {"product", "bearing"})
-    need(ROOM_FILE, "[lintel]", e, ("product", "bearing"))
-    number(ROOM_FILE, "[lintel]", "bearing", e["bearing"])
-    return _product(catalogue, f"{ROOM_FILE}: [lintel]", e["product"], ("h",)), e["bearing"]
-
-
 def _tiles(room, catalogue):
-    """Every [tiles.NAME] table in room.toml, with its size and box from its product."""
-    raw = room.get("tiles", {})
-    if not raw:
-        raise DataError(f"{ROOM_FILE}: no [tiles.…] — the floor and walls need at least one tile")
+    """Every [tiles.ID] table in room.toml, with its size and box from its product."""
     out = {}
-    for name_, e in raw.items():
-        where = f"[tiles.{name_}]"
-        only(ROOM_FILE, where, e, TILE_KEYS)
-        need(ROOM_FILE, where, e, ("product", "th", "top", "fill"))
-        number(ROOM_FILE, where, "top", e["top"])
-        p = _product(catalogue, f"{ROOM_FILE}: {where}", e["product"], ("w", "h", "per_box"))
+    for tid, e in room["tiles"].items():
+        p = _product(catalogue, f"{ROOM_FILE}: [tiles.{tid}]", e["product"], ("w", "h", "per_box"))
         if p.w != p.h:
             raise DataError(f"materials.toml: tile '{p.id}' is {p.w:g} × {p.h:g} — the tile count needs square tiles")
-        out[name_] = Tile(name_, p.id, e["th"], int(p.w), p.per_box, e["top"], e["fill"])
+        out[tid] = Tile(tid, p.id, e["th"], e["en"], int(p.w), p.per_box, e["top"], e["fill"])
     return out
 
 
@@ -252,59 +258,16 @@ def _note(e, key, where):
     return t
 
 
-def _check_room(room, tiles, door, door_wall):
-    only(ROOM_FILE, "the file", room,
-         set(ROOM_KEYS) | {"walls", "tiles", "floor", "door", "lintel", "labels", "room_items", "positions", "plan"})
-    only(ROOM_FILE, "[floor]", room.get("floor", {}), {"tile"})
-    need(ROOM_FILE, "[floor]", room.get("floor", {}), ("tile",))
-    one_of(ROOM_FILE, "[floor]", "tile", room["floor"]["tile"], tiles)
-    for k, allowed in ROOM_KEYS.items():
-        only(ROOM_FILE, f"[{k}]", room.get(k, {}), allowed | ({"wall"} if k == "window" else set()))
-        for n, v in room.get(k, {}).items():
-            if n != "wall":
-                number(ROOM_FILE, f"[{k}]", n, v)
-    walls = room.get("walls", {})
-    if not walls:
-        raise DataError(f"{ROOM_FILE}: no [walls.…]")
-    for w, e in walls.items():
-        where = f"[walls.{w}]"
-        only(ROOM_FILE, where, e, WALL_KEYS)
-        need(ROOM_FILE, where, e, ("th", "en", "tile", "runs", "right", "left", "drawn"))
-        one_of(ROOM_FILE, where, "tile", e["tile"], tiles)
-        one_of(ROOM_FILE, where, "runs", e["runs"], ("length", "width"))
-        one_of(ROOM_FILE, where, "right", e["right"], walls)
-        one_of(ROOM_FILE, where, "left", e["left"], walls)
-        flag(ROOM_FILE, where, "drawn", e["drawn"])
-    one_of(ROOM_FILE, "[door]", "wall", door_wall, walls)
-    need(ROOM_FILE, "[window]", room.get("window", {}), ("wall",))
-    one_of(ROOM_FILE, "[window]", "wall", room["window"]["wall"], walls)
-    plan = room.get("plan", {})
-    only(ROOM_FILE, "[plan]", plan, PLAN_SIDES)
-    need(ROOM_FILE, "[plan]", plan, PLAN_SIDES)
-    for side in PLAN_SIDES:
-        one_of(ROOM_FILE, "[plan]", side, plan[side], walls)
-    new_wall = _value(room, "room", "width") - _value(room, "column", "width")
-    if new_wall - door.w <= 0:
-        raise DataError(f"{ROOM_FILE}: the door ({door.w:g}) does not fit in the new wall ({new_wall:g}: "
-                        f"the room's width less the column)")
-
-
 def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
     """Every wall with its items (positioned in room.toml, plus those that follow from the room)."""
-    names = room.get("room_items", {})
-    only(ROOM_FILE, "[room_items]", names, ROOM_ITEMS)
-    for k in ROOM_ITEMS:
-        if k not in names:
-            raise DataError(f"{ROOM_FILE}: [room_items.{k}] is missing")
-        only(ROOM_FILE, f"[room_items.{k}]", names[k], NAME_KEYS)
-        need(ROOM_FILE, f"[room_items.{k}]", names[k], ("th", "en"))
+    names = room["room_items"]
 
     def named(k, no, shape, **dims):
         e, where = names[k], f"[room_items.{k}]"
         return Item(str(no), e["th"], e["en"], shape, note_th=_note(e, "note_th", where),
                     note_en=_note(e, "note_en", where), id=k, **{a: float(v) for a, v in dims.items()})
 
-    v = lambda key, name_: _value(room, key, name_)             # noqa: E731
+    v = lambda key, name_: room[key][name_]                     # noqa: E731
     room_l, room_w, ceiling = v("room", "length"), v("room", "width"), v("room", "ceiling")
     column, door_w, door_h = v("column", "width"), door.w, door.h
     solid = room_w - column - door_w                                  # the new wall beside the door
@@ -343,18 +306,12 @@ def _walls(room, layout, drawn, door, door_wall, lt, lb, catalogue):
 
 
 def _layout_items(layout, key, catalogue, room_w):
+    """The checked items of one [[positions.KEY]] list, each with its product's size filled in;
+    its number on the drawing is its place in the list."""
     out = []
     needs = FLOOR_SHAPE_NEEDS if key == "floor" else SHAPE_NEEDS
     for i, e in enumerate(layout.get(key, []), 1):
-        where = f"[[positions.{key}]] entry {e.get('id', i)}"
-        only(ROOM_FILE, where, e, LAYOUT_KEYS)
-        need(ROOM_FILE, where, e, ("id", "th", "en", "shape"))
-        for k in ("x", "y", "w", "h", "d"):
-            if k in e:
-                number(ROOM_FILE, where, k, e[k])
-        if e["shape"] not in needs:
-            raise DataError(f"{ROOM_FILE}: {where} has shape {e['shape']!r} "
-                            f"(on this {'floor' if key == 'floor' else 'wall'}: {', '.join(needs)})")
+        where = f"[[positions.{key}]] entry '{e['id']}'"
         dims = {}
         if "product" in e:
             dims.update(_product(catalogue, f"{ROOM_FILE}: {where}", e["product"], ()).size())
@@ -369,13 +326,10 @@ def _layout_items(layout, key, catalogue, room_w):
         f = lambda k: None if k not in have else float(have[k])     # noqa: E731
         out.append(Item(str(i), e["th"], e["en"], e["shape"], f("x"), f("w"), f("y"), f("h"), f("d"),
                         e.get("part"), _note(e, "note_th", where), _note(e, "note_en", where), id=e["id"]))
-    ids = [it.id for it in out]
-    for id_ in ids:
-        if ids.count(id_) > 1:
-            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] id {id_} is used twice")
+    ids = {it.id for it in out}
     for it in out:
         if it.part and it.part not in ids:
-            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] entry {it.id} belongs to {it.part}, "
+            raise DataError(f"{ROOM_FILE}: [[positions.{key}]] entry '{it.id}' belongs to {it.part}, "
                             f"which is not in [[positions.{key}]]")
     return out
 

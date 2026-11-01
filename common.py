@@ -4,6 +4,7 @@ checking what is in it. They know nothing about bathrooms; each part owns its ow
 
 Bad data raises DataError, with a message naming the file and the problem.
 """
+import datetime
 import string
 import sys
 import tomllib
@@ -53,6 +54,53 @@ def one_of(file, where, key, v, known):
     return known[v] if isinstance(known, dict) else v
 
 
+# ---------- the one checker ----------
+# Each part declares every kind of entry it reads once, as {key: type}: "text", "number",
+# "flag", "date", "table" or "list" — or "@name", one of the ids in known[name] (the shops, the
+# walls …). "!" after the type: the key is required. Every entry gets the same checks, so no
+# part repeats them: no unknown key, every required key there, each value of its type, and
+# both languages or neither (th with en, note_th with note_en, any x_th with its x_en).
+TYPES = {"text": (str, "text"), "table": (dict, "a table"), "list": (list, "a list of tables"),
+         "date": (datetime.date, "a date")}
+
+
+def check(file, where, entry, fields, known=None):
+    """Check one entry against its declared fields; returns it."""
+    if not isinstance(entry, dict):
+        raise DataError(f"{file}: {where} must be a table")
+    only(file, where, entry, fields)
+    need(file, where, entry, [k for k, t in fields.items() if t.endswith("!")])
+    for k, v in entry.items():
+        kind = fields[k].rstrip("!")
+        if kind.startswith("@"):
+            one_of(file, where, k, v, known[kind[1:]])
+        elif kind == "number":
+            number(file, where, k, v)
+        elif kind == "flag":
+            flag(file, where, k, v)
+        elif not isinstance(v, TYPES[kind][0]):
+            raise DataError(f"{file}: {where} '{k}' must be {TYPES[kind][1]}, not {v!r}")
+    for k in entry:
+        other = {"th": "en", "en": "th"}.get(k) or (k[:-3] + ("_en" if k.endswith("_th") else "_th")
+                                                    if k.endswith(("_th", "_en")) else None)
+        if other in fields and other not in entry:
+            raise DataError(f"{file}: {where} has {k} but no {other} — give both languages, or neither")
+    return entry
+
+
+def check_each(file, kind, entries, fields, known=None):
+    """Check every entry of one kind, and — when it has ids — that each id is used once."""
+    seen = set()
+    for i, e in enumerate(entries, 1):
+        check(file, f"{kind} '{e['id']}'" if isinstance(e, dict) and "id" in e else f"{kind} {i}",
+              e, fields, known)
+        if "id" in fields:
+            if e["id"] in seen:
+                raise DataError(f"{file}: {kind} id '{e['id']}' is used twice")
+            seen.add(e["id"])
+    return entries
+
+
 def both(th, en, sep=" / "):
     """Thai and English side by side: 'ไทย / English' — the one place they are joined."""
     return f"{th}{sep}{en}"
@@ -74,14 +122,11 @@ def md_cell(v):
 # ---------- the one shape of a named thing, and how it is printed ----------
 # A section, a phase, a material group, the quote itself: th and en (its name), and an
 # optional note under it, note_th and note_en. Every one is checked and printed the same way.
-NAMED = ("th", "en", "note_th", "note_en")
+NAMED = {"th": "text!", "en": "text!", "note_th": "text", "note_en": "text"}
 
 
-def named(file, where, e):
-    """Check the name and optional note of a named thing; returns (th, en, note_th, note_en)."""
-    need(file, where, e, ("th", "en"))
-    if ("note_th" in e) != ("note_en" in e):
-        raise DataError(f"{file}: {where} has a note in one language only — give note_th and note_en")
+def named(e):
+    """A checked named thing as (th, en, note_th, note_en)."""
     return e["th"], e["en"], e.get("note_th", ""), e.get("note_en", "")
 
 

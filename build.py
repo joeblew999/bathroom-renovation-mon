@@ -52,7 +52,7 @@ def tile_check(m, r):
     """[(tiles needed, boxes on the list)] per tile, and a warning where there are too few. A
     tile and its boxes are matched by product: both name the same entry on the material list."""
     tiles = [(t, m.boxes_of(t.product)) for t in r.tiles_needed()]
-    return tiles, [("materials", f"{t.name} tile: {planned:g} boxes planned but {t.boxes} needed")
+    return tiles, [("materials", f"{t.en} tile: {planned:g} boxes planned but {t.boxes} needed")
                    for t, planned in tiles if planned < t.boxes]
 
 
@@ -63,7 +63,7 @@ def tile_lines(r, tiles):
     out = []
     for t, planned in tiles:
         parts = tuple(" + ".join(f"{names[s][i]} {n}" for s, n in t.parts) for i in (0, 1))
-        out.append(lab.both("tile_count", tile=(t.th, t.name), need=t.need, parts=parts, boxes=t.boxes,
+        out.append(lab.both("tile_count", tile=(t.th, t.en), need=t.need, parts=parts, boxes=t.boxes,
                             planned=f"{planned:g}", spare=f"{planned * t.per_box - t.need:g}"))
     return out
 

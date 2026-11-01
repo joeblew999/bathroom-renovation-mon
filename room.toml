@@ -122,22 +122,24 @@ left = "window_wall"
 tile = "grey"
 
 # ---------- tiles ----------
-# One table per tile; its name ([tiles.NAME]) is what the floor and the walls call it. A new
+# One table per tile; its id ([tiles.ID]) is what the floor and the walls call it. A new
 # tile is a new table here — no code changes.
 #   product  the tile in materials.toml (its size and tiles per box come from there; the tile
 #            count matches it against the boxes of that product on the material list)
-#   th       its colour in Thai, for the tile counts
+#   th, en   its name (its colour), for the tile counts and warnings
 #   top      tiled up to this height on a wall, mm
 #   fill     its colour on the drawings
 [tiles.grey]               # the floor + the main wall
 product = "grey_tile"
 th = "เทา"
+en = "grey"
 top = 2000
 fill = "#d9d9d6"
 
 [tiles.white]              # the other 3 walls
 product = "white_tile"
 th = "ขาว"
+en = "white"
 top = 1200
 fill = "#f1f1ee"
 

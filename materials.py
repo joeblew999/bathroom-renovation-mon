@@ -27,18 +27,24 @@ from pathlib import Path
 
 import string
 
-from common import (NAMED, DataError, Labels, both, cli, flag, heading, md_cell, named, need, note,
-                    note_cell, number, one_of, only, read_toml)
+from common import (NAMED, DataError, Labels, both, check, check_each, cli, heading, md_cell, named,
+                    note, note_cell, read_toml)
 
 FILE = "materials.toml"
-GROUP_KEYS = {"id", *NAMED}
-SHOP_KEYS = {"id", "name", "sku", "link"}
-UNIT_KEYS = {"id", "th", "en_one", "en_many"}
-TEXT_KEYS = ("name_th", "detail_th", "name_en", "detail_en")   # every product has all four
-ENTRY_KEYS = {"id", *TEXT_KEYS, "size", "per_box", "unit", "price", "approx",
-              "shop", "sku", "line"}
-LINE_KEYS = {"group", "status", "n", "note_th", "note_en", "by_th", "by_en"}
+# Every kind of entry in materials.toml, declared once (common.check: "!" = required, "@x" = one
+# of the x ids). Every named thing has th and en.
+FILE_FIELDS = {"prices_date": "date", "section": "table!", "labels": "table!", "shop": "list!",
+               "unit": "list!", "group": "list!", "entry": "list!"}
+SHOP = {"id": "text!", "th": "text!", "en": "text!", "sku": "text!", "link": "text!"}
+UNIT = {"id": "text!", "th": "text!", "en": "text!", "en_many": "text!"}
+GROUP = {"id": "text!", **NAMED}
+TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
+ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "number",
+         "unit": "@unit", "price": "number", "approx": "flag", "shop": "@shop", "sku": "text", "line": "list!"}
+LINE = {"group": "@group!", "status": "@status!", "n": "number!", "note_th": "text", "note_en": "text",
+        "by_th": "text", "by_en": "text"}
 SIZE_KEYS = ("w", "h", "d")
+SIZE = {k: "number" for k in SIZE_KEYS}
 SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
 @dataclass(frozen=True)
 class Rule:
@@ -71,7 +77,8 @@ class Group:
 @dataclass(frozen=True)
 class Shop:
     id: str
-    name: str            # "HomePro"
+    th: str              # "โฮมโปร"
+    en: str              # "HomePro"
     sku: str             # what its product codes look like (a regular expression)
     link: str            # the product page, with {sku} or {sku_digits} (the code without dots)
 
@@ -84,9 +91,9 @@ class Product:
     """What a product is: what it's called and its detail (model, size, pack, colour — any size
     filled in), in Thai and English, and its size in mm."""
     id: str
-    name_th: str
+    th: str
     detail_th: str
-    name_en: str
+    en: str
     detail_en: str
     w: float = None
     h: float = None
@@ -102,11 +109,11 @@ class Product:
 class Unit:
     id: str
     th: str              # Thai has one form: 1 ถุง, 7 ถุง
-    en_one: str          # 1 bag
+    en: str              # 1 bag
     en_many: str         # 7 bags
 
     def of(self, n):
-        return both(self.th, self.en_one if n == 1 else self.en_many)
+        return both(self.th, self.en if n == 1 else self.en_many)
 
 
 @dataclass(frozen=True)
@@ -206,37 +213,30 @@ class Materials:
 def load(path):
     """Read and check materials.toml."""
     raw = read_toml(Path(path), "all the materials and prices")
-    only(FILE, "the file", raw, {"prices_date", "section", "labels", "shop", "unit", "group", "entry"})
+    check(FILE, "the file", raw, FILE_FIELDS)
     section = _section(raw)
-    labels = Labels(FILE, raw.get("labels", {}), LABELS)
-    shops = {e["id"]: Shop(**e) for e in _defined(raw, "shop", SHOP_KEYS)}
+    labels = Labels(FILE, raw["labels"], LABELS)
+    shops = {e["id"]: Shop(**e) for e in check_each(FILE, "shop", raw["shop"], SHOP)}
     for s in shops.values():
         try:
             re.compile(s.sku)
             s.url("0")
         except (re.error, KeyError, IndexError, ValueError) as e:
             raise DataError(f"{FILE}: shop '{s.id}' has a bad sku pattern or link ({e})") from None
-    units = {e["id"]: Unit(**e) for e in _defined(raw, "unit", UNIT_KEYS)}
-    groups = tuple(Group(e["id"], *named(FILE, f"group '{e['id']}'", e))
-                   for e in _defined(raw, "group", GROUP_KEYS, required=("id",)))
-    ids = {g.id for g in groups}
-    lines, seen = [], set()
-    for e in raw.get("entry", []):
+    units = {e["id"]: Unit(**e) for e in check_each(FILE, "unit", raw["unit"], UNIT)}
+    groups = tuple(Group(e["id"], *named(e)) for e in check_each(FILE, "group", raw["group"], GROUP))
+    known = {"shop": shops, "unit": units, "group": [g.id for g in groups], "status": STATUSES}
+    lines = []
+    for e in check_each(FILE, "product", raw["entry"], ENTRY, known):
         entry = _entry(e, shops, units)
-        if entry.product.id in seen:
-            raise DataError(f"{FILE}: product '{entry.product.id}' has two entries — give it two lines instead")
-        seen.add(entry.product.id)
-        if not e.get("line"):
-            raise DataError(f"{FILE}: product '{entry.product.id}' has no [[entry.line]] — it isn't on the list")
-        lines += [_line(u, entry, ids) for u in e["line"]]
+        where = f"product '{e['id']}'"
+        lines += [_line(u, entry, where) for u in check_each(FILE, f"{where} line", e["line"], LINE, known)]
     return Materials(section, groups, tuple(lines), labels)
 
 
 def _section(raw):
     """This part's heading and note; the note's {prices_date} filled in."""
-    e = raw.get("section", {})
-    only(FILE, "[section]", e, NAMED)
-    th, en, nth, nen = named(FILE, "[section]", e)
+    th, en, nth, nen = named(check(FILE, "[section]", raw["section"], NAMED))
     date = raw.get("prices_date")
     for lang, text in (("note_th", nth), ("note_en", nen)):
         for _, f, _, _ in string.Formatter().parse(text):
@@ -248,30 +248,9 @@ def _section(raw):
     return th, en, nth.format(prices_date=shown), nen.format(prices_date=shown)
 
 
-def _defined(raw, kind, keys, required=None):
-    """The [[kind]] entries, each with only `keys` (all of them, or `required`) and a unique id."""
-    seen = set()
-    for e in raw.get(kind, []):
-        where = f"{kind} '{e.get('id', '?')}'"
-        only(FILE, where, e, keys)
-        need(FILE, where, e, sorted(required or keys))
-        if e["id"] in seen:
-            raise DataError(f"{FILE}: {kind} id '{e['id']}' is used twice")
-        seen.add(e["id"])
-    return raw.get(kind, [])
-
-
 def _product(e, where):
     """The product's name and detail, with its size filled in, and its size."""
-    need(FILE, where, e, TEXT_KEYS)
-    size = e.get("size", {})
-    if not isinstance(size, dict):
-        raise DataError(f"{FILE}: {where} 'size' must be {{ w = …, h = …, d = … }}")
-    only(FILE, f"{where} size", size, SIZE_KEYS)
-    for k, v in size.items():
-        number(FILE, f"{where} size", k, v)
-    if "per_box" in e:
-        number(FILE, where, "per_box", e["per_box"])
+    size = check(FILE, f"{where} size", e.get("size", {}), SIZE)
     fill = {f"{k}{u}": f"{v / div:g}" for k, v in size.items() for u, div in SIZE_UNITS.items()}
     names = {}
     for field in TEXT_KEYS:
@@ -284,41 +263,29 @@ def _product(e, where):
                                 f"{FILE}: {where} {field} has {{{f}}} (a name can show: "
                                 f"{', '.join(k + u for u in SIZE_UNITS for k in SIZE_KEYS)})")
         names[field] = text.format(**fill)
-    return Product(e["id"], names["name_th"], names["detail_th"], names["name_en"], names["detail_en"],
-                   *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
+    return Product(e["id"], *(names[k] for k in TEXT_KEYS), *(size.get(k) for k in SIZE_KEYS), e.get("per_box"))
 
 
 def _entry(e, shops, units):
-    where = f"product '{e.get('id', '?')}'"
-    only(FILE, where, e, ENTRY_KEYS)
-    need(FILE, where, e, ("id",))
-    product = _product(e, where)
-    if "price" in e:
-        number(FILE, where, "price", e["price"])
-        if e["price"] < 0:
-            raise DataError(f"{FILE}: {where} 'price' can't be negative")
-    if "approx" in e:
-        flag(FILE, where, "approx", e["approx"])
+    """A checked [[entry]]: what the product is, and how it is bought."""
+    where = f"product '{e['id']}'"
+    if e.get("price", 0) < 0:
+        raise DataError(f"{FILE}: {where} 'price' can't be negative")
     shop = None
     if "shop" in e or "sku" in e:
-        need(FILE, where, e, ("shop", "sku"))
-        shop = one_of(FILE, where, "shop", e["shop"], shops)
-        if not isinstance(e["sku"], str) or not re.fullmatch(shop.sku, e["sku"]):
-            raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.name} code")
-    unit = one_of(FILE, where, "unit", e["unit"], units) if "unit" in e else None
-    return Entry(product, unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
+        if "shop" not in e or "sku" not in e:
+            raise DataError(f"{FILE}: {where} has a shop or a sku without the other — give both")
+        shop = shops[e["shop"]]
+        if not re.fullmatch(shop.sku, e["sku"]):
+            raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.en} code")
+    return Entry(_product(e, where), units.get(e.get("unit")), e.get("price"), e.get("approx", False),
+                 shop, e.get("sku"))
 
 
-def _line(u, p, group_ids):
-    """One line on the list, checked against its product by the rules of its status (STATUS)."""
-    where = f"product '{p.product.id}'"
-    only(FILE, where, u, LINE_KEYS)
-    need(FILE, where, u, ("group", "status", "n"))
-    if u["group"] not in group_ids:
-        raise DataError(f"{FILE}: {where} names group '{u['group']}', which is not one of its groups")
-    s = one_of(FILE, where, "status", u["status"], STATUSES)
+def _line(u, p, where):
+    """A checked line on the list, checked against its product by the rules of its status (STATUS)."""
+    s = u["status"]
     rule = STATUS[s]
-    number(FILE, where, "n", u["n"])
     if u["n"] <= 0:
         raise DataError(f"{FILE}: {where} 'n' must be more than 0")
     if rule.price == "needed" and p.price is None:
@@ -329,9 +296,9 @@ def _line(u, p, group_ids):
         raise DataError(f"{FILE}: {where} is {s}, so it needs a shop and sku")
     if not rule.shop and p.shop:
         raise DataError(f"{FILE}: {where} is {s}, so it has no shop or sku")
-    if rule.by:
-        need(FILE, where, u, ("by_th", "by_en"))
-    elif "by_th" in u or "by_en" in u:
+    if rule.by and "by_th" not in u:
+        raise DataError(f"{FILE}: {where} is {s}, so it needs by_th and by_en: who brings it")
+    if not rule.by and "by_th" in u:
         raise DataError(f"{FILE}: {where} is {s}, so it has no by_th / by_en")
     return Line(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""),
                 u.get("by_th", ""), u.get("by_en", ""))
@@ -366,9 +333,9 @@ def name_cell(m):
     """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
     p = m.entry
     pr = p.product
-    name = md_cell(both(f"{pr.name_th} {pr.detail_th}", f"{pr.name_en}, {pr.detail_en}"))
+    name = md_cell(both(f"{pr.th} {pr.detail_th}", f"{pr.en}, {pr.detail_en}"))
     if p.link:
-        name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
+        name = f"[{name}]({p.link})<br>{both(p.shop.th, p.shop.en)} {p.sku}"
     if m.note_th or m.note_en:
         name += f"<br>{note_cell(m.note_th, m.note_en)}"
     return name

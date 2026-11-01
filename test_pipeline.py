@@ -166,11 +166,6 @@ def missing_parent_test():
             f"belongs to {gone}, which is not in [[positions.{WALL}]]")
 
 
-def duplicate_id_test():
-    first = RAW[ROOM]["positions"][WALL][0]["id"]
-    return {ROOM: data(lambda d: d["positions"][WALL][1].update(id=first))}, f"id {first} is used twice"
-
-
 def tile_top_test():
     name = find(list(RAW[ROOM]["tiles"]), "tile in room.toml")
     return {ROOM: data(lambda d: d["tiles"][name].pop("top"))}, f"[tiles.{name}] has no 'top'"
@@ -210,14 +205,14 @@ def tile_boxes_test():
     def change(d):
         for ln in entry_by_id(d, t.product)["line"]:
             ln["n"] = 1
-    return {MATERIALS: data(change)}, f"{t.name} tile: {planned:g} boxes planned but {t.boxes} needed"
+    return {MATERIALS: data(change)}, f"{t.en} tile: {planned:g} boxes planned but {t.boxes} needed"
 
 
 def sku_test():
     e = an_entry("entry with a shop", lambda e: "shop" in e)
     shop = find(RAW[MATERIALS]["shop"], f"shop '{e['shop']}'", lambda s: s["id"] == e["shop"])
     return ({MATERIALS: data(lambda d: entry_by_id(d, e["id"]).update(sku="BAD-" + e["sku"]))},
-            f"which isn't a {shop['name']} code")
+            f"which isn't a {shop['en']} code")
 
 
 def no_price_test():
@@ -287,6 +282,17 @@ def built(f):
 # make() works out (edits, expected) from the real data when the test runs.
 TESTS = [
     ("real data is clean", {}, CLEAN),
+    # ---- the one checker (common.check): one test per kind of mistake ----
+    ("checker: an unknown key (a typo)", {ROOM: data(lambda d: d["positions"][WALL][0].update(xx=1))}, "unknown key 'xx'"),
+    ("checker: a required field missing", first_line(lambda ln: ln.pop("n")), "has no 'n'"),
+    ("checker: text where a number goes",
+     lambda: (item_where("x", lambda v: True, lambda e: e.update(x=str(e["x"]))), "'x' must be a number")),
+    ("checker: a name pointing at nothing (a shop the file doesn't define)",
+     lambda: (*first_with("shop", lambda e: e.update(shop="lazada"))(), "has shop = 'lazada'")),
+    ("checker: an id used twice", duplicate_step_test),
+    ("checker: one language only",
+     {PHASES: data(lambda d: d["section"].pop("note_en"))}, "has note_th but no note_en"),
+    ("checker: broken TOML", {ROOM: lambda t: t + "\n[[positions.main_wall\n"}, "is not valid TOML"),
     # ---- the room and the layout: design rules (warnings) ----
     ("joint: a point moved just off a joint", joint_test),
     ("clash: an item moved onto another", clash_test),
@@ -299,26 +305,15 @@ TESTS = [
     ("product: a drawn item naming a product that isn't on the material list",
      lambda: (item_where("product", lambda v: True, lambda e: e.update(product="no_such_product")),
               "names product 'no_such_product', which is not on the material list")),
-    ("data: an item without an English name", {ROOM: data(lambda d: d["positions"][WALL][0].pop("en"))}, "has no 'en'"),
-    ("keys: a typo in a positioned item", {ROOM: data(lambda d: d["positions"][WALL][0].update(xx=1))}, "unknown key 'xx'"),
-    ("keys: a typo in room.toml", {ROOM: data(lambda d: d["window"].update(widht=1))}, "[window] has unknown key 'widht'"),
-    ("links: two items with the same id", duplicate_id_test),
-    ("links: a misspelt shape", {ROOM: data(lambda d: d["positions"][WALL][0].update(shape="rectangle"))}, "has shape 'rectangle'"),
     ("links: a point with no x",
      lambda: (item_where("shape", lambda v: v == "point", lambda e: e.pop("x")), "(point) needs 'x'")),
     ("links: a zone with no width",
      lambda: (item_where("shape", lambda v: v == "zone", lambda e: e.pop("w")), "(zone) needs 'w'")),
-    ("types: a number typed as text",
-     lambda: (item_where("x", lambda v: True, lambda e: e.update(x=str(e["x"]))), "'x' must be a number")),
-    ("data: broken TOML", {ROOM: lambda t: t + "\n[[positions.main_wall\n"}, "is not valid TOML"),
     ("room: a tile with no tiling height", tile_top_test),
     ("room: a wall set to drawn gets its own drawing",
      lambda: (lambda wid: ({ROOM: data(lambda d: d["walls"][wid].update(drawn=True))},
                            f"{RAW[ROOM]['walls'][wid]['en']} — elevation"))(
          find([w for w, e in RAW[ROOM]["walls"].items() if not e["drawn"]], "wall that isn't drawn"))),
-    ("room: a wall whose neighbour isn't a wall",
-     {ROOM: data(lambda d: next(iter(d["walls"].values())).update(right="no_such_wall"))},
-     "has right = 'no_such_wall'"),
     ("notes: a drawing note that refers to a phase",
      lambda: (item_where("note_en", lambda v: True, lambda e: e.update(note_en="see {phase:x} " + e["note_en"])),
               "has a reference in braces")),
@@ -336,35 +331,22 @@ TESTS = [
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
     ("materials: a price change flows into the total", price_test),
     ("materials: too few tile boxes for the room", tile_boxes_test),
-    ("materials: a status that isn't buy, bought, reused or supplied",
-     first_line(lambda ln: ln.update(status="bough")), "has status = 'bough'"),
-    ("materials: a line with no quantity", first_line(lambda ln: ln.pop("n")), "has no 'n'"),
-    ("materials: a line naming a group that doesn't exist",
-     first_line(lambda ln: ln.update(group="kitchen")), "names group 'kitchen', which is not one of its groups"),
     ("materials: a reused item with a price", make("reused", price=10), "is reused, so it has no price"),
     ("materials: still to buy with no price", no_price_test),
     ("materials: the list is in sections by group", {},
      built(lambda p: f"| **{p.materials.groups[0].th} / {p.materials.groups[0].en}** |")),
     ("materials: in a group, what is still to buy comes before what is on site", {}, built(buy_before_on_site)),
-    ("keys: a typo in an entry (sku written as skuu)",
-     lambda: (*first_with("sku", lambda e: e.update(skuu=e.pop("sku")))(), "unknown key 'skuu'")),
-    ("materials: a shop the file doesn't define",
-     lambda: (*first_with("shop", lambda e: e.update(shop="lazada"))(), "has shop = 'lazada'")),
     ("materials: an SKU that isn't the shop's kind of code", sku_test),
     ("materials: the link is built from shop and SKU", {},
-     built(lambda p: next(f"]({ln.entry.link})<br>{ln.entry.shop.name} {ln.entry.sku}"
+     built(lambda p: next(f"]({ln.entry.link})<br>{ln.entry.shop.th} / {ln.entry.shop.en} {ln.entry.sku}"
                           for ln in p.materials.lines if ln.entry.sku))),
-    ("materials: one takes the singular unit (en_one)", lambda: unit_test(1, "en_one")),
+    ("materials: one takes the singular unit (en)", lambda: unit_test(1, "en")),
     ("materials: more than one takes the plural (en_many)", lambda: unit_test(3, "en_many")),
-    ("materials: a unit that isn't defined",
-     lambda: (*first_with("unit", lambda e: e.update(unit="sack"))(), "has unit = 'sack'")),
-    ("types: approx written as text", {MATERIALS: data(lambda d: d["entry"][0].update(approx="yes"))},
-     "'approx' must be true or false"),
     ("materials: a supplied item shows who brings it",
      make("supplied", by=("ช่าง-TEST", "BRINGER-TEST")), "| ช่าง-TEST / BRINGER-TEST |"),
     ("materials: a supplied item with a price", make("supplied", by=("ช่าง", "trade"), price=10),
      "is supplied, so it has no price"),
-    ("materials: a supplied item with nobody to bring it", make("supplied"), "has no 'by_th'"),
+    ("materials: a supplied item with nobody to bring it", make("supplied"), "so it needs by_th and by_en"),
     # ---- phases.toml ----
     ("phases: the steps are numbered", {}, built(lambda p: f"| {p.work.phases[0].steps[0].number} |")),
     ("phases: a reference resolves to its number", lambda: ref_test(insert=False)),
@@ -373,14 +355,10 @@ TESTS = [
      first_step(lambda s: s.update(en=s["en"] + " {rule:min_clear}")), "{rule:min_clear} doesn't match"),
     ("phases: a reference to an id that doesn't exist",
      first_step(lambda s: s.update(en=s["en"] + " {step:no_such_step}")), "{step:no_such_step} doesn't match"),
-    ("keys: a typo in a step", first_step(lambda s: s.update(eng=s.pop("en"))), "unknown key 'eng'"),
-    ("phases: the same step id twice", duplicate_step_test),
     # ---- the template ----
     ("document: each part's section goes where its marker is", {}, built(lambda p: p.work.render()[0])),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    ("notes: a note in one language only",
-     {PHASES: data(lambda d: d["section"].pop("note_en"))}, "has a note in one language only"),
     ("materials: the prices date reaches the section note",
      {MATERIALS: data(lambda d: d.update(prices_date=datetime.date(2030, 1, 2)))}, "02/01/2030"),
     ("materials: a group's note shows under its heading",
