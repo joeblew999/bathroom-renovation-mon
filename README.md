@@ -64,8 +64,8 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | File | Holds |
 |---|---|
 | `phases.toml` | The work: phases and steps, in prose for the builder |
-| `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
-| `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor (with its fall) and the four walls (each with its waterproofing height) in order round the room, each with its items; the norms the design checks use, each with its source; the drawings' wording and marks |
+| `materials.toml` | Every product once — its name and detail in Thai and English, its size, whether it's electrical and its IP rating, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
+| `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door (which end it's hinged at, and whether it opens in or out) and lintel; the tiles; the floor (its drain, and its fall on each side of the step) and the four walls (each with its waterproofing height; the shower zone has its own) in order round the room, each with its items, the shower head among them; the norms the design checks use, each with its source; the drawings' wording and marks |
 | `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
 | `room_design_checks.py`, `materials_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities (see Checks) |
 | `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
@@ -113,10 +113,11 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
    - Every check has a test; `mise run test` lists them.
 10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too. When a source changes, the figure can be checked again; a norm without its source stops the build.
+   - A value not yet known for real — still to be measured on site, or read off a product's label — is marked as assumed: its key goes in the entry's `assumed` list (`assumed = ["x", "y"]`). It is a stand-in until the real figure replaces it, and then it comes off the list.
 
 ## Checks
 
-Every check is one of two kinds, and they never mix: a **data check** asks whether a data file is written correctly; a **design check** asks whether the bathroom it describes is well designed.
+Every check is one of two kinds, and they never mix: a **data check** asks whether a data file is written correctly; a **design check** asks whether the bathroom it describes is well designed. Apart from both, the build warns of every assumed value (see Assumed values).
 
 ### Data checks
 
@@ -128,7 +129,7 @@ A data file written wrongly: a missing or misspelt field, an id that points at n
 
 The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design. There are two aspects, each in its own file, named for the part it checks:
 
-- **The room** — `room_design_checks.py`, beside `room.toml` and `room.py`: setting out and clashes — every item set out where it belongs and fits, clear of the tile joints, not clashing with another item or sitting in an opening; clearances and heights — enough space in front of each fitting, the basin rim at its height; wet areas — electrical items rated for the zone round the shower, the shower walls waterproofed high enough, the floor falling to the drain.
+- **The room** — `room_design_checks.py`, beside `room.toml` and `room.py`: setting out and clashes — every item set out where it belongs and fits, clear of the tile joints, not clashing with another item or sitting in an opening; clearances and heights — enough space in front of each fitting, clear of the door's swing when it opens in, the basin rim at its height; wet areas — every electrical item in the zones round the shower head with an IP rating recorded and high enough, the shower zone waterproofed high enough, the floor's wet side falling enough to the drain, and the drain on the wet (low) side of the step.
 - **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials list — whether enough is ordered.
 
 The phases have no design checks. Each design-checks file lists its checks at the top.
@@ -137,6 +138,10 @@ How a design problem is reported:
 - A design check never raises `DataError`. It returns a design problem: a note for the architect, in Thai and English — where, what, the rule, what to do — worded by a label in the part's `[labels]`.
 - `mise run build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count.
 - `mise run ci` refuses any design problem, so neither `mise run publish` nor GitHub publishes it.
+
+### Assumed values
+
+A value marked as assumed (rule 10) is neither bad data nor a design problem: the design checks use it as written, so the room is checked as if it were true. `mise run build`, `mise run summary` and `mise run ci` print each one as `ASSUMED`, with where it is and its value, and the count — a warning: it doesn't stop `mise run ci` or publishing. The owner measures each one on site, the real figure replaces it, and its key comes off the `assumed` list; a design problem the real figure brings out then shows like any other.
 
 ### Placing a new check
 

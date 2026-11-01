@@ -25,7 +25,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import (NAME, NAMED, DataError, Labels, both, check, check_each, cli, heading, md_cell, named,
+from common import (NAME, NAMED, DataError, Labels, assumed, both, check, check_each, cli, heading, md_cell, named,
                     note, note_cell, placeholders, read_toml)
 
 FILE = "materials.toml"
@@ -38,9 +38,9 @@ SHOP = {"id": "text!", **NAME, "sku": "text!", "link": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
 TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
-ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole", "ip": "text",
-         "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
-         "line": "list!"}
+ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole", "electrical": "flag",
+         "ip": "text", "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
+         "assumed": "list", "line": "list!"}
 LINE = {"work_section": "@work_section!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
         "by_th": "text", "by_en": "text"}
 SIZE_KEYS = ("w", "h", "d")
@@ -107,6 +107,7 @@ class Product:
     h: float = None
     d: float = None
     per_box: int = None  # tiles in a box (tiles only)
+    electrical: bool = False  # it is electrical (the electrical zones round the shower apply to it)
     ip: str = None       # its ingress protection rating, from its product page ("IP44"): electrical products
 
     def size(self):
@@ -176,6 +177,7 @@ class Materials:
     labels: Labels
     symbols: dict        # the marks on the list (materials.toml [symbols])
     round_approx: int    # an approximate total is rounded to this
+    assumed: tuple = ()  # [(where, key, value)]: values not yet known for real (README rule 10)
 
     def in_order(self, section):
         """The lines of one work section as the list shows them: by status, then file order."""
@@ -272,12 +274,13 @@ def load(path):
     units = {e["id"]: Unit(**e) for e in check_each(FILE, "unit", raw["unit"], UNIT)}
     work_sections = tuple(WorkSection(e["id"], *named(e)) for e in check_each(FILE, "work section", raw["work_section"], WORK_SECTION))
     known = {"shop": shops, "unit": units, "work_section": [g.id for g in work_sections], "status": STATUSES}
-    lines = []
+    lines, guesses = [], []
     for e in check_each(FILE, "product", raw["entry"], ENTRY, known):
+        guesses += assumed(e, f"{FILE} product '{e['id']}'")
         entry = _entry(e, shops, units)
         where = f"product '{e['id']}'"
         lines += [_line(u, entry, where) for u in check_each(FILE, f"{where} line", e["line"], LINE, known)]
-    return Materials(section, work_sections, tuple(lines), labels, raw["symbols"], raw["round_approx"])
+    return Materials(section, work_sections, tuple(lines), labels, raw["symbols"], raw["round_approx"], tuple(guesses))
 
 
 def _section(raw, labels):
@@ -300,7 +303,7 @@ def _product(e, where):
     for field in TEXT_KEYS:
         placeholders(FILE, f"{where} {field}", e[field], tuple(fill))
     return Product(e["id"], *(e[k].format(**fill) for k in TEXT_KEYS), *(size.get(k) for k in SIZE_KEYS),
-                   e.get("per_box"), e.get("ip"))
+                   e.get("per_box"), e.get("electrical", False), e.get("ip"))
 
 
 def _entry(e, shops, units):

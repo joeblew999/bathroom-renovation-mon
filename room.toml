@@ -23,6 +23,8 @@ wall = "new_wall"
 
 [door]                     # beside the column: the opening is its product's size
 product = "door_frame"
+hinge = "start"            # the end of the opening the leaf is hinged at: start (the column side) or end
+swing = "in"               # in: the leaf opens into the room; out: out of it
 
 [lintel]                   # over the door opening; its height is its product's
 product = "lintel"
@@ -62,13 +64,19 @@ fill = "#f1f1ee"
 #   high       a step: which end is higher — start (x = 0) or end
 #   fitting    a services point or fixing: the id of the fitting it serves (it must sit within it)
 #   note_th, note_en   why or how — never where: a note doesn't repeat what the drawing shows
+#   waterproofing      a zone only: waterproofed up to this height within it
+#   assumed    the keys above whose values are assumed, not yet known for real (README rule 10);
+#              mise run summary lists every one, to be replaced by the real figure
 # Leave a key out when it does not apply.
 
 # ---------- the floor ----------
 [floor]                    # ref: its letter on the floor plan (F1, F2 …) · tile: which tile it gets
 ref = "F"
 tile = "grey"
-fall = 100                 # the floor falls 1 in 100 to the drain
+drain = "drain"            # the floor item the floor falls to
+fall_wet = 100             # the wet (low) side of the step falls 1 in this to the drain
+fall_dry = 100             # the dry (high) side falls 1 in this towards the step
+assumed = ["fall_wet", "fall_dry"]
 
 [[floor.item]]
 id = "drain"
@@ -91,7 +99,7 @@ note_en = "the higher side stays dry; the lower side takes the shower water"
 
 # ---------- the walls, in order round the room ----------
 # Each wall: id, th, en, ref (its letter on the floor plan), tile (which tile it gets), waterproofing
-# (waterproofed up to this height), elevation
+# (waterproofed up to this height; higher within the shower zone, by the zone's own), elevation
 # (true: it gets an elevation drawing; a wall with items must have one), then its items.
 [[wall]]
 id = "main_wall"
@@ -194,6 +202,8 @@ shape = "zone"
 x = 2450
 w = 1100
 
+waterproofing = 1800       # within the zone, on every wall it reaches
+assumed = ["waterproofing"]
 [[wall.item]]
 id = "shower"
 product = "shower"
@@ -224,6 +234,15 @@ note_th = "ระยะห่างตามชุดฝักบัว"
 note_en = "the unit's own fixing spacing"
 
 [[wall.item]]
+id = "shower_head"
+th = "หัวฝักบัว"
+en = "Shower head"
+shape = "point"
+x = 2500
+y = 2080
+fitting = "shower"
+assumed = ["x", "y"]       # taken as the top of the shower rail: measure the real head
+[[wall.item]]
 id = "heater"
 product = "heater"
 shape = "rect"
@@ -249,7 +268,7 @@ th = "ผนังยาวตรงข้าม"
 en = "Opposite long wall"
 ref = "O"
 tile = "white"
-waterproofing = 1800
+waterproofing = 300
 elevation = false
 
 
@@ -259,7 +278,7 @@ th = "ผนังหน้าต่าง"
 en = "Window wall"
 ref = "W"
 tile = "white"
-waterproofing = 1800
+waterproofing = 300
 elevation = true
 
 [[wall.item]]
@@ -332,7 +351,7 @@ checked = 2026-11-01
 id = "zone_1_reach"
 th = "ระยะโซนไฟฟ้า 1"
 en = "reach of electrical zone 1"
-item = "shower"
+item = "shower_head"
 value = 1200
 standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): a shower without a basin — zone 1 reaches 1.20 m from the centre of the water outlet"
 url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
@@ -342,7 +361,7 @@ checked = 2026-11-01
 id = "zone_2_reach"
 th = "ระยะโซนไฟฟ้า 2 ถัดจากโซน 1"
 en = "reach of electrical zone 2, beyond zone 1"
-item = "shower"
+item = "shower_head"
 value = 600
 standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): zone 2 reaches 0.6 m beyond zone 1"
 url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
@@ -352,7 +371,7 @@ checked = 2026-11-01
 id = "zone_height"
 th = "ความสูงโซนไฟฟ้า"
 en = "height of the electrical zones"
-item = "shower"
+item = "shower_head"
 value = 2250
 standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): up to 2.25 m above the finished floor, or the highest fixed shower head if higher"
 url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
@@ -422,10 +441,13 @@ warn_lintel_short = { th = "{wall}: คานทับหลัง ({lintel}) �
 warn_clearance = { th = "{wall}, {item}: ด้านหน้ามีที่ว่างเพียง {clear} มม. — ต้องเหลืออย่างน้อย {need} มม. จึงจะใช้งานได้ วางตำแหน่งใหม่ หรือเลือกรุ่นที่ยื่นน้อยกว่า", en = "{wall}, {item}: only {clear} mm clear in front of it — keep at least {need} mm so it can be used; set it out again or choose a shallower fitting" }
 warn_rim_height = { th = "{wall}, {item}: ขอบบนวางตำแหน่งที่ {rim} มม. จากพื้น — ควรอยู่ระหว่าง {low} ถึง {high} มม.", en = "{wall}, {item}: its rim is set out {rim} mm above the floor — keep it between {low} and {high} mm" }
 warn_zone_ip = { th = "{wall}, {item}: อยู่ในโซนไฟฟ้า {zone} รอบฝักบัว แต่มีระดับกันน้ำ {ip} — อุปกรณ์ไฟฟ้าในโซนนี้ต้องเป็น IPX{need} ขึ้นไป ย้ายให้ห่างออกไป หรือเลือกรุ่นที่กันน้ำได้", en = "{wall}, {item}: in electrical zone {zone} round the shower, but rated {ip} — anything electrical there must be IPX{need} or better; set it out further away or choose a rated fitting" }
-warn_waterproofing = { th = "{wall}: กันซึมสูง {height} มม. แต่เป็นผนังส่วนอาบน้ำ ({zone}) — ต้องกันซึมสูงอย่างน้อย {need} มม.", en = "{wall}: waterproofed to {height} mm, but it is a shower wall ({zone}) — waterproof it to at least {need} mm" }
+warn_zone_no_ip = { th = "{wall}, {item}: เป็นอุปกรณ์ไฟฟ้าในโซน {zone} รอบหัวฝักบัว แต่ยังไม่ได้บันทึกระดับกันน้ำ (IP) — ดูที่ฉลากแล้วบันทึกไว้", en = "{wall}, {item}: electrical, in zone {zone} round the shower head, but no IP rating is recorded — read it off its label and record it" }
+warn_clearance_door = { th = "{wall}, {item}: บานประตู {door} เปิดกวาดเข้ามาในที่ว่างด้านหน้า — วางตำแหน่งใหม่ หรือเปลี่ยนทิศการเปิดประตู", en = "{wall}, {item}: the door {door} swings into the clear space in front of it — set it out again, or change how the door opens" }
+warn_waterproofing = { th = "{zone}: กันซึมสูง {height} มม. — ผนังส่วนอาบน้ำต้องกันซึมสูงอย่างน้อย {need} มม.", en = "{zone}: waterproofed to {height} mm — the shower walls must be waterproofed to at least {need} mm" }
 warn_fall = { th = "พื้นลาดเอียง 1:{fall} สู่ท่อระบายน้ำ — ต้องลาดอย่างน้อย 1:{need}", en = "the floor falls 1:{fall} to the drain — make it at least 1:{need}" }
-waterproofing_line = { th = "กันซึม: ทั้งพื้น · ผนัง {walls} มม.", en = "Waterproofing: the whole floor · walls {walls} mm" }
-fall_line = { th = "พื้นลาดเอียง 1:{fall} สู่ท่อระบายน้ำ", en = "The floor falls 1:{fall} to the drain" }
+warn_drain_side = { th = "{drain} อยู่ด้านสูง (ด้านแห้ง) ของ{step} — ท่อระบายน้ำต้องอยู่ด้านต่ำที่รับน้ำจากฝักบัว", en = "{drain} is on the high (dry) side of {step} — the drain must be on the low side, which takes the shower water" }
+waterproofing_line = { th = "กันซึม: ทั้งพื้น · ผนัง {walls} มม. · ในส่วนอาบน้ำ {zone} มม.", en = "Waterproofing: the whole floor · walls {walls} mm · in the shower zone {zone} mm" }
+fall_line = { th = "พื้นลาดเอียง 1:{wet} สู่ท่อระบายน้ำด้านอาบน้ำ · 1:{dry} เข้าหาขั้นพื้นด้านแห้ง", en = "The floor falls 1:{wet} to the drain on the shower side · 1:{dry} towards the step on the dry side" }
 
 # The marks on the drawings — the same in both languages, so one value each.
 [symbols]

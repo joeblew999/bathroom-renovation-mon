@@ -36,6 +36,7 @@
 #              single figure that isn't a dimension — a weight, a volume, a stock length, an inch
 #              trade size — stays in the detail ("50 kg", "4 m", "½\"")
 #   per_box    tiles in a box (tiles only)
+#   electrical true for an electrical product (the electrical zones round the shower apply to it)
 #   ip         electrical products: the ingress protection rating on its product page ("IP44"; the
 #              second digit is the protection against water). Its detail shows it with {ip}.
 #   unit       the id of its unit, shown after the quantity
@@ -43,6 +44,8 @@
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   shop, sku  where it is bought and its product code, together; the link is made from them
 #              (not for existing or by_trade products)
+#   assumed    the keys above whose values are assumed, not yet known for real (README rule 10);
+#              mise run summary lists every one, to be replaced by the real figure
 # and one [[entry.line]] for each line it takes on the list:
 #   work_section  the id of a work section (things used all over go under whole_room)
 #   status     "procure"  — still to procure (buy)
@@ -811,6 +814,7 @@ detail_th = "HAVSDUN LED แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม
 en = "IKEA wall lamp"
 detail_en = "HAVSDUN LED, frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, {ip}, 690 lumens"
 size = { w = 92, h = 265, d = 106 }
+electrical = true
 ip = "IP44"
 unit = "lamp"
 price = 1290
@@ -871,7 +875,10 @@ detail_th = "{w_cm} × {h_cm} × {d_cm} ซม. พร้อมกล่อง�
 en = "Water heater"
 detail_en = "{w_cm} × {h_cm} × {d_cm} cm, with its electrical box, cable and circuit breaker"
 size = { w = 220, h = 400, d = 100 }
+electrical = true
+ip = "IPX4"
 unit = "appliance"
+assumed = ["ip"]           # an existing heater: its rating isn't known — read it off its label
   [[entry.line]]
   work_section = "shower_heater"
   status = "existing"

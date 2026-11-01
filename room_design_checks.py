@@ -17,10 +17,13 @@ The checks, each worded by its label in room.toml:
   - the door too wide to fit beside the column                               warn_door_fit
   - the lintel shorter than the door and its bearing                         warn_lintel_short
   - too little clear space in front of a fitting (norms wc_clearance, basin_clearance)     warn_clearance
+  - the door swinging into the clear space in front of a fitting                           warn_clearance_door
   - the basin rim set out too low or too high (basin_rim_min, basin_rim_max)               warn_rim_height
-  - something electrical in zone 1 or 2 round the shower, not rated for it (zone_…)       warn_zone_ip
-  - a shower wall waterproofed too low (shower_wall_waterproofing)                         warn_waterproofing
-  - the floor falling too little to the drain (floor_fall)                                 warn_fall
+  - something electrical in zone 1 or 2 round the shower head, not rated for it (zone_…)  warn_zone_ip
+  - something electrical there with no IP rating recorded                                  warn_zone_no_ip
+  - the shower zone waterproofed too low (shower_wall_waterproofing)                       warn_waterproofing
+  - the wet side of the floor falling too little to the drain (floor_fall)                 warn_fall
+  - the drain on the dry (high) side of the floor step                                     warn_drain_side
 
 The norms (room.toml [[norm]]) give each value, with where it comes from and when that was checked.
 
@@ -54,7 +57,7 @@ def wall_warnings(room, wall):
     t = room.tiles[wall.tile]
     return (_construction_warnings(room, wall) + _joint_warnings(room, wall, t.size, t.tiling_height)
             + _clash_warnings(room, wall) + _part_warnings(room, wall) + _clearance_warnings(room, wall)
-            + _rim_warnings(room, wall) + _zone_warnings(room, wall) + _waterproofing_warnings(room, wall))
+            + _rim_warnings(room, wall) + _zone_warnings(room, wall))
 
 
 def _name(wall):
@@ -71,9 +74,13 @@ def floor_warnings(room):
             out.append(_warn(room, "warn_set_out_off_floor", item=it.label(), length=f"{room.length:g}",
                              width=f"{room.width:g}"))
     need = room.norms["floor_fall"].value
-    if room.floor_fall > need:                       # 1 in a larger number is flatter
-        out.append(_warn(room, "warn_fall", fall=f"{room.floor_fall:g}", need=f"{need:g}"))
-    return out
+    if room.floor_fall_wet > need:                   # 1 in a larger number is flatter
+        out.append(_warn(room, "warn_fall", fall=f"{room.floor_fall_wet:g}", need=f"{need:g}"))
+    drain = next((it for it in room.floor if it.id == room.floor_drain), None)
+    step = next((it for it in room.floor if it.shape == "step"), None)
+    if drain and step and (drain.x < step.x if step.high == "start" else drain.x > step.x):
+        out.append(_warn(room, "warn_drain_side", drain=drain.label(), step=step.label()))
+    return out + _waterproofing_warnings(room)
 
 
 def _construction_warnings(room, wall):
@@ -199,7 +206,23 @@ def _clearance_warnings(room, wall):
         if clear < n.value:
             out.append(_warn(room, "warn_clearance", wall=_name(wall), item=it.label(), clear=f"{clear:g}",
                              need=f"{n.value:g}"))
+        door = _door_in(room, wall, it, n.value)
+        if door:
+            out.append(_warn(room, "warn_clearance_door", wall=_name(wall), item=it.label(), door=door.label()))
     return out
+
+
+def _door_in(room, wall, it, depth):
+    """The door, if it opens into the room and its swing — a quarter circle of its width, from its hinge — reaches
+    into the clear space `depth` deep in front of `it`; else None."""
+    dwall, door = next(((w, i) for w in room.walls.values() for i in w.items if i.shape == "door"), (None, None))
+    if not door or room.door_swing != "in":
+        return None
+    hx, hy = floor_point(room, dwall, door.x + (-1 if room.door_hinge == "start" else 1) * door.w / 2)
+    corners = [floor_point(room, wall, x, d) for x in (it.x - it.w / 2, it.x + it.w / 2) for d in (it.d, it.d + depth)]
+    xs, ys = [c[0] for c in corners], [c[1] for c in corners]
+    nx, ny = min(max(hx, min(xs)), max(xs)), min(max(hy, min(ys)), max(ys))     # the clear space's nearest point
+    return door if ((nx - hx) ** 2 + (ny - hy) ** 2) ** 0.5 < door.w else None
 
 
 def _rim_warnings(room, wall):
@@ -221,8 +244,8 @@ def _ip_water(ip):
 
 
 def _zone_warnings(room, wall):
-    """Electrical items (those with an IP rating) inside zone 1 or 2 round the shower outlet, below the zones'
-    height, rated at least the norm's water protection."""
+    """Electrical items inside zone 1 or 2 round the shower head, below the zones' height: each rated at least the
+    norm's water protection, and with a rating recorded at all."""
     n1, n2, nh, nip = (room.norms[k] for k in ("zone_1_reach", "zone_2_reach", "zone_height", "zone_ip_water"))
     owall, outlet = _find(room, n1.item)
     if not outlet:
@@ -231,41 +254,27 @@ def _zone_warnings(room, wall):
     top = max(nh.value, outlet.y + (outlet.h or 0) / 2)
     out = []
     for it in wall.items:
-        if not it.ip:
+        if not it.electrical:
             continue
         x, y = floor_point(room, wall, it.x)
         reach = ((x - ox) ** 2 + (y - oy) ** 2) ** 0.5
         bottom = (it.y or 0) - (it.h or 0) / 2
         if reach > n1.value + n2.value or bottom >= top:
             continue
-        if _ip_water(it.ip) < nip.value:
-            out.append(_warn(room, "warn_zone_ip", wall=_name(wall), item=it.label(), zone="1" if reach <= n1.value else "2",
-                             ip=it.ip, need=f"{nip.value:g}"))
+        zone = "1" if reach <= n1.value else "2"
+        if not it.ip:
+            out.append(_warn(room, "warn_zone_no_ip", wall=_name(wall), item=it.label(), zone=zone))
+        elif _ip_water(it.ip) < nip.value:
+            out.append(_warn(room, "warn_zone_ip", wall=_name(wall), item=it.label(), zone=zone, ip=it.ip,
+                             need=f"{nip.value:g}"))
     return out
 
 
-def _shower_walls(room):
-    """The ids of the walls the wet zone touches: its own, the walls at its ends if it reaches them, and the
-    opposite wall if it runs right across the room."""
+def _waterproofing_warnings(room):
+    """The shower zone waterproofed up to at least its norm."""
     n = room.norms["shower_wall_waterproofing"]
-    zwall, zone = _find(room, n.item)
-    if not zone:
-        return set(), None
-    walls, order = {zwall.id}, list(room.walls)
-    if zone.x - zone.w / 2 <= 0:
-        walls.add(zwall.right)
-    if zone.x + zone.w / 2 >= zwall.length:
-        walls.add(zwall.left)
-    if zone.d is not None and zone.d >= (room.width if zwall.along_room else room.length):
-        walls.add(order[(order.index(zwall.id) + 2) % len(order)])
-    return walls, zone
-
-
-def _waterproofing_warnings(room, wall):
-    """A wall the wet zone touches is waterproofed at least to its norm."""
-    n = room.norms["shower_wall_waterproofing"]
-    walls, zone = _shower_walls(room)
-    if wall.id not in walls or wall.waterproofing >= n.value:
+    _, zone = _find(room, n.item)
+    if not zone or (zone.waterproofing or 0) >= n.value:
         return []
-    return [_warn(room, "warn_waterproofing", wall=_name(wall), height=f"{wall.waterproofing:g}", need=f"{n.value:g}",
-                  zone=zone.label())]
+    return [_warn(room, "warn_waterproofing", zone=zone.label(), height=f"{zone.waterproofing or 0:g}",
+                  need=f"{n.value:g}")]

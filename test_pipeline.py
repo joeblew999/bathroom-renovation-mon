@@ -738,7 +738,7 @@ def zone_items():
     out = []
     for w in r.walls.values():
         for it in w.items:
-            if it.ip:
+            if it.electrical:
                 x, y = room_design_checks.floor_point(r, w, it.x)
                 out.append((w, it, ((x - ox) ** 2 + (y - oy) ** 2) ** 0.5))
     return sorted(out, key=lambda t: t[2])
@@ -772,21 +772,107 @@ def outside_zones_test():
     return {MATERIALS: data(lambda d: by_id(d["entry"], pid).update(ip="IP21"))}, built(expect)
 
 
+def item_raw(d, iid):
+    """An item as written in room.toml, on whichever wall it is."""
+    return find([i for w in d["wall"] for i in w.get("item", [])], f"item '{iid}'", lambda i: i["id"] == iid)
+
+
 def waterproofing_test():
-    """A wall the wet zone touches, waterproofed lower than its norm."""
+    """The shower zone waterproofed lower than its norm."""
     r = real().room
     n = r.norms["shower_wall_waterproofing"]
-    walls, zone = room_design_checks._shower_walls(r)
-    w = find([r.walls[i] for i in r.walls if i in walls], "shower wall")
-    return ({ROOM: data(lambda d: by_id(d["wall"], w.id).update(waterproofing=n.value - 1))},
-            warn("warn_waterproofing", wall=wall_name(w), height=f"{n.value - 1:g}", need=f"{n.value:g}", zone=zone.label()))
+    _, zone = room_design_checks._find(r, n.item)
+    return ({ROOM: data(lambda d: item_raw(d, zone.id).update(waterproofing=n.value - 1))},
+            warn("warn_waterproofing", zone=zone.label(), height=f"{n.value - 1:g}", need=f"{n.value:g}"))
 
 
 def fall_test():
-    """The floor falling less than its norm: 1 in twice the norm."""
+    """The wet side of the floor falling less than its norm: 1 in twice the norm."""
     need = real().room.norms["floor_fall"].value
-    return ({ROOM: data(lambda d: d["floor"].update(fall=need * 2))},
+    return ({ROOM: data(lambda d: d["floor"].update(fall_wet=need * 2))},
             warn("warn_fall", fall=f"{need * 2:g}", need=f"{need:g}"))
+
+
+def zone_no_ip_test():
+    """Something electrical in a zone round the shower, with no IP rating recorded on its product."""
+    r = real().room
+    inside = r.norms["zone_1_reach"].value + r.norms["zone_2_reach"].value
+    raw = {i["id"]: i for w in RAW[ROOM]["wall"] for i in w.get("item", [])}
+    w, it, reach = find(zone_items(), "electrical item inside zone 2 whose detail doesn't show its rating",
+                        lambda t: t[2] <= inside and "{ip}" not in by_id(RAW[MATERIALS]["entry"], raw[t[1].id]["product"])["detail_en"])
+    pid = raw[it.id]["product"]
+
+    def change(e):
+        e.pop("ip")
+        if "assumed" in e:
+            e["assumed"] = [k for k in e["assumed"] if k != "ip"]
+            if not e["assumed"]:
+                e.pop("assumed")
+    zone = "1" if reach <= r.norms["zone_1_reach"].value else "2"
+    return ({MATERIALS: data(lambda d: change(by_id(d["entry"], pid)))},
+            warn("warn_zone_no_ip", wall=wall_name(w), item=it.label(), zone=zone))
+
+
+def door_swing_test():
+    """The door swinging into a fitting's clear space: the basin's clear space made as deep as the room."""
+    r = real().room
+    n = r.norms["basin_clearance"]
+    w, it = room_design_checks._find(r, n.item)
+    deep = norm_edit(n.id, value=max(r.width, r.length))[ROOM]
+    opens_in = data(lambda d: d["door"].update(swing="in"))
+    return ({ROOM: lambda t: opens_in(deep(t))},
+            warn("warn_clearance_door", wall=wall_name(w), item=it.label(), door=construction_item("door").label()))
+
+
+def no_door_problem(edits):
+    """`edits` leave no door-swing problem, even with the basin's clear space as deep as the room."""
+    r = real().room
+    deep, want = door_swing_test()
+    marker = r.labels.en("floor_plan")
+
+    def expect(p):
+        return marker if want not in "\n".join(en for _, (_, en) in p.warnings) else f"(still: {want})"
+    return {ROOM: lambda t: edits(deep[ROOM](t))}, built(expect)
+
+
+def door_swing_out_test():
+    """A door opening out of the room never swings into a clear space."""
+    return no_door_problem(data(lambda d: d["door"].update(swing="out")))
+
+
+def drain_side_test():
+    """The drain moved to the high (dry) side of the floor step."""
+    r = real().room
+    drain = find(r.floor, "the floor drain", lambda i: i.id == r.floor_drain)
+    step = find(r.floor, "floor step", lambda i: i.shape == "step")
+    x = step.x / 2 if step.high == "start" else (step.x + r.length) / 2
+    return ({ROOM: data(lambda d: find(d["floor"]["item"], "drain", lambda i: i["id"] == drain.id).update(x=x))},
+            warn("warn_drain_side", drain=drain.label(), step=step.label()))
+
+
+def assumed_missing_test():
+    """An item listing as assumed a key it doesn't have."""
+    e = find(wall_raw()["item"], "item without a y", lambda i: "y" not in i)
+    return edit_item(lambda i: i["id"] == e["id"], "item", lambda i: put(i, "assumed", ["y"], room.ITEM)), \
+        f"item '{e['id']}' lists 'y' as assumed, but has no 'y'"
+
+
+def waterproofing_not_zone_test():
+    """Waterproofing given to an item that isn't a zone."""
+    e = find(wall_raw()["item"], "item that isn't a zone", lambda i: i.get("shape") != "zone")
+    return edit_item(lambda i: i["id"] == e["id"], "item", lambda i: put(i, "waterproofing", 1000, room.ITEM)), \
+        f"item '{e['id']}' has waterproofing, but only a zone has its own"
+
+
+def assumed_listed_test():
+    """A value marked as assumed is listed by the build, with its value."""
+    e = find(wall_raw()["item"], "item with an x and nothing assumed", lambda i: "x" in i and "assumed" not in i)
+
+    def expect(p):
+        want = (e["id"], "x", e["x"])
+        got = [(w, k, v) for w, k, v in build.assumed(p) if e["id"] in w and k == "x"]
+        return p.room.labels.en("floor_plan") if got and got[0][2] == want[2] else f"(assumed values listed: {build.assumed(p)})"
+    return edit_item(lambda i: i["id"] == e["id"], "item", lambda i: put(i, "assumed", ["x"], room.ITEM)), built(expect)
 
 
 def ip_in_detail_test():
@@ -911,13 +997,22 @@ TESTS = [
     ("room design: electrical items rated low are fine outside the zones", outside_zones_test),
     ("room design: a shower wall waterproofed too low", waterproofing_test),
     ("room design: the floor falling too little to the drain", fall_test),
+    ("room design: something electrical in a zone round the shower, with no IP rating", zone_no_ip_test),
+    ("room design: the door swinging into a fitting's clear space", door_swing_test),
+    ("room design: a door opening out never swings into a clear space", door_swing_out_test),
+    ("room design: the drain on the dry side of the floor step", drain_side_test),
     # ---- materials design (materials_design_checks.py): quantities, the take-off against the materials list ----
     ("materials design: a tile-box shortage shows on the floor plan", take_off_short_on_plan_test),
     ("materials design: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
     ("design problems: every design problem's lines fit inside its drawing", problems_fit_test),
     ("design problems: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
+    ("assumed values: each is listed by the build, with its value", assumed_listed_test),
     # ---- the room: bad data ----
+    ("room: a value marked as assumed that isn't there", assumed_missing_test),
+    ("room: waterproofing on an item that isn't a zone", waterproofing_not_zone_test),
+    ("room: the floor's drain isn't a floor item",
+     {ROOM: data(lambda d: d["floor"].update(drain="no_such_item"))}, "[floor] drain 'no_such_item' isn't a floor item"),
     ("room: a norm without its source", {ROOM: data(lambda d: find(d["norm"], "norm").pop("url"))}, "has no 'url'"),
     ("room: a norm a design check needs, missing",
      lambda: ({ROOM: data(lambda d: d.update(norm=[n for n in d["norm"] if n["id"] != room.NORMS[-1]]))},

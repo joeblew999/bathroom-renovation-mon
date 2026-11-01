@@ -112,14 +112,14 @@ def pdf(page_html, out):
 
 
 def build(md, out_dir):
-    """Run the whole pipeline. Returns the design problems. Raises DataError on bad data
+    """Run the whole pipeline. Returns (the design problems, the assumed values). Raises DataError on bad data
     (before anything is written)."""
     q = assemble(md)
     page = html(q.doc, q.svgs)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(page, encoding="utf-8")
     pdf(page, out_dir / PDF_NAME)
-    return q.warnings
+    return q.warnings, assumed(q)
 
 
 def summary(md):
@@ -128,13 +128,30 @@ def summary(md):
     print("\n".join(tile_lines(q.room, q.tiles)))
     print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
     print_warnings(q.warnings)
+    print_assumed(assumed(q))
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
-          f"{problems(q.warnings)}")
+          f"{problems(q.warnings)} · {values(assumed(q))}")
+
+
+def assumed(q):
+    """Every value the data marks as assumed, across the parts: [(where, key, value)] (README rule 10)."""
+    return list(q.room.assumed) + list(q.materials.assumed)
 
 
 def problems(warnings):
     """'0 design problems', '1 design problem', '4 design problems'."""
     return f"{len(warnings)} design problem{'' if len(warnings) == 1 else 's'}"
+
+
+def values(guesses):
+    """'0 assumed values', '1 assumed value', '6 assumed values'."""
+    return f"{len(guesses)} assumed value{'' if len(guesses) == 1 else 's'}"
+
+
+def print_assumed(guesses):
+    """A warning, not a design problem: each value the data marks as assumed, until it is measured on site."""
+    for where, key, value in guesses:
+        print(f"ASSUMED ({where}): {key} = {value!r} — a stand-in; measure or check it on site, then replace it")
 
 
 def print_warnings(warnings):
@@ -152,9 +169,10 @@ def main(argv):
         return
     md = Path(args[0] if args else TEMPLATE)
     out = Path(args[1] if len(args) > 1 else "out")
-    warnings = build(md, out)
+    warnings, guesses = build(md, out)
     print_warnings(warnings)
-    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {problems(warnings)}")
+    print_assumed(guesses)
+    print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {problems(warnings)} · {values(guesses)}")
     if publishable and warnings:
         raise DataError(f"{problems(warnings)}, in red on the drawings in {out / PDF_NAME} — not publishable; "
                         f"fix them first")

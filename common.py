@@ -103,6 +103,9 @@ def check(file, where, entry, fields, known=None, ordered=True):
             raise DataError(f"{file}: {where} '{k}' is empty — leave it out, or give it at least one")
         if partner and partner not in entry:
             raise DataError(f"{file}: {where} has {k} but no {partner} — give both, or neither")
+    for k in entry.get("assumed", []):
+        if k not in entry or k == "assumed":
+            raise DataError(f"{file}: {where} lists '{k}' as assumed, but has no '{k}'")
     for k in entry:
         other = _other_language(k)
         if other in fields and other not in entry:
@@ -125,6 +128,11 @@ def same_facts(file, where, th_key, en_key, th, en):
         if a != b:
             raise DataError(f"{file}: {where} {th_key} and {en_key} have different {what} "
                             f"(Thai: {', '.join(a) or 'none'}; English: {', '.join(b) or 'none'})")
+
+
+def assumed(entry, where):
+    """[(where, key, value)] for every value an entry marks as assumed — not yet known for real (README rule 10)."""
+    return [(where, k, entry[k]) for k in entry.get("assumed", [])]
 
 
 def _other_language(key):
