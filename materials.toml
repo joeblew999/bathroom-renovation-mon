@@ -1217,6 +1217,23 @@ sku = "1109561"
   note_en = "the bonding slurry"
 
 [[entry]]
+id = "primer"
+th = "สีรองพื้นปูนใหม่ TOA"
+detail_th = "EXTRAWET PRIMER EP999 1 แกลลอน ด้าน กันด่าง"
+en = "TOA new-plaster primer"
+detail_en = "EXTRAWET PRIMER EP999, 1 gallon, matt, alkali-resistant"
+unit = "can"
+price = 916.65
+shop = "homepro"
+sku = "1027265"
+  [[entry.line]]
+  work_section = "whole_room"
+  status = "procure"
+  n = 1
+  note_th = "ปูนฉาบใหม่ทุกส่วนที่ทาสี"
+  note_en = "every newly plastered surface to be painted"
+
+[[entry]]
 id = "paint"
 th = "สี"
 detail_th = "สีขาว กึ่งเงา"

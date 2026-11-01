@@ -206,8 +206,8 @@ en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it
 
 [[phase.step]]
 id = "build_out"
-th = "**ผนังเดิมเหนือแนวกระเบื้อง:** ผนังหลัก ผนังยาวตรงข้าม และผนังหน้าต่าง ฉาบเหนือแนวขอบกระเบื้องให้หนาขึ้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง เหมือนผนังใหม่ — ขูดหรือเจียสีเดิมออกจนถึงเนื้อปูนฉาบที่แน่น ราดน้ำให้ชื้น ทาน้ำปูนผสมน้ำยาประสาน (น้ำยาประสาน น้ำ และปูนซีเมนต์ ตามฉลาก) แล้วฉาบชั้นแรกทับขณะน้ำปูนยังเปียก จากนั้นฉาบชั้นที่สองตามไม้บรรทัดที่ตีไว้ที่แนวขอบกระเบื้อง · ร่องท่อและสายไฟเหนือแนวกระเบื้องถูกฉาบทับไปด้วย · ขอบช่องหน้าต่างเหนือแนวกระเบื้องฉาบเสริมให้เสมอกัน"
-en = "**Existing walls above the tiles:** on the main, opposite and window walls, build the face above the tile line out flush with the face the tiles below will finish at, as on the new wall — grind or scrape the old paint off back to sound plaster, wet it, brush on a bonding slurry (bonding agent, water and cement, as on its label), and lay the first coat into it while it is still wet; then a second coat to a straight batten fixed at the tile line · this covers any chase above the tile line too · build the window reveal out above the tile line to match"
+th = "**ผนังเดิมเหนือแนวกระเบื้อง:** ผนังหลัก ผนังยาวตรงข้าม ผนังหน้าต่าง และหน้าเสาเดิมด้านห้องน้ำ ฉาบเหนือแนวขอบกระเบื้องให้หนาขึ้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง เหมือนผนังใหม่ — ขูดหรือเจียสีเดิมออกจนถึงเนื้อปูนฉาบที่แน่น ราดน้ำให้ชื้น ทาน้ำปูนผสมน้ำยาประสาน (น้ำยาประสาน น้ำ และปูนซีเมนต์ ตามฉลาก) แล้วฉาบชั้นแรกทับขณะน้ำปูนยังเปียก จากนั้นฉาบชั้นที่สองตามไม้บรรทัดที่ตีไว้ที่แนวขอบกระเบื้อง · ร่องท่อและสายไฟเหนือแนวกระเบื้องถูกฉาบทับไปด้วย · ขอบช่องหน้าต่างเหนือแนวกระเบื้องฉาบเสริมให้เสมอกัน"
+en = "**Existing walls above the tiles:** on the main, opposite and window walls, and the bathroom face of the existing column, build the face above the tile line out flush with the face the tiles below will finish at, as on the new wall — grind or scrape the old paint off back to sound plaster, wet it, brush on a bonding slurry (bonding agent, water and cement, as on its label), and lay the first coat into it while it is still wet; then a second coat to a straight batten fixed at the tile line · this covers any chase above the tile line too · build the window reveal out above the tile line to match"
 
 [[phase.step]]
 id = "ceiling_joints"
@@ -283,8 +283,8 @@ en = "Paint walls"
 
 [[phase.step]]
 id = "paint"
-th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเหนือแนวกระเบื้องฉาบใหม่ทั้งหมด รอให้ปูนแห้งก่อน) — คลุมพื้นและกระเบื้องก่อน"
-en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls above the tiles are all newly plastered — let the plaster cure first) — cover the floor and tiles first"
+th = "ทาสีผนังส่วนที่ไม่ได้ปูกระเบื้อง ผนังใหม่ด้านห้องนั่งเล่น และเก็บสีฝ้าตรงที่เปื้อน ด้วยสีเดียวกับฝ้า (ผนังเหนือแนวกระเบื้องฉาบใหม่ทั้งหมด) · ก่อนทาสี ทาสีรองพื้นปูนใหม่ชนิดกันด่างบนปูนฉาบใหม่ทุกส่วนที่จะทาสี หลังปูนแห้งตามที่ฉลากสีรองพื้นกำหนด — คลุมพื้นและกระเบื้องก่อน"
+en = "Paint the untiled walls and the living-room face of the new wall, and touch up any marks on the ceiling, with the same paint as the ceiling (the walls above the tiles are all newly plastered) · first prime every newly plastered surface to be painted with an alkali-resistant new-plaster primer, once the plaster has dried as long as the primer's label asks — cover the floor and tiles first"
 
 [[phase]]
 id = "fit_out"
