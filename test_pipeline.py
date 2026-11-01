@@ -158,6 +158,12 @@ MAT_TESTS = [
      "tile = 'gray' is not a tile on the drawings (they have: grey, white)"),
     ("types: approx written as text",
      lambda t: re.sub(r"(?m)^approx = true$", 'approx = "yes"', t, count=1), "'approx' must be true or false"),
+    ("materials: a supplied item shows who brings it", None, "| ช่างไฟนำมา / electrician provides |"),
+    ("materials: a supplied item with a price",
+     lambda t: re.sub(r'(?m)^(status = "supplied"\n(?:.*\n)*?n = \d+\n)', r"\1price = 10\n", t, count=1),
+     "is supplied, so it has no price"),
+    ("materials: a supplied item with nobody to bring it",
+     lambda t: t.replace('by = "electrician"', 'by = "plumber"', 1), "has by = 'plumber'"),
     ("materials: still to buy with no price",
      lambda t: re.sub(r"(?m)^price = 400$\n", "", t, count=1), "is to buy but has no price"),
 ]

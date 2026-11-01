@@ -9,7 +9,7 @@ about the phases or the drawings.
     m.tile_boxes(c)     # how many boxes of one tile colour are on the list
 
 Ordered by exactly two things written in the file: the group (in the order the groups are
-listed), then the status (buy, bought, reused); items with the same group and status keep
+listed), then the status (buy, bought, reused, supplied); items with the same group and status keep
 their order in the file.
 
 Usage:  python3 materials.py [materials.toml]    (prints the material list)
@@ -23,8 +23,10 @@ from common import DataError, flag, md_cell, need, number, only, read_toml
 
 FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
-ITEM_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku"}
-STATUSES = ("buy", "bought", "reused")          # also the order within a group
+ITEM_KEYS = {"group", "status", "name", "note", "n", "price", "unit", "approx", "tile", "shop", "sku", "by"}
+STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
+# Who brings a supplied item: "ไทย / English" as shown in the list.
+SUPPLIERS = {"electrician": "ช่างไฟนำมา / electrician provides"}
 # Where things are bought: the shop's name, what its SKUs look like, and the product page.
 SHOPS = {
     "homepro": ("HomePro", r"\d+", lambda sku: f"https://www.homepro.co.th/p/{sku}"),
@@ -46,7 +48,8 @@ class Material:
     name: str
     note: str
     group: str           # the id of its group
-    status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting)
+    status: str          # "buy" (still to buy), "bought" (on site, paid for), "reused" (old fitting),
+                         # "supplied" (the trade brings it)
     n: float             # how many
     price: float = None  # unit price in baht
     unit: str = ""
@@ -54,6 +57,7 @@ class Material:
     tile: str = None
     shop: str = None     # an id in SHOPS
     sku: str = None      # the shop's product code
+    by: str = None       # who brings a supplied item: an id in SUPPLIERS
 
     @property
     def shop_name(self):
@@ -145,13 +149,19 @@ def _item(it, group_ids):
         flag(FILE, where, "approx", it["approx"])
     if it["status"] == "buy" and "price" not in it:
         raise DataError(f"{FILE}: {where} is to buy but has no price")
-    if it["status"] == "reused" and "price" in it:
-        raise DataError(f"{FILE}: {where} is reused, so it has no price")
+    if it["status"] in ("reused", "supplied") and "price" in it:
+        raise DataError(f"{FILE}: {where} is {it['status']}, so it has no price")
+    if it["status"] == "supplied":
+        need(FILE, where, it, ("by",))
+        if it["by"] not in SUPPLIERS:
+            raise DataError(f"{FILE}: {where} has by = {it['by']!r} (must be one of: {', '.join(SUPPLIERS)})")
+    elif "by" in it:
+        raise DataError(f"{FILE}: {where} is {it['status']}, so it has no 'by' (only supplied items do)")
     if "tile" in it and not isinstance(it["tile"], str):
         raise DataError(f"{FILE}: {where} 'tile' must be text (a tile colour), not {it['tile']!r}")
-    if it["status"] == "reused":
+    if it["status"] in ("reused", "supplied"):
         if "shop" in it or "sku" in it:
-            raise DataError(f"{FILE}: {where} is reused, so it has no shop or sku")
+            raise DataError(f"{FILE}: {where} is {it['status']}, so it has no shop or sku")
     else:
         need(FILE, where, it, ("shop", "sku"))
         if it["shop"] not in SHOPS:
@@ -160,7 +170,7 @@ def _item(it, group_ids):
             raise DataError(f"{FILE}: {where} has sku {it['sku']!r}, which isn't a {SHOPS[it['shop']][0]} code")
     return Material(name=it["name"], note=it.get("note", ""), group=it["group"], status=it["status"],
                     n=it["n"], price=it.get("price"), unit=it.get("unit", ""), approx=it.get("approx", False),
-                    tile=it.get("tile"), shop=it.get("shop"), sku=it.get("sku"))
+                    tile=it.get("tile"), shop=it.get("shop"), sku=it.get("sku"), by=it.get("by"))
 
 
 # ---------- the cells of the list ----------
@@ -182,6 +192,8 @@ def money_cell(m):
 
 
 def site_cell(m):
+    if m.status == "supplied":
+        return SUPPLIERS[m.by]
     return "ซื้อ / buy" if m.status == "buy" else "✓"
 
 

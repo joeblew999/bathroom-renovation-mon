@@ -1,7 +1,7 @@
 # materials.toml — every material, in groups. materials.py reads it and renders the material list in
 # the document, ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
-#   2. status  — within a group: buy, then bought, then reused
+#   2. status  — within a group: buy, then bought, then reused, then supplied
 # Items with the same group and status keep the order written here.
 #
 # The groups are defined here and nowhere else: materials don't refer to the phases or the
@@ -14,6 +14,7 @@
 #   status   "buy"    — still to buy (needs a price)
 #            "bought" — already on site, paid for (price optional: what it cost)
 #            "reused" — an old fitting on site, reused (no price)
+#            "supplied" — the trade brings it (no price, no shop): needs `by`
 #   name     "ไทย / English" — the product only (no codes: the SKU has its own field)
 #   note     "ไทย / English" — what it is for, or advice when buying (optional)
 #   n        how many
@@ -21,7 +22,8 @@
 #   unit     shown after the quantity, e.g. "กล่อง / boxes"
 #   approx   true: the price is approximate ("ประมาณ / approx."), and the total is rounded
 #   tile     a tile colour ("grey" / "white"): n counts as boxes of it in the tile check
-#   shop     where it is bought: "homepro" or "ikea" (not for reused fittings)
+#   by       who brings a supplied item: "electrician"
+#   shop     where it is bought: "homepro" or "ikea" (not for reused or supplied items)
 #   sku      the shop's product code; the product link is built from shop + sku
 # An item that is partly on site and partly to buy is two items (bought n, buy n).
 
@@ -462,6 +464,14 @@ price = 1290
 unit = "ดวง / lamps"
 shop = "ikea"
 sku = "805.204.31"
+
+[[item]]
+group = "electrical_lamps"
+status = "supplied"
+name = "สายไฟ VAF-G 2×1.5/1.5 ตร.มม. (มีสายดิน) สำหรับโคมไฟผนัง / VAF-G 2×1.5/1.5 mm² cable (with earth) for the wall lamps"
+n = 3
+unit = "ม. / m"
+by = "electrician"
 
 [[item]]
 group = "electrical_switch"

@@ -157,7 +157,7 @@ def check(md):
     for where, w in q.warnings:
         print(f"WARNING ({where}): {w}")
     items = q.materials.items
-    print(f"Materials: {len(items)} items, {sum(1 for x in items if x.status != 'buy')} on site · "
+    print(f"Materials: {len(items)} items, {sum(1 for x in items if x.status in ('bought', 'reused'))} on site · "
           f"{len(q.warnings)} warnings")
 
 
