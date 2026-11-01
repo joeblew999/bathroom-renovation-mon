@@ -5,6 +5,7 @@ checking what is in it. They know nothing about bathrooms; each part owns its ow
 Bad data raises DataError, with a message naming the file and the problem.
 """
 import string
+import sys
 import tomllib
 
 
@@ -43,6 +44,26 @@ def number(file, where, key, v):
 def flag(file, where, key, v):
     if not isinstance(v, bool):
         raise DataError(f"{file}: {where} '{key}' must be true or false, not {v!r}")
+
+
+def one_of(file, where, key, v, known):
+    """`v` must be one of `known` (a list, or a dict whose entry is returned)."""
+    if v not in known:
+        raise DataError(f"{file}: {where} has {key} = {v!r} (must be one of: {', '.join(known)})")
+    return known[v] if isinstance(known, dict) else v
+
+
+def both(th, en, sep=" / "):
+    """Thai and English side by side: 'ไทย / English' — the one place they are joined."""
+    return f"{th}{sep}{en}"
+
+
+def cli(run):
+    """Run a command-line tool: bad data prints one ERROR line and stops."""
+    try:
+        run()
+    except DataError as e:
+        sys.exit(f"ERROR: {e}")
 
 
 def md_cell(v):
@@ -93,4 +114,4 @@ class Labels:
     def both(self, key, sep=" / ", **values):
         """'ไทย / English', or just the English when the label has no Thai."""
         th = self.th(key, **values)
-        return f"{th}{sep}{self.en(key, **values)}" if th else self.en(key, **values)
+        return both(th, self.en(key, **values), sep) if th else self.en(key, **values)

@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, Labels, need, number, only, read_toml
+from common import DataError, Labels, need, number, one_of, only, read_toml
 
 from .svg import draw_plan, draw_wall
 
@@ -234,11 +234,6 @@ def _tiles(site, catalogue):
     return out
 
 
-def _tile_name(where, v, tiles):
-    if v not in tiles:
-        raise DataError(f"{SITE}: {where} has tile = {v!r} (must be one of: {', '.join(tiles)})")
-
-
 def _note(e, key, where):
     """A note as written. It stands on its own, so a {phase:…}-style reference is refused."""
     t = e.get(key, "")
@@ -252,7 +247,7 @@ def _check_site(site, tiles, door):
     only(SITE, "the file", site, set(SITE_KEYS) | {"walls", "tiles", "floor", "door", "labels"})
     only(SITE, "[floor]", site.get("floor", {}), {"tile"})
     need(SITE, "[floor]", site.get("floor", {}), ("tile",))
-    _tile_name("[floor]", site["floor"]["tile"], tiles)
+    one_of(SITE, "[floor]", "tile", site["floor"]["tile"], tiles)
     for k, allowed in SITE_KEYS.items():
         only(SITE, f"[{k}]", site.get(k, {}), allowed)
         for n, v in site.get(k, {}).items():
@@ -265,7 +260,7 @@ def _check_site(site, tiles, door):
             raise DataError(f"{SITE}: [walls.{w}] is missing")
         only(SITE, f"[walls.{w}]", e, WALL_KEYS)
         need(SITE, f"[walls.{w}]", e, ("th", "en", "tile"))
-        _tile_name(f"[walls.{w}]", e["tile"], tiles)
+        one_of(SITE, f"[walls.{w}]", "tile", e["tile"], tiles)
     if _value(site, "new_wall", "length") - door.w <= 0:
         raise DataError(f"{SITE}: the door ({door.w:g}) does not fit "
                         f"in the new wall ({_value(site, 'new_wall', 'length')})")

@@ -29,26 +29,27 @@ PHASES = "phases.toml"
 PRODUCTS = "products.toml"
 
 
-def set_key(toml, section, no, key, value):
-    """Change `key` in the [[section]] entry with number `no` (adds it if missing)."""
+def edit_entry(toml, section, no, change):
+    """Apply `change` to the text of the [[section]] entry with number `no`."""
     blocks = re.split(r"(?m)^(?=\[\[)", toml)
     for i, b in enumerate(blocks):
         if b.startswith(f"[[{section}]]") and re.search(rf"(?m)^no = {no}$", b):
-            if re.search(rf"(?m)^{key} = ", b):
-                blocks[i] = re.sub(rf"(?m)^{key} = .*$", f"{key} = {value}", b)
-            else:
-                blocks[i] = b.rstrip("\n") + f"\n{key} = {value}\n\n"
+            blocks[i] = change(b)
             return "".join(blocks)
     raise KeyError(f"[[{section}]] no = {no} not found")
+
+
+def set_key(toml, section, no, key, value):
+    """Change `key` in the [[section]] entry with number `no` (adds it if missing)."""
+    def change(b):
+        if re.search(rf"(?m)^{key} = ", b):
+            return re.sub(rf"(?m)^{key} = .*$", f"{key} = {value}", b)
+        return b.rstrip("\n") + f"\n{key} = {value}\n\n"
+    return edit_entry(toml, section, no, change)
 
 
 def drop_key(toml, section, no, key):
-    blocks = re.split(r"(?m)^(?=\[\[)", toml)
-    for i, b in enumerate(blocks):
-        if b.startswith(f"[[{section}]]") and re.search(rf"(?m)^no = {no}$", b):
-            blocks[i] = re.sub(rf"(?m)^{key} = .*\n", "", b)
-            return "".join(blocks)
-    raise KeyError(f"[[{section}]] no = {no} not found")
+    return edit_entry(toml, section, no, lambda b: re.sub(rf"(?m)^{key} = .*\n", "", b))
 
 
 def run(edit_layout=None, edit_md=None, edit_mat=None, edit_site=None, edit_phases=None, edit_products=None):
@@ -148,7 +149,7 @@ MAT_TESTS = [
      lambda t: re.sub(r"(?m)^  n = 9$", "  n = 5", t, count=1),
      lambda p: next(f"grey tile: {n:g} boxes planned but {t.boxes} needed" for t, n in p.tiles if t.colour == "grey")),
     ("materials: a status that isn't buy, bought, reused or supplied",
-     lambda t: re.sub(r'(?m)^  status = "bought"$', '  status = "bough"', t, count=1), "has status 'bough'"),
+     lambda t: re.sub(r'(?m)^  status = "bought"$', '  status = "bough"', t, count=1), "has status = 'bough'"),
     ("materials: an item with no quantity",
      lambda t: re.sub(r"(?m)^  n = 18$\n", "", t, count=1), "has no 'n'"),
     ("materials: a reused item with a price",
@@ -190,7 +191,7 @@ MAT_TESTS = [
     ("materials: a supplied item with nobody to bring it",
      lambda t: t.replace('by = "electrician"', 'by = "plumber"', 1), "has by = 'plumber'"),
     ("materials: still to buy with no price",
-     lambda t: re.sub(r"(?m)^price = 400$\n", "", t, count=1), "is to buy but has no price"),
+     lambda t: re.sub(r"(?m)^price = 400$\n", "", t, count=1), "is buy, so it needs a price"),
 ]
 
 PHASE_TESTS = [

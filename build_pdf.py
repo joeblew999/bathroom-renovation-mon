@@ -34,7 +34,7 @@ import drawings
 import materials
 import phases
 import products
-from common import DataError
+from common import DataError, cli
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
 CSS = """
@@ -162,19 +162,16 @@ def check(md):
 
 def main(argv):
     args = argv[1:]
-    try:
-        if args[:1] == ["--check"]:
-            check(Path(args[1] if len(args) > 1 else "bathroom-renovation-quote.md"))
-            return
-        md = Path(args[0] if args else "bathroom-renovation-quote.md")
-        out = Path(args[1] if len(args) > 1 else "out")
-        warnings = build(md, out)
-    except DataError as e:
-        sys.exit(f"ERROR: {e}")
+    if args[:1] == ["--check"]:
+        check(Path(args[1] if len(args) > 1 else "bathroom-renovation-quote.md"))
+        return
+    md = Path(args[0] if args else "bathroom-renovation-quote.md")
+    out = Path(args[1] if len(args) > 1 else "out")
+    warnings = build(md, out)
     for where, w in warnings:
         print(f"WARNING ({where}): {w}")
     print(f"Wrote {out / 'index.html'} and {out / PDF_NAME} · {len(warnings)} warnings")
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    cli(lambda: main(sys.argv))

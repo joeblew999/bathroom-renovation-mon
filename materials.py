@@ -25,7 +25,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import products as catalogue_file
-from common import DataError, Labels, flag, md_cell, need, number, only, read_toml
+from common import DataError, Labels, both, cli, flag, md_cell, need, number, one_of, only, read_toml
 
 FILE = "materials.toml"
 GROUP_KEYS = {"id", "th", "en"}
@@ -34,7 +34,22 @@ SUPPLIER_KEYS = {"id", "th", "en"}
 UNIT_KEYS = {"id", "th", "en_one", "en_many"}
 ENTRY_KEYS = {"id", "unit", "price", "approx", "shop", "sku", "use"}
 USE_KEYS = {"group", "status", "n", "note_th", "note_en", "by"}
-STATUSES = ("buy", "bought", "reused", "supplied")      # also the order within a group
+@dataclass(frozen=True)
+class Rule:
+    price: str           # "needed", "allowed" (what it cost) or "none"
+    shop: bool           # True: needs a shop and SKU (its boxes count); False: has none
+    on_site: bool        # already in the bathroom
+    by: bool             # needs `by`: who brings it
+
+
+# Each status's rules, stated once — and the order within a group.
+STATUS = {
+    "buy": Rule(price="needed", shop=True, on_site=False, by=False),
+    "bought": Rule(price="allowed", shop=True, on_site=True, by=False),
+    "reused": Rule(price="none", shop=False, on_site=True, by=False),
+    "supplied": Rule(price="none", shop=False, on_site=False, by=True),
+}
+STATUSES = tuple(STATUS)
 LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about")}
 
 
@@ -71,7 +86,7 @@ class Unit:
     en_many: str         # 7 bags
 
     def of(self, n):
-        return f"{self.th} / {self.en_one if n == 1 else self.en_many}"
+        return both(self.th, self.en_one if n == 1 else self.en_many)
 
 
 @dataclass(frozen=True)
@@ -125,7 +140,7 @@ class Materials:
 
     def on_site(self):
         """How many lines are already on site."""
-        return sum(1 for m in self.items if m.status in ("bought", "reused"))
+        return sum(1 for m in self.items if STATUS[m.status].on_site)
 
     def still_to_buy(self):
         """(total, whether any of it is approximate)."""
@@ -137,7 +152,7 @@ class Materials:
 
     def boxes_of(self, product_id):
         """How many of one product the list has, bought or still to buy."""
-        return sum(m.n for m in self.items if m.entry.product.id == product_id and m.status in ("buy", "bought"))
+        return sum(m.n for m in self.items if m.entry.product.id == product_id and STATUS[m.status].shop)
 
     def render(self):
         """The material list as Markdown table rows: a heading row per group, then its lines."""
@@ -146,7 +161,7 @@ class Materials:
         for g in self.groups:
             items = self.in_order(g)
             if items:
-                rows.append(f"| **{g.th} / {g.en}** | | | |")
+                rows.append(f"| **{both(g.th, g.en)}** | | | |")
             rows += [f"| {name_cell(m)} | {qty(m)} | {money_cell(m, L)} | {site_cell(m, L)} |" for m in items]
         rows.append(f"| **{L.both('still_to_buy')}** | | {self.total_cell()} | |")
         return rows
@@ -201,12 +216,6 @@ def _defined(raw, kind, keys):
     return raw.get(kind, [])
 
 
-def _one_of(where, key, v, known):
-    if v not in known:
-        raise DataError(f"{FILE}: {where} has {key} = {v!r} (must be one of: {', '.join(known)})")
-    return known[v]
-
-
 def _entry(e, catalogue, shops, units):
     where = f"product '{e.get('id', '?')}'"
     only(FILE, where, e, ENTRY_KEYS)
@@ -222,41 +231,39 @@ def _entry(e, catalogue, shops, units):
     shop = None
     if "shop" in e or "sku" in e:
         need(FILE, where, e, ("shop", "sku"))
-        shop = _one_of(where, "shop", e["shop"], shops)
+        shop = one_of(FILE, where, "shop", e["shop"], shops)
         if not isinstance(e["sku"], str) or not re.fullmatch(shop.sku, e["sku"]):
             raise DataError(f"{FILE}: {where} has sku {e['sku']!r}, which isn't a {shop.name} code")
-    unit = _one_of(where, "unit", e["unit"], units) if "unit" in e else None
+    unit = one_of(FILE, where, "unit", e["unit"], units) if "unit" in e else None
     return Entry(catalogue[e["id"]], unit, e.get("price"), e.get("approx", False), shop, e.get("sku"))
 
 
 def _use(u, p, group_ids, suppliers):
-    """One line on the list, checked against its product: what is bought has a shop, what is
-    to buy has a price, what is reused or supplied has neither."""
+    """One line on the list, checked against its product by the rules of its status (STATUS)."""
     where = f"product '{p.product.id}'"
     only(FILE, where, u, USE_KEYS)
     need(FILE, where, u, ("group", "status", "n"))
     if u["group"] not in group_ids:
         raise DataError(f"{FILE}: {where} names group '{u['group']}', which is not one of its groups")
-    if u["status"] not in STATUSES:
-        raise DataError(f"{FILE}: {where} has status {u['status']!r} (must be one of: {', '.join(STATUSES)})")
+    s = one_of(FILE, where, "status", u["status"], STATUSES)
+    rule = STATUS[s]
     number(FILE, where, "n", u["n"])
     if u["n"] <= 0:
         raise DataError(f"{FILE}: {where} 'n' must be more than 0")
-    s = u["status"]
-    if s == "buy" and p.price is None:
-        raise DataError(f"{FILE}: {where} is to buy but has no price")
-    if s in ("reused", "supplied") and p.price is not None:
+    if rule.price == "needed" and p.price is None:
+        raise DataError(f"{FILE}: {where} is {s}, so it needs a price")
+    if rule.price == "none" and p.price is not None:
         raise DataError(f"{FILE}: {where} is {s}, so it has no price")
-    if s in ("reused", "supplied") and p.shop:
-        raise DataError(f"{FILE}: {where} is {s}, so it has no shop or sku")
-    if s in ("buy", "bought") and not p.shop:
+    if rule.shop and not p.shop:
         raise DataError(f"{FILE}: {where} is {s}, so it needs a shop and sku")
+    if not rule.shop and p.shop:
+        raise DataError(f"{FILE}: {where} is {s}, so it has no shop or sku")
     by = None
-    if s == "supplied":
+    if rule.by:
         need(FILE, where, u, ("by",))
-        by = _one_of(where, "by", u["by"], suppliers)
+        by = one_of(FILE, where, "by", u["by"], suppliers)
     elif "by" in u:
-        raise DataError(f"{FILE}: {where} is {s}, so it has no 'by' (only supplied items do)")
+        raise DataError(f"{FILE}: {where} is {s}, so it has no 'by'")
     return Material(p, u["group"], s, u["n"], u.get("note_th", ""), u.get("note_en", ""), by)
 
 
@@ -281,29 +288,26 @@ def money_cell(m, L):
 
 def site_cell(m, L):
     if m.status == "supplied":
-        return f"{m.by.th} / {m.by.en}"
+        return both(m.by.th, m.by.en)
     return L.both("buy") if m.status == "buy" else "✓"
 
 
 def name_cell(m):
     """The name (linked to the shop's page), then its shop and SKU, then the note for this line."""
     p = m.entry
-    name = md_cell(f"{p.product.name_th} / {p.product.name_en}")
+    name = md_cell(both(p.product.name_th, p.product.name_en))
     if p.link:
         name = f"[{name}]({p.link})<br>{p.shop.name} {p.sku}"
     if m.note_th or m.note_en:
-        name += f"<br>*{md_cell(m.note_th)} / {md_cell(m.note_en)}*"
+        name += f"<br>*{md_cell(both(m.note_th, m.note_en))}*"
     return name
 
 
 def main(argv):
     path = Path(argv[1] if len(argv) > 1 else FILE)
-    try:
-        m = load(path, catalogue_file.load(path.with_name(catalogue_file.FILE)))
-    except DataError as e:
-        sys.exit(f"ERROR: {e}")
+    m = load(path, catalogue_file.load(path.with_name(catalogue_file.FILE)))
     print("\n".join(m.render()))
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    cli(lambda: main(sys.argv))

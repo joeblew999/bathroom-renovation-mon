@@ -10,10 +10,11 @@ A name can show the product's size with {w} {h} {d} (mm) or {w_cm} {h_cm} {d_cm}
 size is typed once.
 """
 import string
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import DataError, need, number, only, read_toml
+from common import DataError, cli, need, number, only, read_toml
 
 FILE = "products.toml"
 KEYS = {"id", "name_th", "name_en", "size", "per_box"}
@@ -69,16 +70,11 @@ def load(path):
     return out
 
 
-def main():
-    import sys
-    try:
-        cat = load(sys.argv[1] if len(sys.argv) > 1 else FILE)
-    except DataError as e:
-        sys.exit(f"ERROR: {e}")
-    for p in cat.values():
+def main(argv):
+    for p in load(argv[1] if len(argv) > 1 else FILE).values():
         size = " × ".join(f"{k} {v:g}" for k, v in p.size().items())
         print(f"{p.id:18} {p.name_en}" + (f"   [{size}]" if size else ""))
 
 
 if __name__ == "__main__":
-    main()
+    cli(lambda: main(sys.argv))

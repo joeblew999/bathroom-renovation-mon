@@ -16,7 +16,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from common import DataError, Labels, md_cell, need, only, read_toml
+from common import DataError, Labels, cli, md_cell, need, only, read_toml
 
 FILE = "phases.toml"
 PHASE_KEYS = {"id", "th", "en", "note_th", "note_en", "step"}
@@ -106,12 +106,8 @@ def load(path):
 
 
 def main(argv):
-    try:
-        ph = load(argv[1] if len(argv) > 1 else FILE)
-    except DataError as e:
-        sys.exit(f"ERROR: {e}")
-    print("\n".join(ph.render()))
+    print("\n".join(load(argv[1] if len(argv) > 1 else FILE).render()))
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    cli(lambda: main(sys.argv))
