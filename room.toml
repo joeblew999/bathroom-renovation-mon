@@ -51,8 +51,12 @@ floor = { th = "พื้น", en = "floor" }
 tag_main = { en = "M" }       # floor-plan tags: M1, F2, W3 … (the main wall, the floor, the window wall)
 tag_floor = { en = "F" }
 tag_window = { en = "W" }
+axis_x = { en = "x" }         # the letters for position and size in the legends: x 1500  y 400  W 375 × H 700
+axis_y = { en = "y" }
+width = { en = "W" }
+height = { en = "H" }
 items = { th = "รายการ", en = "Items" }
-x_from = { th = "x จาก{wall}", en = "from the {wall}" }
+x_from = { th = "{axis} จาก{wall}", en = "from the {wall}" }
 centre_height = { th = "ความสูงกึ่งกลาง", en = "centre height" }
 see_notes = { th = "ดูหมายเหตุ", en = "see notes" }
 dashed = { th = "เส้นประ = ติดผนังด้านบน (มองจากบน)", en = "dashed = mounted higher on the wall, seen from above" }
