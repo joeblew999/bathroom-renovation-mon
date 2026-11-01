@@ -33,12 +33,12 @@ FILE = "materials.toml"
 FILE_FIELDS = {"prices_date": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
                "labels": "table!", "symbols": "table!", "shop": "list!", "unit": "list!", "group": "list!",
                "entry": "list!"}
-SYMBOLS = {k: "text!" for k in ("currency", "on_site", "none", "times", "detail_th", "detail_en")}
+SYMBOLS = {k: "text!" for k in ("currency", "on_site", "none", "times")}
 SHOP = {"id": "text!", **NAME, "sku": "text!", "link": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 GROUP = {"id": "text!", **NAMED}
 TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
-ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "count",
+ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole",
          "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
          "line": "list!"}
 LINE = {"group": "@group!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
@@ -46,7 +46,7 @@ LINE = {"group": "@group!", "status": "@status!", "n": "count!", "note_th": "tex
 SIZE_KEYS = ("w", "h", "d")
 SIZE = {k: "count" for k in SIZE_KEYS}
 SIZE_UNITS = {"": 1, "_cm": 10, "_m": 1000}          # {w} in mm, {w_cm} in cm, {w_m} in m
-LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about")}
+LABELS = {k: () for k in ("item", "qty", "price", "on_site", "still_to_buy", "buy", "approx", "about", "detail")}
 
 
 @dataclass(frozen=True)
@@ -236,8 +236,8 @@ class Materials:
 
     def name_cell(self, m):
         """The name and detail (linked to the shop's page), then the shop and code, then the line's note."""
-        p, pr, s = m.entry, m.entry.product, self.symbols
-        name = md_cell(both(f"{pr.th}{s['detail_th']}{pr.detail_th}", f"{pr.en}{s['detail_en']}{pr.detail_en}"))
+        p, pr, L = m.entry, m.entry.product, self.labels
+        name = md_cell(both(f"{pr.th}{L.th('detail')}{pr.detail_th}", f"{pr.en}{L.en('detail')}{pr.detail_en}"))
         if p.link:
             name = f"[{name}]({p.link})<br>{both(p.shop.th, p.shop.en)} {p.sku}"
         return name + (f"<br>{note_cell(m.note_th, m.note_en)}" if m.note_th else "")

@@ -72,6 +72,7 @@ still_to_buy = { th = "ยังต้องซื้อ", en = "Still to buy" }
 buy = { th = "ซื้อ", en = "buy" }
 approx = { th = "ประมาณ", en = "approx." }
 about = { th = "ประมาณ", en = "about" }
+detail = { th = " ", en = ", " }     # between a product's name and its detail
 
 # The marks on the list — the same in both languages, so one value each.
 [symbols]
@@ -79,8 +80,6 @@ currency = "฿"
 on_site = "✓"
 none = "—"
 times = "×"
-detail_th = " "        # between a product's name and its detail, in Thai
-detail_en = ", "       # and in English
 
 [[shop]]
 id = "homepro"
@@ -1172,7 +1171,7 @@ sku = "1109515"
 [[entry]]
 id = "paint"
 th = "สี"
-detail_th = "ขาวกึ่งเงา"
+detail_th = "สีขาว กึ่งเงา"
 en = "Paint"
 detail_en = "white, semi-gloss"
 unit = "can"

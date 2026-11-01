@@ -263,6 +263,20 @@ def on_joint_test():
     return {ROOM: data(lambda d: raw_item(d, it.id).update(x=real().room.tiles[wall().tile].size))}, CLEAN
 
 
+def above_tiles_test():
+    """No joints above the tiling: a point well above the tile top, near where a vertical joint would be,
+    gets no warning."""
+    it = find(wall().items, "point that belongs to nothing", lambda i: i.shape == "point" and not i.part)
+    t = real().room.tiles[wall().tile]
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=t.size + real().room.min_clear / 2,
+                                                            y=t.top + t.size))}, CLEAN
+
+
+def point_off_wall_test():
+    it = find(wall().items, "point on the wall", lambda i: i.shape == "point")
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=wall().length + 100))}, warn("warn_past_end", item=it.label())
+
+
 def clash_test():
     a, b = solids()[:2]
     return {ROOM: data(lambda d: raw_item(d, b.id).update(x=a.x, y=a.y))}, \
@@ -304,27 +318,28 @@ def column_wall():
     return wid, real().room.walls[wid]
 
 
-def a_point_on(wid, x, y):
-    """An edit adding a point to a wall (drawn, so it can have items)."""
+def add_item(wid, item, first=False):
+    """An edit adding an item to a wall (drawn, so it can have items), last or first."""
     def change(d):
         w = by_id(d["wall"], wid)
         w["drawn"] = True
-        w.setdefault("item", []).append({"id": "test_point", "th": "จุดทดสอบ", "en": "Test point", "shape": "point",
-                                          "x": x, "y": y})
+        items = w.setdefault("item", [])
+        items.insert(0 if first else len(items), item)
     return {ROOM: data(change)}
+
+
+def a_point_on(wid, x, y):
+    return add_item(wid, {"id": "test_point", "th": "จุดทดสอบ", "en": "Test point", "shape": "point", "x": x, "y": y})
 
 
 def column_clash_test():
     wid, w = column_wall()
     col = find(w.items, "the column", lambda i: i.shape == "column")
 
-    def change(d):
-        x = by_id(d["wall"], wid)
-        x["drawn"] = True
-        x.setdefault("item", []).insert(0, {"id": "test_box", "th": "กล่องทดสอบ", "en": "Test box", "shape": "rect",
-                                             "x": col.x, "y": col.y, "w": col.w, "h": col.h / 4})
+    box = {"id": "test_box", "th": "กล่องทดสอบ", "en": "Test box", "shape": "rect",
+           "x": col.x, "y": col.y, "w": col.w, "h": col.h / 4}
     n = 1                                                       # the test box comes first on its wall
-    return {ROOM: data(change)}, warn("warn_overlap", a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
+    return add_item(wid, box, first=True), warn("warn_overlap", a=(f"{n} กล่องทดสอบ", f"{n} Test box"),
                                       b=(f"{int(col.no) + 1} {col.th}", f"{int(col.no) + 1} {col.en}"))
 
 
@@ -573,6 +588,8 @@ TESTS = [
     ("rules: a point moved just off a horizontal joint", joint_y_test),
     ("rules: the tile top edge counts as a joint", tile_top_joint_test),
     ("rules: a hole exactly on a joint is allowed", on_joint_test),
+    ("rules: no joint warnings above the tiling", above_tiles_test),
+    ("rules: a point moved off the end of the wall", point_off_wall_test),
     ("rules: an item moved onto another", clash_test),
     ("rules: a round item moved onto another", round_clash_test),
     ("rules: an item pushed past the end of the wall", wall_end_test),
@@ -597,6 +614,9 @@ TESTS = [
     ("room: an item with neither a product nor a name",
      lambda: (edit_item(lambda e: "th" in e, "item with its own name", lambda e: (e.pop("th"), e.pop("en"))),
               "needs a product or a name (th, en) — one, not both")),
+    ("room: an item with a product giving its own size",
+     lambda: (edit_item(lambda e: "product" in e, "item with a product", lambda e: put(e, "w", 900, room.ITEM)),
+              "takes its size from product")),
     ("room: an item taking an id the room works out",
      lambda: (edit_item(lambda e: e["id"] not in room.BUILT, "item", lambda e: e.update(id=room.BUILT[0])),
               f"'{room.BUILT[0]}' is worked out from how the room is built")),
@@ -673,6 +693,8 @@ TESTS = [
     ("phases: inserting a step renumbers it and its references", lambda: ref_test(insert=True)),
     ("phases: a reference of a kind phases.toml doesn't have",
      lambda: (edit_step(lambda s: s.update(en=s["en"] + " {rule:min_clear}")), "{rule:min_clear} doesn't match")),
+    ("phases: a brace that isn't a reference",
+     lambda: (edit_step(lambda s: s.update(en=s["en"] + " {phase:make-good}")), "that isn't a reference like {step:id}")),
     ("phases: a reference to an id that doesn't exist",
      lambda: (edit_step(lambda s: s.update(en=s["en"] + " {step:no_such_step}")), "{step:no_such_step} doesn't match")),
 ]

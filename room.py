@@ -247,6 +247,8 @@ def _items(entries, kind, shapes, products, across):
         if ("product" in e) == ("th" in e):
             raise DataError(f"{FILE}: {where} needs a product or a name (th, en) — one, not both")
         p = _product(products, where, e["product"]) if "product" in e else None
+        if p and any(k in e for k in ("w", "h", "d")):
+            raise DataError(f"{FILE}: {where} takes its size from product '{p.id}' — give no w, h or d here")
         have = {**(p.size() if p else {}), **{k: e[k] for k in ("x", "y", "w", "h", "d", "high") if k in e}}
         if e["shape"] in ("zone", "step"):
             have.setdefault("d", across)
@@ -287,7 +289,7 @@ def _walls(raw, products):
                      w=col["width"], h=r["ceiling"], **_notes(col, "[column]")),
                 Item(str(n + 2), "door", door.th, door.en, "door", x=col["width"] + door.w / 2, y=door.h / 2,
                      w=door.w, h=door.h, **_notes(raw["door"], "[door]")),
-                Item(str(n + 3), "lintel", lintel.th, lintel.en, "rect", x=col["width"] + (door.w + bearing) / 2,
+                Item(str(n + 3), "lintel", lintel.th, lintel.en, "lintel", x=col["width"] + (door.w + bearing) / 2,
                      y=door.h + lintel.h / 2, w=door.w + bearing, h=lintel.h, **_notes(raw["lintel"], "[lintel]")),
             ]
             run = length - door.w                                       # the door opening isn't tiled
@@ -313,15 +315,15 @@ def joints_x(wall, tile):
 
 def _joint_warnings(room, wall, tile, top):
     """A hole (a fixing, an outlet, an item's centre) too near a tile joint: closer than min_clear
-    but not exactly on it. The items room.py works out are not holes."""
+    but not exactly on it, below the tile top."""
     jx = joints_x(wall, tile)
     jy = sorted(set(range(tile, top, tile)) | {top})   # the tile top edge counts as a joint
     out = []
     for it in wall.items:
-        if it.shape not in ("point", "rect", "circle") or it.id in BUILT:
+        if it.shape not in ("point", "rect", "circle") or it.y >= top:      # no joints above the tiling
             continue
         checks = [("axis_x", it.x, jx)] if jx else []
-        if jy and it.y is not None and it.y < top:
+        if jy:
             checks.append(("axis_y", it.y, jy))
         for axis, v, joints in checks:
             d = min(abs(v - j) for j in joints)
@@ -333,14 +335,20 @@ def _joint_warnings(room, wall, tile, top):
 def _box(it):
     """(x0, x1, y0, y1) of a solid item (a circle: its diameter both ways), or None."""
     h = it.w if it.shape == "circle" else it.h
-    if it.shape not in ("rect", "circle", "opening", "door", "column") or None in (it.x, it.w, it.y, h):
+    if it.shape not in ("rect", "circle", "opening", "door", "column", "lintel") or None in (it.x, it.w, it.y, h):
         return None
     return it.x - it.w / 2, it.x + it.w / 2, it.y - h / 2, it.y + h / 2
 
 
+def _span(it):
+    """(x0, x1) of an item along its wall: its box, or its point."""
+    b = _box(it)
+    return (b[0], b[1]) if b else (it.x, it.x)
+
+
 def _clash_warnings(room, items, length):
     solids = [(it, _box(it)) for it in items if _box(it)]
-    out = [_warn(room, "warn_past_end", item=it.label()) for it, b in solids if b[0] < 0 or b[1] > length]
+    out = [_warn(room, "warn_past_end", item=it.label()) for it in items if _span(it)[0] < 0 or _span(it)[1] > length]
     for i, (a, ba) in enumerate(solids):
         for b, bb in solids[i + 1:]:
             if ba[0] < bb[1] and bb[0] < ba[1] and ba[2] < bb[3] and bb[2] < ba[3]:
@@ -555,7 +563,7 @@ def _wall_items(a, wall, t, X, Y):
     xs = set()
     for it in wall.items:
         x, w, y, h = it.x, it.w, it.y, it.h
-        xs.add(int(x))
+        xs.add(x)
         lx, ly = X(x), Y(ZONE_TAG_HEIGHT if it.shape == "zone" else y)
         if it.shape == "zone":
             a(f'<rect class="zone" x="{X(x + w / 2)}" y="{Y(t.top)}" width="{w * WALL_SCALE}" '
@@ -575,7 +583,7 @@ def _wall_items(a, wall, t, X, Y):
     return xs
 
 
-BOXES = {"rect": "item", "column": "column", "opening": "opening", "door": "opening"}   # shape → its look
+BOXES = {"rect": "item", "lintel": "item", "column": "column", "opening": "opening", "door": "opening"}  # shape → look
 
 
 def _wall_ticks(a, xs, X, floor_y, ML, W):

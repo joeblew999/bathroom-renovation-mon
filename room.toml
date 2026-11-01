@@ -52,7 +52,7 @@ fill = "#f1f1ee"
 
 # ---------- items: one shape for every item on a wall or the floor ----------
 #   id         what a part names it by (unique on its wall). Its number on the drawing is its order.
-#   product    its name and size come from the product (w, h, d given here override the size)
+#   product    its name and size come from the product (so it has no th, en, w, h or d here)
 #   th, en     its name, when it has no product
 #   shape      on a wall: rect, circle, point (a fixing or outlet), zone, opening · on the floor: rect, step
 #   x, y       its centre: x from the corner on your right, facing the wall from inside;

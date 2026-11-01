@@ -130,7 +130,7 @@ def check(md):
     """Print the tile counts, the still-to-buy total and every warning, without building."""
     q = assemble(md)
     print("\n".join(tile_lines(q.room, q.tiles)))
-    print("Still to buy:", q.materials.total_cell(bold=False))
+    print(f"{q.materials.labels.both('still_to_buy')}:", q.materials.total_cell(bold=False))
     print_warnings(q.warnings)
     print(f"Materials: {len(q.materials.lines)} items, {q.materials.on_site()} on site · "
           f"{len(q.warnings)} warnings")

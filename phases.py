@@ -77,7 +77,10 @@ def resolve(numbers, text):
         if (m.group(1), m.group(2)) not in numbers:
             raise DataError(f"{FILE}: reference {{{m.group(1)}:{m.group(2)}}} doesn't match any phase or step id")
         return numbers[(m.group(1), m.group(2))]
-    return REF.sub(sub, text)
+    out, rest = REF.sub(sub, text), REF.sub("", text)
+    if "{" in rest or "}" in rest:
+        raise DataError(f"{FILE}: {text[:60]!r} has a {{ or }} that isn't a reference like {{step:id}}")
+    return out
 
 
 def load(path):
