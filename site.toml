@@ -1,7 +1,7 @@
 # site.toml — the room, the design rules, the four walls, the tiles and every product size. Units: mm.
-# Read by project.py; the drawings, the checks and the tile counts are worked out from it.
+# Read by drawings.py; the drawings, the checks and the tile counts are worked out from it.
 # Things that follow from these (the column, the door opening, the lintel, the window on
-# its wall, the door on the floor plan) are worked out in project.py, never typed here.
+# its wall, the door on the floor plan) are worked out in drawings.py, never typed here.
 
 # ---------- the room ----------
 [room]
@@ -32,11 +32,11 @@ height = 400
 # ---------- rules ----------
 [rules]
 min_clear = 20             # every hole at least this far from a tile joint (or exactly on one)
-                           # — checked on the drawings; the tiling phase quotes it as {rule:min_clear}
+                           # — checked on the drawings, and printed under each one
 
 # ---------- the four walls ----------
 # Names used on every drawing, and which tile each wall gets (counted in the tile check).
-# Each wall's length, and which corner x is measured from, follow from the room (project.py).
+# Each wall's length, and which corner x is measured from, follow from the room (drawings.py).
 [walls.main_wall]
 th = "ผนังหลัก"
 en = "Main wall"

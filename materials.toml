@@ -1,4 +1,4 @@
-# materials.toml — every material, in groups. tables.py turns it into the material list in
+# materials.toml — every material, in groups. materials.py reads it and renders the material list in
 # the document, ordered by exactly two things written here:
 #   1. group   — one section per group, in the order the groups are written below
 #   2. status  — within a group: buy, then bought, then reused

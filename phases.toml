@@ -1,9 +1,8 @@
-# phases.toml — the work, phase by phase. tables.py turns it into the phases in the document.
+# phases.toml — the work, phase by phase. phases.py reads, numbers and renders it.
 #
 # Phases and steps are numbered by their position here (phase 1, 2, … · step 1.1, 1.2, …).
 # Refer to them anywhere — this file, layout.toml notes, the document — by id:
 #   {phase:make_good}  -> 5        {step:clear_mark}  -> 1.8
-# and to a rule in site.toml [rules] the same way:  {rule:min_clear} -> 20
 # so inserting or moving a step renumbers every reference.
 #
 # Each phase: id, th, en, optional note_th / note_en.
@@ -225,8 +224,8 @@ en = "Embed fibre mesh tape in the first coat at every joint that can crack: the
 id = "tile"
 th = "ปูกระเบื้อง"
 en = "Tile"
-note_th = "**กระเบื้องทั้งหมดเป็นกระเบื้องขอบตรง (Rectified)** ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวอย่างน้อย {rule:min_clear} มม. หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
-note_en = "**All tiles are rectified.** Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp fixings, screws) at least {rule:min_clear} mm off a joint, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
+note_th = "**กระเบื้องทั้งหมดเป็นกระเบื้องขอบตรง (Rectified)** ปูร่องยาแนวแคบประมาณ 1–2 มม. ใช้คลิปปรับระดับและกาวซีเมนต์ปูกระเบื้อง (ไม่ใช้ปูนทราย) สียาแนวให้เข้ากับสีกระเบื้อง ความสูง แถว และแผ่นตัดตามภาพ ทุกรู (ท่อ จุดยึดโคมไฟ สกรู) ห่างแนวยาแนวตามระยะที่ระบุในภาพ หรืออยู่กึ่งกลางแนวพอดีโดยสกรูอยู่สองข้างของแนว ห้ามเจาะตรงร่องยาแนว ขอบกระเบื้องจะบิ่น ระวังปลายสายไฟที่เก็บไว้ และเจาะรูกระเบื้องให้ตรงตำแหน่งโคมไฟและกล่องเครื่องทำน้ำอุ่น"
+note_en = "**All tiles are rectified.** Tight grout joints of about 1–2 mm, levelling clips and cement-based tile adhesive (not sand-cement mortar), grout colour to match each tile. Tile heights, rows and cuts are as on the drawings. Every hole (pipes, lamp fixings, screws) clear of the joints by the distance stated on the drawings, or exactly centred on one with the screws either side — never drill in the grout line, it chips both tile edges. Protect the capped cable ends, and cut neat holes at the marked lamp and heater-box positions."
 
 [[phase.step]]
 id = "main_wall_tiles"

@@ -1,34 +1,42 @@
 #!/usr/bin/env python3
 """Build the quote: one web page and the same page as a PDF, into out/.
 
-One process, one straight line:
+The only place the three parts meet. Each part reads its own files and renders itself;
+none of them knows the others exist:
 
-  1. load      project.load      read the five sources once, check them
-  2. draw      draw_walls.draw_all   floor plan + wall elevations (warnings in red), as SVG text
-  3. fill      tables.fill       the phases and the material list, references resolved
-  4. html      Markdown → HTML, drawings appended one per page   → out/index.html
-  5. pdf       that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
+  phases.py      phases.toml               → the phases section
+  materials.py   materials.toml            → the material list
+  drawings.py    site.toml + layout.toml   → the floor plan and the wall elevations
 
-These two files are the only output, always written together from the same page.
-out/ is not committed; the GitHub workflow builds it the same way and publishes it to
-GitHub Pages. The Markdown source is never rewritten.
+This file puts them into the document skeleton (bathroom-renovation-quote.md) and checks
+the one fact two parts share: the tile boxes on the material list against the tiles the
+room needs (tile_check). Then:
 
-Bad data stops the build with one ERROR line naming the file and the problem.
+  html     Markdown → HTML, drawings appended one per page   → out/index.html
+  pdf      that same page printed by Chromium (Playwright)   → out/bathroom-renovation-quote.pdf
+
+Bad data stops the build with one ERROR line naming the file and the problem, before
+anything is written. The Markdown skeleton is never rewritten.
 
 Usage:  python3 build_pdf.py [quote.md] [out-folder]
+        python3 build_pdf.py --check [quote.md]    (tile counts, total, warnings; no build)
 """
+import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 import markdown
 from playwright.sync_api import sync_playwright
 
-from draw_walls import draw_all
-from project import ProjectError, load
-from tables import fill
+import drawings
+import materials
+import phases
+from common import DataError
 
 PDF_NAME = "bathroom-renovation-quote.pdf"
 TITLE = "รายละเอียดหน้างานห้องน้ำใหม่ / New Bathroom Work Details"
+COLOUR_TH = {"grey": "เทา", "white": "ขาว"}
 CSS = """
   @page { size: A4; margin: 14mm 12mm; }
   body { font-family: "Helvetica", "Arial", "Loma", "Sarabun", "Noto Sans Thai", sans-serif;
@@ -48,10 +56,67 @@ CSS = """
 """
 
 
-def html(doc, drawings):
+@dataclass(frozen=True)
+class Quote:
+    doc: str             # the filled-in Markdown
+    svgs: dict           # {file name: svg text}
+    phases: phases.Phases
+    materials: materials.Materials
+    drawings: drawings.Drawings
+    tiles: list          # [(TilesNeeded, boxes planned)]
+    warnings: list       # [(where, warning)]
+
+
+# ---------- the one fact two parts share ----------
+def tile_check(m, d):
+    """[(tiles needed, boxes on the list)] per colour, and a warning where there are too few."""
+    tiles = [(t, m.tile_boxes(t.colour)) for t in d.tiles_needed()]
+    return tiles, [("materials", f"{t.colour} tile: {planned:g} boxes planned but {t.boxes} needed")
+                   for t, planned in tiles if planned < t.boxes]
+
+
+def tile_lines(d, tiles):
+    names = {"floor": ("พื้น", "floor"), **{k: (w.th, w.en.lower()) for k, w in d.walls.items()}}
+    out = []
+    for t, planned in tiles:
+        spare = planned * t.per_box - t.need
+        d_th = " + ".join(f"{names[s][0]} {n}" for s, n in t.parts)
+        d_en = " + ".join(f"{names[s][1]} {n}" for s, n in t.parts)
+        out.append(f"กระเบื้อง{COLOUR_TH[t.colour]} {t.need} แผ่น ({d_th}) → ต้องใช้ {t.boxes} กล่อง "
+                   f"วางแผนไว้ {planned:g} กล่อง (เหลือ {spare:g} แผ่น) / {t.colour} {t.need} tiles ({d_en}) "
+                   f"→ {t.boxes} boxes needed, {planned:g} planned ({spare:g} spare tiles)")
+    return out
+
+
+# ---------- putting it together ----------
+def fill(skeleton, name, blocks):
+    """The skeleton with each <!-- generated:NAME --> … <!-- /generated --> block filled in."""
+    for key, lines in blocks.items():
+        pat = re.compile(rf"(<!-- generated:{key} -->\n).*?(\n<!-- /generated -->)", re.S)
+        if not pat.search(skeleton):
+            raise DataError(f"{name}: marker <!-- generated:{key} --> … <!-- /generated --> not found")
+        skeleton = pat.sub(lambda mt: mt.group(1) + "\n".join(lines) + mt.group(2), skeleton)
+    return skeleton
+
+
+def assemble(md):
+    """Load the three parts next to `md`, check what they share, and fill the skeleton."""
+    md = Path(md)
+    if not md.exists():
+        raise DataError(f"{md} not found")
+    ph = phases.load(md.with_name(phases.FILE))
+    m = materials.load(md.with_name(materials.FILE))
+    d = drawings.load(md.parent)
+    tiles, tile_warnings = tile_check(m, d)
+    skeleton = ph.resolve(md.read_text(encoding="utf-8"))      # the skeleton may name a phase
+    doc = fill(skeleton, md.name, {"phases": ph.render(), "list": m.render()})
+    return Quote(doc, d.render(), ph, m, d, tiles, d.warnings() + tile_warnings)
+
+
+def html(doc, svgs):
     """The filled document plus the drawings (in the order given), one per page, as one HTML page."""
     body = markdown.markdown(doc, extensions=["tables", "sane_lists"])
-    pages = "".join(f'<section class="drawing">{svg}</section>' for svg in drawings)
+    pages = "".join(f'<section class="drawing">{svg}</section>' for svg in svgs)
     return (f'<!doctype html><html lang="th"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">'
             f'<title>{TITLE}</title><style>{CSS}</style></head><body>{body}{pages}</body></html>')
@@ -68,22 +133,38 @@ def pdf(page_html, out):
 
 
 def build(md, out_dir):
-    """Run the whole pipeline. Returns the warnings. Raises ProjectError on bad data
+    """Run the whole pipeline. Returns the warnings. Raises DataError on bad data
     (before anything is written)."""
-    p = load(md)
-    page = html(fill(p), draw_all(p).values())
+    q = assemble(md)
+    page = html(q.doc, q.svgs.values())
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(page, encoding="utf-8")
     pdf(page, out_dir / PDF_NAME)
-    return p.warnings()
+    return q.warnings
+
+
+def check(md):
+    """Print the tile counts, the still-to-buy total and every warning, without building."""
+    q = assemble(md)
+    print("\n".join(tile_lines(q.drawings, q.tiles)))
+    print("Still to buy:", materials.sum_cell(*q.materials.still_to_buy(), bold=False))
+    for where, w in q.warnings:
+        print(f"WARNING ({where}): {w}")
+    items = q.materials.items
+    print(f"Materials: {len(items)} items, {sum(1 for x in items if x.status != 'buy')} on site · "
+          f"{len(q.warnings)} warnings")
 
 
 def main(argv):
-    md = Path(argv[1] if len(argv) > 1 else "bathroom-renovation-quote.md")
-    out = Path(argv[2] if len(argv) > 2 else "out")
+    args = argv[1:]
     try:
+        if args[:1] == ["--check"]:
+            check(Path(args[1] if len(args) > 1 else "bathroom-renovation-quote.md"))
+            return
+        md = Path(args[0] if args else "bathroom-renovation-quote.md")
+        out = Path(args[1] if len(args) > 1 else "out")
         warnings = build(md, out)
-    except ProjectError as e:
+    except DataError as e:
         sys.exit(f"ERROR: {e}")
     for where, w in warnings:
         print(f"WARNING ({where}): {w}")

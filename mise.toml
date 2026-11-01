@@ -26,4 +26,12 @@ run = "python test_pipeline.py"
 
 [tasks.check]
 description = "Print the tile counts, the still-to-buy total and any warnings, without building"
-run = "python tables.py"
+run = "python build_pdf.py --check"
+
+[tasks.materials]
+description = "Print the material list — the same table the PDF prints"
+run = "python materials.py"
+
+[tasks.phases]
+description = "Print the phases — the same text the PDF prints"
+run = "python phases.py"

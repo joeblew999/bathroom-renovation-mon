@@ -1,5 +1,5 @@
-# layout.toml — every position in the bathroom. project.py reads and checks it (tile joints,
-# clashes, parts); draw_walls.py draws the floor plan and wall elevations from it.
+# layout.toml — every position in the bathroom. drawings.py reads and checks it (tile joints,
+# clashes, parts) and draws the floor plan and wall elevations from it.
 #
 # Units: mm. Each wall is seen from inside the bathroom, facing it.
 #   x = distance to the item centre from the corner on your right
@@ -19,6 +19,7 @@
 # ---------- items that follow from site.toml ----------
 # Their positions and sizes are worked out from the room, door, lintel and window; only
 # their names (and notes) are here.
+# Notes never refer to the phases or steps: the steps point to the drawings, not the other way.
 [site_items.column]
 th = "เสาเดิม"
 en = "Existing column"
@@ -30,8 +31,6 @@ en = "Door opening, to suit the frame"
 [site_items.lintel]
 th = "คานทับหลังสำเร็จรูปมวลเบา"
 en = "Precast AAC lintel"
-note_th = "ดูขั้น {step:lintel}"
-note_en = "see step {step:lintel}"
 
 [site_items.window]
 th = "หน้าต่าง"
@@ -211,8 +210,8 @@ en = "Water heater with electrical box"
 shape = "rect"
 x = 2840
 y = 1670
-note_th = "เลื่อนเข้าใกล้มุมผนังหน้าต่าง ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมบนผนังหน้าต่างด้วยสายอ่อนอ้อมมุม · จุดยึดวัดตอนถอดเครื่อง (ขั้น {phase:strip_out})"
-note_en = "moved closer to the window-wall corner to make room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from the existing stop tap on the window wall · measure its fixing holes when it comes off (phase {phase:strip_out})"
+note_th = "เลื่อนเข้าใกล้มุมผนังหน้าต่าง ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมบนผนังหน้าต่างด้วยสายอ่อนอ้อมมุม"
+note_en = "moved closer to the window-wall corner to make room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from the existing stop tap on the window wall"
 
 # ---------- window wall ----------
 [[window_wall]]
