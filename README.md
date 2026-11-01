@@ -37,7 +37,7 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 | fall | the floor's slope to the drain, 1 in so many | ความลาดเอียง* |
 | norm | an outside value a design check holds the room to, with its source | เกณฑ์* |
 | labour rate | the price of a unit of work (a m² of tiling, a set fitted), from a rate book (`labour.toml`) | อัตราค่าแรง* |
-| rate book | the published list of labour rates a rate comes from: the Comptroller General's (กค 0433.2/ว 480) | บัญชีค่าแรงงาน |
+| rate book | a published list of labour rates a rate comes from: the Comptroller General's (กค 0433.2/ว 480), or HomePro's installation service prices | บัญชีค่าแรงงาน |
 
 \* Not yet checked by a Thai speaker; the unmarked Thai terms were checked against Thai sources.
 
@@ -71,7 +71,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `phases.toml` | The work: phases and steps, in prose for the builder |
 | `materials.toml` | Every product once — its name and detail in Thai and English, its size, whether it's electrical and its IP rating, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
 | `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door (which end it's hinged at, and whether it opens in or out) and lintel; the tiles; the floor (its drain, and its fall on each side of the step) and the four walls (each with its waterproofing height; the shower zone has its own) in order round the room, each with its items, the shower head among them; the norms the design checks use, each with its source; the drawings' wording and marks |
-| `labour.toml` | The labour: the rate book (which document), every rate (its name in Thai and English, unit, price, and its item or note in the book, with the page it was read from), and the lines — each a rate, a work section and where its quantity comes from; the units and work sections; the section's wording and marks |
+| `labour.toml` | The labour: the rate books (which document, and how a rate names its place there) — the Comptroller General's and HomePro's installation service prices — every rate (its name in Thai and English, unit, price, and its item or note in the book, with the page it was read from), and the lines — each a rate, a work section and where its quantity comes from; the units and work sections; the section's wording and marks |
 | `phases.py`, `materials.py`, `room.py`, `labour.py` | The parts' code: each reads and checks its own data file; the phases, materials and labour render their sections, the room is worked out (every wall and item, the column, door and lintel, the tile counts, the quantities labour is priced by) |
 | `room_drawings.py` | The room's drawings: lays out the floor plan and each elevation as SVG, with its design problems under it |
 | `room_design_checks.py`, `materials_design_checks.py`, `drawing_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities; how the drawings read (see Checks) |

@@ -24,8 +24,8 @@ FILE = "labour.toml"
 FILE_FIELDS = {"checked": "date!", "date_format": "text!", "round_approx": "count!", "section": "table!",
                "labels": "table!", "symbols": "table!", "book": "list!", "unit": "list!", "work_section": "list!",
                "rate": "list!", "line": "list!"}
-SYMBOLS = {k: "text!" for k in ("currency", "times", "percent")}
-BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!"}
+SYMBOLS = {k: "text!" for k in ("currency", "times", "percent", "dot")}
+BOOK = {"id": "text!", **NAME, "standard": "text!", "url": "text!", "item_th": "text!", "item_en": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
 RATE = {"id": "text!", **NAME, "unit": "@unit!", "rate": "amount!", "book": "@book+url", "item": "text+book",
@@ -34,7 +34,8 @@ SOURCES = ("take_off", "count", "of_products", "n")      # where a line's quanti
 LINE = {"rate": "@rate!", "work_section": "@work_section!", "take_off": "text", "count": "list", "of_products": "list",
         "n": "count", "times": "whole", "note_th": "text", "note_en": "text", "assumed": "list"}
 SOURCE_UNIT = {"count": "set", "of_products": "percent"}  # the rate unit these sources need (take_off: its own)
-LABELS = {"item": (), "qty": (), "amount": (), "book_item": ("item",), "book_note": ("note",), "of_products": ("percent", "cost"),
+BY_LENGTH = "metre"       # products bought by the metre are counted in metres, not sets (the unit id both lists use)
+LABELS = {"item": (), "qty": (), "amount": (), "book_note": ("note",), "of_products": ("percent", "cost"),
           "labour_total": (), "grand_total": (), "approx": (), "about": ()}
 DECIMALS = 1                                              # a measured quantity is shown, and priced, to this
 
@@ -47,7 +48,7 @@ class Rate:
     unit_id: str         # m2, metre, set, job, percent
     unit: dict           # its names: {th, en, en_many}
     rate: float
-    item: str            # its item number in the book, or ""
+    item: str            # its item in the book, as the book names it ("item 2.3.1" / "HomePro 7000164"), or ""
     book_note: int       # or the number of the note in the book it comes from, or None (a stand-in has neither)
     approx: bool         # a stand-in (assumed), or a share of materials (the book gives a range)
 
@@ -114,7 +115,7 @@ class Labour:
     def name_cell(self, m):
         """The work and its item in the book, then what it counts (from the materials list), then its note."""
         L, r = self.labels, m.rate
-        place = L.both("book_item", item=r.item) if r.item else L.both("book_note", note=r.book_note) if r.book_note else ""
+        place = r.item or (L.both("book_note", note=r.book_note) if r.book_note else "")
         name = md_cell(both(r.th, r.en)) + (f" ({place})" if place else "")
         name += "".join(f"<br>{md_cell(both(t, e))}" for t, e in m.names)
         return name + (f"<br>{note_cell(m.note_th, m.note_en)}" if m.note_th else "")
@@ -140,6 +141,9 @@ def load(path, take_off, materials):
     labels = Labels(FILE, raw["labels"], LABELS)
     check(FILE, "[symbols]", raw["symbols"], SYMBOLS)
     books = {b["id"]: b for b in check_each(FILE, "book", raw["book"], BOOK)}
+    for b in books.values():
+        for lang in ("th", "en"):
+            placeholders(FILE, f"book '{b['id']}' item_{lang}", b[f"item_{lang}"], ("item",))
     units = {u["id"]: u for u in check_each(FILE, "unit", raw["unit"], UNIT)}
     sections = tuple((s["id"], *named(s)) for s in check_each(FILE, "work section", raw["work_section"], WORK_SECTION))
     guesses = []
@@ -150,7 +154,9 @@ def load(path, take_off, materials):
         if "book" not in e and "rate" not in e.get("assumed", []):
             raise DataError(f"{FILE}: rate '{e['id']}' has no book, so its rate must be marked assumed (README rule 10)")
         guesses += assumed(e, f"{FILE} rate '{e['id']}'")
-        rates[e["id"]] = Rate(e["id"], e["th"], e["en"], e["unit"], units[e["unit"]], e["rate"], e.get("item", ""), e.get("book_note"),
+        b = books.get(e.get("book"))
+        item = both(b["item_th"].format(item=e["item"]), b["item_en"].format(item=e["item"])) if "item" in e else ""
+        rates[e["id"]] = Rate(e["id"], e["th"], e["en"], e["unit"], units[e["unit"]], e["rate"], item, e.get("book_note"),
                               "assumed" in e or e["unit"] == "percent")
     products = materials.products
     known = {"rate": rates, "work_section": [s[0] for s in sections]}
@@ -164,15 +170,15 @@ def load(path, take_off, materials):
 
 
 def _section(raw, labels, books):
-    """This part's heading and note; the note's {book}, {standard}, {checked} and {approx} filled in. The note
-    names the first book (the one most rates come from)."""
+    """This part's heading and note; the note's {books} (each book's name and standard), {checked} and {approx}
+    filled in."""
     th, en, nth, nen = named(check(FILE, "[section]", raw["section"], NAMED))
-    book, date = next(iter(books.values())), raw["checked"].strftime(raw["date_format"])
+    date = raw["checked"].strftime(raw["date_format"])
     out = []
     for lang, text in (("th", nth), ("en", nen)):
-        placeholders(FILE, f"[section] note_{lang}", text, ("book", "standard", "checked", "approx"))
-        out.append(text.format(book=book[lang], standard=book["standard"], checked=date,
-                               approx=getattr(labels, lang)("approx")))
+        placeholders(FILE, f"[section] note_{lang}", text, ("books", "checked", "approx"))
+        names = raw["symbols"]["dot"].join(f"{b[lang]} ({b['standard']})" for b in books.values())
+        out.append(text.format(books=names, checked=date, approx=getattr(labels, lang)("approx")))
     return th, en, *out
 
 
@@ -192,6 +198,8 @@ def _line(e, where, rate, take_off, materials, products):
         qty = round(qty * e.get("times", 1), DECIMALS)
     else:
         unit = SOURCE_UNIT.get(source)
+        if source == "count" and materials.units_of(e["count"]) == {BY_LENGTH}:
+            unit = BY_LENGTH
         if source in SOURCE_UNIT:
             for pid in e[source]:
                 if pid not in products:

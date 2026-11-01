@@ -206,6 +206,10 @@ class Materials:
         """How many of these products the list has, on every line, whatever its status (labour fits them all)."""
         return sum(m.n for m in self.lines if m.entry.product.id in product_ids)
 
+    def units_of(self, product_ids):
+        """The units these products are bought in, by id ({"metre"}, {"set", "lamp"} …)."""
+        return {m.entry.unit.id for m in self.lines if m.entry.product.id in product_ids}
+
     def cost_of(self, product_ids):
         """What these products still cost to buy: (total, whether any of it is approximate)."""
         buy = [m for m in self.lines if m.entry.product.id in product_ids and m.rule.to_buy]

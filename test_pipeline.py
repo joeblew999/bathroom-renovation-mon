@@ -845,6 +845,20 @@ def share_line_test():
             f"{qty} | {lab.both('approx')} {money(pct / 100 * 1000 * n)} |")
 
 
+def by_the_metre_test():
+    """Products bought by the metre are counted in metres: a counted line's products set to be bought by the metre,
+    on a rate per metre."""
+    i, e = labour_line("line that counts one product", lambda e: "count" in e and len(e["count"]) == 1)
+    pid = e["count"][0]
+    rid = find(RAW[LABOUR]["rate"], "rate per metre", lambda r: r["unit"] == "metre")["id"]
+    metre = next(u for u in RAW[MATERIALS]["unit"] if u["id"] == labour.BY_LENGTH)
+    n = sum(ln["n"] for ln in by_id(RAW[MATERIALS]["entry"], pid)["line"])
+    edits = {MATERIALS: data(lambda d: by_id(d["entry"], pid).update(unit=metre["id"])),
+             LABOUR: data(lambda d: d["line"][i - 1].update(rate=rid))}
+    unit = by_id(RAW[LABOUR]["unit"], "metre")
+    return edits, f"{n:g} {unit['th']} / {unit['en' if n == 1 else 'en_many']} × {money(labour_rate(rid)['rate'])}"
+
+
 def labour_totals_test():
     """The labour total is every line added up, and the grand total adds what the materials still cost."""
     def expect(p):
@@ -1224,6 +1238,11 @@ TESTS = [
     ("labour: a counted line is how many the materials list has, times its rate", count_line_test),
     ("labour: a share of materials is its percent of what they still cost", share_line_test),
     ("labour: the labour total, and the grand total with the materials", labour_totals_test),
+    ("labour: products bought by the metre are counted in metres", by_the_metre_test),
+    ("labour: a book naming its items with a placeholder it can't fill",
+     lambda: ({LABOUR: data(lambda d: d["book"][0].update(item_th=d["book"][0]["item_th"] + " {nope}",
+                                                          item_en=d["book"][0]["item_en"] + " {nope}"))},
+              f"book '{RAW[LABOUR]['book'][0]['id']}' item_th uses {{nope}}")),
     ("labour: a line with two quantities",
      lambda: labour_data_test(lambda x, e: put(x, "n", 1, labour.LINE),
                               "line {i} ({rate}) must take its quantity from exactly one of")),

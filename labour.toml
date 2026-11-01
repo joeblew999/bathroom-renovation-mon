@@ -1,14 +1,14 @@
 # labour.toml — the labour for the job, priced. labour.py reads, checks and renders it.
 #
-# Every rate comes from a rate book (README rule 10): its [[book]] says which document, its rate says the
-# item in it and the page it was read from, and `checked` is the day the rates were read. A rate with no
+# Every rate comes from a rate book (README rule 10): its [[book]] says which document and how a rate names its
+# place there (item_th, item_en, filling in {item}), its rate says the item in it and the page it was read from, and `checked` is the day the rates were read. A rate with no
 # book is a stand-in: it must be marked assumed until the builder or the owner gives the real figure.
 #
 # Each [[line]] is one piece of labour on the list: the rate it is priced at, its work section, and where
 # its quantity comes from — exactly one of:
 #   take_off      a quantity the room works out from its sizes (room.py, take_off): its unit must be the rate's
-#   count         products on the materials list, by id: how many of them the list has (the rate's unit: set);
-#                 their names show under the line, from the list
+#   count         products on the materials list, by id: how many of them the list has (the rate's unit: set,
+#                 or metre for products bought by the metre); their names show under the line, from the list
 #   of_products   products on the materials list, by id: the rate is a share of what they still cost to buy
 #                 (the rate's unit: percent) — the book's rule for labour it doesn't list
 #   n             a quantity written here, for work the room can't measure (marked assumed until measured)
@@ -22,14 +22,13 @@ round_approx = 100          # an approximate total is rounded to this
 [section]
 th = "ค่าแรง"
 en = "Labour"
-note_th = "อัตราค่าแรงตาม{book} ({standard}) ตรวจ ณ วันที่ {checked} · เป็นอัตราราคากลางงานราชการ ผู้รับเหมาอาจเสนอราคาต่างจากนี้ · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
-note_en = "Rates from the {book} ({standard}), checked {checked} · these are the government's reference rates for public works — a builder's price may differ · \"{approx}\" = a stand-in, still to be confirmed"
+note_th = "อัตราค่าแรงจาก: {books} — ตรวจ ณ วันที่ {checked} · เป็นอัตราอ้างอิง ผู้รับเหมาอาจเสนอราคาต่างจากนี้ · \"{approx}\" = ยังเป็นค่าประมาณ รอยืนยัน"
+note_en = "Rates from: {books} — checked {checked} · these are reference rates; a builder's price may differ · \"{approx}\" = a stand-in, still to be confirmed"
 
 [labels]
 item = { th = "งาน", en = "Work" }
 qty = { th = "ปริมาณ", en = "Qty" }
 amount = { th = "ค่าแรง", en = "Labour" }
-book_item = { th = "ข้อ {item}", en = "item {item}" }
 book_note = { th = "หมายเหตุ {note}", en = "note {note}" }
 of_products = { th = "{percent} ของค่าวัสดุ {cost}", en = "{percent} of materials costing {cost}" }
 labour_total = { th = "รวมค่าแรง", en = "Labour total" }
@@ -41,6 +40,7 @@ about = { th = "ประมาณ", en = "about" }
 currency = "฿"
 times = "×"
 percent = "%"
+dot = " · "      # between the books in the section's note
 
 [[book]]
 id = "cgd_w480"
@@ -48,6 +48,17 @@ th = "บัญชีค่าแรงงานของกรมบัญช�
 en = "Comptroller General's labour rates"
 standard = "กค 0433.2/ว 480, 26/06/2569"
 url = "https://www.yotathai.com/labor-rates"
+item_th = "ข้อ {item}"       # how a rate names its place in this book
+item_en = "item {item}"
+
+[[book]]
+id = "homepro_services"
+th = "ราคาบริการติดตั้งของโฮมโปร"
+en = "HomePro's installation service prices"
+standard = "homepro.co.th"
+url = "https://www.homepro.co.th"
+item_th = "โฮมโปร {item}"
+item_en = "HomePro {item}"
 
 # Each unit: id, th, en, en_many. The room's take-off measures in m2 and metre.
 [[unit]]
@@ -344,20 +355,44 @@ item = "4.58"
 url = "https://yotathai.com/labor-rates/electrical/4-58"
 
 [[rate]]
-id = "electrical_first_fix"
-th = "งานไฟฟ้า: เดินสายโคมไฟ ย้ายชุดสวิตช์พร้อมปลั๊กและเบรกเกอร์ ต่อสายเครื่องทำน้ำอุ่น"
-en = "Electrical: the lamp cable, moving the switch-and-socket plate and breaker, connecting the water heater"
-unit = "job"
-rate = 1500
-assumed = ["rate"]
+id = "cable_run"
+th = "เดินระบบไฟฟ้า 2 × 1.5 ตร.มม."
+en = "Install an electrical run, 2 × 1.5 mm²"
+unit = "metre"
+rate = 100
+book = "homepro_services"
+item = "1145525"
+url = "https://homepro.co.th/p/1145525?lang=en"
+
+[[rate]]
+id = "socket_switch"
+th = "ติดตั้งปลั๊ก สวิตช์"
+en = "Install a socket or switch"
+unit = "set"
+rate = 650
+book = "homepro_services"
+item = "7000164"
+url = "https://www.homepro.co.th/p/7000164"
+
+[[rate]]
+id = "breaker"
+th = "ติดตั้งเบรกเกอร์"
+en = "Install a circuit breaker"
+unit = "set"
+rate = 300
+book = "homepro_services"
+item = "1145525"
+url = "https://homepro.co.th/p/1145525?lang=en"
 
 [[rate]]
 id = "heater_refit"
-th = "ถอดและติดตั้งเครื่องทำน้ำอุ่นเดิมกลับ"
-en = "Take down and refit the existing water heater"
-unit = "job"
+th = "ติดตั้งเครื่องทำน้ำอุ่น เข้ากับระบบน้ำและไฟที่เตรียมไว้ (ค่าแรง)"
+en = "Install a water heater on the water and power made ready (labour)"
+unit = "set"
 rate = 500
-assumed = ["rate"]
+book = "homepro_services"
+item = "277997"
+url = "https://www.homepro.co.th/p/277997"
 
 [[rate]]
 id = "not_listed"
@@ -543,9 +578,25 @@ work_section = "plumbing"
 count = ["stop_valve", "stop_valve_2way", "heater_stop_valve"]
 
 [[line]]
-rate = "electrical_first_fix"
+rate = "cable_run"
+work_section = "electrical"
+count = ["lamp_cable"]
+note_th = "ราคาจากตารางค่าใช้จ่ายเพิ่มเติม ในหน้าบริการติดตั้งโคมไฟของโฮมโปร"
+note_en = "the price from the extra-cost table on HomePro's lamp installation page"
+
+[[line]]
+rate = "socket_switch"
+work_section = "electrical"
+count = ["switch_plate"]
+note_th = "ย้ายไปฝังในผนังใหม่ — ราคาบริการโฮมโปรเป็นแบบเดินท่อลอย ใกล้เคียงที่สุดที่มีราคาประกาศ"
+note_en = "moved into the new wall — HomePro's price is for surface conduit, the nearest published one"
+
+[[line]]
+rate = "breaker"
 work_section = "electrical"
 n = 1
+note_th = "เบรกเกอร์เครื่องทำน้ำอุ่นเดิม ย้ายไปผนังใหม่ · ราคาจากตารางค่าใช้จ่ายเพิ่มเติม ในหน้าบริการติดตั้งโคมไฟของโฮมโปร"
+note_en = "the existing water-heater breaker, moved to the new wall · the price from the extra-cost table on HomePro's lamp installation page"
 
 [[line]]
 rate = "wall_lamp"
@@ -601,7 +652,7 @@ take_off = "door_m2"
 [[line]]
 rate = "heater_refit"
 work_section = "fit_out"
-n = 1
+count = ["heater"]
 
 [[line]]
 rate = "shower"
