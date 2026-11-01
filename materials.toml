@@ -37,13 +37,13 @@ en = "New ceiling"
 
 [[area]]
 id = "basin"
-th = "อ่างล้างหน้า"
-en = "Basin"
+th = "ประปา (อ่างล้างหน้า)"
+en = "Plumbing, basin"
 
 [[area]]
 id = "toilet"
-th = "ชักโครก"
-en = "Toilet"
+th = "ประปา (ชักโครก)"
+en = "Plumbing, toilet"
 
 [[area]]
 id = "plumbing_shared"
@@ -54,6 +54,11 @@ en = "Plumbing, shared"
 id = "shower"
 th = "ฝักบัวและเครื่องทำน้ำอุ่น"
 en = "Shower and water heater"
+
+[[area]]
+id = "accessories"
+th = "อุปกรณ์ในห้องน้ำ"
+en = "Accessories"
 
 [[area]]
 id = "tiles"
@@ -247,39 +252,6 @@ link = "https://www.homepro.co.th/p/5577"
 
 [[item]]
 area = "basin"
-name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
-note = "น้ำดี / cold supply"
-buy = 1
-price = 69
-unit = "เส้น / length"
-link = "https://www.homepro.co.th/p/5556"
-
-[[item]]
-area = "basin"
-name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
-buy = 5
-price = 6
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5569"
-
-[[item]]
-area = "basin"
-name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
-buy = 1
-price = 8
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5570"
-
-[[item]]
-area = "basin"
-name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
-buy = 1
-price = 27
-unit = "ม้วน / roll"
-link = "https://www.homepro.co.th/p/1055229"
-
-[[item]]
-area = "basin"
 name = "ท่อประปา SCG ชั้น 8.5 1½ นิ้ว 2 ม. / Pipe SCG class 8.5, 1½\", 2 m"
 note = "ท่อน้ำทิ้งในผนัง / waste pipe in the wall"
 buy = 1
@@ -290,17 +262,10 @@ link = "https://www.homepro.co.th/p/1104514"
 [[item]]
 area = "basin"
 name = "ข้องอ 90° ท่อน้ำไทย 1½ นิ้ว / 90° elbow Thai Pipe 1½\""
-buy = 4
+buy = 2
 price = 29
 unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/5614"
-
-[[item]]
-area = "basin"
-name = "กระจกเงากลม MOYA HLP004 Ø 60 ซม. / Round mirror MOYA HLP004, 60 cm"
-have = 1
-price = 429
-link = "https://www.homepro.co.th/p/1319896"
 
 [[item]]
 area = "toilet"
@@ -337,39 +302,6 @@ link = "https://www.homepro.co.th/p/5577"
 
 [[item]]
 area = "toilet"
-name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
-note = "น้ำดี / cold supply"
-buy = 1
-price = 69
-unit = "เส้น / length"
-link = "https://www.homepro.co.th/p/5556"
-
-[[item]]
-area = "toilet"
-name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
-buy = 5
-price = 6
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5569"
-
-[[item]]
-area = "toilet"
-name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
-buy = 1
-price = 8
-unit = "ตัว / pcs"
-link = "https://www.homepro.co.th/p/5570"
-
-[[item]]
-area = "toilet"
-name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
-buy = 1
-price = 27
-unit = "ม้วน / roll"
-link = "https://www.homepro.co.th/p/1055229"
-
-[[item]]
-area = "toilet"
 name = "สายฉีดชำระ / Bum gun"
 note = "จากชักโครกเดิม / from the old toilet"
 have = 1
@@ -394,19 +326,39 @@ unit = "ตัว / pcs"
 link = "https://www.homepro.co.th/p/1136842"
 
 [[item]]
-area = "toilet"
-name = "ที่ใส่กระดาษชำระ KARAT K-17053X เซรามิก สีขาวเงา / Toilet roll holder KARAT K-17053X, glossy white ceramic"
-note = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน / matches the white bum gun and lamps on the same wall"
-buy = 1
-price = 340
-link = "https://www.homepro.co.th/p/105587"
+area = "plumbing_shared"
+name = "ท่อสีฟ้า ท่อน้ำไทย ชั้น 13.5 ½ นิ้ว (4 หุน) 4 ม. / Blue pipe Thai Pipe class 13.5, ½\", 4 m"
+note = "น้ำดีไปชักโครก สายฉีดชำระ อ่าง / cold supply: toilet, bum gun, basin"
+buy = 2
+price = 69
+unit = "เส้น / lengths"
+link = "https://www.homepro.co.th/p/5556"
 
 [[item]]
-area = "toilet"
-name = "ชั้นวางพร้อมราวแขวนผ้า LUZERN AS-5012S สีโครม / Shelf with towel rail LUZERN AS-5012S, chrome"
-have = 1
-price = 799
-link = "https://www.homepro.co.th/p/1215163"
+area = "plumbing_shared"
+name = "ข้องอ 90° ท่อน้ำไทย ½ นิ้ว / 90° elbow Thai Pipe ½\""
+buy = 10
+price = 6
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5569"
+
+[[item]]
+area = "plumbing_shared"
+name = "สามทาง 90° ท่อน้ำไทย ½ นิ้ว / 90° tee Thai Pipe ½\""
+note = "ต่อจากท่อน้ำดีเดิม และแยกไปชักโครกกับอ่าง / one off the existing cold line, one to branch to the toilet and the basin"
+buy = 2
+price = 8
+unit = "ตัว / pcs"
+link = "https://www.homepro.co.th/p/5570"
+
+[[item]]
+area = "plumbing_shared"
+name = "เทปพันเกลียว SCG 10 ม. / Thread tape SCG 10 m"
+note = "สต็อปวาล์วทั้งสองและเกลียวอื่นๆ / both stop valves and the other threads"
+buy = 1
+price = 27
+unit = "ม้วน / roll"
+link = "https://www.homepro.co.th/p/1055229"
 
 [[item]]
 area = "plumbing_shared"
@@ -427,6 +379,28 @@ area = "shower"
 name = "เครื่องทำน้ำอุ่นพร้อมกล่องไฟฟ้า สายไฟ และเบรกเกอร์ / Water heater with its electrical box, cable and circuit breaker"
 have = 1
 reused = true
+
+[[item]]
+area = "accessories"
+name = "กระจกเงากลม MOYA HLP004 Ø 60 ซม. / Round mirror MOYA HLP004, 60 cm"
+have = 1
+price = 429
+link = "https://www.homepro.co.th/p/1319896"
+
+[[item]]
+area = "accessories"
+name = "ชั้นวางพร้อมราวแขวนผ้า LUZERN AS-5012S สีโครม / Shelf with towel rail LUZERN AS-5012S, chrome"
+have = 1
+price = 799
+link = "https://www.homepro.co.th/p/1215163"
+
+[[item]]
+area = "accessories"
+name = "ที่ใส่กระดาษชำระ KARAT K-17053X เซรามิก สีขาวเงา / Toilet roll holder KARAT K-17053X, glossy white ceramic"
+note = "เข้ากับสายฉีดชำระและโคมไฟสีขาวบนผนังเดียวกัน / matches the white bum gun and lamps on the same wall"
+buy = 1
+price = 340
+link = "https://www.homepro.co.th/p/105587"
 
 [[item]]
 area = "tiles"
