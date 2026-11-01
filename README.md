@@ -81,7 +81,9 @@ Bad data raises one `DataError` naming the file and the problem; the build print
 
 ## Tests
 
-Break copies of the sources on purpose, put the quote together in-process (`assemble`, no PDF) and confirm each check fires. Under a second. Run after changing any script or data rule.
+`mise run test` breaks copies of the sources on purpose, puts the quote together in-process (`assemble`, no PDF) and confirms each check fires — under a few seconds.
+
+No test depends on today's numbers. Each one picks what it breaks by what it is (an item that belongs to another item, the floor tile's product, a line still to buy), edits it in the loaded data, and works out the message it expects from the real data. Changing a price, a position or a quantity never breaks a test; only a broken check does. The tests write their edited copies with `tomli-w`, pinned in `requirements.txt`.
 
 ## Needs
 

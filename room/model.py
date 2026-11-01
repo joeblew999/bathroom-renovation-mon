@@ -371,7 +371,7 @@ def _joint_warnings(items, length, tile, tile_top, min_clear):
         if it.shape not in ("point", "rect", "vline", "circle"):
             continue
         checks = [("x", it.x, jx)] if jx else []
-        if it.y is not None and it.y < tile_top:
+        if jy and it.y is not None and it.y < tile_top:          # no joints when a tile is taller than the tiling
             checks.append(("y", it.y, jy))
         for axis, v, joints in checks:
             d = min(abs(v - j) for j in joints)
