@@ -39,7 +39,7 @@ There are two kinds of check, and they never mix.
 | Part | Data | Code | Design checks |
 |---|---|---|---|
 | room | `room.toml` | `room.py` | `room_design_checks.py`: the space |
-| materials | `materials.toml` | `materials.py` | `materials_design_checks.py`: the quantities |
+| materials | `materials.toml` | `materials.py` | `materials_design_checks.py`: the supply — whether the list holds enough of what the drawings need |
 | phases | `phases.toml` | `phases.py` | none |
 
 - Each design-checks file lists its checks at the top.
