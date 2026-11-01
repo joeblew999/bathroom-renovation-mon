@@ -35,7 +35,7 @@ NUM = "count!"            # a size: more than 0
 FILE_FIELDS = {"room": "table!", "column": "table!", "door": "table!", "lintel": "table!", "tile": "list!",
                "floor": "table!", "wall": "list!", "norm": "list!", "labels": "table!", "symbols": "table!"}
 ROOM = {"length": NUM, "width": NUM, "ceiling": NUM, "joint_clearance": NUM}
-COLUMN = {**NAMED, "width": NUM, "wall": "@wall!"}
+COLUMN = {**NAMED, "width": NUM, "depth": NUM, "into_room": "amount!", "wall": "@wall!"}
 DOOR = {"product": "text!", "hinge": "@end!", "swing": "@swing!", "note_th": "text", "note_en": "text"}
 LINTEL = {"product": "text!", "bearing": NUM, "note_th": "text", "note_en": "text"}
 TILE = {"id": "text!", "product": "text!", **NAME, "tiling_height": "whole!", "fill": "text!"}
@@ -71,6 +71,7 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "warn_outside": ("wall", "item", "axis", "v", "parent", "low", "high"),
           "warn_above": ("wall", "item", "axis", "v", "parent", "top"),
           "warn_door_fit": ("wall", "door", "column", "length"), "warn_lintel_short": ("wall", "lintel", "door", "bearing"),
+          "warn_frame_column": ("wall", "frame", "column"),
           "warn_clearance": ("wall", "item", "clear", "need"), "warn_rim_height": ("wall", "item", "rim", "low", "high"),
           "warn_zone_ip": ("wall", "item", "zone", "ip", "need"), "warn_zone_no_ip": ("wall", "item", "zone"),
           "warn_clearance_door": ("wall", "item", "door"), "warn_waterproofing": ("zone", "height", "need"),
@@ -227,6 +228,8 @@ class Room:
     symbols: dict        # the marks on the drawings (room.toml [symbols])
     lintel_length: float  # the lintel product's length, or None if the list gives none (a design check)
     bearing: float        # how far the lintel rests on the wall each side of the opening
+    column_depth: float   # the existing column's depth through its wall
+    frame_depth: float    # the door frame product's depth, or None if the list gives none (a design check)
     door_hinge: str       # which end of the door opening its leaf is hinged at: start (the column side) or end
     door_swing: str       # in: the leaf opens into the room; out: out of it
     floor_drain: str      # the id of the floor item the floor falls to
@@ -264,7 +267,8 @@ def load(path, products):
     walls = _walls(raw, products)
     return Room(r["length"], r["width"], r["ceiling"], r["joint_clearance"], tiles, raw["floor"]["ref"],
                 raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"],
-                products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"], raw["door"]["hinge"],
+                products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"], raw["column"]["depth"],
+                products[raw["door"]["product"]].d, raw["door"]["hinge"],
                 raw["door"]["swing"], raw["floor"]["drain"],
                 raw["floor"]["fall_wet"], raw["floor"]["fall_dry"],
                 {n["id"]: Norm(n["id"], n["th"], n["en"], n.get("item"), n["value"], n["standard"], n["url"], n["checked"])
@@ -358,7 +362,7 @@ def _walls(raw, products):
             n = len(items)
             items += [
                 Item(str(n + 1), "column", col["th"], col["en"], "column", x=col["width"] / 2, y=r["ceiling"] / 2,
-                     w=col["width"], h=r["ceiling"], **_notes(col, "[column]")),
+                     w=col["width"], h=r["ceiling"], d=col["into_room"], **_notes(col, "[column]")),
                 Item(str(n + 2), "door", door.th, door.en, "door", x=col["width"] + door.w / 2, y=door.h / 2,
                      w=door.w, h=door.h, **_notes(raw["door"], "[door]")),
                 Item(str(n + 3), "lintel", lintel.th, lintel.en, "lintel", x=col["width"] + (door.w + bearing) / 2,

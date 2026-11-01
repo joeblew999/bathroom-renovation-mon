@@ -106,8 +106,8 @@ en = "Set the precast lintel over the door opening, cut to length on site, one e
 
 [[phase.step]]
 id = "frame"
-th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา · ตั้งวงกบให้หน้าด้านห้องน้ำเสมอกับผิวผนังสำเร็จด้านห้องน้ำ (ปูนฉาบ กาวซีเมนต์ และกระเบื้องรวมกัน ยื่นจากหน้าอิฐ) ส่วนที่วงกบลึกไม่ถึงอยู่ด้านห้องนั่งเล่น ให้ปูนฉาบด้านนั้นจบชนวงกบเป็นมุมฉาก · อุดรอบวงกบและช่องทับหลังด้วยปูนก่ออิฐมวลเบาที่เหลือ"
-en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall · set it with its bathroom face flush with the finished bathroom face of the wall (plaster, adhesive and tile together, out from the block face); whatever depth the frame lacks falls on the living-room side, where the plaster stops square against the frame · fill round the frame and the lintel pocket with the leftover AAC block mortar"
+th = "ติดตั้งวงกบประตูในช่องประตู ด้านบานพับยึดเข้ากับเสาเดิม อีกด้านยึดเข้ากับผนังอิฐมวลเบา · ตั้งวงกบให้หน้าด้านห้องน้ำเสมอกับผิวผนังสำเร็จด้านห้องน้ำ (ปูนฉาบ กาวซีเมนต์ และกระเบื้องรวมกัน ยื่นจากหน้าอิฐ) ส่วนที่วงกบลึกไม่ถึงอยู่ด้านห้องนั่งเล่น ให้ปูนฉาบด้านนั้นจบชนวงกบเป็นมุมฉาก · ด้านบานพับ เสาเดิมยื่นเข้าห้องน้ำพ้นวงกบ ด้านข้างเสาที่อยู่ถัดวงกบจึงเป็นผิวหัวเสา ตกแต่งเหมือนผิวเสาด้านอื่น · อุดรอบวงกบและช่องทับหลังด้วยปูนก่ออิฐมวลเบาที่เหลือ"
+en = "Fit the door frame into the opening, hinge side fixed to the existing column, the other side to the AAC wall · set it with its bathroom face flush with the finished bathroom face of the wall (plaster, adhesive and tile together, out from the block face); whatever depth the frame lacks falls on the living-room side, where the plaster stops square against the frame · on the hinge side the existing column stands proud of the frame into the bathroom, so the column's side beside the frame is a return, finished like the column's other faces · fill round the frame and the lintel pocket with the leftover AAC block mortar"
 
 [[phase]]
 id = "build_ceiling"
@@ -206,8 +206,8 @@ en = "**Plaster:** plaster both faces of the new wall with AAC plaster, check it
 
 [[phase.step]]
 id = "build_out"
-th = "**ผนังเดิมเหนือแนวกระเบื้อง:** ผนังหลัก ผนังยาวตรงข้าม ผนังหน้าต่าง และหน้าเสาเดิมด้านห้องน้ำ ฉาบเหนือแนวขอบกระเบื้องให้หนาขึ้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง เหมือนผนังใหม่ — ขูดหรือเจียสีเดิมออกจนถึงเนื้อปูนฉาบที่แน่น ราดน้ำให้ชื้น ทาน้ำปูนผสมน้ำยาประสาน (น้ำยาประสาน น้ำ และปูนซีเมนต์ ตามฉลาก) แล้วฉาบชั้นแรกทับขณะน้ำปูนยังเปียก จากนั้นฉาบชั้นที่สองตามไม้บรรทัดที่ตีไว้ที่แนวขอบกระเบื้อง · ร่องท่อและสายไฟเหนือแนวกระเบื้องถูกฉาบทับไปด้วย · ขอบช่องหน้าต่างเหนือแนวกระเบื้องฉาบเสริมให้เสมอกัน"
-en = "**Existing walls above the tiles:** on the main, opposite and window walls, and the bathroom face of the existing column, build the face above the tile line out flush with the face the tiles below will finish at, as on the new wall — grind or scrape the old paint off back to sound plaster, wet it, brush on a bonding slurry (bonding agent, water and cement, as on its label), and lay the first coat into it while it is still wet; then a second coat to a straight batten fixed at the tile line · this covers any chase above the tile line too · build the window reveal out above the tile line to match"
+th = "**ผนังเดิมเหนือแนวกระเบื้อง:** ผนังหลัก ผนังยาวตรงข้าม ผนังหน้าต่าง และผิวเสาเดิมในห้องน้ำ (ด้านหน้าและทั้ง 2 ข้าง) ฉาบเหนือแนวขอบกระเบื้องให้หนาขึ้นจนเสมอกับผิวกระเบื้องที่จะปูด้านล่าง เหมือนผนังใหม่ — ขูดหรือเจียสีเดิมออกจนถึงเนื้อปูนฉาบที่แน่น ราดน้ำให้ชื้น ทาน้ำปูนผสมน้ำยาประสาน (น้ำยาประสาน น้ำ และปูนซีเมนต์ ตามฉลาก) แล้วฉาบชั้นแรกทับขณะน้ำปูนยังเปียก จากนั้นฉาบชั้นที่สองตามไม้บรรทัดที่ตีไว้ที่แนวขอบกระเบื้อง · ร่องท่อและสายไฟเหนือแนวกระเบื้องถูกฉาบทับไปด้วย · ขอบช่องหน้าต่างเหนือแนวกระเบื้องฉาบเสริมให้เสมอกัน · มุมเสาฉาบให้ตรงและได้ฉาก"
+en = "**Existing walls above the tiles:** on the main, opposite and window walls, and the existing column's faces in the bathroom (its front and its 2 sides), build the face above the tile line out flush with the face the tiles below will finish at, as on the new wall — grind or scrape the old paint off back to sound plaster, wet it, brush on a bonding slurry (bonding agent, water and cement, as on its label), and lay the first coat into it while it is still wet; then a second coat to a straight batten fixed at the tile line · this covers any chase above the tile line too · build the window reveal out above the tile line to match · form the column's corners straight and square"
 
 [[phase.step]]
 id = "ceiling_joints"
@@ -253,8 +253,8 @@ en = "**Main wall:** wall joints lined up with the floor joints, every tile faci
 
 [[phase.step]]
 id = "door_end_tiles"
-th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา · ปูกระเบื้องชนวงกบ เว้นร่องประมาณ 3 มม. แล้วยิงซิลิโคนสีขาวกันน้ำ — ขอบตัดของกระเบื้องซ่อนอยู่ชิดวงกบ"
-en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column · tile up to the frame, leaving a joint of about 3 mm, and seal it with white sanitary silicone — the cut tile edge stays hidden against the frame"
+th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา · มุมนอกทั้ง 2 มุมของเสาในห้องน้ำ เข้ามุมแบบตัดเฉียง 45° ไม่ใช้คิ้ว เหมือนจมูกขั้น — ลบคมเล็กน้อย และอัดกาวซีเมนต์หลังมุมให้เต็ม · ปูกระเบื้องชนวงกบ เว้นร่องประมาณ 3 มม. แล้วยิงซิลิโคนสีขาวกันน้ำ — ขอบตัดของกระเบื้องซ่อนอยู่ชิดวงกบ"
+en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column · mitre the column's 2 external corners in the bathroom at 45°, with no trim, as at the step nosing — ease the edge slightly and fill solid with adhesive behind the corner · tile up to the frame, leaving a joint of about 3 mm, and seal it with white sanitary silicone — the cut tile edge stays hidden against the frame"
 
 [[phase.step]]
 id = "step_tiles"

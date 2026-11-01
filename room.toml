@@ -18,7 +18,9 @@ joint_clearance = 20       # a design check: every hole at least this far from a
 [column]                   # the existing column; the rest of its wall is new
 th = "เสาเดิม"
 en = "Existing column"
-width = 80
+width = 80                 # along its wall
+depth = 200                # through the wall, measured on site
+into_room = 100            # how far its bathroom face stands proud of the wall's, into the room, measured on site
 wall = "new_wall"
 
 [door]                     # beside the column: the opening is its product's size
@@ -438,6 +440,7 @@ warn_outside = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่�
 warn_above = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่งสูงเกินขอบบนของ{parent} ({top}) — เป็นส่วนหนึ่งของชิ้นนั้น จะโผล่ให้เห็นเหนือมัน ต้องวางตำแหน่งให้ต่ำลง", en = "{wall}, {item} ({axis} {v}) is set out above the top of {parent} ({top}) — it belongs to that fitting and would show above it; set it out lower" }
 warn_door_fit = { th = "{wall}: ช่องประตู ({door}) รวมกับเสาเดิม ({column}) ยาวเกินผนัง ({length}) — ใช้วงกบที่แคบลง หรือตรวจขนาดเสา", en = "{wall}: the door opening ({door}) and the existing column ({column}) don't fit in the wall's {length} — use a narrower door frame, or check the column" }
 warn_lintel_short = { th = "{wall}: คานทับหลัง ({lintel}) สั้นกว่าช่องประตูรวมระยะวางบนผนัง ({door} + {bearing}) — คานจะวางบนผนังไม่ถึงทั้งสองข้าง ต้องใช้คานที่ยาวกว่านี้", en = "{wall}: the lintel ({lintel}) is shorter than the door opening plus its bearing ({door} + {bearing}) — it won't rest on the wall at both ends; use a longer lintel" }
+warn_frame_column = { th = "{wall}: วงกบประตูลึก {frame} มม. ลึกกว่าเสาเดิมที่ยึดด้านบานพับ ({column} มม.) — วงกบด้านบานพับจะยื่นพ้นเสา ใช้วงกบที่ตื้นกว่า หรือเสริมเสาให้ลึกเท่าวงกบ", en = "{wall}: the door frame is {frame} mm deep, deeper than the existing column its hinge side is fixed to ({column} mm) — the hinge jamb would stand clear of the column; use a shallower frame, or build the column out to the frame's depth" }
 warn_clearance = { th = "{wall}, {item}: ด้านหน้ามีที่ว่างเพียง {clear} มม. — ต้องเหลืออย่างน้อย {need} มม. จึงจะใช้งานได้ วางตำแหน่งใหม่ หรือเลือกรุ่นที่ยื่นน้อยกว่า", en = "{wall}, {item}: only {clear} mm clear in front of it — keep at least {need} mm so it can be used; set it out again or choose a shallower fitting" }
 warn_rim_height = { th = "{wall}, {item}: ขอบบนวางตำแหน่งที่ {rim} มม. จากพื้น — ควรอยู่ระหว่าง {low} ถึง {high} มม.", en = "{wall}, {item}: its rim is set out {rim} mm above the floor — keep it between {low} and {high} mm" }
 warn_zone_ip = { th = "{wall}, {item}: อยู่ในโซนไฟฟ้า {zone} รอบฝักบัว แต่มีระดับกันน้ำ {ip} — อุปกรณ์ไฟฟ้าในโซนนี้ต้องเป็น IPX{need} ขึ้นไป ย้ายให้ห่างออกไป หรือเลือกรุ่นที่กันน้ำได้", en = "{wall}, {item}: in electrical zone {zone} round the shower, but rated {ip} — anything electrical there must be IPX{need} or better; set it out further away or choose a rated fitting" }

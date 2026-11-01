@@ -405,8 +405,8 @@ def _cuts(wall):
 
 
 def _plan_wall(a, room, wall, P):
-    """A wall on the plan: solid except at the door and the column, the column drawn thicker. The top
-    and bottom walls run on over the corners."""
+    """A wall on the plan: solid except at the door and the column, the column drawn thicker outside and
+    standing into the room as far as it does (to scale). The top and bottom walls run on over the corners."""
     over = PLAN_WALL / PLAN_SCALE if wall.side in ("top", "bottom") else 0
     edges = [-over] + [e for c0, c1, _ in _cuts(wall) for e in (c0, c1)] + [wall.length + over]
     for x0, x1 in zip(edges[::2], edges[1::2]):
@@ -415,6 +415,8 @@ def _plan_wall(a, room, wall, P):
     for c0, c1, it in _cuts(wall):
         if it.shape == "column":
             _rect(a, "plan-column", _band(room, wall, P, c0, c1, PLAN_WALL * COLUMN_THICK))
+            if it.d:
+                _rect(a, "plan-column", _px_box(P, _to_floor(room, wall, c0), _to_floor(room, wall, c1, it.d)))
 
 
 def _plan_openings(a, room, wall, P, shown, tags):

@@ -511,6 +511,13 @@ def door_test():
         warn("warn_door_fit", wall=wall_name(column_wall()[1]), door=f"{length:g}", column=f"{construction_item("column").w:g}", length=f"{length:g}")
 
 
+def frame_column_test():
+    """The door frame made deeper than the column its hinge side is fixed to."""
+    door, depth = RAW[ROOM]["door"]["product"], RAW[ROOM]["column"]["depth"]
+    return {MATERIALS: data(lambda d: by_id(d["entry"], door)["size"].update(d=depth + 1))}, \
+        warn("warn_frame_column", wall=wall_name(column_wall()[1]), frame=f"{depth + 1:g}", column=f"{depth:g}")
+
+
 def size_in_name_test():
     pid = an_entry("product whose detail shows {w_cm} × {h_cm}",
                    lambda p: "{w_cm} × {h_cm}" in p["detail_en"])["id"]
@@ -1023,6 +1030,7 @@ TESTS = [
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.joint_clearance))),
     ("room design: the door wider than its wall beside the column", door_test),
     ("room design: a lintel shorter than the door and its bearing", lintel_short_test),
+    ("room design: a door frame deeper than the column it is fixed to", frame_column_test),
     ("room design: too little clear space in front of a fitting", clearance_test),
     ("room design: the basin rim set out outside its heights", rim_test),
     ("room design: something electrical in a zone round the shower, rated too low", zone_ip_test),

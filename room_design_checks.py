@@ -16,6 +16,7 @@ The checks, each worded by its label in room.toml:
   - a floor item set out off the floor                                           warn_set_out_off_floor
   - the door too wide to fit beside the column                               warn_door_fit
   - the lintel shorter than the door and its bearing                         warn_lintel_short
+  - the door frame deeper than the column its hinge side is fixed to         warn_frame_column
   - too little clear space in front of a fitting (norms wc_clearance, basin_clearance)     warn_clearance
   - the door swinging into the clear space in front of a fitting                           warn_clearance_door
   - the basin rim set out too low or too high (basin_rim_min, basin_rim_max)               warn_rim_height
@@ -84,8 +85,9 @@ def floor_warnings(room):
 
 
 def _construction_warnings(room, wall):
-    """On the column's wall: the door opening fits beside the column, and the lintel spans the
-    opening and its bearing (when its product gives a length)."""
+    """On the column's wall: the door opening fits beside the column, the frame is no deeper than the column
+    its hinge side is fixed to (when its product gives a depth), and the lintel spans the opening and its
+    bearing (when its product gives a length)."""
     construction = {it.shape: it for it in wall.items if it.shape in ("column", "door")}
     if len(construction) < 2:
         return []
@@ -94,6 +96,9 @@ def _construction_warnings(room, wall):
     if column.w + door.w >= wall.length:
         out.append(_warn(room, "warn_door_fit", wall=_name(wall), door=f"{door.w:g}", column=f"{column.w:g}",
                          length=f"{wall.length:g}"))
+    if room.frame_depth is not None and room.frame_depth > room.column_depth:
+        out.append(_warn(room, "warn_frame_column", wall=_name(wall), frame=f"{room.frame_depth:g}",
+                         column=f"{room.column_depth:g}"))
     if room.lintel_length is not None and room.lintel_length < door.w + room.bearing:
         out.append(_warn(room, "warn_lintel_short", wall=_name(wall), lintel=f"{room.lintel_length:g}", door=f"{door.w:g}",
                          bearing=f"{room.bearing:g}"))
