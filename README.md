@@ -23,19 +23,30 @@ room.toml       ──► room.py         + room_design_checks.py        ─┘
 
 On every push to `main`, GitHub runs the same `setup`, `lint`, `test` and `build` and publishes `out/`. `out/` is never committed.
 
-## Design checks
+## Checks: data and design
 
-Two kinds of check stop the build. **Data checks** ask whether a data file is written correctly — a missing field, an id that points at nothing, Thai without English. **Design checks** ask whether the bathroom it describes works — the things an architect and a builder care about: clearances, clashes, fit and quantities. They are kept apart from the data checks, in their own files, named for the part they check:
+Every check stops the build. There are two kinds, and they never mix.
+
+**A data check** asks whether a data file is written correctly. Fixing it means correcting the file: a missing or misspelt field, an id that points at nothing, Thai without English, an item that names both a product and its own name.
+- It lives in the part's own code (`room.py`, `materials.py`, `phases.py`), or in `common.check` when every entry shares it; the template's two checks are in `build.py`.
+- It raises `DataError`: one English line naming the file and the problem, before anything is written.
+
+**A design check** asks whether the bathroom, as drawn and listed, can be built: the things an architect and a builder look for. Fixing it means changing the design: moving or resizing something, choosing a different product, ordering more.
+- It lives in the design-checks file of the part whose design would change:
 
 | Part | Data | Code | Design checks |
 |---|---|---|---|
-| room | `room.toml` | `room.py` | `room_design_checks.py` — the space |
-| materials | `materials.toml` | `materials.py` | `materials_design_checks.py` — the quantities |
-| phases | `phases.toml` | `phases.py` | none yet (a `phases_design_checks.py` would check the order of the work) |
+| room | `room.toml` | `room.py` | `room_design_checks.py`: the space |
+| materials | `materials.toml` | `materials.py` | `materials_design_checks.py`: the quantities |
+| phases | `phases.toml` | `phases.py` | none |
 
-Each design-checks file lists its checks at the top, next to the code that does them.
+- It never raises `DataError`. It returns a design problem: a note for the architect, worded by a label in the part's `[labels]`, in Thai and English, saying where, what, the rule and what to do.
+- The build writes the page and the PDF, listing each problem in red under its drawing, and then stops. GitHub runs the same build, so nothing with a design problem is published.
+- Each design-checks file lists its checks at the top. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
 
-A design problem stops the build — after the page and the PDF are written to `out/`, so it can be seen there, listed in red under its drawing; GitHub runs the same build, so nothing with a design problem is published. Each problem is written as a note for the architect, in Thai and English: where, what, the rule, and what to do. Its wording is a label in the part's data file. The tests for them are the `room design check:` and `materials design check:` groups in `mise run test`.
+**To place a new check, ask what fixing it would take.** Correcting the file makes it a data check. Changing the design makes it a design check. Two real examples:
+- *"An item names a product that isn't on the material list"* means correcting the id, so it's a data check, in `room.py`.
+- *"The door is too wide to fit beside the column"* means choosing a narrower door frame, so it's a design check, in `room_design_checks.py`.
 
 ## Files
 
@@ -47,7 +58,7 @@ A design problem stops the build — after the page and the PDF are written to `
 | `bathroom-renovation-quote.md` | The template: the title, then a section marker for the phases and the materials, in page order (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `phases.py`, `materials.py`, `room.py` | The parts (see How it's built) |
-| `room_design_checks.py`, `materials_design_checks.py` | The design checks (see Design checks) |
+| `room_design_checks.py`, `materials_design_checks.py` | The design checks (see Checks: data and design) |
 | `build.py` | The only place the parts meet (see How it's built) |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes |
 | `test_pipeline.py` | The tests |
@@ -66,7 +77,7 @@ A design problem stops the build — after the page and the PDF are written to `
 5. **Parts don't know each other.** No part imports another, and no data file holds a fact about another part; the one link is rule 6. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never the room's facts (which tile is where) — the list and the room are the only places for those.
 6. **The only link between parts:** the room names products on the material list by id, for their names and sizes, and the tiles it needs are matched to the boxes on the list by product. `build.py` hands the products to the room and the tiles needed to `materials_design_checks.py`; `room.py` checks every id. Nothing links the phases to anything.
 7. **Every fact once.** A product's name, detail and size are on its entry in `materials.toml` (the detail shows the size with `{w}`, `{w_cm}` …), and the room takes them from there (rule 6); what follows from the room — where each wall is, the column, door and lintel, the tile counts — is worked out in `room.py`; numbers come from order, never typed; things point at each other by id. A note never repeats a fact held elsewhere, or a figure that can be worked out.
-8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem stops it too (see Design checks).
+8. **Bad data stops the build** with one error naming the file and the problem, before anything is written. A design problem stops it too (see Checks: data and design).
 9. **Tests never depend on today's numbers or wording.** A test finds what it breaks by what it is and works out the expected message from the real data and its labels. There is a test for every check; `mise run test` lists them.
 
 **Before a change is done:** check it against the rules (for 2, check every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test), run `lint`, `test` and `build` (all clean, 0 design problems), and look at the PDF. Commit locally. **Push** to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — then watch the GitHub build until it passes.
