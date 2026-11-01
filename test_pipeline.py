@@ -367,14 +367,59 @@ def column_clash_test():
 
 
 def door_joint_test():
-    """No tile joint falls inside the door opening: a point just past where one tile from the wall's start
-    would end, inside the opening, gets no warning."""
+    """No tile joint is drawn inside the door opening: where one tile from the wall's start would end,
+    inside the opening, the column's wall drawing has no joint line (px from room.py's own layout)."""
     wid, w = column_wall()
     door = find(w.items, "the door", lambda i: i.shape == "door")
-    x = real().room.tiles[w.tile].size + real().room.min_clear / 2
-    if not door.x - door.w / 2 < x < door.x + door.w / 2:
+    k = real().room.tiles[w.tile].size
+    if not door.x - door.w / 2 < k < door.x + door.w / 2:
         raise LookupError("one tile from the wall's start isn't inside the door opening, so there is nothing to test")
-    return a_point_on(wid, x, real().room.min_clear * 10), CLEAN
+    x = room.WALL_MARGINS[0] + (w.length - k) * room.WALL_SCALE
+    title = real().room.labels.en("elevation_title", wall=(w.th, w.en))
+
+    def expect(p):                                   # the column's wall drawing, and only it
+        svg = find(p.svgs, "the column's wall drawing", lambda s: title in s)
+        return title if f'<line class="joint" x1="{x}"' not in svg else f"(no joint line at x {k:g} on {w.en})"
+    return {ROOM: data(lambda d: by_id(d["wall"], wid).update(drawn=True))}, built(expect)
+
+
+def lintel_short_test():
+    lid = RAW[ROOM]["lintel"]["product"]
+    return {MATERIALS: data(lambda d: by_id(d["entry"], lid)["size"].update(w=1))}, "is shorter than the door and its bearing"
+
+
+def point_in_opening_test():
+    w = find(real().room.walls.values(), "wall with a window and a point",
+             lambda w: w.drawn and any(i.shape == "opening" for i in w.items) and any(i.shape == "point" for i in w.items))
+    win = find(w.items, "window", lambda i: i.shape == "opening")
+    pt = find(w.items, "point", lambda i: i.shape == "point")
+    edit = {ROOM: data(lambda d: find(by_id(d["wall"], w.id)["item"], pt.id, lambda e: e["id"] == pt.id).update(x=win.x, y=win.y))}
+    return edit, warn("warn_overlap", a=pt.label(), b=win.label())
+
+
+def below_floor_test():
+    it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(y=it.h / 4))}, warn("warn_off_wall", item=it.label())
+
+
+def off_wall_start_test():
+    """A box poking out past the wall's start (x = 0)."""
+    it = find(solids(), "box on the wall", lambda i: i.shape == "rect")
+    return {ROOM: data(lambda d: raw_item(d, it.id).update(x=it.w / 4))}, warn("warn_off_wall", item=it.label())
+
+
+def off_floor_y_test():
+    it = find(real().room.floor, "floor item", lambda i: i.shape == "rect")
+    return ({ROOM: data(lambda d: find(d["floor"]["item"], it.id, lambda e: e["id"] == it.id).update(y=real().room.width))},
+            warn("warn_off_floor", item=it.label()))
+
+
+def money_test():
+    """A price that isn't whole baht shows to the satang, so the line adds up as shown."""
+    e = an_entry("product still to buy", lambda e: "price" in e and has_status("buy")(e))
+    m = real().materials
+    return ({MATERIALS: data(lambda d: by_id(d["entry"], e["id"]).update(price=e["price"] + 0.4))},
+            f"{m.symbols['times']} {m.symbols['currency']}{e['price'] + 0.4:,.2f}")
 
 
 def missing_parent_test():
@@ -616,6 +661,10 @@ TESTS = [
     ("rules: no joint warnings above the tiling", above_tiles_test),
     ("rules: a point moved off the end of the wall", point_off_wall_test),
     ("rules: a zone running off its wall", zone_off_wall_test),
+    ("rules: a box poking out past the wall's start", off_wall_start_test),
+    ("rules: an item running below the floor", below_floor_test),
+    ("rules: a fixing in a window", point_in_opening_test),
+    ("rules: a floor item off the floor, across the room", off_floor_y_test),
     ("rules: an item above the ceiling", ceiling_test),
     ("rules: a floor item off the floor", off_floor_test),
     ("rules: a tile-box shortage shows on the floor plan", tile_short_on_plan_test),
@@ -673,6 +722,10 @@ TESTS = [
     ("room: a tile that isn't square",
      {MATERIALS: data(lambda d: tile_product(d)["size"].update(h=1))}, "the tile count needs square tiles"),
     ("room: the door wider than its wall beside the column", door_test),
+    ("room: a lintel shorter than the door and its bearing", lintel_short_test),
+    ("room: a step's high side on a floor item that isn't a step",
+     lambda: ({ROOM: data(lambda d: put(find(d["floor"]["item"], "floor rect", lambda e: e["shape"] == "rect"),
+                                        "high", "end", room.ITEM))}, "is a rect, so it has no 'high'")),
     ("room: a drawing note that fills in a value",
      lambda: (edit_item(lambda e: "note_en" in e, "item with a note", lambda e: e.update(note_en="see {phase:x}")),
               "note_en uses {phase} (it can use: nothing)")),
@@ -690,6 +743,7 @@ TESTS = [
     # ---- materials.toml ----
     ("materials: the still-to-buy total is shown", {}, built(lambda p: p.materials.total_cell())),
     ("materials: a price change flows into the total", price_test),
+    ("materials: a price that isn't whole baht shows to the satang", money_test),
     ("materials: a shop with a bad code pattern", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(sku="["))},
      "sku isn't a pattern"),
     ("materials: a shop with a bad link", {MATERIALS: data(lambda d: find(d["shop"], "shop").update(link="{nope}"))},

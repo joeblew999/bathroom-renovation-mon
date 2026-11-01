@@ -197,7 +197,8 @@ class Materials:
         return sum(m.n for m in self.lines if m.entry.product.id == product_id and m.rule.shop)
 
     def money(self, v):
-        return f"{self.symbols['currency']}{v:,.0f}"
+        """Baht: whole when it is whole, else to the satang, so every line adds up as shown."""
+        return f"{self.symbols['currency']}{v:,.0f}" if v == round(v) else f"{self.symbols['currency']}{v:,.2f}"
 
     def render(self):
         """The section as Markdown lines: its heading and note, then the table — a heading row (and

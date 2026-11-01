@@ -257,7 +257,7 @@ product = "heater_stop_valve"
 shape = "point"
 x = 255
 y = 800
-note_th = "รับความหนากระเบื้องใหม่ได้"
+note_th = "ฝาครอบรับความหนากระเบื้องใหม่ได้"
 note_en = "its cover takes up the new tile thickness"
 [[wall.item]]
 id = "window"

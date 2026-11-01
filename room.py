@@ -3,7 +3,7 @@ the products on the material list are handed to it (for their names and sizes).
 
     r = load(Path("room.toml"), products)   # products = {id: Product}, from materials.load()
     r.render()          # [svg text] — the floor plan, then each drawn wall
-    r.warnings()        # [(wall id, (th, en))] — every design rule broken
+    r.warnings()        # [(wall id or "floor", (th, en))] — every design rule broken
     r.tiles_needed()    # [TilesNeeded] — tiles per tile, worked out from the room
 
   1. read       room.toml against the fields declared below (common.check)
@@ -60,8 +60,10 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "warn_outside": ("item", "axis", "v", "parent", "low", "high"), "warn_above": ("item", "axis", "v", "parent"),
           "tile_short": ("tile", "planned", "boxes")}
 # The position and size keys each shape may have; an item gives no others.
-WALL_KEYS = {"rect": "xywhd", "circle": "xywd", "point": "xy", "zone": "xwd", "opening": "xywh"}
-FLOOR_KEYS = {"rect": "xywd", "step": "xhd"}
+WALL_KEYS = {"rect": ("x", "y", "w", "h", "d"), "circle": ("x", "y", "w", "d"), "point": ("x", "y"),
+             "zone": ("x", "w", "d"), "opening": ("x", "y", "w", "h")}
+FLOOR_KEYS = {"rect": ("x", "y", "w", "d"), "step": ("x", "h", "d", "high")}
+PLACE_KEYS = ("x", "y", "w", "h", "d", "high")
 # What each shape needs to be drawn (after its product's size is filled in).
 WALL_SHAPES = {"rect": ("x", "y", "w", "h"), "circle": ("x", "y", "w"), "point": ("x", "y"),
                "zone": ("x", "w"), "opening": ("x", "y", "w", "h")}
@@ -267,7 +269,7 @@ def _items(entries, kind, shapes, keys, products, across):
         if ("product" in e) == ("th" in e):
             raise DataError(f"{FILE}: {where} needs a product or a name (th, en) — one, not both")
         p = _product(products, where, e["product"]) if "product" in e else None
-        extra = next((k for k in "xywhd" if k in e and k not in keys[e["shape"]]), None)
+        extra = next((k for k in PLACE_KEYS if k in e and k not in keys[e["shape"]]), None)
         if extra:
             raise DataError(f"{FILE}: {where} is a {e['shape']}, so it has no '{extra}'")
         if p and any(k in e for k in ("w", "h", "d")):
@@ -306,6 +308,9 @@ def _walls(raw, products):
             if col["width"] + door.w >= length:
                 raise DataError(f"{FILE}: the door ({door.w:g}) doesn't fit beside the column ({col['width']:g}) "
                                 f"in wall '{e['id']}' ({length:g})")
+            if lintel.w is not None and lintel.w < door.w + bearing:
+                raise DataError(f"{FILE}: the lintel ({lintel.w:g}) is shorter than the door and its bearing "
+                                f"({door.w:g} + {bearing:g})")
             n = len(items)
             items += [
                 Item(str(n + 1), "column", col["th"], col["en"], "column", x=col["width"] / 2, y=r["ceiling"] / 2,
@@ -376,7 +381,12 @@ def _span(it):
 def _clash_warnings(room, items, length):
     solids = [(it, _box(it)) for it in items if _box(it)]
     out = [_warn(room, "warn_off_wall", item=it.label()) for it in items
-           if _span(it)[0] < 0 or _span(it)[1] > length or _span(it)[3] > room.ceiling]
+           if _span(it)[0] < 0 or _span(it)[1] > length or _span(it)[2] < 0 or _span(it)[3] > room.ceiling]
+    # a fixing or outlet in a window or the door opening has no wall to go in
+    for p in (it for it in items if it.shape == "point"):
+        for o, b in solids:
+            if o.shape in ("opening", "door") and b[0] < p.x < b[1] and b[2] < p.y < b[3]:
+                out.append(_warn(room, "warn_overlap", a=p.label(), b=o.label()))
     for i, (a, ba) in enumerate(solids):
         for b, bb in solids[i + 1:]:
             if ba[0] < bb[1] and bb[0] < ba[1] and ba[2] < bb[3] and bb[2] < ba[3]:

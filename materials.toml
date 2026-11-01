@@ -945,8 +945,8 @@ sku = "105587"
   group = "accessories"
   status = "buy"
   n = 1
-  note_th = "เข้ากับสายฉีดชำระและโคมไฟสีขาว"
-  note_en = "matches the white bum gun and lamps"
+  note_th = "เข้ากับสายฉีดชำระและโคมไฟ"
+  note_en = "matches the bum gun and lamps"
 
 [[entry]]
 id = "flex_shield"
