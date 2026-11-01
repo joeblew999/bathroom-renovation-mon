@@ -36,6 +36,8 @@
 #              single figure that isn't a dimension — a weight, a volume, a stock length, an inch
 #              trade size — stays in the detail ("50 kg", "4 m", "½\"")
 #   per_box    tiles in a box (tiles only)
+#   ip         electrical products: the ingress protection rating on its product page ("IP44"; the
+#              second digit is the protection against water). Its detail shows it with {ip}.
 #   unit       the id of its unit, shown after the quantity
 #   price      the unit price, in baht (procure: needed; procured: what it cost, if known; else none)
 #   approx     true: the price is approximate ("ประมาณ / approx."), and the total is rounded
@@ -805,10 +807,11 @@ sku = "5672"
 [[entry]]
 id = "lamp"
 th = "โคมไฟผนัง IKEA"
-detail_th = "HAVSDUN LED แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม. สีขาว หรี่แสงได้ IP44 690 ลูเมน"
+detail_th = "HAVSDUN LED แก้วฝ้า {w_cm} × {h_cm} × {d_cm} ซม. สีขาว หรี่แสงได้ {ip} 690 ลูเมน"
 en = "IKEA wall lamp"
-detail_en = "HAVSDUN LED, frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, IP44, 690 lumens"
+detail_en = "HAVSDUN LED, frosted glass, {w_cm} × {h_cm} × {d_cm} cm, white, dimmable, {ip}, 690 lumens"
 size = { w = 92, h = 265, d = 106 }
+ip = "IP44"
 unit = "lamp"
 price = 1290
 shop = "ikea"

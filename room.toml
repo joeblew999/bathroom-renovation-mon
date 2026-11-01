@@ -68,6 +68,7 @@ fill = "#f1f1ee"
 [floor]                    # ref: its letter on the floor plan (F1, F2 …) · tile: which tile it gets
 ref = "F"
 tile = "grey"
+fall = 100                 # the floor falls 1 in 100 to the drain
 
 [[floor.item]]
 id = "drain"
@@ -89,7 +90,8 @@ note_th = "ด้านสูงแห้ง ด้านต่ำรับน�
 note_en = "the higher side stays dry; the lower side takes the shower water"
 
 # ---------- the walls, in order round the room ----------
-# Each wall: id, th, en, ref (its letter on the floor plan), tile (which tile it gets), elevation
+# Each wall: id, th, en, ref (its letter on the floor plan), tile (which tile it gets), waterproofing
+# (waterproofed up to this height), elevation
 # (true: it gets an elevation drawing; a wall with items must have one), then its items.
 [[wall]]
 id = "main_wall"
@@ -97,6 +99,7 @@ th = "ผนังหลัก"
 en = "Main wall"
 ref = "M"
 tile = "grey"
+waterproofing = 2800
 elevation = true
 
 [[wall.item]]
@@ -226,8 +229,8 @@ product = "heater"
 shape = "rect"
 x = 2840
 y = 1670
-note_th = "ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมด้วยสายอ่อนอ้อมมุม"
-note_en = "makes room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from its existing stop valve"
+note_th = "ให้มีที่สำหรับชุดฝักบัว · ขอบล่างสูงเท่าเดิม · ต่อน้ำจากสต็อปวาล์วเดิมด้วยสายอ่อนอ้อมมุม · อยู่ในโซนไฟฟ้ารอบฝักบัว: ดูระดับกันน้ำ (IP) ที่ฉลากก่อนต่อกลับ"
+note_en = "makes room for the shower unit · bottom at the same height as now · fed round the corner by a flexible hose from its existing stop valve · in the electrical zone round the shower: check the water-protection (IP) rating on its label before reconnecting it"
 
 
 [[wall]]
@@ -236,6 +239,7 @@ th = "ผนังใหม่"
 en = "New wall"
 ref = "N"
 tile = "white"
+waterproofing = 300
 elevation = true
 
 
@@ -245,6 +249,7 @@ th = "ผนังยาวตรงข้าม"
 en = "Opposite long wall"
 ref = "O"
 tile = "white"
+waterproofing = 1800
 elevation = false
 
 
@@ -254,6 +259,7 @@ th = "ผนังหน้าต่าง"
 en = "Window wall"
 ref = "W"
 tile = "white"
+waterproofing = 1800
 elevation = true
 
 [[wall.item]]
@@ -276,6 +282,111 @@ h = 400
 
 # ---------- the wording on the drawings ----------
 # {name} fills in a value. Every label has th and en.
+
+# ---------- norms ----------
+# The values the design checks hold the room to (room_design_checks.py). Each comes from outside, so it
+# says where from and when that was checked (README rule 10): id, th, en (what it is), item (the item it
+# applies to), value (mm, or as its name says), standard (the source and what it says), url, checked.
+
+[[norm]]
+id = "wc_clearance"
+th = "ที่ว่างด้านหน้าชักโครก"
+en = "clear space in front of the toilet"
+item = "toilet"
+value = 534
+standard = "FACQ, 'The 70 cm rule': 534 mm stated as the regulatory minimum in front of a toilet (70 cm recommended)"
+url = "https://www.facq.be/en/private-customers/our-advice-for-your-projects/the-70-cm-rule-why-the-space-in-front-of-your-furniture-is-crucial-for-your-safety"
+checked = 2026-11-01
+
+[[norm]]
+id = "basin_clearance"
+th = "ที่ว่างด้านหน้าอ่างล้างหน้า"
+en = "clear space in front of the basin"
+item = "basin"
+value = 700
+standard = "FACQ, 'The 70 cm rule': 70 cm from the front of the washbasin to the nearest obstacle"
+url = "https://www.facq.be/en/private-customers/our-advice-for-your-projects/the-70-cm-rule-why-the-space-in-front-of-your-furniture-is-crucial-for-your-safety"
+checked = 2026-11-01
+
+[[norm]]
+id = "basin_rim_min"
+th = "ความสูงขอบอ่างต่ำสุด"
+en = "lowest basin rim height"
+item = "basin"
+value = 850
+standard = "Geberit, 'The perfect installation height': washbasin rim 85–95 cm above the floor"
+url = "https://www.geberit.co.uk/inspiration/stories/the-perfect-installation-height"
+checked = 2026-11-01
+
+[[norm]]
+id = "basin_rim_max"
+th = "ความสูงขอบอ่างสูงสุด"
+en = "highest basin rim height"
+item = "basin"
+value = 950
+standard = "Geberit, 'The perfect installation height': washbasin rim 85–95 cm above the floor"
+url = "https://www.geberit.co.uk/inspiration/stories/the-perfect-installation-height"
+checked = 2026-11-01
+
+[[norm]]
+id = "zone_1_reach"
+th = "ระยะโซนไฟฟ้า 1"
+en = "reach of electrical zone 1"
+item = "shower"
+value = 1200
+standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): a shower without a basin — zone 1 reaches 1.20 m from the centre of the water outlet"
+url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
+checked = 2026-11-01
+
+[[norm]]
+id = "zone_2_reach"
+th = "ระยะโซนไฟฟ้า 2 ถัดจากโซน 1"
+en = "reach of electrical zone 2, beyond zone 1"
+item = "shower"
+value = 600
+standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): zone 2 reaches 0.6 m beyond zone 1"
+url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
+checked = 2026-11-01
+
+[[norm]]
+id = "zone_height"
+th = "ความสูงโซนไฟฟ้า"
+en = "height of the electrical zones"
+item = "shower"
+value = 2250
+standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): up to 2.25 m above the finished floor, or the highest fixed shower head if higher"
+url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
+checked = 2026-11-01
+
+[[norm]]
+id = "zone_ip_water"
+th = "ระดับกันน้ำในโซน 1 และ 2"
+en = "water protection in zones 1 and 2 (the second digit of the IP rating)"
+value = 4
+standard = "IEC 60364-7-701, as given by Voltimum ('Section 701'): electrical equipment in zones 1 and 2 at least IPX4"
+url = "https://www.voltimum.co.uk/articles/section-701-locations-containing-bath-or"
+checked = 2026-11-01
+
+[[norm]]
+id = "shower_wall_waterproofing"
+th = "ความสูงกันซึมผนังส่วนอาบน้ำ"
+en = "waterproofing height on the shower walls"
+item = "shower_zone"
+value = 1800
+standard = "NCC Housing Provisions 10.2.2 and AS 3740 (Australia), as given by Dahlsens ('Waterproof with confidence'): shower walls to 1800 mm above the floor"
+url = "https://www.dahlsens.com.au/blog/waterproof-with-confidence"
+checked = 2026-11-01
+
+[[norm]]
+id = "floor_fall"
+th = "ความลาดเอียงพื้นสู่ท่อระบายน้ำ (1 ต่อค่านี้ หรือชันกว่า)"
+en = "floor fall to the drain (1 in this, or steeper)"
+item = "drain"
+value = 100
+standard = "AS 3740 (Australia), as given by This is Construction: a shower floor falls 1:100 with a vertical separation such as a step-down, 1:80 without"
+url = "https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor"
+checked = 2026-11-01
+
 [labels]
 floor_plan = { th = "ผังพื้น", en = "Floor plan" }
 elevation_title = { th = "{wall} — รูปด้าน", en = "{wall} — elevation" }
@@ -308,6 +419,13 @@ warn_outside = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่�
 warn_above = { th = "{wall}, {item} ({axis} {v}) วางตำแหน่งสูงเกินขอบบนของ{parent} ({top}) — เป็นส่วนหนึ่งของชิ้นนั้น จะโผล่ให้เห็นเหนือมัน ต้องวางตำแหน่งให้ต่ำลง", en = "{wall}, {item} ({axis} {v}) is set out above the top of {parent} ({top}) — it belongs to that fitting and would show above it; set it out lower" }
 warn_door_fit = { th = "{wall}: ช่องประตู ({door}) รวมกับเสาเดิม ({column}) ยาวเกินผนัง ({length}) — ใช้วงกบที่แคบลง หรือตรวจขนาดเสา", en = "{wall}: the door opening ({door}) and the existing column ({column}) don't fit in the wall's {length} — use a narrower door frame, or check the column" }
 warn_lintel_short = { th = "{wall}: คานทับหลัง ({lintel}) สั้นกว่าช่องประตูรวมระยะวางบนผนัง ({door} + {bearing}) — คานจะวางบนผนังไม่ถึงทั้งสองข้าง ต้องใช้คานที่ยาวกว่านี้", en = "{wall}: the lintel ({lintel}) is shorter than the door opening plus its bearing ({door} + {bearing}) — it won't rest on the wall at both ends; use a longer lintel" }
+warn_clearance = { th = "{wall}, {item}: ด้านหน้ามีที่ว่างเพียง {clear} มม. — ต้องเหลืออย่างน้อย {need} มม. จึงจะใช้งานได้ วางตำแหน่งใหม่ หรือเลือกรุ่นที่ยื่นน้อยกว่า", en = "{wall}, {item}: only {clear} mm clear in front of it — keep at least {need} mm so it can be used; set it out again or choose a shallower fitting" }
+warn_rim_height = { th = "{wall}, {item}: ขอบบนวางตำแหน่งที่ {rim} มม. จากพื้น — ควรอยู่ระหว่าง {low} ถึง {high} มม.", en = "{wall}, {item}: its rim is set out {rim} mm above the floor — keep it between {low} and {high} mm" }
+warn_zone_ip = { th = "{wall}, {item}: อยู่ในโซนไฟฟ้า {zone} รอบฝักบัว แต่มีระดับกันน้ำ {ip} — อุปกรณ์ไฟฟ้าในโซนนี้ต้องเป็น IPX{need} ขึ้นไป ย้ายให้ห่างออกไป หรือเลือกรุ่นที่กันน้ำได้", en = "{wall}, {item}: in electrical zone {zone} round the shower, but rated {ip} — anything electrical there must be IPX{need} or better; set it out further away or choose a rated fitting" }
+warn_waterproofing = { th = "{wall}: กันซึมสูง {height} มม. แต่เป็นผนังส่วนอาบน้ำ ({zone}) — ต้องกันซึมสูงอย่างน้อย {need} มม.", en = "{wall}: waterproofed to {height} mm, but it is a shower wall ({zone}) — waterproof it to at least {need} mm" }
+warn_fall = { th = "พื้นลาดเอียง 1:{fall} สู่ท่อระบายน้ำ — ต้องลาดอย่างน้อย 1:{need}", en = "the floor falls 1:{fall} to the drain — make it at least 1:{need}" }
+waterproofing_line = { th = "กันซึม: ทั้งพื้น · ผนัง {walls} มม.", en = "Waterproofing: the whole floor · walls {walls} mm" }
+fall_line = { th = "พื้นลาดเอียง 1:{fall} สู่ท่อระบายน้ำ", en = "The floor falls 1:{fall} to the drain" }
 
 # The marks on the drawings — the same in both languages, so one value each.
 [symbols]

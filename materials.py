@@ -38,7 +38,7 @@ SHOP = {"id": "text!", **NAME, "sku": "text!", "link": "text!"}
 UNIT = {"id": "text!", **NAME, "en_many": "text!"}
 WORK_SECTION = {"id": "text!", **NAMED}
 TEXT_KEYS = ("th", "detail_th", "en", "detail_en")      # a product's name and detail, sizes filled in
-ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole",
+ENTRY = {"id": "text!", **{k: "text!" for k in TEXT_KEYS}, "size": "table", "per_box": "whole", "ip": "text",
          "unit": "@unit!", "price": "amount", "approx": "flag+price", "shop": "@shop+sku", "sku": "text+shop",
          "line": "list!"}
 LINE = {"work_section": "@work_section!", "status": "@status!", "n": "count!", "note_th": "text", "note_en": "text",
@@ -107,6 +107,7 @@ class Product:
     h: float = None
     d: float = None
     per_box: int = None  # tiles in a box (tiles only)
+    ip: str = None       # its ingress protection rating, from its product page ("IP44"): electrical products
 
     def size(self):
         """{w, h, d} that are given."""
@@ -294,10 +295,12 @@ def _product(e, where):
     """The product's name and detail, with its size filled in ({w} in mm, {w_cm}, {w_m} …), and its size."""
     size = check(FILE, f"{where} size", e.get("size", {}), SIZE)
     fill = {f"{k}{u}": f"{v / div:g}" for k, v in size.items() for u, div in SIZE_UNITS.items()}
+    if "ip" in e:
+        fill["ip"] = e["ip"]
     for field in TEXT_KEYS:
         placeholders(FILE, f"{where} {field}", e[field], tuple(fill))
     return Product(e["id"], *(e[k].format(**fill) for k in TEXT_KEYS), *(size.get(k) for k in SIZE_KEYS),
-                   e.get("per_box"))
+                   e.get("per_box"), e.get("ip"))
 
 
 def _entry(e, shops, units):

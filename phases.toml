@@ -231,8 +231,8 @@ en = "Waterproof"
 
 [[phase.step]]
 id = "waterproof"
-th = "ทากันซึม 2 รอบ รอให้แต่ละรอบแห้ง: ทั้งพื้น (บนกระเบื้องเดิมที่ล้างและขัดผิวให้หยาบแล้ว) ผนังหลักทั้งด้าน และผนังอื่นสูงอย่างน้อย 30 ซม. — ไม่มีกระจกกั้นอาบน้ำ น้ำจะกระเด็นทั่วห้อง"
-en = "Apply the waterproofing in 2 coats, letting each coat dry: the whole floor (over the degreased, roughened old tiles), the full main wall, and at least 30 cm up the other walls — there is no shower screen, so water splashes across the room"
+th = "ทากันซึม 2 รอบ รอให้แต่ละรอบแห้ง: ทั้งพื้น (บนกระเบื้องเดิมที่ล้างและขัดผิวให้หยาบแล้ว) และผนังแต่ละด้านถึงความสูงที่ระบุในผังพื้น — ไม่มีกระจกกั้นอาบน้ำ น้ำจะกระเด็นทั่วห้อง"
+en = "Apply the waterproofing in 2 coats, letting each coat dry: the whole floor (over the degreased, roughened old tiles), and each wall up to the height on the floor plan — there is no shower screen, so water splashes across the room"
 
 [[phase.step]]
 id = "mesh"

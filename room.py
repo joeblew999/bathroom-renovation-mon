@@ -37,15 +37,20 @@ FILE = "room.toml"
 # the x ids).
 NUM = "count!"            # a size: more than 0
 FILE_FIELDS = {"room": "table!", "column": "table!", "door": "table!", "lintel": "table!", "tile": "list!",
-               "floor": "table!", "wall": "list!", "labels": "table!", "symbols": "table!"}
+               "floor": "table!", "wall": "list!", "norm": "list!", "labels": "table!", "symbols": "table!"}
 ROOM = {"length": NUM, "width": NUM, "ceiling": NUM, "joint_clearance": NUM}
 COLUMN = {**NAMED, "width": NUM, "wall": "@wall!"}
 DOOR = {"product": "text!", "note_th": "text", "note_en": "text"}
 LINTEL = {"product": "text!", "bearing": NUM, "note_th": "text", "note_en": "text"}
 TILE = {"id": "text!", "product": "text!", **NAME, "tiling_height": "whole!", "fill": "text!"}
-FLOOR = {"ref": "text!", "tile": "@tile!", "item": "list"}
-WALL = {"id": "text!", **NAME, "ref": "text!", "tile": "@tile!",
+FLOOR = {"ref": "text!", "tile": "@tile!", "fall": NUM, "item": "list"}
+WALL = {"id": "text!", **NAME, "ref": "text!", "tile": "@tile!", "waterproofing": NUM,
         "elevation": "flag!", "item": "list"}
+# A norm a design check holds the room to: a value from outside, with where it came from and when it was
+# checked (README rule 10). `item`: the item it applies to, by id.
+NORM = {"id": "text!", **NAME, "item": "text", "value": NUM, "standard": "text!", "url": "text!", "checked": "date!"}
+NORMS = ("wc_clearance", "basin_clearance", "basin_rim_min", "basin_rim_max", "zone_1_reach", "zone_2_reach",
+         "zone_height", "zone_ip_water", "shower_wall_waterproofing", "floor_fall")      # the ones the checks use
 # An item names a product (and takes its name from it) or has its own name (th, en) — checked in _items.
 ITEM = {"id": "text!", "product": "text", "th": "text", "en": "text", "shape": "@shape!",
         "x": "amount", "y": "amount", "w": "count", "h": "count", "d": "count", "high": "@end", "fitting": "text",
@@ -68,7 +73,11 @@ LABELS = {"floor_plan": (), "elevation_title": ("wall",), "viewed_inside": (), "
           "warn_clash": ("wall", "a", "b"), "warn_in_opening": ("wall", "a", "b"),
           "warn_outside": ("wall", "item", "axis", "v", "parent", "low", "high"),
           "warn_above": ("wall", "item", "axis", "v", "parent", "top"),
-          "warn_door_fit": ("wall", "door", "column", "length"), "warn_lintel_short": ("wall", "lintel", "door", "bearing")}
+          "warn_door_fit": ("wall", "door", "column", "length"), "warn_lintel_short": ("wall", "lintel", "door", "bearing"),
+          "warn_clearance": ("wall", "item", "clear", "need"), "warn_rim_height": ("wall", "item", "rim", "low", "high"),
+          "warn_zone_ip": ("wall", "item", "zone", "ip", "need"), "warn_waterproofing": ("wall", "height", "need", "zone"),
+          "warn_fall": ("fall", "need"),
+          "waterproofing_line": ("walls",), "fall_line": ("fall",)}
 # The position and size keys each shape may have; an item gives no others.
 WALL_KEYS = {"rect": ("x", "y", "w", "h", "d"), "circle": ("x", "y", "w", "d"), "point": ("x", "y"),
              "zone": ("x", "w", "d"), "opening": ("x", "y", "w", "h")}
@@ -103,6 +112,18 @@ def _check(raw):
             raise DataError(f"{FILE}: wall '{w['id']}' has items but no elevation")
         check_each(FILE, f"wall '{w['id']}' item", w.get("item", []), WALL_ITEM, {"shape": WALL_SHAPES})
     check_each(FILE, "floor item", raw["floor"].get("item", []), FLOOR_ITEM, {"shape": FLOOR_SHAPES, "end": ENDS})
+    norms = check_each(FILE, "norm", raw["norm"], NORM)
+    ids = [n["id"] for n in norms]
+    for need in NORMS:
+        if need not in ids:
+            raise DataError(f"{FILE}: no norm '{need}' — a design check needs it")
+    for n in norms:
+        if n["id"] not in NORMS:
+            raise DataError(f"{FILE}: norm '{n['id']}' isn't used by any design check")
+    items = {it["id"] for w in walls for it in w.get("item", [])} | {it["id"] for it in raw["floor"].get("item", [])}
+    for n in norms:
+        if "item" in n and n["item"] not in items:
+            raise DataError(f"{FILE}: norm '{n['id']}' applies to item '{n['item']}', which isn't in the room")
 
 
 # ======================================== the model ========================================
@@ -131,6 +152,7 @@ class Item:
     h: float = None
     d: float = None
     high: str = None     # a step: which end is higher (start: x = 0, end: x = the length)
+    ip: str = None       # its product's ingress protection rating, if electrical ("IP44")
     fitting: str = None  # the id of the fitting it serves (a services point or fixing)
     note_th: str = ""
     note_en: str = ""
@@ -153,6 +175,7 @@ class Wall:
     along_room: bool     # runs along the room's length (so the floor step meets it)
     tile: str
     tiled_run: float     # the length actually tiled (the door's wall: not the door opening)
+    waterproofing: float  # waterproofed up to this height
     elevation: bool      # it gets an elevation drawing
     items: tuple
 
@@ -172,6 +195,18 @@ class TilesNeeded:
 
 
 @dataclass(frozen=True)
+class Norm:
+    id: str
+    th: str
+    en: str
+    item: str            # the id of the item it applies to, or None
+    value: float
+    standard: str        # where the value comes from
+    url: str
+    checked: object      # the date the source was checked
+
+
+@dataclass(frozen=True)
 class Room:
     length: float
     width: float
@@ -186,6 +221,8 @@ class Room:
     symbols: dict        # the marks on the drawings (room.toml [symbols])
     lintel_length: float  # the lintel product's length, or None if the list gives none (a design check)
     bearing: float        # how far the lintel rests on the wall each side of the opening
+    floor_fall: float     # the floor falls 1 in this to the drain
+    norms: dict           # {id: Norm}: the values the design checks hold the room to, with their sources
 
     def tiles_needed(self):
         """Tiles needed per tile: the floor, and each wall's tiled run up to its tile's top (a cut
@@ -221,7 +258,9 @@ def load(path, products):
     walls = _walls(raw, products)
     return Room(r["length"], r["width"], r["ceiling"], r["joint_clearance"], tiles, raw["floor"]["ref"],
                 raw["floor"]["tile"], tuple(floor), walls, Labels(FILE, raw["labels"], LABELS), raw["symbols"],
-                products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"])
+                products[raw["lintel"]["product"]].w, raw["lintel"]["bearing"], raw["floor"]["fall"],
+                {n["id"]: Norm(n["id"], n["th"], n["en"], n.get("item"), n["value"], n["standard"], n["url"], n["checked"])
+                 for n in raw["norm"]})
 
 
 def _product(products, where, pid, needs=()):
@@ -278,7 +317,7 @@ def _items(entries, kind, shapes, keys, products, across):
         if missing:
             raise DataError(f"{FILE}: {where} ({e['shape']}) needs '{missing[0]}' (give it here, or through its product)")
         out.append(Item(str(i), e["id"], p.th if p else e["th"], p.en if p else e["en"], e["shape"],
-                        **{k: float(have[k]) for k in ("x", "y", "w", "h", "d") if k in have}, high=e.get("high"),
+                        **{k: float(have[k]) for k in ("x", "y", "w", "h", "d") if k in have}, high=e.get("high"), ip=p.ip if p else None,
                         fitting=e.get("fitting"), **_notes(e, where)))
     ids = {it.id for it in out}
     for it in out:
@@ -315,7 +354,7 @@ def _walls(raw, products):
             run = length - door.w                                       # the door opening isn't tiled
         walls[e["id"]] = Wall(e["id"], e["th"], e["en"], e["ref"],
                               PLAN_SIDES[i], order[(i + 1) % len(order)]["id"], order[i - 1]["id"], length, along,
-                              e["tile"], run, e["elevation"], tuple(items))
+                              e["tile"], run, e["waterproofing"], e["elevation"], tuple(items))
     return walls
 
 
@@ -583,7 +622,7 @@ def draw_plan(room, more_warnings):
 
     out, tags = [], []
     a = out.append
-    start(a, width, MT + PH + MB + legend_height(rows) + BOTTOM_SPACE["plan"] + warnings_space(lines), ML,
+    start(a, width, MT + PH + MB + 2 * KEY_DOWN + legend_height(rows) + BOTTOM_SPACE["plan"] + warnings_space(lines), ML,
           lab.both("floor_plan"), s["dot"].join([lab.both("seen_above", sep=s["dot"]), lab.both("mm"), lab.both("generated")]))
     _plan_floor(a, room, P, ML, MT, PW, PH)
     walls = room.walls.values()
@@ -602,7 +641,10 @@ def draw_plan(room, more_warnings):
     keys.append(f"{room.floor_ref}{s['eq']}{lab.both('floor')}")
     text(a, "heading", ML, ly0, f"{lab.both('items')}{s['dash']}{s['dot'].join(keys)}")
     text(a, "key", ML, ly0 + KEY_DOWN, lab.both("dashed"))
-    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0 + KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
+    proofed = s["dot"].join(f"{w.ref} {w.waterproofing:g}" for w in room.walls.values())
+    text(a, "key", ML, ly0 + 2 * KEY_DOWN, lab.both("waterproofing_line", walls=proofed))
+    text(a, "key", ML, ly0 + 3 * KEY_DOWN, lab.both("fall_line", fall=f"{room.floor_fall:g}"))
+    draw_warnings(a, lines, ML, draw_legend(a, rows, ML, ly0 + 3 * KEY_DOWN, TAG_W["plan_legend"]) + WARNINGS_DOWN)
     a("</svg>")
     return "\n".join(out)
 
@@ -613,10 +655,7 @@ def _on_plan(it):
     return it.shape in ("opening", "door") or (bool(it.d) and it.shape != "column")
 
 
-def _to_floor(room, wall, x, d=0):
-    """A point on a wall — x along it from its right-hand corner, d out from it — as a floor position."""
-    L, D = room.length, room.width
-    return {"top": (x, d), "right": (d, D - x), "bottom": (L - x, D - d), "left": (L - d, x)}[wall.side]
+_to_floor = room_design_checks.floor_point      # a point on a wall as a floor position (the checks use it too)
 
 
 def _px_box(P, a_, b_):

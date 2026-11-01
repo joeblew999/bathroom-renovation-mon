@@ -30,6 +30,12 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 | quantity take-off | the quantities measured from the drawings | การถอดปริมาณ* |
 | batch, shade | tiles made together, which match in colour | ล็อต, เฉดสี |
 | fitting | a fixture on the wall or floor: basin, toilet, shower, lamp | อุปกรณ์* |
+| clearance | the clear space a fitting needs in front of it | ระยะว่าง* |
+| electrical zones | the zones round the shower (1, then 2) where anything electrical must be rated against water | โซนไฟฟ้า* |
+| IP rating | a product's protection rating; its second digit is the protection against water (IPX4) | ระดับ IP* |
+| waterproofing | the membrane under the tiles, up to a set height on each wall | กันซึม |
+| fall | the floor's slope to the drain, 1 in so many | ความลาดเอียง* |
+| norm | an outside value a design check holds the room to, with its source | เกณฑ์* |
 
 \* Not yet checked by a Thai speaker; the unmarked Thai terms were checked against Thai sources.
 
@@ -59,9 +65,9 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 |---|---|
 | `phases.toml` | The work: phases and steps, in prose for the builder |
 | `materials.toml` | Every product once — its name and detail in Thai and English, its size, how it's bought (unit, price, shop, code) and its lines on the materials list (work section, status, how many); the shops, units and work sections; the list's wording and marks |
-| `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor and the four walls in order round the room, each with its items; the drawings' wording and marks |
+| `room.toml` | The room: its size and the clearance a hole needs from a tile joint; the column, door and lintel; the tiles; the floor (with its fall) and the four walls (each with its waterproofing height) in order round the room, each with its items; the norms the design checks use, each with its source; the drawings' wording and marks |
 | `phases.py`, `materials.py`, `room.py` | The parts' code: each reads and checks its own data file and renders its section |
-| `room_design_checks.py`, `materials_design_checks.py` | The design checks: setting out and clashes; quantities (see Checks) |
+| `room_design_checks.py`, `materials_design_checks.py` | The design checks: the room (setting out, clashes, clearances, heights, wet areas); quantities (see Checks) |
 | `bathroom-renovation-quote.md` | The template: the title, then a marker for the phases and one for the materials list (the drawings follow, one per page) |
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
@@ -96,7 +102,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
    - No part's code imports another part's code; the parts meet only in `build.py`.
    - No data file holds a fact about another part. The phases name kinds of material in plain words ("ready-mix mortar"), never products, sizes or quantities, and never which tile goes where.
    - The one link is rule 6.
-6. **The one link between parts: the room and the materials list.** The room names products on the materials list by id, for their names and sizes, and `room.py` checks every id; the tiles the room needs are set against the boxes on the materials list by the quantities check (see Checks). `build.py` hands both over. Nothing links the phases to anything.
+6. **The one link between parts: the room and the materials list.** The room names products on the materials list by id, for their names, sizes and IP ratings, and `room.py` checks every id; the tiles the room needs are set against the boxes on the materials list by the quantities check (see Checks). `build.py` hands both over. Nothing links the phases to anything.
 7. **Every fact once.**
    - A product's name, detail and size are written only on its entry in `materials.toml`; its detail shows the size with `{w}`, `{w_cm}` and so on, and the room takes them from there.
    - What follows from the room is worked out in `room.py`, never typed: where each wall is, the column, door and lintel, the tile counts.
@@ -106,6 +112,7 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 9. **Tests never depend on today's numbers or wording.**
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
    - Every check has a test; `mise run test` lists them.
+10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too. When a source changes, the figure can be checked again; a norm without its source stops the build.
 
 ## Checks
 
@@ -121,7 +128,7 @@ A data file written wrongly: a missing or misspelt field, an id that points at n
 
 The judgement an architect and a builder bring — good building practice, sound architectural design and how it will look. Fixing a design problem means changing the design. There are two aspects, each in its own file, named for the part it checks:
 
-- **Setting out and clashes** — `room_design_checks.py`, beside `room.toml` and `room.py`: whether every item is set out where it belongs and fits, keeps clear of the tile joints, doesn't clash with another item or sit in an opening, and will look right.
+- **The room** — `room_design_checks.py`, beside `room.toml` and `room.py`: setting out and clashes — every item set out where it belongs and fits, clear of the tile joints, not clashing with another item or sitting in an opening; clearances and heights — enough space in front of each fitting, the basin rim at its height; wet areas — electrical items rated for the zone round the shower, the shower walls waterproofed high enough, the floor falling to the drain.
 - **Quantities** — `materials_design_checks.py`, beside `materials.toml` and `materials.py`: the quantity take-off from the drawings set against the materials list — whether enough is ordered.
 
 The phases have no design checks. Each design-checks file lists its checks at the top.
@@ -135,12 +142,12 @@ How a design problem is reported:
 
 Ask what fixing it would take:
 - **Correcting the file** → a data check, in the part's own code (`phases.py`, `materials.py`, `room.py`), or in `common.check` if every entry shares it.
-- **Changing the setting out** — where something goes, its size, how it fits or looks → a setting-out and clashes check, in `room_design_checks.py`.
+- **Changing the room** — where something goes, its size, how it fits or looks, its waterproofing or fall → a room design check, in `room_design_checks.py`.
 - **Ordering more, or ordering something different** → a quantities check, in `materials_design_checks.py`.
 
-A design check never goes in a part's own code, and a data check never goes in a design-checks file. For example:
+A design check never goes in a part's own code, and a data check never goes in a design-checks file. A value a design check holds the room to from outside — a clearance, a height, a fall — is a `[[norm]]` in `room.toml`, with its source (rule 10). For example:
 - "An item names a product that isn't on the materials list": correct the id — a data check, in `room.py`.
-- "The door is too wide to fit beside the column": a different door frame — a setting-out and clashes check, in `room_design_checks.py`.
+- "The door is too wide to fit beside the column": a different door frame — a room design check, in `room_design_checks.py`.
 - "Too few tile boxes for the tiles the room needs": order more — a quantities check, in `materials_design_checks.py`.
 
 ## Before a change is done

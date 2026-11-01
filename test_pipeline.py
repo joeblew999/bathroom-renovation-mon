@@ -38,6 +38,7 @@ from playwright.sync_api import sync_playwright
 import materials
 import phases
 import room
+import room_design_checks
 import build
 from build import assemble, tile_lines
 import common
@@ -706,6 +707,94 @@ def problems_fit_test():
     return {ROOM: lambda t: b(a(t))}, expect
 
 
+def norm_edit(nid, **values):
+    """An edit of one norm in room.toml."""
+    return {ROOM: data(lambda d: by_id(d["norm"], nid).update(**values))}
+
+
+def clearance_test():
+    """Too little clear space in front of the toilet: its norm raised just past what the room leaves."""
+    n = real().room.norms["wc_clearance"]
+    w, it = room_design_checks._find(real().room, n.item)
+    clear = (real().room.width if w.along_room else real().room.length) - it.d
+    return norm_edit(n.id, value=clear + 1), warn("warn_clearance", wall=wall_name(w), item=it.label(),
+                                                  clear=f"{clear:g}", need=f"{clear + 1:g}")
+
+
+def rim_test():
+    """The basin rim below its lowest height: the norm raised just past the rim."""
+    lo, hi = real().room.norms["basin_rim_min"], real().room.norms["basin_rim_max"]
+    w, it = room_design_checks._find(real().room, lo.item)
+    rim = it.y + it.h / 2
+    return norm_edit(lo.id, value=rim + 1), warn("warn_rim_height", wall=wall_name(w), item=it.label(), rim=f"{rim:g}",
+                                                 low=f"{rim + 1:g}", high=f"{hi.value:g}")
+
+
+def zone_items():
+    """[(wall, item, reach from the shower outlet)] for every electrical item, nearest first."""
+    r = real().room
+    ow, o = room_design_checks._find(r, r.norms["zone_1_reach"].item)
+    ox, oy = room_design_checks.floor_point(r, ow, o.x)
+    out = []
+    for w in r.walls.values():
+        for it in w.items:
+            if it.ip:
+                x, y = room_design_checks.floor_point(r, w, it.x)
+                out.append((w, it, ((x - ox) ** 2 + (y - oy) ** 2) ** 0.5))
+    return sorted(out, key=lambda t: t[2])
+
+
+def zone_ip_test():
+    """An electrical item in a zone round the shower, its product rated too low for it."""
+    r = real().room
+    w, it, reach = find(zone_items(), "electrical item inside zone 2",
+                        lambda t: t[2] <= r.norms["zone_1_reach"].value + r.norms["zone_2_reach"].value)
+    pid = find(wall_raw()["item"] if w.id == wall_raw()["id"] else by_id(RAW[ROOM]["wall"], w.id)["item"],
+               "the item as written", lambda e: e["id"] == it.id)["product"]
+    zone = "1" if reach <= r.norms["zone_1_reach"].value else "2"
+    return ({MATERIALS: data(lambda d: by_id(d["entry"], pid).update(ip="IP21"))},
+            warn("warn_zone_ip", wall=wall_name(w), item=it.label(), zone=zone, ip="IP21",
+                 need=f"{r.norms['zone_ip_water'].value:g}"))
+
+
+def outside_zones_test():
+    """An electrical item rated too low is fine outside the zones: the item beyond zone 2 gets no problem when
+    its product's rating is dropped (the one inside still does, so the check is running)."""
+    r = real().room
+    far = r.norms["zone_1_reach"].value + r.norms["zone_2_reach"].value
+    w, it, _ = find(zone_items(), "electrical item beyond zone 2", lambda t: t[2] > far)
+    pid = find(by_id(RAW[ROOM]["wall"], w.id)["item"], "the item as written", lambda e: e["id"] == it.id)["product"]
+    marker = r.labels.en("floor_plan")
+
+    def expect(p):
+        about_it = [en for _, (th, en) in p.warnings if it.label()[1] in en]
+        return marker if not about_it else f"(a problem about {it.label()[1]}, outside the zones: {about_it[0]})"
+    return {MATERIALS: data(lambda d: by_id(d["entry"], pid).update(ip="IP21"))}, built(expect)
+
+
+def waterproofing_test():
+    """A wall the wet zone touches, waterproofed lower than its norm."""
+    r = real().room
+    n = r.norms["shower_wall_waterproofing"]
+    walls, zone = room_design_checks._shower_walls(r)
+    w = find([r.walls[i] for i in r.walls if i in walls], "shower wall")
+    return ({ROOM: data(lambda d: by_id(d["wall"], w.id).update(waterproofing=n.value - 1))},
+            warn("warn_waterproofing", wall=wall_name(w), height=f"{n.value - 1:g}", need=f"{n.value:g}", zone=zone.label()))
+
+
+def fall_test():
+    """The floor falling less than its norm: 1 in twice the norm."""
+    need = real().room.norms["floor_fall"].value
+    return ({ROOM: data(lambda d: d["floor"].update(fall=need * 2))},
+            warn("warn_fall", fall=f"{need * 2:g}", need=f"{need:g}"))
+
+
+def ip_in_detail_test():
+    """A product's IP rating reaches its detail on the list."""
+    e = an_entry("product with an IP rating shown in its detail", lambda e: "ip" in e and "{ip}" in e["detail_en"])
+    return {MATERIALS: data(lambda d: by_id(d["entry"], e["id"]).update(ip="IP65"))}, "IP65"
+
+
 def out_of_order_test():
     e = an_entry("product", lambda e: True)
     second = next(k for k in materials.ENTRY if k in e and k != "id")
@@ -790,39 +879,56 @@ TESTS = [
      built(lambda p: "\n".join(p.work.render()) + "\n\n" + "\n".join(p.materials.render()))),
     ("document: a section marker missing from the template",
      {MD: lambda t: t.replace("<!-- section:materials -->", "", 1)}, "marker <!-- section:materials --> not found"),
-    # ---- setting out and clashes (room_design_checks.py): in Thai and English, in red under the drawing ----
-    ("setting out and clashes: a point moved just off a joint", joint_test),
-    ("setting out and clashes: the same problem, in Thai", lambda: joint_test("th")),
-    ("setting out and clashes: a point moved just off a horizontal joint", joint_y_test),
-    ("setting out and clashes: the tile top edge counts as a joint", tile_top_joint_test),
-    ("setting out and clashes: a hole exactly on a joint is allowed", on_joint_test),
-    ("setting out and clashes: no joint problems above the tiling", above_tiles_test),
-    ("setting out and clashes: a point moved off the end of the wall", point_off_wall_test),
-    ("setting out and clashes: a zone running off its wall", zone_off_wall_test),
-    ("setting out and clashes: a box poking out past the wall's start", off_wall_start_test),
-    ("setting out and clashes: an item running below the floor", below_floor_test),
-    ("setting out and clashes: a fixing in a window", point_in_opening_test),
-    ("setting out and clashes: a floor item off the floor, across the room", off_floor_y_test),
-    ("setting out and clashes: an item above the ceiling", ceiling_test),
-    ("setting out and clashes: a floor item off the floor", off_floor_test),
-    ("setting out and clashes: an item moved onto another", clash_test),
-    ("setting out and clashes: a round item moved onto another", round_clash_test),
-    ("setting out and clashes: an item pushed past the end of the wall", wall_end_test),
-    ("setting out and clashes: an item moved without the part that belongs to it", part_outside_test),
-    ("setting out and clashes: a part moved above the item it belongs to", part_above_test),
-    ("setting out and clashes: an item moved onto the column", column_clash_test),
-    ("setting out and clashes: no tile joint inside the door opening", door_joint_test),
-    ("setting out and clashes: the all-clear is printed on the drawings", {},
+    # ---- room design (room_design_checks.py): setting out, clashes, clearances, heights, wet areas; in Thai and English, in red under the drawing ----
+    ("room design: a point moved just off a joint", joint_test),
+    ("room design: the same problem, in Thai", lambda: joint_test("th")),
+    ("room design: a point moved just off a horizontal joint", joint_y_test),
+    ("room design: the tile top edge counts as a joint", tile_top_joint_test),
+    ("room design: a hole exactly on a joint is allowed", on_joint_test),
+    ("room design: no joint problems above the tiling", above_tiles_test),
+    ("room design: a point moved off the end of the wall", point_off_wall_test),
+    ("room design: a zone running off its wall", zone_off_wall_test),
+    ("room design: a box poking out past the wall's start", off_wall_start_test),
+    ("room design: an item running below the floor", below_floor_test),
+    ("room design: a fixing in a window", point_in_opening_test),
+    ("room design: a floor item off the floor, across the room", off_floor_y_test),
+    ("room design: an item above the ceiling", ceiling_test),
+    ("room design: a floor item off the floor", off_floor_test),
+    ("room design: an item moved onto another", clash_test),
+    ("room design: a round item moved onto another", round_clash_test),
+    ("room design: an item pushed past the end of the wall", wall_end_test),
+    ("room design: an item moved without the part that belongs to it", part_outside_test),
+    ("room design: a part moved above the item it belongs to", part_above_test),
+    ("room design: an item moved onto the column", column_clash_test),
+    ("room design: no tile joint inside the door opening", door_joint_test),
+    ("room design: the all-clear is printed on the drawings", {},
      built(lambda p: p.room.labels.en("all_clear", min_clear=p.room.joint_clearance))),
-    ("setting out and clashes: the door wider than its wall beside the column", door_test),
-    ("setting out and clashes: a lintel shorter than the door and its bearing", lintel_short_test),
-    # ---- quantities (materials_design_checks.py): the take-off against the materials list ----
-    ("quantities: a tile-box shortage shows on the floor plan", take_off_short_on_plan_test),
-    ("quantities: too few tile boxes for the room", tile_boxes_test),
+    ("room design: the door wider than its wall beside the column", door_test),
+    ("room design: a lintel shorter than the door and its bearing", lintel_short_test),
+    ("room design: too little clear space in front of a fitting", clearance_test),
+    ("room design: the basin rim set out outside its heights", rim_test),
+    ("room design: something electrical in a zone round the shower, rated too low", zone_ip_test),
+    ("room design: electrical items rated low are fine outside the zones", outside_zones_test),
+    ("room design: a shower wall waterproofed too low", waterproofing_test),
+    ("room design: the floor falling too little to the drain", fall_test),
+    # ---- materials design (materials_design_checks.py): quantities, the take-off against the materials list ----
+    ("materials design: a tile-box shortage shows on the floor plan", take_off_short_on_plan_test),
+    ("materials design: too few tile boxes for the room", tile_boxes_test),
     # ---- design problems and the build ----
     ("design problems: every design problem's lines fit inside its drawing", problems_fit_test),
     ("design problems: publishing refuses a build with a design problem, after writing the PDF", publishable_test),
     # ---- the room: bad data ----
+    ("room: a norm without its source", {ROOM: data(lambda d: find(d["norm"], "norm").pop("url"))}, "has no 'url'"),
+    ("room: a norm a design check needs, missing",
+     lambda: ({ROOM: data(lambda d: d.update(norm=[n for n in d["norm"] if n["id"] != room.NORMS[-1]]))},
+              f"no norm '{room.NORMS[-1]}'")),
+    ("room: a norm no design check uses",
+     lambda: ({ROOM: data(lambda d: d["norm"].append({**d["norm"][0], "id": "no_such_norm"}))},
+              "norm 'no_such_norm' isn't used by any design check")),
+    ("room: a norm for an item that isn't in the room",
+     lambda: ({ROOM: data(lambda d: find(d["norm"], "norm with an item", lambda n: "item" in n).update(item="no_such_item"))},
+              "applies to item 'no_such_item', which isn't in the room")),
+    ("products: a product's IP rating reaches its detail on the list", ip_in_detail_test),
     ("room: a wall missing", {ROOM: data(lambda d: d["wall"].pop())},
      f"{len(RAW[ROOM]['wall']) - 1} walls — the room has {len(room.PLAN_SIDES)}"),
     ("room: items on a wall with no elevation",
