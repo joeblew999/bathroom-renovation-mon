@@ -1,7 +1,9 @@
 # Bathroom renovation quote
 
-A bilingual (Thai / English) quote for the builder, published at
-**https://joeblew999.github.io/bathroom-renovation-mon/** as a web page and a PDF.
+A bilingual (Thai / English) quote for the builder, published on every push to `main`:
+
+- Web page: **https://joeblew999.github.io/bathroom-renovation-mon/**
+- PDF: **https://joeblew999.github.io/bathroom-renovation-mon/bathroom-renovation-quote.pdf**
 
 ## Commands
 
