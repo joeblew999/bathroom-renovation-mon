@@ -69,6 +69,9 @@ BREAKS = [  # (what, SQL, words the refusal must contain)
      f"INSERT INTO room_wall_assumed (wall, key, how) VALUES ({A_WALL}, 'waterproofing', '')", "how isn't empty"),
     ("a wall's row on the floor's surface", "UPDATE room_wall SET surface = (SELECT id FROM room_surface WHERE kind = 'floor') "
      "WHERE surface = (SELECT surface FROM room_wall ORDER BY surface LIMIT 1)", "a wall row is on a surface that is the floor"),
+    ("a loop of fittings (A serves B, B serves A)", "UPDATE room_item SET fitting = (SELECT id FROM room_item j WHERE j.fitting = room_item.id "
+     "ORDER BY j.pos LIMIT 1) WHERE id = (SELECT fitting FROM room_item WHERE fitting IS NOT NULL ORDER BY surface, pos LIMIT 1)",
+     "serves a chain of fittings that comes back to it"),
     ("an item serving itself", f"UPDATE room_item SET fitting = id WHERE id = {WALL_RECT_PRODUCT}", "an item doesn't serve itself"),
     ("a date that isn't one", "UPDATE room_norm SET checked = 'yesterday'", "a norm's checked is a date"),
     ("a required value missing", "UPDATE materials_shop SET link = NULL", "NOT NULL constraint failed: materials_shop.link"),

@@ -131,6 +131,16 @@ dir = "etl"
 depends = ["db:status"]
 run = "python d1.py push --remote && python d1.py check --remote"
 
+[tasks."db:show-d1"]
+description = "Cloudflare D1: run a query and print the rows: mise run db:show-d1 \"SELECT * FROM room_show_fitting\""
+dir = "etl"
+run = "python d1.py show --remote"
+
+[tasks."etl:show-d1"]
+description = "The trial on wrangler's local D1 (after etl:d1): run a query and print the rows, as db:show-d1 does on Cloudflare"
+dir = "etl"
+run = "python d1.py show --local"
+
 [tasks."db:pull"]
 description = "Cloudflare D1: export it to .work/ (never committed) and show how it differs from the seed files"
 dir = "etl"

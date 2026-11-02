@@ -11,7 +11,9 @@ Then the same changes are made on each engine — a price updated (the trigger f
 (INSERT … ON CONFLICT DO UPDATE: the second write updates the first, no error, still 2 rows) — and these are compared:
 
   window functions   a running total of the priced products, in list order, and each one's rank by price within its unit
-  recursive CTE      the tree of items that serve other items (a tap serving a basin …), each with its root and depth
+  recursive CTE      the schema's own recursive views: room_show_fitting (each chain of fittings as a tree, with depth)
+                     and common_show_product_reach (what a change to a product reaches, down the chains); and its
+                     recursive check, room_check_fitting_loop, catching a loop of fittings made on each engine — D1 too
   generated column   the products over 0.1 m² by face area; a lookup by area uses the index
   upsert             the label written twice: its last text, once per language
   trigger            which products are stamped: only the one whose price was updated
@@ -44,11 +46,10 @@ QUERIES = {
         "SELECT id, price, sum(price) OVER (ORDER BY pos) AS running_total, "
         "rank() OVER (PARTITION BY unit ORDER BY price DESC, pos) AS rank_in_unit "
         "FROM materials_product WHERE price IS NOT NULL ORDER BY pos",
-    "recursive CTE":
-        "WITH RECURSIVE tree(id, root, depth) AS ("
-        "SELECT id, id, 0 FROM room_item WHERE fitting IS NULL AND id IN (SELECT fitting FROM room_item) "
-        "UNION ALL SELECT i.id, t.root, t.depth + 1 FROM room_item i JOIN tree t ON i.fitting = t.id) "
-        "SELECT id, root, depth FROM tree ORDER BY root, depth, id",
+    "recursive CTE: room_show_fitting (each chain of fittings as a tree)":
+        "SELECT * FROM room_show_fitting",
+    "recursive CTE: common_show_product_reach (what a change to a product reaches)":
+        "SELECT * FROM common_show_product_reach",
     "generated column":
         "SELECT id, area_m2 FROM materials_product WHERE area_m2 > 0.1 ORDER BY area_m2 DESC, pos",
     "upsert":
@@ -58,6 +59,9 @@ QUERIES = {
     "view":
         "SELECT * FROM materials_show_line",
 }
+LOOP = ("UPDATE room_item SET fitting = (SELECT id FROM room_item j WHERE j.fitting = room_item.id ORDER BY j.pos LIMIT 1) "
+        "WHERE id = (SELECT fitting FROM room_item WHERE fitting IS NOT NULL ORDER BY surface, pos LIMIT 1);")   # A serves B, B serves A
+LOOP_CHECK = "SELECT * FROM room_check_fitting_loop"
 EXPECT = {"upsert": 2, "trigger": 1}        # rows each must give: 2 languages, the last write; 1 product stamped
 INDEX_USED = "EXPLAIN QUERY PLAN SELECT id FROM materials_product WHERE area_m2 > 0.1"
 DIGITS = 9            # floats compared to this many decimal places (each engine prints them its own way)
@@ -101,6 +105,16 @@ def main():
                + (f" — but {found[:3]}" if found else ""))
         plan = " ".join(r[3] for r in db.execute(INDEX_USED))
         report("USING INDEX materials_product_area_m2" in plan, f"generated column: a lookup by area uses its index ({plan})")
+        loop = t / "loop.sql"; loop.write_text(LOOP, encoding="utf-8")     # last: a loop of fittings, on every engine
+        db.executescript(LOOP)
+        subprocess.run([cli(), str(f)], input=LOOP, text=True, check=True)
+        wrangler("--local", "execute", "--file", str(loop), "--yes")
+        py = same_rows([dict(r) for r in db.execute(LOOP_CHECK)], False)
+        tool = same_rows(json.loads(subprocess.run([cli(), "-json", str(f), LOOP_CHECK], capture_output=True, text=True, check=True).stdout or "[]"), False)
+        d1 = same_rows(query("--local", LOOP_CHECK), False)
+        report(py == tool == d1 and len(py) == 2, f"recursive CTE: a loop of fittings made on each engine is caught by room_check_fitting_loop "
+               f"run by that engine — D1 too ({len(d1)} items named, the 2 in the loop)")
+        db.executescript(LOOP.replace("SET fitting = (SELECT id FROM room_item j WHERE j.fitting = room_item.id ORDER BY j.pos LIMIT 1)", "SET fitting = NULL"))
         stamps = [tuple(r) for r in db.execute("SELECT id, updated_at FROM materials_product ORDER BY pos")]
         after = dump(db, t / "after")                                          # the changed data, saved and loaded again
         back = load(t / "after", mig)

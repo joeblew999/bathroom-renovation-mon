@@ -3,6 +3,7 @@
     python d1.py push  --local|--remote   apply the migrations D1 hasn't had (wrangler d1 migrations apply), then make its
                                           data exactly the seed files: every row deleted and the seed rows put in, as one file
     python d1.py check --local|--remote   run every check view on D1 itself, and compare its data with the seed files
+    python d1.py show  --local|--remote "…"  run a query on D1 and print the rows (read the views: room_show_fitting …)
     python d1.py pull  --local|--remote   export D1 (wrangler d1 export) to .work/d1.sql and .work/d1.db — never committed —
                                           and show how it differs from the seed files (sqldiff)
 
@@ -128,12 +129,18 @@ def pull(where):
 
 if __name__ == "__main__":
     cmd, where = (sys.argv[1:3] + ["", ""])[:2]
-    if cmd not in ("push", "check", "pull") or where not in ("--local", "--remote"):
+    if cmd not in ("push", "check", "pull", "show") or where not in ("--local", "--remote") or (cmd == "show" and len(sys.argv) < 4):
         sys.exit(__doc__)
     if where == "--remote" and PLACEHOLDER in CONFIG.read_text():
         sys.exit("ERROR: there is no D1 database yet: make it (wrangler d1 create bathroom-quote) and put its id in etl/wrangler.toml")
     if cmd == "push":
         push(where)
+    elif cmd == "show":
+        got = query(where, sys.argv[3])
+        if got:
+            print(" | ".join(got[0]))
+            for r in got:
+                print(" | ".join("" if v is None else str(v) for v in r.values()))
     elif cmd == "check":
         sys.exit(1 if check(where) else 0)
     else:

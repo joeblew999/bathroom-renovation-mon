@@ -39,3 +39,34 @@ CREATE TABLE common_language (
 ) STRICT;
 
 CREATE VIEW common_check_language_rows AS SELECT 'there is no language' FROM (SELECT count(*) n FROM common_language) WHERE n = 0;
+
+CREATE VIEW common_show_product_reach AS
+  -- ---------- for review: everything a change to a product reaches, across the parts — the items that use it and, down
+  -- each one's chain of fittings, the items that serve them (a recursive query; depth 1, 2 … down the chain); the tile,
+  -- door or lintel it is; its lines on the materials list; the labour lines priced from it. Read by people (db:show), never
+  -- by a part's code. (Made here, before the tables it reads: SQLite resolves a view's tables when it is read.)
+  WITH RECURSIVE served(product, item, depth, sort) AS (
+    SELECT product, id, 0, printf('%08d', pos) FROM room_item WHERE product IS NOT NULL
+    UNION ALL
+    SELECT s.product, i.id, s.depth + 1, s.sort || '.' || printf('%08d', i.pos) FROM served s JOIN room_item i ON i.fitting = s.item)
+  SELECT pt.name AS product, x.place, x.what, x.depth
+  FROM (
+    -- groups of at most 5: D1 allows 5 terms in a compound SELECT
+    SELECT s.product, 1 AS place_pos, 'room item' AS place, coalesce(n.name, p.name) || ' (' || coalesce(wt.name, 'floor') || ')' AS what,
+           s.depth, s.sort
+    FROM served s JOIN room_item i ON i.id = s.item
+    LEFT JOIN room_wall_text wt ON wt.wall = i.surface AND wt.lang = 'en'
+    LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = 'en'
+    LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en'
+    UNION ALL SELECT t.product, 2, 'tile', tt.name, 0, printf('%08d', t.pos) FROM room_tile t JOIN room_tile_text tt ON tt.tile = t.id AND tt.lang = 'en'
+    UNION ALL SELECT product, 3, 'door', 'the door', 0, '' FROM room_door
+    UNION ALL SELECT product, 4, 'lintel', 'the lintel', 0, '' FROM room_lintel
+    UNION ALL SELECT * FROM (
+      SELECT l.product, 5, 'materials line', l.status || ', ' || w.name, 0, printf('%08d', l.pos)
+      FROM materials_line l JOIN materials_work_section_text w ON w.work_section = l.work_section AND w.lang = 'en'
+      UNION ALL SELECT c.product, 6, 'labour line', r.name, 0, printf('%08d', ll.pos)
+      FROM labour_line_count_product c JOIN labour_line ll ON ll.id = c.line JOIN labour_rate_text r ON r.rate = ll.rate AND r.lang = 'en'
+      UNION ALL SELECT c.product, 6, 'labour line', r.name, 0, printf('%08d', ll.pos)
+      FROM labour_line_share_product c JOIN labour_line ll ON ll.id = c.line JOIN labour_rate_text r ON r.rate = ll.rate AND r.lang = 'en')
+  ) x JOIN materials_product mp ON mp.id = x.product JOIN materials_product_text pt ON pt.product = x.product AND pt.lang = 'en'
+  ORDER BY mp.pos, x.place_pos, x.sort;
