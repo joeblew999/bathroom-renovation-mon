@@ -157,5 +157,5 @@ dir = "etl"
 run = [
   "rm -rf .wrangler",  # a fresh local D1: the trial rewrites 0001_initial.sql on every run, and an applied migration never changes
   "python d1.py push --local", "python d1.py check --local", "python d1.py pull --local",
-  "python features.py",  # window functions, a recursive CTE and a generated column: identical on all three engines
+  "python features.py",  # window functions, a recursive CTE, a generated column, an upsert, a trigger, a view: identical on all three engines
 ]

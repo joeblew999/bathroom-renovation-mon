@@ -39,6 +39,12 @@ BREAKS = [  # (what, SQL, words the refusal must contain)
     ("a key in capitals", f"UPDATE phases_phase SET id = upper(id) WHERE id = {FIRST_PHASE}", "an id is a UUID"),
     ("an empty value outside the texts", "UPDATE materials_shop SET link = ''", "link isn't empty"),
     ("a table that belongs to no part", "CREATE TABLE schedule_task (id TEXT PRIMARY KEY) STRICT", "belongs to no part"),
+    ("a trigger on INSERT", "CREATE TRIGGER materials_product_new AFTER INSERT ON materials_product BEGIN "
+     "UPDATE materials_product SET price = 0 WHERE id = NEW.id; END", "a trigger fires on UPDATE only"),
+    ("a trigger on DELETE", "CREATE TRIGGER materials_product_gone AFTER DELETE ON materials_product BEGIN "
+     "DELETE FROM materials_line WHERE product = OLD.id; END", "a trigger fires on UPDATE only"),
+    ("a trigger changing another part's table", "CREATE TRIGGER materials_product_room AFTER UPDATE OF price ON materials_product BEGIN "
+     "UPDATE room_room SET ceiling = ceiling; END", "changes room_room, another part's table"),
     ("a line break in a text", f"UPDATE materials_product_text SET name = name || char(10) || 'x' WHERE product = {PRODUCT_WITH('1')}",
      "with a line break or tab"),
     ("a sku that doesn't look like its shop's", "UPDATE materials_product_shop SET sku = 'not a code' WHERE rowid = (SELECT min(rowid) FROM materials_product_shop)",

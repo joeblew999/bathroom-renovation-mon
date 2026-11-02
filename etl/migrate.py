@@ -529,6 +529,14 @@ def problems(db):
     for kind, name in db.execute("SELECT type, name FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'"):
         if part_of(name) not in PARTS:                 # the seed files hold the five parts only: anything else would be lost
             out.append(f"{kind} {name} belongs to no part: its name must start with one of {', '.join(p + '_' for p in PARTS)}")
+    for name, sql in db.execute("SELECT name, sql FROM sqlite_master WHERE type = 'trigger'"):
+        head, body = re.split(r"\bBEGIN\b", sql, maxsplit=1, flags=re.I)
+        if re.search(r"\b(INSERT|DELETE)\b", head, re.I):             # a load inserts every row, a push deletes every row:
+            out.append(f"{file_of(name)}: trigger {name} fires on INSERT or DELETE — a trigger fires on UPDATE only "
+                       "(a load inserts every row and a push deletes every row, so it would change the data each time)")
+        for t in re.findall(r"\b(?:UPDATE|INSERT\s+INTO|DELETE\s+FROM|REPLACE\s+INTO)\s+([A-Za-z_]+)", body, re.I):
+            if part_of(t) != part_of(name):
+                out.append(f"{file_of(name)}: trigger {name} changes {t}, another part's table — a trigger changes its own part's tables only")
     for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'").fetchall():
         for col in [c[1] for c in db.execute(f"PRAGMA table_info({t})") if c[2] == "TEXT"]:
             n = db.execute(f"SELECT count(*) FROM {t} WHERE {col} GLOB '*[' || char(9) || char(10) || char(13) || ']*'").fetchone()[0]
