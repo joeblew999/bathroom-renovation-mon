@@ -7,8 +7,8 @@
   6. the working database's guards: load won't overwrite unsaved changes; save won't write a broken change, a schema
      change, a change in one language (unless --alone), or over seed files that changed since load; re-spacing positions.
 Each break finds what it breaks by what it is (README rule 9) — never by today's names, numbers, positions or rows."""
-import shutil, sqlite3, time
-from migrate import DATA, changed_alone, load, problems, reading, vocabulary
+import re, shutil, sqlite3, time
+from migrate import DATA, changed_alone, connect, load, problems, reading, vocabulary
 from edit import edit, load_working, same, save_working, take_off, tools
 
 FAKE = "ffffffff-ffff-4fff-bfff-ffffffffffff"     # a key in the right shape that names nothing
@@ -38,6 +38,29 @@ BREAKS = [  # (what, SQL, words the refusal must contain)
     ("a UUID-shaped key that isn't hex", f"UPDATE phases_phase SET id = 'zzzzzzzz-zzzz-4zzz-8zzz-zzzzzzzzzzzz' WHERE id = {FIRST_PHASE}", "an id is a UUID"),
     ("a key in capitals", f"UPDATE phases_phase SET id = upper(id) WHERE id = {FIRST_PHASE}", "an id is a UUID"),
     ("an empty value outside the texts", "UPDATE materials_shop SET link = ''", "link isn't empty"),
+    ("a table that belongs to no part", "CREATE TABLE schedule_task (id TEXT PRIMARY KEY) STRICT", "belongs to no part"),
+    ("a line break in a text", f"UPDATE materials_product_text SET name = name || char(10) || 'x' WHERE product = {PRODUCT_WITH('1')}",
+     "with a line break or tab"),
+    ("a sku that doesn't look like its shop's", "UPDATE materials_product_shop SET sku = 'not a code' WHERE rowid = (SELECT min(rowid) FROM materials_product_shop)",
+     "doesn't look like its shop's codes"),
+    ("a placeholder a product's text can't fill", f"UPDATE materials_product_text SET detail = detail || ' {{nonsense}}' WHERE product = {PRODUCT_WITH('1')}",
+     "uses {nonsense}"),
+    ("a tile product with no width", "UPDATE materials_product SET w = NULL WHERE id = (SELECT product FROM room_tile ORDER BY pos LIMIT 1)",
+     "needs w, h and per_box for the tile count"),
+    ("a wall's assumed key that isn't one of its values", f"INSERT INTO room_wall_assumed (wall, key, how) VALUES ({A_WALL}, 'colour', 'x')",
+     "a wall's assumed key is one of its values"),
+    ("a step referring to itself", "UPDATE phases_step_ref SET to_phase = NULL, to_step = step WHERE rowid = (SELECT min(rowid) FROM phases_step_ref)",
+     "a step doesn't refer to itself"),
+    # ---- the check views no other break reaches
+    ("no language", "DELETE FROM common_language", "there is no language"),
+    ("no shop", "DELETE FROM materials_product_shop; DELETE FROM materials_shop_text; DELETE FROM materials_shop", "materials_shop has no row"),
+    ("a line brought by the trade that doesn't say who", "DELETE FROM materials_line_by", "so it says who brings it"),
+    ("the drain on a wall", f"UPDATE room_floor SET drain = {WALL_RECT_PRODUCT}", "is not on the floor"),
+    ("a floor item serving a fitting", f"UPDATE room_item SET fitting = {WALL_RECT_PRODUCT} WHERE id = {FLOOR_RECT}", "which only a wall item does"),
+    ("a wall with items but no elevation", "UPDATE room_wall SET elevation = 0 WHERE surface IN (SELECT surface FROM room_item)", "has items but no elevation"),
+    ("no tile", "DELETE FROM room_tile_text; DELETE FROM room_tile", "there is no tile"),
+    ("an assumed wall value with an empty note on how to find it",
+     f"INSERT INTO room_wall_assumed (wall, key, how) VALUES ({A_WALL}, 'waterproofing', '')", "how isn't empty"),
     ("a wall's row on the floor's surface", "UPDATE room_wall SET surface = (SELECT id FROM room_surface WHERE kind = 'floor') "
      "WHERE surface = (SELECT surface FROM room_wall ORDER BY surface LIMIT 1)", "a wall row is on a surface that is the floor"),
     ("an item serving itself", f"UPDATE room_item SET fitting = id WHERE id = {WALL_RECT_PRODUCT}", "an item doesn't serve itself"),
@@ -151,17 +174,73 @@ BREAKS = [  # (what, SQL, words the refusal must contain)
 base = load()
 print("real data:", len(problems(base)), "problems")
 total = ok = 0
+VIEWS = [v for (v,) in base.execute("SELECT name FROM sqlite_master WHERE type = 'view' AND name GLOB '*_check_*'")]
+fired = set()                                      # the check views some break makes speak
+
+
+def copy():
+    """A copy of the real database with D1's limits, and foreign keys off — as any SQLite tool may leave them — so a
+    broken link reaches the checks, which must name it."""
+    db = connect(); base.backup(db); db.execute("PRAGMA foreign_keys = OFF"); return db
+
+
 t0 = time.perf_counter()
 for what, sql, want in BREAKS:
-    db = sqlite3.connect(":memory:"); base.backup(db)
+    db = copy()
     try:
         db.executescript(sql); found = problems(db) + vocabulary(db, take_off())
+        fired.update(v for v in VIEWS if db.execute(f"SELECT 1 FROM {v} LIMIT 1").fetchone())
     except sqlite3.Error as e:
         found = [str(e)]
     hit = any(want in f for f in found); ok += hit; total += 1
     print(f"{'REFUSED' if hit else 'MISSED '}  {what}" + ("" if hit else f"\n          wanted {want!r}, got {found[:3]}"))
 dt = time.perf_counter() - t0
-print(f"  ({len(BREAKS)} database breaks, {dt / len(BREAKS) * 1000:.1f} ms each: copy, break, every check)\n")
+print(f"  ({len(BREAKS)} database breaks, {dt / len(BREAKS) * 1000:.1f} ms each: copy, break, every check)")
+for v in sorted(set(VIEWS) - fired):
+    total += 1
+    print(f"MISSED   check view {v}: no break makes it speak")
+ok += len(fired); total += len(fired)
+print(f"OK       every check view speaks in some break ({len(fired)} of {len(VIEWS)})")
+
+# ---------- 1b. every named rule in the schema: set the columns it reads, on one real row, to wrong values (or to the
+# row's own key, for a rule against linking to itself) until SQLite refuses with that rule's name — or a break above
+# expects it by name. A rule nothing breaks is a rule with no test.
+def named_rules(db):
+    for t, sql in db.execute("SELECT name, sql FROM sqlite_master WHERE type = 'table'").fetchall():
+        cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
+        for m in re.finditer(r'CONSTRAINT "([^"]+)" CHECK \(', sql):
+            i, depth = m.end(), 1
+            while depth:
+                depth += {"(": 1, ")": -1}.get(sql[i], 0); i += 1
+            yield t, m[1], [c for c in cols if re.search(rf"\b{c}\b", sql[m.end():i - 1])]
+WRONG = [None, -1, 0, 0.5, 2, 99, 1e999, -1e999, "", "x", "zzz", "2026-13-45", "IPX", 1, "door_frame"]
+expected = {w for _, _, w in BREAKS}
+untested = []
+for t, rule, used in named_rules(base):
+    if rule in expected:
+        continue
+    tries = [(c, "?", v) for c in used for v in WRONG] + [(c, other, None) for c in used for other in used if other != c]
+    info = list(base.execute(f"PRAGMA table_info({t})"))
+    empty = not base.execute(f"SELECT 1 FROM {t} LIMIT 1").fetchone()
+    for col, value, v in tries:
+        db = copy()
+        try:
+            if empty:                                  # a table with no row today: a new row, plain elsewhere, wrong in col
+                plain = {"TEXT": "'en'" , "INTEGER": "1", "REAL": "1.0"}
+                vals = [value if c[1] == col else plain[c[2]] for c in info]
+                db.execute(f"INSERT INTO {t} VALUES ({', '.join(vals)})", (v,) if value == "?" else ())
+            else:
+                db.execute(f"UPDATE {t} SET {col} = {value} WHERE rowid = (SELECT min(rowid) FROM {t})", (v,) if value == "?" else ())
+        except sqlite3.Error as e:
+            if rule in str(e):
+                break
+    else:
+        untested.append(f"{t}: {rule!r}")
+rules = sum(1 for _ in named_rules(base))
+for u in untested:
+    print(f"MISSED   rule {u}: nothing breaks it")
+ok += rules - len(untested); total += rules
+print(f"OK       every named rule refuses a wrong value by its name ({rules - len(untested)} of {rules})\n")
 
 # ---------- 2. the data files themselves
 A_ROOM_LINE = lambda: next(l for l in open(DATA / "room.sql") if l.startswith("INSERT INTO room_room ")).strip()
@@ -312,6 +391,23 @@ checks += [("a new migration: save refuses until it's run", refused),
             # on a load from nothing the migration runs on empty tables, so the 7s can only have come from the seed files
             ran == ["0002_product_has_lead_time.sql"] and saved == ([], []) and filled > 0),
            ("a new migration: migrate again runs nothing", migrate_working(working, mig) == [])]
+(mig / "0003_a_setting_row.sql").write_text("INSERT INTO phases_symbol VALUES ('extra', 'x');\n", encoding="utf-8")
+try:
+    load_files(tmp, mig); rows_refused = ""
+except SystemExit as e:
+    rows_refused = str(e)
+checks += [("a migration that puts rows in a table is refused, by name", "0003_a_setting_row.sql puts rows in phases_symbol" in rows_refused)]
+(mig / "0003_a_setting_row.sql").unlink()
+# a pull changes the seed files, with nothing changed in quote.db: nothing is unsaved, and load takes the new files
+for f in tmp.glob("quote*"):
+    f.unlink()
+load_working(tmp, working, mig)
+pulled = edit("UPDATE materials_product SET price = price + 1 WHERE pos = (SELECT min(pos) FROM materials_product)", tmp, migrations=mig) == []
+checks += [("after a pull, with nothing changed in quote.db, status is clean", pulled and same(tmp, working)),
+           ("after a pull, load takes the new seed files", load_working(tmp, working, mig) is None and same(tmp, working))]
+w = sqlite3.connect(working); w.execute("UPDATE materials_product SET price = price + 1 WHERE pos = (SELECT min(pos) FROM materials_product)"); w.commit(); w.close()
+checks += [("load refuses unsaved changes", load_working(tmp, working, mig) is not None),
+           ("load --discard throws them away", load_working(tmp, working, mig, discard=True) is None and same(tmp, working))]
 for what, good in checks:
     ok += good; total += 1
     print(f"{'OK     ' if good else 'MISSED '}  working database: {what}")

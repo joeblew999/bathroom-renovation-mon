@@ -152,6 +152,10 @@ dir = "etl"
 run = "python prove.py"
 
 [tasks."etl:d1"]
-description = "The trial on wrangler's local D1: push the migrations and seed files, run every check view there, pull it back and compare"
+description = "The trial on wrangler's local D1: push the migrations and seed files, run every check view there, pull it back and compare; then SQLite's analytical features on all three engines"
 dir = "etl"
-run = ["python d1.py push --local", "python d1.py check --local", "python d1.py pull --local"]
+run = [
+  "rm -rf .wrangler",  # a fresh local D1: the trial rewrites 0001_initial.sql on every run, and an applied migration never changes
+  "python d1.py push --local", "python d1.py check --local", "python d1.py pull --local",
+  "python features.py",  # window functions, a recursive CTE and a generated column: identical on all three engines
+]

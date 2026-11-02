@@ -1,6 +1,7 @@
 """The working database: where the data is read and changed, between the seed files that are committed.
 
-    python edit.py load            make .work/quote.db from the migrations and the seed files (refused if it holds unsaved changes)
+    python edit.py load            make .work/quote.db from the migrations and the seed files (refused if it holds unsaved
+                                   changes; --discard throws them away — to redo a migration being written, say)
     python edit.py save [--alone]  check quote.db, then write each part's seed file with sqlite3 .dump --data-only;
                                    if anything fails, write nothing and say why. --alone lets through a text changed in one
                                    language only (a fix to a Thai typo, say) — each one is printed, to go in the commit message
@@ -15,12 +16,12 @@ quote.db is never committed: the seed files are the data. Any SQLite tool can op
 `save` checks everything before writing, so a tool that leaves foreign keys off can't save a broken link.
 
 What save refuses, before it writes anything:
-  - the seed files or migrations changed since load (a git pull, a checkout): saving would undo those changes
+  - the seed files changed since load (a git pull, a checkout): saving would undo those changes
   - a schema that isn't the migrations' (a table changed by hand: schema changes are a new migration)
   - any problem: a broken link, a check view, the translation rules, a code the code doesn't know
   - a text changed in one language only (unless --alone)
 and then it dumps to a folder beside the seed files, loads that back as a build would, checks it again, and only then
-moves the five files into place together.
+moves the five files into place, one after another (git shows a mix, if one is ever interrupted).
 
 Inside the SQL (`sql`, or edit() below):
   new_id()                    a new random key (UUID v4), the same one each time it's called until next_id()
@@ -175,36 +176,38 @@ def check_and_dump(db, folder, alone=False, base=None, migrations=None):
     return (late, []) if isinstance(late, list) else ([], lone)
 
 
-def edit(sql, folder=DATA, alone=False):
+def edit(sql, folder=DATA, alone=False, migrations=None):
     """Apply `sql` to the data in `folder` and write the files only if every check passes. Returns the problems
     ([] = written). (The same as sql then save, without a working database.)"""
-    base = load(folder)
-    db = tools(load(folder))
+    base = load(folder, migrations)
+    db = tools(load(folder, migrations))
     err = run_sql(db, sql)
-    return [f"the SQL failed, so nothing changed: {err}"] if err else check_and_dump(db, folder, alone, base)[0]
+    return [f"the SQL failed, so nothing changed: {err}"] if err else check_and_dump(db, folder, alone, base, migrations)[0]
 
 
 def same(folder=DATA, working=WORKING):
-    """Whether the working database holds exactly what the seed files hold."""
+    """Whether quote.db holds no unsaved change: the same data as when it was loaded (or last saved). A pull that changes
+    the seed files is not a change in quote.db."""
     if not working.exists():
         return True
     with tempfile.TemporaryDirectory() as t:
-        now = dump(connect(working), Path(t))
-    return all(now[p] == (folder / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in now)
+        now = dump(connect(working), Path(t) / "now")
+        if as_loaded(working).exists():
+            then = dump(connect(as_loaded(working)), Path(t) / "then")
+        else:
+            then = {p: (folder / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in PARTS}
+    return now == then
 
 
 def files_moved(folder=DATA, working=WORKING):
-    """Whether the seed files or migrations changed since quote.db was loaded from them."""
+    """Whether the seed files changed since quote.db was loaded from them (or last saved)."""
     rec = loaded_from(working)
     return not rec.exists() or rec.read_text().strip() != fingerprint(folder)
 
 
-def load_working(folder=DATA, working=WORKING, migrations=None):
-    if working.exists() and not same(folder, working) and not files_moved(folder, working):
-        return "quote.db holds changes that aren't in the seed files: save them first (or delete quote.db to throw them away)"
-    if working.exists() and files_moved(folder, working) and not same(folder, working):
-        return ("quote.db differs from the seed files, and the seed files changed since it was loaded: delete quote.db to "
-                "throw its changes away, or copy them out first")
+def load_working(folder=DATA, working=WORKING, migrations=None, discard=False):
+    if working.exists() and not discard and not same(folder, working):
+        return "quote.db holds unsaved changes: save them first, or `load --discard` to throw them away"
     working.parent.mkdir(parents=True, exist_ok=True)
     working.unlink(missing_ok=True)
     db = load(folder, migrations)
@@ -241,7 +244,7 @@ def diff(folder=DATA, working=WORKING):
     """sqldiff from the seed files to the working database: the SQL that would turn one into the other."""
     import shutil, subprocess
     with tempfile.TemporaryDirectory() as t:
-        return subprocess.run([shutil.which("sqldiff"), str(seed_db(folder, Path(t) / "seed.db")), str(working)],
+        return subprocess.run([shutil.which("sqldiff"), "--primarykey", str(seed_db(folder, Path(t) / "seed.db")), str(working)],
                               capture_output=True, text=True, check=True).stdout
 
 
@@ -262,7 +265,7 @@ def open_working():
 if __name__ == "__main__":
     cmd, args = (sys.argv[1] if len(sys.argv) > 1 else ""), sys.argv[2:]
     if cmd == "load":
-        err = load_working()
+        err = load_working(discard="--discard" in args)
         sys.exit(f"Not loaded: {err}") if err else print(f"Loaded {WORKING.relative_to(REPO)} from the migrations and seed files.")
     elif cmd == "save":
         found, lone = save_working(alone="--alone" in args)

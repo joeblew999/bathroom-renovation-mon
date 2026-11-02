@@ -10,14 +10,18 @@ The seed files stay the data: push sends them, pull only shows what D1 holds, fo
 """
 import json, re, sqlite3, subprocess, sys, tempfile
 from pathlib import Path
-from migrate import DATA, OUT, PARTS, REPO, cli, load, migrated, schema_of
+from migrate import DATA, MIGRATIONS, OUT, PARTS, REPO, cli, load, migrated, problems, schema_of
 
 HERE = Path(__file__).resolve().parent
 CONFIG = HERE / "wrangler.toml"
 WORK = REPO / ".work"
 PLACEHOLDER = "00000000-0000-0000-0000-000000000000"
 D1_COMPOUND = 5                             # the most terms D1 lets one compound SELECT have
-WRANGLER_OWN = {"d1_migrations", "sqlite_sequence"}   # tables wrangler keeps for itself in D1
+WRANGLER_OWN = {"d1_migrations", "sqlite_sequence"}   # tables wrangler keeps for itself in D1 (and Cloudflare's own _cf_…)
+
+
+def own(name):
+    return name in WRANGLER_OWN or name.startswith("_cf_")
 COUNTS_PER_QUERY = 50                       # tables counted in one query (one column each; D1 allows 100)
 
 
@@ -37,9 +41,22 @@ def tables(db):
                                      "AND name <> 'd1_migrations' ORDER BY rowid DESC")]
 
 
-def push(where):
-    wrangler(where, "migrations apply")
+def ready():
+    """What push sends must be what git holds, and must pass every check — before anything is sent."""
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", str(DATA), str(MIGRATIONS)], cwd=REPO,
+                           capture_output=True, text=True, check=True).stdout
+    if dirty:
+        sys.exit(f"ERROR: the seed files or migrations hold changes git doesn't: commit them first, so D1 gets what git has\n{dirty}")
     db = load()
+    found = problems(db)
+    if found:
+        sys.exit("ERROR: the seed files don't pass the checks, so nothing was sent:\n  " + "\n  ".join(found))
+    return db
+
+
+def push(where):
+    db = ready()
+    wrangler(where, "migrations apply")
     with tempfile.NamedTemporaryFile("w", suffix=".sql", dir=OUT, delete=False, encoding="utf-8") as f:
         f.write("PRAGMA defer_foreign_keys = true;\n")
         f.writelines(f"DELETE FROM {t};\n" for t in tables(db))
@@ -65,7 +82,11 @@ def check(where):
     """The check views, run by D1; and D1's row counts against the seed files'."""
     db = load()
     views = [v for (v,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'view' AND name GLOB '*_check_*' ORDER BY name")]
-    found = []
+    theirs = sorted((r["type"], r["name"], r["sql"]) for r in query(where, "SELECT type, name, sql FROM sqlite_master WHERE sql IS NOT NULL")
+                    if not own(r["name"]) and not r["name"].startswith("sqlite_"))
+    differ = sorted({f"{t} {n}" for t, n, _ in set(theirs) ^ set(schema_of(db))})
+    found = [f"D1's schema isn't the migrations' ({', '.join(differ)}): a change no migration made, or a migration "
+             "edited after D1 had it"] if differ else []
     for i in range(0, len(views), D1_COMPOUND):              # D1 allows 5 terms in one UNION
         sql = " UNION ALL ".join(f"SELECT '{v}' AS v, * FROM {v}" for v in views[i:i + D1_COMPOUND])
         found += [f"{r['v']}: {[x for k, x in r.items() if k != 'v'][0]}" for r in query(where, sql)]
@@ -74,7 +95,7 @@ def check(where):
     for i in range(0, len(names), COUNTS_PER_QUERY):          # one row, a column per table (D1 allows 100 columns)
         d1.update(query(where, "SELECT " + ", ".join(f"(SELECT count(*) FROM {t}) AS {t}" for t in names[i:i + COUNTS_PER_QUERY]))[0])
     found += [f"{t}: D1 has {d1.get(t)} rows, the seed files {n}" for t, n in counts.items() if d1.get(t) != n]
-    print(f"D1 ({where[2:]}): {len(views)} check views and {len(counts)} tables' row counts —", f"{len(found)} problems")
+    print(f"D1 ({where[2:]}): its schema, {len(views)} check views and {len(counts)} tables' row counts —", f"{len(found)} problems")
     for p in found:
         print("  ", p)
     return found
@@ -89,7 +110,7 @@ def pull(where):
         whole = Path(t) / "export.db"                       # all D1 holds, wrangler's own table included
         subprocess.run([cli(), str(whole)], input=sql.read_text(encoding="utf-8"), text=True, check=True)
         exported = sqlite3.connect(whole)
-        theirs = [r for r in schema_of(exported) if r[1] not in WRANGLER_OWN]
+        theirs = [r for r in schema_of(exported) if not own(r[1])]
         diff = "" if theirs == schema_of(db) else "D1's schema isn't the migrations': it has had a change no migration made\n"
         got.unlink(missing_ok=True)                         # the data alone, in the migrations' schema
         g = sqlite3.connect(got); migrated().backup(g)
@@ -99,7 +120,7 @@ def pull(where):
         g.commit(); g.execute("DETACH d1"); g.close()
         seed = Path(t) / "seed.db"
         s = sqlite3.connect(seed); db.backup(s); s.close()
-        diff += subprocess.run([str(Path(cli()).parent / "sqldiff"), str(seed), str(got)], capture_output=True, text=True, check=True).stdout
+        diff += subprocess.run([str(Path(cli()).parent / "sqldiff"), "--primarykey", str(seed), str(got)], capture_output=True, text=True, check=True).stdout
     print(f"D1 ({where[2:]}) exported to {sql.relative_to(REPO)} and {got.relative_to(REPO)} (never committed).")
     print("It holds exactly the seed files." if not diff else f"How it differs from the seed files (sqldiff):\n{diff}")
     return diff

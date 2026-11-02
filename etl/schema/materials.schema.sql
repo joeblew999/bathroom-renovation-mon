@@ -2,7 +2,7 @@ CREATE TABLE materials_setting (
   -- the materials part — the materials list: every product once, its lines, the shops, units and work sections.
   id INTEGER PRIMARY KEY CONSTRAINT "the settings are one row" CHECK (id = 1),
   prices_date  TEXT NOT NULL CONSTRAINT "prices_date is a date, YYYY-MM-DD" CHECK (date(prices_date) IS prices_date),
-  date_format  TEXT NOT NULL,
+  date_format  TEXT NOT NULL CONSTRAINT "date_format isn't empty" CHECK (date_format <> ''),
   round_approx INTEGER NOT NULL CONSTRAINT "round_approx is more than 0" CHECK (round_approx > 0)
 ) STRICT;
 CREATE TABLE materials_section_text (lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') PRIMARY KEY REFERENCES common_language(code), name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL) STRICT;

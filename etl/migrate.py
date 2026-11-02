@@ -367,6 +367,10 @@ def migrated(folder=None):
     db = connect()
     for f in sorted((folder or MIGRATIONS).glob("*.sql")):
         run_file(db, f)
+        for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'").fetchall():
+            if db.execute(f"SELECT 1 FROM {t} LIMIT 1").fetchone():
+                raise SystemExit(f"ERROR: {f.name} puts rows in {t}: a migration changes the schema only (and moves the data it "
+                                 "has); new rows — a code, a label — are data, added with db:sql and saved")
     return db
 
 
@@ -522,6 +526,14 @@ def problems(db):
     """Every broken link, every check view, the translation conventions, and every assumed value being there —
     each message naming things as a person calls them, not by key."""
     out = []
+    for kind, name in db.execute("SELECT type, name FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'"):
+        if part_of(name) not in PARTS:                 # the seed files hold the five parts only: anything else would be lost
+            out.append(f"{kind} {name} belongs to no part: its name must start with one of {', '.join(p + '_' for p in PARTS)}")
+    for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'").fetchall():
+        for col in [c[1] for c in db.execute(f"PRAGMA table_info({t})") if c[2] == "TEXT"]:
+            n = db.execute(f"SELECT count(*) FROM {t} WHERE {col} GLOB '*[' || char(9) || char(10) || char(13) || ']*'").fetchone()[0]
+            if n:
+                out.append(f"{file_of(t)}: {t}: {n} {col} with a line break or tab — a text is one line")
     for t, rowid, parent, fk in db.execute("PRAGMA foreign_key_check"):
         col = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[0] == fk][0]
         val = db.execute(f"SELECT {col} FROM {t} WHERE rowid = ?", (rowid,)).fetchone()[0]
@@ -608,8 +620,79 @@ def problems(db):
                         if a != b:
                             out.append(f"{file_of(t)}: {t} {k[0] if k else ''}: its Thai and English {col} have different {what} "
                                        f"(Thai: {', '.join(a) or 'none'}; English: {', '.join(b) or 'none'})")
+    out += today_checks(db)
     nm = names(db)
     return [re.sub(rf"\b{UUID}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
+
+
+PLACEHOLDERS = {   # what each text may fill in: (table, column) → its placeholders (a product's text: its own sizes and IP)
+    ("materials_shop", "link"): ("sku", "sku_digits"),
+    ("materials_section_note", "note"): ("prices_date", "approx"),
+    ("labour_section_note", "note"): ("books", "approx"),
+    ("labour_book_text", "item_format"): ("item",),
+}
+
+
+def today_checks(db):
+    """Today's data checks in the parts' code, run on the database so save refuses what the build would (in the trial
+    here; at the switch, save runs the parts' own loaders): each text fills in only its own placeholders; each sku looks
+    like its shop's codes; the sizes the room needs from a product."""
+    import string
+    sys.path.insert(0, str(REPO))
+    from materials import SIZE_KEYS, SIZE_UNITS
+    out = []
+    def fills(text):
+        try:
+            return [f for _, f, _, _ in string.Formatter().parse(text) if f is not None]
+        except ValueError:
+            return None                                   # a stray brace: reported by the brace check
+    sizes = {k: (set(SIZE_KEYS) & {c for c in SIZE_KEYS if r[c] is not None}, r["ip"])
+             for r in [dict(zip(("id", *SIZE_KEYS, "ip"), row)) for row in db.execute(f"SELECT id, {', '.join(SIZE_KEYS)}, ip FROM materials_product")]
+             for k in [r["id"]]}
+    for t in [t for t in text_tables(db) if not t.endswith(("_label", "_plural"))]:
+        cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
+        keys = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]
+        for col in [c for c in cols if c != "lang" and c not in keys]:
+            for row in db.execute(f"SELECT {', '.join(keys + [col])} FROM {t}"):
+                used = fills(row[-1] or "")
+                if used is None:
+                    continue
+                if t == "materials_product_text":
+                    have, ip = sizes[row[0]]
+                    allowed = {k + u for k in have for u in SIZE_UNITS} | ({"ip"} if ip else set())
+                elif t in ("phases_step_text", "phases_phase_note"):
+                    allowed = {f for f in used if f.isdigit()}  # numbered gaps (checked against their refs)
+                else:
+                    allowed = set(PLACEHOLDERS.get((t, col), ()))
+                for f in used:
+                    if f not in allowed:
+                        out.append(f"{file_of(t)}: {t} {row[0] if keys else ''}: its {col} uses {{{f}}} (it can use: {', '.join(sorted(allowed)) or 'nothing'})")
+    for t, col in PLACEHOLDERS:                              # texts kept on their row: a shop's link
+        if not t.endswith(("_text", "_note")):
+            for k, text in db.execute(f"SELECT id, {col} FROM {t}"):
+                for f in fills(text) or []:
+                    if f not in PLACEHOLDERS[(t, col)]:
+                        out.append(f"{file_of(t)}: {t} {k}: its {col} uses {{{f}}} (it can use: {', '.join(PLACEHOLDERS[(t, col)])})")
+    shops = {}
+    for k, pattern in db.execute("SELECT id, sku_pattern FROM materials_shop"):
+        try:
+            shops[k] = re.compile(pattern)
+        except re.error as e:
+            out.append(f"materials.sql: materials_shop {k}: its sku_pattern isn't a pattern ({e})")
+    for product, shop, sku in db.execute("SELECT product, shop, sku FROM materials_product_shop"):
+        if shop in shops and not shops[shop].fullmatch(sku):
+            out.append(f"materials.sql: materials_product_shop {product}: sku {sku!r} doesn't look like its shop's codes")
+    for k, w, h, per_box in db.execute("SELECT t.id, p.w, p.h, p.per_box FROM room_tile t JOIN materials_product p ON p.id = t.product"):
+        if None in (w, h, per_box):
+            out.append(f"room.sql: room_tile {k}: its product needs w, h and per_box for the tile count")
+        elif w != h or w != int(w):
+            out.append(f"room.sql: room_tile {k}: its product is {w:g} × {h:g} — the tile count needs square tiles, in whole mm")
+    for what, sql, need in (("the door", "SELECT p.w, p.h FROM room_door d JOIN materials_product p ON p.id = d.product", "w and h"),
+                            ("the lintel", "SELECT p.h FROM room_lintel l JOIN materials_product p ON p.id = l.product", "h")):
+        for row in db.execute(sql):
+            if None in row:
+                out.append(f"room.sql: {what}'s product needs {need}")
+    return out
 
 
 READS = {   # what each part's code may read besides its own tables: nothing — what a part needs from another
