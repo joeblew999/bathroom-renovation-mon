@@ -1,17 +1,29 @@
-"""The working database: where the data is read and changed, between the part files that are committed.
+"""The working database: where the data is read and changed, between the seed files that are committed.
 
-    python edit.py load       build out/etl/quote.db from the part files (refused if quote.db holds unsaved changes)
-    python edit.py save       check quote.db (every rule and check, and English changed with its Thai), then write each
-                              part's file with sqlite3 .dump — or, if anything fails, write nothing and say why
-    python edit.py status     say whether quote.db and the part files hold the same data (exit 1 if not)
-    python edit.py sql "…"    run SQL on quote.db (any change waits for save); the functions below are there
-    python edit.py show "…"   run a query on quote.db and print the rows (read the views: room_show_item …)
+    python edit.py load            make .work/quote.db from the migrations and the seed files (refused if it holds unsaved changes)
+    python edit.py save [--alone]  check quote.db, then write each part's seed file with sqlite3 .dump --data-only;
+                                   if anything fails, write nothing and say why. --alone lets through a text changed in one
+                                   language only (a fix to a Thai typo, say) — each one is printed, to go in the commit message
+    python edit.py migrate         run on quote.db each migration it hasn't had (then save writes the seed files in the new shape)
+    python edit.py status          say whether quote.db and the seed files hold the same data (exit 1 if not)
+    python edit.py sql "…"         run SQL on quote.db, as one transaction (any change waits for save); the functions below are there
+    python edit.py show "…"        run a query on quote.db and print the rows (read the views: room_show_item …)
+    python edit.py diff            how quote.db differs from the seed files, as SQL (sqldiff)
+    python edit.py lint            sqlite3 .lint fkey-indexes on the seed files: every foreign key has an index
 
-quote.db is never committed: the part files are the data. Any SQLite tool can open quote.db too (sqlite3, a browser);
+quote.db is never committed: the seed files are the data. Any SQLite tool can open quote.db too (sqlite3, a browser);
 `save` checks everything before writing, so a tool that leaves foreign keys off can't save a broken link.
 
+What save refuses, before it writes anything:
+  - the seed files or migrations changed since load (a git pull, a checkout): saving would undo those changes
+  - a schema that isn't the migrations' (a table changed by hand: schema changes are a new migration)
+  - any problem: a broken link, a check view, the translation rules, a code the code doesn't know
+  - a text changed in one language only (unless --alone)
+and then it dumps to a folder beside the seed files, loads that back as a build would, checks it again, and only then
+moves the five files into place together.
+
 Inside the SQL (`sql`, or edit() below):
-  new_id()                    a new random key, the same one each time it's called until next_id()
+  new_id()                    a new random key (UUID v4), the same one each time it's called until next_id()
   next_id()                   start a new key (for the next new thing)
   pos_after(table, key)       a position just after that row, within its parent (between it and the next one)
   pos_first(table, parent)    the first position under that parent ('' for a table with no parent)
@@ -20,19 +32,58 @@ Example — a new step after another, in Thai and English:
   INSERT INTO phases_step (id, pos, phase) SELECT new_id(), pos_after('phases_step', id), phase FROM phases_step WHERE id = '…';
   INSERT INTO phases_step_text (step, lang, text) VALUES (new_id(), 'th', '…'), (new_id(), 'en', '…');
 """
-import secrets, sqlite3, sys
-from migrate import DATA, STEP, changed_alone, dump, load, parent_of, problems
+import hashlib, sqlite3, sys, tempfile, uuid
+from pathlib import Path
+from migrate import (DATA, MIGRATIONS, PARTS, REPO, STEP, changed_alone, connect, dump, extract, load, migrated,
+                     parent_of, problems, run_file, schema_of, vocabulary)
 
-WORKING = DATA.parent / "quote.db"
+WORK = REPO / ".work"                      # gitignored: the working database and what it was loaded from
+WORKING = WORK / "quote.db"
+
+
+def fingerprint(folder=DATA):
+    """One hash of the seed files: what a load was made from. (A new migration is brought in by `migrate`; the schema
+    check in save refuses a working database that hasn't had every migration.)"""
+    h = hashlib.sha256()
+    for f in [folder / f"{p}.sql" for p in PARTS]:
+        h.update(f.name.encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()
+
+
+def loaded_from(working):
+    return working.with_suffix(".loaded")  # beside quote.db: the fingerprint of the seed files it was loaded from
+
+
+def as_loaded(working):
+    return working.with_name(working.stem + "-loaded.db")   # beside quote.db: the data as it was loaded (or last saved),
+                                                             # what "changed in one language only" is judged against
+
+
+def applied(working):
+    return working.with_suffix(".migrations")   # beside quote.db: the migrations it has had, one name a line
+
+
+def migrate_working(working=WORKING, migrations=None):
+    """Run on quote.db, in order, each migration it hasn't had — each one transaction, links checked at its end, as D1
+    runs them. Then `save` writes the seed files in the new shape. Returns the names run."""
+    rec = applied(working)
+    done = set(rec.read_text().split()) if rec.exists() else set()
+    new = [f for f in sorted((migrations or MIGRATIONS).glob("*.sql")) if f.name not in done]
+    db = connect(working)
+    for f in new:
+        run_file(db, f)
+        done.add(f.name)
+        rec.write_text("\n".join(sorted(done)) + "\n")
+    return [f.name for f in new]
 
 
 def tools(db):
     """The SQL functions an edit can use."""
-    state = {"id": secrets.token_hex(8)}
+    state = {"id": str(uuid.uuid4())}
     def new_id():
         return state["id"]
     def next_id():
-        state["id"] = secrets.token_hex(8)
+        state["id"] = str(uuid.uuid4())
         return state["id"]
 
     def siblings(table, parent_value):
@@ -80,69 +131,177 @@ def tools(db):
     return db
 
 
-def check_and_dump(db, folder):
-    """Every check on db, and English changed with its Thai against the files; if all pass, dump db to the files."""
-    found = problems(db) + changed_alone(load(folder), db)
-    if not found:
-        dump(db, folder)
-    return found
-
-
-def edit(sql, folder=DATA):
-    """Apply `sql` to the data in `folder` and write the files only if every check passes. Returns the problems
-    ([] = written). (The same as sql then save, without a working database.)"""
-    db = tools(load(folder))
-    db.executescript(sql)
-    return check_and_dump(db, folder)
-
-
-def same(folder=DATA, working=WORKING):
-    """Whether the working database holds exactly what the part files hold."""
-    if not working.exists():
-        return True
-    db = sqlite3.connect(working)
-    with __import__("tempfile").TemporaryDirectory() as t:
-        from pathlib import Path
-        now = dump(db, Path(t))
-    return all(now[p] == (folder / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in now)
-
-
-def load_working(folder=DATA, working=WORKING):
-    if not same(folder, working):
-        return "quote.db holds changes that aren't in the part files: save them first (or delete quote.db to throw them away)"
-    working.unlink(missing_ok=True)
-    out = sqlite3.connect(working); load(folder).backup(out); out.close()
+def run_sql(db, sql):
+    """Run an edit as one transaction, links checked at its end (as D1 runs a file); on any error, nothing changes."""
+    try:
+        db.executescript(f"BEGIN; PRAGMA defer_foreign_keys = ON;\n{sql}\n;COMMIT;")
+    except sqlite3.Error as e:
+        if db.in_transaction:
+            db.execute("ROLLBACK")
+        return str(e)
     return None
 
 
-def save_working(folder=DATA, working=WORKING):
+_TAKE_OFF = []
+def take_off():
+    """room.py's take-offs (the trial reads them from today's code; at the switch, room.py's own constant)."""
+    if not _TAKE_OFF:
+        _TAKE_OFF.append(extract()[1])
+    return _TAKE_OFF[0]
+
+
+def check_and_dump(db, folder, alone=False, base=None, migrations=None):
+    """Every check on db, and each text against the seed files (one language changed alone); if all pass, dump db to the
+    files — through a folder beside them, loaded back and checked again before the files are moved into place.
+    Returns (problems, one-language changes let through)."""
+    if schema_of(db) != schema_of(migrated(migrations)):
+        return ["the schema isn't the migrations': if there's a new migration, `migrate` first; a schema change by hand "
+                "isn't saved — a schema change is a new migration"], []
+    found = problems(db) + vocabulary(db, take_off())
+    lone = changed_alone(base or load(folder, migrations), db)
+    if not alone:
+        found += lone
+    if found:
+        return found, []
+    def again(t):                                           # the dump, loaded back as a build loads it, checked again
+        try:
+            back = load(t, migrations)
+        except SystemExit as e:
+            return [f"the dump doesn't load back: {e}"]
+        with tempfile.TemporaryDirectory(dir=t.parent) as t2:
+            same_again = dump(back, Path(t2)) == {p: (t / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in PARTS}
+        return problems(back) + ([] if same_again else ["the dump, loaded back and dumped again, isn't the same"])
+    late = dump(db, folder, before_swap=again)
+    return (late, []) if isinstance(late, list) else ([], lone)
+
+
+def edit(sql, folder=DATA, alone=False):
+    """Apply `sql` to the data in `folder` and write the files only if every check passes. Returns the problems
+    ([] = written). (The same as sql then save, without a working database.)"""
+    base = load(folder)
+    db = tools(load(folder))
+    err = run_sql(db, sql)
+    return [f"the SQL failed, so nothing changed: {err}"] if err else check_and_dump(db, folder, alone, base)[0]
+
+
+def same(folder=DATA, working=WORKING):
+    """Whether the working database holds exactly what the seed files hold."""
     if not working.exists():
-        return ["there is no quote.db to save: load it first"]
-    return check_and_dump(sqlite3.connect(working), folder)
+        return True
+    with tempfile.TemporaryDirectory() as t:
+        now = dump(connect(working), Path(t))
+    return all(now[p] == (folder / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in now)
+
+
+def files_moved(folder=DATA, working=WORKING):
+    """Whether the seed files or migrations changed since quote.db was loaded from them."""
+    rec = loaded_from(working)
+    return not rec.exists() or rec.read_text().strip() != fingerprint(folder)
+
+
+def load_working(folder=DATA, working=WORKING, migrations=None):
+    if working.exists() and not same(folder, working) and not files_moved(folder, working):
+        return "quote.db holds changes that aren't in the seed files: save them first (or delete quote.db to throw them away)"
+    if working.exists() and files_moved(folder, working) and not same(folder, working):
+        return ("quote.db differs from the seed files, and the seed files changed since it was loaded: delete quote.db to "
+                "throw its changes away, or copy them out first")
+    working.parent.mkdir(parents=True, exist_ok=True)
+    working.unlink(missing_ok=True)
+    db = load(folder, migrations)
+    for path in (working, as_loaded(working)):
+        path.unlink(missing_ok=True)
+        out = sqlite3.connect(path); db.backup(out); out.close()
+    loaded_from(working).write_text(fingerprint(folder))
+    applied(working).write_text("".join(f.name + "\n" for f in sorted((migrations or MIGRATIONS).glob("*.sql"))))
+    return None
+
+
+def save_working(folder=DATA, working=WORKING, alone=False, migrations=None):
+    """(problems, one-language changes let through)."""
+    if not working.exists():
+        return ["there is no quote.db to save: `load` first"], []
+    if files_moved(folder, working):
+        return ["the seed files changed since quote.db was loaded (a git pull or checkout?): saving would undo that. "
+                "Copy your changes out, `load` again, and make them again"], []
+    db = tools(connect(working))
+    found, lone = check_and_dump(db, folder, alone, connect(as_loaded(working)), migrations)
+    if not found:
+        loaded_from(working).write_text(fingerprint(folder))
+        out = sqlite3.connect(as_loaded(working)); db.backup(out); out.close()
+    return found, lone
+
+
+def seed_db(folder, path):
+    """The seed files loaded into a database file, for SQLite's own tools to open."""
+    out = sqlite3.connect(path); load(folder).backup(out); out.close()
+    return path
+
+
+def diff(folder=DATA, working=WORKING):
+    """sqldiff from the seed files to the working database: the SQL that would turn one into the other."""
+    import shutil, subprocess
+    with tempfile.TemporaryDirectory() as t:
+        return subprocess.run([shutil.which("sqldiff"), str(seed_db(folder, Path(t) / "seed.db")), str(working)],
+                              capture_output=True, text=True, check=True).stdout
+
+
+def lint(folder=DATA):
+    """sqlite3's .lint fkey-indexes on the loaded data: the index each foreign key lacks (nothing = every one has one)."""
+    import shutil, subprocess
+    with tempfile.TemporaryDirectory() as t:
+        return subprocess.run([shutil.which("sqlite3"), str(seed_db(folder, Path(t) / "seed.db")), ".lint fkey-indexes"],
+                              capture_output=True, text=True, check=True).stdout
+
+
+def open_working():
+    if not WORKING.exists():
+        sys.exit("There is no quote.db: run `load` first.")
+    return tools(connect(WORKING))
 
 
 if __name__ == "__main__":
-    cmd = sys.argv[1] if len(sys.argv) > 1 else ""
+    cmd, args = (sys.argv[1] if len(sys.argv) > 1 else ""), sys.argv[2:]
     if cmd == "load":
         err = load_working()
-        sys.exit(f"Not loaded: {err}") if err else print(f"Loaded {WORKING} from the part files.")
+        sys.exit(f"Not loaded: {err}") if err else print(f"Loaded {WORKING.relative_to(REPO)} from the migrations and seed files.")
     elif cmd == "save":
-        found = save_working()
+        found, lone = save_working(alone="--alone" in args)
         if found:
             print("Nothing written:"); [print("  ", p) for p in found]; sys.exit(1)
-        print("Saved: the part files now hold quote.db, and every check passes.")
+        for p in lone:
+            print("  changed in one language only (say why in the commit message):", p)
+        print("Saved: the seed files now hold quote.db, and every check passes.")
     elif cmd == "status":
-        ok = same()
-        print("quote.db and the part files hold the same data." if ok else "quote.db holds unsaved changes.")
+        if not WORKING.exists():
+            print("There is no quote.db (nothing unsaved)."); sys.exit(0)
+        ok, moved = same(), files_moved()
+        print("quote.db and the seed files hold the same data." if ok else "quote.db holds unsaved changes.")
+        if moved:
+            print("The seed files changed since quote.db was loaded: `load` again" + (" (after copying your changes out)." if not ok else "."))
         sys.exit(0 if ok else 1)
-    elif cmd in ("sql", "show"):
-        db = tools(sqlite3.connect(WORKING))
-        cur = db.execute(sys.argv[2]) if cmd == "show" else db.executescript(sys.argv[2])
+    elif cmd == "migrate":
+        if not WORKING.exists():
+            sys.exit("There is no quote.db: run `load` first.")
+        ran = migrate_working()
+        print(f"Ran {', '.join(ran)} on quote.db — `save` to check it and write the seed files." if ran else "quote.db has had every migration.")
+    elif cmd == "diff":
+        if not WORKING.exists():
+            sys.exit("There is no quote.db: run `load` first.")
+        out = diff()
+        print(out if out else "quote.db holds exactly the seed files.")
+    elif cmd == "lint":
+        out = lint()
+        print(out if out else "Every foreign key has an index (sqlite3 .lint fkey-indexes prints nothing).")
+        sys.exit(1 if out else 0)
+    elif cmd in ("sql", "show") and args:
+        db = open_working()
         if cmd == "show":
+            cur = db.execute(args[0])
             print(" | ".join(d[0] for d in cur.description))
             for row in cur.fetchall():
                 print(" | ".join("" if v is None else str(v) for v in row))
         else:
-            db.commit(); print("Done in quote.db — `save` to check it and write the part files.")
+            err = run_sql(db, args[0])
+            sys.exit(f"Nothing changed: {err}") if err else print("Done in quote.db — `save` to check it and write the seed files.")
     else:
         sys.exit(__doc__)

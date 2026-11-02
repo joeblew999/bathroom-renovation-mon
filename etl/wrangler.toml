@@ -1,0 +1,10 @@
+# Cloudflare D1: the database the quote's data goes to. `mise run etl:d1` uses wrangler's local copy of it (etl/.wrangler/, never committed);
+# `mise run db:push` and `db:pull` use the real one, once it is made (`wrangler d1 create bathroom-quote`) and its id is here.
+name = "bathroom-quote"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bathroom-quote"
+database_id = "00000000-0000-0000-0000-000000000000"   # not made yet: db:push and db:pull refuse until the real id is here
+migrations_dir = "../out/etl/migrations"                # the trial's migrations (at the switch: migrations/ at the top of the repo)

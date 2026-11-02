@@ -3,3 +3,11 @@ out/
 # Tooling
 .venv/
 __pycache__/
+# The working database and anything exported from D1 — the seed files are the data; live data is never committed
+.work/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+# wrangler's local copy of D1
+.wrangler/

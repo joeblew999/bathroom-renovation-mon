@@ -41,7 +41,6 @@ def txt(t, kc, k, cols):
 dn = lambda d: {k: v for k, v in d.items() if v is not None}
 def asm(t, kc, k):
     a = [x["key"] for x in rows(t, f"WHERE {kc} IS ?" if kc else "", *([k] if kc else []))]
-    hows = [x["how"] for x in rows(t, f"WHERE {kc} IS ?" if kc else "", *([k] if kc else [])) if x["how"]]
     return ({"assumed": sorted(a)} if a else {})
 def labs(part):
     l = {}
@@ -178,5 +177,6 @@ for t in unread:
     print(f"   not from the TOML: {t} ({db.execute(f'SELECT count(*) FROM {t}').fetchone()[0]} rows) — {DESIGN_ONLY.get(t, 'UNACCOUNTED FOR')}")
 tot += len(extra)
 # labels, symbols and assumed keys are looked up by name, so they have no order to keep (compared as sets above)
-print("'how' filled:", db.execute("SELECT count(*) FROM (SELECT how FROM materials_product_assumed UNION ALL SELECT how FROM room_item_assumed UNION ALL SELECT how FROM room_wall_assumed UNION ALL SELECT how FROM room_floor_assumed UNION ALL SELECT how FROM labour_rate_assumed UNION ALL SELECT how FROM labour_line_assumed) WHERE how IS NOT NULL").fetchone()[0])
+print("'how' filled:", sum(db.execute(f"SELECT count(*) FROM {t} WHERE how IS NOT NULL").fetchone()[0] for t in
+      ("materials_product_assumed", "room_item_assumed", "room_wall_assumed", "room_floor_assumed", "labour_rate_assumed", "labour_line_assumed")))
 if tot: sys.exit(1)

@@ -1,5 +1,5 @@
 CREATE TABLE room_room (
-  -- room.schema.sql — the room: its size, surfaces (the floor and the walls) and the items on them, the
+  -- the room part — the room: its size, surfaces (the floor and the walls) and the items on them, the
   -- column, door and lintel, the tiles, the norms the design checks use, and what labour is priced from.
   id INTEGER PRIMARY KEY CONSTRAINT "the room is one row" CHECK (id = 1),
   length REAL NOT NULL CONSTRAINT "the room's length is more than 0" CHECK (length > 0 AND length < 1e308),
@@ -8,62 +8,59 @@ CREATE TABLE room_room (
   -- every hole at least this far from a tile joint (or exactly on one); length is along the first wall, width the second
   joint_clearance REAL NOT NULL CONSTRAINT "the joint clearance is more than 0" CHECK (joint_clearance > 0 AND joint_clearance < 1e308)
 ) STRICT;
-CREATE TABLE room_label  (code TEXT NOT NULL, lang TEXT NOT NULL REFERENCES common_language(code), text TEXT NOT NULL,
+CREATE TABLE room_label  (code TEXT CONSTRAINT "code isn't empty" CHECK (code <> '') NOT NULL, lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code), text TEXT CONSTRAINT "text isn't empty" CHECK (text <> '') NOT NULL,
                           PRIMARY KEY (code, lang)) STRICT;
-CREATE TABLE room_symbol (code TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT;
+CREATE TABLE room_symbol (code TEXT CONSTRAINT "code isn't empty" CHECK (code <> '') PRIMARY KEY, value TEXT CONSTRAINT "value isn't empty" CHECK (value <> '') NOT NULL) STRICT;
 
 CREATE TABLE room_take_off (
   -- what room.py works out for labour to be priced by (a code each), and what it measures
-  code TEXT PRIMARY KEY,
+  code TEXT CONSTRAINT "code isn't empty" CHECK (code <> '') PRIMARY KEY,
   pos INTEGER NOT NULL UNIQUE,
-  measure TEXT NOT NULL CONSTRAINT "a take-off is an area or a length" CHECK (measure IN ('area', 'length'))
+  measure TEXT CONSTRAINT "measure isn't empty" CHECK (measure <> '') NOT NULL CONSTRAINT "a take-off is an area or a length" CHECK (measure IN ('area', 'length'))
 ) STRICT;
 
 CREATE TABLE room_tile (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', 1 + abs(random()) % 4, 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6))))
+    CONSTRAINT "an id is a UUID: 8-4-4-4-12 small hex digits" CHECK (length(id) = 36 AND id GLOB '????????-????-????-????-????????????' AND id NOT GLOB '*[^0-9a-f-]*'),
   pos INTEGER NOT NULL UNIQUE,
-  product TEXT NOT NULL UNIQUE REFERENCES materials_product(id),
+  product TEXT CONSTRAINT "product isn't empty" CHECK (product <> '') NOT NULL UNIQUE REFERENCES materials_product(id),
   tiling_height REAL NOT NULL CONSTRAINT "a tiling height is more than 0" CHECK (tiling_height > 0 AND tiling_height < 1e308),  -- tiled up to this on a wall
-  fill TEXT NOT NULL                         -- its colour on the drawings
+  fill TEXT CONSTRAINT "fill isn't empty" CHECK (fill <> '') NOT NULL                         -- its colour on the drawings
 ) STRICT;
-CREATE TABLE room_tile_text (tile TEXT NOT NULL REFERENCES room_tile(id), lang TEXT NOT NULL REFERENCES common_language(code),
-                             name TEXT NOT NULL, PRIMARY KEY (tile, lang)) STRICT;
+CREATE TABLE room_tile_text (tile TEXT CONSTRAINT "tile isn't empty" CHECK (tile <> '') NOT NULL REFERENCES room_tile(id), lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code),
+                             name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL, PRIMARY KEY (tile, lang)) STRICT;
 
 CREATE TABLE room_surface (
   -- the room's surfaces: the floor, and the walls in order round the plan
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', 1 + abs(random()) % 4, 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6))))
+    CONSTRAINT "an id is a UUID: 8-4-4-4-12 small hex digits" CHECK (length(id) = 36 AND id GLOB '????????-????-????-????-????????????' AND id NOT GLOB '*[^0-9a-f-]*'),
   pos INTEGER NOT NULL UNIQUE,
-  kind TEXT NOT NULL CONSTRAINT "a surface is a wall or the floor" CHECK (kind IN ('wall', 'floor')),
-  ref TEXT NOT NULL UNIQUE,                  -- its letter on the drawings (M, N, W, F)
-  tile TEXT NOT NULL REFERENCES room_tile(id),
-  UNIQUE (id, kind)
+  kind TEXT CONSTRAINT "kind isn't empty" CHECK (kind <> '') NOT NULL CONSTRAINT "a surface is a wall or the floor" CHECK (kind IN ('wall', 'floor')),
+  ref TEXT CONSTRAINT "ref isn't empty" CHECK (ref <> '') NOT NULL UNIQUE,                  -- its letter on the drawings (M, N, W, F)
+  tile TEXT CONSTRAINT "tile isn't empty" CHECK (tile <> '') NOT NULL REFERENCES room_tile(id)
 ) STRICT;
 CREATE TABLE room_wall (
-  surface TEXT PRIMARY KEY,
-  kind TEXT NOT NULL DEFAULT 'wall' CONSTRAINT "a wall's surface is a wall" CHECK (kind = 'wall'),
+  surface TEXT CONSTRAINT "surface isn't empty" CHECK (surface <> '') PRIMARY KEY REFERENCES room_surface(id),
   -- waterproofed up to this height (higher within the shower zone, by the zone's own); elevation: it gets an
   -- elevation drawing (a wall with items must have one)
   waterproofing REAL NOT NULL CONSTRAINT "a waterproofing height is more than 0" CHECK (waterproofing > 0 AND waterproofing < 1e308),
-  elevation INTEGER NOT NULL CONSTRAINT "elevation is 0 or 1" CHECK (elevation IN (0, 1)),
-  FOREIGN KEY (surface, kind) REFERENCES room_surface(id, kind)
+  elevation INTEGER NOT NULL CONSTRAINT "elevation is 0 or 1" CHECK (elevation IN (0, 1))
 ) STRICT;
-CREATE TABLE room_wall_text (wall TEXT NOT NULL REFERENCES room_wall(surface), lang TEXT NOT NULL REFERENCES common_language(code),
-                             name TEXT NOT NULL, PRIMARY KEY (wall, lang)) STRICT;
-CREATE TABLE room_wall_assumed (wall TEXT NOT NULL REFERENCES room_wall(surface),
-  key TEXT NOT NULL CONSTRAINT "a wall's assumed key is one of its values" CHECK (key IN ('waterproofing')),
-  how TEXT NOT NULL, PRIMARY KEY (wall, key)) STRICT;
+CREATE TABLE room_wall_text (wall TEXT CONSTRAINT "wall isn't empty" CHECK (wall <> '') NOT NULL REFERENCES room_wall(surface), lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code),
+                             name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL, PRIMARY KEY (wall, lang)) STRICT;
+CREATE TABLE room_wall_assumed (wall TEXT CONSTRAINT "wall isn't empty" CHECK (wall <> '') NOT NULL REFERENCES room_wall(surface),
+  key TEXT CONSTRAINT "key isn't empty" CHECK (key <> '') NOT NULL CONSTRAINT "a wall's assumed key is one of its values" CHECK (key IN ('waterproofing')),
+  how TEXT CONSTRAINT "how isn't empty" CHECK (how <> '') NOT NULL, PRIMARY KEY (wall, key)) STRICT;
 CREATE TABLE room_floor (
-  surface TEXT PRIMARY KEY,
-  kind TEXT NOT NULL DEFAULT 'floor' CONSTRAINT "the floor's surface is the floor" CHECK (kind = 'floor'),
-  drain TEXT NOT NULL REFERENCES room_item(id),        -- the floor item the floor falls to
+  surface TEXT CONSTRAINT "surface isn't empty" CHECK (surface <> '') PRIMARY KEY REFERENCES room_surface(id),
+  drain TEXT CONSTRAINT "drain isn't empty" CHECK (drain <> '') NOT NULL REFERENCES room_item(id),        -- the floor item the floor falls to
   -- the wet (low) side of the step falls 1 in fall_wet to the drain; the dry (high) side 1 in fall_dry towards the step
   fall_wet REAL NOT NULL CONSTRAINT "the wet side's fall is more than 0" CHECK (fall_wet > 0 AND fall_wet < 1e308),
-  fall_dry REAL NOT NULL CONSTRAINT "the dry side's fall is more than 0" CHECK (fall_dry > 0 AND fall_dry < 1e308),
-  FOREIGN KEY (surface, kind) REFERENCES room_surface(id, kind)
+  fall_dry REAL NOT NULL CONSTRAINT "the dry side's fall is more than 0" CHECK (fall_dry > 0 AND fall_dry < 1e308)
 ) STRICT;
-CREATE TABLE room_floor_assumed (floor TEXT NOT NULL REFERENCES room_floor(surface),
-  key TEXT NOT NULL CONSTRAINT "the floor's assumed key is one of its values" CHECK (key IN ('fall_wet', 'fall_dry')),
-  how TEXT NOT NULL, PRIMARY KEY (floor, key)) STRICT;
+CREATE TABLE room_floor_assumed (floor TEXT CONSTRAINT "floor isn't empty" CHECK (floor <> '') NOT NULL REFERENCES room_floor(surface),
+  key TEXT CONSTRAINT "key isn't empty" CHECK (key <> '') NOT NULL CONSTRAINT "the floor's assumed key is one of its values" CHECK (key IN ('fall_wet', 'fall_dry')),
+  how TEXT CONSTRAINT "how isn't empty" CHECK (how <> '') NOT NULL, PRIMARY KEY (floor, key)) STRICT;
 
 CREATE TABLE room_column (
   -- The existing column, at the x = 0 end of its wall; the rest of its wall is new. width: along its wall; depth:
@@ -73,26 +70,26 @@ CREATE TABLE room_column (
   width REAL NOT NULL CONSTRAINT "the column's width is more than 0" CHECK (width > 0 AND width < 1e308),
   depth REAL NOT NULL CONSTRAINT "the column's depth is more than 0" CHECK (depth > 0 AND depth < 1e308),
   into_room REAL NOT NULL CONSTRAINT "into_room is 0 or more" CHECK (into_room >= 0 AND into_room < 1e308),
-  wall TEXT NOT NULL REFERENCES room_wall(surface),
-  remark TEXT                                -- for editors (English, not printed): where its figures came from
+  wall TEXT CONSTRAINT "wall isn't empty" CHECK (wall <> '') NOT NULL REFERENCES room_wall(surface),
+  remark TEXT CONSTRAINT "remark isn't empty" CHECK (remark <> '')                                -- for editors (English, not printed): where its figures came from
 ) STRICT;
-CREATE TABLE room_column_text (lang TEXT PRIMARY KEY REFERENCES common_language(code), name TEXT NOT NULL) STRICT;
-CREATE TABLE room_column_note (lang TEXT PRIMARY KEY REFERENCES common_language(code), note TEXT NOT NULL) STRICT;
+CREATE TABLE room_column_text (lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') PRIMARY KEY REFERENCES common_language(code), name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL) STRICT;
+CREATE TABLE room_column_note (lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') PRIMARY KEY REFERENCES common_language(code), note TEXT CONSTRAINT "note isn't empty" CHECK (note <> '') NOT NULL) STRICT;
 CREATE TABLE room_door (
   id INTEGER PRIMARY KEY CONSTRAINT "the door is one row" CHECK (id = 1),
-  product TEXT NOT NULL REFERENCES materials_product(id),
+  product TEXT CONSTRAINT "product isn't empty" CHECK (product <> '') NOT NULL REFERENCES materials_product(id),
   -- hinge: the end of the opening the leaf is hinged at (start: the column side); swing: in, into the room, or out
-  hinge TEXT NOT NULL CONSTRAINT "the door is hinged at the start or the end" CHECK (hinge IN ('start', 'end')),
-  swing TEXT NOT NULL CONSTRAINT "the door opens in or out" CHECK (swing IN ('in', 'out'))
+  hinge TEXT CONSTRAINT "hinge isn't empty" CHECK (hinge <> '') NOT NULL CONSTRAINT "the door is hinged at the start or the end" CHECK (hinge IN ('start', 'end')),
+  swing TEXT CONSTRAINT "swing isn't empty" CHECK (swing <> '') NOT NULL CONSTRAINT "the door opens in or out" CHECK (swing IN ('in', 'out'))
 ) STRICT;
-CREATE TABLE room_door_note (lang TEXT PRIMARY KEY REFERENCES common_language(code), note TEXT NOT NULL) STRICT;
+CREATE TABLE room_door_note (lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') PRIMARY KEY REFERENCES common_language(code), note TEXT CONSTRAINT "note isn't empty" CHECK (note <> '') NOT NULL) STRICT;
 CREATE TABLE room_lintel (
   id INTEGER PRIMARY KEY CONSTRAINT "the lintel is one row" CHECK (id = 1),
-  product TEXT NOT NULL REFERENCES materials_product(id),
+  product TEXT CONSTRAINT "product isn't empty" CHECK (product <> '') NOT NULL REFERENCES materials_product(id),
   -- bearing: onto the wall; the column end sits in a shallow pocket
   bearing REAL NOT NULL CONSTRAINT "the lintel's bearing is more than 0" CHECK (bearing > 0 AND bearing < 1e308)
 ) STRICT;
-CREATE TABLE room_lintel_note (lang TEXT PRIMARY KEY REFERENCES common_language(code), note TEXT NOT NULL) STRICT;
+CREATE TABLE room_lintel_note (lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') PRIMARY KEY REFERENCES common_language(code), note TEXT CONSTRAINT "note isn't empty" CHECK (note <> '') NOT NULL) STRICT;
 
 CREATE TABLE room_item (
   -- An item on a surface. It names a product (taking its name and size from it) or has its own name. Its shape is
@@ -102,86 +99,95 @@ CREATE TABLE room_item (
   -- (a fitting), point (a services point or fixing), zone (the wet zone), opening; the floor's: rect, step (a level
   -- change, high: which end is higher). fitting: for a services point or fixing, the fitting it serves (it must sit
   -- within it). A note says why or how — never where: it doesn't repeat what the drawing shows.
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', 1 + abs(random()) % 4, 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6))))
+    CONSTRAINT "an id is a UUID: 8-4-4-4-12 small hex digits" CHECK (length(id) = 36 AND id GLOB '????????-????-????-????-????????????' AND id NOT GLOB '*[^0-9a-f-]*'),
   pos INTEGER NOT NULL,
-  surface TEXT NOT NULL REFERENCES room_surface(id),
-  product TEXT REFERENCES materials_product(id),
-  fitting TEXT,                              -- the fitting this item serves, on the same wall
+  surface TEXT CONSTRAINT "surface isn't empty" CHECK (surface <> '') NOT NULL REFERENCES room_surface(id),
+  product TEXT CONSTRAINT "product isn't empty" CHECK (product <> '') REFERENCES materials_product(id),
+  fitting TEXT CONSTRAINT "fitting isn't empty" CHECK (fitting <> '')
+    CONSTRAINT "an item doesn't serve itself" CHECK (fitting IS NULL OR fitting <> id),                              -- the fitting this item serves, on the same wall
   UNIQUE (surface, id),
   UNIQUE (surface, pos),
   FOREIGN KEY (surface, fitting) REFERENCES room_item(surface, id)
 ) STRICT;
 CREATE TABLE room_item_rect (
   -- w, h and d may be left out when the item's product has them (code: what a shape needs, once sizes are filled in)
-  item TEXT PRIMARY KEY REFERENCES room_item(id),
+  item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   y REAL NOT NULL CONSTRAINT "y is 0 or more" CHECK (y >= 0 AND y < 1e308),
   w REAL CONSTRAINT "w is more than 0" CHECK (w IS NULL OR (w > 0 AND w < 1e308)),
   h REAL CONSTRAINT "h is more than 0" CHECK (h IS NULL OR (h > 0 AND h < 1e308)),
   d REAL CONSTRAINT "d is more than 0" CHECK (d IS NULL OR (d > 0 AND d < 1e308))) STRICT;
-CREATE TABLE room_item_circle (item TEXT PRIMARY KEY REFERENCES room_item(id),
+CREATE TABLE room_item_circle (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   y REAL NOT NULL CONSTRAINT "y is 0 or more" CHECK (y >= 0 AND y < 1e308),
   w REAL CONSTRAINT "w is more than 0" CHECK (w IS NULL OR (w > 0 AND w < 1e308)),
   d REAL CONSTRAINT "d is more than 0" CHECK (d IS NULL OR (d > 0 AND d < 1e308))) STRICT;
-CREATE TABLE room_item_point (item TEXT PRIMARY KEY REFERENCES room_item(id),
+CREATE TABLE room_item_point (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   y REAL NOT NULL CONSTRAINT "y is 0 or more" CHECK (y >= 0 AND y < 1e308)) STRICT;
-CREATE TABLE room_item_zone (item TEXT PRIMARY KEY REFERENCES room_item(id),
+CREATE TABLE room_item_zone (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   w REAL CONSTRAINT "w is more than 0" CHECK (w IS NULL OR (w > 0 AND w < 1e308)),
   d REAL CONSTRAINT "d is more than 0" CHECK (d IS NULL OR (d > 0 AND d < 1e308)),
   waterproofing REAL CONSTRAINT "a zone's waterproofing height is more than 0"
                      CHECK (waterproofing IS NULL OR (waterproofing > 0 AND waterproofing < 1e308))) STRICT;
-CREATE TABLE room_item_opening (item TEXT PRIMARY KEY REFERENCES room_item(id),
+CREATE TABLE room_item_opening (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   y REAL NOT NULL CONSTRAINT "y is 0 or more" CHECK (y >= 0 AND y < 1e308),
   w REAL CONSTRAINT "w is more than 0" CHECK (w IS NULL OR (w > 0 AND w < 1e308)),
   h REAL CONSTRAINT "h is more than 0" CHECK (h IS NULL OR (h > 0 AND h < 1e308))) STRICT;
-CREATE TABLE room_item_step (item TEXT PRIMARY KEY REFERENCES room_item(id),
+CREATE TABLE room_item_step (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') PRIMARY KEY REFERENCES room_item(id),
   x REAL NOT NULL CONSTRAINT "x is 0 or more" CHECK (x >= 0 AND x < 1e308),
   h REAL NOT NULL CONSTRAINT "a step's h is more than 0" CHECK (h > 0 AND h < 1e308),
   d REAL CONSTRAINT "d is more than 0" CHECK (d IS NULL OR (d > 0 AND d < 1e308)),
-  high TEXT NOT NULL CONSTRAINT "a step's high side is the start or the end" CHECK (high IN ('start', 'end'))) STRICT;
-CREATE TABLE room_item_name (item TEXT NOT NULL REFERENCES room_item(id), lang TEXT NOT NULL REFERENCES common_language(code),
-                             name TEXT NOT NULL,                  -- its own name (an item with no product)
+  high TEXT CONSTRAINT "high isn't empty" CHECK (high <> '') NOT NULL CONSTRAINT "a step's high side is the start or the end" CHECK (high IN ('start', 'end'))) STRICT;
+CREATE TABLE room_item_name (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') NOT NULL REFERENCES room_item(id), lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code),
+                             name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL,                  -- its own name (an item with no product)
                              PRIMARY KEY (item, lang)) STRICT;
-CREATE TABLE room_item_note (item TEXT NOT NULL REFERENCES room_item(id), lang TEXT NOT NULL REFERENCES common_language(code),
-                             note TEXT NOT NULL, PRIMARY KEY (item, lang)) STRICT;
-CREATE TABLE room_item_assumed (item TEXT NOT NULL REFERENCES room_item(id),
-  key TEXT NOT NULL CONSTRAINT "an item's assumed key is one of its values" CHECK (key IN ('x', 'y', 'w', 'h', 'd', 'waterproofing')),
-  how TEXT NOT NULL, PRIMARY KEY (item, key)) STRICT;
+CREATE TABLE room_item_note (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') NOT NULL REFERENCES room_item(id), lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code),
+                             note TEXT CONSTRAINT "note isn't empty" CHECK (note <> '') NOT NULL, PRIMARY KEY (item, lang)) STRICT;
+CREATE TABLE room_item_assumed (item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') NOT NULL REFERENCES room_item(id),
+  key TEXT CONSTRAINT "key isn't empty" CHECK (key <> '') NOT NULL CONSTRAINT "an item's assumed key is one of its values" CHECK (key IN ('x', 'y', 'w', 'h', 'd', 'waterproofing')),
+  how TEXT CONSTRAINT "how isn't empty" CHECK (how <> '') NOT NULL, PRIMARY KEY (item, key)) STRICT;
 
 CREATE TABLE room_norm (
   -- a norm (a code each) a design check holds the room to, with its source (README rule 10)
-  code TEXT PRIMARY KEY,
+  code TEXT CONSTRAINT "code isn't empty" CHECK (code <> '') PRIMARY KEY,
   pos INTEGER NOT NULL UNIQUE,
-  item TEXT REFERENCES room_item(id),
+  item TEXT CONSTRAINT "item isn't empty" CHECK (item <> '') REFERENCES room_item(id),
   value REAL NOT NULL CONSTRAINT "a norm's value is more than 0" CHECK (value > 0 AND value < 1e308),
-  standard TEXT NOT NULL, url TEXT NOT NULL,
-  checked TEXT NOT NULL CONSTRAINT "a norm's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked)
+  standard TEXT CONSTRAINT "standard isn't empty" CHECK (standard <> '') NOT NULL, url TEXT CONSTRAINT "url isn't empty" CHECK (url <> '') NOT NULL,
+  checked TEXT CONSTRAINT "checked isn't empty" CHECK (checked <> '') NOT NULL CONSTRAINT "a norm's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked)
 ) STRICT;
-CREATE TABLE room_norm_text (norm TEXT NOT NULL REFERENCES room_norm(code), lang TEXT NOT NULL REFERENCES common_language(code),
-                             name TEXT NOT NULL, PRIMARY KEY (norm, lang)) STRICT;
+CREATE TABLE room_norm_text (norm TEXT CONSTRAINT "norm isn't empty" CHECK (norm <> '') NOT NULL REFERENCES room_norm(code), lang TEXT CONSTRAINT "lang isn't empty" CHECK (lang <> '') NOT NULL REFERENCES common_language(code),
+                             name TEXT CONSTRAINT "name isn't empty" CHECK (name <> '') NOT NULL, PRIMARY KEY (norm, lang)) STRICT;
 
 CREATE VIEW room_item_shape AS      -- each item's shape, from the table it is in
-  SELECT item, 'rect' AS shape FROM room_item_rect UNION ALL SELECT item, 'circle' FROM room_item_circle UNION ALL
-  SELECT item, 'point' FROM room_item_point UNION ALL SELECT item, 'zone' FROM room_item_zone UNION ALL
-  SELECT item, 'opening' FROM room_item_opening UNION ALL SELECT item, 'step' FROM room_item_step;
+  -- two groups of 3: D1 allows at most 5 terms in a compound SELECT
+  SELECT * FROM (SELECT item, 'rect' AS shape FROM room_item_rect UNION ALL SELECT item, 'circle' FROM room_item_circle
+                 UNION ALL SELECT item, 'point' FROM room_item_point)
+  UNION ALL
+  SELECT * FROM (SELECT item, 'zone' AS shape FROM room_item_zone UNION ALL SELECT item, 'opening' FROM room_item_opening
+                 UNION ALL SELECT item, 'step' FROM room_item_step);
 
 CREATE VIEW room_check_rows AS
-  SELECT t || ' has ' || n || ' rows, not 1' FROM (
-    SELECT 'room_room' t, (SELECT count(*) FROM room_room) n UNION ALL
-    SELECT 'room_floor', (SELECT count(*) FROM room_floor) UNION ALL
-    SELECT 'room_column', (SELECT count(*) FROM room_column) UNION ALL
-    SELECT 'room_door', (SELECT count(*) FROM room_door) UNION ALL
-    SELECT 'room_lintel', (SELECT count(*) FROM room_lintel)) WHERE n <> 1;
+  SELECT column1 || ' has ' || column2 || ' rows, not 1' FROM (VALUES
+    ('room_room', (SELECT count(*) FROM room_room)),
+    ('room_floor', (SELECT count(*) FROM room_floor)),
+    ('room_column', (SELECT count(*) FROM room_column)),
+    ('room_door', (SELECT count(*) FROM room_door)),
+    ('room_lintel', (SELECT count(*) FROM room_lintel))) WHERE column2 <> 1;
 CREATE VIEW room_check_surfaces AS
   SELECT 'there are ' || n || ' ' || kind || ' surfaces, not ' || want FROM (
     SELECT 'wall' AS kind, 4 AS want, (SELECT count(*) FROM room_surface WHERE kind = 'wall') AS n UNION ALL
     SELECT 'floor', 1, (SELECT count(*) FROM room_surface WHERE kind = 'floor')) WHERE n <> want
   UNION ALL SELECT 'a wall surface has no wall row, or the floor no floor row' FROM room_surface s
   WHERE (s.kind = 'wall' AND s.id NOT IN (SELECT surface FROM room_wall)) OR (s.kind = 'floor' AND s.id NOT IN (SELECT surface FROM room_floor));
+CREATE VIEW room_check_surface_kinds AS
+  -- a wall's row is on a wall surface, the floor's on the floor surface
+  SELECT 'a wall row is on a surface that is the ' || s.kind FROM room_wall w JOIN room_surface s ON s.id = w.surface WHERE s.kind <> 'wall'
+  UNION ALL SELECT 'the floor row is on a surface that is a ' || s.kind FROM room_floor f JOIN room_surface s ON s.id = f.surface WHERE s.kind <> 'floor';
 CREATE VIEW room_check_tiles AS SELECT 'there is no tile' FROM (SELECT count(*) n FROM room_tile) WHERE n = 0;
 CREATE VIEW room_check_item_one_shape AS
   SELECT 'item ' || i.id || ' has ' || count(s.item) || ' shapes, not 1' FROM room_item i LEFT JOIN room_item_shape s ON s.item = i.id
@@ -239,3 +245,19 @@ CREATE VIEW room_show_item AS
   LEFT JOIN room_item f ON f.id = i.fitting
   LEFT JOIN room_item_name fn ON fn.item = f.id AND fn.lang = 'en'
   LEFT JOIN materials_product_text fp ON fp.product = f.product AND fp.lang = 'en';
+
+-- every foreign key has an index (sqlite3 .lint fkey-indexes prints nothing): links stay fast as the data grows
+CREATE INDEX room_column_wall ON room_column(wall);
+CREATE INDEX room_door_product ON room_door(product);
+CREATE INDEX room_floor_drain ON room_floor(drain);
+CREATE INDEX room_item_name_lang ON room_item_name(lang);
+CREATE INDEX room_item_note_lang ON room_item_note(lang);
+CREATE INDEX room_item_product ON room_item(product);
+CREATE INDEX room_item_surface_fitting ON room_item(surface, fitting);
+CREATE INDEX room_label_lang ON room_label(lang);
+CREATE INDEX room_lintel_product ON room_lintel(product);
+CREATE INDEX room_norm_item ON room_norm(item);
+CREATE INDEX room_norm_text_lang ON room_norm_text(lang);
+CREATE INDEX room_surface_tile ON room_surface(tile);
+CREATE INDEX room_tile_text_lang ON room_tile_text(lang);
+CREATE INDEX room_wall_text_lang ON room_wall_text(lang);

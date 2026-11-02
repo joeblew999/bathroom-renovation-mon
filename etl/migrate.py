@@ -1,6 +1,7 @@
-"""Trial: the TOML → SQL migration (ETL), run as often as the design changes.
+"""Trial: the TOML → SQL migration (ETL), run as often as the design changes (mise run etl:run).
 
-    python migrate.py        writes data/<part>.data.sql, then loads schema/ + data/ into SQLite and checks it
+    writes out/etl/migrations/0001_initial.sql (the schema: etl/schema/*.sql in load order) and out/etl/data/<part>.sql
+    (each part's rows, as sqlite3 ".dump --data-only <part>_%" writes them), then loads both the way D1 does and checks
 
   Extract    read the four TOML files, after today's code has checked them (so nothing it would refuse moves)
   Transform  reshape them into the design in schema/ — every difference between the TOML's shape and the
@@ -8,16 +9,17 @@
   Load       write one INSERT per line per data file (the dump layout), then load the schema and those files
              into a fresh SQLite database and run every check
 
-Keys: an entity's key is worked out from its id in the TOML (the first 16 hex digits of a SHA-256 of its kind and
-id), so running this again gives the same keys and the data files don't change. Rows made after the switch get
-SQLite's random keys instead. Changes nothing in the repo.
+Keys: an entity's key is a version 5 UUID worked out from its kind and its id in the TOML, so running this again gives
+the same keys and the files don't change. Rows made after the switch get SQLite's version 4 (random) UUIDs. Changes
+nothing in the repo.
 """
-import hashlib, re, shutil, sqlite3, subprocess, sys, tempfile, tomllib
+import os, re, shutil, sqlite3, subprocess, sys, tempfile, tomllib, uuid
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
-SCHEMA, DATA = HERE / "schema", REPO / "out" / "etl" / "data"
+SCHEMA, OUT = HERE / "schema", REPO / "out" / "etl"
+MIGRATIONS, DATA = OUT / "migrations", OUT / "data"
 PARTS = ("common", "materials", "room", "labour", "phases")          # load order: what is linked to comes first
 LANGS = ("th", "en")
 
@@ -34,8 +36,13 @@ def extract():
 
 
 # ============================== transform ==============================
+NAMESPACE = uuid.uuid5(uuid.NAMESPACE_URL, "https://github.com/joeblew999/bathroom-renovation-mon")
+UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+
+
 def key(kind, old):
-    return hashlib.sha256(f"{kind}:{old}".encode()).hexdigest()[:16]
+    """A migrated entity's key: the version 5 UUID of its kind and its id in the TOML (the same every run)."""
+    return str(uuid.uuid5(NAMESPACE, f"{kind}:{old}"))
 
 
 STEP = 10        # positions leave gaps, so inserting a row between two touches only that row
@@ -283,11 +290,93 @@ def transform(raw, take_off, statuses):
 
 
 # ============================== load ==============================
-def schema_db():
-    db = sqlite3.connect(":memory:")
-    for part in PARTS:
-        db.executescript((SCHEMA / f"{part}.schema.sql").read_text(encoding="utf-8"))
+# Cloudflare D1's limits (developers.cloudflare.com/d1/platform/limits, read 2 Nov 2026; the compound SELECT limit isn't
+# documented there — found by running wrangler 4.156.0's local D1). Every database we open has them, so whatever loads
+# here loads on D1.
+D1_LIMITS = {sqlite3.SQLITE_LIMIT_COMPOUND_SELECT: 5, sqlite3.SQLITE_LIMIT_SQL_LENGTH: 100_000,
+             sqlite3.SQLITE_LIMIT_VARIABLE_NUMBER: 100, sqlite3.SQLITE_LIMIT_COLUMN: 100, sqlite3.SQLITE_LIMIT_FUNCTION_ARG: 32,
+             sqlite3.SQLITE_LIMIT_LIKE_PATTERN_LENGTH: 50, sqlite3.SQLITE_LIMIT_LENGTH: 2_000_000}
+
+
+def connect(path=":memory:"):
+    """A database that behaves like D1: its limits, foreign keys always on. We begin and commit transactions ourselves."""
+    db = sqlite3.connect(path, isolation_level=None)
+    for limit, value in D1_LIMITS.items():
+        db.setlimit(limit, value)
+    db.execute("PRAGMA foreign_keys = ON")
     return db
+
+
+def statements(text):
+    """A file's statements, each with the line it starts on — split at every ';' that ends a complete statement, so two
+    statements on one line are two."""
+    out, last = [], 0
+    for m in re.finditer(";", text):
+        piece = text[last:m.end()]
+        if sqlite3.complete_statement(piece):
+            body = piece.strip()
+            if body:
+                lead = len(piece) - len(piece.lstrip())
+                out.append((text.count("\n", 0, last + lead) + 1, body))
+            last = m.end()
+    if text[last:].strip() and not all(l.strip().startswith("--") for l in text[last:].strip().splitlines()):
+        out.append((text.count("\n", 0, last) + 1, text[last:].strip()))
+    return out
+
+
+def run_file(db, f, guard=None):
+    """Run a file as one transaction with foreign keys deferred to its end, as D1 runs `wrangler d1 execute --file`. A
+    failing statement names the file and line; a link left broken at the end names the rows."""
+    db.execute("BEGIN")
+    db.execute("PRAGMA defer_foreign_keys = ON")
+    for n, st in statements(f.read_text(encoding="utf-8")):
+        if guard:
+            guard(f, n, st)
+        try:
+            db.execute(st)
+        except sqlite3.Error as e:
+            db.execute("ROLLBACK")
+            raise SystemExit(f"ERROR: {f.name} line {n}: {e}")
+    broken = db.execute("PRAGMA foreign_key_check").fetchall()
+    if broken:
+        db.execute("ROLLBACK")
+        t, rowid, parent, _ = broken[0]
+        raise SystemExit(f"ERROR: {f.name}: {len(broken)} link(s) to rows that aren't there, the first in {t} (row {rowid}) to {parent}")
+    db.execute("COMMIT")
+
+
+LITERAL = r"(?:NULL|-?\d+(?:\.\d+)?(?:e[+-]?\d+)?|'(?:[^']|'')*')"
+SEED_ROW = re.compile(rf"INSERT INTO ([a-z_]+) VALUES\(({LITERAL}(?:,{LITERAL})*)\);")
+
+
+def seed_guard(part):
+    """A part's seed file holds only rows of plain values for its own tables — what .dump --data-only writes."""
+    last = [0]
+    def guard(f, n, st):
+        m = SEED_ROW.fullmatch(st)
+        if not m or part_of(m[1]) != part:
+            raise SystemExit(f"ERROR: {f.name} line {n}: not a row of plain values for one of {part}'s tables: {st[:80]}")
+        if n == last[0]:
+            raise SystemExit(f"ERROR: {f.name} line {n}: two rows on one line — a seed file has one row per line, as .dump writes it")
+        last[0] = n
+    return guard
+
+
+def migrated(folder=None):
+    """A fresh database with the schema: every migration, in order."""
+    db = connect()
+    for f in sorted((folder or MIGRATIONS).glob("*.sql")):
+        run_file(db, f)
+    return db
+
+
+def schema_db():
+    return migrated()
+
+
+def schema_of(db):
+    """The schema a database holds: every table, view and index, as SQLite keeps it."""
+    return sorted(db.execute("SELECT type, name, sql FROM sqlite_master WHERE sql IS NOT NULL AND name NOT LIKE 'sqlite_%'"))
 
 
 def sql(v):
@@ -305,10 +394,18 @@ def part_of(name):
     return name.split("_", 1)[0]
 
 
+def write_migration():
+    """migrations/0001_initial.sql: the design in etl/schema, in load order — as written, comments and all."""
+    MIGRATIONS.mkdir(parents=True, exist_ok=True)
+    text = "\n".join((SCHEMA / f"{part}.schema.sql").read_text(encoding="utf-8") for part in PARTS)
+    (MIGRATIONS / "0001_initial.sql").write_text(text, encoding="utf-8")
+
+
 def write(r):
-    """The transform's rows into a fresh database (the schema refuses what doesn't fit), then dumped as the data
-    files — so the migration and every later dump write one layout."""
+    """The transform's rows into a fresh database built from the migrations (the schema refuses what doesn't fit), then
+    each part's rows dumped by sqlite3 — so the migration and every later save write one layout."""
     db = schema_db()
+    db.execute("BEGIN"); db.execute("PRAGMA defer_foreign_keys = ON")
     for t, rows in r.tables.items():
         for row in rows:
             try:
@@ -316,7 +413,9 @@ def write(r):
                            [int(v) if isinstance(v, bool) else v for v in row.values()])
             except sqlite3.Error as e:
                 sys.exit(f"ERROR: the transform made a row the schema refuses: {t} {row}: {e}")
-    db.commit()
+    if db.execute("PRAGMA foreign_key_check").fetchall():
+        sys.exit(f"ERROR: the transform left links to rows that aren't there: {db.execute('PRAGMA foreign_key_check').fetchall()[:3]}")
+    db.execute("COMMIT")
     return dump(db, DATA)
 
 
@@ -338,59 +437,35 @@ def cli():
     return shutil.which("sqlite3") or sys.exit("ERROR: sqlite3 isn't on the PATH — run this under mise, which pins it (mise.toml)")
 
 
-def dump(db, folder):
-    """Each part's file is SQLite's own dump of it — sqlite3 <db> ".dump <part>_%": its schema and its data, as the
-    standard SQL that rebuilds them. Returns {part: lines}."""
+def dump(db, folder, before_swap=None):
+    """Each part's seed file is sqlite3's own data-only dump of it — sqlite3 <db> ".dump --data-only <part>_%": one INSERT
+    of plain values per row, in the order the rows went in. Written to a folder beside `folder` and then moved into place,
+    so the five files change together or not at all. before_swap(that folder) may return problems: then nothing is moved
+    and they are returned. Returns {part: lines}."""
     folder.mkdir(parents=True, exist_ok=True)
     files = {}
-    with tempfile.TemporaryDirectory() as t:
+    with tempfile.TemporaryDirectory(dir=folder.parent) as t:
         f = Path(t) / "quote.db"
         out = sqlite3.connect(f); db.backup(out); out.close()
         for part in PARTS:
-            text = subprocess.run([cli(), str(f), f".dump {part}_%"], capture_output=True, text=True, check=True).stdout
-            (folder / f"{part}.sql").write_text(text, encoding="utf-8")
+            text = subprocess.run([cli(), str(f), f".dump --data-only {part}_%"], capture_output=True, text=True, check=True).stdout
+            (Path(t) / f"{part}.sql").write_text(text, encoding="utf-8")
             files[part] = text.splitlines()
+        late = before_swap(Path(t)) if before_swap else []
+        if late:
+            return late
+        for part in PARTS:
+            os.replace(Path(t) / f"{part}.sql", folder / f"{part}.sql")
     return files
 
 
-LITERAL = r"(?:NULL|-?\d+(?:\.\d+)?(?:e[+-]?\d+)?|'(?:[^']|'')*')"
-ALLOWED = [re.compile(r"PRAGMA foreign_keys=OFF;"), re.compile(r"BEGIN TRANSACTION;"), re.compile(r"COMMIT;"),
-           re.compile(r"CREATE (TABLE|VIEW) ([a-z_]+)\b.*", re.S),
-           re.compile(rf"INSERT INTO ([a-z_]+) VALUES\(({LITERAL}(?:,{LITERAL})*)\);")]
-
-
-def statements(text):
-    """A file's statements, each with the line it starts on."""
-    out, buf, start = [], [], 1
-    for n, line in enumerate(text.splitlines(), 1):
-        if not buf:
-            start = n
-        buf.append(line)
-        if sqlite3.complete_statement("\n".join(buf)):
-            out.append((start, "\n".join(buf))); buf = []
-    if buf:
-        out.append((start, "\n".join(buf)))
-    return out
-
-
-def load(folder=None):
-    """A fresh database from the part files — what every build does. A part's file may hold only what sqlite3's .dump
-    of that part writes: its own tables and views, and INSERTs of plain values into its own tables. Anything else is
-    refused with its file and line."""
-    folder = folder or DATA
-    db = sqlite3.connect(":memory:")
+def load(folder=None, migrations=None):
+    """A fresh database the way every build makes one, and as D1 would: the migrations, then each part's seed file — each
+    file one transaction, foreign keys on and deferred to its end, D1's limits; a seed file may hold only rows of plain
+    values for its own part's tables."""
+    db = migrated(migrations)
     for part in PARTS:
-        f = folder / f"{part}.sql"
-        text = f.read_text(encoding="utf-8")
-        for n, st in statements(text):
-            m = next((r.fullmatch(st) for r in ALLOWED if r.fullmatch(st)), None)
-            name = m and (m.group(2) if st.startswith("CREATE") else m.group(1) if st.startswith("INSERT") else None)
-            if not m or (name and part_of(name) != part):
-                raise SystemExit(f"ERROR: {f.name} line {n}: not part of {part}'s dump (its own tables, views and plain values): {st[:80]}")
-        try:
-            db.executescript(text)
-        except sqlite3.Error as e:
-            raise SystemExit(f"ERROR: {f.name}: {e}")
+        run_file(db, (folder or DATA) / f"{part}.sql", seed_guard(part))
     return db
 
 
@@ -512,16 +587,36 @@ def problems(db):
     for (text,) in db.execute("SELECT text FROM phases_step_text UNION ALL SELECT note FROM phases_phase_note"):
         for old in re.findall(r"\{(?:step|phase):[^}]*\}", text):
             out.append(f"phases.sql: a reference written into the text ({old}): it must be a gap with a ref row")
+    # Thai and English fill the same placeholders and give the same numbers (README rule 3), and no brace is left open
+    sys.path.insert(0, str(REPO))
+    from common import _facts
+    for t in [t for t in text_tables(db) if not t.endswith("_plural")]:
+        cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
+        keys = ["code"] if t.endswith("_label") else \
+               [c for c in cols if c in [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]]
+        for col in [c for c in cols if c != "lang" and c not in keys]:
+            by = {}
+            for row in db.execute(f"SELECT {', '.join(keys + ['lang', col])} FROM {t}"):
+                by.setdefault(tuple(row[:len(keys)]), {})[row[len(keys)]] = row[-1]
+            for k, texts in by.items():
+                for lang, text in texts.items():
+                    if text and re.search(r"[{}]", re.sub(r"\{[^{}]*\}", "", text)):
+                        out.append(f"{file_of(t)}: {t} {k[0] if k else ''} ({lang}): a brace that opens or closes nothing in its {col}")
+                th, en = texts.get("th"), texts.get("en")
+                if th and en:
+                    for what, a, b in zip(("placeholders", "numbers"), _facts(th), _facts(en)):
+                        if a != b:
+                            out.append(f"{file_of(t)}: {t} {k[0] if k else ''}: its Thai and English {col} have different {what} "
+                                       f"(Thai: {', '.join(a) or 'none'}; English: {', '.join(b) or 'none'})")
     nm = names(db)
-    return [re.sub(r"\b[0-9a-f]{16}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
+    return [re.sub(rf"\b{UUID}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
 
 
-READS = {   # what each part may read besides its own tables (README rule 6)
-    "phases": set(),
-    "materials": set(),
-    "room": {"materials_product", "materials_product_text", "materials_unit"},
-    "labour": {"materials_product", "materials_product_text", "materials_unit", "materials_unit_text", "materials_line",
-               "materials_status", "room_take_off"},
+READS = {   # what each part's code may read besides its own tables: nothing — what a part needs from another
+    "phases": set(),   # (the room: products' names, sizes and IP ratings; the labour: the take-off and the list's counts)
+    "materials": set(),  # build.py reads from the part that owns it and hands over (README rules 5 and 6)
+    "room": set(),
+    "labour": set(),
 }
 
 
@@ -573,33 +668,35 @@ def changed_alone(before, after):
         cols = [c[1] for c in after.execute(f"PRAGMA table_info({t})")]
         keys = ["code"] if t.endswith("_label") else \
                [c for c in cols if c in [f[3] for f in after.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]]
-        texts = [c for c in cols if c != "lang" and c not in keys]
+        had = {c[1] for c in before.execute(f"PRAGMA table_info({t})")}
+        if not had:                                          # a table a migration added: nothing to compare
+            continue
+        texts = [c for c in cols if c != "lang" and c not in keys and c in had]
         read = lambda db: {(tuple(r[:len(keys)]), r[len(keys)]): r[len(keys) + 1:]
                            for r in db.execute(f"SELECT {', '.join(keys + ['lang'] + texts)} FROM {t}")}
         old, new = read(before), read(after)
         for thing in {k for k, _ in new}:
-            changed = [l for l in langs if (thing, l) in old and old[(thing, l)] != new.get((thing, l))]
-            if changed and len(changed) < len(langs):
-                what = nm.get(thing[0], thing[0]) if thing else ""
-                out.append(f"{file_of(t)}: {t} '{what}': its {', '.join(changed)} changed but not the other language")
+            for i, col in enumerate(texts):                 # each text on its own: a name and a detail are two texts
+                changed = [l for l in langs if (thing, l) in old and old[(thing, l)][i] != new.get((thing, l), [None] * len(texts))[i]]
+                if changed and len(changed) < len(langs):
+                    what = nm.get(thing[0], thing[0]) if thing else ""
+                    out.append(f"{file_of(t)}: {t} '{what}': its {', '.join(changed)} {col} changed but not the other language")
     return out
 
 
 if __name__ == "__main__":
     raw, take_off, statuses = extract()
     rows = transform(raw, take_off, statuses)
+    write_migration()
     out = write(rows)
-    print("wrote", ", ".join(f"{p}.sql ({len(l)} lines)" for p, l in out.items()), "with", cli(), "(.dump)")
+    print("wrote migrations/0001_initial.sql, and", ", ".join(f"data/{p}.sql ({len(l)} rows)" for p, l in out.items()),
+          "with", cli(), "(.dump --data-only)")
     db = load()
     print("SQLite", sqlite3.sqlite_version, "·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'table'").fetchone()[0], "tables ·",
           sum(db.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'").fetchall()),
           "rows ·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'view' AND name GLOB '*_check_*'").fetchone()[0], "check views")
     found = problems(db) + vocabulary(db, take_off)
     print(len(found), "problems"); [print("  ", p) for p in found]
-    # the schema in the files is the design in schema/
-    design = {r for r in schema_db().execute("SELECT name, sql FROM sqlite_master WHERE sql IS NOT NULL")}
-    loaded = {r for r in db.execute("SELECT name, sql FROM sqlite_master WHERE sql IS NOT NULL")}
-    print("schema in the files = schema/:", "yes" if design == loaded else f"NO — {sorted(n for n, _ in design ^ loaded)[:5]}")
     # the round trip: the loaded database, dumped again, must give the very same files
     again = DATA.parent / "data-again"
     dump(db, again)

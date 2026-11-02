@@ -4,6 +4,8 @@
 [tools]
 python = "3.13.18"
 uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
+node = "26.13.0"           # runs wrangler (the LTS release)
+"npm:wrangler" = "4.156.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
 
 # SQLite's own tools from sqlite.org — sqlite3 (dumps and loads the data files), sqldiff (compares two databases).
 # No ready-made download exists for Linux on ARM.
@@ -12,9 +14,9 @@ version = "3.54.1"
 bin_path = "."
 
 [tools."http:sqlite-tools".platforms]
-linux-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-linux-x64-3540100.zip" }
-macos-arm64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-arm64-3540100.zip" }
-macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zip" }
+linux-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-linux-x64-3540100.zip", checksum = "sha256:a21062b333c7d66d7d8c42054c0fab1c1899729185289ad14bd4f25f9f576d14" }
+macos-arm64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-arm64-3540100.zip", checksum = "sha256:f5ba6f9c08bcb3b7220dea07238cd3de88b936cf5b956d7fe458bf2ff0782db6" }
+macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zip", checksum = "sha256:57f9bee875e82ff97541704f49b2def7ebd9d3f831b377f706b5fb41e339976f" }
 
 [env]
 _.python.venv = { path = ".venv", create = true }
@@ -74,3 +76,82 @@ run = "python materials.py"
 [tasks.phases]
 description = "Print the phases — the same text the PDF prints"
 run = "python phases.py"
+
+# ---------- the data as SQLite (the trial in etl/: until the switch, the TOML files are still the data) ----------
+# The seed files are the data; .work/quote.db is where it's read and changed. load → sql/show → save.
+
+[tasks."db:load"]
+description = "Make the working database (.work/quote.db) from the migrations and the seed files — refused if it holds unsaved changes"
+dir = "etl"
+run = "python edit.py load"
+
+[tasks."db:save"]
+description = "Check the working database and write the seed files from it — or write nothing and say why (--alone: a text fixed in one language)"
+dir = "etl"
+run = "python edit.py save"
+
+[tasks."db:status"]
+description = "Say whether the working database holds changes the seed files don't (exit 1 if it does)"
+dir = "etl"
+run = "python edit.py status"
+
+[tasks."db:sql"]
+description = "Run SQL on the working database as one transaction: mise run db:sql \"UPDATE …\" (save writes it to the seed files)"
+dir = "etl"
+run = "python edit.py sql"
+
+[tasks."db:show"]
+description = "Run a query on the working database and print the rows: mise run db:show \"SELECT * FROM room_show_item\""
+dir = "etl"
+run = "python edit.py show"
+
+[tasks."db:diff"]
+description = "Show how the working database differs from the seed files, row by row (sqldiff)"
+dir = "etl"
+run = "python edit.py diff"
+
+[tasks."db:lint"]
+description = "Check the schema with sqlite3: every foreign key has an index (.lint fkey-indexes prints nothing)"
+dir = "etl"
+run = "python edit.py lint"
+
+[tasks."db:migration"]
+description = "Start a new migration, numbered after the last: mise run db:migration <what-it-does> (a schema change is always a new migration)"
+dir = "etl"
+run = "wrangler d1 migrations create bathroom-quote --config wrangler.toml"
+
+[tasks."db:migrate"]
+description = "Run on the working database each migration it hasn't had; then db:save writes the seed files in the new shape"
+dir = "etl"
+run = "python edit.py migrate"
+
+[tasks."db:push"]
+description = "Cloudflare D1: apply the migrations it hasn't had, then make its data exactly the seed files"
+dir = "etl"
+depends = ["db:status"]
+run = "python d1.py push --remote && python d1.py check --remote"
+
+[tasks."db:pull"]
+description = "Cloudflare D1: export it to .work/ (never committed) and show how it differs from the seed files"
+dir = "etl"
+run = "python d1.py pull --remote"
+
+[tasks."etl:run"]
+description = "The trial: read the TOML files, write the migrations and the seed files (out/etl/), and check them"
+dir = "etl"
+run = "python migrate.py"
+
+[tasks."etl:fidelity"]
+description = "The trial: read the seed files back into the TOML's shape and compare every value with the TOML files"
+dir = "etl"
+run = "python fidelity.py"
+
+[tasks."etl:prove"]
+description = "The trial: break copies of the seed files and the working database on purpose, and confirm every guard refuses"
+dir = "etl"
+run = "python prove.py"
+
+[tasks."etl:d1"]
+description = "The trial on wrangler's local D1: push the migrations and seed files, run every check view there, pull it back and compare"
+dir = "etl"
+run = ["python d1.py push --local", "python d1.py check --local", "python d1.py pull --local"]
