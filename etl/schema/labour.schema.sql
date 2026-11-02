@@ -1,28 +1,27 @@
--- labour.schema.sql — the labour: rate books, rates, and the lines priced from the room and the materials list.
-
 CREATE TABLE labour_setting (
+  -- labour.schema.sql — the labour: rate books, rates, and the lines priced from the room and the materials list.
   id INTEGER PRIMARY KEY CONSTRAINT "the settings are one row" CHECK (id = 1),
   date_format TEXT NOT NULL,
   round_approx INTEGER NOT NULL CONSTRAINT "round_approx is more than 0" CHECK (round_approx > 0)
 ) STRICT;
-CREATE TABLE labour_section_text (lang TEXT PRIMARY KEY REFERENCES language(code), name TEXT NOT NULL) STRICT;
-CREATE TABLE labour_section_note (lang TEXT PRIMARY KEY REFERENCES language(code), note TEXT NOT NULL) STRICT;
-CREATE TABLE labour_label  (code TEXT NOT NULL, lang TEXT NOT NULL REFERENCES language(code), text TEXT NOT NULL,
+CREATE TABLE labour_section_text (lang TEXT PRIMARY KEY REFERENCES common_language(code), name TEXT NOT NULL) STRICT;
+CREATE TABLE labour_section_note (lang TEXT PRIMARY KEY REFERENCES common_language(code), note TEXT NOT NULL) STRICT;
+CREATE TABLE labour_label  (code TEXT NOT NULL, lang TEXT NOT NULL REFERENCES common_language(code), text TEXT NOT NULL,
                             PRIMARY KEY (code, lang)) STRICT;
 CREATE TABLE labour_symbol (code TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT;
 
--- the Comptroller General's multiplier for a contractor's overhead, profit and interest on bare cost
 CREATE TABLE labour_factor_f (
+  -- the Comptroller General's multiplier for a contractor's overhead, profit and interest on bare cost
   id INTEGER PRIMARY KEY CONSTRAINT "Factor F is one row" CHECK (id = 1),
   value REAL NOT NULL CONSTRAINT "Factor F is 1 or more" CHECK (value >= 1 AND value < 1e308),
   standard TEXT NOT NULL, url TEXT NOT NULL,
   checked TEXT NOT NULL CONSTRAINT "Factor F's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked),
   remark TEXT                       -- for editors (not printed): the choice made, and when to change it
 ) STRICT;
-CREATE TABLE labour_factor_f_text (lang TEXT PRIMARY KEY REFERENCES language(code), name TEXT NOT NULL) STRICT;
+CREATE TABLE labour_factor_f_text (lang TEXT PRIMARY KEY REFERENCES common_language(code), name TEXT NOT NULL) STRICT;
 
--- a rate book; a kept copy (file) comes with the page that publishes it
 CREATE TABLE labour_book (
+  -- a rate book; a kept copy (file) comes with the page that publishes it
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   standard TEXT NOT NULL, url TEXT NOT NULL, published TEXT, official TEXT, file TEXT,
@@ -31,32 +30,33 @@ CREATE TABLE labour_book (
   remark TEXT,                      -- for editors (not printed): how to take in a new edition
   CONSTRAINT "a kept copy comes with the page that publishes it" CHECK (file IS NULL OR published IS NOT NULL)
 ) STRICT;
--- a book's name, and how a rate names its place in it ({item})
-CREATE TABLE labour_book_text (book TEXT NOT NULL REFERENCES labour_book(id), lang TEXT NOT NULL REFERENCES language(code),
+CREATE TABLE labour_book_text (
+  -- a book's name, and how a rate names its place in it ({item})
+  book TEXT NOT NULL REFERENCES labour_book(id), lang TEXT NOT NULL REFERENCES common_language(code),
                                name TEXT NOT NULL, item_format TEXT NOT NULL, PRIMARY KEY (book, lang)) STRICT;
 
--- a unit a rate is priced by, and what it measures (a code)
 CREATE TABLE labour_unit (
+  -- a unit a rate is priced by, and what it measures (a code)
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   measure TEXT NOT NULL CONSTRAINT "a labour unit measures an area, a length, a count, a job or a share"
                         CHECK (measure IN ('area', 'length', 'count', 'job', 'share'))
 ) STRICT;
-CREATE TABLE labour_unit_text (unit TEXT NOT NULL REFERENCES labour_unit(id), lang TEXT NOT NULL REFERENCES language(code),
+CREATE TABLE labour_unit_text (unit TEXT NOT NULL REFERENCES labour_unit(id), lang TEXT NOT NULL REFERENCES common_language(code),
                                name TEXT NOT NULL, PRIMARY KEY (unit, lang)) STRICT;
-CREATE TABLE labour_unit_plural (unit TEXT NOT NULL REFERENCES labour_unit(id), lang TEXT NOT NULL REFERENCES language(code),
+CREATE TABLE labour_unit_plural (unit TEXT NOT NULL REFERENCES labour_unit(id), lang TEXT NOT NULL REFERENCES common_language(code),
                                  many TEXT NOT NULL, PRIMARY KEY (unit, lang)) STRICT;
 CREATE TABLE labour_work_section (
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE
 ) STRICT;
 CREATE TABLE labour_work_section_text (work_section TEXT NOT NULL REFERENCES labour_work_section(id),
-  lang TEXT NOT NULL REFERENCES language(code), name TEXT NOT NULL, PRIMARY KEY (work_section, lang)) STRICT;
+  lang TEXT NOT NULL REFERENCES common_language(code), name TEXT NOT NULL, PRIMARY KEY (work_section, lang)) STRICT;
 CREATE TABLE labour_work_section_note (work_section TEXT NOT NULL REFERENCES labour_work_section(id),
-  lang TEXT NOT NULL REFERENCES language(code), note TEXT NOT NULL, PRIMARY KEY (work_section, lang)) STRICT;
+  lang TEXT NOT NULL REFERENCES common_language(code), note TEXT NOT NULL, PRIMARY KEY (work_section, lang)) STRICT;
 
--- a rate: from a book (its item, or a note in it; the page in a kept copy, or the book's own page) or none
 CREATE TABLE labour_rate (
+  -- a rate: from a book (its item, or a note in it; the page in a kept copy, or the book's own page) or none
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   unit TEXT NOT NULL REFERENCES labour_unit(id),
@@ -70,37 +70,41 @@ CREATE TABLE labour_rate (
     CHECK (CASE WHEN book IS NULL THEN item IS NULL AND book_note IS NULL AND page IS NULL AND url IS NULL
                 ELSE (item IS NULL) IS NOT (book_note IS NULL) END)
 ) STRICT;
-CREATE TABLE labour_rate_text (rate TEXT NOT NULL REFERENCES labour_rate(id), lang TEXT NOT NULL REFERENCES language(code),
+CREATE TABLE labour_rate_text (rate TEXT NOT NULL REFERENCES labour_rate(id), lang TEXT NOT NULL REFERENCES common_language(code),
                                name TEXT NOT NULL, PRIMARY KEY (rate, lang)) STRICT;
 CREATE TABLE labour_rate_assumed (rate TEXT NOT NULL REFERENCES labour_rate(id),
   key TEXT NOT NULL CONSTRAINT "a rate's assumed key is one of its values" CHECK (key IN ('rate')),
   how TEXT NOT NULL, PRIMARY KEY (rate, key)) STRICT;
 
--- a line: a rate in a work section; its quantity comes from exactly one source, in the tables below
 CREATE TABLE labour_line (
+  -- a line: a rate in a work section; its quantity comes from exactly one source, in the tables below
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   rate TEXT NOT NULL REFERENCES labour_rate(id),
   work_section TEXT NOT NULL REFERENCES labour_work_section(id)
 ) STRICT;
--- from the room's take-off (a link to the room, README rule 6) …
-CREATE TABLE labour_line_take_off (line TEXT PRIMARY KEY REFERENCES labour_line(id),
+CREATE TABLE labour_line_take_off (
+  -- from the room's take-off (a link to the room, README rule 6) …
+  line TEXT PRIMARY KEY REFERENCES labour_line(id),
   take_off TEXT NOT NULL REFERENCES room_take_off(code),
   times INTEGER CONSTRAINT "times is more than 0" CHECK (times IS NULL OR times > 0)) STRICT;
--- … a number of sets …
-CREATE TABLE labour_line_n (line TEXT PRIMARY KEY REFERENCES labour_line(id),
+CREATE TABLE labour_line_n (
+  -- … a number of sets …
+  line TEXT PRIMARY KEY REFERENCES labour_line(id),
   n REAL NOT NULL CONSTRAINT "a line's n is more than 0" CHECK (n > 0 AND n < 1e308),
   times INTEGER CONSTRAINT "times is more than 0" CHECK (times IS NULL OR times > 0)) STRICT;
--- … a count of products on the materials list (a link to the list, README rule 6) …
-CREATE TABLE labour_line_count (line TEXT PRIMARY KEY REFERENCES labour_line(id),
+CREATE TABLE labour_line_count (
+  -- … a count of products on the materials list (a link to the list, README rule 6) …
+  line TEXT PRIMARY KEY REFERENCES labour_line(id),
   times INTEGER CONSTRAINT "times is more than 0" CHECK (times IS NULL OR times > 0)) STRICT;
 CREATE TABLE labour_line_count_product (line TEXT NOT NULL REFERENCES labour_line_count(line), pos INTEGER NOT NULL,
   product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
--- … or a share of what products on it still cost
-CREATE TABLE labour_line_share (line TEXT PRIMARY KEY REFERENCES labour_line(id)) STRICT;
+CREATE TABLE labour_line_share (
+  -- … or a share of what products on it still cost
+  line TEXT PRIMARY KEY REFERENCES labour_line(id)) STRICT;
 CREATE TABLE labour_line_share_product (line TEXT NOT NULL REFERENCES labour_line_share(line), pos INTEGER NOT NULL,
   product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
-CREATE TABLE labour_line_note (line TEXT NOT NULL REFERENCES labour_line(id), lang TEXT NOT NULL REFERENCES language(code),
+CREATE TABLE labour_line_note (line TEXT NOT NULL REFERENCES labour_line(id), lang TEXT NOT NULL REFERENCES common_language(code),
                                note TEXT NOT NULL, PRIMARY KEY (line, lang)) STRICT;
 CREATE TABLE labour_line_assumed (line TEXT NOT NULL REFERENCES labour_line(id),
   key TEXT NOT NULL CONSTRAINT "a line's assumed key is one of its values" CHECK (key IN ('n', 'take_off')),
@@ -110,7 +114,7 @@ CREATE VIEW labour_line_source AS    -- each line's source, from the table it is
   SELECT line, 'take_off' AS source FROM labour_line_take_off UNION ALL SELECT line, 'n' FROM labour_line_n UNION ALL
   SELECT line, 'count' FROM labour_line_count UNION ALL SELECT line, 'share' FROM labour_line_share;
 
-CREATE VIEW check_labour_rows AS
+CREATE VIEW labour_check_rows AS
   SELECT t || ' has ' || n || ' rows, not 1' FROM (
     SELECT 'labour_setting' t, (SELECT count(*) FROM labour_setting) n UNION ALL
     SELECT 'labour_factor_f', (SELECT count(*) FROM labour_factor_f)) WHERE n <> 1
@@ -120,25 +124,25 @@ CREATE VIEW check_labour_rows AS
     SELECT 'labour_work_section', (SELECT count(*) FROM labour_work_section) UNION ALL
     SELECT 'labour_rate', (SELECT count(*) FROM labour_rate) UNION ALL
     SELECT 'labour_line', (SELECT count(*) FROM labour_line)) WHERE n = 0;
-CREATE VIEW check_labour_line_one_source AS
+CREATE VIEW labour_check_line_one_source AS
   SELECT 'line ' || l.id || ' takes its quantity from ' || count(s.line) || ' sources, not 1'
   FROM labour_line l LEFT JOIN labour_line_source s ON s.line = l.id GROUP BY l.id HAVING count(s.line) <> 1;
-CREATE VIEW check_labour_count_has_products AS
+CREATE VIEW labour_check_count_has_products AS
   SELECT 'line ' || line || ' counts no products' FROM labour_line_count WHERE line NOT IN (SELECT line FROM labour_line_count_product)
   UNION ALL SELECT 'line ' || line || ' is a share of no products' FROM labour_line_share WHERE line NOT IN (SELECT line FROM labour_line_share_product)
   UNION ALL SELECT 'line ' || c.line || ' counts products bought by length and by count together'
   FROM labour_line_count_product c JOIN materials_product p ON p.id = c.product JOIN materials_unit u ON u.id = p.unit
   GROUP BY c.line HAVING min(u.measure) <> max(u.measure);
-CREATE VIEW check_labour_rate_without_book AS
+CREATE VIEW labour_check_rate_without_book AS
   SELECT 'rate ' || id || ' has no book, so its rate must be marked assumed' FROM labour_rate
   WHERE book IS NULL AND id NOT IN (SELECT rate FROM labour_rate_assumed WHERE key = 'rate');
-CREATE VIEW check_labour_rate_where_in_book AS
+CREATE VIEW labour_check_rate_where_in_book AS
   SELECT 'rate ' || r.id || CASE WHEN b.file IS NOT NULL THEN ' is from a kept copy, so it gives its page and no url'
                                  ELSE ' is from a book with no copy, so it gives its url and no page' END
   FROM labour_rate r JOIN labour_book b ON b.id = r.book
   WHERE (b.file IS NOT NULL AND (r.page IS NULL OR r.url IS NOT NULL)) OR (b.file IS NULL AND (r.url IS NULL OR r.page IS NOT NULL));
--- what each source needs the rate's unit to measure
-CREATE VIEW check_labour_line_measure AS
+CREATE VIEW labour_check_line_measure AS
+  -- what each source needs the rate's unit to measure
   SELECT 'line ' || l.id || ' is priced by a rate that measures ' || u.measure || ', but its quantity is ' || need.measure
   FROM labour_line l JOIN labour_rate r ON r.id = l.rate JOIN labour_unit u ON u.id = r.unit JOIN (
     SELECT t.line, k.measure FROM labour_line_take_off t JOIN room_take_off k ON k.code = t.take_off
@@ -151,8 +155,8 @@ CREATE VIEW check_labour_line_measure AS
   FROM labour_line_n n JOIN labour_line l ON l.id = n.line JOIN labour_rate r ON r.id = l.rate JOIN labour_unit u ON u.id = r.unit
   WHERE u.measure = 'share';
 
--- ---------- for reading: every labour line as people say it
-CREATE VIEW show_labour_line AS
+CREATE VIEW labour_show_line AS
+  -- ---------- for reading: every labour line as people say it
   SELECT l.pos, ws.name AS work_section, rt.name AS rate_name, r.rate, ut.name AS unit, src.source,
          coalesce(t.take_off, n.n, (SELECT group_concat(pt.name, ', ') FROM labour_line_count_product cp
                                     JOIN materials_product_text pt ON pt.product = cp.product AND pt.lang = 'en' WHERE cp.line = l.id),

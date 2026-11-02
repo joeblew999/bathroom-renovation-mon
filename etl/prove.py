@@ -3,11 +3,12 @@
   2. breaks made in the data files themselves (what the loader must refuse);
   3. an edit through etl/edit.py (inserting a step changes 3 lines and nothing else);
   4. English changed without its Thai, comparing two versions;
-  5. a part reading another part's tables (SQLite's authorizer).
+  5. a part reading another part's tables (SQLite's authorizer);
+  6. the working database's guards: load won't overwrite unsaved changes, save won't write a broken change.
 Each break finds what it breaks by what it is (README rule 9) — never by today's names, numbers, positions or rows."""
 import shutil, sqlite3, time
 from migrate import DATA, changed_alone, load, problems, reading
-from edit import edit
+from edit import edit, load_working, same, save_working
 
 FIRST = lambda table, order="pos": f"(SELECT id FROM {table} ORDER BY {order} LIMIT 1)"
 PRODUCT_WITH = lambda cond: f"(SELECT id FROM materials_product WHERE {cond} ORDER BY pos LIMIT 1)"
@@ -146,24 +147,25 @@ dt = time.perf_counter() - t0
 print(f"  ({len(BREAKS)} database breaks, {dt / len(BREAKS) * 1000:.1f} ms each: copy, break, every check)\n")
 
 # ---------- 2. the data files themselves
-A_ROOM_LINE = lambda: next(l for l in open(DATA / "room.data.sql") if l.startswith("INSERT INTO room_room ")).strip()
+A_ROOM_LINE = lambda: next(l for l in open(DATA / "room.sql") if l.startswith("INSERT INTO room_room ")).strip()
+NOT_DUMP = "not part of phases's dump"
 FILE_BREAKS = [  # (what, file, change(lines) -> lines, words the refusal must contain)
-    ("a statement that isn't an INSERT", "phases", lambda ls: ls + ["DROP VIEW check_room_rows;"], "not an INSERT of plain values"),
-    ("an INSERT into another part's table", "phases", lambda ls: ls + [A_ROOM_LINE()], "not an INSERT of plain values into one of phases's tables"),
-    ("an INSERT that reads other tables", "phases", lambda ls: ls + ["INSERT INTO phases_symbol (code, value) SELECT id, id FROM room_item;"],
-     "not an INSERT of plain values"),
-    ("a value that is a query", "phases", lambda ls: ls + ["INSERT INTO phases_symbol (code, value) VALUES ('x', (SELECT 1));"],
-     "not an INSERT of plain values"),
-    ("an upsert that overwrites a row", "phases", lambda ls: ls + ["INSERT INTO phases_symbol (code, value) VALUES ('number', 'x') "
-                                                                   "ON CONFLICT(code) DO UPDATE SET value = 'x';"], "not an INSERT of plain values"),
-    ("two INSERTs on one line", "phases", lambda ls: ls[:-1] + [ls[-1] + " " + ls[-1]], "not an INSERT of plain values"),
-    ("a misspelt column", "room", lambda ls: [l.replace("joint_clearance", "joint_clearence", 1) if l.startswith("INSERT INTO room_room ") else l
-                                              for l in ls], "has no column named joint_clearence"),
+    ("a statement that isn't in a dump", "phases", lambda ls: ls + ["DROP VIEW room_check_rows;"], NOT_DUMP),
+    ("a trigger", "phases", lambda ls: ls + ["CREATE TRIGGER phases_t AFTER INSERT ON phases_phase BEGIN DELETE FROM phases_phase; END;"], NOT_DUMP),
+    ("another part's table created here", "phases", lambda ls: ls + ["CREATE TABLE room_extra (x TEXT);"], NOT_DUMP),
+    ("an INSERT into another part's table", "phases", lambda ls: ls + [A_ROOM_LINE()], NOT_DUMP),
+    ("an INSERT that reads other tables", "phases", lambda ls: ls + ["INSERT INTO phases_symbol SELECT id, id FROM room_item;"], NOT_DUMP),
+    ("a value that is a query", "phases", lambda ls: ls + ["INSERT INTO phases_symbol VALUES('x',(SELECT 1));"], NOT_DUMP),
+    ("an upsert that overwrites a row", "phases", lambda ls: ls + ["INSERT INTO phases_symbol VALUES('number','x') ON CONFLICT(code) DO UPDATE SET value = 'x';"],
+     NOT_DUMP),
+    ("two INSERTs on one line", "phases", lambda ls: ls + ["INSERT INTO phases_symbol VALUES('a','1'); INSERT INTO phases_symbol VALUES('b','2');"], NOT_DUMP),
+    ("a row with a value too many", "room", lambda ls: [l.replace(");", ",1);", 1) if l.startswith("INSERT INTO room_room ") else l for l in ls],
+     "values were supplied"),
 ]
 for what, part, change, want in FILE_BREAKS:
     tmp = DATA.parent / "data-broken"
     shutil.rmtree(tmp, ignore_errors=True); shutil.copytree(DATA, tmp)
-    f = tmp / f"{part}.data.sql"
+    f = tmp / f"{part}.sql"
     f.write_text("\n".join(change(f.read_text(encoding="utf-8").splitlines())) + "\n", encoding="utf-8")
     try:
         load(tmp); got = "loaded without complaint"
@@ -176,17 +178,17 @@ for what, part, change, want in FILE_BREAKS:
 tmp = DATA.parent / "data-edit"
 shutil.rmtree(tmp, ignore_errors=True); shutil.copytree(DATA, tmp)
 step = load(tmp).execute("SELECT id FROM phases_step ORDER BY phase, pos LIMIT 1").fetchone()[0]
-before = set((tmp / "phases.data.sql").read_text().splitlines())
+before = set((tmp / "phases.sql").read_text().splitlines())
 found = edit(f"INSERT INTO phases_step (id, pos, phase) SELECT new_id(), pos_after('phases_step', id), phase FROM phases_step WHERE id = '{step}'; "
              "INSERT INTO phases_step_text (step, lang, text) VALUES (new_id(), 'th', 'ทดสอบ'), (new_id(), 'en', 'A test step');", tmp)
-after = set((tmp / "phases.data.sql").read_text().splitlines())
+after = set((tmp / "phases.sql").read_text().splitlines())
 good = not found and len(after - before) == 3 and not before - after
 ok += good; total += 1
 print(f"{'OK     ' if good else 'MISSED '}  edit: a step inserted between two others adds {len(after - before)} lines, changes "
       f"{len(before - after)}, problems {found}")
 half = edit(f"INSERT INTO phases_step (id, pos, phase) SELECT new_id(), pos_after('phases_step', id), phase FROM phases_step WHERE id = '{step}'; "
             "INSERT INTO phases_step_text (step, lang, text) VALUES (new_id(), 'th', 'ทดสอบ');", tmp)
-hit = any("only in th" in p for p in half) and set((tmp / "phases.data.sql").read_text().splitlines()) == after
+hit = any("only in th" in p for p in half) and set((tmp / "phases.sql").read_text().splitlines()) == after
 ok += hit; total += 1
 print(f"{'REFUSED' if hit else 'MISSED '}  edit: a step in Thai only — refused, and the files are untouched")
 
@@ -213,5 +215,25 @@ for part, table, allowed in (("room", "materials_product", True), ("room", "labo
         got = "not authorized" in str(e) and False
     hit = got == allowed; ok += hit; total += 1
     print(f"{'OK     ' if hit else 'MISSED '}  {part} reading {table}: {'allowed' if got else 'refused'}")
+
+# ---------- 6. the working database's guards
+tmp = DATA.parent / "data-working"; working = tmp / "quote.db"
+shutil.rmtree(tmp, ignore_errors=True); shutil.copytree(DATA, tmp)
+load_working(tmp, working)
+product = sqlite3.connect(working).execute("SELECT id FROM materials_product ORDER BY pos LIMIT 1").fetchone()[0]
+w = sqlite3.connect(working)
+w.execute("UPDATE materials_product_text SET name = name || ' X' WHERE lang = 'en' AND product = ?", (product,)); w.commit()
+files_before = {f.name: f.read_text() for f in tmp.glob("*.sql")}
+checks = [("status sees the unsaved change", not same(tmp, working)),
+          ("load refuses to overwrite it", load_working(tmp, working) is not None),
+          ("save refuses English changed without its Thai, and writes nothing",
+           any("its en changed but not the other language" in x for x in save_working(tmp, working))
+           and files_before == {f.name: f.read_text() for f in tmp.glob("*.sql")})]
+w.execute("UPDATE materials_product_text SET name = name || ' X' WHERE lang = 'th' AND product = ?", (product,)); w.commit()
+checks += [("save writes both languages changed together", save_working(tmp, working) == [] and files_before != {f.name: f.read_text() for f in tmp.glob("*.sql")}),
+           ("after save, the database and the files hold the same", same(tmp, working))]
+for what, good in checks:
+    ok += good; total += 1
+    print(f"{'OK     ' if good else 'MISSED '}  working database: {what}")
 
 print(f"\n{ok}/{total} as they should be")

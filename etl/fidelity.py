@@ -166,7 +166,7 @@ for name, rebuilt in (("phases", P), ("materials", M), ("room", R), ("labour", L
     print(f"{name}: {len(found)}"); [print("  ", x) for x in found[:15]]
 print("total", tot, "differences between the TOML and the data rebuilt from the SQL files")
 # the other way: nothing in the database that the TOML doesn't account for, except what the design adds on purpose
-DESIGN_ONLY = {"language": "the languages, in order",
+DESIGN_ONLY = {"common_language": "the languages, in order",
                "materials_status": "the statuses and their flags (materials.STATUS today)",
                "room_take_off": "the take-offs room.py works out, with their measure",
                "labour_line_share": "a share line's own row (its products are compared)",

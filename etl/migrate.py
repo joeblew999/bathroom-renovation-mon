@@ -12,7 +12,7 @@ Keys: an entity's key is worked out from its id in the TOML (the first 16 hex di
 id), so running this again gives the same keys and the data files don't change. Rows made after the switch get
 SQLite's random keys instead. Changes nothing in the repo.
 """
-import hashlib, re, sqlite3, sys, tomllib
+import hashlib, re, shutil, sqlite3, subprocess, sys, tempfile, tomllib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -127,7 +127,7 @@ def transform(raw, take_off, statuses):
     rm0 = raw["room"]
     kinds = {rm0["door"]["product"]: "door_frame", rm0["lintel"]["product"]: "lintel", **{t["product"]: "tile" for t in rm0["tile"]}}
     for i, lang in enumerate(LANGS, 1):
-        r.add("language", code=lang, pos=i)
+        r.add("common_language", code=lang, pos=i)
     # ---------- materials
     m = raw["materials"]
     r.add("materials_setting", id=1, prices_date=m["prices_date"].isoformat(), date_format=m["date_format"], round_approx=m["round_approx"])
@@ -300,8 +300,9 @@ def sql(v):
     return "'" + str(v).replace("'", "''") + "'"
 
 
-def part_of(table):
-    return "common" if table.startswith("language") else table.split("_", 1)[0]
+def part_of(name):
+    """The part a table or view belongs to: the start of its name (common_, materials_, room_, labour_, phases_)."""
+    return name.split("_", 1)[0]
 
 
 def write(r):
@@ -322,7 +323,7 @@ def write(r):
 def parent_of(db, t):
     """A table's parent link (column, parent table, parent column): the other column of a UNIQUE (parent, pos), or
     the link on its first key column. None for a table on its own."""
-    fks = {f[3]: (f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"}
+    fks = {f[3]: (f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"}
     for ix in db.execute(f"PRAGMA index_list({t})"):
         cols = [c[2] for c in db.execute(f"PRAGMA index_info({ix[1]})")]
         if ix[2] and len(cols) == 2 and "pos" in cols:
@@ -332,68 +333,64 @@ def parent_of(db, t):
     return (pk[0], *fks[pk[0]]) if pk and pk[0] in fks else None
 
 
-def order_terms(db, t, alias, n=0):
-    """(joins, order terms) that put table t's rows in their order."""
-    cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
-    pk = [c[1] for c in sorted(db.execute(f"PRAGMA table_info({t})"), key=lambda c: c[5]) if c[5]]
-    joins, order, parent = [], [], parent_of(db, t)
-    if parent:
-        col, ptable, pcol = parent
-        a = f"p{n}"
-        joins.append(f"JOIN {ptable} {a} ON {a}.{pcol} = {alias}.{col}")
-        j, o = order_terms(db, ptable, a, n + 1)
-        joins += j; order += o
-    if "pos" in cols:
-        order.append(f"{alias}.pos")
-    order += [f"{alias}.{c}" for c in pk if c != "lang" and (not parent or c != parent[0])]
-    if "lang" in cols:
-        joins.append(f"JOIN language l{n} ON l{n}.code = {alias}.lang"); order.append(f"l{n}.pos")
-    return joins, order
-
-
-def ordering(db, t):
-    joins, order = order_terms(db, t, t)
-    return f"SELECT {t}.* FROM {t} {' '.join(joins)} ORDER BY {', '.join(order or [t + '.rowid'])}"
+def cli():
+    """SQLite's own command-line tool, pinned in mise.toml (http:sqlite-tools)."""
+    return shutil.which("sqlite3") or sys.exit("ERROR: sqlite3 isn't on the PATH — run this under mise, which pins it (mise.toml)")
 
 
 def dump(db, folder):
-    """Every table, in schema order, one INSERT per line naming its columns. Data only: people read it through
-    the schema's views, which follow the foreign keys to the names."""
+    """Each part's file is SQLite's own dump of it — sqlite3 <db> ".dump <part>_%": its schema and its data, as the
+    standard SQL that rebuilds them. Returns {part: lines}."""
     folder.mkdir(parents=True, exist_ok=True)
-    out = {}
-    for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY rowid").fetchall():
-        cur = db.execute(ordering(db, t))
-        cols = [d[0] for d in cur.description]
-        for row in cur.fetchall():
-            kept = [(c, v) for c, v in zip(cols, row) if v is not None]
-            out.setdefault(part_of(t), []).append(
-                f"INSERT INTO {t} ({', '.join(c for c, _ in kept)}) VALUES ({', '.join(sql(v) for _, v in kept)});")
-    for part, lines in out.items():
-        (folder / f"{part}.data.sql").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return out
+    files = {}
+    with tempfile.TemporaryDirectory() as t:
+        f = Path(t) / "quote.db"
+        out = sqlite3.connect(f); db.backup(out); out.close()
+        for part in PARTS:
+            text = subprocess.run([cli(), str(f), f".dump {part}_%"], capture_output=True, text=True, check=True).stdout
+            (folder / f"{part}.sql").write_text(text, encoding="utf-8")
+            files[part] = text.splitlines()
+    return files
 
 
 LITERAL = r"(?:NULL|-?\d+(?:\.\d+)?(?:e[+-]?\d+)?|'(?:[^']|'')*')"
-INSERT = re.compile(rf"INSERT INTO ([a-z_]+) \(([a-z_]+(?:, [a-z_]+)*)\) VALUES \(({LITERAL}(?:, {LITERAL})*)\);")
+ALLOWED = [re.compile(r"PRAGMA foreign_keys=OFF;"), re.compile(r"BEGIN TRANSACTION;"), re.compile(r"COMMIT;"),
+           re.compile(r"CREATE (TABLE|VIEW) ([a-z_]+)\b.*", re.S),
+           re.compile(rf"INSERT INTO ([a-z_]+) VALUES\(({LITERAL}(?:,{LITERAL})*)\);")]
+
+
+def statements(text):
+    """A file's statements, each with the line it starts on."""
+    out, buf, start = [], [], 1
+    for n, line in enumerate(text.splitlines(), 1):
+        if not buf:
+            start = n
+        buf.append(line)
+        if sqlite3.complete_statement("\n".join(buf)):
+            out.append((start, "\n".join(buf))); buf = []
+    if buf:
+        out.append((start, "\n".join(buf)))
+    return out
 
 
 def load(folder=None):
-    """A fresh database from the schema files and the data files — what every build would do. A data file holds
-    only INSERTs into its own part's tables, one per line; anything else is refused with its file and line."""
+    """A fresh database from the part files — what every build does. A part's file may hold only what sqlite3's .dump
+    of that part writes: its own tables and views, and INSERTs of plain values into its own tables. Anything else is
+    refused with its file and line."""
     folder = folder or DATA
-    db = schema_db()
-    tables = {t for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+    db = sqlite3.connect(":memory:")
     for part in PARTS:
-        f = folder / f"{part}.data.sql"
-        for n, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
-            m = INSERT.fullmatch(line)
-            if not m or m[1] not in tables or part_of(m[1]) != part:
-                raise SystemExit(f"ERROR: {f.name} line {n}: not an INSERT of plain values into one of {part}'s tables: {line[:80]}")
-            try:
-                db.execute(line)
-            except sqlite3.Error as e:
-                raise SystemExit(f"ERROR: {f.name} line {n}: {e}")
-    db.commit()
+        f = folder / f"{part}.sql"
+        text = f.read_text(encoding="utf-8")
+        for n, st in statements(text):
+            m = next((r.fullmatch(st) for r in ALLOWED if r.fullmatch(st)), None)
+            name = m and (m.group(2) if st.startswith("CREATE") else m.group(1) if st.startswith("INSERT") else None)
+            if not m or (name and part_of(name) != part):
+                raise SystemExit(f"ERROR: {f.name} line {n}: not part of {part}'s dump (its own tables, views and plain values): {st[:80]}")
+        try:
+            db.executescript(text)
+        except sqlite3.Error as e:
+            raise SystemExit(f"ERROR: {f.name}: {e}")
     return db
 
 
@@ -405,7 +402,7 @@ def names(db):
     for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name GLOB '*_text'"):
         cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
         col = next((c for c in ("name", "text") if c in cols), None)
-        fk = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"]
+        fk = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]
         if col and fk:
             for k, v in db.execute(f"SELECT {fk[0]}, {col} FROM {t} WHERE lang = 'en'"):
                 out[k] = v[:50]
@@ -432,7 +429,7 @@ def text_tables(db):
 
 
 def file_of(table):
-    return f"{part_of(table)}.data.sql"
+    return f"{part_of(table)}.sql"
 
 
 def one_to_one(db, parent, pcol):
@@ -454,9 +451,9 @@ def problems(db):
         col = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[0] == fk][0]
         val = db.execute(f"SELECT {col} FROM {t} WHERE rowid = ?", (rowid,)).fetchone()[0]
         out.append(f"{file_of(t)}: {t}.{col} = {val}: no such {parent}")
-    for (v,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'view' AND name GLOB 'check_*'"):
-        out += [f"{part_of(v[6:])}.data.sql: {m}" for (m,) in db.execute(f"SELECT * FROM {v}")]
-    langs = {l for (l,) in db.execute("SELECT code FROM language")}
+    for (v,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'view' AND name GLOB '*_check_*'"):
+        out += [f"{part_of(v)}.sql: {m}" for (m,) in db.execute(f"SELECT * FROM {v}")]
+    langs = {l for (l,) in db.execute("SELECT code FROM common_language")}
     for t in text_tables(db):
         cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
         for col in [c for c in cols if c not in ("lang", "code") and c not in [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})")]]:
@@ -467,7 +464,7 @@ def problems(db):
             for code, got in db.execute(f"SELECT code, group_concat(lang) FROM {t} GROUP BY code HAVING count(*) <> {len(langs)}"):
                 out.append(f"{file_of(t)}: {t}: label {code} only in {got}")
             continue
-        fks = [(f[3], f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"]
+        fks = [(f[3], f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]
         if not fks:                                     # a one-row thing's text
             have = {l for (l,) in db.execute(f"SELECT lang FROM {t}")}
             if (have or t.endswith("_text")) and have != langs:
@@ -509,12 +506,12 @@ def problems(db):
         for k, lang, text in db.execute(f"SELECT {owner}, lang, {col} FROM {text_t}"):
             have = {int(g) for g in re.findall(r"\{(\d+)\}", text)}
             if have != refs.get(k, set()):
-                out.append(f"phases.data.sql: {text_t}: {k} ({lang}) has gaps {sorted(have)} but references {sorted(refs.get(k, set()))}")
+                out.append(f"phases.sql: {text_t}: {k} ({lang}) has gaps {sorted(have)} but references {sorted(refs.get(k, set()))}")
         for k in set(refs) - {k for (k,) in db.execute(f"SELECT {owner} FROM {text_t}")}:
-            out.append(f"phases.data.sql: {ref_t}: {k} has references but no text")
+            out.append(f"phases.sql: {ref_t}: {k} has references but no text")
     for (text,) in db.execute("SELECT text FROM phases_step_text UNION ALL SELECT note FROM phases_phase_note"):
         for old in re.findall(r"\{(?:step|phase):[^}]*\}", text):
-            out.append(f"phases.data.sql: a reference written into the text ({old}): it must be a gap with a ref row")
+            out.append(f"phases.sql: a reference written into the text ({old}): it must be a gap with a ref row")
     nm = names(db)
     return [re.sub(r"\b[0-9a-f]{16}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
 
@@ -531,7 +528,7 @@ READS = {   # what each part may read besides its own tables (README rule 6)
 def reading(db, part):
     """Let `part`'s code read the database: SQLite refuses any table outside its own, the language table, and READS
     (rule 5). Returns the database; reading(db, None) lifts the limit."""
-    allowed = None if part is None else READS[part] | {"language", "sqlite_master"}
+    allowed = None if part is None else READS[part] | {"common_language", "sqlite_master"}
     def judge(action, table, column, schema, trigger):
         if action == sqlite3.SQLITE_READ and allowed is not None and table and not (
                 table in allowed or table.startswith(part + "_")):
@@ -570,12 +567,12 @@ def changed_alone(before, after):
     """A text whose Thai changed without its English, or the other way round — comparing two versions of the data
     (in the real check: the files as last committed, and as they are now)."""
     out = []
-    langs = [l for (l,) in after.execute("SELECT code FROM language ORDER BY pos")]
+    langs = [l for (l,) in after.execute("SELECT code FROM common_language ORDER BY pos")]
     nm = names(after)
     for t in [t for t in text_tables(after) if not t.endswith("_plural")]:
         cols = [c[1] for c in after.execute(f"PRAGMA table_info({t})")]
         keys = ["code"] if t.endswith("_label") else \
-               [c for c in cols if c in [f[3] for f in after.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"]]
+               [c for c in cols if c in [f[3] for f in after.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "common_language"]]
         texts = [c for c in cols if c != "lang" and c not in keys]
         read = lambda db: {(tuple(r[:len(keys)]), r[len(keys)]): r[len(keys) + 1:]
                            for r in db.execute(f"SELECT {', '.join(keys + ['lang'] + texts)} FROM {t}")}
@@ -592,13 +589,17 @@ if __name__ == "__main__":
     raw, take_off, statuses = extract()
     rows = transform(raw, take_off, statuses)
     out = write(rows)
-    print("wrote", ", ".join(f"data/{p}.data.sql ({len(l)} lines)" for p, l in out.items()))
+    print("wrote", ", ".join(f"{p}.sql ({len(l)} lines)" for p, l in out.items()), "with", cli(), "(.dump)")
     db = load()
     print("SQLite", sqlite3.sqlite_version, "·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'table'").fetchone()[0], "tables ·",
           sum(db.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'").fetchall()),
-          "rows ·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'view' AND name GLOB 'check_*'").fetchone()[0], "check views")
+          "rows ·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'view' AND name GLOB '*_check_*'").fetchone()[0], "check views")
     found = problems(db) + vocabulary(db, take_off)
     print(len(found), "problems"); [print("  ", p) for p in found]
+    # the schema in the files is the design in schema/
+    design = {r for r in schema_db().execute("SELECT name, sql FROM sqlite_master WHERE sql IS NOT NULL")}
+    loaded = {r for r in db.execute("SELECT name, sql FROM sqlite_master WHERE sql IS NOT NULL")}
+    print("schema in the files = schema/:", "yes" if design == loaded else f"NO — {sorted(n for n, _ in design ^ loaded)[:5]}")
     # the round trip: the loaded database, dumped again, must give the very same files
     again = DATA.parent / "data-again"
     dump(db, again)

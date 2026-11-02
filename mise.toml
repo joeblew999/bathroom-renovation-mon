@@ -5,6 +5,17 @@
 python = "3.13.18"
 uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
 
+# SQLite's own tools from sqlite.org — sqlite3 (dumps and loads the data files), sqldiff (compares two databases).
+# No ready-made download exists for Linux on ARM.
+[tools."http:sqlite-tools"]
+version = "3.54.1"
+bin_path = "."
+
+[tools."http:sqlite-tools".platforms]
+linux-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-linux-x64-3540100.zip" }
+macos-arm64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-arm64-3540100.zip" }
+macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zip" }
+
 [env]
 _.python.venv = { path = ".venv", create = true }
 
