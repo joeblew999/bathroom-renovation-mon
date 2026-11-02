@@ -11,3 +11,5 @@ __pycache__/
 *.db-shm
 # wrangler's local copy of D1
 .wrangler/
+# the web app's packages (web:setup installs them from web/package-lock.json)
+node_modules/

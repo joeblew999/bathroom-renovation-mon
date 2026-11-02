@@ -1,7 +1,13 @@
 # Cloudflare D1: the database the quote's data goes to. `mise run etl:d1` uses wrangler's local copy of it (etl/.wrangler/, never committed);
 # `mise run db:push` and `db:pull` use the real one, once it is made (`wrangler d1 create bathroom-quote`) and its id is here.
 name = "bathroom-quote"
+main = "../web/src/index.ts"                            # the web app (Hono and HTMX 4) on this database
 compatibility_date = "2026-10-01"
+
+[[rules]]                                               # htmx's file goes into the Worker as text, served at /htmx.js
+type = "Text"
+globs = ["**/htmx.min.js"]
+fallthrough = false
 
 [[d1_databases]]
 binding = "DB"

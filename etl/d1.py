@@ -4,14 +4,15 @@
                                           data exactly the seed files: every row deleted and the seed rows put in, as one file
     python d1.py check --local|--remote   run every check view on D1 itself, and compare its data with the seed files
     python d1.py show  --local|--remote "…"  run a query on D1 and print the rows (read the views: room_show_fitting …)
-    python d1.py pull  --local|--remote   export D1 (wrangler d1 export) to .work/d1.sql and .work/d1.db — never committed —
-                                          and show how it differs from the seed files (sqldiff)
+    python d1.py pull  --local|--remote   export D1 (wrangler d1 export), show how it differs from the seed files (sqldiff), and
+                                          take its data into the working database — db:save checks it and writes the seed files
 
-The seed files stay the data: push sends them, pull only shows what D1 holds, for you to bring over by hand if it's right.
+The seed files stay the truth git keeps. Push sends them, and refuses if D1 holds data git has never had (a change made on D1,
+by the web app): pull brings that into the working database first, where save checks it like any other change.
 """
 import json, re, sqlite3, subprocess, sys, tempfile
 from pathlib import Path
-from migrate import DATA, MIGRATIONS, OUT, PARTS, REPO, cli, load, migrated, problems, schema_of
+from migrate import DATA, MIGRATIONS, OUT, PARTS, REPO, cli, dump, load, migrated, problems, schema_of
 
 HERE = Path(__file__).resolve().parent
 CONFIG = HERE / "wrangler.toml"
@@ -55,8 +56,27 @@ def ready():
     return db
 
 
+def known():
+    """Every version of the seed files git has had (and the files as they are): D1 may be overwritten only from one of them."""
+    out = [{p: (DATA / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in PARTS}]
+    rel = DATA.relative_to(REPO).as_posix()
+    log = subprocess.run(["git", "log", "--format=%H", "--", rel], cwd=REPO, capture_output=True, text=True).stdout.split()
+    for commit in log:
+        shown = [subprocess.run(["git", "show", f"{commit}:{rel}/{p}.sql"], cwd=REPO, capture_output=True, text=True) for p in PARTS]
+        if all(r.returncode == 0 for r in shown):
+            out.append({p: r.stdout.splitlines() for p, r in zip(PARTS, shown)})
+    return out
+
+
 def push(where):
     db = ready()
+    if any(r["name"] == "materials_line" for r in query(where, "SELECT name FROM sqlite_master WHERE type = 'table'")):
+        with tempfile.TemporaryDirectory() as t:              # D1 already holds data: is it a version git has had?
+            got, _ = exported(where, Path(t))
+            theirs = dump(sqlite3.connect(got), Path(t) / "theirs")
+        if theirs not in known():
+            sys.exit("ERROR: D1 holds changes git has never had — made on D1 itself (by the web app?) — and a push would wipe "
+                     "them. Bring them here first: db:pull (into the working database), then db:save and commit; then push.")
     wrangler(where, "migrations apply")
     with tempfile.NamedTemporaryFile("w", suffix=".sql", dir=OUT, delete=False, encoding="utf-8") as f:
         f.write("PRAGMA defer_foreign_keys = true;\n")
@@ -102,28 +122,44 @@ def check(where):
     return found
 
 
-def pull(where):
-    WORK.mkdir(exist_ok=True)
-    sql, got = WORK / "d1.sql", WORK / "d1.db"
+def exported(where, t):
+    """D1 exported (wrangler d1 export) into t: (its data alone, in the migrations' schema, as a database file; whether its
+    schema is the migrations')."""
     db = load()
+    sql = t / "d1.sql"
     wrangler(where, "export", "--output", str(sql))
+    whole = t / "export.db"                                 # all D1 holds, wrangler's own table included
+    subprocess.run([cli(), str(whole)], input=sql.read_text(encoding="utf-8"), text=True, check=True)
+    same_schema = [r for r in schema_of(sqlite3.connect(whole)) if not own(r[1])] == schema_of(db)
+    got = t / "d1.db"
+    g = sqlite3.connect(got); migrated().backup(g)
+    g.execute("ATTACH ? AS d1", (str(whole),))
+    for table in reversed(tables(db)):
+        g.execute(f"INSERT INTO {table} SELECT * FROM d1.{table}")
+    g.commit(); g.execute("DETACH d1"); g.close()
+    return got, same_schema
+
+
+def pull(where):
+    """D1's data into the working database, judged against the seed files — never committed until db:save checks it."""
+    from edit import WORKING, take_in
+    WORK.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory() as t:
-        whole = Path(t) / "export.db"                       # all D1 holds, wrangler's own table included
-        subprocess.run([cli(), str(whole)], input=sql.read_text(encoding="utf-8"), text=True, check=True)
-        exported = sqlite3.connect(whole)
-        theirs = [r for r in schema_of(exported) if not own(r[1])]
-        diff = "" if theirs == schema_of(db) else "D1's schema isn't the migrations': it has had a change no migration made\n"
-        got.unlink(missing_ok=True)                         # the data alone, in the migrations' schema
-        g = sqlite3.connect(got); migrated().backup(g)
-        g.execute("ATTACH ? AS d1", (str(whole),))
-        for table in reversed(tables(db)):
-            g.execute(f"INSERT INTO {table} SELECT * FROM d1.{table}")
-        g.commit(); g.execute("DETACH d1"); g.close()
+        got, same_schema = exported(where, Path(t))
         seed = Path(t) / "seed.db"
-        s = sqlite3.connect(seed); db.backup(s); s.close()
-        diff += subprocess.run([str(Path(cli()).parent / "sqldiff"), "--primarykey", str(seed), str(got)], capture_output=True, text=True, check=True).stdout
-    print(f"D1 ({where[2:]}) exported to {sql.relative_to(REPO)} and {got.relative_to(REPO)} (never committed).")
-    print("It holds exactly the seed files." if not diff else f"How it differs from the seed files (sqldiff):\n{diff}")
+        s = sqlite3.connect(seed); load().backup(s); s.close()
+        diff = ("" if same_schema else "D1's schema isn't the migrations': it has had a change no migration made\n") + subprocess.run(
+            [str(Path(cli()).parent / "sqldiff"), "--primarykey", str(seed), str(got)], capture_output=True, text=True, check=True).stdout
+        if not diff:
+            print(f"D1 ({where[2:]}) holds exactly the seed files.")
+            return diff
+        print(f"How D1 ({where[2:]}) differs from the seed files (sqldiff):\n{diff}")
+        if not same_schema:
+            sys.exit("Not taken in: fix D1's schema first (a migration).")
+        err = take_in(sqlite3.connect(got))
+        if err:
+            sys.exit(f"Not taken in: {err}")
+        print(f"Taken into {WORKING.relative_to(REPO)}: `db:diff` shows it, `db:save` checks it and writes the seed files.")
     return diff
 
 

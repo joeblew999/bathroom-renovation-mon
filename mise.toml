@@ -169,3 +169,26 @@ run = [
   "python d1.py push --local", "python d1.py check --local", "python d1.py pull --local",
   "python features.py",  # window functions, a recursive CTE, a generated column, an upsert, a trigger, a view: identical on all three engines
 ]
+
+# ---------- the web app: a Hono Worker with HTMX 4, on the same D1 (web/; the Worker is `main` in etl/wrangler.toml) ----------
+
+[tasks."web:setup"]
+description = "Install the web app's packages, exactly as web/package-lock.json pins them"
+dir = "web"
+run = "npm ci"
+
+[tasks."web:check"]
+description = "Type-check the web app (TypeScript, with Cloudflare's Workers types)"
+dir = "web"
+run = "npx tsc -p ."
+
+[tasks."web:dev"]
+description = "Serve the web app on wrangler's local D1 (after etl:d1): http://127.0.0.1:8787"
+dir = "etl"
+run = "wrangler dev --config wrangler.toml --ip 127.0.0.1 --port 8787"
+
+[tasks."web:test"]
+description = "The web app end to end: wrangler on local D1, Chromium clicking through it, the change pulled back and saved"
+depends = ["web:check"]
+dir = "web"
+run = "python test_web.py"

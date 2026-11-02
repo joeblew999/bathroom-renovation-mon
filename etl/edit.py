@@ -219,6 +219,20 @@ def load_working(folder=DATA, working=WORKING, migrations=None, discard=False):
     return None
 
 
+def take_in(source, folder=DATA, working=WORKING, migrations=None):
+    """Make quote.db hold `source`'s data (D1's, from a pull), judged against the seed files: so `status` shows it as unsaved,
+    `diff` shows what it changes, and `save` checks it like any other change before writing the seed files."""
+    if working.exists() and not same(folder, working):
+        return "quote.db holds unsaved changes: save them first, or `load --discard` to throw them away"
+    working.parent.mkdir(parents=True, exist_ok=True)
+    for path, db in ((working, source), (as_loaded(working), load(folder, migrations))):
+        path.unlink(missing_ok=True)
+        out = sqlite3.connect(path); db.backup(out); out.close()
+    loaded_from(working).write_text(fingerprint(folder))
+    applied(working).write_text("".join(f.name + "\n" for f in sorted((migrations or MIGRATIONS).glob("*.sql"))))
+    return None
+
+
 def save_working(folder=DATA, working=WORKING, alone=False, migrations=None):
     """(problems, one-language changes let through)."""
     if not working.exists():
