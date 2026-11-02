@@ -55,6 +55,32 @@ CREATE VIEW phases_show_step AS
   JOIN phases_step_text st ON st.step = s.id AND st.lang = 'en'
   ORDER BY ph.pos, s.pos;
 
+CREATE VIEW phases_show_text AS
+  -- ---------- for reading, and for printing: each step's text and each phase's note, in each language, as the quote
+  -- prints them — every numbered gap filled with the number of the step ("2.3") or phase ("2") its reference points at.
+  -- A recursive query fills the gaps one at a time, {1}, then {2} … until a text has no reference left
+  WITH RECURSIVE
+  number(id, no) AS (                                        -- phases and steps numbered by their place, as printed
+    SELECT id, CAST(row_number() OVER (ORDER BY pos) AS TEXT) FROM phases_phase
+    UNION ALL
+    SELECT s.id, (SELECT count(*) FROM phases_phase p WHERE p.pos <= ph.pos) || '.' || row_number() OVER (PARTITION BY s.phase ORDER BY s.pos)
+    FROM phases_step s JOIN phases_phase ph ON ph.id = s.phase),
+  ref(owner, n, target) AS (                                 -- every reference, from a step's text or a phase's note
+    SELECT step, n, coalesce(to_step, to_phase) FROM phases_step_ref
+    UNION ALL SELECT phase, n, coalesce(to_step, to_phase) FROM phases_phase_note_ref),
+  fill(kind, owner, sort, lang, text, n) AS (
+    SELECT 'step', s.id, printf('%08d%08d', ph.pos, s.pos), t.lang, t.text, 0
+    FROM phases_step_text t JOIN phases_step s ON s.id = t.step JOIN phases_phase ph ON ph.id = s.phase
+    UNION ALL
+    SELECT 'phase note', ph.id, printf('%08d', ph.pos), t.lang, t.note, 0 FROM phases_phase_note t JOIN phases_phase ph ON ph.id = t.phase
+    UNION ALL
+    SELECT f.kind, f.owner, f.sort, f.lang, replace(f.text, '{' || (f.n + 1) || '}', nb.no), f.n + 1
+    FROM fill f JOIN ref r ON r.owner = f.owner AND r.n = f.n + 1 JOIN number nb ON nb.id = r.target)
+  SELECT f.kind, nb.no AS number, f.lang, f.text
+  FROM fill f JOIN number nb ON nb.id = f.owner
+  WHERE NOT EXISTS (SELECT 1 FROM ref r WHERE r.owner = f.owner AND r.n = f.n + 1)     -- the text with every gap filled
+  ORDER BY f.sort, f.lang;
+
 -- every foreign key has an index (sqlite3 .lint fkey-indexes prints nothing): links stay fast as the data grows
 CREATE INDEX phases_label_lang ON phases_label(lang);
 CREATE INDEX phases_phase_note_lang ON phases_phase_note(lang);

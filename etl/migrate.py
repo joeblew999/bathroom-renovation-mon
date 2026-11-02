@@ -529,6 +529,11 @@ def problems(db):
     for kind, name in db.execute("SELECT type, name FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'"):
         if part_of(name) not in PARTS:                 # the seed files hold the five parts only: anything else would be lost
             out.append(f"{kind} {name} belongs to no part: its name must start with one of {', '.join(p + '_' for p in PARTS)}")
+    for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'").fetchall():
+        for f in db.execute(f"PRAGMA foreign_key_list({t})"):     # the only links between parts are README rule 6's
+            if part_of(f[2]) not in (part_of(t), "common") and (part_of(t), f[2]) not in LINKS:
+                out.append(f"{file_of(t)}: {t}.{f[3]} links to {f[2]}, another part's table — the links between parts are "
+                           f"only {', '.join(f'{a} → {b}' for a, b in sorted(LINKS))} (README rule 6)")
     for name, sql in db.execute("SELECT name, sql FROM sqlite_master WHERE type = 'trigger'"):
         head, body = re.split(r"\bBEGIN\b", sql, maxsplit=1, flags=re.I)
         if re.search(r"\b(INSERT|DELETE)\b", head, re.I):             # a load inserts every row, a push deletes every row:
@@ -631,6 +636,9 @@ def problems(db):
     out += today_checks(db)
     nm = names(db)
     return [re.sub(rf"\b{UUID}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
+
+
+LINKS = {("room", "materials_product"), ("labour", "materials_product"), ("labour", "room_take_off")}   # README rule 6
 
 
 PLACEHOLDERS = {   # what each text may fill in: (table, column) → its placeholders (a product's text: its own sizes and IP)

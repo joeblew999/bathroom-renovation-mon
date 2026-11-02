@@ -39,6 +39,8 @@ BREAKS = [  # (what, SQL, words the refusal must contain)
     ("a key in capitals", f"UPDATE phases_phase SET id = upper(id) WHERE id = {FIRST_PHASE}", "an id is a UUID"),
     ("an empty value outside the texts", "UPDATE materials_shop SET link = ''", "link isn't empty"),
     ("a table that belongs to no part", "CREATE TABLE schedule_task (id TEXT PRIMARY KEY) STRICT", "belongs to no part"),
+    ("a link between parts that README rule 6 doesn't allow", "CREATE TABLE materials_extra (id TEXT PRIMARY KEY, item TEXT REFERENCES room_item(id)) STRICT",
+     "links to room_item, another part's table"),
     ("a trigger on INSERT", "CREATE TRIGGER materials_product_new AFTER INSERT ON materials_product BEGIN "
      "UPDATE materials_product SET price = 0 WHERE id = NEW.id; END", "a trigger fires on UPDATE only"),
     ("a trigger on DELETE", "CREATE TRIGGER materials_product_gone AFTER DELETE ON materials_product BEGIN "

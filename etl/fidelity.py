@@ -163,6 +163,20 @@ tot = 0
 for name, rebuilt in (("phases", P), ("materials", M), ("room", R), ("labour", L)):
     found = diff(raw[name], rebuilt, name); tot += len(found)
     print(f"{name}: {len(found)}"); [print("  ", x) for x in found[:15]]
+# the printed text: phases_show_text (a recursive view filling each gap with its number) against what phases.py prints
+sys.path.insert(0, str(REPO))
+import phases as phases_code
+work = phases_code.load(REPO / "phases.toml")
+printed = {}
+for ph in work.phases:
+    if ph.note_en:
+        printed.update({("phase note", str(ph.number), "th"): ph.note_th, ("phase note", str(ph.number), "en"): ph.note_en})
+    for st in ph.steps:
+        printed.update({("step", st.number, "th"): st.th, ("step", st.number, "en"): st.en})
+viewed = {(k, n, l): t for k, n, l, t in db.execute("SELECT kind, number, lang, text FROM phases_show_text")}
+off = sorted(k for k in set(printed) | set(viewed) if printed.get(k) != viewed.get(k))
+print(f"phases_show_text: {len(viewed)} texts, {len(off)} differ from what phases.py prints", off[:3])
+tot += len(off)
 print("total", tot, "differences between the TOML and the data rebuilt from the SQL files")
 # the other way: nothing in the database that the TOML doesn't account for, except what the design adds on purpose
 DESIGN_ONLY = {"common_language": "the languages, in order",

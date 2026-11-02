@@ -12,7 +12,8 @@ Then the same changes are made on each engine — a price updated (the trigger f
 
   window functions   a running total of the priced products, in list order, and each one's rank by price within its unit
   recursive CTE      the schema's own recursive views: room_show_fitting (each chain of fittings as a tree, with depth)
-                     and common_show_product_reach (what a change to a product reaches, down the chains); and its
+                     and common_show_product_reach (what a change to a product reaches, down the chains), and
+                     phases_show_text (each text with its references filled, as printed); and its
                      recursive check, room_check_fitting_loop, catching a loop of fittings made on each engine — D1 too
   generated column   the products over 0.1 m² by face area; a lookup by area uses the index
   upsert             the label written twice: its last text, once per language
@@ -50,6 +51,8 @@ QUERIES = {
         "SELECT * FROM room_show_fitting",
     "recursive CTE: common_show_product_reach (what a change to a product reaches)":
         "SELECT * FROM common_show_product_reach",
+    "recursive CTE: phases_show_text (each step's text with its references filled, as printed)":
+        "SELECT * FROM phases_show_text",
     "generated column":
         "SELECT id, area_m2 FROM materials_product WHERE area_m2 > 0.1 ORDER BY area_m2 DESC, pos",
     "upsert":
