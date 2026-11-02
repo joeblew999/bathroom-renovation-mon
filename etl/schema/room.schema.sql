@@ -20,7 +20,7 @@ CREATE TABLE room_take_off (
 ) STRICT;
 
 CREATE TABLE room_tile (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   product TEXT NOT NULL UNIQUE REFERENCES materials_product(id),
   tiling_height INTEGER NOT NULL CONSTRAINT "a tiling height is more than 0" CHECK (tiling_height > 0),
@@ -31,7 +31,7 @@ CREATE TABLE room_tile_text (tile TEXT NOT NULL REFERENCES room_tile(id), lang T
 
 -- the room's surfaces: the floor, and the walls in order round the plan
 CREATE TABLE room_surface (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   kind TEXT NOT NULL CONSTRAINT "a surface is a wall or the floor" CHECK (kind IN ('wall', 'floor')),
   ref TEXT NOT NULL UNIQUE,                  -- its letter on the drawings (M, N, W, F)
@@ -51,8 +51,7 @@ CREATE TABLE room_wall_assumed (wall TEXT NOT NULL REFERENCES room_wall(surface)
   key TEXT NOT NULL CONSTRAINT "a wall's assumed key is one of its values" CHECK (key IN ('waterproofing')),
   how TEXT, PRIMARY KEY (wall, key)) STRICT;
 CREATE TABLE room_floor (
-  id INTEGER PRIMARY KEY CONSTRAINT "the floor is one row" CHECK (id = 1),
-  surface TEXT NOT NULL UNIQUE,
+  surface TEXT PRIMARY KEY,
   kind TEXT NOT NULL DEFAULT 'floor' CONSTRAINT "the floor's surface is the floor" CHECK (kind = 'floor'),
   drain TEXT NOT NULL REFERENCES room_item(id),
   fall_wet REAL NOT NULL CONSTRAINT "the wet side's fall is more than 0" CHECK (fall_wet > 0 AND fall_wet < 1e308),
@@ -88,12 +87,13 @@ CREATE TABLE room_lintel_note (lang TEXT PRIMARY KEY REFERENCES language(code), 
 -- an item on a surface. It names a product (taking its name and size from it) or has its own name. Its
 -- shape is the one shape table it has a row in (below), which holds its position and size.
 CREATE TABLE room_item (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
-  pos INTEGER NOT NULL UNIQUE,
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  pos INTEGER NOT NULL,
   surface TEXT NOT NULL REFERENCES room_surface(id),
   product TEXT REFERENCES materials_product(id),
   fitting TEXT,                              -- the fitting this item serves, on the same wall
   UNIQUE (surface, id),
+  UNIQUE (surface, pos),
   FOREIGN KEY (surface, fitting) REFERENCES room_item(surface, id)
 ) STRICT;
 -- w, h and d may be left out when the item's product has them (code: what a shape needs, once sizes are filled in)
@@ -157,7 +157,6 @@ CREATE VIEW check_room_rows AS
     SELECT 'room_room' t, (SELECT count(*) FROM room_room) n UNION ALL
     SELECT 'room_floor', (SELECT count(*) FROM room_floor) UNION ALL
     SELECT 'room_column', (SELECT count(*) FROM room_column) UNION ALL
-    SELECT 'room_column_text', (SELECT count(*) FROM room_column_text) / (SELECT count(*) FROM language) UNION ALL
     SELECT 'room_door', (SELECT count(*) FROM room_door) UNION ALL
     SELECT 'room_lintel', (SELECT count(*) FROM room_lintel)) WHERE n <> 1;
 CREATE VIEW check_room_surfaces AS

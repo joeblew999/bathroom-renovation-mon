@@ -38,16 +38,21 @@ def key(kind, old):
     return hashlib.sha256(f"{kind}:{old}".encode()).hexdigest()[:16]
 
 
+STEP = 10        # positions leave gaps, so inserting a row between two touches only that row
+
+
 class Rows:
-    """Rows per table, in order; pos counted per table."""
+    """Rows per table, in order. pos counts in STEPs within the row's parent (`within`: the parent column),
+    or within the table."""
     def __init__(self):
         self.tables, self._pos = {}, {}
 
-    def add(self, table, pos=False, **row):
+    def add(self, table, pos=False, within=None, **row):
         if pos:
-            self._pos[table] = self._pos.get(table, 0) + 1
-            row = {"id": row.pop("id"), "pos": self._pos[table], **row} if "id" in row else \
-                  {**{k: row.pop(k) for k in list(row) if k == "code"}, "pos": self._pos[table], **row}
+            k = (table, row.get(within))
+            self._pos[k] = self._pos.get(k, 0) + STEP
+            lead = {c: row.pop(c) for c in ("id", "code", "line") if c in row}
+            row = {**lead, "pos": self._pos[k], **row}
         self.tables.setdefault(table, []).append({k: v for k, v in row.items() if v is not None})
 
     def texts(self, table, keys, e, cols, required=True):
@@ -61,9 +66,9 @@ class Rows:
     def note(self, table, keys, e):
         self.texts(table, keys, e, {"note": "note"}, required=False)
 
-    def assumed(self, table, keys, e):
+    def assumed(self, table, keys, e, old=None):
         for k in e.get("assumed", []):
-            self.add(table, **keys, key=k, how=None)      # how: not in the TOML (it's in comments) — to settle
+            self.add(table, **keys, key=k, how=HOW.get((table, old, k)))
 
 
 def labels(r, part, d):
@@ -85,6 +90,18 @@ MATERIALS_LENGTH = "metre"                                                      
 SHAPE_COLUMNS = {"rect": ("x", "y", "w", "h", "d"), "circle": ("x", "y", "w", "d"), "point": ("x", "y"),
                  "zone": ("x", "w", "d", "waterproofing"), "opening": ("x", "y", "w", "h"), "step": ("x", "h", "d", "high")}
 REF = re.compile(r"\{(step|phase):([a-z0-9_]+)\}")
+# Said only in TOML comments, so carried here by hand (materials.toml:881, room.toml:246, labour.toml:50-52, 61-66)
+HOW = {("materials_product_assumed", "heater", "ip"): "an existing heater: its rating isn't known — read it off its label",
+       ("room_item_assumed", "shower_head", "x"): "taken as the top of the shower rail: measure the real head",
+       ("room_item_assumed", "shower_head", "y"): "taken as the top of the shower rail: measure the real head"}
+FACTOR_F_REMARK = ("Its table (ว481), building work, the smallest band (direct cost up to 0.5 million baht): 1.2199 in the "
+                   "column without VAT, 1.3052 with 7% VAT. A small builder usually doesn't charge VAT; if this one does, use 1.3052.")
+BOOK_REMARK = {"cgd_w480": "To get the book again, or a newer edition: url downloads this copy; published is the page that publishes "
+               "it (with the download link); official is a government page for the circular. A new edition comes as a new circular "
+               "titled \"การปรับปรุงบัญชีค่าแรงงาน/ดำเนินการสำหรับถอดแบบคำนวณราคากลางงานก่อสร้าง\" — the edition before this one was "
+               "กค 0433.2/ว 809 of 14/11/2568 (https://www.yotathai.com/passadu/w809). For a new edition: keep its PDF in sources/ "
+               "under its own date, point file, url, published and standard at it, check every rate's item, page and value against it, "
+               "and set checked."}
 
 
 def transform(raw, take_off, statuses):
@@ -119,10 +136,10 @@ def transform(raw, take_off, statuses):
         r.texts("materials_product_text", {"product": pk}, e, {"name": "", "detail": "detail"})
         if "shop" in e:
             r.add("materials_product_shop", product=pk, shop=key("shop", e["shop"]), sku=e["sku"])
-        r.assumed("materials_product_assumed", {"product": pk}, e)
+        r.assumed("materials_product_assumed", {"product": pk}, e, e["id"])
         for ln in e["line"]:
             lk = key("materials_line", f'{e["id"]}/{ln["work_section"]}/{ln["status"]}')
-            r.add("materials_line", pos=True, id=lk, product=pk, work_section=key("materials_work_section", ln["work_section"]),
+            r.add("materials_line", pos=True, within="product", id=lk, product=pk, work_section=key("materials_work_section", ln["work_section"]),
                   status=ln["status"], n=ln["n"])
             r.note("materials_line_note", {"line": lk}, ln)
             r.texts("materials_line_by", {"line": lk}, ln, {"who": "by"}, required=False)
@@ -144,7 +161,7 @@ def transform(raw, take_off, statuses):
         r.add("room_wall", surface=wk, waterproofing=w["waterproofing"], elevation=w["elevation"])
         r.texts("room_wall_text", {"wall": wk}, w, {"name": ""})
         r.assumed("room_wall_assumed", {"wall": wk}, w)
-    r.add("room_floor", id=1, surface=floor, drain=key("item", fl["drain"]), fall_wet=fl["fall_wet"], fall_dry=fl["fall_dry"])
+    r.add("room_floor", surface=floor, drain=key("item", fl["drain"]), fall_wet=fl["fall_wet"], fall_dry=fl["fall_dry"])
     r.assumed("room_floor_assumed", {}, fl)
     c = rm["column"]
     r.add("room_column", id=1, width=c["width"], depth=c["depth"], into_room=c["into_room"], wall=key("surface", c["wall"]))
@@ -156,12 +173,12 @@ def transform(raw, take_off, statuses):
     for surface, items in [(floor, fl.get("item", []))] + [(key("surface", w["id"]), w.get("item", [])) for w in rm["wall"]]:
         for it in items:
             ik = key("item", it["id"])
-            r.add("room_item", pos=True, id=ik, surface=surface, product=key("product", it["product"]) if "product" in it else None,
+            r.add("room_item", pos=True, within="surface", id=ik, surface=surface, product=key("product", it["product"]) if "product" in it else None,
                   fitting=key("item", it["fitting"]) if "fitting" in it else None)
             r.add(f'room_item_{it["shape"]}', item=ik, **{k: it.get(k) for k in SHAPE_COLUMNS[it["shape"]]})
             r.texts("room_item_name", {"item": ik}, it, {"name": ""}, required=False)
             r.note("room_item_note", {"item": ik}, it)
-            r.assumed("room_item_assumed", {"item": ik}, it)
+            r.assumed("room_item_assumed", {"item": ik}, it, it["id"])
     for n in rm["norm"]:
         r.add("room_norm", pos=True, code=n["id"], item=key("item", n["item"]) if "item" in n else None, value=n["value"],
               standard=n["standard"], url=n["url"], checked=n["checked"].isoformat())
@@ -171,12 +188,13 @@ def transform(raw, take_off, statuses):
     r.add("labour_setting", id=1, date_format=lb["date_format"], round_approx=lb["round_approx"])
     section(r, "labour", lb); labels(r, "labour", lb)
     f = lb["factor_f"]
-    r.add("labour_factor_f", id=1, value=f["value"], standard=f["standard"], url=f["url"], checked=f["checked"].isoformat())
+    r.add("labour_factor_f", id=1, value=f["value"], standard=f["standard"], url=f["url"], checked=f["checked"].isoformat(),
+          remark=FACTOR_F_REMARK)
     r.texts("labour_factor_f_text", {}, f, {"name": ""})
     for b in lb["book"]:
         bk = key("book", b["id"])
         r.add("labour_book", pos=True, id=bk, standard=b["standard"], url=b["url"], published=b.get("published"), official=b.get("official"),
-              file=b.get("file"), checked=b["checked"].isoformat(), bare=b.get("bare", False))
+              file=b.get("file"), checked=b["checked"].isoformat(), bare=b.get("bare", False), remark=BOOK_REMARK.get(b["id"]))
         r.texts("labour_book_text", {"book": bk}, b, {"name": "", "item_format": "item"})
     for u in lb["unit"]:
         uk = key("labour_unit", u["id"])
@@ -205,24 +223,25 @@ def transform(raw, take_off, statuses):
         if "count" in x:
             r.add("labour_line_count", line=lk, times=x.get("times"))
             for p in x["count"]:
-                r.add("labour_line_count_product", line=lk, product=key("product", p))
+                r.add("labour_line_count_product", pos=True, within="line", line=lk, product=key("product", p))
         for p in x.get("of_products", []):
-            r.add("labour_line_share_product", line=lk, product=key("product", p))
+            r.add("labour_line_share_product", pos=True, within="line", line=lk, product=key("product", p))
         r.note("labour_line_note", {"line": lk}, x)
         r.assumed("labour_line_assumed", {"line": lk}, x)
     # ---------- phases
     p = raw["phases"]
-    section(r, "phases", p); labels(r, "phases", p)
-    refs = lambda text: REF.sub(lambda mt: "{%s:%s}" % (mt[1], key(mt[1], mt[2])), text)
+    refs = lambda e: {k: REF.sub(lambda mt: "{%s:%s}" % (mt[1], key(mt[1], mt[2])), v) if isinstance(v, str) else v
+                      for k, v in e.items()}                       # every text: names, notes, steps, the section
+    section(r, "phases", {**p, "section": refs(p["section"])}); labels(r, "phases", p)
     for ph in p["phase"]:
-        pk = key("phase", ph["id"])
+        pk, ph = key("phase", ph["id"]), refs(ph)
         r.add("phases_phase", pos=True, id=pk)
         r.texts("phases_phase_text", {"phase": pk}, ph, {"name": ""})
         r.note("phases_phase_note", {"phase": pk}, ph)
-        for s in ph.get("step", []):
-            sk = key("step", s["id"])
-            r.add("phases_step", pos=True, id=sk, phase=pk)
-            r.texts("phases_step_text", {"step": sk}, {**s, "th": refs(s["th"]), "en": refs(s["en"])}, {"text": ""})
+        for st in ph.get("step", []):
+            sk = key("step", st["id"])
+            r.add("phases_step", pos=True, within="phase", id=sk, phase=pk)
+            r.texts("phases_step_text", {"step": sk}, refs(st), {"text": ""})
     return r
 
 
@@ -245,7 +264,7 @@ def sql(v):
 
 
 def part_of(table):
-    return "common" if table == "language" else table.split("_", 1)[0]
+    return "common" if table.startswith("language") else table.split("_", 1)[0]
 
 
 def write(r):
@@ -263,21 +282,41 @@ def write(r):
     return dump(db, DATA)
 
 
-def ordering(db, t):
-    """The order a table is dumped in: by pos; or by its thing's pos (its first link to a table with one), then by
-    language; or by its primary key."""
+def parent_of(db, t):
+    """A table's parent link (column, parent table, parent column): the other column of a UNIQUE (parent, pos), or
+    the link on its first key column. None for a table on its own."""
+    fks = {f[3]: (f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"}
+    for ix in db.execute(f"PRAGMA index_list({t})"):
+        cols = [c[2] for c in db.execute(f"PRAGMA index_info({ix[1]})")]
+        if ix[2] and len(cols) == 2 and "pos" in cols:
+            col = cols[0] if cols[1] == "pos" else cols[1]
+            return (col, *fks[col])
+    pk = [c[1] for c in sorted(db.execute(f"PRAGMA table_info({t})"), key=lambda c: c[5]) if c[5]]
+    return (pk[0], *fks[pk[0]]) if pk and pk[0] in fks else None
+
+
+def order_terms(db, t, alias, n=0):
+    """(joins, order terms) that put table t's rows in their order."""
     cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
+    pk = [c[1] for c in sorted(db.execute(f"PRAGMA table_info({t})"), key=lambda c: c[5]) if c[5]]
+    joins, order, parent = [], [], parent_of(db, t)
+    if parent:
+        col, ptable, pcol = parent
+        a = f"p{n}"
+        joins.append(f"JOIN {ptable} {a} ON {a}.{pcol} = {alias}.{col}")
+        j, o = order_terms(db, ptable, a, n + 1)
+        joins += j; order += o
     if "pos" in cols:
-        return f"SELECT * FROM {t} ORDER BY pos"
-    joins, order = [], []
-    for f in db.execute(f"PRAGMA foreign_key_list({t})"):
-        if f[2] != "language" and "pos" in [c[1] for c in db.execute(f"PRAGMA table_info({f[2]})")] and not joins:
-            joins.append(f"LEFT JOIN {f[2]} p ON p.{f[4]} = {t}.{f[3]}"); order.append("p.pos")
+        order.append(f"{alias}.pos")
+    order += [f"{alias}.{c}" for c in pk if c != "lang" and (not parent or c != parent[0])]
     if "lang" in cols:
-        joins.append(f"LEFT JOIN language l ON l.code = {t}.lang"); order.append("l.pos")
-    pk = sorted([c for c in db.execute(f"PRAGMA table_info({t})") if c[5]], key=lambda c: c[5])
-    order += [f"{t}.{c[1]}" for c in pk] or [f"{t}.rowid"]
-    return f"SELECT {t}.* FROM {t} {' '.join(joins)} ORDER BY {', '.join(order)}"
+        joins.append(f"JOIN language l{n} ON l{n}.code = {alias}.lang"); order.append(f"l{n}.pos")
+    return joins, order
+
+
+def ordering(db, t):
+    joins, order = order_terms(db, t, t)
+    return f"SELECT {t}.* FROM {t} {' '.join(joins)} ORDER BY {', '.join(order or [t + '.rowid'])}"
 
 
 def dump(db, folder):
@@ -297,12 +336,21 @@ def dump(db, folder):
     return out
 
 
-def load():
-    """A fresh database from the schema files and the data files — what every build would do."""
+INSERT = re.compile(r"INSERT INTO ([a-z_]+) \(")
+
+
+def load(folder=None):
+    """A fresh database from the schema files and the data files — what every build would do. A data file holds
+    only INSERTs into its own part's tables, one per line; anything else is refused with its file and line."""
+    folder = folder or DATA
     db = schema_db()
+    tables = {t for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     for part in PARTS:
-        f = DATA / f"{part}.data.sql"
+        f = folder / f"{part}.data.sql"
         for n, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+            m = INSERT.match(line)
+            if not m or m[1] not in tables or part_of(m[1]) != part or not line.endswith(");"):
+                raise SystemExit(f"ERROR: {f.name} line {n}: not an INSERT into one of {part}'s tables: {line[:80]}")
             try:
                 db.execute(line)
             except sqlite3.Error as e:
@@ -313,7 +361,8 @@ def load():
 
 # ============================== checks ==============================
 def names(db):
-    """Every entity key → what a person calls it (its English name, or its product's), for messages."""
+    """Every entity key → a name that tells it from every other (its English name; an item with its number and wall;
+    a line with its place), for messages."""
     out = {}
     for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name GLOB '*_text'"):
         cols = [c[1] for c in db.execute(f"PRAGMA table_info({t})")]
@@ -321,15 +370,25 @@ def names(db):
         fk = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"]
         if col and fk:
             for k, v in db.execute(f"SELECT {fk[0]}, {col} FROM {t} WHERE lang = 'en'"):
-                out[k] = v[:40]
-    for k, v in db.execute("SELECT i.id, coalesce(n.name, p.name) FROM room_item i LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = 'en' "
-                           "LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en'"):
-        out[k] = v
-    for k, v in db.execute("SELECT l.id, t.name FROM labour_line l JOIN labour_rate_text t ON t.rate = l.rate AND t.lang = 'en'"):
-        out[k] = v[:40]
-    for k, v in db.execute("SELECT l.id, t.name FROM materials_line l JOIN materials_product_text t ON t.product = l.product AND t.lang = 'en'"):
-        out[k] = v[:40]
+                out[k] = v[:50]
+    for k, item, n, wall in db.execute(
+            "SELECT i.id, coalesce(nm.name, p.name), (SELECT count(*) FROM room_item j WHERE j.surface = i.surface AND j.pos <= i.pos), "
+            "coalesce(w.name, 'the floor') FROM room_item i LEFT JOIN room_item_name nm ON nm.item = i.id AND nm.lang = 'en' "
+            "LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en' "
+            "LEFT JOIN room_wall_text w ON w.wall = i.surface AND w.lang = 'en'"):
+        out[k] = f"{item} (item {n}, {wall})"
+    for k, n, rate in db.execute("SELECT l.id, (SELECT count(*) FROM labour_line j WHERE j.pos <= l.pos), t.name FROM labour_line l "
+                                 "JOIN labour_rate_text t ON t.rate = l.rate AND t.lang = 'en'"):
+        out[k] = f"labour line {n} ({rate[:40]})"
+    for k, prod, status, ws in db.execute("SELECT l.id, t.name, l.status, w.name FROM materials_line l "
+                                          "JOIN materials_product_text t ON t.product = l.product AND t.lang = 'en' "
+                                          "JOIN materials_work_section_text w ON w.work_section = l.work_section AND w.lang = 'en'"):
+        out[k] = f"{prod[:40]} ({status}, {ws})"
     return out
+
+
+def file_of(table):
+    return f"{part_of(table)}.data.sql"
 
 
 def one_to_one(db, parent, pcol):
@@ -350,9 +409,9 @@ def problems(db):
     for t, rowid, parent, fk in db.execute("PRAGMA foreign_key_check"):
         col = [f[3] for f in db.execute(f"PRAGMA foreign_key_list({t})") if f[0] == fk][0]
         val = db.execute(f"SELECT {col} FROM {t} WHERE rowid = ?", (rowid,)).fetchone()[0]
-        out.append(f"{t}.{col} = {val}: no such {parent}")
+        out.append(f"{file_of(t)}: {t}.{col} = {val}: no such {parent}")
     for (v,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'view' AND name GLOB 'check_*'"):
-        out += [f"{v}: {m}" for (m,) in db.execute(f"SELECT * FROM {v}")]
+        out += [f"{part_of(v[6:])}.data.sql: {m}" for (m,) in db.execute(f"SELECT * FROM {v}")]
     langs = {l for (l,) in db.execute("SELECT code FROM language")}
     for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND (name GLOB '*_text' OR name GLOB '*_note' "
                            "OR name GLOB '*_name' OR name GLOB '*_by' OR name GLOB '*_plural')"):
@@ -360,15 +419,15 @@ def problems(db):
         if not fks:                                     # a one-row thing's text
             have = {l for (l,) in db.execute(f"SELECT lang FROM {t}")}
             if (have or t.endswith("_text")) and have != langs:
-                out.append(f"{t}: in {sorted(have)}, not {sorted(langs)}")
+                out.append(f"{file_of(t)}: {t} in {sorted(have)}, not {sorted(langs)}")
             continue
         col, parent, pcol = fks[0]
         if not t.endswith("_plural"):                   # a plural is only where a language has one
             for k, got in db.execute(f"SELECT {col}, group_concat(lang) FROM {t} GROUP BY {col} HAVING count(*) <> {len(langs)}"):
-                out.append(f"{t}: {k} only in {got}")
+                out.append(f"{file_of(t)}: {t}: {k} only in {got}")
         if t.endswith("_text"):
             for (k,) in db.execute(f"SELECT {pcol} FROM {parent} WHERE {pcol} NOT IN (SELECT {col} FROM {t})"):
-                out.append(f"{t}: {parent} {k} has no text")
+                out.append(f"{file_of(t)}: {t}: {parent} {k} has no text")
     # an assumed value must be there to be assumed
     for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name GLOB '*_assumed'"):
         fks = [(f[3], f[2], f[4]) for f in db.execute(f"PRAGMA foreign_key_list({t})")]
@@ -385,9 +444,60 @@ def problems(db):
                         got = db.execute(f"SELECT {col} FROM {tab} WHERE {kc} = ?", (k,)).fetchone()
                         val = got[0] if got else val
             if val is None:
-                out.append(f"{t}: {k or ''} marks {col} as assumed, but it has no {col}")
+                out.append(f"{file_of(t)}: {t}: {k or ''} marks {col} as assumed, but it has no {col}")
+    for t, col in (("phases_section_text", "name"), ("phases_section_note", "note"), ("phases_phase_text", "name"),
+                   ("phases_phase_note", "note"), ("phases_step_text", "text")):
+        for (text,) in db.execute(f"SELECT {col} FROM {t}"):
+            for kind, k in re.findall(r"\{(step|phase):([^}]*)\}", text):
+                if not db.execute(f"SELECT 1 FROM phases_{kind} WHERE id = ?", (k,)).fetchone():
+                    out.append(f"phases.data.sql: {t}: a reference to {kind} {k}, which doesn't exist")
     nm = names(db)
     return [re.sub(r"\b[0-9a-f]{16}\b", lambda mt: f"'{nm.get(mt[0], mt[0])}'", m) for m in out]
+
+
+def vocabulary(db, take_off):
+    """The codes the code is written against must be exactly the codes in the data (K3): labels and symbols per part,
+    the norms, the take-offs (and what each measures), the statuses (and what each means). In the real parts each part
+    makes its own comparison when it loads."""
+    sys.path.insert(0, str(REPO))
+    import materials, room, labour, phases
+    out = []
+    def same(what, file, code, data):
+        for c in sorted(set(code) - set(data)):
+            out.append(f"{file}: {what} {c} is used by the code but isn't in the data")
+        for c in sorted(set(data) - set(code)):
+            out.append(f"{file}: {what} {c} is in the data but the code doesn't know it")
+    for part, mod in (("materials", materials), ("room", room), ("labour", labour), ("phases", phases)):
+        same("label", f"{part}.data.sql", mod.LABELS, [c for (c,) in db.execute(f"SELECT DISTINCT code FROM {part}_label")])
+        same("symbol", f"{part}.data.sql", mod.SYMBOLS, [c for (c,) in db.execute(f"SELECT code FROM {part}_symbol")])
+    same("norm", "room.data.sql", room.NORMS, [c for (c,) in db.execute("SELECT code FROM room_norm")])
+    measure = {"m2": "area", "metre": "length"}
+    same("take-off", "room.data.sql", [f"{k} ({measure[u]})" for k, (_, u) in take_off.items()],
+         [f"{c} ({m})" for c, m in db.execute("SELECT code, measure FROM room_take_off")])
+    same("status", "materials.data.sql", [f"{k} {(r.to_buy, r.paid, r.on_site, r.by)}" for k, r in materials.STATUS.items()],
+         [f"{c} {(bool(a), bool(b), bool(d), bool(e))}" for c, a, b, d, e in
+          db.execute("SELECT code, to_buy, paid, on_site, by_trade FROM materials_status")])
+    return out
+
+
+def changed_alone(before, after):
+    """A text whose Thai changed without its English, or the other way round — comparing two versions of the data
+    (in the real check: the files as last committed, and as they are now)."""
+    out = []
+    langs = [l for (l,) in after.execute("SELECT code FROM language ORDER BY pos")]
+    for (t,) in after.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND (name GLOB '*_text' OR name GLOB '*_note' "
+                              "OR name GLOB '*_name' OR name GLOB '*_by')"):
+        cols = [c[1] for c in after.execute(f"PRAGMA table_info({t})")]
+        keys = [c for c in cols if c in [f[3] for f in after.execute(f"PRAGMA foreign_key_list({t})") if f[2] != "language"]]
+        texts = [c for c in cols if c != "lang" and c not in keys]
+        read = lambda db: {(tuple(r[:len(keys)]), r[len(keys)]): r[len(keys) + 1:]
+                           for r in db.execute(f"SELECT {', '.join(keys + ['lang'] + texts)} FROM {t}")}
+        old, new = read(before), read(after)
+        for thing in {k for k, _ in new}:
+            changed = [l for l in langs if (thing, l) in old and old[(thing, l)] != new.get((thing, l))]
+            if changed and len(changed) < len(langs):
+                out.append(f"{file_of(t)}: {t} {thing[0] if thing else ''}: its {', '.join(changed)} changed but not the other language")
+    return out
 
 
 if __name__ == "__main__":
@@ -399,7 +509,7 @@ if __name__ == "__main__":
     print("SQLite", sqlite3.sqlite_version, "·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'table'").fetchone()[0], "tables ·",
           sum(db.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'").fetchall()),
           "rows ·", db.execute("SELECT count(*) FROM sqlite_master WHERE type = 'view' AND name GLOB 'check_*'").fetchone()[0], "check views")
-    found = problems(db)
+    found = problems(db) + vocabulary(db, take_off)
     print(len(found), "problems"); [print("  ", p) for p in found]
     # the round trip: the loaded database, dumped again, must give the very same files
     again = DATA.parent / "data-again"

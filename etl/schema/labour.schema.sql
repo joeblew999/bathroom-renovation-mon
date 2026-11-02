@@ -16,17 +16,19 @@ CREATE TABLE labour_factor_f (
   id INTEGER PRIMARY KEY CONSTRAINT "Factor F is one row" CHECK (id = 1),
   value REAL NOT NULL CONSTRAINT "Factor F is 1 or more" CHECK (value >= 1 AND value < 1e308),
   standard TEXT NOT NULL, url TEXT NOT NULL,
-  checked TEXT NOT NULL CONSTRAINT "Factor F's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked)
+  checked TEXT NOT NULL CONSTRAINT "Factor F's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked),
+  remark TEXT                       -- for editors (not printed): the choice made, and when to change it
 ) STRICT;
 CREATE TABLE labour_factor_f_text (lang TEXT PRIMARY KEY REFERENCES language(code), name TEXT NOT NULL) STRICT;
 
 -- a rate book; a kept copy (file) comes with the page that publishes it
 CREATE TABLE labour_book (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   standard TEXT NOT NULL, url TEXT NOT NULL, published TEXT, official TEXT, file TEXT,
   checked TEXT NOT NULL CONSTRAINT "a book's checked is a date, YYYY-MM-DD" CHECK (date(checked) IS checked),
   bare INTEGER NOT NULL CONSTRAINT "bare is 0 or 1" CHECK (bare IN (0, 1)),
+  remark TEXT,                      -- for editors (not printed): how to take in a new edition
   CONSTRAINT "a kept copy comes with the page that publishes it" CHECK (file IS NULL OR published IS NOT NULL)
 ) STRICT;
 -- a book's name, and how a rate names its place in it ({item})
@@ -35,7 +37,7 @@ CREATE TABLE labour_book_text (book TEXT NOT NULL REFERENCES labour_book(id), la
 
 -- a unit a rate is priced by, and what it measures (a code)
 CREATE TABLE labour_unit (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   measure TEXT NOT NULL CONSTRAINT "a labour unit measures an area, a length, a count, a job or a share"
                         CHECK (measure IN ('area', 'length', 'count', 'job', 'share'))
@@ -45,7 +47,7 @@ CREATE TABLE labour_unit_text (unit TEXT NOT NULL REFERENCES labour_unit(id), la
 CREATE TABLE labour_unit_plural (unit TEXT NOT NULL REFERENCES labour_unit(id), lang TEXT NOT NULL REFERENCES language(code),
                                  many TEXT NOT NULL, PRIMARY KEY (unit, lang)) STRICT;
 CREATE TABLE labour_work_section (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE
 ) STRICT;
 CREATE TABLE labour_work_section_text (work_section TEXT NOT NULL REFERENCES labour_work_section(id),
@@ -55,7 +57,7 @@ CREATE TABLE labour_work_section_note (work_section TEXT NOT NULL REFERENCES lab
 
 -- a rate: from a book (its item, or a note in it; the page in a kept copy, or the book's own page) or none
 CREATE TABLE labour_rate (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   unit TEXT NOT NULL REFERENCES labour_unit(id),
   rate REAL NOT NULL CONSTRAINT "a rate is 0 or more" CHECK (rate >= 0 AND rate < 1e308),
@@ -76,7 +78,7 @@ CREATE TABLE labour_rate_assumed (rate TEXT NOT NULL REFERENCES labour_rate(id),
 
 -- a line: a rate in a work section; its quantity comes from exactly one source, in the tables below
 CREATE TABLE labour_line (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   rate TEXT NOT NULL REFERENCES labour_rate(id),
   work_section TEXT NOT NULL REFERENCES labour_work_section(id)
@@ -92,11 +94,11 @@ CREATE TABLE labour_line_n (line TEXT PRIMARY KEY REFERENCES labour_line(id),
 -- … a count of products on the materials list (a link to the list, README rule 6) …
 CREATE TABLE labour_line_count (line TEXT PRIMARY KEY REFERENCES labour_line(id),
   times INTEGER CONSTRAINT "times is more than 0" CHECK (times IS NULL OR times > 0)) STRICT;
-CREATE TABLE labour_line_count_product (line TEXT NOT NULL REFERENCES labour_line_count(line),
-  product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product)) STRICT;
+CREATE TABLE labour_line_count_product (line TEXT NOT NULL REFERENCES labour_line_count(line), pos INTEGER NOT NULL,
+  product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
 -- … or a share of what products on it still cost
-CREATE TABLE labour_line_share_product (line TEXT NOT NULL REFERENCES labour_line(id),
-  product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product)) STRICT;
+CREATE TABLE labour_line_share_product (line TEXT NOT NULL REFERENCES labour_line(id), pos INTEGER NOT NULL,
+  product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
 CREATE TABLE labour_line_note (line TEXT NOT NULL REFERENCES labour_line(id), lang TEXT NOT NULL REFERENCES language(code),
                                note TEXT NOT NULL, PRIMARY KEY (line, lang)) STRICT;
 CREATE TABLE labour_line_assumed (line TEXT NOT NULL REFERENCES labour_line(id),

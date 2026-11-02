@@ -14,7 +14,7 @@ CREATE TABLE materials_symbol (code TEXT PRIMARY KEY, value TEXT NOT NULL) STRIC
 
 -- a unit: what it measures (a code), its name, and its form for more than 1 where a language has one
 CREATE TABLE materials_unit (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   measure TEXT NOT NULL CONSTRAINT "a material is counted or bought by length" CHECK (measure IN ('count', 'length'))
 ) STRICT;
@@ -24,7 +24,7 @@ CREATE TABLE materials_unit_plural (unit TEXT NOT NULL REFERENCES materials_unit
                                     many TEXT NOT NULL, PRIMARY KEY (unit, lang)) STRICT;
 
 CREATE TABLE materials_shop (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   sku_pattern TEXT NOT NULL,        -- what a product code at this shop looks like (a regular expression)
   link TEXT NOT NULL                -- a product's page, with {sku} or {sku_digits}
@@ -33,7 +33,7 @@ CREATE TABLE materials_shop_text (shop TEXT NOT NULL REFERENCES materials_shop(i
                                   name TEXT NOT NULL, PRIMARY KEY (shop, lang)) STRICT;
 
 CREATE TABLE materials_work_section (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE
 ) STRICT;
 CREATE TABLE materials_work_section_text (work_section TEXT NOT NULL REFERENCES materials_work_section(id),
@@ -52,7 +52,7 @@ CREATE TABLE materials_status (
 ) STRICT;
 
 CREATE TABLE materials_product (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   w REAL CONSTRAINT "a product's w is more than 0" CHECK (w IS NULL OR (w > 0 AND w < 1e308)),
   h REAL CONSTRAINT "a product's h is more than 0" CHECK (h IS NULL OR (h > 0 AND h < 1e308)),
@@ -77,13 +77,14 @@ CREATE TABLE materials_product_assumed (product TEXT NOT NULL REFERENCES materia
 
 -- a line on the materials list: a product, in a work section, with a status
 CREATE TABLE materials_line (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
-  pos INTEGER NOT NULL UNIQUE,
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  pos INTEGER NOT NULL,
   product TEXT NOT NULL REFERENCES materials_product(id),
   work_section TEXT NOT NULL REFERENCES materials_work_section(id),
   status TEXT NOT NULL REFERENCES materials_status(code),
   n REAL NOT NULL CONSTRAINT "a line's n is more than 0" CHECK (n > 0 AND n < 1e308),
-  CONSTRAINT "a product has one line per work section and status" UNIQUE (product, work_section, status)
+  CONSTRAINT "a product has one line per work section and status" UNIQUE (product, work_section, status),
+  UNIQUE (product, pos)
 ) STRICT;
 CREATE TABLE materials_line_note (line TEXT NOT NULL REFERENCES materials_line(id), lang TEXT NOT NULL REFERENCES language(code),
                                   note TEXT NOT NULL, PRIMARY KEY (line, lang)) STRICT;

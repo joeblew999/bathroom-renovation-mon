@@ -9,7 +9,7 @@ CREATE TABLE phases_label  (code TEXT NOT NULL, lang TEXT NOT NULL REFERENCES la
 CREATE TABLE phases_symbol (code TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT;
 
 CREATE TABLE phases_phase (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE
 ) STRICT;
 CREATE TABLE phases_phase_text (phase TEXT NOT NULL REFERENCES phases_phase(id), lang TEXT NOT NULL REFERENCES language(code),
@@ -17,9 +17,10 @@ CREATE TABLE phases_phase_text (phase TEXT NOT NULL REFERENCES phases_phase(id),
 CREATE TABLE phases_phase_note (phase TEXT NOT NULL REFERENCES phases_phase(id), lang TEXT NOT NULL REFERENCES language(code),
                                 note TEXT NOT NULL, PRIMARY KEY (phase, lang)) STRICT;
 CREATE TABLE phases_step (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (id GLOB '[0-9a-f]*' AND length(id) = 16),
-  pos INTEGER NOT NULL UNIQUE,
-  phase TEXT NOT NULL REFERENCES phases_phase(id)
+  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
+  pos INTEGER NOT NULL,
+  phase TEXT NOT NULL REFERENCES phases_phase(id),
+  UNIQUE (phase, pos)
 ) STRICT;
 CREATE TABLE phases_step_text (step TEXT NOT NULL REFERENCES phases_step(id), lang TEXT NOT NULL REFERENCES language(code),
                                text TEXT NOT NULL, PRIMARY KEY (step, lang)) STRICT;

@@ -9,8 +9,9 @@
 --     measure, a norm, a take-off, a label. It is readable on purpose, like a column name; changing one is a
 --     change to the design (a migration).
 --   * Order is a position, pos, unique in its table, written by the migration and the dump — never typed.
---   * Text a person reads is never on an entity's row. It is in a translation table with the language in
---     its key: <thing>_text (required in every language), <thing>_note and <thing>_plural (optional: every
+--   * Text in a person's language (Thai, English) is never on an entity's row. It is in a translation table
+--     with the language in its key (text that is the same in every language — a code, a standard's number, a
+--     url, a drawing letter — may sit on the row): <thing>_text (required in every language), <thing>_note and <thing>_plural (optional: every
 --     language, or none). The code checks these conventions for every such table.
 --   * A value still to be measured or read off a label (README rule 10) is a row in <thing>_assumed:
 --     the thing, the column, and how to find the real value.
