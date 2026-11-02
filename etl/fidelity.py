@@ -28,7 +28,9 @@ for ph in p["phase"]:
     reg("phase", ph["id"])
     for s in ph.get("step", []): reg("step", s["id"])
 I = lambda k: inv.get(k, k)
+READ = set()          # every table this comparison reads, to show the database holds nothing it doesn't account for
 def rows(t, where="", *a, order="rowid"):
+    READ.add(t)
     cur = db.execute(f"SELECT * FROM {t} {where} ORDER BY {order}", a); n = [c[0] for c in cur.description]
     return [dict(zip(n, x)) for x in cur.fetchall()]
 def txt(t, kc, k, cols):
@@ -45,13 +47,19 @@ def labs(part):
     l = {}
     for x in rows(f"{part}_label"): l.setdefault(x["code"], {})[x["lang"]] = x["text"]
     return l, {x["code"]: x["value"] for x in rows(f"{part}_symbol")}
-unref = lambda s: re.sub(r"\{(step|phase):([0-9a-f]{16})\}", lambda mt: "{%s:%s}" % (mt[1], I(mt[2])), s)
-un = lambda d: {k: unref(v) if isinstance(v, str) else v for k, v in d.items()}
+def ungap(d, ref_t, owner, k):
+    """Put each numbered gap back as the reference it was in the TOML, from the thing's ref rows."""
+    to = {x["n"]: "{step:%s}" % I(x["to_step"]) if x["to_step"] else "{phase:%s}" % I(x["to_phase"])
+          for x in rows(ref_t, f"WHERE {owner} = ?", k)}
+    return {key_: re.sub(r"\{(\d+)\}", lambda mt: to.get(int(mt[1]), mt[0]), v) if isinstance(v, str) else v for key_, v in d.items()}
+un = lambda d: d
 P = {"section": un({**txt("phases_section_text", None, None, {"name": ""}), **txt("phases_section_note", None, None, {"note": "note"})})}
 P["labels"], P["symbols"] = labs("phases"); P["phase"] = []
 for ph in rows("phases_phase", order="pos"):
-    e = {"id": I(ph["id"]), **un({**txt("phases_phase_text", "phase", ph["id"], {"name": ""}), **txt("phases_phase_note", "phase", ph["id"], {"note": "note"})})}
-    st = [{"id": I(s["id"]), **{k: unref(v) for k, v in txt("phases_step_text", "step", s["id"], {"text": ""}).items()}} for s in rows("phases_step", "WHERE phase = ?", ph["id"], order="pos")]
+    e = {"id": I(ph["id"]), **txt("phases_phase_text", "phase", ph["id"], {"name": ""}),
+         **ungap(txt("phases_phase_note", "phase", ph["id"], {"note": "note"}), "phases_phase_note_ref", "phase", ph["id"])}
+    st = [{"id": I(s["id"]), **ungap(txt("phases_step_text", "step", s["id"], {"text": ""}), "phases_step_ref", "step", s["id"])}
+          for s in rows("phases_step", "WHERE phase = ?", ph["id"], order="pos")]
     if st: e["step"] = st
     P["phase"].append(e)
 M = {}; s = rows("materials_setting")[0]; M.update(prices_date=s["prices_date"], date_format=s["date_format"], round_approx=s["round_approx"])
@@ -157,6 +165,18 @@ for name, rebuilt in (("phases", P), ("materials", M), ("room", R), ("labour", L
     found = diff(raw[name], rebuilt, name); tot += len(found)
     print(f"{name}: {len(found)}"); [print("  ", x) for x in found[:15]]
 print("total", tot, "differences between the TOML and the data rebuilt from the SQL files")
-if tot: sys.exit(1)
+# the other way: nothing in the database that the TOML doesn't account for, except what the design adds on purpose
+DESIGN_ONLY = {"language": "the languages, in order",
+               "materials_status": "the statuses and their flags (materials.STATUS today)",
+               "room_take_off": "the take-offs room.py works out, with their measure",
+               "labour_line_share": "a share line's own row (its products are compared)",
+               "labour_line_count": "a count line's own row, with times (its products are compared)"}
+unread = [t for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY rowid")
+          if t not in READ and db.execute(f"SELECT count(*) FROM {t}").fetchone()[0]]
+extra = [t for t in unread if t not in DESIGN_ONLY]
+for t in unread:
+    print(f"   not from the TOML: {t} ({db.execute(f'SELECT count(*) FROM {t}').fetchone()[0]} rows) — {DESIGN_ONLY.get(t, 'UNACCOUNTED FOR')}")
+tot += len(extra)
 # labels, symbols and assumed keys are looked up by name, so they have no order to keep (compared as sets above)
 print("'how' filled:", db.execute("SELECT count(*) FROM (SELECT how FROM materials_product_assumed UNION ALL SELECT how FROM room_item_assumed UNION ALL SELECT how FROM room_wall_assumed UNION ALL SELECT how FROM room_floor_assumed UNION ALL SELECT how FROM labour_rate_assumed UNION ALL SELECT how FROM labour_line_assumed) WHERE how IS NOT NULL").fetchone()[0])
+if tot: sys.exit(1)

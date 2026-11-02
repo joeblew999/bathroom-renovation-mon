@@ -6,6 +6,7 @@ CREATE TABLE room_room (
   length REAL NOT NULL CONSTRAINT "the room's length is more than 0" CHECK (length > 0 AND length < 1e308),
   width  REAL NOT NULL CONSTRAINT "the room's width is more than 0"  CHECK (width > 0 AND width < 1e308),
   ceiling REAL NOT NULL CONSTRAINT "the ceiling is more than 0" CHECK (ceiling > 0 AND ceiling < 1e308),
+  -- every hole at least this far from a tile joint (or exactly on one); length is along the first wall, width the second
   joint_clearance REAL NOT NULL CONSTRAINT "the joint clearance is more than 0" CHECK (joint_clearance > 0 AND joint_clearance < 1e308)
 ) STRICT;
 CREATE TABLE room_label  (code TEXT NOT NULL, lang TEXT NOT NULL REFERENCES language(code), text TEXT NOT NULL,
@@ -23,8 +24,8 @@ CREATE TABLE room_tile (
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
   product TEXT NOT NULL UNIQUE REFERENCES materials_product(id),
-  tiling_height INTEGER NOT NULL CONSTRAINT "a tiling height is more than 0" CHECK (tiling_height > 0),
-  fill TEXT NOT NULL
+  tiling_height REAL NOT NULL CONSTRAINT "a tiling height is more than 0" CHECK (tiling_height > 0 AND tiling_height < 1e308),  -- tiled up to this on a wall
+  fill TEXT NOT NULL                         -- its colour on the drawings
 ) STRICT;
 CREATE TABLE room_tile_text (tile TEXT NOT NULL REFERENCES room_tile(id), lang TEXT NOT NULL REFERENCES language(code),
                              name TEXT NOT NULL, PRIMARY KEY (tile, lang)) STRICT;
@@ -41,6 +42,8 @@ CREATE TABLE room_surface (
 CREATE TABLE room_wall (
   surface TEXT PRIMARY KEY,
   kind TEXT NOT NULL DEFAULT 'wall' CONSTRAINT "a wall's surface is a wall" CHECK (kind = 'wall'),
+  -- waterproofed up to this height (higher within the shower zone, by the zone's own); elevation: it gets an
+  -- elevation drawing (a wall with items must have one)
   waterproofing REAL NOT NULL CONSTRAINT "a waterproofing height is more than 0" CHECK (waterproofing > 0 AND waterproofing < 1e308),
   elevation INTEGER NOT NULL CONSTRAINT "elevation is 0 or 1" CHECK (elevation IN (0, 1)),
   FOREIGN KEY (surface, kind) REFERENCES room_surface(id, kind)
@@ -49,30 +52,37 @@ CREATE TABLE room_wall_text (wall TEXT NOT NULL REFERENCES room_wall(surface), l
                              name TEXT NOT NULL, PRIMARY KEY (wall, lang)) STRICT;
 CREATE TABLE room_wall_assumed (wall TEXT NOT NULL REFERENCES room_wall(surface),
   key TEXT NOT NULL CONSTRAINT "a wall's assumed key is one of its values" CHECK (key IN ('waterproofing')),
-  how TEXT, PRIMARY KEY (wall, key)) STRICT;
+  how TEXT NOT NULL, PRIMARY KEY (wall, key)) STRICT;
 CREATE TABLE room_floor (
   surface TEXT PRIMARY KEY,
   kind TEXT NOT NULL DEFAULT 'floor' CONSTRAINT "the floor's surface is the floor" CHECK (kind = 'floor'),
-  drain TEXT NOT NULL REFERENCES room_item(id),
+  drain TEXT NOT NULL REFERENCES room_item(id),        -- the floor item the floor falls to
+  -- the wet (low) side of the step falls 1 in fall_wet to the drain; the dry (high) side 1 in fall_dry towards the step
   fall_wet REAL NOT NULL CONSTRAINT "the wet side's fall is more than 0" CHECK (fall_wet > 0 AND fall_wet < 1e308),
   fall_dry REAL NOT NULL CONSTRAINT "the dry side's fall is more than 0" CHECK (fall_dry > 0 AND fall_dry < 1e308),
   FOREIGN KEY (surface, kind) REFERENCES room_surface(id, kind)
 ) STRICT;
-CREATE TABLE room_floor_assumed (key TEXT PRIMARY KEY CONSTRAINT "the floor's assumed key is one of its values"
-                                 CHECK (key IN ('fall_wet', 'fall_dry')), how TEXT) STRICT;
+CREATE TABLE room_floor_assumed (floor TEXT NOT NULL REFERENCES room_floor(surface),
+  key TEXT NOT NULL CONSTRAINT "the floor's assumed key is one of its values" CHECK (key IN ('fall_wet', 'fall_dry')),
+  how TEXT NOT NULL, PRIMARY KEY (floor, key)) STRICT;
 
+-- The existing column, at the x = 0 end of its wall; the rest of its wall is new. width: along its wall; depth:
+-- through the wall; into_room: how far its bathroom face stands proud of the wall's. room.py sets out the door
+-- opening beside it and the lintel over it (README rule 1).
 CREATE TABLE room_column (
   id INTEGER PRIMARY KEY CONSTRAINT "the column is one row" CHECK (id = 1),
   width REAL NOT NULL CONSTRAINT "the column's width is more than 0" CHECK (width > 0 AND width < 1e308),
   depth REAL NOT NULL CONSTRAINT "the column's depth is more than 0" CHECK (depth > 0 AND depth < 1e308),
   into_room REAL NOT NULL CONSTRAINT "into_room is 0 or more" CHECK (into_room >= 0 AND into_room < 1e308),
-  wall TEXT NOT NULL REFERENCES room_wall(surface)
+  wall TEXT NOT NULL REFERENCES room_wall(surface),
+  remark TEXT                                -- for editors (English, not printed): where its figures came from
 ) STRICT;
 CREATE TABLE room_column_text (lang TEXT PRIMARY KEY REFERENCES language(code), name TEXT NOT NULL) STRICT;
 CREATE TABLE room_column_note (lang TEXT PRIMARY KEY REFERENCES language(code), note TEXT NOT NULL) STRICT;
 CREATE TABLE room_door (
   id INTEGER PRIMARY KEY CONSTRAINT "the door is one row" CHECK (id = 1),
   product TEXT NOT NULL REFERENCES materials_product(id),
+  -- hinge: the end of the opening the leaf is hinged at (start: the column side); swing: in, into the room, or out
   hinge TEXT NOT NULL CONSTRAINT "the door is hinged at the start or the end" CHECK (hinge IN ('start', 'end')),
   swing TEXT NOT NULL CONSTRAINT "the door opens in or out" CHECK (swing IN ('in', 'out'))
 ) STRICT;
@@ -80,12 +90,18 @@ CREATE TABLE room_door_note (lang TEXT PRIMARY KEY REFERENCES language(code), no
 CREATE TABLE room_lintel (
   id INTEGER PRIMARY KEY CONSTRAINT "the lintel is one row" CHECK (id = 1),
   product TEXT NOT NULL REFERENCES materials_product(id),
+  -- bearing: onto the wall; the column end sits in a shallow pocket
   bearing REAL NOT NULL CONSTRAINT "the lintel's bearing is more than 0" CHECK (bearing > 0 AND bearing < 1e308)
 ) STRICT;
 CREATE TABLE room_lintel_note (lang TEXT PRIMARY KEY REFERENCES language(code), note TEXT NOT NULL) STRICT;
 
--- an item on a surface. It names a product (taking its name and size from it) or has its own name. Its
--- shape is the one shape table it has a row in (below), which holds its position and size.
+-- An item on a surface. It names a product (taking its name and size from it) or has its own name. Its shape is
+-- the one shape table it has a row in (below), which holds its position and size: x, y its centre — on a wall, x
+-- from the corner on your right facing the wall from inside, y above the lower finished floor; on the floor, x from
+-- the second wall, y from the first — w, h, d width, height, depth out from the wall. A wall's shapes: rect, circle
+-- (a fitting), point (a services point or fixing), zone (the wet zone), opening; the floor's: rect, step (a level
+-- change, high: which end is higher). fitting: for a services point or fixing, the fitting it serves (it must sit
+-- within it). A note says why or how — never where: it doesn't repeat what the drawing shows.
 CREATE TABLE room_item (
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL,
@@ -133,7 +149,7 @@ CREATE TABLE room_item_note (item TEXT NOT NULL REFERENCES room_item(id), lang T
                              note TEXT NOT NULL, PRIMARY KEY (item, lang)) STRICT;
 CREATE TABLE room_item_assumed (item TEXT NOT NULL REFERENCES room_item(id),
   key TEXT NOT NULL CONSTRAINT "an item's assumed key is one of its values" CHECK (key IN ('x', 'y', 'w', 'h', 'd', 'waterproofing')),
-  how TEXT, PRIMARY KEY (item, key)) STRICT;
+  how TEXT NOT NULL, PRIMARY KEY (item, key)) STRICT;
 
 -- a norm (a code each) a design check holds the room to, with its source (README rule 10)
 CREATE TABLE room_norm (
@@ -160,8 +176,9 @@ CREATE VIEW check_room_rows AS
     SELECT 'room_door', (SELECT count(*) FROM room_door) UNION ALL
     SELECT 'room_lintel', (SELECT count(*) FROM room_lintel)) WHERE n <> 1;
 CREATE VIEW check_room_surfaces AS
-  SELECT 'there are ' || count(*) || ' ' || kind || ' surfaces, not ' || CASE kind WHEN 'wall' THEN 4 ELSE 1 END
-  FROM room_surface GROUP BY kind HAVING count(*) <> CASE kind WHEN 'wall' THEN 4 ELSE 1 END
+  SELECT 'there are ' || n || ' ' || kind || ' surfaces, not ' || want FROM (
+    SELECT 'wall' AS kind, 4 AS want, (SELECT count(*) FROM room_surface WHERE kind = 'wall') AS n UNION ALL
+    SELECT 'floor', 1, (SELECT count(*) FROM room_surface WHERE kind = 'floor')) WHERE n <> want
   UNION ALL SELECT 'a wall surface has no wall row, or the floor no floor row' FROM room_surface s
   WHERE (s.kind = 'wall' AND s.id NOT IN (SELECT surface FROM room_wall)) OR (s.kind = 'floor' AND s.id NOT IN (SELECT surface FROM room_floor));
 CREATE VIEW check_room_tiles AS SELECT 'there is no tile' FROM (SELECT count(*) n FROM room_tile) WHERE n = 0;
@@ -191,6 +208,14 @@ CREATE VIEW check_room_item_fitting_on_wall AS
   FROM room_item i JOIN room_surface s ON s.id = i.surface WHERE i.fitting IS NOT NULL AND s.kind <> 'wall';
 CREATE VIEW check_room_drain_on_floor AS
   SELECT 'the drain ' || f.drain || ' is not on the floor' FROM room_floor f JOIN room_item i ON i.id = f.drain WHERE i.surface IS NOT f.surface;
+-- the room needs a particular kind of product in each slot (a link to the materials list, README rule 6)
+CREATE VIEW check_room_product_kinds AS
+  SELECT 'the door names a product that isn''t a door frame' FROM room_door d JOIN materials_product p ON p.id = d.product
+  WHERE p.kind IS NOT 'door_frame'
+  UNION ALL SELECT 'the lintel names a product that isn''t a lintel' FROM room_lintel l JOIN materials_product p ON p.id = l.product
+  WHERE p.kind IS NOT 'lintel'
+  UNION ALL SELECT 'tile ' || t.id || ' names a product that isn''t a tile' FROM room_tile t JOIN materials_product p ON p.id = t.product
+  WHERE p.kind IS NOT 'tile';
 CREATE VIEW check_room_items_drawn AS
   SELECT 'wall ' || w.surface || ' has items but no elevation' FROM room_wall w
   WHERE NOT w.elevation AND w.surface IN (SELECT surface FROM room_item);

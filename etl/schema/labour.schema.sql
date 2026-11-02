@@ -74,7 +74,7 @@ CREATE TABLE labour_rate_text (rate TEXT NOT NULL REFERENCES labour_rate(id), la
                                name TEXT NOT NULL, PRIMARY KEY (rate, lang)) STRICT;
 CREATE TABLE labour_rate_assumed (rate TEXT NOT NULL REFERENCES labour_rate(id),
   key TEXT NOT NULL CONSTRAINT "a rate's assumed key is one of its values" CHECK (key IN ('rate')),
-  how TEXT, PRIMARY KEY (rate, key)) STRICT;
+  how TEXT NOT NULL, PRIMARY KEY (rate, key)) STRICT;
 
 -- a line: a rate in a work section; its quantity comes from exactly one source, in the tables below
 CREATE TABLE labour_line (
@@ -97,17 +97,18 @@ CREATE TABLE labour_line_count (line TEXT PRIMARY KEY REFERENCES labour_line(id)
 CREATE TABLE labour_line_count_product (line TEXT NOT NULL REFERENCES labour_line_count(line), pos INTEGER NOT NULL,
   product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
 -- … or a share of what products on it still cost
-CREATE TABLE labour_line_share_product (line TEXT NOT NULL REFERENCES labour_line(id), pos INTEGER NOT NULL,
+CREATE TABLE labour_line_share (line TEXT PRIMARY KEY REFERENCES labour_line(id)) STRICT;
+CREATE TABLE labour_line_share_product (line TEXT NOT NULL REFERENCES labour_line_share(line), pos INTEGER NOT NULL,
   product TEXT NOT NULL REFERENCES materials_product(id), PRIMARY KEY (line, product), UNIQUE (line, pos)) STRICT;
 CREATE TABLE labour_line_note (line TEXT NOT NULL REFERENCES labour_line(id), lang TEXT NOT NULL REFERENCES language(code),
                                note TEXT NOT NULL, PRIMARY KEY (line, lang)) STRICT;
 CREATE TABLE labour_line_assumed (line TEXT NOT NULL REFERENCES labour_line(id),
   key TEXT NOT NULL CONSTRAINT "a line's assumed key is one of its values" CHECK (key IN ('n', 'take_off')),
-  how TEXT, PRIMARY KEY (line, key)) STRICT;
+  how TEXT NOT NULL, PRIMARY KEY (line, key)) STRICT;
 
 CREATE VIEW labour_line_source AS    -- each line's source, from the table it is in
   SELECT line, 'take_off' AS source FROM labour_line_take_off UNION ALL SELECT line, 'n' FROM labour_line_n UNION ALL
-  SELECT line, 'count' FROM labour_line_count UNION ALL SELECT DISTINCT line, 'share' FROM labour_line_share_product;
+  SELECT line, 'count' FROM labour_line_count UNION ALL SELECT line, 'share' FROM labour_line_share;
 
 CREATE VIEW check_labour_rows AS
   SELECT t || ' has ' || n || ' rows, not 1' FROM (
@@ -123,7 +124,11 @@ CREATE VIEW check_labour_line_one_source AS
   SELECT 'line ' || l.id || ' takes its quantity from ' || count(s.line) || ' sources, not 1'
   FROM labour_line l LEFT JOIN labour_line_source s ON s.line = l.id GROUP BY l.id HAVING count(s.line) <> 1;
 CREATE VIEW check_labour_count_has_products AS
-  SELECT 'line ' || line || ' counts no products' FROM labour_line_count WHERE line NOT IN (SELECT line FROM labour_line_count_product);
+  SELECT 'line ' || line || ' counts no products' FROM labour_line_count WHERE line NOT IN (SELECT line FROM labour_line_count_product)
+  UNION ALL SELECT 'line ' || line || ' is a share of no products' FROM labour_line_share WHERE line NOT IN (SELECT line FROM labour_line_share_product)
+  UNION ALL SELECT 'line ' || c.line || ' counts products bought by length and by count together'
+  FROM labour_line_count_product c JOIN materials_product p ON p.id = c.product JOIN materials_unit u ON u.id = p.unit
+  GROUP BY c.line HAVING min(u.measure) <> max(u.measure);
 CREATE VIEW check_labour_rate_without_book AS
   SELECT 'rate ' || id || ' has no book, so its rate must be marked assumed' FROM labour_rate
   WHERE book IS NULL AND id NOT IN (SELECT rate FROM labour_rate_assumed WHERE key = 'rate');
@@ -139,7 +144,7 @@ CREATE VIEW check_labour_line_measure AS
     SELECT t.line, k.measure FROM labour_line_take_off t JOIN room_take_off k ON k.code = t.take_off
     UNION ALL SELECT c.line, CASE WHEN min(mu.measure) = 'length' AND max(mu.measure) = 'length' THEN 'length' ELSE 'count' END
       FROM labour_line_count_product c JOIN materials_product p ON p.id = c.product JOIN materials_unit mu ON mu.id = p.unit GROUP BY c.line
-    UNION ALL SELECT DISTINCT line, 'share' FROM labour_line_share_product) need ON need.line = l.id
+    UNION ALL SELECT line, 'share' FROM labour_line_share) need ON need.line = l.id
   WHERE u.measure IS NOT need.measure
   -- a plain number (n) can be of any unit but a share
   UNION ALL SELECT 'line ' || n.line || ' gives a number, so its rate can''t be a share'

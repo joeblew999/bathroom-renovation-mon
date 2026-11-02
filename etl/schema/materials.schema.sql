@@ -51,6 +51,8 @@ CREATE TABLE materials_status (
   by_trade INTEGER NOT NULL CONSTRAINT "by_trade is 0 or 1" CHECK (by_trade IN (0, 1))
 ) STRICT;
 
+-- A product's kind (a code), where the room needs a particular kind in a particular place: the door is a door
+-- frame, the lintel a lintel, a tile a tile. Other products have none.
 CREATE TABLE materials_product (
   id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(8)))) CONSTRAINT "an id is 16 hex digits" CHECK (length(id) = 16 AND id NOT GLOB '*[^0-9a-f]*'),
   pos INTEGER NOT NULL UNIQUE,
@@ -60,11 +62,22 @@ CREATE TABLE materials_product (
   per_box INTEGER CONSTRAINT "per_box is more than 0" CHECK (per_box IS NULL OR per_box > 0),
   electrical INTEGER NOT NULL CONSTRAINT "electrical is 0 or 1" CHECK (electrical IN (0, 1)),
   ip TEXT CONSTRAINT "only an electrical product has an IP rating" CHECK (ip IS NULL OR electrical = 1),
+  kind TEXT CONSTRAINT "a product's kind is door_frame, lintel or tile" CHECK (kind IS NULL OR kind IN ('door_frame', 'lintel', 'tile')),
   unit TEXT NOT NULL REFERENCES materials_unit(id),
   price REAL CONSTRAINT "a price is 0 or more" CHECK (price IS NULL OR (price >= 0 AND price < 1e308)),
   approx INTEGER NOT NULL CONSTRAINT "approx is 0 or 1, and 1 only with a price" CHECK (approx IN (0, 1) AND (approx = 0 OR price IS NOT NULL))
 ) STRICT;
--- its name and detail; the detail shows its size with {w}, {w_cm} …
+-- Its name and detail, written to one pattern:
+--   name: the kind and the brand — Thai kind first ("ประตู AZLE"), English brand first ("AZLE door"); no brand → the
+--     kind alone. No shop codes.
+--   detail: the rest, in the same order in both: model, material, size, pack, colour, finish, then what it comes
+--     with or can do — Thai separated by spaces, English by commas. A product with a size shows it. Sizes w × h × d,
+--     with spaced ×; inches as " (Thai นิ้ว); a pack as "pack of 3" (Thai แพ็ก 3 …); a length in Thai as ยาว ….
+--     What it is for goes in a line's note, not here. The list shows "name detail" / "name, detail". Either shows
+--     the size with {w} {h} {d} in mm, {w_cm} … in cm or {w_m} … in m — never a dimension typed twice — and an
+--     electrical product its rating with {ip}.
+-- Sizes (w wide, h high, d deep; a tile is w × h) are in mm. A single figure that isn't a dimension — a weight, a
+-- volume, a stock length, an inch trade size — stays in the detail ("50 kg", "4 m", "½\"").
 CREATE TABLE materials_product_text (product TEXT NOT NULL REFERENCES materials_product(id), lang TEXT NOT NULL REFERENCES language(code),
                                      name TEXT NOT NULL, detail TEXT NOT NULL, PRIMARY KEY (product, lang)) STRICT;
 -- where it is bought: a shop and its code there come together, as one row
@@ -72,7 +85,7 @@ CREATE TABLE materials_product_shop (product TEXT PRIMARY KEY REFERENCES materia
                                      shop TEXT NOT NULL REFERENCES materials_shop(id), sku TEXT NOT NULL) STRICT;
 CREATE TABLE materials_product_assumed (product TEXT NOT NULL REFERENCES materials_product(id),
   key TEXT NOT NULL CONSTRAINT "a product's assumed key is one of its values" CHECK (key IN ('w', 'h', 'd', 'per_box', 'ip', 'price')),
-  how TEXT,                         -- how to find the real value (for whoever measures it; not printed)
+  how TEXT NOT NULL,                -- how to find the real value (for whoever measures it; English; not printed)
   PRIMARY KEY (product, key)) STRICT;
 
 -- a line on the materials list: a product, in a work section, with a status
