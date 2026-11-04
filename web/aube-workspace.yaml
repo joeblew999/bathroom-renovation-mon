@@ -1,0 +1,9 @@
+# aube's settings for the web app (mise.toml pins aube; mise run web:setup installs with it).
+#
+# Dependency build scripts run only when allowed here or by aube's built-in trusted list; this makes an unreviewed one
+# fail the install, and so CI, rather than be skipped: review it with `aube ignored-builds`, then `aube approve-builds`
+# (or deny it with false here).
+strictDepBuilds: true
+# Packages are real files in node_modules/.aube/, never links into aube's shared cache (~/.cache/aube): every clone has
+# its own, and nothing outside the repo is read.
+enableGlobalVirtualStore: false

@@ -6,11 +6,15 @@
 
 [settings]
 idiomatic_version_file_enable_tools = ["go"]   # go.mod's toolchain line is the Go pin (Go runs only the structure check)
+npm.package_manager = "aube"                   # npm: tools (wrangler, cf) are installed with aube, the package manager web/ uses too
 
 [tools]
 python = "3.13.18"
 uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
-node = "26.13.0"           # runs wrangler (the LTS release)
+node = "26.13.0"           # the one JavaScript runtime (wrangler, cf, the web app's TypeScript); aube installs the packages
+# aube installs web/'s npm packages (package.json, aube-lock.yaml, build approvals in aube-workspace.yaml) and mise's npm:
+# tools. Pinned through mise's aqua backend: its default backend fails to install 2.9.0 (a 404 fetching aube's skill file)
+"aqua:aubepkg/aube" = "2.9.0"
 "npm:wrangler" = "4.156.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
 "npm:cf" = "1.0.0-beta.27" # Cloudflare's CLI: logs in by device code (per project) and provisions the account — the D1
                            # database with read replication. A beta, so pinned exactly
@@ -183,14 +187,14 @@ run = 'python d1.py show --local "{{usage.sql}}"'
 # ---------- the web app: a Hono Worker with HTMX 4, on the same D1 (web/; the Worker is `main` in etl/wrangler.toml) ----------
 
 [tasks."web:setup"]
-description = "Install the web app's packages, exactly as web/package-lock.json pins them"
+description = "Install the web app's packages with aube, exactly as web/aube-lock.yaml pins them: it fails if the lockfile and package.json disagree, and on any dependency build script not reviewed (web/aube-workspace.yaml)"
 dir = "web"
-run = 'npm ci'
+run = 'aube install --frozen-lockfile'
 
 [tasks."web:check"]
 description = "Type-check the web app (TypeScript, with Cloudflare's Workers types)"
 dir = "web"
-run = 'npx tsc -p .'
+run = 'aube exec tsc -p .'
 
 [tasks."web:dev"]
 description = "Serve the web app on wrangler's local D1 (after etl:d1): http://127.0.0.1:8787"
