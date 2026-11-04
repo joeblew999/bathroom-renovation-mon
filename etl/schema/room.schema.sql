@@ -257,25 +257,33 @@ CREATE VIEW room_check_fitting_loop AS
   SELECT 'item ' || start || ' serves a chain of fittings that comes back to it' FROM up WHERE at = start;
 
 CREATE VIEW room_show_fitting AS
-  -- ---------- for reading: each chain of fittings as a tree, flat, in order — the fitting first, then what serves it, each
-  -- with its depth (0 for the fitting) and the chain from the fitting down. A recursive query, read like a thread
-  WITH RECURSIVE tree(item, root, depth, chain, sort) AS (
-    SELECT i.id, i.id, 0, coalesce(n.name, p.name), printf('%08d', s.pos) || printf('%08d', i.pos)
+  -- ---------- for reading, and for the web app: each chain of fittings as a tree, flat, in order — the fitting first, then
+  -- what serves it, each with its depth (0 for the fitting) and the chain from the fitting down — in each language. A
+  -- recursive query, read like a thread (the web app indents by depth)
+  WITH RECURSIVE tree(item, depth, sort) AS (
+    SELECT i.id, 0, printf('%08d', s.pos) || printf('%08d', i.pos)
     FROM room_item i JOIN room_surface s ON s.id = i.surface
-    LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = 'en'
-    LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en'
     WHERE i.fitting IS NULL AND i.id IN (SELECT fitting FROM room_item)
     UNION ALL
-    SELECT i.id, t.root, t.depth + 1, t.chain || ' › ' || coalesce(n.name, p.name), t.sort || '.' || printf('%08d', i.pos)
-    FROM tree t JOIN room_item i ON i.fitting = t.item
-    LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = 'en'
-    LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en')
-  SELECT coalesce(wt.name, 'floor') AS surface, t.depth, coalesce(n.name, p.name) AS item, t.chain
-  FROM tree t JOIN room_item i ON i.id = t.item JOIN room_surface s ON s.id = i.surface
-  LEFT JOIN room_wall_text wt ON wt.wall = s.id AND wt.lang = 'en'
-  LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = 'en'
-  LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = 'en'
-  ORDER BY t.sort;
+    SELECT i.id, t.depth + 1, t.sort || '.' || printf('%08d', i.pos)
+    FROM tree t JOIN room_item i ON i.fitting = t.item),
+  named(item, lang, name) AS (                               -- an item's name in a language: its own, or its product's
+    SELECT i.id, l.code, coalesce(n.name, p.name)
+    FROM room_item i CROSS JOIN common_language l
+    LEFT JOIN room_item_name n ON n.item = i.id AND n.lang = l.code
+    LEFT JOIN materials_product_text p ON p.product = i.product AND p.lang = l.code),
+  chain(item, lang, text) AS (                               -- the chain from the fitting down to the item
+    SELECT t.item, nm.lang, nm.name FROM tree t JOIN named nm ON nm.item = t.item WHERE t.depth = 0
+    UNION ALL
+    SELECT i.id, c.lang, c.text || ' › ' || nm.name
+    FROM chain c JOIN room_item i ON i.fitting = c.item JOIN named nm ON nm.item = i.id AND nm.lang = c.lang)
+  SELECT nm.lang, coalesce(wt.name, fl.text) AS surface, t.depth, nm.name AS item, c.text AS chain
+  FROM tree t JOIN room_item i ON i.id = t.item
+  JOIN named nm ON nm.item = t.item JOIN chain c ON c.item = t.item AND c.lang = nm.lang
+  JOIN common_language l ON l.code = nm.lang
+  LEFT JOIN room_wall_text wt ON wt.wall = i.surface AND wt.lang = nm.lang
+  LEFT JOIN room_label fl ON fl.code = 'floor' AND fl.lang = nm.lang
+  ORDER BY t.sort, l.pos;
 
 -- every foreign key has an index (sqlite3 .lint fkey-indexes prints nothing): links stay fast as the data grows
 CREATE INDEX room_column_wall ON room_column(wall);

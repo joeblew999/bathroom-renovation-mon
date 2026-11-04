@@ -6,6 +6,8 @@ python = "3.13.18"
 uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
 node = "26.13.0"           # runs wrangler (the LTS release)
 "npm:wrangler" = "4.156.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
+"npm:cf" = "1.0.0-beta.27" # Cloudflare's CLI: logs in by device code (per project) and provisions the account — the D1
+                           # database with read replication. A beta, so pinned exactly
 
 # SQLite's own tools from sqlite.org — sqlite3 (dumps and loads the data files), sqldiff (compares two databases).
 # No ready-made download exists for Linux on ARM.
@@ -168,6 +170,7 @@ run = [
   "rm -rf .wrangler",  # a fresh local D1: the trial rewrites 0001_initial.sql on every run, and an applied migration never changes
   "python d1.py push --local", "python d1.py check --local", "python d1.py pull --local",
   "python features.py",  # window functions, a recursive CTE, a generated column, an upsert, a trigger, a view: identical on all three engines
+  "rm -rf .wrangler", "python d1.py push --local",  # features.py changes the local D1 on purpose: leave it holding exactly the seed files
 ]
 
 # ---------- the web app: a Hono Worker with HTMX 4, on the same D1 (web/; the Worker is `main` in etl/wrangler.toml) ----------
@@ -192,3 +195,32 @@ description = "The web app end to end: wrangler on local D1, Chromium clicking t
 depends = ["web:check"]
 dir = "web"
 run = "python test_web.py"
+
+[tasks."web:deploy"]
+description = "Put the web app on Cloudflare, on the real D1 (after cf:provision and db:push)"
+dir = "etl"
+run = [
+  "grep -q '00000000-0000-0000-0000-000000000000' wrangler.toml && echo 'ERROR: there is no D1 database yet: mise run cf:provision first' && exit 1 || true",
+  "wrangler deploy --config wrangler.toml",
+]
+
+# ---------- Cloudflare: logins and provisioning, from here, for any developer (nothing kept in the repo) ----------
+
+[tasks."cf:login"]
+description = "Log in to Cloudflare by device code — cf (bound to this repo) and wrangler: each prints a URL to approve, from any device"
+dir = "etl"
+run = [
+  "cf auth create bathroom-quote --no-browser",  # the cf login, a profile for this project
+  "cf auth activate bathroom-quote ..",          # bound to this repo: cf uses it here and in every folder below
+  "wrangler login --device --browser=false",     # wrangler's own login, for D1's data and deploying
+]
+
+[tasks."cf:whoami"]
+description = "Show who cf and wrangler are logged in to Cloudflare as"
+dir = "etl"
+run = ["cf auth whoami", "wrangler whoami"]
+
+[tasks."cf:provision"]
+description = "Make sure the D1 database exists with read replication on, and write its id into etl/wrangler.toml (--dry-run: show the requests only)"
+dir = "etl"
+run = "python cloudflare.py provision"

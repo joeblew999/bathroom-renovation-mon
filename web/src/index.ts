@@ -1,10 +1,17 @@
 // The quote's web app: a Hono Worker on Cloudflare D1, with HTMX 4 in the page.
 //
-// The example, off the real data: the materials list still to buy (each product in Thai and English, its quantity, its
-// price, and the running total still to buy, worked out by D1 with a window function), with a button on each line to mark
-// it on site. Pressing it writes to D1 and returns the fresh list.
+// Three pages off the real data, switched in place by HTMX 4 (a morph swap, so nothing jumps):
+//   - the materials list still to buy (each product in Thai and English, its quantity, its price, and the running total
+//     still to buy, worked out by D1 with a window function), with a button on each line to mark it on site: pressing it
+//     writes to D1 and returns the fresh list;
+//   - the schedule of fittings: each chain of fittings as a tree, indented by its depth (room_show_fitting, a recursive
+//     query run by D1);
+//   - the scope of works: each phase and its steps, the references in their text filled with the numbers they point at
+//     (phases_show_text, a recursive query run by D1).
+// Like build.py, this is where the parts meet: it reads each part's own tables and views, and the parts know nothing of it.
 //
-// Read replicas: every request runs in a D1 session (the Sessions API). The session starts from the bookmark in the
+// Read replicas: every request runs in a D1 session (the Sessions API), so the reads — the recursive ones above most of
+// all, which read many rows to give a few — are served by the nearest copy of the database. The session starts from the bookmark in the
 // visitor's cookie, and the request hands back the session's latest bookmark in that cookie, so each visitor's reads only
 // go forward and always include their own writes — even when a read is served by a replica that is behind the primary.
 // Writes always go to the primary. Without a cookie, a session starts "first-unconstrained" (the nearest copy).
@@ -38,23 +45,37 @@ app.use("*", async (c, next) => {
 const session = (c: Context<Env>): Session => c.get("session");
 
 // ---------- the wording, from the materials part of the database
-type Words = { label: (code: string) => string; symbol: (code: string) => string; section: string };
+type Words = {
+  label: (code: string) => string;                         // a materials label as a heading: "Thai / English"
+  symbol: (code: string) => string;                        // a materials symbol
+  in: (part: string, code: string, lang: string) => string; // any part's label in one language
+  mark: (part: string, code: string) => string;            // any part's symbol
+  section: string; fittings: string; works: string;        // the three pages' headings
+};
 
 async function words(db: Session): Promise<Words> {
-  const [labels, symbols, section] = await db.batch([
-    db.prepare("SELECT code, lang, text FROM materials_label"),
-    db.prepare("SELECT code, value FROM materials_symbol"),
+  const [labels, symbols, materials, phases] = await db.batch([
+    db.prepare("SELECT 'materials' AS part, code, lang, text FROM materials_label UNION ALL SELECT 'room', code, lang, text FROM room_label "
+               + "UNION ALL SELECT 'phases', code, lang, text FROM phases_label"),
+    db.prepare("SELECT 'materials' AS part, code, value FROM materials_symbol UNION ALL SELECT 'phases', code, value FROM phases_symbol"),
     db.prepare("SELECT lang, name FROM materials_section_text"),
+    db.prepare("SELECT lang, name FROM phases_section_text"),
   ]);
-  const text = new Map((labels.results as { code: string; lang: string; text: string }[]).map((r) => [`${r.code}/${r.lang}`, r.text]));
-  const marks = new Map((symbols.results as { code: string; value: string }[]).map((r) => [r.code, r.value]));
-  const names = new Map((section.results as { lang: string; name: string }[]).map((r) => [r.lang, r.name]));
+  const text = new Map((labels.results as { part: string; code: string; lang: string; text: string }[]).map((r) => [`${r.part}/${r.code}/${r.lang}`, r.text]));
+  const marks = new Map((symbols.results as { part: string; code: string; value: string }[]).map((r) => [`${r.part}/${r.code}`, r.value]));
+  const both = (rows: unknown[]) => { const m = new Map((rows as { lang: string; name: string }[]).map((r) => [r.lang, r.name])); return LANGS.map((l) => m.get(l)).join(" / "); };
+  const inLang = (part: string, code: string, lang: string) => text.get(`${part}/${code}/${lang}`) ?? "";
   return {
-    label: (code) => LANGS.map((l) => text.get(`${code}/${l}`)).join(" / "),   // a heading: "Thai / English"
-    symbol: (code) => marks.get(code) ?? "",
-    section: LANGS.map((l) => names.get(l)).join(" / "),
+    label: (code) => LANGS.map((l) => inLang("materials", code, l)).join(" / "),
+    symbol: (code) => marks.get(`materials/${code}`) ?? "",
+    in: inLang,
+    mark: (part, code) => marks.get(`${part}/${code}`) ?? "",
+    section: both(materials.results), fittings: LANGS.map((l) => inLang("room", "items", l)).join(" / "), works: both(phases.results),
   };
 }
+
+const fill = (template: string, values: Record<string, string | number>) =>   // a label's {name} filled in
+  template.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ""));
 
 // ---------- the lines still to buy, with the running total still to buy (a window function, run by D1)
 type Line = { id: string; th: string; en: string; n: number; unit_th: string; unit_en: string; price: number; approx: number;
@@ -106,14 +127,56 @@ async function lineList(db: Session) {
       <td>${r.n} ${r.unit_th} ${w.symbol("times")} ${money(w, r.price)}<br><span class="en">${r.n} ${r.unit_en} ${w.symbol("times")} ${money(w, r.price)}</span></td>
       <td>${r.approx ? w.label("approx") + " " : ""}${money(w, r.price * r.n)}</td>
       <td>${money(w, r.running)}</td>
-      <td><button hx-post="/ui/lines/${r.id}/on-site" hx-target="#lines" hx-swap="outerHTML">${w.symbol("on_site")}</button></td>
+      <td><button hx-post="/ui/lines/${r.id}/on-site" hx-target="#lines" hx-swap="outerMorph">${w.symbol("on_site")}</button></td>
     </tr>`)}
   </tbody>
   <tfoot><tr><td colspan="3">${w.label("still_to_buy")}</td><td>${total(w, results.at(-1))}</td><td></td></tr></tfoot>
 </table>`;
 }
 
-// ---------- the page, and its two requests
+// ---------- the schedule of fittings: each chain as a tree, from the recursive view, indented by depth
+type Fitting = { lang: string; surface: string; depth: number; item: string };
+const INDENT_REM = 1.5;   // how far each step down a chain is indented
+
+async function fittings(db: Session) {
+  const [w, { results }] = await Promise.all([words(db), db.prepare("SELECT lang, surface, depth, item FROM room_show_fitting").all<Fitting>()]);
+  const rows: Record<string, Fitting>[] = [];                // the view gives each item once per language, in order
+  for (const r of results) {
+    if (r.lang === LANGS[0]) rows.push({});
+    rows[rows.length - 1][r.lang] = r;
+  }
+  return html`<section id="fittings"><h2>${w.fittings}</h2>
+  <ul class="tree">${rows.map((r) => html`
+    <li style="margin-left: ${r[LANGS[0]].depth * INDENT_REM}rem">${r.th.item}<br><span class="en">${r.en.item}</span>
+      <span class="where">${r.th.surface} / ${r.en.surface}</span></li>`)}
+  </ul></section>`;
+}
+
+// ---------- the scope of works: each phase, its note and its steps, references filled (the recursive view)
+type Text = { kind: string; number: string; lang: string; text: string };
+type PhaseName = { number: number; lang: string; name: string };
+
+async function works(db: Session) {
+  const [w, texts, names] = await Promise.all([
+    words(db),
+    db.prepare("SELECT kind, number, lang, text FROM phases_show_text").all<Text>(),
+    db.prepare("SELECT p.n AS number, t.lang, t.name FROM (SELECT id, row_number() OVER (ORDER BY pos) AS n FROM phases_phase) p "
+               + "JOIN phases_phase_text t ON t.phase = p.id ORDER BY p.n").all<PhaseName>(),
+  ]);
+  const text = (kind: string, n: string, lang: string) => texts.results.find((t) => t.kind === kind && t.number === n && t.lang === lang)?.text;
+  const steps = (p: number) => [...new Set(texts.results.filter((t) => t.kind === "step" && t.number.startsWith(`${p}.`)).map((t) => t.number))];
+  const phases = [...new Set(names.results.map((r) => r.number))];
+  const name = (p: number, lang: string) => names.results.find((r) => r.number === p && r.lang === lang)?.name ?? "";
+  return html`<section id="works"><h2>${w.works}</h2>${phases.map((p) => html`
+    <h3>${LANGS.map((l) => fill(w.in("phases", "phase_heading", l), { number: p, name: name(p, l) })).join(" / ")}</h3>
+    ${text("phase note", String(p), "th") ? html`<p>${text("phase note", String(p), "th")}<br><span class="en">${text("phase note", String(p), "en")}</span></p>` : ""}
+    <table><thead><tr><th>${w.mark("phases", "number")}</th>
+      <th>${LANGS.map((l) => w.in("phases", "thai_column", l)).join(" / ")}</th><th>${LANGS.map((l) => w.in("phases", "english_column", l)).join(" / ")}</th></tr></thead>
+    <tbody>${steps(p).map((n) => html`<tr><td>${n}</td><td>${text("step", n, "th")}</td><td>${text("step", n, "en")}</td></tr>`)}</tbody></table>`)}
+  </section>`;
+}
+
+// ---------- the page, and its requests
 app.get("/", async (c) => {
   const w = await words(session(c));
   return c.html(html`<!doctype html>
@@ -130,16 +193,28 @@ app.get("/", async (c) => {
     td:nth-child(n+2):nth-child(-n+4) { text-align: right; white-space: nowrap; }
     .en { color: #555; font-size: .9em; }
     button { font-size: 1.1rem; min-width: 3rem; }
+    nav { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    nav button { font-size: 1rem; }
+    .tree { list-style: none; padding: 0; }
+    .tree li { border-left: 3px solid #ccc; padding: .3rem .6rem; margin-bottom: .3rem; }
+    .where { color: #777; font-size: .8em; float: right; }
+    #works td:first-child { white-space: nowrap; }
   </style>
 </head>
 <body>
-  <h1>${w.section}</h1>
-  <div hx-get="/ui/lines" hx-trigger="load" hx-swap="outerHTML">${w.symbol("none")}</div>
+  <nav>
+    <button hx-get="/ui/lines" hx-target="#main" hx-swap="innerMorph">${w.section}</button>
+    <button hx-get="/ui/fittings" hx-target="#main" hx-swap="innerMorph">${w.fittings}</button>
+    <button hx-get="/ui/works" hx-target="#main" hx-swap="innerMorph">${w.works}</button>
+  </nav>
+  <main id="main"><div hx-get="/ui/lines" hx-trigger="load" hx-swap="outerHTML">${w.symbol("none")}</div></main>
 </body>
 </html>`);
 });
 
-app.get("/ui/lines", async (c) => c.html(await lineList(session(c))));
+app.get("/ui/lines", async (c) => c.html(html`<h1>${(await words(session(c))).section}</h1>${await lineList(session(c))}`));
+app.get("/ui/fittings", async (c) => c.html(await fittings(session(c))));
+app.get("/ui/works", async (c) => c.html(await works(session(c))));
 
 app.post("/ui/lines/:id/on-site", async (c) => {
   const db = session(c);

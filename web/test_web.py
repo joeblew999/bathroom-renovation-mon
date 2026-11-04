@@ -86,6 +86,24 @@ def main():
             again = page.request.post(f"{url}/ui/lines/{line}/on-site")
             report(again.status == 409 and page.request.get(f"{url}/ui/lines").text().count("<tr>") - 2 == to_buy - 1,
                    "pressing it again changes nothing (409), and the list stays as it is")
+            # the recursive pages, read in the same session (its bookmark now past the write)
+            db = load()
+            tree = db.execute("SELECT depth, item FROM room_show_fitting WHERE lang = 'en'").fetchall()
+            page.locator("nav button").nth(1).click()
+            page.locator("#fittings li").first.wait_for(timeout=WAIT_MS)
+            items = page.locator("#fittings li")
+            shown = [(items.nth(i).get_attribute("style"), items.nth(i).locator(".en").inner_text()) for i in range(items.count())]
+            report([(f"margin-left: {d * 1.5:g}rem", n) for d, n in tree] == shown,
+                   f"the schedule of fittings shows every chain as a tree, indented by depth ({len(tree)} items, from the recursive view)")
+            page.locator("nav button").nth(2).click()
+            page.locator("#works h3").first.wait_for(timeout=WAIT_MS)
+            phases_n = db.execute("SELECT count(*) FROM phases_phase").fetchone()[0]
+            steps = db.execute("SELECT number, text FROM phases_show_text WHERE kind = 'step' AND lang = 'en'").fetchall()
+            cells = page.locator("#works tbody tr")
+            got = [(cells.nth(i).locator("td").nth(0).inner_text(), cells.nth(i).locator("td").nth(2).inner_text()) for i in range(cells.count())]
+            report(page.locator("#works h3").count() == phases_n and got == steps and "{" not in page.locator("#works").inner_text(),
+                   f"the scope of works shows {phases_n} phases and {len(steps)} steps, every reference filled (the recursive view)")
+            report(page.locator("h1, h2").count() == 1, "each page has one heading (the swap replaces the page, it doesn't stack them)")
             browser.close()
         paid = query("--local", f"SELECT s.paid, s.on_site, s.to_buy FROM materials_line l JOIN materials_status s ON s.code = l.status WHERE l.id = '{line}'")[0]
         report(paid == {"paid": 1, "on_site": 1, "to_buy": 0}, "on D1 the line's status is now the one that is paid and on site")
