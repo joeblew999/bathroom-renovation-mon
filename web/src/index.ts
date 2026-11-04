@@ -24,7 +24,8 @@ import { html, raw } from "hono/html";
 import htmx from "htmx.org/dist/htmx.min.js";   // served from here, pinned in package.json: no third-party script host
 
 type Session = D1DatabaseSession;
-type Env = { Bindings: { DB: D1Database }; Variables: { session: Session } };
+type Served = { region: string; primary: boolean };   // which copy of the database answered a query (D1's result meta)
+type Env = { Bindings: { DB: D1Database }; Variables: { session: Session; served: Served[] } };
 
 const BOOKMARK = "d1-bookmark";      // the cookie that carries the visitor's D1 bookmark from one request to the next
 const FIRST = "first-unconstrained"; // a session with no bookmark yet starts at the nearest copy of the database
@@ -35,13 +36,68 @@ const app = new Hono<Env>();
 
 // ---------- every request: a D1 session from the visitor's bookmark, and the latest bookmark handed back
 app.use("*", async (c, next) => {
-  c.set("session", c.env.DB.withSession(getCookie(c, BOOKMARK) || FIRST));
+  const served: Served[] = [];
+  c.set("served", served);
+  c.set("session", recording(c.env.DB.withSession(getCookie(c, BOOKMARK) || FIRST), served));
   await next();
   const bookmark = session(c).getBookmark();
   if (bookmark) {
     setCookie(c, BOOKMARK, bookmark, { path: "/", httpOnly: true, secure: true, sameSite: "Strict", maxAge: BOOKMARK_MAX_AGE });
   }
+  // where this request's queries were answered — a replica near the visitor, or the primary — for whoever checks it
+  // (a header, never on the page), and in Workers Logs, with the Cloudflare data centre that ran the request
+  if (served.length) {
+    c.header(SERVED_HEADER, summary(served));
+    console.log(JSON.stringify({ path: c.req.path, colo: (c.req.raw as { cf?: { colo?: string } }).cf?.colo, served: summary(served), bookmark }));
+  }
 });
+
+const SERVED_HEADER = "x-d1-served-by";   // e.g. "WNAM replica ×3" or "APAC primary ×1, WNAM replica ×2"
+const LOCAL = "local";                   // what a query reports on wrangler's local D1, which has no regions
+
+const summary = (served: Served[]) => {
+  const counts = new Map<string, number>();
+  for (const s of served) {
+    const where = `${s.region} ${s.primary ? "primary" : "replica"}`;
+    counts.set(where, (counts.get(where) ?? 0) + 1);
+  }
+  return [...counts].map(([where, n]) => `${where} ×${n}`).join(", ");
+};
+
+// the session, with every answer's served_by_region and served_by_primary noted (local D1 reports neither)
+function recording(db: Session, served: Served[]): Session {
+  const note = (meta: D1Meta & Record<string, unknown>) =>
+    served.push({ region: String(meta.served_by_region ?? LOCAL), primary: meta.served_by_primary !== false });
+  const inner = new WeakMap<object, D1PreparedStatement>();
+  const wrap = (stmt: D1PreparedStatement): D1PreparedStatement => {
+    const w = new Proxy(stmt, {
+      get(target, key) {
+        if (key === "bind") return (...args: unknown[]) => wrap(target.bind(...args));
+        if (key === "all" || key === "run") {
+          return async () => { const r = await target[key](); note(r.meta); return r; };
+        }
+        const v = Reflect.get(target, key);
+        return typeof v === "function" ? v.bind(target) : v;
+      },
+    });
+    inner.set(w, stmt);
+    return w;
+  };
+  return new Proxy(db, {
+    get(target, key) {
+      if (key === "prepare") return (sql: string) => wrap(target.prepare(sql));
+      if (key === "batch") {
+        return async (stmts: D1PreparedStatement[]) => {
+          const rs = await target.batch(stmts.map((s) => inner.get(s) ?? s));
+          rs.forEach((r) => note(r.meta));
+          return rs;
+        };
+      }
+      const v = Reflect.get(target, key);
+      return typeof v === "function" ? v.bind(target) : v;
+    },
+  });
+}
 const session = (c: Context<Env>): Session => c.get("session");
 
 // ---------- the wording, from the materials part of the database
