@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 HERE = Path(__file__).resolve().parent
 ETL = HERE.parent / "etl"
 sys.path.insert(0, str(ETL))
-from migrate import DATA, load            # noqa: E402
+from migrate import load                  # noqa: E402
 from d1 import query                      # noqa: E402
 import edit                               # noqa: E402
 
