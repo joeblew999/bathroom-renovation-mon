@@ -9,7 +9,7 @@ A quote for the builder, in Thai and English: the work, the materials list, the 
 
 This is a real bathroom: an architect designs it, and a Thai builder constructs it from this quote. Work as the architect and the construction company would.
 - Judge every change by what the builder will read and do on site: is it unambiguous, is it good building practice, is it sound design, will it look right?
-- Use the trade's words — the ones in the Glossary, in Thai and English — and no others. "Build" only ever means the software build (`mise run build`, `mise run check`, `mise run ci`); the bathroom is *constructed*.
+- Use the trade's words — the ones in the Glossary, in Thai and English — and no others. "Build" only ever means the software build (`mise run quote:build`, `mise run quote:check`, `mise run root:ci`); the bathroom is *constructed*.
 - Say only what is there. Name a file, a check, a size or a step only after you have looked at it; write no plans, guesses or made-up examples into the README, the data or the notes.
 - Write each design problem as a note to the architect: where, what, the rule, and what to do about it.
 
@@ -44,7 +44,9 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 
 ## Commands
 
-`mise tasks` lists every command (they are in `mise.toml`). Only `mise` needs to be installed; on a new machine, run `mise run setup` first.
+`mise tasks` lists every command (they are in `mise.toml`). Only `mise` needs to be installed; on a new machine, run `mise run root:setup` first.
+
+Every task has one structure, held by [mise-check](https://github.com/joeblew999/mise-check) (`mise run root:check-mise`, part of `root:ci` and `root:publish`): it is named `namespace:task`; its `run` and `usage` are each one line; the flags and arguments it takes are declared in its `usage` and passed by name; and its `run` has no POSIX shell syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code: `repo.py`, `etl/`, `web/`.
 
 ## How the quote is made
 
@@ -63,7 +65,7 @@ labour.toml     ──► labour.py   ◄── the room's take-off and         
 
 `build.py` is the only place the parts meet. It puts the phases, the materials list and the labour into the template, `bathroom-renovation-quote.md`, has the drawings measured as drawn (`drawing_design_checks.py`), adds them after the list, one per page, writes the web page to `out/index.html`, and has Chromium print the same page as the PDF. `out/` is never committed.
 
-On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the same commands you can run here — and publishes `out/` only if `mise run ci` passes.
+On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci` — the same commands you can run here — and publishes `out/` only if `mise run root:ci` passes.
 
 ## Files
 
@@ -80,10 +82,13 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 | `style.css` | The look of the whole page, drawings included |
 | `build.py` | Puts the parts together and writes the page and the PDF |
 | `common.py` | Helpers that know nothing about bathrooms: reading TOML, the one checker every entry goes through, labels, headings and notes, the one Chromium a run uses |
-| `test_pipeline.py` | The tests: `mise run test` measures the drawings in Chromium only in the tests about them; `mise run fuzz` measures them in every test |
-| `mise.toml` | The commands, and the pinned tools (Python and uv) |
-| `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run setup` installs exactly the lock |
-| `.github/workflows/pages.yml` | GitHub's build: `mise run setup`, `mise run ci` (`check`, then `fuzz`), then publish |
+| `test_pipeline.py` | The tests: `mise run quote:test` measures the drawings in Chromium only in the tests about them; `mise run quote:fuzz` measures them in every test |
+| `mise.toml` | The commands, and the pinned tools |
+| `repo.py` | The repo's chores as code, so each task stays one line: setting up, linting, publishing |
+| `go.mod`, `go.sum`, `mise_test.go` | mise-check, pinned, and the one-line test `mise run root:check-mise` runs on `mise.toml` (Go runs only this) |
+| `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run root:setup` installs exactly the lock |
+| `.github/workflows/pages.yml` | GitHub's build: `mise run root:setup`, `mise run root:ci` (`root:check-mise`, `quote:check`, then `quote:fuzz`), then publish |
+| `etl/`, `web/` | The trial of the quote's data as SQLite, and its web app on Cloudflare (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
 | `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
 | `sources/` | Copies of the outside documents figures are read from, named by the document's own date — the Comptroller General's labour rate book, `2026-06-26-cgd-w480-labour-rates.pdf` |
 | `CLAUDE.md`, `AGENTS.md` | Point Claude, and other AI agents, to this README |
@@ -122,8 +127,8 @@ On every push to `main`, GitHub runs `mise run setup` and `mise run ci` — the 
 8. **Bad data stops the build; a design problem is never published** (see Checks).
 9. **Tests never depend on today's numbers or wording.**
    - A test finds what it breaks by what it is, and works out the expected message from the real data and its labels.
-   - Every check has a test; `mise run test` lists them.
-   - Measuring the drawings in Chromium is the slow part, so `mise run test` (part of `mise run check`, which `mise run publish` runs before pushing) does it only in the tests about drawings; `mise run fuzz` runs every test with its drawings measured. `mise run ci` is `check`, then `fuzz` — what GitHub runs. A test whose build must always measure its drawings is marked `drawn(…)`.
+   - Every check has a test; `mise run quote:test` lists them.
+   - Measuring the drawings in Chromium is the slow part, so `mise run quote:test` (part of `mise run quote:check`, which `mise run root:publish` runs before pushing) does it only in the tests about drawings; `mise run quote:fuzz` runs every test with its drawings measured. `mise run root:ci` is `root:check-mise`, `quote:check`, then `quote:fuzz` — what GitHub runs. A test whose build must always measure its drawings is marked `drawn(…)`.
 10. **Every figure from outside says where it came from and when.** A norm (`[[norm]]` in `room.toml`) gives its `standard`, `url` and the date it was `checked`; a price comes from its product's shop page (`shop`, `sku`) on `prices_date`; a product's IP rating from its shop page too; a labour rate from its rate book (`[[book]]` in `labour.toml`, with the day it was `checked`), with its item or note there and where: its `page` in the book's copy kept in `sources/` (`file`, with the page that publishes it, `published`, to fetch it again or find a newer edition — the comment above the book in `labour.toml` says how to take one in), or, for a book with no copy — a shop's service pages — its own page's `url`; Factor F (`[factor_f]`) from its table, with its `standard`, `url` and the day it was `checked`. When a source changes, the figure can be checked again; a norm without its source stops the build.
    - A value not yet known for real — still to be measured on site, or read off a product's label — is marked as assumed: its key goes in the entry's `assumed` list (`assumed = ["x", "y"]`). It is a stand-in until the real figure replaces it, and then it comes off the list.
 
@@ -151,12 +156,12 @@ The phases and the labour have no design checks. Each design-checks file lists i
 
 How a design problem is reported:
 - A design check never raises `DataError`. It returns a design problem: a note for the architect, in Thai and English — where, what, the rule, what to do — worded by a label in the part's `[labels]`.
-- `mise run build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count.
-- `mise run check` (and so `mise run ci`) refuses any design problem, so neither `mise run publish` nor GitHub publishes it.
+- `mise run quote:build` still writes the page and the PDF, with each problem in red under its drawing, and prints each one and the count.
+- `mise run quote:check` (and so `mise run root:ci`) refuses any design problem, so neither `mise run root:publish` nor GitHub publishes it.
 
 ### Assumed values
 
-A value marked as assumed (rule 10) is neither bad data nor a design problem: the design checks use it as written, so the room is checked as if it were true. `mise run build`, `mise run summary` and `mise run check` print each one as `ASSUMED`, with where it is and its value, and the count — a warning: it doesn't stop `mise run check`, `mise run ci` or publishing. The owner measures each one on site, the real figure replaces it, and its key comes off the `assumed` list; a design problem the real figure brings out then shows like any other.
+A value marked as assumed (rule 10) is neither bad data nor a design problem: the design checks use it as written, so the room is checked as if it were true. `mise run quote:build`, `mise run quote:summary` and `mise run quote:check` print each one as `ASSUMED`, with where it is and its value, and the count — a warning: it doesn't stop `mise run quote:check`, `mise run root:ci` or publishing. The owner measures each one on site, the real figure replaces it, and its key comes off the `assumed` list; a design problem the real figure brings out then shows like any other.
 
 ### Placing a new check
 
@@ -175,7 +180,7 @@ A design check never goes in a part's own code, and a data check never goes in a
 ## Before a change is done
 
 1. Check it against the rules: for 2, every entry of the kind you touched, not just the one; for 5 to 7, search the other files for what you touched; for 9, a new check gets a new test.
-2. Run `mise run ci`: clean, 0 design problems — the same run GitHub makes.
+2. Run `mise run root:ci`: clean, 0 design problems — the same run GitHub makes.
 3. Look at the PDF.
 4. Commit locally.
-5. Push to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — and only with `mise run publish`, which refuses unless you're on `main`, nothing is uncommitted and `mise run check` passes. Then watch the GitHub build until it passes.
+5. Push to `main` only when the owner says so — he judges whether the PDF makes sense, and asks for a push before risky work so there is a safe copy to go back to — and only with `mise run root:publish`, which refuses unless you're on `main`, nothing is uncommitted and `mise run quote:check` passes. Then watch the GitHub build until it passes.

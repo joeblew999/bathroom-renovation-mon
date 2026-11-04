@@ -1,5 +1,11 @@
 # mise.toml — pinned tools and every command for this repo.
-# `mise tasks` lists the commands; `mise run setup` once, then `mise run build`.
+# `mise tasks` lists the commands; `mise run root:setup` once, then `mise run quote:build`.
+# Its structure is held by mise-check (`mise run root:check-mise`, part of root:ci and root:publish): each task's run and
+# usage are one line, its flags and arguments are declared in its usage and passed by name, and no run has POSIX shell
+# syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code (repo.py, etl/, web/).
+
+[settings]
+idiomatic_version_file_enable_tools = ["go"]   # go.mod's toolchain line is the Go pin (Go runs only the structure check)
 
 [tools]
 python = "3.13.18"
@@ -24,213 +30,214 @@ macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zi
 _.python.venv = { path = ".venv", create = true }
 CF_ACCESS_EMAILS = "gedw99@gmail.com"   # who Cloudflare Access lets into the web app (comma-separated), when it's on
 
-[tasks.setup]
-description = "Install the Python packages (exactly as uv.lock pins them) and the Chromium that prints the PDF"
-run = [
-  "uv sync --locked",
-  "python -m playwright install chromium",
-  # On the GitHub runner only: Chromium's Linux libraries and fonts (including the Thai font)
-  "if [ -n \"$CI\" ]; then python -m playwright install-deps chromium; fi",
-]
+# ---------- the repo ----------
 
-[tasks.lint]
-description = "Check the code for unused imports and undefined names"
-run = "python -m pyflakes *.py"
+[tasks."root:setup"]
+description = "Install the Python packages (exactly as uv.lock pins them) and the Chromium that prints the PDF (on GitHub's runner, its libraries too)"
+run = 'uv sync --locked && python repo.py setup'
 
-[tasks.build]
+[tasks."root:check-mise"]
+description = "mise-check on this very file (mise_test.go): each task one line, its usage passed by name, no POSIX shell syntax, so every task runs on macOS, Linux and Windows"
+env = { MISE_FILE = "mise.toml" }
+run = 'go test . -run "^TestMise$" -count=1 -v'
+
+[tasks."root:ci"]
+description = "The structure check, quote:check, then quote:fuzz. Exactly what GitHub runs on every push to main"
+run = 'mise run root:check-mise && mise run quote:check && mise run quote:fuzz'
+
+[tasks."root:publish"]
+description = "Push to main (which publishes) — only from main, with nothing uncommitted, once the structure check and quote:check pass"
+run = 'python repo.py publish'
+
+# ---------- the quote ----------
+
+[tasks."quote:lint"]
+description = "Check the code for unused imports and undefined names (pyflakes, every Python file git tracks)"
+run = 'python repo.py lint'
+
+[tasks."quote:build"]
 description = "Build out/index.html and out/bathroom-renovation-quote.pdf; design problems are shown in red on the drawings and counted at the end"
-run = "python build.py"
+run = 'python build.py'
 
-[tasks.test]
+[tasks."quote:test"]
 description = "Break copies of the data on purpose and confirm every check fires"
-run = "python test_pipeline.py"
+run = 'python test_pipeline.py'
 
-[tasks.fuzz]
-description = "The tests again, with every broken copy's drawings measured in Chromium — slow; part of ci"
-run = "python test_pipeline.py --fuzz"
+[tasks."quote:fuzz"]
+description = "The tests again, with every broken copy's drawings measured in Chromium — slow; part of root:ci"
+run = 'python test_pipeline.py --fuzz'
 
-[tasks.check]
-description = "Lint, test and build — and fail on any design problem. What publish runs before pushing"
-depends = ["lint", "test"]
-run = "python build.py --publishable"
+[tasks."quote:check"]
+description = "Lint, test and build — and fail on any design problem. What root:publish runs before pushing"
+depends = ["quote:lint", "quote:test"]
+run = 'python build.py --publishable'
 
-[tasks.ci]
-description = "check, then fuzz. Exactly what GitHub runs on every push to main"
-run = ["mise run check", "mise run fuzz"]
-
-[tasks.publish]
-description = "Push to main (which publishes) — only from main, with nothing uncommitted, and if check passes"
-run = [
-  # what is checked must be what is pushed: on main, nothing left uncommitted
-  "test \"$(git branch --show-current)\" = main || (echo 'ERROR: not on main — publish checks the files here and pushes main, so it must be run on main' && exit 1)",
-  "test -z \"$(git status --porcelain)\" || (echo 'ERROR: uncommitted changes or new files — commit them first, so what is checked is what is pushed' && exit 1)",
-  "mise run check",
-  "git push origin main",
-]
-
-[tasks.summary]
+[tasks."quote:summary"]
 description = "Print the tile counts, the still-to-buy total and any design problems, without building"
-run = "python build.py --summary"
+run = 'python build.py --summary'
 
-[tasks.materials]
+[tasks."quote:materials"]
 description = "Print the materials list — the same table the PDF prints"
-run = "python materials.py"
+run = 'python materials.py'
 
-[tasks.phases]
+[tasks."quote:phases"]
 description = "Print the phases — the same text the PDF prints"
-run = "python phases.py"
+run = 'python phases.py'
 
 # ---------- the data as SQLite (the trial in etl/: until the switch, the TOML files are still the data) ----------
 # The seed files are the data; .work/quote.db is where it's read and changed. load → sql/show → save.
 
 [tasks."db:load"]
-description = "Make the working database (.work/quote.db) from the migrations and the seed files — refused if it holds unsaved changes"
+description = "Make the working database (.work/quote.db) from the migrations and the seed files — refused if it holds unsaved changes (--discard throws them away)"
 dir = "etl"
-run = "python edit.py load"
+usage = 'flag "--discard" help="throw away the unsaved changes in the working database"'
+run = 'python edit.py load{% if usage.discard %} --discard{% endif %}'
 
 [tasks."db:save"]
-description = "Check the working database and write the seed files from it — or write nothing and say why (--alone: a text fixed in one language)"
+description = "Check the working database and write the seed files from it — or write nothing and say why"
 dir = "etl"
-run = "python edit.py save"
+usage = 'flag "--alone" help="let through a text changed in one language only (each is named, for the commit message)"'
+run = 'python edit.py save{% if usage.alone %} --alone{% endif %}'
 
 [tasks."db:status"]
 description = "Say whether the working database holds changes the seed files don't (exit 1 if it does)"
 dir = "etl"
-run = "python edit.py status"
+run = 'python edit.py status'
 
 [tasks."db:sql"]
-description = "Run SQL on the working database as one transaction: mise run db:sql \"UPDATE …\" (save writes it to the seed files)"
+description = "Run SQL on the working database as one transaction (db:save writes it to the seed files)"
 dir = "etl"
-run = "python edit.py sql"
+usage = 'arg "<sql>" help="the SQL to run: UPDATE …, INSERT …"'
+run = 'python edit.py sql "{{usage.sql}}"'
 
 [tasks."db:show"]
-description = "Run a query on the working database and print the rows: mise run db:show \"SELECT * FROM room_show_item\""
+description = "Run a query on the working database and print the rows"
 dir = "etl"
-run = "python edit.py show"
+usage = 'arg "<sql>" help="the query: SELECT * FROM room_show_item"'
+run = 'python edit.py show "{{usage.sql}}"'
 
 [tasks."db:diff"]
 description = "Show how the working database differs from the seed files, row by row (sqldiff)"
 dir = "etl"
-run = "python edit.py diff"
+run = 'python edit.py diff'
 
 [tasks."db:lint"]
 description = "Check the schema with sqlite3: every foreign key has an index (.lint fkey-indexes prints nothing)"
 dir = "etl"
-run = "python edit.py lint"
+run = 'python edit.py lint'
 
 [tasks."db:migration"]
-description = "Start a new migration, numbered after the last: mise run db:migration <what-it-does> (a schema change is always a new migration)"
+description = "Start a new migration, numbered after the last (a schema change is always a new migration)"
 dir = "etl"
-run = "wrangler d1 migrations create bathroom-quote --config wrangler.toml"
+usage = 'arg "<name>" help="what it does, in a few words joined by underscores"'
+run = 'wrangler d1 migrations create bathroom-quote "{{usage.name}}" --config wrangler.toml'
 
 [tasks."db:migrate"]
 description = "Run on the working database each migration it hasn't had; then db:save writes the seed files in the new shape"
 dir = "etl"
-run = "python edit.py migrate"
+run = 'python edit.py migrate'
 
 [tasks."db:push"]
-description = "Cloudflare D1: apply the migrations it hasn't had, then make its data exactly the seed files"
+description = "Cloudflare D1: apply the migrations it hasn't had, then make its data exactly the seed files, and check it there"
 dir = "etl"
 depends = ["db:status"]
-run = "python d1.py push --remote && python d1.py check --remote"
-
-[tasks."db:show-d1"]
-description = "Cloudflare D1: run a query and print the rows: mise run db:show-d1 \"SELECT * FROM room_show_fitting\""
-dir = "etl"
-run = "python d1.py show --remote"
-
-[tasks."etl:show-d1"]
-description = "The trial on wrangler's local D1 (after etl:d1): run a query and print the rows, as db:show-d1 does on Cloudflare"
-dir = "etl"
-run = "python d1.py show --local"
+run = 'python d1.py push --remote && python d1.py check --remote'
 
 [tasks."db:pull"]
-description = "Cloudflare D1: export it to .work/ (never committed) and show how it differs from the seed files"
+description = "Cloudflare D1: show how it differs from the seed files, and take its data into the working database (never committed until db:save)"
 dir = "etl"
-run = "python d1.py pull --remote"
+run = 'python d1.py pull --remote'
+
+[tasks."db:show-d1"]
+description = "Cloudflare D1: run a query and print the rows"
+dir = "etl"
+usage = 'arg "<sql>" help="the query: SELECT * FROM room_show_fitting"'
+run = 'python d1.py show --remote "{{usage.sql}}"'
 
 [tasks."etl:run"]
 description = "The trial: read the TOML files, write the migrations and the seed files (out/etl/), and check them"
 dir = "etl"
-run = "python migrate.py"
+run = 'python migrate.py'
 
 [tasks."etl:fidelity"]
 description = "The trial: read the seed files back into the TOML's shape and compare every value with the TOML files"
 dir = "etl"
-run = "python fidelity.py"
+run = 'python fidelity.py'
 
 [tasks."etl:prove"]
 description = "The trial: break copies of the seed files and the working database on purpose, and confirm every guard refuses"
 dir = "etl"
-run = "python prove.py"
+run = 'python prove.py'
 
 [tasks."etl:d1"]
-description = "The trial on wrangler's local D1: push the migrations and seed files, run every check view there, pull it back and compare; then SQLite's analytical features on all three engines"
+description = "The trial on wrangler's local D1, from a fresh one: push, check, pull; SQLite's features on all three engines; left holding the seed files"
 dir = "etl"
-run = [
-  "rm -rf .wrangler",  # a fresh local D1: the trial rewrites 0001_initial.sql on every run, and an applied migration never changes
-  "python d1.py push --local", "python d1.py check --local", "python d1.py pull --local",
-  "python features.py",  # window functions, a recursive CTE, a generated column, an upsert, a trigger, a view: identical on all three engines
-  "rm -rf .wrangler", "python d1.py push --local",  # features.py changes the local D1 on purpose: leave it holding exactly the seed files
-]
+run = 'python d1.py trial'
+
+[tasks."etl:show-d1"]
+description = "The trial on wrangler's local D1 (after etl:d1): run a query and print the rows, as db:show-d1 does on Cloudflare"
+dir = "etl"
+usage = 'arg "<sql>" help="the query: SELECT * FROM room_show_fitting"'
+run = 'python d1.py show --local "{{usage.sql}}"'
 
 # ---------- the web app: a Hono Worker with HTMX 4, on the same D1 (web/; the Worker is `main` in etl/wrangler.toml) ----------
 
 [tasks."web:setup"]
 description = "Install the web app's packages, exactly as web/package-lock.json pins them"
 dir = "web"
-run = "npm ci"
+run = 'npm ci'
 
 [tasks."web:check"]
 description = "Type-check the web app (TypeScript, with Cloudflare's Workers types)"
 dir = "web"
-run = "npx tsc -p ."
+run = 'npx tsc -p .'
 
 [tasks."web:dev"]
 description = "Serve the web app on wrangler's local D1 (after etl:d1): http://127.0.0.1:8787"
 dir = "etl"
-run = "wrangler dev --config wrangler.toml --ip 127.0.0.1 --port 8787"
+run = 'wrangler dev --config wrangler.toml --ip 127.0.0.1 --port 8787'
 
 [tasks."web:test"]
 description = "The web app end to end: wrangler on local D1, Chromium clicking through it, the change pulled back and saved"
 depends = ["web:check"]
 dir = "web"
-run = "python test_web.py"
+run = 'python test_web.py'
 
 [tasks."web:deploy"]
-description = "Put the web app on Cloudflare, on the real D1 — refused while Access is off (--public deploys anyway); then checks the address sends a visitor to the Access login"
+description = "Put the web app on Cloudflare, on the real D1 — refused while Access is off; then checks the address sends a visitor to the Access login"
 dir = "etl"
 usage = 'flag "--public" help="deploy even with Access off: open to anyone with the address"'
 run = 'python cloudflare.py deploy{% if usage.public %} --public{% endif %}'
 
-[tasks."cf:access-on"]
-description = "Put Cloudflare Access in front of the web app: only the emails in CF_ACCESS_EMAILS can open it"
-dir = "etl"
-run = "python cloudflare.py access on"
-
-[tasks."cf:access-off"]
-description = "Take Cloudflare Access away from the web app: anyone with the address can open it"
-dir = "etl"
-run = "python cloudflare.py access off"
-
-[tasks."cf:access-status"]
-description = "Say whether Cloudflare Access is in front of the web app, and who it lets in"
-dir = "etl"
-run = "python cloudflare.py access status"
-
-# ---------- Cloudflare: logins and provisioning, from here, for any developer (nothing kept in the repo) ----------
+# ---------- Cloudflare: logins, provisioning and Access, from here, for any developer (nothing kept in the repo) ----------
 
 [tasks."cf:login"]
 description = "Log in to Cloudflare by device code — cf (bound to this repo), then wrangler: each prints one link, the code already in it, to approve from any device"
 dir = "etl"
-run = "python cloudflare.py login"
+run = 'python cloudflare.py login'
 
 [tasks."cf:whoami"]
 description = "Show who cf and wrangler are logged in to Cloudflare as"
 dir = "etl"
-run = ["cf auth whoami", "wrangler whoami"]
+run = 'cf auth whoami && wrangler whoami'
 
 [tasks."cf:provision"]
-description = "Make sure the D1 database exists with read replication on, and write its id into etl/wrangler.toml (--dry-run: show the requests only)"
+description = "Make sure the D1 database exists with read replication on, and write its id into etl/wrangler.toml"
 dir = "etl"
-run = "python cloudflare.py provision"
+usage = 'flag "--dry-run" help="show the requests cf would make, and change nothing"'
+run = 'python cloudflare.py provision{% if usage.dry_run %} --dry-run{% endif %}'
+
+[tasks."cf:access-on"]
+description = "Put Cloudflare Access in front of the web app: only the emails in CF_ACCESS_EMAILS can open it"
+dir = "etl"
+run = 'python cloudflare.py access on'
+
+[tasks."cf:access-off"]
+description = "Take Cloudflare Access away from the web app: anyone with the address can open it"
+dir = "etl"
+run = 'python cloudflare.py access off'
+
+[tasks."cf:access-status"]
+description = "Say whether Cloudflare Access is in front of the web app, and who it lets in"
+dir = "etl"
+run = 'python cloudflare.py access status'

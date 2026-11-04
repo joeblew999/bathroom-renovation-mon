@@ -3,6 +3,9 @@
     python d1.py push  --local|--remote   apply the migrations D1 hasn't had (wrangler d1 migrations apply), then make its
                                           data exactly the seed files: every row deleted and the seed rows put in, as one file
     python d1.py check --local|--remote   run every check view on D1 itself, and compare its data with the seed files
+    python d1.py trial                    (mise run etl:d1) the whole trial on wrangler's local D1, from a fresh one: push,
+                                          check, pull, features.py on all three engines — and leave it holding exactly the
+                                          seed files (features.py changes it on purpose)
     python d1.py show  --local|--remote "…"  run a query on D1 and print the rows (read the views: room_show_fitting …)
     python d1.py pull  --local|--remote   export D1 (wrangler d1 export), show how it differs from the seed files (sqldiff), and
                                           take its data into the working database — db:save checks it and writes the seed files
@@ -212,7 +215,28 @@ def pull(where):
     return diff
 
 
+def fresh_local():
+    """A local D1 with nothing in it: the trial rewrites 0001_initial.sql on every run, and an applied migration never
+    changes."""
+    import shutil
+    shutil.rmtree(HERE / ".wrangler", ignore_errors=True)
+
+
+def trial():
+    import features
+    fresh_local()
+    push("--local")
+    found = check("--local")
+    pull("--local")
+    ok = features.main()
+    fresh_local()                    # features.py changes the local D1 on purpose: leave it holding exactly the seed files
+    push("--local")
+    return not found and ok
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["trial"]:
+        sys.exit(0 if trial() else 1)
     cmd, where = (sys.argv[1:3] + ["", ""])[:2]
     if cmd not in ("push", "check", "pull", "show") or where not in ("--local", "--remote") or (cmd == "show" and len(sys.argv) < 4):
         sys.exit(__doc__)

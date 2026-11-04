@@ -23,8 +23,8 @@ Measuring the drawings in Chromium (drawing_design_checks.py) is what takes the 
 measures them only in the tests marked drawn(…) — the drawing design tests call the checks themselves.
 `--fuzz` measures them in every test, so a broken copy that happens to make a drawing collide is caught too.
 
-Usage:  python3 test_pipeline.py            (mise run test — fast; part of mise run check)
-        python3 test_pipeline.py --fuzz     (mise run fuzz — every test with its drawings measured; part of mise run ci)
+Usage:  python3 test_pipeline.py            (mise run quote:test — fast; part of mise run quote:check)
+        python3 test_pipeline.py --fuzz     (mise run quote:fuzz — every test with its drawings measured; part of mise run root:ci)
 """
 import contextlib
 import datetime
@@ -678,8 +678,8 @@ def same_numbers_reordered_test():
 
 
 def publishable_test():
-    """mise run check builds with --publishable: with a design problem it still writes the page and the PDF
-    (to look at), then refuses — so mise run publish never pushes, and GitHub never publishes."""
+    """mise run quote:check builds with --publishable: with a design problem it still writes the page and the PDF
+    (to look at), then refuses — so mise run root:publish never pushes, and GitHub never publishes."""
     edits, want = clash_test()
 
     def expect(p):

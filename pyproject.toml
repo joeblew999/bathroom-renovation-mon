@@ -1,6 +1,6 @@
 # pyproject.toml — the Python packages this repo needs. uv reads it; `uv lock` writes uv.lock,
 # which pins every package (and the packages they need) to an exact version with a checksum.
-# `mise run setup` installs exactly what uv.lock says, on any machine.
+# `mise run root:setup` installs exactly what uv.lock says, on any machine.
 
 [project]
 name = "bathroom-renovation-quote"
@@ -13,7 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "pyflakes==4.1.0",    # `mise run lint`: unused imports, undefined names
+  "pyflakes==4.1.0",    # `mise run quote:lint`: unused imports, undefined names
 ]
 
 [tool.uv]

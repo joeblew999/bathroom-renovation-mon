@@ -45,7 +45,7 @@
 #   shop, sku  where it is bought and its product code, together; the link is made from them
 #              (not for existing or by_trade products)
 #   assumed    the keys above whose values are assumed, not yet known for real (README rule 10);
-#              mise run summary lists every one, to be replaced by the real figure
+#              mise run quote:summary lists every one, to be replaced by the real figure
 # and one [[entry.line]] for each line it takes on the list:
 #   work_section  the id of a work section (things used all over go under whole_room)
 #   status     "procure"  — still to procure (buy)

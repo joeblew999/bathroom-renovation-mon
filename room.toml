@@ -68,7 +68,7 @@ fill = "#f1f1ee"
 #   note_th, note_en   why or how — never where: a note doesn't repeat what the drawing shows
 #   waterproofing      a zone only: waterproofed up to this height within it
 #   assumed    the keys above whose values are assumed, not yet known for real (README rule 10);
-#              mise run summary lists every one, to be replaced by the real figure
+#              mise run quote:summary lists every one, to be replaced by the real figure
 # Leave a key out when it does not apply.
 
 # ---------- the floor ----------

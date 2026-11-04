@@ -24,7 +24,7 @@ never rewritten.
 
 Usage:  python3 build.py [template.md] [out-folder]
         python3 build.py --publishable [template.md] [out-folder]  (the same, then an ERROR if there is
-                                                                    any design problem: mise run check)
+                                                                    any design problem: mise run quote:check)
         python3 build.py --summary [template.md]  (tile counts, total, design problems; no build)
 """
 import sys

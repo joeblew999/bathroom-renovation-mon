@@ -25,8 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
-      - run: mise run setup
-      - run: mise run ci         # check (what mise run publish runs before pushing), then fuzz
+      - run: mise run root:setup
+      - run: mise run root:ci    # the structure check and quote:check (what root:publish runs before pushing), then quote:fuzz
       - uses: actions/upload-pages-artifact@v5
         with:
           path: out

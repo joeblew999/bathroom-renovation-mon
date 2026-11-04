@@ -17,7 +17,7 @@ How this room is constructed is the one thing written here rather than in room.t
 the existing column stands at the x = 0 end of its wall, the door opening beside it and the
 lintel over the opening.
 
-The tiles needed and any design problems print with `mise run summary`; the drawings are in the PDF.
+The tiles needed and any design problems print with `mise run quote:summary`; the drawings are in the PDF.
 """
 import math
 from dataclasses import dataclass
