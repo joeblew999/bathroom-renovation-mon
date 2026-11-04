@@ -3,6 +3,8 @@
 name = "bathroom-quote"
 main = "../web/src/index.ts"                            # the web app (Hono and HTMX 4) on this database
 compatibility_date = "2026-10-01"
+workers_dev = true                                      # at bathroom-quote.gedw99.workers.dev, behind Cloudflare Access (cf:access-on)
+preview_urls = false                                    # no per-version preview addresses: Access guards the one address
 
 [[rules]]                                               # htmx's file goes into the Worker as text, served at /htmx.js
 type = "Text"

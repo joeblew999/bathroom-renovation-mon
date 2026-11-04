@@ -22,6 +22,7 @@ macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zi
 
 [env]
 _.python.venv = { path = ".venv", create = true }
+CF_ACCESS_EMAILS = "gedw99@gmail.com"   # who Cloudflare Access lets into the web app (comma-separated), when it's on
 
 [tasks.setup]
 description = "Install the Python packages (exactly as uv.lock pins them) and the Chromium that prints the PDF"
@@ -197,12 +198,25 @@ dir = "web"
 run = "python test_web.py"
 
 [tasks."web:deploy"]
-description = "Put the web app on Cloudflare, on the real D1 (after cf:provision and db:push)"
+description = "Put the web app on Cloudflare, on the real D1 — refused while Access is off (--public deploys anyway); then checks the address sends a visitor to the Access login"
 dir = "etl"
-run = [
-  "grep -q '00000000-0000-0000-0000-000000000000' wrangler.toml && echo 'ERROR: there is no D1 database yet: mise run cf:provision first' && exit 1 || true",
-  "wrangler deploy --config wrangler.toml",
-]
+usage = 'flag "--public" help="deploy even with Access off: open to anyone with the address"'
+run = 'python cloudflare.py deploy{% if usage.public %} --public{% endif %}'
+
+[tasks."cf:access-on"]
+description = "Put Cloudflare Access in front of the web app: only the emails in CF_ACCESS_EMAILS can open it"
+dir = "etl"
+run = "python cloudflare.py access on"
+
+[tasks."cf:access-off"]
+description = "Take Cloudflare Access away from the web app: anyone with the address can open it"
+dir = "etl"
+run = "python cloudflare.py access off"
+
+[tasks."cf:access-status"]
+description = "Say whether Cloudflare Access is in front of the web app, and who it lets in"
+dir = "etl"
+run = "python cloudflare.py access status"
 
 # ---------- Cloudflare: logins and provisioning, from here, for any developer (nothing kept in the repo) ----------
 
