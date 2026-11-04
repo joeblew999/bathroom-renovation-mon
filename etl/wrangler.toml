@@ -12,5 +12,5 @@ fallthrough = false
 [[d1_databases]]
 binding = "DB"
 database_name = "bathroom-quote"
-database_id = "00000000-0000-0000-0000-000000000000"   # not made yet: db:push and db:pull refuse until the real id is here
+database_id = "25dfa7a1-34ed-44a7-b5f9-639e76e81b2a"   # made by `mise run cf:provision` (read replication auto)
 migrations_dir = "../out/etl/migrations"                # the trial's migrations (at the switch: migrations/ at the top of the repo)
