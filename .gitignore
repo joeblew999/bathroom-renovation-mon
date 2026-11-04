@@ -13,3 +13,5 @@ __pycache__/
 .wrangler/
 # the web app's packages (web:setup installs them from web/package-lock.json)
 node_modules/
+# cf's per-project cache: which Cloudflare account this clone's login uses (each developer's own; no token in it)
+.cloudflare/

@@ -38,7 +38,7 @@ def device_login(cmd):
         url = url or (DEVICE_URL.search(line) or [None])[0]
         if url and not code and (m := DEVICE_CODE.match(line)) and m[1] not in url:
             code = m[1]
-            link = url if "user_code=" in url else f"{url}{'&' if '?' in url else '?'}user_code={code}"
+            link = url if "user_code=" in url else f"{url.split('/verify')[0]}?user_code={code}"   # the form Cloudflare documents: /oauth2/device?user_code=…
             print(f"\n>>> Approve here (the code is in the link): {link}\n", flush=True)
     if proc.wait():
         sys.exit(f"ERROR: {' '.join(cmd[:3])} didn't log in")

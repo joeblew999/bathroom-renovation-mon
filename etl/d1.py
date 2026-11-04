@@ -12,7 +12,7 @@ by the web app): pull brings that into the working database first, where save ch
 """
 import json, re, sqlite3, subprocess, sys, tempfile
 from pathlib import Path
-from migrate import DATA, MIGRATIONS, OUT, PARTS, REPO, cli, dump, load, migrated, problems, schema_of
+from migrate import DATA, MIGRATIONS, OUT, PARTS, REPO, cli, dump, load, migrated, problems, schema_of, sql
 
 HERE = Path(__file__).resolve().parent
 CONFIG = HERE / "wrangler.toml"
@@ -56,6 +56,12 @@ def ready():
     return db
 
 
+def rows_of(files):
+    """A version of the data as its rows, whatever order they were written in (a push puts an item after the one it serves,
+    so D1's order can differ from the seed files' while the data is the same)."""
+    return {part: sorted(lines) for part, lines in files.items()}
+
+
 def known():
     """Every version of the seed files git has had (and the files as they are): D1 may be overwritten only from one of them."""
     out = [{p: (DATA / f"{p}.sql").read_text(encoding="utf-8").splitlines() for p in PARTS}]
@@ -68,21 +74,64 @@ def known():
     return out
 
 
+def in_link_order(db):
+    """The data as SQL a D1 upload can run with foreign keys checked at every row (the real D1 doesn't keep
+    defer_foreign_keys across an uploaded file): every table emptied, children first — a table's links to its own rows
+    cleared before its rows go — then every row put in, each after the rows it links to (tables in the order their
+    foreign keys allow; within a table that links to itself, an item after the one it serves)."""
+    names = [t for (t,) in db.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name")]
+    links = {t: [tuple(f) for f in db.execute(f"PRAGMA foreign_key_list({t})")] for t in names}
+    parents = {t: {f[2] for f in links[t] if f[2] != t} for t in names}
+    order, done = [], set()
+    while len(order) < len(names):                             # parents before children
+        ready = [t for t in names if t not in done and parents[t] <= done]
+        if not ready:
+            sys.exit(f"ERROR: the tables' foreign keys go round in a circle: {sorted(set(names) - done)}")
+        order += ready; done |= set(ready)
+    out = []
+    for t in reversed(order):                                  # empty it: children first, a table's own links cleared
+        nullable = {c[1] for c in db.execute(f"PRAGMA table_info({t})") if not c[3] and not c[5]}
+        own_cols = sorted({f[3] for f in links[t] if f[2] == t} & nullable)   # one NULL column is enough to cut a link
+        if own_cols:
+            out.append(f"UPDATE {t} SET {', '.join(c + ' = NULL' for c in own_cols)};")
+        out.append(f"DELETE FROM {t};")
+    for t in order:
+        cols = [c[1] for c in db.execute(f"PRAGMA table_xinfo({t})") if c[6] == 0]      # stored columns (no generated ones)
+        rows = [dict(zip(cols, r)) for r in db.execute(f"SELECT {', '.join(cols)} FROM {t} ORDER BY rowid")]
+        own = {}                                               # each link within the table: its columns → the columns
+        for f in links[t]:                                     # it points at (a composite key is one link)
+            if f[2] == t:
+                own.setdefault(f[0], ([], []))
+                own[f[0]][0].append(f[3]); own[f[0]][1].append(f[4])
+        own = [(tuple(a), tuple(b)) for a, b in own.values()]
+        def target(r, child, parent):                          # what a row points at; nothing if any column is NULL
+            vals = tuple(r[c] for c in child)
+            return None if None in vals else (parent, vals)
+        placed, left = set(), rows
+        while left:                                            # each row after the rows of this table it points at
+            now = [r for r in left if all(target(r, c, k) is None or target(r, c, k) in placed for c, k in own)]
+            if not now:
+                sys.exit(f"ERROR: rows of {t} link to each other in a circle")
+            for r in now:
+                out.append(f"INSERT INTO {t} ({', '.join(cols)}) VALUES ({', '.join(sql(r[c]) for c in cols)});")
+                placed |= {(k, tuple(r[x] for x in k)) for _, k in own}
+            left = [r for r in left if r not in now]
+    return out
+
+
 def push(where):
     db = ready()
     if any(r["name"] == "materials_line" for r in query(where, "SELECT name FROM sqlite_master WHERE type = 'table'")):
         with tempfile.TemporaryDirectory() as t:              # D1 already holds data: is it a version git has had?
             got, _ = exported(where, Path(t))
             theirs = dump(sqlite3.connect(got), Path(t) / "theirs")
-        if theirs not in known():
+        empty = not any(theirs.values())                        # nothing in it yet: nothing to wipe
+        if not empty and rows_of(theirs) not in [rows_of(k) for k in known()]:
             sys.exit("ERROR: D1 holds changes git has never had — made on D1 itself (by the web app?) — and a push would wipe "
                      "them. Bring them here first: db:pull (into the working database), then db:save and commit; then push.")
     wrangler(where, "migrations apply")
     with tempfile.NamedTemporaryFile("w", suffix=".sql", dir=OUT, delete=False, encoding="utf-8") as f:
-        f.write("PRAGMA defer_foreign_keys = true;\n")
-        f.writelines(f"DELETE FROM {t};\n" for t in tables(db))
-        for part in PARTS:
-            f.write((DATA / f"{part}.sql").read_text(encoding="utf-8"))
+        f.write("\n".join(in_link_order(db)) + "\n")
     try:
         wrangler(where, "execute", "--file", f.name, "--yes")
     finally:
