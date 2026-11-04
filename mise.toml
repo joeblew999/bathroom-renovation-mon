@@ -207,13 +207,9 @@ run = [
 # ---------- Cloudflare: logins and provisioning, from here, for any developer (nothing kept in the repo) ----------
 
 [tasks."cf:login"]
-description = "Log in to Cloudflare by device code — cf (bound to this repo) and wrangler: each prints a URL to approve, from any device"
+description = "Log in to Cloudflare by device code — cf (bound to this repo), then wrangler: each prints one link, the code already in it, to approve from any device"
 dir = "etl"
-run = [
-  "cf auth create bathroom-quote --no-browser",  # the cf login, a profile for this project
-  "cf auth activate bathroom-quote ..",          # bound to this repo: cf uses it here and in every folder below
-  "wrangler login --device --browser=false",     # wrangler's own login, for D1's data and deploying
-]
+run = "python cloudflare.py login"
 
 [tasks."cf:whoami"]
 description = "Show who cf and wrangler are logged in to Cloudflare as"

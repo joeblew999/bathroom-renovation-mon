@@ -1,7 +1,11 @@
 """Make sure everything the quote needs on Cloudflare exists, the way it should — run it again any time; it changes only
 what isn't so yet. With the Cloudflare CLI (`cf`, pinned in mise.toml), logged in by `mise run cf:login`.
 
-    python cloudflare.py provision [--dry-run]
+    python cloudflare.py login                 (mise run cf:login)
+    python cloudflare.py provision [--dry-run] (mise run cf:provision)
+
+login: logs in cf (a profile for this project, bound to the repo) and wrangler, each by device code — and prints each
+link with its code already in it (…?user_code=…), so approving is one tap, from any device.
 
   1. the D1 database bathroom-quote: made if it isn't there, its primary near Thailand (apac), with read replication on
      (mode auto: Cloudflare places read replicas round the world, and the web app's sessions read from the nearest);
@@ -18,6 +22,33 @@ NAME = re.search(r'database_name = "([^"]+)"', CONFIG.read_text())[1]
 PRIMARY = "apac"            # where the primary is made: Asia-Pacific, near the site (Thailand)
 REPLICATION = "auto"        # read replicas, placed by Cloudflare
 PLACEHOLDER = "00000000-0000-0000-0000-000000000000"
+
+
+DEVICE_URL = re.compile(r"https://dash\.cloudflare\.com/oauth2/device\S*")
+DEVICE_CODE = re.compile(r"^\s*([A-Za-z0-9-]{6,12})\s*$")    # the code, on a line of its own
+PROFILE = "bathroom-quote"  # cf's login for this project
+
+
+def device_login(cmd):
+    """Run a device-code login, passing its output through, and print its link with the code in it as soon as both appear."""
+    proc = subprocess.Popen(cmd, cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+    url = code = None
+    for line in proc.stdout:
+        print(line, end="", flush=True)
+        url = url or (DEVICE_URL.search(line) or [None])[0]
+        if url and not code and (m := DEVICE_CODE.match(line)) and m[1] not in url:
+            code = m[1]
+            link = url if "user_code=" in url else f"{url}{'&' if '?' in url else '?'}user_code={code}"
+            print(f"\n>>> Approve here (the code is in the link): {link}\n", flush=True)
+    if proc.wait():
+        sys.exit(f"ERROR: {' '.join(cmd[:3])} didn't log in")
+
+
+def login():
+    device_login(["cf", "auth", "create", PROFILE, "--no-browser"])
+    cf("auth", "activate", PROFILE, str(HERE.parent))       # bound to this repo: cf uses it here and in every folder below
+    device_login(["wrangler", "login", "--device", "--browser=false"])
+    print("Logged in: cf (profile bathroom-quote, bound to this repo) and wrangler. Next: mise run cf:provision")
 
 
 def cf(*args):
@@ -76,6 +107,9 @@ def provision(dry):
 
 
 if __name__ == "__main__":
-    if sys.argv[1:2] != ["provision"]:
+    if sys.argv[1:2] == ["login"]:
+        login()
+    elif sys.argv[1:2] == ["provision"]:
+        provision("--dry-run" in sys.argv[2:])
+    else:
         sys.exit(__doc__)
-    provision("--dry-run" in sys.argv[2:])
