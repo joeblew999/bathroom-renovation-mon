@@ -34,6 +34,8 @@ WORKERS_SUBDOMAIN = "gedw99"        # the account's workers.dev subdomain: the a
 HOST = f"{WORKER}.{WORKERS_SUBDOMAIN}.workers.dev"
 SESSION = "24h"                     # how long a sign-in lasts
 ACCESS_LOGIN = "cloudflareaccess.com"   # where Access sends a visitor who hasn't signed in
+BROWSER = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36",
+           "Accept": "text/html,application/xhtml+xml"}   # the check asks as a browser does
 
 
 DEVICE_URL = re.compile(r"https://dash\.cloudflare\.com/oauth2/device\S*")
@@ -161,12 +163,13 @@ def guarded(url):
     import urllib.request, urllib.error
     class Stop(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, *a, **k): return None
+    ask = urllib.request.Request(url, headers=BROWSER)       # as a browser asks: Cloudflare refuses a bare script's request
     try:
-        r = urllib.request.build_opener(Stop).open(url, timeout=20)
+        r = urllib.request.build_opener(Stop).open(ask, timeout=20)
         return False, f"{r.status}, the app itself"
     except urllib.error.HTTPError as e:
         where = e.headers.get("Location", "")
-        return ACCESS_LOGIN in where, f"{e.code} to {where or 'nowhere'}"
+        return ACCESS_LOGIN in where, f"{e.code} to {where.split('?')[0] or 'nowhere'}"
 
 
 def deploy(public):
