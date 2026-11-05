@@ -23,7 +23,14 @@ This folder is separate from the bathroom quote: nothing in the bathroom build r
 
 Same as the **KPA "8 ฟัก" black aluminium sliding door** at HomePro, made to size.
 
-- Reference: https://www.homepro.co.th/p/1310516 (180 × 204 cm, black, ฿6,790); https://www.homepro.co.th/p/1310521 (200 × 204 cm, black)
+- Reference, HomePro prices checked 2026-11-05 (stock size, supply only):
+
+  | SKU | Size (W × H) | Normal | Sale | Final after deductions |
+  |---|---|---|---|---|
+  | [1310516](https://www.homepro.co.th/p/1310516) | 180 × 204 cm | ฿7,750 | ฿6,790 | ฿6,101.30 |
+  | [1310521](https://www.homepro.co.th/p/1310521) | 200 × 204 cm | ฿10,300 | ฿9,620 | ฿8,555.40 |
+
+  These are the benchmark for judging the custom quotes. They are deliberately left out of the quote request.
 - 2 sliding panels, with fly screen
 - Grid of 8 panes per panel (2 × 4), Japanese style
 - Glass: **clear green** (เขียวใส)
