@@ -1,8 +1,8 @@
 # Appliances
 
-TV, fridge, cooktop and network cables for the house, all from HomePro.
+TV, fridge, cooktop, network cables and an office table for the house, all from HomePro.
 
-**Status: picked, not ordered. Total ฿22,460.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
+**Status: picked, not ordered. Total ฿27,330.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
 
 ## Shopping list (HomePro)
 
@@ -15,7 +15,8 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 | 5 | Kitchen | Induction cooktop | [LocknLock EJI326WHT](https://www.homepro.co.th/p/1213620) | 1213620 | ฿3,290 |
 | 6 | Bedroom 2 → 1 | Ethernet cable to the TV | [Fibreconnex CAT6, 20 m](https://www.homepro.co.th/p/1157099) | 1157099 | ฿745 |
 | 7 | Bedroom 2 | Ethernet cable to the desk | [Fibreconnex CAT6, 3 m](https://www.homepro.co.th/p/1157057) — **out of stock** | 1157057 | ฿155 |
-| | | | | **Total** | **฿22,460** |
+| 8 | Bedroom 2 (office) | Office table: 2 bar tables side by side | [Evergreen Furniture TC, 120 × 40 × 100 cm, black](https://www.homepro.co.th/p/888168100023) × 2 | 888168100023 | ฿4,870 (2 × ฿2,435) |
+| | | | | **Total** | **฿27,330** |
 
 ## Before ordering
 
@@ -40,6 +41,7 @@ Both cables are CAT6 with RJ45 plugs on both ends. HomePro hangs the TV on its b
 - **TV — LG 55UA7350PSB:** 55", 4K LED, webOS, Magic Remote, AirPlay (works with iPhones), HDR10 Pro and HLG, 60 Hz, 20 W sound, 3 HDMI. ฿10,990 (was ฿15,990). No bracket in the box; HomePro's free installation doesn't fit one, so #2 and #3 (45–60 minutes). AirPlay and sound from [fullspecs.net](https://fullspecs.net/smart-tv/lg/55ua7350psb-specifications/), 2026-11-05.
 - **Fridge — Haier HRF-185MN:** 2-door, 6.6 cu ft (187 L), black, no inverter, 54.8 × 56.5 × 135.5 cm. ฿5,990 (was ฿6,990).
 - **Cooktop — LocknLock EJI326WHT:** on the benchtop, plugs in, 2 zones (1,500 W + 1,300 W), 46 × 23 cm, white. Induction pans only, 12–24 cm.
+- **Office table — Evergreen Furniture TC bar table, × 2:** rubberwood, black, UV-coated top, 120 × 40 cm and 100 cm high each; two side by side make a 120 × 80 cm top. Holds 90 kg spread evenly. Flat-pack, you assemble it. Sold on HomePro by Evergreen Furniture (not HomePro itself); 29 in stock; 1-year warranty. Also comes 74 cm and 90 cm high.
 - **Ethernet cables — Fibreconnex CAT6:** same brand, RJ45 both ends. Nearest HomePro lengths to the 2 m and 12 m runs: 15 m was out of stock, so 20 m; 1 m is too short, so 3 m.
 
 ## Other options looked at (HomePro, 2026-11-05)
