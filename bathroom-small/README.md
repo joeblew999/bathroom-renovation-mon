@@ -66,21 +66,20 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 
 **How many tiles** (500 × 500 mm, 4 to a box):
 - Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows (the third row cut to 380 mm) = **15 tiles**.
-- Step riser: 1,380 mm long, cut in strips from **1 tile**.
-- Allow **2 tiles** for cuts and breakage → **18 tiles**, 5 boxes (20 tiles).
-- **3 boxes (12 tiles) are already on site** → **buy 2 more boxes**.
+- Step riser: 1,380 mm long, 50 mm high — cut from the offcuts of the third row (each offcut is 120 × 500 mm), so **no extra tile**.
+- **3 boxes (12 tiles) are already on site** → **buy 1 more box** → 16 tiles, **1 spare**.
 
 | Item | Product | SKU | Buy | Price |
 |---|---|---|---|---|
-| Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 2 boxes (3 already on site) | ฿418 |
+| Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 1 box (3 already on site) | ฿209 |
 | Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | already bought | — |
 | Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | ฿799 |
 | Grout | [Crocodile Premium Plus, 1 kg, granite grey](https://www.homepro.co.th/p/138786) | 138786 | 1 bag (estimate) | ฿63 |
-| | | | **Total to buy** | **฿1,280** |
+| | | | **Total to buy** | **฿1,071** |
 
 - **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
 - **Grout:** Crocodile Premium Plus, granite grey — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
-- **Same shade:** the 2 new boxes must be **shade H07**, the same as the 3 on site — check the box labels.
+- **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
 ### 4. Fit-out
