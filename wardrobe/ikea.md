@@ -53,7 +53,7 @@ Facing the wardrobe:
 - **Keep clear** about 450 in front of the curtain at the right bay, to pull the baskets out.
 - **Office table** (the two bar tables, 1,200 × 800) against the right wall under the window, with the stool in front of it — across the room from the door, clear of the baskets.
 - **Door** in the left wall. **Double bed** stands on edge against the wall opposite the wardrobe. For guests it lies down into the middle of the room, and the table and stool go out to the living room.
-- The window's position, and the door's position, width and swing, are not measured yet.
+- The window's position, and the door's position and width, are not measured yet. The door is hinged at the front corner side and opens back toward the wall opposite the wardrobe.
 
 ## Parts (IKEA Thailand)
 
