@@ -41,7 +41,7 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 **Steps**
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
 2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
-3. **Joints:** tape and fill every joint and screw head smooth.
+3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
 4. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
 
 **Materials** (HomePro; products and prices from `materials.toml`, prices checked 2026-10-31)
@@ -53,7 +53,7 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 | [SANKI wall angle, 2.44 m](https://www.homepro.co.th/p/1110271) | 1110271 | 4 lengths | 7.76 m round the room | ฿16 | ฿64 |
 | [TPI drywall screws, 6 × 1", black](https://www.homepro.co.th/p/1110148) | 1110148 | 1 box | board to C-channel | ฿89 | ฿89 |
 | [DURAONE jointing compound, 1 kg](https://www.homepro.co.th/p/1110109) | 1110109 | 2 bags | | ฿16 | ฿32 |
-| [PYRAMID joint tape, 1", pack of 3](https://www.homepro.co.th/p/1024381) | 1024381 | 1 pack | | ฿42 | ฿42 |
+| [PYRAMID joint tape, 1", pack of 3](https://www.homepro.co.th/p/1024381) | 1024381 | 1 pack | board joints, plus the ceiling-to-wall corner all round (7.76 m) — check the roll length on the pack | ฿42 | ฿42 |
 | [BY TORA wall plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | for fixing the wall angle | ฿65 | ฿65 |
 | | | | | **Total** | **฿898** |
 
