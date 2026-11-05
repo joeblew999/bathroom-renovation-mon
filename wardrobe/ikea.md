@@ -58,6 +58,14 @@ Facing the wardrobe:
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
+**Wall screws and plugs** — not included with any BOAXEL part (IKEA's instructions: "Screw(s) and plug(s) for the wall are not included"). About 40 holes in the brick: mounting rails 5 + 3 screws, each upright 8.
+
+| Item | Product | HomePro SKU | How many | Status | Each | Total |
+|---|---|---|---|---|---|---|
+| Wall plugs with screws | [BY TORA plastic plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | To buy | ฿65 | ฿65 |
+
+HomePro, checked 2026-11-05. IKEA's instructions drill 7 mm — check the plug suits that and the screw heads fit the holes in the rails and uprights.
+
 ## Installation
 
 IKEA installs it on the day the truck delivers — book it when ordering online, or at the Delivery Counter in store.
@@ -74,15 +82,15 @@ From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-serv
 
 | | |
 |---|---|
-| Parts | ฿8,260 |
+| Parts (IKEA) | ฿8,260 |
+| Wall plugs and screws (HomePro) | ฿65 |
 | Assembly and wall mounting | ≈฿1,080 |
 | Truck delivery | from ฿299 |
-| **Total** | **≈฿9,640** or a little more |
+| **Total** | **≈฿9,705** or a little more |
 
 ## Check before ordering
 
 - **Slot spacing:** IKEA doesn't publish the spacing of the slots in the uprights.
-- **Screws and plugs:** about 40 holes in the brick (mounting rails 5 + 3 screws, each upright 8) — not included; ask whether IKEA's technicians bring them.
 
 ## Sources
 
