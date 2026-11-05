@@ -14,14 +14,14 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ## 1. Ceiling
 
-The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room. Done before the walls and floor are tiled.
+**Done first.** The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room — plus painting the ceiling, the walls and the window's steel protector.
 
 **Steps**
 1. Take down the old ceiling light and pull out its cable; take down the whole old ceiling, tiles and grid.
 2. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
 3. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish.
 4. **Joints:** tape and fill every joint and screw head smooth.
-5. **Paint:** with the existing paint (no primer), before tiling.
+5. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
 
 **Materials** (HomePro; products and prices from `materials.toml`, prices checked 2026-10-31)
 
