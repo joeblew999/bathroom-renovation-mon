@@ -102,9 +102,9 @@ Where each one goes in this room: to set out.
 
 | Item | Product | HomePro SKU | Price |
 |---|---|---|---|
-| Hose | [WSP KN40 stainless hot/cold supply hose, 40" (about 1 m), 304 stainless with EPDM inner](https://www.homepro.co.th/p/1174720) | 1174720 | ฿149 |
+| Hose | [HAFELE 495.60.109 stainless shower hose, 120 cm, 304 stainless](https://www.homepro.co.th/p/1164269) | 1164269 | ฿259 |
 
-Check the nut sizes on the heater and the stop tap against the hose's ends before fitting.
+A shower hose, for its look: 120 cm is the nearest length to the 1 m run, with a little slack. Check the nut sizes on the heater and the stop tap against the hose's ends (½") before fitting.
 
 **Last: the door.** A new door, hinges and handle, **70 cm wide** to match the existing 700 mm door. HomePro, checked 2026-11-05:
 
