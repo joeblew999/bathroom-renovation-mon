@@ -23,6 +23,7 @@ The **owner** does the preparation (phase 1). Two teams: the **tiler** does the 
 | ความยาว (ผนังหน้าต่างถึงผนังประตู) / Length (window wall to door wall) | **2,500** |
 | ความกว้าง (ตามผนังหน้าต่าง) / Width (along the window wall) | **1,380** |
 | ความสูงฝ้า / Ceiling height | **2,800** |
+| หน้าต่าง / Window | **400 × 600** |
 
 พื้นที่พื้นและฝ้า: 2.5 × 1.38 = **3.45 ตร.ม.**
 
