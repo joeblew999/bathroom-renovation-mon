@@ -18,7 +18,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | Who | What |
 |---|---|---|---|
-| 1 | Strip out | Builder | First clean the tile edge trims, tape out and wrap what stays; then remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
+| 1 | Strip out | Builder | First clean the tile edge trims, tape out and wrap what stays, take the old door off; then remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
 | 2 | Ceiling | Builder | New gypsum ceiling, then paint the ceiling, walls, window frame and window's steel security screen |
 | 3 | Tiling | **Tiler** | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
 | 4 | Fit-out | Builder | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
@@ -29,6 +29,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 1. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
 2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
 3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
+4. **Take the old door off.** The frame stays; the new door goes in last (phase 4).
 
 The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
 
@@ -44,7 +45,6 @@ The plastic and tape stay on for the whole job and come off only when the job is
 
 **Take the window's steel security screen off** and keep it — it is painted in phase 2 and goes back on.
 
-The old door comes out last, when the new one goes in (phase 4).
 
 ### 2. Ceiling
 
