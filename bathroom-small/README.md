@@ -16,21 +16,33 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | What |
 |---|---|---|
-| 1 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
-| 2 | Strip out | Remove everything except the shower, water heater, soap holder and toilet paper holder |
+| 1 | Strip out | Remove everything, the old ceiling included, except the shower, water heater, soap holder and toilet paper holder |
+| 2 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
 | 3 | Tiling | Grey floor tiles, the drain, and the step's riser up to the existing pink edge trim |
 | 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; **last**, the new door |
 
-### 1. Ceiling
+### 1. Strip out
+
+Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light and pull out its cable, then the whole old ceiling, tiles and grid — **except these, which stay**:
+
+| Stays | |
+|---|---|
+| Shower | the existing shower |
+| Water heater | the existing shower water heater |
+| Soap holder | the existing one |
+| Toilet paper holder | the existing one |
+
+Cover them up while the rest is stripped out, the ceiling built and painted, and the floor tiled. The old door comes out last, when the new one goes in (phase 4).
+
+### 2. Ceiling
 
 The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room — plus painting the ceiling, the walls and the window's steel protector.
 
 **Steps**
-1. Take down the old ceiling light and pull out its cable; take down the whole old ceiling, tiles and grid.
-2. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
-3. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish.
-4. **Joints:** tape and fill every joint and screw head smooth.
-5. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
+1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
+2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish.
+3. **Joints:** tape and fill every joint and screw head smooth.
+4. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
 
 **Materials** (HomePro; products and prices from `materials.toml`, prices checked 2026-10-31)
 
@@ -46,19 +58,6 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 | | | | | **Total** | **฿898** |
 
 Same quantities as the main quote: the smaller room still needs 2 sheets, 4 C-channel lengths and 4 wall-angle lengths.
-
-### 2. Strip out
-
-Remove **everything** in the bathroom, **except these, which stay**:
-
-| Stays | |
-|---|---|
-| Shower | the existing shower |
-| Water heater | the existing shower water heater |
-| Soap holder | the existing one |
-| Toilet paper holder | the existing one |
-
-Cover them up while the rest is stripped out and the floor is tiled. The ceiling comes down in phase 1; the old door comes out last, when the new one goes in (phase 4).
 
 ### 3. Tiling
 
