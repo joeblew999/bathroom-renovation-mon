@@ -19,7 +19,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | # | Phase | Who | What |
 |---|---|---|---|
 | 1 | Strip out | Builder | Remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
-| 2 | Ceiling | Builder | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
+| 2 | Ceiling | Builder | New gypsum ceiling, then paint the ceiling, walls, window frame and window's steel security screen |
 | 3 | Tiling | **Tiler** | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
 | 4 | Fit-out | Builder | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
 
@@ -37,17 +37,22 @@ Remove **everything** in the bathroom — including the old ceiling: take down t
 
 **Before anything is stripped out, wrap the shower, water heater, soap holder and toilet paper holder in plastic.** The plastic stays on for the whole job and comes off only when the job is done, so they're protected through the strip out, ceiling, painting, tiling and fit-out.
 
+**Take the window's steel security screen off** and keep it — it is painted in phase 2 and goes back on.
+
 The old door comes out last, when the new one goes in (phase 4).
 
 ### 2. Ceiling
 
-A new flush gypsum ceiling, then painting the ceiling, the walls and the window's steel protector.
+A new flush gypsum ceiling, then painting the ceiling, the walls, the window frame and the window's steel security screen.
 
 **Steps**
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
 2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
 3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
-4. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
+4. **Paint:** with the white paint already on site — clean first, then paint:
+   - the ceiling and the walls;
+   - the window frame;
+   - the steel security screen, **off the wall**, painted on its own; put it back on the window only when the paint is dry.
 
 **Materials** (HomePro, prices checked 2026-10-31)
 
