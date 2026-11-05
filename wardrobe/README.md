@@ -1,8 +1,8 @@
-# Wardrobe — steel rails set into the brick
+# Wardrobe, bedroom 2 — steel rails set into the brick
 
-A 3 m wide open wardrobe with a curtain in front: **6 steel rails in 3 pairs**, each spanning wall to wall with **no centre support**, their ends set into pockets in the brick walls. Plywood shelves sit on U blocks over each pair. Built by our own workers; everything from HomePro.
+An open wardrobe in **bedroom 2**, **3 m wide** wall to wall, with a curtain in front: **6 steel rails in 3 pairs**, each spanning wall to wall with **no centre support**, their ends set into pockets in the brick walls. Plywood shelves sit on U blocks over each pair. Built by our own workers; everything from HomePro.
 
-**Status: designed, not bought.** Materials about **฿3,400**, plus wood glue and screws. Prices from HomePro's product pages, checked 2026-11-05 (the tube and mortar prices change with the delivery area; the figures are the low end).
+**Status: designed, not bought.** Materials about **฿4,530**, plus wood glue and screws. Prices from HomePro's product pages, checked 2026-11-05 (the tube and mortar prices change with the delivery area; the figures are the low end).
 
 ## Where the rails go
 
@@ -28,7 +28,7 @@ The curtain track goes about **650** from the back wall (100 in front of the fro
 - **Tube:** 2" × 1" × 2.3 mm flat steel tube, **stood on edge** (50 tall, 25 wide on top, so every hanger fits).
 - **Load:** a full rail of clothes taken as 15 kg per metre, about 45 kg. With a shelf on top, the back rail carries about 71 kg and sags about 7–8 mm at mid-span; the front rail about 26 kg.
 - **Length:** tube = **W + 60**, where W is wall to wall at rail height. Measure front and back of the wardrobe and use the **shorter** figure.
-- **3 or 6 tubes:** a tube is 6 m. If every W is **2,938 or less**, one tube makes two rails (3 tubes); otherwise one tube per rail (6 tubes).
+- **6 tubes:** a tube is 6 m. At 3,000 wall to wall each rail is 3,060, so one tube makes only one rail — **6 tubes**. (Only if every measured W came out at 2,938 or less would one tube make two rails, and 3 tubes do.)
 
 ### The pockets
 
@@ -83,12 +83,12 @@ Plywood shelves lie across a pair of rails, lifted on **U blocks** made from the
 
 | Item | Product | SKU | How many | Each | Total |
 |---|---|---|---|---|---|
-| Steel tube | [Flat tube 2" × 1" × 2.3 mm, 6 m (เหล็กท่อแบน)](https://www.homepro.co.th/p/1109927) | 1109927 | 3 (or 6, see above) | ฿375–760 | ฿1,125 |
+| Steel tube | [Flat tube 2" × 1" × 2.3 mm, 6 m (เหล็กท่อแบน)](https://www.homepro.co.th/p/1109927) | 1109927 | 6 | ฿375–760 | ฿2,250 |
 | Mortar | [TPI M300 ready-mix masonry mortar, 50 kg](https://www.homepro.co.th/p/1109515) | 1109515 | 1 bag | ฿68–180 | ฿68 |
 | Plywood | [SSW STB rubberwood plywood, 15 mm, 120 × 240 cm](https://www.homepro.co.th/p/1121483) | 1121483 | 2 sheets | ฿585 | ฿1,170 |
 | Varnish | [RTB PP101 1K water-based polyurethane, matte, 1/4 gal](https://www.homepro.co.th/p/250627) | 250627 | 2 | ฿520 | ฿1,040 |
-| | | | | **Total** | **฿3,403** |
+| | | | | **Total** | **฿4,528** |
 
-Also needed, not priced: wood glue, screws (shelves to blocks), plastic packers, primer for the tube ends. Not needed: brackets, angles, wall anchors, chemical anchor. 6 tubes instead of 3 adds ฿1,125. Optional: [Chaindrite clear 1.8 L](https://www.homepro.co.th/p/15432) (15432), ฿390.
+Also needed, not priced: wood glue, screws (shelves to blocks), plastic packers, primer for the tube ends. Not needed: brackets, angles, wall anchors, chemical anchor. The offcuts (about 2.9 m from each tube) are spare. Optional: [Chaindrite clear 1.8 L](https://www.homepro.co.th/p/15432) (15432), ฿390.
 
 The other option looked at was the IKEA BOAXEL wall-upright system (about ฿6,750 for two levels, plus IKEA's installation); this document is the steel-rail version.
