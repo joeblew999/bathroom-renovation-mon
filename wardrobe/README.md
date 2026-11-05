@@ -30,6 +30,7 @@ Heights are from the floor to the top of the rail; distances are from the back w
 | กลาง หน้า / Middle, front | **950** | **550** |
 | รองเท้า หลัง / Shoes, back | **200** | **250** |
 | รองเท้า หน้า / Shoes, front | **100** | **500** |
+| ชั้นไม้อัด ลึก 600 / Shelves, 600 deep | วางบนราว / on the rails | **5–605** |
 | ราวผ้าม่าน / Curtain track | — | **650** |
 
 ## ลำดับงาน / The work, in order
@@ -86,12 +87,12 @@ Prices checked on HomePro 2026-11-05; the tube and mortar prices depend on the d
 
 Plywood shelves sit on each pair of rails, on U blocks made from the same plywood.
 
-1. **ตัดแผ่นชั้น:** ไม้อัด 2 แผ่น ผ่าเป็นแผ่นกว้าง 400 มม. ชั้นละ 2 ชิ้น: 2,200 + 800 มม. รอยต่ออยู่บนบล็อก เว้นห่างผนัง 5 มม. ติดเทปกาวตามแนวตัด ใช้ใบเลื่อยฟันละเอียด
+1. **ตัดแผ่นชั้น:** ไม้อัด 2 แผ่น ผ่าแผ่นละ 2 เส้น กว้าง 600 มม. ชั้นละ 2 ชิ้น: 2,200 + 800 มม. รอยต่ออยู่บนบล็อก ชั้นชิดผนังหลัง (เว้น 5 มม.) ยื่นถึง 605 มม. เว้นห่างผนังข้าง 5 มม. ติดเทปกาวตามแนวตัด ใช้ใบเลื่อยฟันละเอียด
 
-   **Cut the shelves:** rip the 2 sheets into 400 wide strips. Each shelf is 2 pieces, 2,200 + 800, joined on a block; keep 5 off the walls. Masking tape along the cut line, fine-tooth blade.
-2. **ทำบล็อกตัว U:** ตัดจากเศษไม้อัด 4 เส้น ยาวเต็มแผ่น: กว้าง 60 มม. 2 เส้น (ทากาวซ้อนกัน หนา 30 = แกนกลาง) และกว้าง 75 มม. 2 เส้น (ด้านข้าง ติดสองข้างแกน **ต่ำกว่าแกน 15 มม.** ให้คร่อมราว) ทากาวลาเท็กซ์ ขอบบนเสมอกัน หนีบทุก 300 มม. ทิ้งไว้ 1 คืน แล้วตัดเป็นบล็อกยาว 60 มม. 30 ชิ้น
+   **Cut the shelves:** rip each of 2 sheets into two 600 wide strips. Each shelf is 2 pieces, 2,200 + 800, joined on a block. The shelf runs from the back wall (5 gap) to 605; keep 5 off the side walls. Masking tape along the cut line, fine-tooth blade.
+2. **ทำบล็อกตัว U:** ตัดจากไม้อัดแผ่นที่ 3 4 เส้น ยาวเต็มแผ่น: กว้าง 60 มม. 2 เส้น (ทากาวซ้อนกัน หนา 30 = แกนกลาง) และกว้าง 75 มม. 2 เส้น (ด้านข้าง ติดสองข้างแกน **ต่ำกว่าแกน 15 มม.** ให้คร่อมราว) ทากาวลาเท็กซ์ ขอบบนเสมอกัน หนีบทุก 300 มม. ทิ้งไว้ 1 คืน แล้วตัดเป็นบล็อกยาว 60 มม. 30 ชิ้น
 
-   **Make the U blocks:** from the spare plywood, cut 4 full-length strips: two 60 wide (glued face to face, 30 thick = the packer) and two 75 wide (the sides, glued either side of the packer **15 lower than it**, so they straddle the rail). Wood glue (PVA), tops flush, clamp every 300, leave overnight, then cut into 30 blocks, 60 long.
+   **Make the U blocks:** from the third sheet, cut 4 full-length strips: two 60 wide (glued face to face, 30 thick = the packer) and two 75 wide (the sides, glued either side of the packer **15 lower than it**, so they straddle the rail). Wood glue (PVA), tops flush, clamp every 300, leave overnight, then cut into 30 blocks, 60 long.
 3. **ขัด:** ขัดขอบที่ตัดทุกด้านด้วยกระดาษทรายเบอร์ 120 ลบมุมเล็กน้อยไม่ให้เกี่ยวเสื้อผ้า
 
    **Sand:** sand every cut edge with 120 grit and round the corners slightly so clothes don't snag.
@@ -104,9 +105,9 @@ Plywood shelves sit on each pair of rails, on U blocks made from the same plywoo
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ไม้อัดยาง 15 มม. / Rubberwood plywood, 15 mm | [SSW STB, 120 × 240 cm](https://www.homepro.co.th/p/1121483) | 1121483 | 2 แผ่น / 2 sheets | ต้องซื้อ / To buy | ฿585 | ฿1,170 |
-| โพลียูรีเทนสูตรน้ำ ชนิดด้าน / Water-based polyurethane, matte | [RTB PP101 1K, 1/4 gal](https://www.homepro.co.th/p/250627) | 250627 | 2 กระป๋อง / 2 cans | ต้องซื้อ / To buy | ฿520 | ฿1,040 |
-| | | | | **ต้องซื้อ / To buy** | | **฿2,210** |
+| ไม้อัดยาง 15 มม. / Rubberwood plywood, 15 mm | [SSW STB, 120 × 240 cm](https://www.homepro.co.th/p/1121483) | 1121483 | 3 แผ่น / 3 sheets | ต้องซื้อ / To buy | ฿585 | ฿1,755 |
+| โพลียูรีเทนสูตรน้ำ ชนิดด้าน / Water-based polyurethane, matte | [RTB PP101 1K, 1/4 gal](https://www.homepro.co.th/p/250627) | 250627 | 3 กระป๋อง / 3 cans | ต้องซื้อ / To buy | ฿520 | ฿1,560 |
+| | | | | **ต้องซื้อ / To buy** | | **฿3,315** |
 
 ราคาตรวจสอบที่โฮมโปร 2026-11-05 ต้องใช้เพิ่ม: กาวลาเท็กซ์ สกรู
 
@@ -117,8 +118,8 @@ Prices checked on HomePro 2026-11-05. Also needed: wood glue (PVA), screws.
 | | |
 |---|---|
 | ราวเหล็ก / Rails | ฿2,318 |
-| ชั้นไม้อัด / Shelves | ฿2,210 |
-| **รวม / Total** | **฿4,528** |
+| ชั้นไม้อัด / Shelves | ฿3,315 |
+| **รวม / Total** | **฿5,633** |
 
 ---
 
