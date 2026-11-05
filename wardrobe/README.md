@@ -1,94 +1,127 @@
-# Wardrobe, bedroom 2 — steel rails set into the brick
+# ตู้เสื้อผ้า ห้องนอน 2 / Wardrobe, bedroom 2
 
-An open wardrobe in **bedroom 2**, **3 m wide** wall to wall, with a curtain in front: **6 steel rails in 3 pairs**, each spanning wall to wall with **no centre support**, their ends set into pockets in the brick walls. Plywood shelves sit on U blocks over each pair. Built by our own workers; everything from HomePro.
+วันที่: 5 พ.ย. 2569
 
-**Status: designed, not bought.** Materials about **฿4,530**, plus wood glue and screws. Prices from HomePro's product pages, checked 2026-11-05 (the tube and mortar prices change with the delivery area; the figures are the low end).
+Date: 5 Nov 2026
 
-## Where the rails go
+ตู้เสื้อผ้าแบบเปิด ในห้องนอน 2 กว้าง 3 ม. จากผนังถึงผนัง มีผ้าม่านด้านหน้า: ราวเหล็ก 6 เส้น (3 คู่) ไม่มีขากลาง ปลายฝังเข้าผนังอิฐ และชั้นไม้อัดวางบนราว
 
-Floor to ceiling 2,800 mm. Each rail runs wall to wall across the 3 m.
+An open wardrobe in bedroom 2, 3 m wide wall to wall, with a curtain in front: 6 steel rails (3 pairs) with no centre support, their ends set into the brick walls, and plywood shelves on the rails.
 
-| Rail | Height — floor to top of rail | From the back wall |
+## ขนาด / Size
+
+| | มม. / mm |
+|---|---|
+| ความกว้าง ผนังถึงผนัง / Width, wall to wall | **3,000** |
+| พื้นถึงฝ้า / Floor to ceiling | **2,800** |
+| ความลึก ผนังหลังถึงราวผ้าม่าน / Depth, back wall to curtain track | **650** |
+
+## ตำแหน่งราว / Rail positions
+
+ความสูงวัดจากพื้นถึงขอบบนของราว ระยะวัดจากผนังด้านหลัง
+
+Heights are from the floor to the top of the rail; distances are from the back wall.
+
+| ราว / Rail | สูง / Height | จากผนังหลัง / From the back wall |
 |---|---|---|
-| Top, back | **2,000** | **250** |
-| Top, front | **2,000** | **550** |
-| Middle, back | **950** | **250** |
-| Middle, front | **950** | **550** |
-| Shoes, back | **200** | **250** |
-| Shoes, front | **100** | **500** |
+| บน หลัง / Top, back | **2,000** | **250** |
+| บน หน้า / Top, front | **2,000** | **550** |
+| กลาง หลัง / Middle, back | **950** | **250** |
+| กลาง หน้า / Middle, front | **950** | **550** |
+| รองเท้า หลัง / Shoes, back | **200** | **250** |
+| รองเท้า หน้า / Shoes, front | **100** | **500** |
+| ราวผ้าม่าน / Curtain track | — | **650** |
 
-The curtain track goes about **650** from the back wall (100 in front of the front rails).
+## ลำดับงาน / The work, in order
 
-- **Top and middle:** hang clothes from the **back** rail, or lay a shelf across both. A hanger is about 450 wide, so the clothes stop 75 short of the front rail. About 800 is left above the top rails for boxes.
-- **Shoes:** the back rail is higher, so the shoes tilt toward you.
-- There is no full-length hanging space (long coats and dresses need 1,400–1,600).
+| # | ขั้นตอน / Phase | งาน / What |
+|---|---|---|
+| 1 | ราวเหล็ก / Rails | ทำหลุมในผนัง ใส่ราว 6 เส้น อัดปูน / Cut the wall pockets, fit the 6 rails, mortar them in |
+| 2 | ชั้นไม้อัด / Shelves | ตัดไม้อัด ทำบล็อกตัว U ทาเคลือบ วางบนราว / Cut the plywood, make the U blocks, varnish, fit on the rails |
 
-## The rails
+### 1. ราวเหล็ก / Rails
 
-- **Tube:** 2" × 1" × 2.3 mm flat steel tube, **stood on edge** (50 tall, 25 wide on top, so every hanger fits).
-- **Load:** a full rail of clothes taken as 15 kg per metre, about 45 kg. With a shelf on top, the back rail carries about 71 kg and sags about 7–8 mm at mid-span; the front rail about 26 kg.
-- **Length:** tube = **W + 60**, where W is wall to wall at rail height. Measure front and back of the wardrobe and use the **shorter** figure.
-- **6 tubes:** a tube is 6 m. At 3,000 wall to wall each rail is 3,060, so one tube makes only one rail — **6 tubes**. (Only if every measured W came out at 2,938 or less would one tube make two rails, and 3 tubes do.)
+เหล็กท่อแบน 2" × 1" หนา 2.3 มม. **วางตั้ง** (สูง 50 กว้าง 25 ด้านบน) ปลายด้านหนึ่งเข้าหลุมลึก 60 อีกด้านเข้าหลุมตื้น 30 หลุมกว้าง 35 สูง 60 มม. ผนังหนา 100 มม.
 
-### The pockets
+2" × 1" × 2.3 mm flat steel tube, **stood on edge** (50 tall, 25 wide on top). One end goes into a deep pocket, 60, the other into a shallow pocket, 30. Pockets 35 wide × 60 tall; the wall is 100 thick.
 
-- **Both pockets 35 wide × 60 tall**, at exactly the same height. The wall is 100 thick.
-- **Deep pocket 60** at one end (leaves 40 of wall), **shallow pocket 30** at the other (leaves 70). Each tube end bears 30 in the wall.
-- About 5 gap all round the tube, rammed full of mortar — behind the tube end too.
-- **Key holes:** at each end of the tube, drill **Ø10 in the top face and the bottom face, 15 from the end** (4 holes per rail). Mortar packs into the tube through them and sets as a plug that locks it.
-- **Mortar:** TPI M300 ready-mix masonry mortar, mixed stiff (earth-damp). Not the AAC block adhesive — it is for 2–3 mm joints and cracks when packed thick.
+1. **วัดและตัด:** วัดผนังถึงผนัง (W) ที่ระดับราว ทั้งด้านหน้าและด้านหลัง ใช้ค่าที่สั้นกว่า ตัดท่อยาว W + 60 มม. — ท่อ 1 เส้นต่อราว 1 เส้น
 
-### Steps for the builders / ขั้นตอนสำหรับช่าง
+   **Measure and cut:** measure wall to wall (W) at rail height, front and back — use the shorter figure. Cut the tube to W + 60 — one tube per rail.
+2. **เจาะรูล็อก:** ที่ปลายท่อทั้งสองด้าน เจาะรู Ø10 มม. ด้านบนและด้านล่าง ห่างปลาย 15 มม. (4 รูต่อราว) ทาสีกันสนิมด้านนอกปลายท่อ
 
-1. วัด W ที่ระดับราว ทั้งด้านหน้าและด้านหลัง ใช้ค่าที่สั้นกว่า ตัดท่อยาว W + 60 มม.
+   **Key holes:** at each end, drill Ø10 holes in the top and bottom face, 15 from the end (4 holes per rail). Prime the outside of the ends.
+3. **ตีเส้นหลุม:** ตีเส้นหลุม 35 × 60 ทั้งสองด้านด้วยระดับน้ำหรือเลเซอร์ ให้อยู่ระดับเดียวกันพอดี ตรวจสายไฟและท่อในผนังก่อนเจาะ
 
-   Measure W at rail height, front and back — use the shorter figure. Cut the tube to W + 60.
-2. ที่ปลายท่อทั้งสองด้าน เจาะรู Ø10 มม. ด้านบนและล่าง ห่างปลาย 15 มม. (4 รูต่อราว) ทาสีกันสนิมด้านนอกปลายท่อ
+   **Mark the pockets:** mark both pockets 35 × 60 with a level or laser, at exactly the same height. Check for cables and pipes first.
+4. **เจาะหลุม:** เจาะรู 8–10 มม. หลายรูในกรอบ แล้วสกัดออก ติดเทปที่ดอกสว่าน: ลึก 60 / ตื้น 30 มม. 20 มม. สุดท้ายปิดระบบกระแทก **ห้ามตอกท่อเข้าผนัง** และระวังอย่าเจาะทะลุ
 
-   At each end drill Ø10 holes in the top and bottom face, 15 from the end (4 holes per rail). Prime the outside of the ends.
-3. ตีเส้นหลุม 35 × 60 ทั้งสองด้านด้วยระดับน้ำหรือเลเซอร์ ตรวจสายไฟและท่อในผนังก่อนเจาะ
+   **Cut the pockets:** drill a cluster of 8–10 mm holes inside the mark, then chisel out. Tape on the bit: 60 deep / 30 shallow. No hammer action for the last 20 mm. **Never hammer the tube in**, and don't break through.
+5. **ทำความสะอาดหลุม:** ปัดหรือเป่าฝุ่นออก แล้วพรมน้ำให้ชื้น (ไม่แฉะ)
 
-   Mark both pockets 35 × 60 with a level or laser so they are exactly level. Check for cables and pipes first.
-4. เจาะรู 8–10 มม. หลายรูในกรอบ แล้วสกัดออก ติดเทปที่ดอกสว่าน: ลึก 60 / ตื้น 30 มม. **ห้ามตอกท่อเข้าผนัง** และระวังอย่าเจาะทะลุ ผนังหนาแค่ 100 มม.
+   **Clean the pockets:** brush or blow out the dust, then dampen them (damp, not wet).
+6. **ใส่ราว:** ดันท่อเข้าหลุมลึก 60 หมุนเข้าแนว เลื่อนกลับเข้าหลุมตื้น 30 รองแผ่นพลาสติกใต้ปลายท่อจนได้ระดับ
 
-   Cut each pocket: drill a cluster of 8–10 mm holes inside the mark, then chisel out. Tape on the bit: 60 deep / 30 shallow. **Never hammer the tube in to make the hole**, and don't break through — the wall is only 100 thick.
-5. 20 มม. สุดท้ายปิดระบบกระแทก ปัดหรือเป่าฝุ่นออก แล้วพรมน้ำให้หลุมชื้น (ไม่แฉะ)
+   **Fit the rail:** push the tube 60 into the deep pocket, swing it in line, slide it back 30 into the shallow pocket. Plastic packers under the ends until level.
+7. **อัดปูน:** ผสมปูน TPI M300 ให้ข้น (หมาดๆ) อัดจากด้านใน: หลังปลายท่อ เข้ารูล็อก และรอบท่อให้แน่น ปาดเรียบ
 
-   No hammer action for the last 20 mm. Brush or blow out the dust, then dampen the pocket (damp, not wet).
-6. ใส่ท่อ: ดันเข้าหลุมลึก 60 หมุนเข้าแนว เลื่อนกลับเข้าหลุมตื้น 30 รองแผ่นพลาสติกจนได้ระดับ
+   **Mortar:** mix the TPI M300 stiff (earth-damp). Ram it in from the back: behind the tube end, through the key holes, all round. Strike off flush.
+8. **บ่ม:** พรมน้ำวันละ 2–3 ครั้ง **ห้ามวางของบนราว 3 วัน** แล้วจึงฉาบปูนปิด
 
-   Fit: push the tube 60 into the deep pocket, swing it in line, slide it back 30 into the shallow pocket. Plastic packers under the ends until level.
-7. ผสมปูน TPI M300 ให้ข้น (หมาดๆ) อัดจากด้านใน: หลังปลายท่อ เข้ารูล็อก และรอบท่อให้แน่น ปาดเรียบ
+   **Cure:** mist with water 2–3 times a day. **Nothing on the rails for 3 days.** Then patch the plaster.
 
-   Mix the TPI M300 stiff (earth-damp). Ram it in from the back: behind the tube end, through the key holes, all round. Strike off flush.
-8. พรมน้ำวันละ 2–3 ครั้ง ห้ามแขวนของ 3 วัน แล้วจึงฉาบปูนปิด และแขวนเสื้อผ้า
+| รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
+|---|---|---|---|---|---|---|
+| เหล็กท่อแบน 6 ม. / Flat steel tube, 6 m | [2" × 1" × 2.3 mm](https://www.homepro.co.th/p/1109927) | 1109927 | 6 เส้น / 6 lengths | ต้องซื้อ / To buy | ฿375 | ฿2,250 |
+| ปูนก่อสำเร็จรูป / Ready-mix masonry mortar | [TPI M300, 50 kg](https://www.homepro.co.th/p/1109515) | 1109515 | 1 ถุง / 1 bag | ต้องซื้อ / To buy | ฿68 | ฿68 |
+| | | | | **ต้องซื้อ / To buy** | | **฿2,318** |
 
-   Mist with water 2–3 times a day. **Nothing on the rails for 3 days.** Then patch the plaster, then hang clothes.
+ราคาตรวจสอบที่โฮมโปร 2026-11-05 ราคาท่อและปูนขึ้นกับพื้นที่จัดส่ง (ท่อ ฿375–760 ปูน ฿68–180) ต้องใช้เพิ่ม: แผ่นรองพลาสติก สีกันสนิม
 
-## The shelves
+Prices checked on HomePro 2026-11-05; the tube and mortar prices depend on the delivery area (tube ฿375–760, mortar ฿68–180). Also needed: plastic packers, primer.
 
-Plywood shelves lie across a pair of rails, lifted on **U blocks** made from the same plywood, so blocks and shelves match.
+### 2. ชั้นไม้อัด / Shelves
 
-- **Shelves:** 2 sheets of 15 mm plywood (1,220 × 2,440), ripped into **400 wide** strips. Each shelf is a **2,200 piece + an 800 piece**, joined on a block. Keep shelves about 5 off the walls.
-- **U blocks:** 5 per rail, at **100, 800, 1,500, 2,200 and 2,900**, 700 apart — 30 in all. Each block is 60 long and straddles the rail:
-  - **packer:** two 60 wide strips glued face to face (30 thick) — sits on top of the rail;
-  - **two sides:** one 75 wide strip each, glued either side of the packer, **15 lower than the packer** so they hold the block on the rail.
-  - Glue the four strips full length with wood glue (PVA, กาวลาเท็กซ์), tops flush, clamp every 300 or so, leave overnight, then cut into 30 blocks. All four strips come from one of the spare 400 strips. For a snug fit on the 25 wide rail, make the packer 27 instead.
-- **Cutting:** fine-tooth blade, masking tape along the cut line so the veneer doesn't splinter. Sand every cut edge with 120 grit and round the corners slightly so clothes don't snag.
-- **Finish:** clear water-based polyurethane, matte, to show the grain. Sand lightly, then 2 coats on top (3–4 hours apart, so one day), 1 coat underneath. 2–3 days before loading. About 12 m² in all.
-- Screw each shelf down into its blocks.
-- **Optional:** untreated rubberwood ply can get borers or termites. One coat of Chaindrite on the cut pieces before varnishing is cheap insurance (฿390, not in the total).
+ชั้นไม้อัดวางบนราวแต่ละคู่ บนบล็อกตัว U ที่ทำจากไม้อัดชนิดเดียวกัน
 
-## Materials (HomePro, checked 2026-11-05)
+Plywood shelves sit on each pair of rails, on U blocks made from the same plywood.
 
-| Item | Product | SKU | How many | Each | Total |
-|---|---|---|---|---|---|
-| Steel tube | [Flat tube 2" × 1" × 2.3 mm, 6 m (เหล็กท่อแบน)](https://www.homepro.co.th/p/1109927) | 1109927 | 6 | ฿375–760 | ฿2,250 |
-| Mortar | [TPI M300 ready-mix masonry mortar, 50 kg](https://www.homepro.co.th/p/1109515) | 1109515 | 1 bag | ฿68–180 | ฿68 |
-| Plywood | [SSW STB rubberwood plywood, 15 mm, 120 × 240 cm](https://www.homepro.co.th/p/1121483) | 1121483 | 2 sheets | ฿585 | ฿1,170 |
-| Varnish | [RTB PP101 1K water-based polyurethane, matte, 1/4 gal](https://www.homepro.co.th/p/250627) | 250627 | 2 | ฿520 | ฿1,040 |
-| | | | | **Total** | **฿4,528** |
+1. **ตัดแผ่นชั้น:** ไม้อัด 2 แผ่น ผ่าเป็นแผ่นกว้าง 400 มม. ชั้นละ 2 ชิ้น: 2,200 + 800 มม. รอยต่ออยู่บนบล็อก เว้นห่างผนัง 5 มม. ติดเทปกาวตามแนวตัด ใช้ใบเลื่อยฟันละเอียด
 
-Also needed, not priced: wood glue, screws (shelves to blocks), plastic packers, primer for the tube ends. Not needed: brackets, angles, wall anchors, chemical anchor. The offcuts (about 2.9 m from each tube) are spare. Optional: [Chaindrite clear 1.8 L](https://www.homepro.co.th/p/15432) (15432), ฿390.
+   **Cut the shelves:** rip the 2 sheets into 400 wide strips. Each shelf is 2 pieces, 2,200 + 800, joined on a block; keep 5 off the walls. Masking tape along the cut line, fine-tooth blade.
+2. **ทำบล็อกตัว U:** ตัดจากเศษไม้อัด 4 เส้น ยาวเต็มแผ่น: กว้าง 60 มม. 2 เส้น (ทากาวซ้อนกัน หนา 30 = แกนกลาง) และกว้าง 75 มม. 2 เส้น (ด้านข้าง ติดสองข้างแกน **ต่ำกว่าแกน 15 มม.** ให้คร่อมราว) ทากาวลาเท็กซ์ ขอบบนเสมอกัน หนีบทุก 300 มม. ทิ้งไว้ 1 คืน แล้วตัดเป็นบล็อกยาว 60 มม. 30 ชิ้น
 
-The other option looked at was the IKEA BOAXEL wall-upright system (about ฿6,750 for two levels, plus IKEA's installation); this document is the steel-rail version.
+   **Make the U blocks:** from the spare plywood, cut 4 full-length strips: two 60 wide (glued face to face, 30 thick = the packer) and two 75 wide (the sides, glued either side of the packer **15 lower than it**, so they straddle the rail). Wood glue (PVA), tops flush, clamp every 300, leave overnight, then cut into 30 blocks, 60 long.
+3. **ขัด:** ขัดขอบที่ตัดทุกด้านด้วยกระดาษทรายเบอร์ 120 ลบมุมเล็กน้อยไม่ให้เกี่ยวเสื้อผ้า
+
+   **Sand:** sand every cut edge with 120 grit and round the corners slightly so clothes don't snag.
+4. **ทาเคลือบ:** โพลียูรีเทนสูตรน้ำ ชนิดด้าน ด้านบน 2 รอบ (ห่างกัน 3–4 ชม.) ด้านล่าง 1 รอบ ทั้งแผ่นชั้นและบล็อก ทิ้งไว้ 2–3 วันก่อนวางของ
+
+   **Varnish:** water-based polyurethane, matte — 2 coats on top (3–4 hours apart), 1 underneath, shelves and blocks. 2–3 days before loading.
+5. **ติดตั้ง:** วางบล็อกบนราวทุกคู่ที่ 100, 800, 1,500, 2,200 และ 2,900 มม. จากผนังด้านหนึ่ง (5 บล็อกต่อราว) วางแผ่นชั้น ยึดสกรูลงบล็อก
+
+   **Fit:** set the blocks on each rail at 100, 800, 1,500, 2,200 and 2,900 from one wall (5 per rail), lay the shelf on, and screw it down into the blocks.
+
+| รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
+|---|---|---|---|---|---|---|
+| ไม้อัดยาง 15 มม. / Rubberwood plywood, 15 mm | [SSW STB, 120 × 240 cm](https://www.homepro.co.th/p/1121483) | 1121483 | 2 แผ่น / 2 sheets | ต้องซื้อ / To buy | ฿585 | ฿1,170 |
+| โพลียูรีเทนสูตรน้ำ ชนิดด้าน / Water-based polyurethane, matte | [RTB PP101 1K, 1/4 gal](https://www.homepro.co.th/p/250627) | 250627 | 2 กระป๋อง / 2 cans | ต้องซื้อ / To buy | ฿520 | ฿1,040 |
+| | | | | **ต้องซื้อ / To buy** | | **฿2,210** |
+
+ราคาตรวจสอบที่โฮมโปร 2026-11-05 ต้องใช้เพิ่ม: กาวลาเท็กซ์ สกรู
+
+Prices checked on HomePro 2026-11-05. Also needed: wood glue (PVA), screws.
+
+## รวม / Total
+
+| | |
+|---|---|
+| ราวเหล็ก / Rails | ฿2,318 |
+| ชั้นไม้อัด / Shelves | ฿2,210 |
+| **รวม / Total** | **฿4,528** |
+
+---
+
+ภาษาไทยยังไม่ได้ตรวจโดยผู้ใช้ภาษาไทย
+
+Thai wording not yet checked by a Thai speaker.
