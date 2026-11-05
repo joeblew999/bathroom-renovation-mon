@@ -2,7 +2,7 @@
 
 TV, fridge, cooktop and network cables for the house, all from HomePro.
 
-**Status: picked, not ordered. Total ฿27,974.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
+**Status: picked, not ordered. Total ฿23,474.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
 
 ## Shopping list
 
@@ -11,16 +11,16 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 | 1 | TV, 55" | [Hisense 55Q6Q, 4K QLED](https://www.homepro.co.th/p/1297262) | 1297262 | 1 | ฿11,990 |
 | 2 | TV wall bracket | [Movada PTB-188FX, fixed, 40–90"](https://www.homepro.co.th/p/1264704) | 1264704 | 1 | ฿790 |
 | 3 | Bracket installation | [HomePro service ติดตั้งขาแขวนทีวี](https://www.homepro.co.th/p/7001463) | 7001463 | 1 | ฿500 |
-| 4 | Fridge, black | [Haier HRF-320MNI, 2-door, 11.8 cu ft](https://www.homepro.co.th/p/1229937) | 1229937 | 1 | ฿10,490 |
+| 4 | Fridge, black, fits 600 mm | [Haier HRF-185MN, 2-door, 6.6 cu ft, no inverter](https://www.homepro.co.th/p/1291917) | 1291917 | 1 | ฿5,990 |
 | 5 | Induction cooktop, 2 zones | [LocknLock EJI326WHT, countertop](https://www.homepro.co.th/p/1213620) | 1213620 | 1 | ฿3,290 |
 | 6 | Ethernet cable to the TV | [Fibreconnex CAT6, 20 m](https://www.homepro.co.th/p/1157099) | 1157099 | 1 | ฿745 |
 | 7 | Ethernet cable to the office desk | [LINK CAT6, 3 m](https://www.homepro.co.th/p/1151278) | 1151278 | 1 | ฿169 |
-| | | | | **Total** | **฿27,974** |
+| | | | | **Total** | **฿23,474** |
 
 ## Before ordering
 
 - [ ] **TV:** decide where it hangs; there must be a power socket there.
-- [ ] **Fridge:** measure the space (width × depth × height) against the fridge's size on its page.
+- [ ] **Fridge:** the space is 600 mm wide; the fridge is 548 mm wide, 565 mm deep, 1,355 mm high — check the depth and height too, and leave a gap round it for air.
 - [ ] **Cooktop:** a wall socket near the benchtop (not an extension lead — it draws 2,800 W).
 - [ ] **Office cable:** LINK's page doesn't say "RJ45 both ends"; check the plugs on the pack.
 
@@ -30,8 +30,9 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 - 55", 4K QLED, VIDAA system, AirPlay (works with iPhones), Dolby Vision, 60 Hz. 123.4 × 71.5 × 7.3 cm, 9.3 kg.
 - **No wall bracket in the box.** HomePro's free installation only plugs it in and tunes it; it doesn't fit a bracket. So the bracket (#2) and HomePro's bracket installation (#3, 45–60 minutes, drills the wall and hangs the TV) are bought separately.
 
-### Fridge — Haier HRF-320MNI
-- 2-door, 11.8 cu ft, black, inverter. A normal family size; the other black ones are either 7–8 cu ft or ฿3,500+ dearer.
+### Fridge — Haier HRF-185MN
+- Needed: fits a 600 mm space, black, normal height, no inverter, cheap.
+- 2-door, 6.6 cu ft (187 L), black, **no inverter**. 54.8 × 56.5 × 135.5 cm. ฿5,990 (was ฿6,990), 267 in stock.
 
 ### Cooktop — LocknLock EJI326WHT
 - Sits on the benchtop and plugs in. 2 zones, 1,500 W + 1,300 W. 46 × 23 × 6 cm, 3 kg, white. Induction pans only, 12–24 cm across.
@@ -53,8 +54,8 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 | TV | [Haier H55S80EUX, QLED, Google TV](https://www.homepro.co.th/p/1266799) | 1266799 | ฿14,990 | ฿3,000 more; pick it only for Google TV's bigger app store |
 | TV | [LG 55NU855BPSA, NanoCell](https://www.homepro.co.th/p/1317028) | 1317028 | ฿13,990 | Dearer |
 | Bracket | [Prisma PMW-4090F, fixed](https://www.homepro.co.th/p/1266891) | 1266891 | ฿2,690 | Same job, ฿1,900 more |
-| Fridge | [Toshiba GR-A28KU, 8.2 cu ft, black](https://www.homepro.co.th/p/1107900) | 1107900 | ฿5,997 | Small |
-| Fridge | [Hisense RT488NAF1, 13.8 cu ft, black](https://www.homepro.co.th/p/1143103) | 1143103 | ฿13,990 | ฿3,500 more |
+| Fridge | [Haier HR-SD199F BE, 1-door, 6.6 cu ft, black, no inverter](https://www.homepro.co.th/p/1248744) | 1248744 | ฿4,990 | Same width; 1 door and shorter (126.3 cm); only 1 left |
+| Fridge | [Haier HRF-320MNI, 2-door, 11.8 cu ft, black](https://www.homepro.co.th/p/1229937) | 1229937 | ฿10,490 | Inverter, too wide for the space |
 | Cooktop | [Hafele 495.06.127, countertop](https://www.homepro.co.th/p/1282824) | 1282824 | ฿4,190 | Bigger (55.5 × 35 cm), ฿900 more |
 | Cooktop | [Kucine HC-I2402A-03](https://www.homepro.co.th/p/1293264) | 1293264 | ฿2,190 | Built into the counter, not for the benchtop |
 | Cable | [Fibreconnex CAT6, 15 m](https://www.homepro.co.th/p/1157119) | 1157119 | ฿575 | Out of stock |
