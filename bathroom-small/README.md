@@ -240,6 +240,10 @@ To-buy prices checked on HomePro 2026-11-05.
 
 **Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor**. The mirror crosses the top of the wall tiles and their plastic edge trim, so **pack out the back of the mirror where it is above the tiles, to the same depth**, so it hangs plumb and doesn't rock.
 
+**ชักโครก:** พื้นใหม่สูงขึ้น (กระเบื้อง + กาว) ท่อน้ำทิ้งที่พื้นจึงอยู่ต่ำกว่าผิวพื้นใหม่ ตรวจว่าทางออกของชักโครกต่อกับท่อได้แน่น ไม่รั่ว — ในกล่องชักโครกมีแหวนยางขนาดใหญ่ ถ้ายังไม่ถึงท่อ ให้ใช้ข้อต่อหรือหน้าแปลนแบบเสริมความสูง
+
+**Toilet:** the new floor is higher (tile + adhesive), so the waste pipe in the floor now ends below the new floor surface. Check the toilet's outlet seals onto it with no leak — there is a large rubber seal ring in the toilet's box. If it still doesn't reach the pipe, use an extension connector or flange.
+
 **ราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดตั้ง**หลังติดชักโครกแล้ว** — เจ้าของบ้านจะกำหนดตำแหน่งตอนนั้น
 
 **Towel rail:** above the toilet, to its right. Fit it **after the toilet is in** — the owner marks the exact place then.
