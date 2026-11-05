@@ -32,7 +32,9 @@ Remove **everything** in the bathroom — including the old ceiling: take down t
 | Soap holder | the existing one |
 | Toilet paper holder | the existing one |
 
-Cover them up while the rest is stripped out, the ceiling built and painted, and the floor tiled. The old door comes out last, when the new one goes in (phase 4).
+**Before anything is stripped out, wrap these 4 in plastic.** The plastic stays on for the whole job and comes off only when the job is done, so they're protected through the strip out, ceiling, painting, tiling and fit-out.
+
+The old door comes out last, when the new one goes in (phase 4).
 
 ### 2. Ceiling
 
