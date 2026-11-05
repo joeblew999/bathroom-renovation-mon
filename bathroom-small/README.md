@@ -234,9 +234,9 @@ Where each of the others goes in this room: to set out.
 
 **Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
 
-**แผ่นรับสลัก (ที่วงกบ):** แขวนประตูก่อน แล้วติดแผ่นรับสลักที่วงกบตรงตำแหน่งที่สลักลูกบิดชน — ตำแหน่งเดิมอาจไม่ตรง เพราะตัดประตูและพื้นสูงขึ้น ถ้าไม่ตรงให้อุดร่องเดิม ตรวจว่ากล่องลูกบิดมีแผ่นรับสลักมาด้วย
+**แผ่นรับสลัก (ที่วงกบ):** ใช้แผ่นรับสลักเดิมที่อยู่บนวงกบ แขวนประตูก่อน ถ้าสลักลูกบิดใหม่ไม่ตรง (เพราะตัดประตูและพื้นสูงขึ้น) ให้ย้ายแผ่นรับสลักให้ตรง และอุดร่องเดิม
 
-**Strike plate (on the frame):** hang the door first, then fit the strike plate on the frame where the knob's latch meets it — the old position may not line up, because the door is cut and the floor is higher; if it doesn't, fill the old recess. Check the knob's box includes the strike plate.
+**Strike plate (on the frame):** reuse the existing strike plate on the frame. Hang the door first; if the new knob's latch doesn't line up (the door is cut and the floor is higher), move the strike plate to meet it and fill the old recess.
 
 ---
 
