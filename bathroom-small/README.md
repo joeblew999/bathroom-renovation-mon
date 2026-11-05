@@ -37,7 +37,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | รื้อที่เหลือ / Remove the rest |
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
 | 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
-| 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป / Floor and step |
+| 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
 | 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ แล้วประตูใหม่ / Fittings, then the new door |
 
 ### 1. เตรียมงาน / Preparation
@@ -137,6 +137,20 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 **ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป
 
 **Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, and tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step.
+
+**ช่างปูกระเบื้องเข้างาน 2 ครั้ง:**
+1. **ครั้งที่ 1 — ปู:** ปูกระเบื้องพื้นและลูกตั้งสเต็ป และติดตะแกรงท่อระบายน้ำ
+2. **บ่มกาว 24–48 ชั่วโมง** ตามอุณหภูมิ (หน้าสินค้ากาวในตารางด้านล่าง) ห้ามเดินบนพื้น
+3. **ครั้งที่ 2 — ยาแนว**
+
+**The tiler comes twice:**
+1. **Visit 1 — lay:** the floor tiles, the step riser and the drain grate.
+2. **Let the adhesive cure 24–48 hours**, depending on the temperature (the adhesive's product page, in the table below). Keep off the floor.
+3. **Visit 2 — grout.**
+
+ผู้รับเหมาเริ่มงานติดตั้ง (ขั้นที่ 6) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
+
+The builder starts the fit-out (phase 6) only once the grout has set.
 
 **กระเบื้อง / Tiles** (500 × 500 มม. กล่องละ 4 แผ่น / 500 × 500 mm, 4 to a box):
 - พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**

@@ -14,7 +14,7 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
 | 4. Painting | Builder | ฿441 | ฿538 |
-| 5. Tiling | Tiler | ฿700 | ฿854 |
+| 5. Tiling | Tiler, 2 visits | ฿700 | ฿854 |
 | 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
 | **Total** | | **฿3,261** | **฿3,977** |
 
