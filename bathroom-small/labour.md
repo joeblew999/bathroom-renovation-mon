@@ -77,6 +77,6 @@ The door rate is for hanging a ready-made leaf. Cutting the top off isn't priced
 These have no rate in the book, so ask the builder for a price:
 
 - **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it.
-- **Before painting:** cleaning the walls and ceiling, and filling the 8 screw holes.
+- **Filling** the 8 screw holes before painting.
 - **The door, beyond hanging it:** taking the old door off (the book only has a door removed with its frame), cutting and capping the top of the new one, moving the strike plate, and plugging the old hinge holes.
 - **The window frame and security screen** have a rate (above), but their size isn't measured yet.
