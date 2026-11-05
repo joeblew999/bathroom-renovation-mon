@@ -97,7 +97,7 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — the same fitti
 
 Where each one goes in this room: to set out.
 
-**Last: the door.** Same door, hinges and handle as the main quote, but the door one size down (70 × 200 cm instead of 80 × 200). HomePro, checked 2026-11-05:
+**Last: the door.** Same door, hinges and handle as the main quote, but **70 cm wide** — the existing door is 700 mm wide (per Gerard, 2026-11-05), so the new one matches it (the main quote's is 80 cm). HomePro, checked 2026-11-05:
 
 | Item | Product | HomePro SKU | Price |
 |---|---|---|---|
@@ -107,5 +107,5 @@ Where each one goes in this room: to set out.
 | | | **Total** | **฿2,588** |
 
 - The main quote's door is the 80 cm WB2 in **light brown, not pre-drilled** ([1320577](https://www.homepro.co.th/p/1320577)). HomePro's 70 cm WB2 comes in **brown** (pre-drilled for the knob) or white/grey — no light brown in 70 cm.
-- The existing frame stays; check it takes a 70 × 200 door. If it needs replacing: [AZLE UPVC frame 70 × 200 cm, white](https://www.homepro.co.th/p/1017131), ฿850.
+- The existing frame stays — the new door is the same width as the old one. If the frame ever needs replacing: [AZLE UPVC frame 70 × 200 cm, white](https://www.homepro.co.th/p/1017131), ฿850.
 
