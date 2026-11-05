@@ -227,9 +227,9 @@ Where each of the others goes in this room: to set out.
 
 **Water heater hose:** replaces the old black plastic one between the stop tap and the heater. Check its ½" nuts fit both ends.
 
-**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด วงกบเดิมใช้ต่อ ประตูเดิมขนาด **700 × 1,950 มม.** ประตูใหม่ 70 × 200 ซม. จึงต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว
+**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด วงกบเดิมใช้ต่อ ประตูเดิมขนาด **700 × 1,950 มม.** ประตูใหม่ 70 × 200 ซม. จึงต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ
 
-**Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive.
+**Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
 
 ---
 
