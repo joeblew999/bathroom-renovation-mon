@@ -12,11 +12,6 @@ A separate, smaller job from the main quote in this repo: renovate the **existin
 
 Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
-## Ceiling
-
-- Existing ceiling: suspended gypsum tiles on a grid, like the rest of the house.
-- What's to be done to it: to fill in.
-
 ## 1. Ceiling
 
 The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room. Done before the walls and floor are tiled.
