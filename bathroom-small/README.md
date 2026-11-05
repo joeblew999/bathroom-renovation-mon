@@ -30,7 +30,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 Before anything else:
 1. **Take the old door and its hinges off** first, so there is room to work. The frame stays; the new door goes in last (phase 6).
 2. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
-3. Tape along the pink plastic edge trim on top of the existing wall tiles, **and down the edge of the wall tiles where they meet the door frame**, so no paint gets on the trim or the tiles.
+3. **Tape out the existing wall tiles** so no paint gets on them: along the walls (on the pink edge trim) and down the door frame.
 4. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
 5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 4, then goes back on.
 
