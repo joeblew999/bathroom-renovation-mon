@@ -20,7 +20,8 @@ All prices from HomePro's product pages, checked 2026-11-05. HomePro prices chan
 - **TV:** QLED for about the same money as the plain LED 55" sets (Samsung UA55UE800H ฿11,890). **No wall bracket in the box**, and HomePro's free installation ("ฟรีติดตั้ง") only connects it to power and tunes it — the page says it does not cover fitting a wall bracket. So the bracket and HomePro's bracket installation service are bought separately (in the picks). TV: 123.4 × 71.5 × 7.3 cm without stand, 9.3 kg; VESA size not on the page.
 - **Fridge:** the black 2-door at a normal family size. The black ones either side are much smaller (Toshiba 7.3–8.2 cu ft, ฿5,997–6,790) or much dearer (Hisense 13.8 cu ft ฿13,990; Toshiba 16.3 cu ft ฿24,990).
 - **Cooktop:** freestanding, 2 zones (1,500 W + 1,300 W = 2,800 W), 46 × 23 × 6 cm, 3 kg, white, pans 12–24 cm across, induction pans only. The page says to unplug it when not in use, so it plugs in; it doesn't say what socket it needs. At 2,800 W, plug it straight into a wall socket, not an extension lead.
-- **Ethernet cable:** 12 m wanted. HomePro's FIBRECONNEX CAT6 comes in 15 m (1157119, ฿575) — out of stock on 2026-11-05 — and 20 m; the 20 m is in stock (29 left). The extra length can be coiled.
+- **Ethernet cable:** 12 m needed. HomePro's FIBRECONNEX CAT6 comes in 1, 5, 10, 15 and 20 m; the 15 m (1157119, ฿575) was out of stock on 2026-11-05, so 20 m (in stock, 29 left).
+  - **Route (for the electricians):** from the Wi-Fi box in bedroom 2, up into the suspended ceiling, across the ceiling to the TV, and down the wall to the TV. The spare 8 m is looped up in the suspended ceiling.
 
 ### Other options looked at (HomePro, 2026-11-05)
 
