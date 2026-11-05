@@ -141,9 +141,9 @@ The basin with its mirror, the toilet with its towel rail, the water heater's ho
 
 To-buy prices checked on HomePro 2026-11-05.
 
-**Basin:** its rim (top edge) **900 mm above the new tiled floor** — the same height as in the original drawings. Line the basin's drain up with the existing drain outlet in the wall.
+**Basin:** its rim (top edge) **900 mm above the new tiled floor**. Line the basin's drain up with the existing drain outlet in the wall.
 
-**Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor** — the same height as in the original drawings.
+**Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor**.
 
 **Towel rail:** above the toilet, to its right. Fit it **after the toilet is in** — the owner marks the exact place then.
 
