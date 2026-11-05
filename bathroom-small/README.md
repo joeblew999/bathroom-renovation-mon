@@ -1,6 +1,6 @@
 # Bathroom renovation
 
-Renovate the existing bathroom, keeping it the same size: no new walls, the door stays where it is.
+Renovate the existing bathroom. The room size is not changing.
 
 Two teams: the **tiler** does the tiling (phase 4); the **builder** does everything else.
 
