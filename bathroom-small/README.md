@@ -18,7 +18,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | Who | What |
 |---|---|---|---|
-| 1 | Preparation | Builder | Door and hinges off, clean, tape out and protect what stays |
+| 1 | Preparation | Builder | Take off the door and screen, clean the trims, protect what stays |
 | 2 | Strip out | Builder | Remove the rest |
 | 3 | Ceiling | Builder | New ceiling |
 | 4 | Painting | Builder | Ceiling, walls, window frame and security screen |
@@ -27,27 +27,28 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ### 1. Preparation
 
-Before anything else:
-1. **Take the old door and its hinges off** first, so there is room to work. The frame stays; the new door goes in last (phase 6).
-2. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
-3. **Tape out the existing wall tiles** so no paint gets on them: along the walls (on the pink edge trim) and down the door frame.
-4. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
-5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 4, then goes back on.
+Before anything else.
 
-The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
+**Take off:**
+1. **The old door and its hinges** — first, so there is room to work. The frame stays; the new door goes in last (phase 6).
+2. **The window's steel security screen** — keep it safe; it is painted in phase 4 and goes back on.
+
+**Clean:** all the pink/purple plastic tile edge trims in the bathroom — they have old paint and dirt on them.
+
+**Protect what stays.** The tape and plastic stay on for the whole job and come off only when the job is done:
+
+| Stays | Protect it |
+|---|---|
+| Wall tiles | tape them out: along the walls (on the pink edge trim) and down the door frame |
+| Shower | wrap in plastic; tape it out at the wall |
+| Water heater | wrap in plastic; tape it out at the wall |
+| Soap holder | wrap in plastic |
+| Toilet paper holder | wrap in plastic |
+| Floor tiles | don't lift them — the new tiles go on top |
 
 ### 2. Strip out
 
-Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
-
-| Stays | |
-|---|---|
-| Floor tiles | the new tiles go on top of them — don't lift them |
-| Shower | the existing shower |
-| Water heater | the existing shower water heater |
-| Soap holder | the existing one |
-| Toilet paper holder | the existing one |
-
+Remove **everything else**, the old ceiling included: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
 
 ### 3. Ceiling
 
@@ -73,7 +74,7 @@ A new flush gypsum ceiling.
 
 ### 4. Painting
 
-The trims, shower and water heater are already taped out (phase 1). With the white paint already on site:
+Everything that stays is already protected (phase 1). With the white paint already on site:
 
 1. **Clean** the ceiling, the walls, the window frame and the security screen.
 2. **Paint:**
