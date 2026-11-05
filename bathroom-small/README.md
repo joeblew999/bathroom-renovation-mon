@@ -83,12 +83,12 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 | Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 1 box (3 already on site) | ฿209 |
 | Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | already bought | — |
 | Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | ฿799 |
-| Grout | [Crocodile Premium Plus, 1 kg, granite grey](https://www.homepro.co.th/p/138786) | 138786 | 1 bag (estimate) | ฿63 |
+| Grout | [Crocodile Premium Plus, 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | 1 bag (estimate) | ฿63 |
 | | | | **Total to buy** | **฿1,071** |
 
 - **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
-- **Grout:** Crocodile Premium Plus, granite grey — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
-- **Grout colour:** granite grey is a shade darker than the tile, so the joints don't stand out (set against a photo of a tile on site and HomePro's swatches, 2026-11-05; the only other Premium Plus grey, [coral grey](https://www.homepro.co.th/p/138784), is much lighter than the tile). Before grouting, mix a little, let it dry, and hold it against a tile — grout dries lighter than it looks wet.
+- **Grout:** Crocodile Premium Plus, **coral grey** — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
+- **Grout colour:** coral grey, lighter than the tile, chosen by the owner so the joints don't read as a dark grid — not granite grey. Price ฿63, HomePro, checked 2026-11-05. Before grouting, mix a little, let it dry, and hold it against a tile — grout dries lighter than it looks wet.
 - **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
