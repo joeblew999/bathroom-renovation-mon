@@ -19,7 +19,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 1 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
 | 2 | Strip out | Remove everything else in the bathroom |
 | 3 | Tiling | Tile the room |
-| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail |
+| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; **last**, the new door |
 
 ### 1. Ceiling
 
@@ -70,3 +70,16 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — the same fitti
 | | | | **Total (already paid)** | **฿7,322** |
 
 Where each one goes in this room: to set out.
+
+**Last: the door.** Same door, hinges and handle as the main quote, but the door one size down (70 × 200 cm instead of 80 × 200). HomePro, checked 2026-11-05:
+
+| Item | Product | HomePro SKU | Price |
+|---|---|---|---|
+| Door | [AZLE WB2 UPVC bathroom door, 70 × 200 cm, brown, pre-drilled for the knob](https://www.homepro.co.th/p/1259829) | 1259829 | ฿1,990 |
+| Hinges | [YALE hinges, 304 stainless, 4 × 3", pack of 3](https://www.homepro.co.th/p/1123585) | 1123585 | ฿199 |
+| Handle | [SOLEX bathroom knob 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | ฿399 |
+| | | **Total** | **฿2,588** |
+
+- The main quote's door is the 80 cm WB2 in **light brown, not pre-drilled** ([1320577](https://www.homepro.co.th/p/1320577)). HomePro's 70 cm WB2 comes in **brown** (pre-drilled for the knob) or white/grey — no light brown in 70 cm.
+- The existing frame stays; check it takes a 70 × 200 door. If it needs replacing: [AZLE UPVC frame 70 × 200 cm, white](https://www.homepro.co.th/p/1017131), ฿850.
+
