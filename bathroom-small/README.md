@@ -2,6 +2,8 @@
 
 Renovate the existing bathroom, keeping it the same size: no new walls, the door stays where it is.
 
+Two teams: the **tiler** does the tiling (phase 3); the **builder** does everything else.
+
 ## Size
 
 | | mm |
@@ -14,12 +16,12 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ## The work, in order
 
-| # | Phase | What |
-|---|---|---|
-| 1 | Strip out | Remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
-| 2 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
-| 3 | Tiling | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
-| 4 | Fit-out | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
+| # | Phase | Who | What |
+|---|---|---|---|
+| 1 | Strip out | Builder | Remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
+| 2 | Ceiling | Builder | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
+| 3 | Tiling | **Tiler** | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
+| 4 | Fit-out | Builder | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
 
 ### 1. Strip out
 
@@ -62,6 +64,8 @@ A new flush gypsum ceiling, then painting the ceiling, the walls and the window'
 
 ### 3. Tiling
 
+**Done by the tiler** — a separate team from the builder.
+
 The new grey tiles go **on top of the old floor tiles** — the old ones stay. The floor, the new drain grate, and the riser (the upright face) of the floor step, tiled up to meet the **existing pink plastic edge trim on top of the step**, which stays.
 
 **How many tiles** (500 × 500 mm, 4 to a box):
@@ -79,6 +83,7 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 
 - **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
 - **Grout:** Crocodile Premium Plus, granite grey — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
+- **Grout colour:** granite grey is a shade darker than the tile, so the joints don't stand out (set against a photo of a tile on site and HomePro's swatches, 2026-11-05; the only other Premium Plus grey, [coral grey](https://www.homepro.co.th/p/138784), is much lighter than the tile). Before grouting, mix a little, let it dry, and hold it against a tile — grout dries lighter than it looks wet.
 - **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
@@ -102,7 +107,9 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 |---|---|---|---|
 | Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | ฿155 |
 
-Where each one goes in this room: to set out.
+**Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor** — the same height as in the original drawings.
+
+Where each of the others goes in this room: to set out.
 
 **Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with a stainless one (the heater and stop tap stay):
 
