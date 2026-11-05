@@ -1,8 +1,8 @@
 # Appliances
 
-TV, fridge, cooktop, network cables and an office table for the house, all from HomePro.
+TV, fridge, cooktop, network cables, and an office table and stool for the house, all from HomePro.
 
-**Status: picked, not ordered. Total ฿27,330.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
+**Status: picked, not ordered. Total ฿30,820.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
 
 ## Shopping list (HomePro)
 
@@ -16,7 +16,8 @@ TV, fridge, cooktop, network cables and an office table for the house, all from 
 | 6 | Bedroom 2 → 1 | Ethernet cable to the TV | [Fibreconnex CAT6, 20 m](https://www.homepro.co.th/p/1157099) | 1157099 | ฿745 |
 | 7 | Bedroom 2 | Ethernet cable to the desk | [Fibreconnex CAT6, 3 m](https://www.homepro.co.th/p/1157057) — **out of stock** | 1157057 | ฿155 |
 | 8 | Bedroom 2 (office) | Office table: 2 bar tables side by side | [Evergreen Furniture TC, 120 × 40 × 100 cm, black](https://www.homepro.co.th/p/888168100023) × 2 | 888168100023 | ฿4,870 (2 × ฿2,435) |
-| | | | | **Total** | **฿27,330** |
+| 9 | Bedroom 2 (office) | Bar stool for the table | [FURINTREND BREGO, dark grey](https://www.homepro.co.th/p/1244158) | 1244158 | ฿3,490 |
+| | | | | **Total** | **฿30,820** |
 
 ## Before ordering
 
@@ -42,6 +43,7 @@ Both cables are CAT6 with RJ45 plugs on both ends. HomePro hangs the TV on its b
 - **Fridge — Haier HRF-185MN:** 2-door, 6.6 cu ft (187 L), black, no inverter, 54.8 × 56.5 × 135.5 cm. ฿5,990 (was ฿6,990).
 - **Cooktop — LocknLock EJI326WHT:** on the benchtop, plugs in, 2 zones (1,500 W + 1,300 W), 46 × 23 cm, white. Induction pans only, 12–24 cm.
 - **Office table — Evergreen Furniture TC bar table, × 2:** black. **Top, frame and legs all rubberwood (ไม้ยางพารา)**; the top is UV-coated and, per the page, can take water and resists mould. 120 × 40 cm and 100 cm high each; footrest bar low on each pair of end legs; two side by side make a 120 × 80 cm top. Holds 90 kg spread evenly. Flat-pack, you assemble it. Sold on HomePro by Evergreen Furniture (not HomePro itself); 29 in stock; 1-year warranty. Also comes 74 cm and 90 cm high. Photos from the HomePro page: [on its own](https://staticg.homepro.co.th/seller/1681/product/resize_1000x1000_cover_img-1742803966570-TC-12474-HH.jpg), [in a room](https://staticg.homepro.co.th/seller/1681/product/resize_1000x1000_inspire_img-1742803966821-TC-12474-HHHH.jpg), [in use](https://staticg.homepro.co.th/seller/1681/product/resize_1000x1000_img_1-1742803966628-1255454.jpg).
+- **Bar stool — FURINTREND BREGO:** dark grey fabric seat with a backrest, matt black steel legs, footrest; height adjusts with a gas lift; 110 cm tall overall, seat 41 cm wide; takes 120 kg. HomePro assembles it free. No warranty. ฿3,490 (was ฿5,800), ฿3,191.30 after discounts on 2026-11-05. **The page doesn't give the seat height range** — check it reaches about 70–75 cm for the 100 cm table before buying.
 - **Ethernet cables — Fibreconnex CAT6:** same brand, RJ45 both ends. Nearest HomePro lengths to the 2 m and 12 m runs: 15 m was out of stock, so 20 m; 1 m is too short, so 3 m.
 
 ## Other options looked at (HomePro, 2026-11-05)
