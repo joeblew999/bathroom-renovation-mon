@@ -1,5 +1,9 @@
 # ปรับปรุงห้องน้ำ / Bathroom renovation
 
+วันที่: 5 พ.ย. 2569
+
+Date: 5 Nov 2026
+
 ปรับปรุงห้องน้ำเดิม ขนาดห้องไม่เปลี่ยน
 
 Renovate the existing bathroom. The room size is not changing.
