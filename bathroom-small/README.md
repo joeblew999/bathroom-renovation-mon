@@ -12,9 +12,18 @@ A separate, smaller job from the main quote in this repo: renovate the **existin
 
 Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
-## 1. Ceiling
+## The work, in order
 
-**Done first.** The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room — plus painting the ceiling, the walls and the window's steel protector.
+| # | Phase | What |
+|---|---|---|
+| 1 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
+| 2 | Strip out | Remove everything else in the bathroom |
+| 3 | Tiling | Tile the room |
+| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail |
+
+### 1. Ceiling
+
+The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room — plus painting the ceiling, the walls and the window's steel protector.
 
 **Steps**
 1. Take down the old ceiling light and pull out its cable; take down the whole old ceiling, tiles and grid.
@@ -38,9 +47,17 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 Same quantities as the main quote: the smaller room still needs 2 sheets, 4 C-channel lengths and 4 wall-angle lengths.
 
-## 2. Fittings
+### 2. Strip out
 
-The same fittings as the main quote — **all already bought** (`materials.toml`, status "procured"). They all go into this room.
+Remove everything in the bathroom. Details to fill in.
+
+### 3. Tiling
+
+Details to fill in.
+
+### 4. Fit-out
+
+Fit the toilet, basin, basin tap, trap, mirror and towel rail — the same fittings as the main quote, **all already bought** (`materials.toml`, status "procured").
 
 | Fitting | Product | Size (W × H × D) | HomePro SKU | Price paid |
 |---|---|---|---|---|
