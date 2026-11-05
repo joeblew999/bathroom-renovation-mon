@@ -4,7 +4,7 @@ Date: 5 Nov 2026
 
 A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the builder's and the tiler's quotes against. The materials are the owner's and are not in it.
 
-The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the builder's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor and ceiling.
+The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the builder's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor and ceiling, and 2.8 m to the ceiling.
 
 ## Summary
 
@@ -13,10 +13,10 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 1. Preparation | Builder | not in the book | — |
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
-| 4. Painting | Builder | ฿107 (ceiling only, so far) | ฿131 |
+| 4. Painting | Builder | ฿433 | ฿528 |
 | 5. Tiling | Tiler | ฿700 | ฿854 |
 | 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
-| **Total** | | **฿2,927** | **฿3,570** |
+| **Total** | | **฿3,253** | **฿3,967** |
 
 These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
@@ -44,11 +44,11 @@ The book's rates include a primer coat and 2 finish coats.
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
 | Ceiling, emulsion, inside | 2.8.1, p. 13 | 3.45 m² | ฿31 | ฿107 |
-| Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | not measured | ฿31 | — |
+| Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.5 m² | ฿31 | ฿326 |
 | Window frame and security screen, anti-rust paint | 2.8.3, p. 13 | not measured | ฿36 | — |
-| | | | | **฿107** |
+| | | | | **฿433** |
 
-To price the walls, measure how high the wall tiles go: the painted area is 7.76 m round the room × (2.8 m − the tile height), less the window and door.
+Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) = **10.5 m²**. The window isn't taken off, since its size isn't measured, so this errs a little high.
 
 ### 5. Tiling
 
