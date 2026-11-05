@@ -93,7 +93,7 @@ On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci
 | `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README; not used by the build |
 | `appliances/` | The house's appliances and office furniture (TV and wall bracket, fridge, induction cooktop, Ethernet cables, office table and stool): the picks from HomePro, the options looked at, and the order once placed; not used by the build |
 | `wardrobe/` | The open wardrobe in bedroom 2, 3 m wide: 6 steel rails in 3 pairs set into pockets in the brick walls, with plywood shelves on U blocks — layout, the builders' steps and the HomePro materials (`README.md`); and the IKEA BOAXEL version, parts and installation (`ikea.md`); not used by the build |
-| `bathroom-small/` | A separate, smaller job: renovating the existing bathroom at its current size (no new wall), written for the builders; its own README; not used by the build |
+| `bathroom-small/` | A separate, smaller job: renovating the existing bathroom at its current size (no new wall), written for the builders; its own README, and the labour priced from the Comptroller General's rates (`labour.md`); not used by the build |
 | `sources/` | Copies of the outside documents figures are read from, named by the document's own date — the Comptroller General's labour rate book, `2026-06-26-cgd-w480-labour-rates.pdf` |
 | `CLAUDE.md`, `AGENTS.md` | Point Claude, and other AI agents, to this README |
 
