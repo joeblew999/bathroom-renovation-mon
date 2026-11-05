@@ -24,8 +24,9 @@
 <rect x="567.0" y="187.5" width="196.0" height="4" fill="#4a6fa5"/>
 <rect x="567.0" y="325.0" width="196.0" height="4" fill="#4a6fa5"/>
 <rect x="567.0" y="462.5" width="196.0" height="4" fill="#4a6fa5"/>
-<rect x="567.0" y="568.75" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
-<rect x="567.0" y="675.0" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
+<rect x="567.0" y="532.5" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
+<rect x="567.0" y="603.75" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
+<rect x="567.0" y="675.0" width="196.0" height="4" fill="#4a6fa5"/>
 <line x1="840.0" y1="50.0" x2="846.0" y2="50.0" stroke="#333"/>
 <text x="849.0" y="54.0" font-size="10">2,800 ceiling</text>
 <line x1="840.0" y1="187.5" x2="846.0" y2="187.5" stroke="#333"/>
@@ -38,8 +39,10 @@
 <text x="849.0" y="458.5" font-size="10">1,150</text>
 <line x1="840.0" y1="475.0" x2="846.0" y2="475.0" stroke="#333"/>
 <text x="849.0" y="483.0" font-size="10">1,100</text>
-<line x1="840.0" y1="568.75" x2="846.0" y2="568.75" stroke="#333"/>
-<text x="849.0" y="572.75" font-size="10">725</text>
+<line x1="840.0" y1="532.5" x2="846.0" y2="532.5" stroke="#333"/>
+<text x="849.0" y="536.5" font-size="10">870</text>
+<line x1="840.0" y1="603.75" x2="846.0" y2="603.75" stroke="#333"/>
+<text x="849.0" y="607.75" font-size="10">585</text>
 <line x1="840.0" y1="675.0" x2="846.0" y2="675.0" stroke="#333"/>
 <text x="849.0" y="679.0" font-size="10">300</text>
 <line x1="840.0" y1="750.0" x2="846.0" y2="750.0" stroke="#333"/>
