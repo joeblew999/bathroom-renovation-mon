@@ -246,9 +246,13 @@ Not bought yet — we'd like the builder's view and price first:
 
 Prices checked on HomePro 2026-11-05.
 
-**การตัด:** ประตูใหม่สูง 200 ซม. ต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ
+**การตัด:** ประตูใหม่สูง 200 ซม. ต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ แล้วปิดด้านบนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
 
-**Cutting:** the new door is 200 cm high, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
+**Cutting:** the new door is 200 cm high, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge, then close the open top with a PVC strip or silicone.
+
+**ประตูใหม่:** หนา 3.5 ซม. หนัก 7.3 กก. เจาะรูลูกบิดแล้ว ใส่กุญแจฝังไม่ได้ (โฮมโปร ตรวจสอบ 2026-11-05) วงกบเดิมต้องรับประตูหนา 35 มม. ได้ — วัดความหนาประตูเดิมก่อน
+
+**The new door:** 3.5 cm thick, 7.3 kg, pre-drilled for the knob, can't take a mortise lock (HomePro, checked 2026-11-05). The old frame's rebate must take a 35 mm door — measure the old door's thickness first.
 
 **บานพับ:** ถ้าได้ ให้ใช้ตำแหน่งบานพับเดิมบนวงกบ — ถ่ายตำแหน่งจากวงกบลงบนประตูใหม่ (หลังตัดแล้ว และเผื่อช่องว่างเหนือพื้น) ถ้ารูสกรูเดิมบนวงกบหลวม ให้อุดรูแล้วเจาะใหม่
 
@@ -260,11 +264,13 @@ Prices checked on HomePro 2026-11-05.
 
 **คำถามถึงช่าง:**
 - ประตู UPVC นี้ข้างในกลวง — ตัดด้านบนประมาณ 65 มม. ได้หรือไม่
+- วงกบเดิมรับประตูหนา 35 มม. ได้หรือไม่
 - ถ้าไม่ได้ ช่างแนะนำประตูแบบไหน
 - ราคาค่าติดตั้ง
 
 **Questions for the builder:**
 - This UPVC door is hollow inside — can its top be cut by about 65 mm?
+- Does the old frame take a 35 mm thick door?
 - If not, what door would you suggest?
 - Your price to fit it.
 
