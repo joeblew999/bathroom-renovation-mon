@@ -14,15 +14,18 @@ An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's B
 
 ## Layout
 
-4 uprights on the back wall make 3 bays: **80 + 80 + 80 cm**, centred on the wall. IKEA's [BOAXEL buying guide](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf) adds 1 cm at each end for the outside uprights, so the whole run is 1 + 240 + 1 = **242 cm**, leaving **29 cm at each end** of the 300 cm wall. Each level has 2.4 m of shelf and hanging rail.
+4 uprights on the back wall make 3 bays: **80 + 80 + 80 cm**, centred on the wall. IKEA's [BOAXEL buying guide](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf) adds 1 cm at each end for the outside uprights, so the whole run is 1 + 240 + 1 = **242 cm**, leaving **29 cm at each end** of the 300 cm wall.
+
+- **Left and right bays:** 2 levels — shelf and rail at the top and in the middle.
+- **Middle bay: full length** — top shelf and rail only, no middle level, so dresses and long coats hang from 2,200 to the floor (a maxi dress hangs about 1,450–1,550).
 
 | | Height from the floor |
 |---|---|
 | Uprights (200 cm long) | **300 – 2,300** |
 | Top shelf | **≈2,250** |
 | Top clothes rail | **≈2,200** |
-| Middle shelf | **≈1,150** |
-| Middle clothes rail | **≈1,100** |
+| Middle shelf (left and right bays) | **≈1,150** |
+| Middle clothes rail (left and right bays) | **≈1,100** |
 | Shoes | **floor** |
 
 The heights can be changed later: the brackets click into the uprights with no tools.
@@ -33,10 +36,10 @@ The heights can be changed later: the brackets click into the uprights with no t
 |---|---|---|---|---|---|---|
 | Wall upright | [BOAXEL, white, 200 cm](https://www.ikea.com/th/en/p/boaxel-wall-upright-white-60453569/) | 604.535.69 | 4 | To buy | ฿300 | ฿1,200 |
 | Mounting rail | [BOAXEL, white, 182 cm](https://www.ikea.com/th/en/p/boaxel-mounting-rail-white-80474274/) — cut the second to fit | 804.742.74 | 2 | To buy | ฿150 | ฿300 |
-| Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 6 | To buy | ฿450 | ฿2,700 |
+| Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 5 | To buy | ฿450 | ฿2,250 |
 | Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 8 | To buy | ฿55 | ฿440 |
-| Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 6 | To buy | ฿125 | ฿750 |
-| | | | | **To buy** | | **฿5,390** |
+| Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 5 | To buy | ฿125 | ฿625 |
+| | | | | **To buy** | | **฿4,815** |
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
@@ -46,7 +49,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
-| Assembly | 7% of the regular price | ≈฿377 |
+| Assembly | 7% of the regular price | ≈฿337 |
 | Wall mounting | ฿50 per 4 holes | ≈฿200–300 (16–24 holes, estimate) |
 | Truck delivery | — | not yet checked |
 
@@ -56,9 +59,9 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 
 | | |
 |---|---|
-| Parts | ฿5,390 |
-| Assembly and wall mounting | ≈฿580–680 |
-| **Total** | **≈฿5,970–6,070** + delivery |
+| Parts | ฿4,815 |
+| Assembly and wall mounting | ≈฿540–640 |
+| **Total** | **≈฿5,355–5,455** + delivery |
 
 ## Check before ordering
 
