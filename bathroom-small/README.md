@@ -93,7 +93,6 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 
 - **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
 - **Grout:** Crocodile Premium Plus, **coral grey** — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
-- **Grout colour:** coral grey, lighter than the tile, chosen by the owner so the joints don't read as a dark grid — not granite grey. Price ฿63, HomePro, checked 2026-11-05. Before grouting, mix a little, let it dry, and hold it against a tile — grout dries lighter than it looks wet.
 - **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
