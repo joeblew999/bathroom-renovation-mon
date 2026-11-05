@@ -1,4 +1,4 @@
-# Existing bathroom — renovate at the same size
+# Bathroom (small) — renovate the existing bathroom at the same size
 
 A separate, smaller job from the main quote in this repo: renovate the **existing** bathroom and keep it the same size — no new wall, no moving the door. The main quote (the root of this repo) is the bigger plan, where the door wall is broken out and the room is made bigger; nothing here changes it.
 
