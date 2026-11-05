@@ -27,10 +27,10 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 ### 1. Strip out
 
 **First, before anything else:**
-1. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
-2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
-3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
-4. **Take the old door off.** The frame stays; the new door goes in last (phase 5).
+1. **Take the old door off** first, so there is room to work. The frame stays; the new door goes in last (phase 5).
+2. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
+3. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
+4. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
 5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 3, then goes back on.
 
 The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
