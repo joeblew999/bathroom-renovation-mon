@@ -38,7 +38,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
 | 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
 | 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
-| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ แล้วประตูใหม่ / Fittings, then the new door |
+| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / Fittings, the security screen, then the new door |
 
 ### ใครมาเมื่อไร / Who comes when
 
@@ -52,11 +52,10 @@ Several steps have to dry before the next one, so the work comes in visits:
 | 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วโครงและแผ่นฝ้า ฉาบรอยต่อรอบแรก (ขั้นที่ 2–3) / Strip out, then the ceiling frame and board, first joint coat (phases 2–3) | ผงฉาบแห้ง ตามที่เขียนบนถุง / the jointing compound dries, as on its bag |
 | 3 | ผู้รับเหมา / Builder | ฉาบรอยต่อเพิ่มถ้าจำเป็น แล้วขัด (ขั้นที่ 3) / More joint coats if needed, then sand (phase 3) | ตามที่เขียนบนถุง / as on the bag |
 | 4 | ผู้รับเหมา / Builder | ทาสีฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด (ขั้นที่ 4) / Paint the ceiling, walls, window frame and security screen (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
-| 5 | ผู้รับเหมา / Builder | ติดเหล็กดัดกลับ (ขั้นที่ 4) / Security screen back on (phase 4) | — |
-| 6 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 5) / Lay the tiles (phase 5) | กาวบ่มตัว (ขั้นที่ 5) / the adhesive cures (phase 5) |
-| 7 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 5) / Grout (phase 5) | ยาแนวแห้ง / the grout sets |
-| 8 | ผู้รับเหมา / Builder | ติดตั้ง แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, then the new door (phase 6) | — |
-| 9 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
+| 5 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 5) / Lay the tiles (phase 5) | กาวบ่มตัว (ขั้นที่ 5) / the adhesive cures (phase 5) |
+| 6 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 5) / Grout (phase 5) | ยาแนวแห้ง / the grout sets |
+| 7 | ผู้รับเหมา / Builder | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
+| 8 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
 
 ### 1. เตรียมงาน / Preparation
 
@@ -64,9 +63,9 @@ Several steps have to dry before the next one, so the work comes in visits:
 
 Before anything else.
 
-**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับ
+**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับในขั้นที่ 6
 
-**Take off:** the window's steel security screen — keep it safe; it is painted in phase 4 and goes back on.
+**Take off:** the window's steel security screen — keep it safe; it is painted in phase 4 and goes back on in phase 6.
 
 **ล้าง:** คิ้วพลาสติกสีชมพู/ม่วงของกระเบื้องทั้งหมดในห้องน้ำ — มีสีเก่าและคราบสกปรกติดอยู่
 
@@ -146,9 +145,6 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 3. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
 
    **Paint** the ceiling and the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
-4. **ติดเหล็กดัดกลับ:** เมื่อสีเหล็กดัดและวงกบหน้าต่างแห้งแล้ว ติดเหล็กดัดกลับที่หน้าต่าง — ก่อนปูกระเบื้อง
-
-   **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — before the tiling.
 
 ### 5. ปูกระเบื้อง / Tiling
 
@@ -211,9 +207,9 @@ Prices checked 2026-10-31.
 
 ### 6. ติดตั้ง / Fit-out
 
-อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า และสายเครื่องทำน้ำอุ่น
+อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และติดเหล็กดัดกลับที่หน้าต่าง
 
-The basin with its mirror, the toilet with its towel rail, and the water heater's hose.
+The basin with its mirror, the toilet with its towel rail, the water heater's hose, and the security screen back on the window.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
