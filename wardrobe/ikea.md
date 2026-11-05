@@ -39,7 +39,7 @@ Facing the wardrobe:
 
 The shelf-and-basket bay is on the **left, next to the room's door**, as it's the one used most. Shelves only up high, where baskets don't work (2,100 and 1,600, above eye level — boxes, folded stacks). Below them, 7 mesh baskets (15 cm deep, on the same brackets as the shelves) run from about 1,480 down to 310, about 170 apart, just enough to pull each one out. About 310 is left clear below them for shoes. The installer sets each at the nearest slot in the uprights.
 
-Heights are from the floor. The uprights run from **150 to 2,150**. Every top rail is at **2,050**, a comfortable reach for a 173 cm person. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,550–1,600, so from the right bay's rail it ends about 450–500 above the floor; in the middle bay, shirts and jackets get 1,050 from the top rail to the middle shelf, and trousers hang from 950, ending about 250 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
+Heights are from the floor, set at the nearest slot in the uprights. The uprights run from **150 to 2,150**. Every top rail is at **2,050**, a comfortable reach for a 173 cm person. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,550–1,600, so from the right bay's rail it ends about 450–500 above the floor; in the middle bay, shirts and jackets get 1,050 from the top rail to the middle shelf, and trousers hang from 950, ending about 250 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
 
 ## Parts (IKEA Thailand)
 
@@ -49,9 +49,9 @@ Heights are from the floor. The uprights run from **150 to 2,150**. Every top ra
 | Mounting rail | [BOAXEL, white, 182 cm](https://www.ikea.com/th/en/p/boaxel-mounting-rail-white-80474274/) — cut the second to fit | 804.742.74 | 2 | To buy | ฿150 | ฿300 |
 | Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 5 | To buy | ฿450 | ฿2,250 |
 | Mesh basket 80 × 40 × 15 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-mesh-basket-white-10459955/) | 104.599.55 | 7 | To buy | ฿400 | ฿2,800 |
-| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 22 | To buy | ฿55 | ฿1,210 |
+| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 28 | To buy | ฿55 | ฿1,540 |
 | Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 4 | To buy | ฿125 | ฿500 |
-| | | | | **To buy** | | **฿8,260** |
+| | | | | **To buy** | | **฿8,590** |
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
@@ -61,8 +61,8 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
-| Assembly | 7% of the regular price | ≈฿578 |
-| Wall mounting | ฿50 per 4 holes | ≈฿200–300 (16–24 holes, estimate) |
+| Assembly | 7% of the regular price | ≈฿601 |
+| Wall mounting | ฿50 per 4 holes | ≈฿200–500 (16–40 holes, see Check before ordering) |
 | Truck delivery | — | not yet checked |
 
 From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer-service/services/assembly), checked 2026-11-05. Questions: LINE @IKEAThailand, 9:00–21:30.
@@ -71,12 +71,19 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 
 | | |
 |---|---|
-| Parts | ฿8,260 |
-| Assembly and wall mounting | ≈฿780–880 |
-| **Total** | **≈฿9,040–9,140** + delivery |
+| Parts | ฿8,590 |
+| Assembly and wall mounting | ≈฿800–1,100 |
+| **Total** | **≈฿9,390–9,690** + delivery |
 
 ## Check before ordering
 
-- Whether the clothes rails hang on the same brackets as the shelves; if not, add 6 brackets (฿330).
+- **Brackets:** IKEA's buying guide says "2 brackets per interior part" and lists clothes rails and baskets as interior parts, so the 28 brackets give every shelf, rail and basket its own. Confirm in store.
+- **Slot spacing:** neither the buying guide nor the assembly instructions give the spacing of the slots in the uprights, so every height here is the nearest slot.
+- **Wall holes:** the assembly instructions give 5 screws for a 182 cm mounting rail and 3 for an 82 cm one, and "for 200 cm uprights, use 8 screws" — it isn't clear whether the uprights' screws are as well as the rails'. That makes about 16–40 holes.
 - Wall plugs and screws for the brick (about 4 per upright) are sold separately — whether IKEA's technicians bring them.
 - The truck delivery fee to Si Racha.
+
+## Sources
+
+- [IKEA – BOAXEL buying guide (FY26, PDF)](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf), read 2026-11-05: the 1 cm end allowance, brackets per interior part.
+- [IKEA BOAXEL wall upright assembly instructions (manuals.plus)](https://manuals.plus/m/a621f86ac2d8bd450d53cd6ddd635dfe37e8370c6b21b7ae060e9e58304c24f0), read 2026-11-05: screws per rail and upright.
