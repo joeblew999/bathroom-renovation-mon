@@ -37,7 +37,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
 | 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
 | 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป / Floor and step |
-| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ / Fittings |
+| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ แล้วประตูใหม่ / Fittings, then the new door |
 
 ### 1. เตรียมงาน / Preparation
 
@@ -67,7 +67,7 @@ Before anything else.
 | กระเบื้องพื้น / Floor tiles | ห้ามรื้อ — ปูกระเบื้องใหม่ทับ / don't lift them — the new tiles go on top |
 | วาล์วและสายน้ำดีชักโครก / Toilet stop valve and hose | เก็บไว้ — ใช้กับชักโครกใหม่ / keep — they go on the new toilet |
 | สายฉีดชำระ / Bidet spray and its hose | หุ้มพลาสติก / wrap in plastic |
-| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ไม่ต้องถอด อยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / leave as it is (see "Door" at the end) |
+| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ใช้ไปก่อนจนใส่ประตูใหม่ (ขั้นที่ 6) วงกบอยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / use it until the new door goes in (phase 6); the frame stays (see "Door" at the end) |
 
 ### 2. รื้อถอน / Strip out
 
@@ -225,30 +225,28 @@ Where each of the others goes in this room: to set out.
 
 ## ประตู / Door
 
-**ประตูเดิมอยู่ที่เดิม** ไม่ต้องถอด ประตูเดิมขนาด **700 × 1,950 มม.** พื้นใหม่จะสูงขึ้น (กระเบื้อง + กาว) — หลังปูกระเบื้อง ตรวจว่าประตูเดิมยังเปิดปิดได้ ไม่ครูดพื้น
+**ใส่ประตูใหม่เป็นงานสุดท้าย** (ขั้นที่ 6) หลังปูกระเบื้องเสร็จ **วงกบเดิมอยู่ที่เดิม** ถอดประตูเดิมและบานพับเดิมออกตอนใส่ประตูใหม่ ช่องประตูเดิม **700 × 1,950 มม.**
 
-**The existing door stays** as it is. It is **700 × 1,950 mm**. The new floor will be higher (tile + adhesive) — after tiling, check the old door still opens and closes without scraping the floor.
-
-### ทางเลือก: ประตูใหม่ — ขอความเห็นช่าง / Option: a new door — your view, please
-
-ยังไม่ได้ซื้อ ขอความเห็นและราคาจากช่างก่อน:
-
-Not bought yet — we'd like the builder's view and price first:
+**The new door goes in last** (phase 6), after tiling. **The existing frame stays.** Take the old door and hinges off when the new door goes in. The existing door is **700 × 1,950 mm**.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, pre-drilled for the knob | [AZLE WB2, 70 × 200 cm, brown](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | ทางเลือก / Option | ฿1,990 | ฿1,990 |
-| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 pcs](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ทางเลือก / Option | ฿199 | ฿199 |
-| ลูกบิดห้องน้ำ / Bathroom knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ทางเลือก / Option | ฿399 | ฿399 |
-| | | | | **ทางเลือก / Option** | | **฿2,588** |
+| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, pre-drilled for the knob | [AZLE WB2, 70 × 200 cm, brown](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 pcs](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
+| ลูกบิดห้องน้ำ / Bathroom knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
+| | | | | **ต้องซื้อ / To buy** | | **฿2,588** |
 
 ราคาตรวจสอบที่โฮมโปร 2026-11-05
 
 Prices checked on HomePro 2026-11-05.
 
-**การตัด:** ประตูใหม่สูง 200 ซม. ต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ แล้วปิดด้านบนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
+**ก่อนซื้อ ถามโฮมโปร:** ประตูนี้ข้างในกลวง — ตัดด้านบนออกได้มากสุดกี่มม. เราต้องตัดประมาณ 65 มม. (50 มม. + กระเบื้อง + กาว) ถามทางแชทในหน้าสินค้า หรือที่แผนกประตูในสาขา ถ้าตัดได้ไม่ถึง ให้ถามว่าแนะนำประตูรุ่นไหน
 
-**Cutting:** the new door is 200 cm high, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge, then close the open top with a PVC strip or silicone.
+**Before buying, ask HomePro:** this door is hollow inside — what is the most that can be cut off the top? We need to cut about 65 mm (50 mm + tile + adhesive). Ask in the chat on the product page, or at the door counter in store. If it can't be cut that much, ask which door they suggest.
+
+**การตัด:** ตัดหลังปูกระเบื้อง เมื่อรู้ว่าพื้นสูงขึ้นจริงเท่าไร ประตูใหม่สูง 200 ซม. ต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ แล้วปิดด้านบนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
+
+**Cutting:** cut after tiling, once the real floor rise is known. The new door is 200 cm high, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge, then close the open top with a PVC strip or silicone.
 
 **ประตูใหม่:** หนา 3.5 ซม. หนัก 7.3 กก. เจาะรูลูกบิดแล้ว ใส่กุญแจฝังไม่ได้ (โฮมโปร ตรวจสอบ 2026-11-05) ประตูเดิมหนา 38 มม. ประตูใหม่บางกว่า 3 มม. ใส่วงกบเดิมได้ ปิดชนบังใบเดิม ถ้าสลักไม่ตรงแผ่นรับสลัก ให้ขยับแผ่นรับสลักเล็กน้อย
 
@@ -262,15 +260,9 @@ Prices checked on HomePro 2026-11-05.
 
 **Strike plate (on the frame):** reuse the existing strike plate on the frame. Hang the door first; if the new knob's latch doesn't line up (the door is cut and the floor is higher), move the strike plate to meet it and fill the old recess.
 
-**คำถามถึงช่าง:**
-- ประตู UPVC นี้ข้างในกลวง — ตัดด้านบนประมาณ 65 มม. ได้หรือไม่
-- ถ้าไม่ได้ ช่างแนะนำประตูแบบไหน
-- ราคาค่าติดตั้ง
+**คำถามถึงช่าง:** ราคาค่าติดตั้งประตู (ตัด แขวน ใส่ลูกบิด)
 
-**Questions for the builder:**
-- This UPVC door is hollow inside — can its top be cut by about 65 mm?
-- If not, what door would you suggest?
-- Your price to fit it.
+**Question for the builder:** your price to fit the door (cut, hang, fit the knob).
 
 ---
 
