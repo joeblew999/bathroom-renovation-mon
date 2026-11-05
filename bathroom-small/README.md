@@ -98,7 +98,7 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 
 Where each one goes in this room: to set out.
 
-**Water heater hose.** Replace the existing 1 m black plastic hose between the electric water heater and its existing stop tap with a stainless one (the heater and stop tap stay):
+**Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with a stainless one (the heater and stop tap stay):
 
 | Item | Product | HomePro SKU | Price |
 |---|---|---|---|
