@@ -4,24 +4,23 @@ A 3 m wide open wardrobe with a curtain in front: **6 steel rails in 3 pairs**, 
 
 **Status: designed, not bought.** Materials about **฿3,400**, plus wood glue and screws. Prices from HomePro's product pages, checked 2026-11-05 (the tube and mortar prices change with the delivery area; the figures are the low end).
 
-## Layout
+## Where the rails go
 
-Floor to ceiling 2,800 mm. Heights are to the top of each rail.
+Floor to ceiling 2,800 mm. Each rail runs wall to wall across the 3 m.
 
-| Level | Back rail | Front rail | Use |
-|---|---|---|---|
-| Top | 2,000 | 2,000 | Hang shirts and jackets from the back rail, or a shelf; about 800 above for boxes |
-| Middle | 950 | 950 | Hang trousers from the back rail, or a shelf |
-| Shoes | 200 | 100 | Shoe rack — the back rail higher so the shoes tilt toward you |
+| Rail | Height — floor to top of rail | From the back wall |
+|---|---|---|
+| Top, back | **2,000** | **250** |
+| Top, front | **2,000** | **550** |
+| Middle, back | **950** | **250** |
+| Middle, front | **950** | **550** |
+| Shoes, back | **200** | **250** |
+| Shoes, front | **100** | **500** |
 
-| Depth, from the back | mm |
-|---|---|
-| Wall behind → back rail | at least 250 |
-| Back rail → front rail | 300 (250 at shoe level) |
-| Front rail → curtain track | 100 |
-| **Total** | **about 650** |
+The curtain track goes about **650** from the back wall (100 in front of the front rails).
 
-- **Hang from the back rail.** A hanger is about 450 wide, so clothes reach 225 forward and stop 75 short of the front rail.
+- **Top and middle:** hang clothes from the **back** rail, or lay a shelf across both. A hanger is about 450 wide, so the clothes stop 75 short of the front rail. About 800 is left above the top rails for boxes.
+- **Shoes:** the back rail is higher, so the shoes tilt toward you.
 - There is no full-length hanging space (long coats and dresses need 1,400–1,600).
 
 ## The rails
