@@ -10,7 +10,7 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 
 | Phase | Who | Bare labour | With Factor F |
 |---|---|---|---|
-| 1. Preparation | Builder | not in the book | — |
+| 1. Preparation | Owner | — | — |
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
 | 4. Painting | Builder | ฿433 | ฿528 |
@@ -76,6 +76,7 @@ The door rate is for hanging a ready-made leaf. Cutting the top off isn't priced
 
 These have no rate in the book, so ask the builder for a price:
 
-- **Preparation:** taking the security screen off and putting it back, cleaning the pink edge trims, and the taping and plastic.
-- **Hauling the debris away**, including the disposal fee.
-- **Filling** the 8 screw holes in the walls.
+- **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it.
+- **Before painting:** cleaning the walls and ceiling, and filling the 8 screw holes.
+- **The door, beyond hanging it:** taking the old door off (the book only has a door removed with its frame), cutting and capping the top of the new one, moving the strike plate, and plugging the old hinge holes.
+- **The window frame and security screen** have a rate (above), but their size isn't measured yet.
