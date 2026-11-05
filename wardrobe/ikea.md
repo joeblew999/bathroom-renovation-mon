@@ -62,9 +62,11 @@ Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
 | Item | Product | HomePro SKU | How many | Status | Each | Total |
 |---|---|---|---|---|---|---|
-| Wall plugs with screws | [BY TORA plastic plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | To buy | ฿65 | ฿65 |
+| Pan-head screws, #6 × 1½" (3.5 × 38 mm) | [DEXZON TP, pack of 25](https://www.homepro.co.th/p/1174023) | 1174023 | 2 packs | To buy | ฿29 | ฿58 |
+| Wall plugs, no. 6 | [DEXZON plastic plugs, pack of 100](https://www.homepro.co.th/p/1207167) | 1207167 | 1 pack | To buy | ฿49 | ฿49 |
+| | | | | **To buy** | | **฿107** |
 
-HomePro, checked 2026-11-05. **The holes in the rails and uprights are small.** IKEA's instructions call for **pan-head screws** (not countersunk) with a head **7 mm across for the mounting rails** and **8 mm for the uprights** (pages 13–14 and 17). The screws in this pack aren't checked against that — if their heads are bigger, buy pan-head screws to suit and use the plugs only.
+HomePro, checked 2026-11-05. **The holes in the rails and uprights are small:** IKEA's instructions call for **pan-head screws** (not countersunk) with a head **7 mm across for the mounting rails** and **8 mm for the uprights** (pages 13–14 and 17). A #6 (3.5 mm) pan-head screw has a head of about 7 mm, so one size fits both; the no. 6 plug is the matching size.
 
 ## Installation
 
@@ -83,15 +85,15 @@ From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-serv
 | | |
 |---|---|
 | Parts (IKEA) | ฿8,260 |
-| Wall plugs and screws (HomePro) | ฿65 |
+| Wall plugs and screws (HomePro) | ฿107 |
 | Assembly and wall mounting | ≈฿1,080 |
 | Truck delivery | from ฿299 |
-| **Total** | **≈฿9,705** or a little more |
+| **Total** | **≈฿9,750** or a little more |
 
 ## Check before ordering
 
 - **Slot spacing:** IKEA doesn't publish the spacing of the slots in the uprights.
-- **Screws:** pan heads no bigger than 7 mm (rails) and 8 mm (uprights) — check the BY TORA screws in store.
+- **Screws:** check in store that the DEXZON TP heads are no wider than 7 mm.
 
 ## Sources
 
