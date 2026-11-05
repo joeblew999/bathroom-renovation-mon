@@ -40,6 +40,24 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
 | 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ แล้วประตูใหม่ / Fittings, then the new door |
 
+### ใครมาเมื่อไร / Who comes when
+
+งานหลายอย่างต้องรอให้แห้งก่อนทำขั้นต่อไป จึงแบ่งเป็นหลายครั้ง:
+
+Several steps have to dry before the next one, so the work comes in visits:
+
+| ครั้ง / Visit | ใคร / Who | งาน / Work | แล้วรอ / Then wait |
+|---|---|---|---|
+| 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
+| 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วโครงและแผ่นฝ้า ฉาบรอยต่อรอบแรก (ขั้นที่ 2–3) / Strip out, then the ceiling frame and board, first joint coat (phases 2–3) | ผงฉาบแห้ง ตามที่เขียนบนถุง / the jointing compound dries, as on its bag |
+| 3 | ผู้รับเหมา / Builder | ฉาบรอยต่อเพิ่มถ้าจำเป็น แล้วขัด (ขั้นที่ 3) / More joint coats if needed, then sand (phase 3) | ตามที่เขียนบนถุง / as on the bag |
+| 4 | ผู้รับเหมา / Builder | ทาสีฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด (ขั้นที่ 4) / Paint the ceiling, walls, window frame and security screen (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
+| 5 | ผู้รับเหมา / Builder | ติดเหล็กดัดกลับ (ขั้นที่ 4) / Security screen back on (phase 4) | — |
+| 6 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 5) / Lay the tiles (phase 5) | กาวบ่มตัว (ขั้นที่ 5) / the adhesive cures (phase 5) |
+| 7 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 5) / Grout (phase 5) | ยาแนวแห้ง / the grout sets |
+| 8 | ผู้รับเหมา / Builder | ติดตั้ง แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, then the new door (phase 6) | — |
+| 9 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
+
 ### 1. เตรียมงาน / Preparation
 
 ทำก่อนทุกอย่าง
