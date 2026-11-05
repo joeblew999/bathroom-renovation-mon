@@ -21,25 +21,25 @@ An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's B
 
 Facing the wardrobe:
 
-| | Left bay — shelves and baskets | Middle bay — 2 levels | Right bay — full length |
+| | Left bay — full length | Middle bay — 2 levels | Right bay — shelves and baskets |
 |---|---|---|---|
 | ≈2,100 | shelf | shelf | shelf |
-| ≈2,050 | clothes rail — handbags, short things | clothes rail — shirts, jackets | clothes rail — dresses, long coats |
-| ≈1,600 | shelf | | |
-| ≈1,480 | **mesh basket** | | |
-| ≈1,310 | **mesh basket** | | |
-| ≈1,140 | **mesh basket** | | |
+| ≈2,050 | clothes rail — dresses, long coats | clothes rail — shirts, jackets | clothes rail — handbags, short things |
+| ≈1,600 | | | shelf |
+| ≈1,480 | | | **mesh basket** |
+| ≈1,310 | | | **mesh basket** |
+| ≈1,140 | | | **mesh basket** |
 | ≈1,000 | | shelf | |
-| ≈970 | **mesh basket** | | |
+| ≈970 | | | **mesh basket** |
 | ≈950 | | clothes rail — trousers | |
-| ≈800 | **mesh basket** | | |
-| ≈630 | **mesh basket** | | |
-| ≈460 | **mesh basket** | | |
+| ≈800 | | | **mesh basket** |
+| ≈630 | | | **mesh basket** |
+| ≈460 | | | **mesh basket** |
 | Floor | shoes | shoes | shoes |
 
-- **Left bay** (next to the door — used most): shelves up high, 7 mesh baskets below, about 170 apart.
+- **Left bay** (next to the door): full length, for dresses and long coats — hanging needs no room in front.
 - **Middle bay:** shirts and jackets above, trousers below.
-- **Right bay:** full length, for dresses and long coats.
+- **Right bay** (next to the window): shelves up high, 7 mesh baskets below, about 170 apart. The baskets pull out toward you, and the floor in front of the window is free to stand in.
 - **Every top rail is at 2,050**, an easy reach at 173 cm. Shoes go on the floor under every bay.
 - Heights are from the floor, at the nearest slot in the uprights (150–2,150); they can be changed later — the brackets click in with no tools.
 - **Brackets:** each clothes rail hangs on hooks clipped to the brackets of the shelf above it; each shelf and basket has its own pair, shared with the next bay where the heights line up — 22 in all.
