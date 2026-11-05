@@ -8,7 +8,9 @@ A separate, smaller job from the main quote in this repo: renovate the **existin
 |---|---|---|
 | Width | **1,380** | `room.toml` `[room] width` — along the window wall, an existing wall that doesn't move |
 | Ceiling height | **2,800** | `room.toml` `[room] ceiling` |
-| Length | **to measure** | `room.toml` holds only the bigger room (3,000 mm). The existing room is shorter: it runs from the window wall to the existing door wall. Measure it on site. |
+| Length | **2,500** | From the window wall to the existing door wall: exactly 5 tiles of 500 × 500 (per Gerard, 2026-11-05). Fits the plan: the bigger room is 3,000 mm (6 tiles, `room.toml` `[room] length`), and the existing floor step (`room.toml` `floor_step`, 2,000 mm from the window wall) is inside the existing room. |
+
+Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ## Ceiling
 
