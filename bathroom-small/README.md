@@ -17,7 +17,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | # | Phase | What |
 |---|---|---|
 | 1 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
-| 2 | Strip out | Remove everything else in the bathroom |
+| 2 | Strip out | Remove everything except the shower, water heater, soap holder and toilet paper holder |
 | 3 | Tiling | Grey floor tiles, the drain, and the step's riser up to the existing pink edge trim |
 | 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; **last**, the new door |
 
@@ -49,7 +49,16 @@ Same quantities as the main quote: the smaller room still needs 2 sheets, 4 C-ch
 
 ### 2. Strip out
 
-Remove everything in the bathroom. Details to fill in.
+Remove **everything** in the bathroom, **except these, which stay**:
+
+| Stays | |
+|---|---|
+| Shower | the existing shower |
+| Water heater | the existing shower water heater |
+| Soap holder | the existing one |
+| Toilet paper holder | the existing one |
+
+Cover them up while the rest is stripped out and the floor is tiled. The ceiling comes down in phase 1; the old door comes out last, when the new one goes in (phase 4).
 
 ### 3. Tiling
 
