@@ -25,7 +25,14 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ### 1. Strip out
 
-Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
+**First, before anything else:**
+1. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
+2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
+3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
+
+The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
+
+**Then** remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
 
 | Stays | |
 |---|---|
@@ -34,13 +41,6 @@ Remove **everything** in the bathroom — including the old ceiling: take down t
 | Water heater | the existing shower water heater |
 | Soap holder | the existing one |
 | Toilet paper holder | the existing one |
-
-**First, before anything else:**
-1. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
-2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
-3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
-
-The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
 
 **Take the window's steel security screen off** and keep it — it is painted in phase 2 and goes back on.
 
