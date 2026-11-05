@@ -6,6 +6,7 @@
 <rect x="363.5" y="175.0" width="3" height="500.0" fill="#888"/>
 <rect x="563.5" y="175.0" width="3" height="500.0" fill="#888"/>
 <rect x="763.5" y="175.0" width="3" height="500.0" fill="#888"/>
+<text x="771.0" y="179.0" font-size="10" fill="#555">mounting rail</text>
 <rect x="165.0" y="172.0" width="600.0" height="3" fill="#888"/>
 <rect x="167.0" y="187.5" width="196.0" height="4" fill="#4a6fa5"/>
 <rect x="167.0" y="325.0" width="196.0" height="4" fill="#4a6fa5"/>
