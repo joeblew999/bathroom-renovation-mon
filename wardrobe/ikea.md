@@ -2,7 +2,7 @@
 
 Date: 5 Nov 2026
 
-An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's BOAXEL system: uprights on the back wall, shelves and clothes rails on 2 levels, shoes on the floor. IKEA delivers and installs it. The alternative to the [steel-rail version](README.md).
+An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's BOAXEL system on the back wall. IKEA delivers and installs it. The alternative to the [steel-rail version](README.md).
 
 ## Size
 
@@ -37,9 +37,12 @@ Facing the wardrobe:
 | ≈460 | **mesh basket** | | |
 | Floor | shoes | shoes | shoes |
 
-The shelf-and-basket bay is on the **left, next to the room's door**, as it's the one used most. Shelves only up high, where baskets don't work (2,100 and 1,600, above eye level — boxes, folded stacks). Below them, 7 mesh baskets (15 cm deep, on the same brackets as the shelves) run from about 1,480 down to 310, about 170 apart, just enough to pull each one out. About 310 is left clear below them for shoes. The installer sets each at the nearest slot in the uprights.
-
-Heights are from the floor, set at the nearest slot in the uprights. Each clothes rail hangs on 2 hooks clipped to the brackets of the shelf just above it, so it needs no brackets of its own; each shelf and each basket has its own pair (shared with the next bay where the heights line up) — 22 in all. The uprights run from **150 to 2,150**. Every top rail is at **2,050**, a comfortable reach for a 173 cm person. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,550–1,600, so from the right bay's rail it ends about 450–500 above the floor; in the middle bay, shirts and jackets get 1,050 from the top rail to the middle shelf, and trousers hang from 950, ending about 250 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
+- **Left bay** (next to the door — used most): shelves up high, 7 mesh baskets below, about 170 apart.
+- **Middle bay:** shirts and jackets above, trousers below.
+- **Right bay:** full length, for dresses and long coats.
+- **Every top rail is at 2,050**, an easy reach at 173 cm. Shoes go on the floor under every bay.
+- Heights are from the floor, at the nearest slot in the uprights (150–2,150); they can be changed later — the brackets click in with no tools.
+- **Brackets:** each clothes rail hangs on hooks clipped to the brackets of the shelf above it; each shelf and basket has its own pair, shared with the next bay where the heights line up — 22 in all.
 
 ## Parts (IKEA Thailand)
 
@@ -57,7 +60,7 @@ Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
 ## Installation
 
-IKEA installs it. It comes only with truck delivery; the technicians arrive the same day as the delivery. Book it when ordering online, or at the Delivery Counter in store.
+IKEA installs it on the day the truck delivers — book it when ordering online, or at the Delivery Counter in store.
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
@@ -65,7 +68,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 | Wall mounting | ฿50 per 4 holes | ≈฿500 (about 40 holes) |
 | Truck delivery | from ฿299, by delivery area | from ฿299 — the exact fee for Si Racha shows at checkout |
 
-From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-service/services/assembly) and [delivery](https://www.ikea.com/th/en/customer-service/services/delivery) pages, checked 2026-11-05. The 200 cm uprights are too long for parcel delivery (1.5 m limit), so it comes by truck anyway. Questions: LINE **@IKEAThailand** — [line.me/R/ti/p/@IKEAThailand](https://line.me/R/ti/p/@IKEAThailand) — 9:00–21:30.
+From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-service/services/assembly) and [delivery](https://www.ikea.com/th/en/customer-service/services/delivery) pages, checked 2026-11-05. Questions: LINE **@IKEAThailand** — [line.me/R/ti/p/@IKEAThailand](https://line.me/R/ti/p/@IKEAThailand) — 9:00–21:30.
 
 ## Total
 
@@ -78,8 +81,8 @@ From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-serv
 
 ## Check before ordering
 
-- **Slot spacing:** neither the buying guide nor IKEA's assembly instructions give the spacing of the slots in the uprights, so every height here is the nearest slot.
-- **Wall holes and plugs:** IKEA's assembly instructions screw the mounting rail first (182 cm: 5 screws; the second rail, cut to about 60 cm, 3) and then each 200 cm upright down its length (8 screws) — about 40 holes in the brick, 7 mm drill. Screws and plugs aren't included — whether IKEA's technicians bring them.
+- **Slot spacing:** IKEA doesn't publish the spacing of the slots in the uprights.
+- **Screws and plugs:** about 40 holes in the brick (mounting rails 5 + 3 screws, each upright 8) — not included; ask whether IKEA's technicians bring them.
 
 ## Sources
 
