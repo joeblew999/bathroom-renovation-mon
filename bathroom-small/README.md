@@ -59,7 +59,7 @@ Before anything else.
 
 | เก็บไว้ / Stays | วิธีป้องกัน / Protect it |
 |---|---|
-| กระเบื้องผนัง / Wall tiles | ติดเทปกันเปื้อน ตามแนวผนัง (บนคิ้วสีชมพู) และลงตามวงกบประตู / tape them out: along the walls (on the pink edge trim) and down the door frame |
+| กระเบื้องผนัง / Wall tiles | ติดเทปกันเปื้อนบนคิ้วพลาสติกสีชมพู ตามขอบบนของกระเบื้อง และลงตามขอบข้างวงกบประตู / tape them out on the pink plastic edge trim: along the top of the tiles, and down the side at the door frame |
 | ฝักบัว / Shower | หุ้มพลาสติก ติดเทปที่ผนัง / wrap in plastic; tape it out at the wall |
 | เครื่องทำน้ำอุ่น / Water heater | หุ้มพลาสติก ติดเทปที่ผนัง / wrap in plastic; tape it out at the wall |
 | ที่วางสบู่ / Soap holder | หุ้มพลาสติก / wrap in plastic |
