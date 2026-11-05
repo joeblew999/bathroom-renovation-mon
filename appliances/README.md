@@ -1,46 +1,63 @@
 # Appliances
 
-Appliances for the house, from HomePro. **Picked, not ordered yet.**
+TV, fridge, cooktop and network cables for the house, all from HomePro.
 
-All prices from HomePro's product pages, checked 2026-11-05. HomePro prices change often; check before ordering.
+**Status: picked, not ordered. Total ฿27,974.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
 
-## Picks
+## Shopping list
 
-| Item | Pick | HomePro SKU | Price |
+| # | Item | Pick | HomePro SKU | Qty | Price |
+|---|---|---|---|---|---|
+| 1 | TV, 55" | [Hisense 55Q6Q, 4K QLED](https://www.homepro.co.th/p/1297262) | 1297262 | 1 | ฿11,990 |
+| 2 | TV wall bracket | [Movada PTB-188FX, fixed, 40–90"](https://www.homepro.co.th/p/1264704) | 1264704 | 1 | ฿790 |
+| 3 | Bracket installation | [HomePro service ติดตั้งขาแขวนทีวี](https://www.homepro.co.th/p/7001463) | 7001463 | 1 | ฿500 |
+| 4 | Fridge, black | [Haier HRF-320MNI, 2-door, 11.8 cu ft](https://www.homepro.co.th/p/1229937) | 1229937 | 1 | ฿10,490 |
+| 5 | Induction cooktop, 2 zones | [LocknLock EJI326WHT, countertop](https://www.homepro.co.th/p/1213620) | 1213620 | 1 | ฿3,290 |
+| 6 | Ethernet cable to the TV | [Fibreconnex CAT6, 20 m](https://www.homepro.co.th/p/1157099) | 1157099 | 1 | ฿745 |
+| 7 | Ethernet cable to the office desk | [LINK CAT6, 3 m](https://www.homepro.co.th/p/1151278) | 1151278 | 1 | ฿169 |
+| | | | | **Total** | **฿27,974** |
+
+## Before ordering
+
+- [ ] **TV:** decide where it hangs; there must be a power socket there.
+- [ ] **Fridge:** measure the space (width × depth × height) against the fridge's size on its page.
+- [ ] **Cooktop:** a wall socket near the benchtop (not an extension lead — it draws 2,800 W).
+- [ ] **Office cable:** LINK's page doesn't say "RJ45 both ends"; check the plugs on the pack.
+
+## The items
+
+### TV — Hisense 55Q6Q
+- 55", 4K QLED, VIDAA system, AirPlay (works with iPhones), Dolby Vision, 60 Hz. 123.4 × 71.5 × 7.3 cm, 9.3 kg.
+- **No wall bracket in the box.** HomePro's free installation only plugs it in and tunes it; it doesn't fit a bracket. So the bracket (#2) and HomePro's bracket installation (#3, 45–60 minutes, drills the wall and hangs the TV) are bought separately.
+
+### Fridge — Haier HRF-320MNI
+- 2-door, 11.8 cu ft, black, inverter. A normal family size; the other black ones are either 7–8 cu ft or ฿3,500+ dearer.
+
+### Cooktop — LocknLock EJI326WHT
+- Sits on the benchtop and plugs in. 2 zones, 1,500 W + 1,300 W. 46 × 23 × 6 cm, 3 kg, white. Induction pans only, 12–24 cm across.
+
+### Ethernet cables
+| Cable | From | To | Route |
 |---|---|---|---|
-| TV, 55", wall-hung | [HISENSE 55Q6Q, 4K QLED, VIDAA](https://www.homepro.co.th/p/1297262) | 1297262 | ฿11,990 (was ฿17,999) |
-| Fridge, standard, black | [HAIER HRF-320MNI, 2-door, 11.8 cu ft, black, inverter](https://www.homepro.co.th/p/1229937) | 1229937 | ฿10,490 |
-| Induction cooktop, 2 zones, sits on the benchtop | [LOCKNLOCK EJI326WHT, 2 zones, countertop](https://www.homepro.co.th/p/1213620) | 1213620 | ฿3,290 (was ฿5,929) |
-| TV wall bracket | [MOVADA PTB-188FX, fixed, 40–90"](https://www.homepro.co.th/p/1264704) | 1264704 | ฿790 (was ฿870) |
-| Bracket installation (HomePro service) | [ติดตั้งขาแขวนทีวี — drill the wall, fit the bracket, hang the TV](https://www.homepro.co.th/p/7001463) | 7001463 | ฿500 |
-| Ethernet cable to the TV, RJ45 both ends | [FIBRECONNEX CAT6 LAN cable, 20 m, blue](https://www.homepro.co.th/p/1157099) | 1157099 | ฿745 |
-| Ethernet cable for the office desk in bedroom 2 | [LINK US-5103LZ-4 CAT6 LAN cable, 3 m, blue](https://www.homepro.co.th/p/1151278) | 1151278 | ฿169 (was ฿200) |
-| | | **Total** | **฿27,974** |
+| 20 m | Wi-Fi box, bedroom 2 | TV | Up into the suspended ceiling, across to the TV, down the wall. The spare 8 m is looped in the ceiling. |
+| 3 m | Wi-Fi box, bedroom 2 | Computer on the office desk, bedroom 2 | Along the wall. |
 
-### Why these
-- **TV:** QLED for about the same money as the plain LED 55" sets (Samsung UA55UE800H ฿11,890). **No wall bracket in the box**, and HomePro's free installation ("ฟรีติดตั้ง") only connects it to power and tunes it — the page says it does not cover fitting a wall bracket. So the bracket and HomePro's bracket installation service are bought separately (in the picks). TV: 123.4 × 71.5 × 7.3 cm without stand, 9.3 kg; VESA size not on the page.
-- **Fridge:** the black 2-door at a normal family size. The black ones either side are much smaller (Toshiba 7.3–8.2 cu ft, ฿5,997–6,790) or much dearer (Hisense 13.8 cu ft ฿13,990; Toshiba 16.3 cu ft ฿24,990).
-- **Cooktop:** freestanding, 2 zones (1,500 W + 1,300 W = 2,800 W), 46 × 23 × 6 cm, 3 kg, white, pans 12–24 cm across, induction pans only. The page says to unplug it when not in use, so it plugs in; it doesn't say what socket it needs. At 2,800 W, plug it straight into a wall socket, not an extension lead.
-- **Ethernet cable:** 12 m needed. HomePro's FIBRECONNEX CAT6 comes in 1, 5, 10, 15 and 20 m; the 15 m (1157119, ฿575) was out of stock on 2026-11-05, so 20 m (in stock, 29 left).
-  - **Office cable (bedroom 2):** 3 m, from the Wi-Fi box to the computer on the office desk. LINK 3 m in stock (191 left); the FIBRECONNEX 3 m (1157057, ฿155) was out of stock. LINK's page doesn't say "RJ45 both ends" — check the plugs on the pack.
-  - **Route (for the electricians):** from the Wi-Fi box in bedroom 2, up into the suspended ceiling, across the ceiling to the TV, and down the wall to the TV. The spare 8 m is looped up in the suspended ceiling.
+- 12 m was what the TV run needs, but HomePro has no 12 m: its sizes are 1, 5, 10, 15 and 20 m, and the 15 m was out of stock.
 
-### Other options looked at (HomePro, 2026-11-05)
+## Other options looked at (HomePro, 2026-11-05)
 
 | Item | Option | SKU | Price | Why not |
 |---|---|---|---|---|
-| TV | [SAMSUNG UA55U8000FKXXT, LED](https://www.homepro.co.th/p/1296549) | 1296549 | ฿10,990 | Cheapest, but older plain LED |
-| TV | [SAMSUNG UA55UE800HKXXT, LED](https://www.homepro.co.th/p/1319426) | 1319426 | ฿11,890 | Plain LED, about the same price as the QLED |
+| TV | [Samsung UA55U8000FKXXT, LED](https://www.homepro.co.th/p/1296549) | 1296549 | ฿10,990 | Older, plain LED |
+| TV | [Samsung UA55UE800HKXXT, LED](https://www.homepro.co.th/p/1319426) | 1319426 | ฿11,890 | Plain LED, same price as the QLED |
+| TV | [Haier H55S80EUX, QLED, Google TV](https://www.homepro.co.th/p/1266799) | 1266799 | ฿14,990 | ฿3,000 more; pick it only for Google TV's bigger app store |
 | TV | [LG 55NU855BPSA, NanoCell](https://www.homepro.co.th/p/1317028) | 1317028 | ฿13,990 | Dearer |
-| Bracket | [PRISMA PMW-4090F, fixed, 40–90"](https://www.homepro.co.th/p/1266891) | 1266891 | ฿2,690 | Same job, ฿1,900 more |
-| Fridge | [TOSHIBA GR-A28KU, 8.2 cu ft, black](https://www.homepro.co.th/p/1107900) | 1107900 | ฿5,997 | Small |
-| Fridge | [HISENSE RT488NAF1, 13.8 cu ft, black](https://www.homepro.co.th/p/1143103) | 1143103 | ฿13,990 | Bigger, ฿3,500 more |
-| Cooktop | [HAFELE 495.06.127, 2 zones, countertop](https://www.homepro.co.th/p/1282824) | 1282824 | ฿4,190 | 3,000 W shared, 55.5 × 35 cm — bigger and ฿900 more |
-| Cooktop | [KUCINE HC-I2402A-03](https://www.homepro.co.th/p/1293264) | 1293264 | ฿2,190 | Built-in (needs a cut-out), not for the benchtop |
+| Bracket | [Prisma PMW-4090F, fixed](https://www.homepro.co.th/p/1266891) | 1266891 | ฿2,690 | Same job, ฿1,900 more |
+| Fridge | [Toshiba GR-A28KU, 8.2 cu ft, black](https://www.homepro.co.th/p/1107900) | 1107900 | ฿5,997 | Small |
+| Fridge | [Hisense RT488NAF1, 13.8 cu ft, black](https://www.homepro.co.th/p/1143103) | 1143103 | ฿13,990 | ฿3,500 more |
+| Cooktop | [Hafele 495.06.127, countertop](https://www.homepro.co.th/p/1282824) | 1282824 | ฿4,190 | Bigger (55.5 × 35 cm), ฿900 more |
+| Cooktop | [Kucine HC-I2402A-03](https://www.homepro.co.th/p/1293264) | 1293264 | ฿2,190 | Built into the counter, not for the benchtop |
+| Cable | [Fibreconnex CAT6, 15 m](https://www.homepro.co.th/p/1157119) | 1157119 | ฿575 | Out of stock |
+| Cable | [Fibreconnex CAT6, 3 m](https://www.homepro.co.th/p/1157057) | 1157057 | ฿155 | Out of stock |
 
-## Before ordering
-- TV: where on the wall, and that there's a power socket there. Bracket installation takes 45–60 minutes (HomePro's service page).
-- Fridge: measure the space it goes in (width, depth, height) against the fridge's size on its HomePro page.
-- Cooktop: a wall socket near the benchtop.
-
-When ordered, the order details and the Gmail search to find them go here, the same as [lighting](../lighting/).
+When ordered, the order number and the Gmail search to find it go here, the same as [lighting](../lighting/).
