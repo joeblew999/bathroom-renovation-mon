@@ -65,16 +65,16 @@ A new flush gypsum ceiling.
 
 **Materials** (HomePro, prices checked 2026-10-31)
 
-| Item | SKU | How many | Why that many | Each | Total |
-|---|---|---|---|---|---|
-| [DURAONE moisture-resistant gypsum board, 120 × 240 × 0.9 cm](https://www.homepro.co.th/p/1110611) | 1110611 | 2 sheets | 3.45 m² ÷ 2.88 m² a sheet | ฿245 | ฿490 |
-| [SANKI C-channel, 4 m](https://www.homepro.co.th/p/1110231) | 1110231 | 4 lengths | 7 channels across the 2,500 mm at 40 cm; each 4 m length cuts 2 × 1,380 mm | ฿29 | ฿116 |
-| [SANKI wall angle, 2.44 m](https://www.homepro.co.th/p/1110271) | 1110271 | 4 lengths | 7.76 m round the room | ฿16 | ฿64 |
-| [TPI drywall screws, 6 × 1", black](https://www.homepro.co.th/p/1110148) | 1110148 | 1 box | board to C-channel | ฿89 | ฿89 |
-| [DURAONE jointing compound, 1 kg](https://www.homepro.co.th/p/1110109) | 1110109 | 2 bags | | ฿16 | ฿32 |
-| [PYRAMID joint tape, 1", pack of 3](https://www.homepro.co.th/p/1024381) | 1024381 | 1 pack | board joints, plus the ceiling-to-wall corner all round (7.76 m) — check the roll length on the pack | ฿42 | ฿42 |
-| [BY TORA wall plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | for fixing the wall angle | ฿65 | ฿65 |
-| | | | | **Total** | **฿898** |
+| Item | Product | HomePro SKU | How many | Status | Each | Total |
+|---|---|---|---|---|---|---|
+| Gypsum board | [DURAONE moisture-resistant, 120 × 240 × 0.9 cm](https://www.homepro.co.th/p/1110611) | 1110611 | 2 sheets (3.45 m² ÷ 2.88 m² a sheet) | To buy | ฿245 | ฿490 |
+| C-channel | [SANKI, 4 m](https://www.homepro.co.th/p/1110231) | 1110231 | 4 lengths (7 channels at 40 cm; each length cuts 2 × 1,380 mm) | To buy | ฿29 | ฿116 |
+| Wall angle | [SANKI, 2.44 m](https://www.homepro.co.th/p/1110271) | 1110271 | 4 lengths (7.76 m round the room) | To buy | ฿16 | ฿64 |
+| Screws | [TPI drywall screws, 6 × 1", black](https://www.homepro.co.th/p/1110148) | 1110148 | 1 box (board to C-channel) | To buy | ฿89 | ฿89 |
+| Jointing compound | [DURAONE, 1 kg](https://www.homepro.co.th/p/1110109) | 1110109 | 2 bags | To buy | ฿16 | ฿32 |
+| Joint tape | [PYRAMID, 1", pack of 3](https://www.homepro.co.th/p/1024381) | 1024381 | 1 pack (board joints and the 7.76 m ceiling-to-wall corner — check the roll length on the pack) | To buy | ฿42 | ฿42 |
+| Wall plugs | [BY TORA, with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack (fixing the wall angle) | To buy | ฿65 | ฿65 |
+| | | | | **To buy** | | **฿898** |
 
 ### 4. Painting
 
@@ -98,13 +98,15 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 - Step riser: 1,380 mm long, 50 mm high — cut from the offcuts of the third row (each offcut is 120 × 500 mm), so **no extra tile**.
 - **3 boxes (12 tiles) are already on site** → **buy 1 more box** → 16 tiles, **1 spare**.
 
-| Item | Product | SKU | Buy | Price |
-|---|---|---|---|---|
-| Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 1 box (3 already on site) | ฿209 |
-| Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | already bought | — |
-| Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | ฿799 |
-| Grout | [Crocodile Premium Plus, 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | 1 bag (estimate) | ฿63 |
-| | | | **Total to buy** | **฿1,071** |
+| Item | Product | HomePro SKU | How many | Status | Each | Total |
+|---|---|---|---|---|---|---|
+| Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 3 boxes | **Bought** — on site | ฿209 | ฿627 |
+| Grey floor tiles | the same, **shade H07** | 1292488 | 1 box | To buy | ฿209 | ฿209 |
+| Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | 1 | **Bought** | ฿119 | ฿119 |
+| Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | To buy | ฿799 | ฿799 |
+| Grout | [Crocodile Premium Plus, 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | 1 bag (estimate) | To buy | ฿63 | ฿63 |
+| | | | | **Bought** | | **฿746** |
+| | | | | **To buy** | | **฿1,071** |
 
 - **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
 - **Grout:** Crocodile Premium Plus, **coral grey** — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
@@ -113,25 +115,26 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 
 ### 6. Fit-out
 
-Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already bought, on site**.
+Fit the toilet, basin, basin tap, trap, mirror and towel rail, and the new stop valve and hose under the basin; replace the water heater's hose; **last**, the new door.
 
-| Fitting | Product | Size (W × H × D) | HomePro SKU | Price paid |
-|---|---|---|---|---|
-| Toilet | [MOYA 1-piece toilet 323, 3/6 L, white](https://www.homepro.co.th/p/1170662) | 37.5 × 70 × 69 cm | 1170662 | ฿3,490 |
-| Basin | [MOYA wall-hung basin 179, white](https://www.homepro.co.th/p/1249118) | 60 × 13 × 31 cm | 1249118 | ฿1,190 |
-| Basin tap | [MOYA basin tap 832-1](https://www.homepro.co.th/p/1254863) | | 1254863 | ฿929 |
-| Basin trap | [KARAT bottle trap KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | | 1225658 | ฿485 |
-| Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) | Ø 60 cm | 1319896 | ฿429 |
-| Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) | 62 × 14.5 × 23 cm | 1215163 | ฿799 |
-| | | | **Total (already paid)** | **฿7,322** |
+| Item | Product | HomePro SKU | How many | Status | Each | Total |
+|---|---|---|---|---|---|---|
+| Toilet | [MOYA 1-piece toilet 323, 3/6 L, white](https://www.homepro.co.th/p/1170662) — 37.5 × 70 × 69 cm | 1170662 | 1 | **Bought** — on site | ฿3,490 | ฿3,490 |
+| Basin | [MOYA wall-hung basin 179, white](https://www.homepro.co.th/p/1249118) — 60 × 13 × 31 cm | 1249118 | 1 | **Bought** — on site | ฿1,190 | ฿1,190 |
+| Basin tap | [MOYA basin tap 832-1](https://www.homepro.co.th/p/1254863) | 1254863 | 1 | **Bought** — on site | ฿929 | ฿929 |
+| Basin trap | [KARAT bottle trap KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | 1225658 | 1 | **Bought** — on site | ฿485 | ฿485 |
+| Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) — Ø 60 cm | 1319896 | 1 | **Bought** — on site | ฿429 | ฿429 |
+| Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) — 62 × 14.5 × 23 cm | 1215163 | 1 | **Bought** — on site | ฿799 | ฿799 |
+| Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) — replaces the old one | 1040989 | 1 | To buy | ฿155 | ฿155 |
+| Tap supply hose | [MOYA MY-SSB20 stainless supply hose, 20"](https://www.homepro.co.th/p/1028226) — stop valve up to the tap | 1028226 | 1 | To buy | ฿90 | ฿90 |
+| Water heater hose | [HAFELE 495.60.109 stainless shower hose, 120 cm, 304 stainless](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | To buy | ฿259 | ฿259 |
+| Door | [AZLE WB2 UPVC bathroom door, 70 × 200 cm, brown, pre-drilled for the knob](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | To buy | ฿1,990 | ฿1,990 |
+| Hinges | [YALE hinges, 304 stainless, 4 × 3", pack of 3](https://www.homepro.co.th/p/1123585) | 1123585 | 1 pack | To buy | ฿199 | ฿199 |
+| Handle | [SOLEX bathroom knob 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | To buy | ฿399 | ฿399 |
+| | | | | **Bought** | | **฿7,322** |
+| | | | | **To buy** | | **฿3,092** |
 
-**To buy for the basin:** a new stop valve under the basin, replacing the old one, and the flexible hose from the stop valve up to the tap. HomePro, checked 2026-11-05:
-
-| Item | Product | HomePro SKU | Price |
-|---|---|---|---|
-| Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | ฿155 |
-| Tap supply hose | [MOYA MY-SSB20 stainless supply hose, 20"](https://www.homepro.co.th/p/1028226) | 1028226 | ฿90 |
-| | | **Total** | **฿245** |
+To-buy prices checked on HomePro 2026-11-05.
 
 **Basin:** its rim (top edge) **900 mm above the new tiled floor** — the same height as in the original drawings. Line the basin's drain up with the existing drain outlet in the wall.
 
@@ -141,22 +144,9 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 
 Where each of the others goes in this room: to set out.
 
-**Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with a stainless one (the heater and stop tap stay):
+**Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with the stainless one (the heater and stop tap stay). A shower hose, for its look: 120 cm is the nearest length to the 1 m run, with a little slack. Check the nut sizes on the heater and the stop tap against the hose's ends (½") before fitting.
 
-| Item | Product | HomePro SKU | Price |
-|---|---|---|---|
-| Hose | [HAFELE 495.60.109 stainless shower hose, 120 cm, 304 stainless](https://www.homepro.co.th/p/1164269) | 1164269 | ฿259 |
-
-A shower hose, for its look: 120 cm is the nearest length to the 1 m run, with a little slack. Check the nut sizes on the heater and the stop tap against the hose's ends (½") before fitting.
-
-**Last: the door.** A new door, hinges and handle, **70 cm wide** to match the existing 700 mm door. HomePro, checked 2026-11-05:
-
-| Item | Product | HomePro SKU | Price |
-|---|---|---|---|
-| Door | [AZLE WB2 UPVC bathroom door, 70 × 200 cm, brown, pre-drilled for the knob](https://www.homepro.co.th/p/1259829) | 1259829 | ฿1,990 |
-| Hinges | [YALE hinges, 304 stainless, 4 × 3", pack of 3](https://www.homepro.co.th/p/1123585) | 1123585 | ฿199 |
-| Handle | [SOLEX bathroom knob 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | ฿399 |
-| | | **Total** | **฿2,588** |
+**Last: the door.** The new door, hinges and handle; the door is **70 cm wide** to match the existing 700 mm door.
 
 - The existing frame stays — the new door is the same width as the old one.
 
