@@ -45,6 +45,16 @@ Facing the wardrobe:
 - Heights are from the floor, at the nearest slot in the uprights (150–2,150); they can be changed later — the brackets click in with no tools.
 - **Brackets:** each clothes rail hangs on hooks clipped to the brackets of the shelf above it; each shelf and basket has its own pair, shared with the next bay where the heights line up — 22 in all.
 
+## Room plan
+
+![Bedroom 2 plan](room.svg)
+
+- **Wardrobe** on the back wall, curtain 550 out.
+- **Keep clear** about 450 in front of the curtain at the right bay, to pull the baskets out.
+- **Office table** (the two bar tables, 1,200 × 800) against the right wall under the window, with the stool in front of it; clear of the baskets and the door.
+- **Double bed** stands on edge against the door wall, right of the door. For guests it lies down into the middle of the room, and the table and stool go out to the living room.
+- The window's position and the door's width and swing are not measured yet.
+
 ## Parts (IKEA Thailand)
 
 | Item | Product | Article | How many | Status | Each | Total |
