@@ -62,7 +62,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
 | Assembly | 7% of the regular price | ≈฿601 |
-| Wall mounting | ฿50 per 4 holes | ≈฿200–500 (16–40 holes, see Check before ordering) |
+| Wall mounting | ฿50 per 4 holes | ≈฿500 (about 40 holes) |
 | Truck delivery | — | not yet checked |
 
 From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer-service/services/assembly), checked 2026-11-05. Questions: LINE @IKEAThailand, 9:00–21:30.
@@ -72,18 +72,17 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 | | |
 |---|---|
 | Parts | ฿8,590 |
-| Assembly and wall mounting | ≈฿800–1,100 |
-| **Total** | **≈฿9,390–9,690** + delivery |
+| Assembly and wall mounting | ≈฿1,100 |
+| **Total** | **≈฿9,690** + delivery |
 
 ## Check before ordering
 
 - **Brackets:** IKEA's buying guide says "2 brackets per interior part" and lists clothes rails and baskets as interior parts, so the 28 brackets give every shelf, rail and basket its own. Confirm in store.
-- **Slot spacing:** neither the buying guide nor the assembly instructions give the spacing of the slots in the uprights, so every height here is the nearest slot.
-- **Wall holes:** the assembly instructions give 5 screws for a 182 cm mounting rail and 3 for an 82 cm one, and "for 200 cm uprights, use 8 screws" — it isn't clear whether the uprights' screws are as well as the rails'. That makes about 16–40 holes.
-- Wall plugs and screws for the brick (about 4 per upright) are sold separately — whether IKEA's technicians bring them.
+- **Slot spacing:** neither the buying guide nor IKEA's assembly instructions give the spacing of the slots in the uprights, so every height here is the nearest slot.
+- **Wall holes and plugs:** IKEA's assembly instructions screw the mounting rail first (182 cm: 5 screws; the second rail, cut to about 60 cm, 3) and then each 200 cm upright down its length (8 screws) — about 40 holes in the brick, 7 mm drill. Screws and plugs aren't included — whether IKEA's technicians bring them.
 - The truck delivery fee to Si Racha.
 
 ## Sources
 
 - [IKEA – BOAXEL buying guide (FY26, PDF)](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf), read 2026-11-05: the 1 cm end allowance, brackets per interior part.
-- [IKEA BOAXEL wall upright assembly instructions (manuals.plus)](https://manuals.plus/m/a621f86ac2d8bd450d53cd6ddd635dfe37e8370c6b21b7ae060e9e58304c24f0), read 2026-11-05: screws per rail and upright.
+- [IKEA – BOAXEL wall upright and mounting rail assembly instructions, AA-2341341-2](https://www.ikea.com/th/en/assembly_instructions/boaxel-wall-upright-white__AA-2341341-2-100.pdf), linked from the IKEA Thailand product pages, read 2026-11-05: screws per rail (pages 13–15) and per upright (page 18).
