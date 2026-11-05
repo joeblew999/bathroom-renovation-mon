@@ -16,6 +16,8 @@ An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's B
 
 4 uprights on the back wall make 3 bays: **80 + 80 + 80 cm**, centred on the wall. IKEA's [BOAXEL buying guide](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf) adds 1 cm at each end for the outside uprights, so the whole run is 1 + 240 + 1 = **242 cm**, leaving **29 cm at each end** of the 300 cm wall.
 
+![Front view, to scale](ikea.svg)
+
 Facing the wardrobe:
 
 | | Left bay — full length | Middle bay — 2 levels | Right bay — shelves |
