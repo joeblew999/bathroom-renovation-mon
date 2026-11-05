@@ -124,10 +124,13 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 1. **ทำความสะอาด** ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด
 
    **Clean** the ceiling, the walls, the window frame and the security screen.
-2. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
+2. **อุดรู:** อุดรูสกรูในผนัง (ประมาณ 8 รู) แล้วขัดให้เรียบ
+
+   **Fill holes:** fill the screw holes in the walls (about 8) and sand them smooth.
+3. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
 
    **Paint** the ceiling and the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
-3. **ติดเหล็กดัดกลับ:** เมื่อสีเหล็กดัดและวงกบหน้าต่างแห้งแล้ว ติดเหล็กดัดกลับที่หน้าต่าง — ก่อนปูกระเบื้อง
+4. **ติดเหล็กดัดกลับ:** เมื่อสีเหล็กดัดและวงกบหน้าต่างแห้งแล้ว ติดเหล็กดัดกลับที่หน้าต่าง — ก่อนปูกระเบื้อง
 
    **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — before the tiling.
 
