@@ -53,9 +53,9 @@ Before anything else.
 
 **Clean:** all the pink/purple plastic tile edge trims in the bathroom — they have old paint and dirt on them.
 
-**ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน แกะออกเมื่องานเสร็จเท่านั้น:
+**ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน **เจ้าของบ้านแกะออกเอง**เมื่องานเสร็จ:
 
-**Protect what stays.** The tape and plastic stay on for the whole job and come off only when the job is done:
+**Protect what stays.** The tape and plastic stay on for the whole job; **the owner takes them off** when the job is done:
 
 | เก็บไว้ / Stays | วิธีป้องกัน / Protect it |
 |---|---|
