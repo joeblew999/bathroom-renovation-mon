@@ -127,6 +127,8 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 
 **Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor** — the same height as in the original drawings.
 
+**Towel rail:** above the toilet, to its right. Fit it **after the toilet is in** — the owner marks the exact place then.
+
 Where each of the others goes in this room: to set out.
 
 **Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with a stainless one (the heater and stop tap stay):
