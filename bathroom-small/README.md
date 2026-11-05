@@ -76,11 +76,9 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 | Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | already bought | — |
 | Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | ฿799 |
 | Grout | [Crocodile Premium Plus, 1 kg, granite grey](https://www.homepro.co.th/p/138786) | 138786 | 1 bag (estimate) | ฿63 |
-| Spacers — levelling clips | [TARA levelling clips DL-D01, 1.5 mm](https://www.homepro.co.th/p/1092087) | 1092087 | 1 pack | ฿143 |
-| Spacers — levelling wedges | [TARA levelling wedges DL-D02](https://www.homepro.co.th/p/1092114) | 1092114 | 1 pack | ฿185 |
-| | | | **Total to buy** | **฿1,608** |
+| | | | **Total to buy** | **฿1,280** |
 
-- **Joints:** tight, about 1.5 mm, set with the TARA levelling clips and wedges; cement-based tile adhesive, not sand-cement mortar.
+- **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
 - **Grout:** Crocodile Premium Plus, granite grey — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
 - **Same shade:** the 2 new boxes must be **shade H07**, the same as the 3 on site — check the box labels.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
