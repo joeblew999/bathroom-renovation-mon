@@ -149,7 +149,7 @@ To-buy prices checked on HomePro 2026-11-05.
 
 Where each of the others goes in this room: to set out.
 
-**Water heater hose.** Replace the existing 1 m black plastic hose — the **cold** water feed from the existing stop tap to the electric water heater — with the stainless one (the heater and stop tap stay). A shower hose, for its look: 120 cm is the nearest length to the 1 m run, with a little slack. Check the nut sizes on the heater and the stop tap against the hose's ends (½") before fitting.
+**Water heater hose:** replaces the old black plastic one between the stop tap and the heater. Check its ½" nuts fit both ends.
 
 **Last: the door.** The new door, hinges and handle; the door is **70 cm wide** to match the existing 700 mm door.
 
