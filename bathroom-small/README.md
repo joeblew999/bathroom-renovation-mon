@@ -30,6 +30,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
 3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
 4. **Take the old door off.** The frame stays; the new door goes in last (phase 4).
+5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 2, then goes back on.
 
 The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
 
@@ -43,8 +44,6 @@ The plastic and tape stay on for the whole job and come off only when the job is
 | Soap holder | the existing one |
 | Toilet paper holder | the existing one |
 
-**Take the window's steel security screen off** and keep it — it is painted in phase 2 and goes back on.
-
 
 ### 2. Ceiling
 
@@ -57,7 +56,8 @@ A new flush gypsum ceiling, then painting the ceiling, the walls, the window fra
 4. **Paint:** the trims, shower and water heater are already taped out (phase 1). With the white paint already on site — clean first, then paint:
    - the ceiling and the walls;
    - the window frame;
-   - the steel security screen, **off the wall**, painted on its own; put it back on the window only when the paint is dry.
+   - the steel security screen, **off the wall** (it came off in phase 1), painted on its own.
+5. **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — this ends phase 2, before the tiling.
 
 **Materials** (HomePro, prices checked 2026-10-31)
 
