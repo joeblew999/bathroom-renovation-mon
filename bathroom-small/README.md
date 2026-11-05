@@ -234,6 +234,10 @@ Where each of the others goes in this room: to set out.
 
 **Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
 
+**บานพับ:** ใช้ตำแหน่งบานพับเดิมบนวงกบ — ถ่ายตำแหน่งบานพับจากวงกบลงบนประตูใหม่ (หลังตัดแล้ว และเผื่อช่องว่างเหนือพื้น) แล้วเซาะร่องบานพับที่ประตู ประตู WPC เป็นเนื้อตัน ยึดสกรูได้ทุกจุด ถ้ารูสกรูเดิมบนวงกบหลวม ให้อุดรูแล้วเจาะใหม่
+
+**Hinges:** use the old hinge positions on the frame — mark them from the frame onto the new door (after it is cut, allowing the gap above the floor) and cut the hinge recesses in the door. The WPC door is solid, so the screws hold anywhere. If the old screw holes in the frame are loose, plug them and drill again.
+
 **แผ่นรับสลัก (ที่วงกบ):** ใช้แผ่นรับสลักเดิมที่อยู่บนวงกบ แขวนประตูก่อน ถ้าสลักลูกบิดใหม่ไม่ตรง (เพราะตัดประตูและพื้นสูงขึ้น) ให้ย้ายแผ่นรับสลักให้ตรง และอุดร่องเดิม
 
 **Strike plate (on the frame):** reuse the existing strike plate on the frame. Hang the door first; if the new knob's latch doesn't line up (the door is cut and the floor is higher), move the strike plate to meet it and fill the old recess.
