@@ -64,7 +64,7 @@ Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 |---|---|---|---|---|---|---|
 | Wall plugs with screws | [BY TORA plastic plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | To buy | ฿65 | ฿65 |
 
-HomePro, checked 2026-11-05. IKEA's instructions drill 7 mm — check the plug suits that and the screw heads fit the holes in the rails and uprights.
+HomePro, checked 2026-11-05. **The holes in the rails and uprights are small.** IKEA's instructions call for **pan-head screws** (not countersunk) with a head **7 mm across for the mounting rails** and **8 mm for the uprights** (pages 13–14 and 17). The screws in this pack aren't checked against that — if their heads are bigger, buy pan-head screws to suit and use the plugs only.
 
 ## Installation
 
@@ -91,9 +91,10 @@ From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-serv
 ## Check before ordering
 
 - **Slot spacing:** IKEA doesn't publish the spacing of the slots in the uprights.
+- **Screws:** pan heads no bigger than 7 mm (rails) and 8 mm (uprights) — check the BY TORA screws in store.
 
 ## Sources
 
 - [IKEA – BOAXEL buying guide (FY26, PDF)](https://www.ikea.com/gb/en/files/pdf/39/85/39853faa/fy26-boaxel_buying_guide_a4-final.pdf), read 2026-11-05: the 1 cm end allowance.
-- [IKEA – BOAXEL wall upright and mounting rail assembly instructions, AA-2341341-2](https://www.ikea.com/th/en/assembly_instructions/boaxel-wall-upright-white__AA-2341341-2-100.pdf), linked from the IKEA Thailand product pages, read 2026-11-05: screws per rail (pages 13–15) and per upright (page 18).
+- [IKEA – BOAXEL wall upright and mounting rail assembly instructions, AA-2341341-2](https://www.ikea.com/th/en/assembly_instructions/boaxel-wall-upright-white__AA-2341341-2-100.pdf), linked from the IKEA Thailand product pages, read 2026-11-05: screws per rail (pages 13–15) and per upright (page 18), screw heads (pages 13–14 and 17).
 - IKEA – BOAXEL [clothes rail](https://www.ikea.com/th/en/assembly_instructions/boaxel-clothes-rail-white__AA-2184889-3-2.pdf) (AA-2184889) and [mesh basket](https://www.ikea.com/th/en/assembly_instructions/boaxel-mesh-basket-white__AA-2200079-2-2.pdf) (AA-2200079) assembly instructions, read 2026-11-05: the rail clips onto the shelf's brackets; the basket's runners take their own pair.
