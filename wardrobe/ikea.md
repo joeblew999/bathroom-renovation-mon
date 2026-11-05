@@ -63,9 +63,9 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 |---|---|---|
 | Assembly | 7% of the regular price | ≈฿601 |
 | Wall mounting | ฿50 per 4 holes | ≈฿500 (about 40 holes) |
-| Truck delivery | — | not yet checked |
+| Truck delivery | from ฿299, by delivery area | from ฿299 — the exact fee for Si Racha shows at checkout |
 
-From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer-service/services/assembly), checked 2026-11-05. Questions: LINE @IKEAThailand, 9:00–21:30.
+From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-service/services/assembly) and [delivery](https://www.ikea.com/th/en/customer-service/services/delivery) pages, checked 2026-11-05. The 200 cm uprights are too long for parcel delivery (1.5 m limit), so it comes by truck anyway. Questions: LINE @IKEAThailand, 9:00–21:30.
 
 ## Total
 
@@ -73,14 +73,14 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 |---|---|
 | Parts | ฿8,590 |
 | Assembly and wall mounting | ≈฿1,100 |
-| **Total** | **≈฿9,690** + delivery |
+| Truck delivery | from ฿299 |
+| **Total** | **≈฿9,990** or a little more |
 
 ## Check before ordering
 
 - **Brackets:** IKEA's buying guide says "2 brackets per interior part" and lists clothes rails and baskets as interior parts, so the 28 brackets give every shelf, rail and basket its own. Confirm in store.
 - **Slot spacing:** neither the buying guide nor IKEA's assembly instructions give the spacing of the slots in the uprights, so every height here is the nearest slot.
 - **Wall holes and plugs:** IKEA's assembly instructions screw the mounting rail first (182 cm: 5 screws; the second rail, cut to about 60 cm, 3) and then each 200 cm upright down its length (8 screws) — about 40 holes in the brick, 7 mm drill. Screws and plugs aren't included — whether IKEA's technicians bring them.
-- The truck delivery fee to Si Racha.
 
 ## Sources
 
