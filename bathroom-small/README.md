@@ -197,11 +197,11 @@ The basin with its mirror, the toilet with its towel rail, the water heater's ho
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
 | สายฝักบัวสแตนเลส / Stainless shower hose | [HAFELE 495.60.109, 304 stainless, 120 cm](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
 | **ประตู / Door** | | | | | | |
-| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว (ตัดให้พอดีหน้างาน) / UPVC bathroom door, pre-drilled for the knob (cut to fit on site) | [AZLE WB2, 70 × 200 cm, brown](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| ประตูห้องน้ำ WPC (ไม้สังเคราะห์ ตัดได้) เจาะรูลูกบิดแล้ว / WPC bathroom door (solid, can be cut), pre-drilled for the knob | [MODERNWOOD MWPC01, 70 × 200 cm, hazelnut](https://www.homepro.co.th/p/1313511) | 1313511 | 1 | ต้องซื้อ / To buy | ฿2,790 | ฿2,790 |
 | บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 pcs](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
 | ลูกบิดห้องน้ำ / Bathroom knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
 | | | | | **ซื้อแล้ว / Bought** | | **฿7,322** |
-| | | | | **ต้องซื้อ / To buy** | | **฿3,092** |
+| | | | | **ต้องซื้อ / To buy** | | **฿3,892** |
 
 ราคาของที่ต้องซื้อ ตรวจสอบที่โฮมโปร 2026-11-05
 
@@ -227,9 +227,9 @@ Where each of the others goes in this room: to set out.
 
 **Water heater hose:** replaces the old black plastic one between the stop tap and the heater. Check its ½" nuts fit both ends.
 
-**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด วงกบเดิมใช้ต่อ ประตูเดิมขนาด **700 × 1,950 มม.** ประตูใหม่ 70 × 200 ซม. จึง**ต้องตัดให้พอดีวงกบที่หน้างาน — ตัดด้านบน** (ด้านล่างมีเกล็ดและโดนความชื้น) เผื่อช่องว่างเหนือพื้นกระเบื้องใหม่ที่สูงขึ้น แล้วปิดขอบที่ตัดให้เรียบร้อย
+**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด วงกบเดิมใช้ต่อ ประตูเดิมขนาด **700 × 1,950 มม.** ประตูใหม่ 70 × 200 ซม. จึงต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว
 
-**Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut it to fit the frame on site — cut the top** (the bottom has the louvre and takes the moisture), leave a gap above the new, higher tiled floor, and close off the cut edge.
+**Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive.
 
 ---
 
