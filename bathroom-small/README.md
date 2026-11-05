@@ -4,6 +4,10 @@
 
 Date: 5 Nov 2026
 
+ที่ตั้ง: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
+
+Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
+
 ปรับปรุงห้องน้ำเดิม ขนาดห้องไม่เปลี่ยน
 
 Renovate the existing bathroom. The room size is not changing.
