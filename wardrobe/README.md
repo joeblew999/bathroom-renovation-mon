@@ -30,7 +30,7 @@ Heights are from the floor to the top of the rail; distances are from the back w
 | กลาง หน้า / Middle, front | **950** | **550** |
 | รองเท้า หลัง / Shoes, back | **200** | **250** |
 | รองเท้า หน้า / Shoes, front | **100** | **500** |
-| ชั้นไม้อัด ลึก 600 / Shelves, 600 deep | วางบนราว / on the rails | **5–605** |
+| ชั้นไม้อัด ลึกประมาณ 608 / Shelves, about 608 deep | วางบนราว / on the rails | **5–613** |
 | ราวผ้าม่าน / Curtain track | — | **650** |
 
 ## ลำดับงาน / The work, in order
@@ -87,9 +87,9 @@ Prices checked on HomePro 2026-11-05; the tube and mortar prices depend on the d
 
 Plywood shelves sit on each pair of rails, on U blocks made from the same plywood.
 
-1. **ตัดแผ่นชั้น:** ไม้อัด 2 แผ่น ผ่าแผ่นละ 2 เส้น กว้าง 600 มม. ชั้นละ 2 ชิ้น: 2,200 + 800 มม. รอยต่ออยู่บนบล็อก ชั้นชิดผนังหลัง (เว้น 5 มม.) ยื่นถึง 605 มม. เว้นห่างผนังข้าง 5 มม. ติดเทปกาวตามแนวตัด ใช้ใบเลื่อยฟันละเอียด
+1. **ตัดแผ่นชั้น:** ไม้อัด 2 แผ่น ผ่าครึ่งตามยาว ได้ 2 เส้น กว้างประมาณ 608 มม. ชั้นละ 2 ชิ้น: 2,200 + 800 มม. รอยต่ออยู่บนบล็อก ชั้นชิดผนังหลัง (เว้น 5 มม.) ยื่นถึงประมาณ 613 มม. เว้นห่างผนังข้าง 5 มม. ติดเทปกาวตามแนวตัด ใช้ใบเลื่อยฟันละเอียด
 
-   **Cut the shelves:** rip each of 2 sheets into two 600 wide strips. Each shelf is 2 pieces, 2,200 + 800, joined on a block. The shelf runs from the back wall (5 gap) to 605; keep 5 off the side walls. Masking tape along the cut line, fine-tooth blade.
+   **Cut the shelves:** rip each of 2 sheets down the middle into two strips about 608 wide. Each shelf is 2 pieces, 2,200 + 800, joined on a block. The shelf runs from the back wall (5 gap) to about 613; keep 5 off the side walls. Masking tape along the cut line, fine-tooth blade.
 2. **ทำบล็อกตัว U:** ตัดจากไม้อัดแผ่นที่ 3 4 เส้น ยาวเต็มแผ่น: กว้าง 60 มม. 2 เส้น (ทากาวซ้อนกัน หนา 30 = แกนกลาง) และกว้าง 75 มม. 2 เส้น (ด้านข้าง ติดสองข้างแกน **ต่ำกว่าแกน 15 มม.** ให้คร่อมราว) ทากาวลาเท็กซ์ ขอบบนเสมอกัน หนีบทุก 300 มม. ทิ้งไว้ 1 คืน แล้วตัดเป็นบล็อกยาว 60 มม. 30 ชิ้น
 
    **Make the U blocks:** from the third sheet, cut 4 full-length strips: two 60 wide (glued face to face, 30 thick = the packer) and two 75 wide (the sides, glued either side of the packer **15 lower than it**, so they straddle the rail). Wood glue (PVA), tops flush, clamp every 300, leave overnight, then cut into 30 blocks, 60 long.
