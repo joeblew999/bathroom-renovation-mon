@@ -89,29 +89,30 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 
 ### 5. Tiling
 
-**Done by the tiler** — a separate team from the builder.
+**Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new drain grate, and tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step.
 
-The new grey tiles go **on top of the old floor tiles** — the old ones stay. The floor, the new drain grate, and the riser (the upright face) of the floor step, tiled up to meet the **existing pink plastic edge trim on top of the step**, which stays.
+**Tiles** (500 × 500 mm, 4 to a box):
+- Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows, the third row cut to 380 mm = **15 tiles**.
+- Step riser 1,380 × 50 mm: cut from the third row's offcuts (120 × 500 mm each), so no extra tile.
+- With the box to buy there are 16 tiles: **1 spare**.
 
-**How many tiles** (500 × 500 mm, 4 to a box):
-- Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows (the third row cut to 380 mm) = **15 tiles**.
-- Step riser: 1,380 mm long, 50 mm high — cut from the offcuts of the third row (each offcut is 120 × 500 mm), so **no extra tile**.
-- **3 boxes (12 tiles) are already on site** → **buy 1 more box** → 16 tiles, **1 spare**.
+**How:**
+- Cement-based tile adhesive, not sand-cement mortar.
+- Joints **1.5 mm, all the same** — the tiler's own levelling clips and wedges keep the spacing and the tile edges flush.
+- Grout every joint, **including where the new floor meets the old wall tiles**. **No silicone.**
+- The new box must be **shade H07**, the same as the 3 on site — check the box label.
 
 | Item | Product | HomePro SKU | How many | Status | Each | Total |
 |---|---|---|---|---|---|---|
 | Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 3 boxes | **Bought** — on site | ฿209 | ฿627 |
-| Grey floor tiles | the same, **shade H07** | 1292488 | 1 box | To buy | ฿209 | ฿209 |
+| Grey floor tiles | the same | 1292488 | 1 box | To buy | ฿209 | ฿209 |
 | Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | 1 | **Bought** | ฿119 | ฿119 |
-| Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | To buy | ฿799 | ฿799 |
+| Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) — suits tiling over old tiles | 14428 | 1 bag (estimate) | To buy | ฿799 | ฿799 |
 | Grout | [Crocodile Premium Plus, 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | 1 bag (estimate) | To buy | ฿63 | ฿63 |
 | | | | | **Bought** | | **฿746** |
 | | | | | **To buy** | | **฿1,071** |
 
-- **Joints: 1.5 mm, all the same.** The tiler uses his own levelling clips and wedges (1.5 mm) to keep the spacing and the tile edges flush. Cement-based tile adhesive, not sand-cement mortar.
-- **Grout:** Crocodile Premium Plus, **coral grey** — in every floor joint **and in the joint where the new floor meets the old wall tiles**, the same grout all round. **No silicone.**
-- **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
-- Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
+Prices checked 2026-10-31.
 
 ### 6. Fit-out
 
