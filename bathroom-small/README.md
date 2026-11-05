@@ -1,9 +1,11 @@
 # ปรับปรุงห้องน้ำ / Bathroom renovation
 
-ปรับปรุงห้องน้ำเดิม ขนาดห้องไม่เปลี่ยน<br>
+ปรับปรุงห้องน้ำเดิม ขนาดห้องไม่เปลี่ยน
+
 Renovate the existing bathroom. The room size is not changing.
 
-ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 5) **ผู้รับเหมา** ทำงานอื่นทั้งหมด<br>
+ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 5) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
+
 Two teams: the **tiler** does the tiling (phase 5); the **builder** does everything else.
 
 ## ขนาด / Size
@@ -14,7 +16,8 @@ Two teams: the **tiler** does the tiling (phase 5); the **builder** does everyth
 | ความกว้าง (ตามผนังหน้าต่าง) / Width (along the window wall) | **1,380** |
 | ความสูงฝ้า / Ceiling height | **2,800** |
 
-พื้นที่พื้นและฝ้า: 2.5 × 1.38 = **3.45 ตร.ม.**<br>
+พื้นที่พื้นและฝ้า: 2.5 × 1.38 = **3.45 ตร.ม.**
+
 Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ## ลำดับงาน / The work, in order
@@ -30,19 +33,24 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ### 1. เตรียมงาน / Preparation
 
-ทำก่อนทุกอย่าง<br>
+ทำก่อนทุกอย่าง
+
 Before anything else.
 
 **ถอดออก / Take off:**
-1. **ประตูเดิมและบานพับ** — ถอดก่อน เพื่อให้มีที่ทำงาน วงกบเก็บไว้ ประตูใหม่ติดตั้งเป็นอย่างสุดท้าย (ขั้นที่ 6)<br>
+1. **ประตูเดิมและบานพับ** — ถอดก่อน เพื่อให้มีที่ทำงาน วงกบเก็บไว้ ประตูใหม่ติดตั้งเป็นอย่างสุดท้าย (ขั้นที่ 6)
+
    **The old door and its hinges** — first, so there is room to work. The frame stays; the new door goes in last (phase 6).
-2. **เหล็กดัดหน้าต่าง** — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับ<br>
+2. **เหล็กดัดหน้าต่าง** — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับ
+
    **The window's steel security screen** — keep it safe; it is painted in phase 4 and goes back on.
 
-**ล้าง / Clean:** คิ้วพลาสติกสีชมพู/ม่วงของกระเบื้องทั้งหมดในห้องน้ำ — มีสีเก่าและคราบสกปรกติดอยู่<br>
-all the pink/purple plastic tile edge trims in the bathroom — they have old paint and dirt on them.
+**ล้าง:** คิ้วพลาสติกสีชมพู/ม่วงของกระเบื้องทั้งหมดในห้องน้ำ — มีสีเก่าและคราบสกปรกติดอยู่
 
-**ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน แกะออกเมื่องานเสร็จเท่านั้น:<br>
+**Clean:** all the pink/purple plastic tile edge trims in the bathroom — they have old paint and dirt on them.
+
+**ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน แกะออกเมื่องานเสร็จเท่านั้น:
+
 **Protect what stays.** The tape and plastic stay on for the whole job and come off only when the job is done:
 
 | เก็บไว้ / Stays | วิธีป้องกัน / Protect it |
@@ -58,22 +66,28 @@ all the pink/purple plastic tile edge trims in the bathroom — they have old pa
 
 ### 2. รื้อถอน / Strip out
 
-รื้อ**ทุกอย่างที่เหลือ** รวมฝ้าเดิม: ถอดโคมไฟเพดาน (**เก็บสายไฟไว้ที่เดิม** — โคมใหม่จะต่อกับสายนี้ภายหลัง) แล้วรื้อฝ้าเดิมทั้งหมด ทั้งแผ่นและโครง ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ<br>
+รื้อ**ทุกอย่างที่เหลือ** รวมฝ้าเดิม: ถอดโคมไฟเพดาน (**เก็บสายไฟไว้ที่เดิม** — โคมใหม่จะต่อกับสายนี้ภายหลัง) แล้วรื้อฝ้าเดิมทั้งหมด ทั้งแผ่นและโครง ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ
+
 Remove **everything else**, the old ceiling included: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
 
-ถอดขาแขวนอ่างล้างหน้าเดิมออกพร้อมอ่าง — เป็นสนิมแล้ว อ่างใหม่ปิดรูเดิมได้<br>
+ถอดขาแขวนอ่างล้างหน้าเดิมออกพร้อมอ่าง — เป็นสนิมแล้ว อ่างใหม่ปิดรูเดิมได้
+
 Take the old basin's wall brackets off with the basin — they have rusted. The new basin covers the old holes.
 
 ### 3. ฝ้าเพดาน / Ceiling
 
-ฝ้ายิปซัมฉาบเรียบใหม่<br>
+ฝ้ายิปซัมฉาบเรียบใหม่
+
 A new flush gypsum ceiling.
 
-1. **โครง:** ฉากริมเหล็กชุบกัลวาไนซ์รอบห้องที่ความสูงฝ้าเดิม (2,800 มม.) โครงซีไลน์ขวางห้อง (ช่วง 1,380 มม.) ระยะห่าง 40 ซม. วางบนฉากริมทั้งสองผนังยาว<br>
+1. **โครง:** ฉากริมเหล็กชุบกัลวาไนซ์รอบห้องที่ความสูงฝ้าเดิม (2,800 มม.) โครงซีไลน์ขวางห้อง (ช่วง 1,380 มม.) ระยะห่าง 40 ซม. วางบนฉากริมทั้งสองผนังยาว
+
    **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls.
-2. **แผ่น:** ยึดแผ่นยิปซัมกันชื้นเต็มฝ้า ให้ฉาบเรียบ — เจาะนำสายไฟโคมเพดานออกตรงตำแหน่งโคม<br>
+2. **แผ่น:** ยึดแผ่นยิปซัมกันชื้นเต็มฝ้า ให้ฉาบเรียบ — เจาะนำสายไฟโคมเพดานออกตรงตำแหน่งโคม
+
    **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
-3. **รอยต่อ:** ติดเทปและฉาบทุกรอยต่อและหัวสกรูให้เรียบ — **รวมมุมฝ้าชนผนังรอบห้อง (7.76 ม.)**: พับเทปเข้ามุมแล้วฉาบ เพื่อไม่ให้แตกร้าว<br>
+3. **รอยต่อ:** ติดเทปและฉาบทุกรอยต่อและหัวสกรูให้เรียบ — **รวมมุมฝ้าชนผนังรอบห้อง (7.76 ม.)**: พับเทปเข้ามุมแล้วฉาบ เพื่อไม่ให้แตกร้าว
+
    **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
 
 **วัสดุ / Materials** (โฮมโปร ราคาตรวจสอบ 2026-10-31 / HomePro, prices checked 2026-10-31)
@@ -89,42 +103,55 @@ A new flush gypsum ceiling.
 | พุกพร้อมสกรู / Wall plugs with screws | [BY TORA no. 7, 50 pcs](https://www.homepro.co.th/p/1064892) | 1064892 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿65 | ฿65 |
 | | | | | **ต้องซื้อ / To buy** | | **฿898** |
 
-ตรวจความยาวม้วนเทปบนแพ็ค ว่าพอสำหรับรอยต่อแผ่นและมุมรอบห้อง 7.76 ม.<br>
+ตรวจความยาวม้วนเทปบนแพ็ค ว่าพอสำหรับรอยต่อแผ่นและมุมรอบห้อง 7.76 ม.
+
 Check the roll length on the tape pack covers the board joints and the 7.76 m corner round the room.
 
 ### 4. ทาสี / Painting
 
-ของที่เก็บไว้ป้องกันแล้ว (ขั้นที่ 1) ใช้สีขาวที่มีอยู่หน้างาน:<br>
+ของที่เก็บไว้ป้องกันแล้ว (ขั้นที่ 1) ใช้สีขาวที่มีอยู่หน้างาน:
+
 Everything that stays is already protected (phase 1). With the white paint already on site:
 
-1. **ทำความสะอาด** ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด<br>
+1. **ทำความสะอาด** ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด
+
    **Clean** the ceiling, the walls, the window frame and the security screen.
-2. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)<br>
+2. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
+
    **Paint** the ceiling and the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
-3. **ติดเหล็กดัดกลับ:** เมื่อสีเหล็กดัดและวงกบหน้าต่างแห้งแล้ว ติดเหล็กดัดกลับที่หน้าต่าง — ก่อนปูกระเบื้อง<br>
+3. **ติดเหล็กดัดกลับ:** เมื่อสีเหล็กดัดและวงกบหน้าต่างแห้งแล้ว ติดเหล็กดัดกลับที่หน้าต่าง — ก่อนปูกระเบื้อง
+
    **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — before the tiling.
 
 ### 5. ปูกระเบื้อง / Tiling
 
-**ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป<br>
+**ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป
+
 **Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new drain grate, and tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step.
 
 **กระเบื้อง / Tiles** (500 × 500 มม. กล่องละ 4 แผ่น / 500 × 500 mm, 4 to a box):
-- พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**<br>
+- พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**
+
   Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows, the third row cut to 380 mm = **15 tiles**.
-- ลูกตั้งสเต็ป 1,380 × 50 มม.: ตัดจากเศษแถวที่ 3 (แผ่นละ 120 × 500 มม.) ไม่ต้องใช้แผ่นเพิ่ม<br>
+- ลูกตั้งสเต็ป 1,380 × 50 มม.: ตัดจากเศษแถวที่ 3 (แผ่นละ 120 × 500 มม.) ไม่ต้องใช้แผ่นเพิ่ม
+
   Step riser 1,380 × 50 mm: cut from the third row's offcuts (120 × 500 mm each), so no extra tile.
-- รวมกล่องที่ต้องซื้อ มี 16 แผ่น: **เหลือสำรอง 1 แผ่น**<br>
+- รวมกล่องที่ต้องซื้อ มี 16 แผ่น: **เหลือสำรอง 1 แผ่น**
+
   With the box to buy there are 16 tiles: **1 spare**.
 
 **วิธีทำ / How:**
-- ใช้กาวซีเมนต์ปูกระเบื้อง ไม่ใช้ปูนทราย<br>
+- ใช้กาวซีเมนต์ปูกระเบื้อง ไม่ใช้ปูนทราย
+
   Cement-based tile adhesive, not sand-cement mortar.
-- ร่องยาแนว **1.5 มม. เท่ากันทุกร่อง** — ใช้ตัวปรับระดับ (คลิปและลิ่ม) ของช่างเอง ให้ร่องเท่ากันและขอบกระเบื้องเรียบเสมอกัน<br>
+- ร่องยาแนว **1.5 มม. เท่ากันทุกร่อง** — ใช้ตัวปรับระดับ (คลิปและลิ่ม) ของช่างเอง ให้ร่องเท่ากันและขอบกระเบื้องเรียบเสมอกัน
+
   Joints **1.5 mm, all the same** — the tiler's own levelling clips and wedges keep the spacing and the tile edges flush.
-- ยาแนวทุกร่อง **รวมรอยต่อที่พื้นใหม่ชนกระเบื้องผนังเดิม** **ห้ามใช้ซิลิโคน**<br>
+- ยาแนวทุกร่อง **รวมรอยต่อที่พื้นใหม่ชนกระเบื้องผนังเดิม** **ห้ามใช้ซิลิโคน**
+
   Grout every joint, **including where the new floor meets the old wall tiles**. **No silicone.**
-- กล่องใหม่ต้องเป็น**เฉดสี H07** เหมือน 3 กล่องที่หน้างาน — ดูที่ฉลากกล่อง<br>
+- กล่องใหม่ต้องเป็น**เฉดสี H07** เหมือน 3 กล่องที่หน้างาน — ดูที่ฉลากกล่อง
+
   The new box must be **shade H07**, the same as the 3 on site — check the box label.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
@@ -137,12 +164,14 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 | | | | | **ซื้อแล้ว / Bought** | | **฿746** |
 | | | | | **ต้องซื้อ / To buy** | | **฿1,071** |
 
-ราคาตรวจสอบ 2026-10-31<br>
+ราคาตรวจสอบ 2026-10-31
+
 Prices checked 2026-10-31.
 
 ### 6. ติดตั้ง / Fit-out
 
-อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และ**สุดท้าย** ประตูใหม่<br>
+อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และ**สุดท้าย** ประตูใหม่
+
 The basin with its mirror, the toilet with its towel rail, the water heater's hose, and **last**, the new door.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
@@ -166,28 +195,36 @@ The basin with its mirror, the toilet with its towel rail, the water heater's ho
 | | | | | **ซื้อแล้ว / Bought** | | **฿7,322** |
 | | | | | **ต้องซื้อ / To buy** | | **฿3,092** |
 
-ราคาของที่ต้องซื้อ ตรวจสอบที่โฮมโปร 2026-11-05<br>
+ราคาของที่ต้องซื้อ ตรวจสอบที่โฮมโปร 2026-11-05
+
 To-buy prices checked on HomePro 2026-11-05.
 
-**อ่างล้างหน้า:** ขอบบนอ่าง **สูง 900 มม. จากพื้นกระเบื้องใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อน้ำทิ้งเดิมที่ผนัง<br>
+**อ่างล้างหน้า:** ขอบบนอ่าง **สูง 900 มม. จากพื้นกระเบื้องใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อน้ำทิ้งเดิมที่ผนัง
+
 **Basin:** its rim (top edge) **900 mm above the new tiled floor**. Line the basin's drain up with the existing drain outlet in the wall.
 
-**กระจก:** กึ่งกลางตรงกับอ่าง จุดกึ่งกลางกระจก **สูง 1,600 มม. จากพื้นกระเบื้องใหม่**<br>
+**กระจก:** กึ่งกลางตรงกับอ่าง จุดกึ่งกลางกระจก **สูง 1,600 มม. จากพื้นกระเบื้องใหม่**
+
 **Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor**.
 
-**ราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดตั้ง**หลังติดชักโครกแล้ว** — เจ้าของบ้านจะกำหนดตำแหน่งตอนนั้น<br>
+**ราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดตั้ง**หลังติดชักโครกแล้ว** — เจ้าของบ้านจะกำหนดตำแหน่งตอนนั้น
+
 **Towel rail:** above the toilet, to its right. Fit it **after the toilet is in** — the owner marks the exact place then.
 
-ตำแหน่งของชิ้นอื่นในห้องนี้: กำหนดหน้างาน<br>
+ตำแหน่งของชิ้นอื่นในห้องนี้: กำหนดหน้างาน
+
 Where each of the others goes in this room: to set out.
 
-**สายเครื่องทำน้ำอุ่น:** แทนสายพลาสติกสีดำเดิม ระหว่างวาล์วกับเครื่องทำน้ำอุ่น ตรวจว่าเกลียว ½" เข้ากันได้ทั้งสองด้าน<br>
+**สายเครื่องทำน้ำอุ่น:** แทนสายพลาสติกสีดำเดิม ระหว่างวาล์วกับเครื่องทำน้ำอุ่น ตรวจว่าเกลียว ½" เข้ากันได้ทั้งสองด้าน
+
 **Water heater hose:** replaces the old black plastic one between the stop tap and the heater. Check its ½" nuts fit both ends.
 
-**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด ประตู**กว้าง 70 ซม.** เท่าประตูเดิม 700 มม. วงกบเดิมใช้ต่อ<br>
+**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด ประตู**กว้าง 70 ซม.** เท่าประตูเดิม 700 มม. วงกบเดิมใช้ต่อ
+
 **Last: the door.** The new door, hinges and handle; the door is **70 cm wide**, the same as the existing 700 mm door. The existing frame stays.
 
 ---
 
-ภาษาไทยยังไม่ได้ตรวจโดยผู้ใช้ภาษาไทย<br>
+ภาษาไทยยังไม่ได้ตรวจโดยผู้ใช้ภาษาไทย
+
 Thai wording not yet checked by a Thai speaker.
