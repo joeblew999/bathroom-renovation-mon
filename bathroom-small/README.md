@@ -123,11 +123,13 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 | Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) | 62 × 14.5 × 23 cm | 1215163 | ฿799 |
 | | | | **Total (already paid)** | **฿7,322** |
 
-**To buy for the basin:** a new stop valve under the basin, replacing the old one.
+**To buy for the basin:** a new stop valve under the basin, replacing the old one, and the flexible hose from the stop valve up to the tap. HomePro, checked 2026-11-05:
 
 | Item | Product | HomePro SKU | Price |
 |---|---|---|---|
 | Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | ฿155 |
+| Tap supply hose | [MOYA MY-SSB20 stainless supply hose, 20"](https://www.homepro.co.th/p/1028226) | 1028226 | ฿90 |
+| | | **Total** | **฿245** |
 
 **Basin:** its rim (top edge) **900 mm above the new tiled floor** — the same height as in the original drawings. Line the basin's drain up with the existing drain outlet in the wall.
 
