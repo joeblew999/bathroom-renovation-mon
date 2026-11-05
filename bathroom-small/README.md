@@ -18,10 +18,10 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | Who | What |
 |---|---|---|---|
-| 1 | Strip out | Builder | First clean the tile edge trims, tape out and wrap what stays, take the old door off; then remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
-| 2 | Ceiling | Builder | New gypsum ceiling, then paint the ceiling, walls, window frame and window's steel security screen |
-| 3 | Tiling | **Tiler** | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
-| 4 | Fit-out | Builder | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
+| 1 | Strip out | Builder | Protect what stays, then remove the rest |
+| 2 | Ceiling | Builder | New ceiling, then painting |
+| 3 | Tiling | **Tiler** | Floor and step |
+| 4 | Fit-out | Builder | Fittings, then the new door |
 
 ### 1. Strip out
 
