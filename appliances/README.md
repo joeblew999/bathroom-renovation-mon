@@ -1,8 +1,8 @@
 # Appliances
 
-TV, fridge, cooktop and network cables for the house. All from HomePro except the 15 m Ethernet cable (JIB).
+TV, fridge, cooktop and network cables for the house, all from HomePro.
 
-**Status: picked, not ordered. Total ฿21,719 + the 15 m cable (JIB price to check).** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
+**Status: picked, not ordered. Total ฿22,460.** Prices from HomePro's product pages, checked 2026-11-05; check again before ordering.
 
 ## Shopping list
 
@@ -13,16 +13,16 @@ TV, fridge, cooktop and network cables for the house. All from HomePro except th
 | 3 | Bracket installation | [HomePro service ติดตั้งขาแขวนทีวี](https://www.homepro.co.th/p/7001463) | 7001463 | 1 | ฿500 |
 | 4 | Fridge, black, fits 600 mm | [Haier HRF-185MN, 2-door, 6.6 cu ft, no inverter](https://www.homepro.co.th/p/1291917) | 1291917 | 1 | ฿5,990 |
 | 5 | Induction cooktop, 2 zones | [LocknLock EJI326WHT, countertop](https://www.homepro.co.th/p/1213620) | 1213620 | 1 | ฿3,290 |
-| 6 | Ethernet cable, bedroom 2 → TV in bedroom 1 (~12 m) | [LINK US-5115LZ-3 CAT6, 15 m, RJ45 both ends, green](https://www.jib.co.th/web/product/readProduct/66534/LAN-CABLE--สายแลน--LINK-US-5115LZ-3-CAT6-RJ45---RJ45-PATCH-CORD-15M---GREEN-) — **JIB, not HomePro** | JIB | 1 | price to check |
-| 7 | Ethernet cable, office desk in bedroom 2 (~2 m) | [LINK US-5103LZ-4 CAT6, 3 m, blue](https://www.homepro.co.th/p/1151278) | 1151278 | 1 | ฿169 |
-| | | | | **Total** | **฿21,719** + #6 |
+| 6 | Ethernet cable, bedroom 2 → TV in bedroom 1 (~12 m) | [Fibreconnex CAT6, 20 m, RJ45 both ends](https://www.homepro.co.th/p/1157099) | 1157099 | 1 | ฿745 |
+| 7 | Ethernet cable, office desk in bedroom 2 (~2 m) | [Fibreconnex CAT6, 3 m, RJ45 both ends](https://www.homepro.co.th/p/1157057) — **out of stock** | 1157057 | 1 | ฿155 |
+| | | | | **Total** | **฿22,460** |
 
 ## Before ordering
 
 - [ ] **TV:** goes on the wall in bedroom 1. The nearest power socket is **1 m away** (per Gerard, 2026-11-05). Ask the electricians to quote a socket behind the TV — they're running the Ethernet cable down that wall anyway — or the power cord runs 1 m along the wall in a cable cover.
 - [ ] **Fridge:** the space is 600 mm wide; the fridge is 548 mm wide, 565 mm deep, 1,355 mm high — check the depth and height too, and leave a gap round it for air.
 - [ ] **Cooktop:** a wall socket near the benchtop (not an extension lead — it draws 2,800 W).
-- [ ] **Ethernet cables:** both LINK CAT6 patch cords (same brand). Check JIB's price and stock for the 15 m, and the RJ45 plugs on the 3 m pack (HomePro's page doesn't say).
+- [ ] **Ethernet cables:** both Fibreconnex CAT6, RJ45 both ends, same brand. **The 3 m was out of stock on 2026-11-05** — order it when HomePro has it again (the 20 m is in stock).
 
 ## The items
 
@@ -42,10 +42,10 @@ TV, fridge, cooktop and network cables for the house. All from HomePro except th
 ### Ethernet cables
 | Cable | From | To | Route |
 |---|---|---|---|
-| LINK 15 m (needs ~12 m) | Wi-Fi box, bedroom 2 | TV, bedroom 1 | Up into the suspended ceiling in bedroom 2, across into the ceiling of bedroom 1, down the wall to the TV. The spare ~3 m is looped in the ceiling. |
-| LINK 3 m (needs ~2 m) | Wi-Fi box, bedroom 2 | Computer on the office desk, bedroom 2 | Along the wall. |
+| Fibreconnex 20 m (needs ~12 m) | Wi-Fi box, bedroom 2 | TV, bedroom 1 | Up into the suspended ceiling in bedroom 2, across into the ceiling of bedroom 1, down the wall to the TV. The spare ~8 m is looped in the ceiling. |
+| Fibreconnex 3 m (needs ~2 m) | Wi-Fi box, bedroom 2 | Computer on the office desk, bedroom 2 | Along the wall. |
 
-- Same brand, RJ45 both ends, nearest lengths to 2 m and 12 m (HomePro and JIB, checked 2026-11-05): HomePro sells LINK CAT6 cords in 1, 3 and 5 m only; its FIBRECONNEX has 1 m and 20 m in stock (3 m and 15 m out of stock). So LINK 3 m from HomePro and LINK 15 m from JIB.
+- Same brand, RJ45 both ends, from HomePro, nearest lengths to 2 m and 12 m (checked 2026-11-05): Fibreconnex is HomePro's only brand with a cord long enough (15 m out of stock, so 20 m) and one near 2 m (3 m; 1 m is too short). LINK stops at 5 m.
 
 ## Other options looked at (HomePro, 2026-11-05)
 
@@ -61,8 +61,7 @@ TV, fridge, cooktop and network cables for the house. All from HomePro except th
 | Fridge | [Haier HRF-320MNI, 2-door, 11.8 cu ft, black](https://www.homepro.co.th/p/1229937) | 1229937 | ฿10,490 | Inverter, too wide for the space |
 | Cooktop | [Hafele 495.06.127, countertop](https://www.homepro.co.th/p/1282824) | 1282824 | ฿4,190 | Bigger (55.5 × 35 cm), ฿900 more |
 | Cooktop | [Kucine HC-I2402A-03](https://www.homepro.co.th/p/1293264) | 1293264 | ฿2,190 | Built into the counter, not for the benchtop |
-| Cable | [Fibreconnex CAT6, 20 m](https://www.homepro.co.th/p/1157099) | 1157099 | ฿745 | Different brand from the 3 m; 8 m too long |
 | Cable | [Fibreconnex CAT6, 15 m](https://www.homepro.co.th/p/1157119) | 1157119 | ฿575 | Out of stock |
-| Cable | [Fibreconnex CAT6, 3 m](https://www.homepro.co.th/p/1157057) | 1157057 | ฿155 | Out of stock |
+| Cable | [LINK CAT6, 3 m](https://www.homepro.co.th/p/1151278) | 1151278 | ฿169 | In stock, but LINK has nothing longer than 5 m, so it can't match the TV cable |
 
 When ordered, the order number and the Gmail search to find it go here, the same as [lighting](../lighting/).
