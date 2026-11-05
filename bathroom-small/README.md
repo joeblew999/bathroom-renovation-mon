@@ -1,14 +1,14 @@
-# Bathroom (small) — renovate the existing bathroom at the same size
+# Bathroom renovation
 
-A separate, smaller job from the main quote in this repo: renovate the **existing** bathroom and keep it the same size — no new wall, no moving the door. The main quote (the root of this repo) is the bigger plan, where the door wall is broken out and the room is made bigger; nothing here changes it.
+Renovate the existing bathroom, keeping it the same size: no new walls, the door stays where it is.
 
-## Size (from this repo's data)
+## Size
 
-| | mm | Where it comes from |
-|---|---|---|
-| Width | **1,380** | `room.toml` `[room] width` — along the window wall, an existing wall that doesn't move |
-| Ceiling height | **2,800** | `room.toml` `[room] ceiling` |
-| Length | **2,500** | From the window wall to the existing door wall: exactly 5 tiles of 500 × 500 (per Gerard, 2026-11-05). Fits the plan: the bigger room is 3,000 mm (6 tiles, `room.toml` `[room] length`), and the existing floor step (`room.toml` `floor_step`, 2,000 mm from the window wall) is inside the existing room. |
+| | mm |
+|---|---|
+| Length (window wall to door wall) | **2,500** |
+| Width (along the window wall) | **1,380** |
+| Ceiling height | **2,800** |
 
 Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
@@ -38,7 +38,7 @@ The old door comes out last, when the new one goes in (phase 4).
 
 ### 2. Ceiling
 
-The same build as the main quote's new ceiling (`phases.toml` phase `build_ceiling`, `materials.toml` work section `new_ceiling`), sized for this room — plus painting the ceiling, the walls and the window's steel protector.
+A new flush gypsum ceiling, then painting the ceiling, the walls and the window's steel protector.
 
 **Steps**
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
@@ -46,7 +46,7 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
 4. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
 
-**Materials** (HomePro; products and prices from `materials.toml`, prices checked 2026-10-31)
+**Materials** (HomePro, prices checked 2026-10-31)
 
 | Item | SKU | How many | Why that many | Each | Total |
 |---|---|---|---|---|---|
@@ -59,8 +59,6 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 | [BY TORA wall plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | for fixing the wall angle | ฿65 | ฿65 |
 | | | | | **Total** | **฿898** |
 
-Same quantities as the main quote: the smaller room still needs 2 sheets, 4 C-channel lengths and 4 wall-angle lengths.
-
 ### 3. Tiling
 
 The floor in the grey tiles, the new drain grate, and the riser (the upright face) of the floor step — tiled up to meet the **existing pink plastic edge trim on top of the step**, which stays.
@@ -69,7 +67,7 @@ The floor in the grey tiles, the new drain grate, and the riser (the upright fac
 - Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows (the third row cut to 380 mm) = **15 tiles**.
 - Step riser: 1,380 mm long, cut in strips from **1 tile**.
 - Allow **2 tiles** for cuts and breakage → **18 tiles**, 5 boxes (20 tiles).
-- **3 boxes (12 tiles) are already on site** (main quote's materials list) → **buy 2 more boxes**.
+- **3 boxes (12 tiles) are already on site** → **buy 2 more boxes**.
 
 | Item | Product | SKU | Buy | Price |
 |---|---|---|---|---|
@@ -80,11 +78,11 @@ The floor in the grey tiles, the new drain grate, and the riser (the upright fac
 | | | | **Total to buy** | **฿1,280** |
 
 - **Same shade:** the 2 new boxes must be **shade H07**, the same as the 3 on site — check the box labels.
-- Products and prices from `materials.toml` (prices checked 2026-10-31). Adhesive and grout amounts are estimates for this room, not from the main quote.
+- Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
 ### 4. Fit-out
 
-Fit the toilet, basin, basin tap, trap, mirror and towel rail — the same fittings as the main quote, **all already bought** (`materials.toml`, status "procured").
+Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already bought, on site**.
 
 | Fitting | Product | Size (W × H × D) | HomePro SKU | Price paid |
 |---|---|---|---|---|
@@ -98,7 +96,7 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — the same fitti
 
 Where each one goes in this room: to set out.
 
-**Last: the door.** Same door, hinges and handle as the main quote, but **70 cm wide** — the existing door is 700 mm wide (per Gerard, 2026-11-05), so the new one matches it (the main quote's is 80 cm). HomePro, checked 2026-11-05:
+**Last: the door.** A new door, hinges and handle, **70 cm wide** to match the existing 700 mm door. HomePro, checked 2026-11-05:
 
 | Item | Product | HomePro SKU | Price |
 |---|---|---|---|
@@ -107,6 +105,5 @@ Where each one goes in this room: to set out.
 | Handle | [SOLEX bathroom knob 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | ฿399 |
 | | | **Total** | **฿2,588** |
 
-- The main quote's door is the 80 cm WB2 in **light brown, not pre-drilled** ([1320577](https://www.homepro.co.th/p/1320577)). HomePro's 70 cm WB2 comes in **brown** (pre-drilled for the knob) or white/grey — no light brown in 70 cm.
-- The existing frame stays — the new door is the same width as the old one. If the frame ever needs replacing: [AZLE UPVC frame 70 × 200 cm, white](https://www.homepro.co.th/p/1017131), ฿850.
+- The existing frame stays — the new door is the same width as the old one.
 
