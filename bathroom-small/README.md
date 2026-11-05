@@ -116,6 +116,8 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 |---|---|---|---|
 | Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | ฿155 |
 
+**Basin:** line the basin's drain up with the existing drain outlet in the wall.
+
 **Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor** — the same height as in the original drawings.
 
 Where each of the others goes in this room: to set out.
