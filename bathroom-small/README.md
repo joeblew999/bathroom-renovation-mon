@@ -116,19 +116,23 @@ Prices checked 2026-10-31.
 
 ### 6. Fit-out
 
-Fit the toilet, basin, basin tap, trap, mirror and towel rail, and the new stop valve and hose under the basin; replace the water heater's hose; **last**, the new door.
+The basin with its mirror, the toilet with its towel rail, the water heater's hose, and **last**, the new door.
 
 | Item | Product | HomePro SKU | How many | Status | Each | Total |
 |---|---|---|---|---|---|---|
-| Toilet | [MOYA 1-piece toilet 323, 3/6 L, white](https://www.homepro.co.th/p/1170662) — 37.5 × 70 × 69 cm | 1170662 | 1 | **Bought** — on site | ฿3,490 | ฿3,490 |
+| **Basin** | | | | | | |
 | Basin | [MOYA wall-hung basin 179, white](https://www.homepro.co.th/p/1249118) — 60 × 13 × 31 cm | 1249118 | 1 | **Bought** — on site | ฿1,190 | ฿1,190 |
 | Basin tap | [MOYA basin tap 832-1](https://www.homepro.co.th/p/1254863) | 1254863 | 1 | **Bought** — on site | ฿929 | ฿929 |
 | Basin trap | [KARAT bottle trap KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | 1225658 | 1 | **Bought** — on site | ฿485 | ฿485 |
-| Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) — Ø 60 cm | 1319896 | 1 | **Bought** — on site | ฿429 | ฿429 |
-| Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) — 62 × 14.5 × 23 cm | 1215163 | 1 | **Bought** — on site | ฿799 | ฿799 |
 | Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) — replaces the old one | 1040989 | 1 | To buy | ฿155 | ฿155 |
 | Tap supply hose | [MOYA MY-SSB20 stainless supply hose, 20"](https://www.homepro.co.th/p/1028226) — stop valve up to the tap | 1028226 | 1 | To buy | ฿90 | ฿90 |
+| Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) — Ø 60 cm | 1319896 | 1 | **Bought** — on site | ฿429 | ฿429 |
+| **Toilet** | | | | | | |
+| Toilet | [MOYA 1-piece toilet 323, 3/6 L, white](https://www.homepro.co.th/p/1170662) — 37.5 × 70 × 69 cm | 1170662 | 1 | **Bought** — on site | ฿3,490 | ฿3,490 |
+| Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) — 62 × 14.5 × 23 cm | 1215163 | 1 | **Bought** — on site | ฿799 | ฿799 |
+| **Water heater** | | | | | | |
 | Water heater hose | [HAFELE 495.60.109 stainless shower hose, 120 cm, 304 stainless](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | To buy | ฿259 | ฿259 |
+| **Door** | | | | | | |
 | Door | [AZLE WB2 UPVC bathroom door, 70 × 200 cm, brown, pre-drilled for the knob](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | To buy | ฿1,990 | ฿1,990 |
 | Hinges | [YALE hinges, 304 stainless, 4 × 3", pack of 3](https://www.homepro.co.th/p/1123585) | 1123585 | 1 pack | To buy | ฿199 | ฿199 |
 | Handle | [SOLEX bathroom knob 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | To buy | ฿399 | ฿399 |
