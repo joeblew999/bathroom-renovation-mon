@@ -18,7 +18,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | Who | What |
 |---|---|---|---|
-| 1 | Preparation | Builder | Door off, clean, tape out and protect what stays |
+| 1 | Preparation | Builder | Door and hinges off, clean, tape out and protect what stays |
 | 2 | Strip out | Builder | Remove the rest |
 | 3 | Ceiling | Builder | New ceiling |
 | 4 | Painting | Builder | Ceiling, walls, window frame and security screen |
@@ -28,7 +28,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 ### 1. Preparation
 
 Before anything else:
-1. **Take the old door off** first, so there is room to work. The frame stays; the new door goes in last (phase 6).
+1. **Take the old door and its hinges off** first, so there is room to work. The frame stays; the new door goes in last (phase 6).
 2. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
 3. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
 4. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
