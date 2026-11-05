@@ -46,7 +46,7 @@ Before anything else.
 | Toilet paper holder | wrap in plastic |
 | Floor tiles | don't lift them — the new tiles go on top |
 | Toilet stop valve and hose | keep — they go on the new toilet |
-| Bidet spray and its hose | keep — it goes back by the new toilet |
+| Bidet spray and its hose | wrap in plastic |
 
 ### 2. Strip out
 
