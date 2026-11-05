@@ -13,10 +13,10 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 1. Preparation | Owner | — | — |
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
-| 4. Painting | Builder | ฿433 | ฿528 |
+| 4. Painting | Builder | ฿451 | ฿550 |
 | 5. Tiling | Tiler | ฿700 | ฿854 |
 | 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
-| **Total** | | **฿3,253** | **฿3,967** |
+| **Total** | | **฿3,271** | **฿3,989** |
 
 These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
@@ -45,10 +45,12 @@ The book's rates include a primer coat and 2 finish coats.
 |---|---|---|---|---|
 | Ceiling, emulsion, inside | 2.8.1, p. 13 | 3.45 m² | ฿31 | ฿107 |
 | Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.5 m² | ฿31 | ฿326 |
-| Window frame and security screen, anti-rust paint | 2.8.3, p. 13 | not measured | ฿36 | — |
-| | | | | **฿433** |
+| Security screen and window frame, anti-rust paint | 2.8.3, p. 13 | 0.5 m² | ฿36 | ฿18 |
+| | | | | **฿451** |
 
-Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) = **10.5 m²**. The window isn't taken off, since its size isn't measured, so this errs a little high.
+Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) = **10.5 m²**. The window isn't taken off.
+
+Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is painted on both faces = 0.48 m², which rounds to **0.5 m²**, frame included.
 
 ### 5. Tiling
 
@@ -79,4 +81,3 @@ These have no rate in the book, so ask the builder for a price:
 - **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it.
 - **Filling** the 8 screw holes before painting.
 - **The door, beyond hanging it:** taking the old door off (the book only has a door removed with its frame), cutting and capping the top of the new one, moving the strike plate, and plugging the old hinge holes.
-- **The window frame and security screen** have a rate (above), but their size isn't measured yet.
