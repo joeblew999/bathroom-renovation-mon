@@ -55,7 +55,7 @@ Remove **everything else**, the old ceiling included: take down the ceiling ligh
 A new flush gypsum ceiling.
 
 **Steps**
-1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
+1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls.
 2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
 3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
 
