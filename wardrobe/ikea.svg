@@ -9,6 +9,8 @@
 <rect x="165.0" y="172.0" width="600.0" height="3" fill="#888"/>
 <rect x="167.0" y="187.5" width="196.0" height="4" fill="#4a6fa5"/>
 <rect x="167.0" y="325.0" width="196.0" height="4" fill="#4a6fa5"/>
+<line x1="169.0" y1="200.0" x2="361.0" y2="200.0" stroke="#c0392b" stroke-width="3"/>
+<text x="265.0" y="216.0" text-anchor="middle" fill="#7a2a20" font-size="10">handbags</text>
 <rect x="167.0" y="380.0" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
 <rect x="167.0" y="422.5" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>
 <rect x="167.0" y="465.0" width="196.0" height="37.5" fill="none" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="3 2"/>

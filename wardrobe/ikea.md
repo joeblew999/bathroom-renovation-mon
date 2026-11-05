@@ -23,7 +23,7 @@ Facing the wardrobe:
 | | Left bay — shelves and baskets | Middle bay — 2 levels | Right bay — full length |
 |---|---|---|---|
 | ≈2,250 | shelf | shelf | shelf |
-| ≈2,200 | | clothes rail — shirts, jackets | clothes rail — dresses, long coats |
+| ≈2,200 | clothes rail — handbags, short things | clothes rail — shirts, jackets | clothes rail — dresses, long coats |
 | ≈1,700 | shelf | | |
 | ≈1,480 | **mesh basket** | | |
 | ≈1,310 | **mesh basket** | | |
@@ -49,8 +49,8 @@ Heights are from the floor. The uprights run from **300 to 2,300**. The shoe she
 | Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 8 | To buy | ฿450 | ฿3,600 |
 | Mesh basket 80 × 40 × 15 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-mesh-basket-white-10459955/) | 104.599.55 | 6 | To buy | ฿400 | ฿2,400 |
 | Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 24 | To buy | ฿55 | ฿1,320 |
-| Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 3 | To buy | ฿125 | ฿375 |
-| | | | | **To buy** | | **฿9,195** |
+| Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 4 | To buy | ฿125 | ฿500 |
+| | | | | **To buy** | | **฿9,320** |
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
@@ -60,7 +60,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
-| Assembly | 7% of the regular price | ≈฿644 |
+| Assembly | 7% of the regular price | ≈฿652 |
 | Wall mounting | ฿50 per 4 holes | ≈฿200–300 (16–24 holes, estimate) |
 | Truck delivery | — | not yet checked |
 
@@ -70,12 +70,12 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 
 | | |
 |---|---|
-| Parts | ฿9,195 |
-| Assembly and wall mounting | ≈฿845–945 |
-| **Total** | **≈฿10,040–10,140** + delivery |
+| Parts | ฿9,320 |
+| Assembly and wall mounting | ≈฿850–950 |
+| **Total** | **≈฿10,170–10,270** + delivery |
 
 ## Check before ordering
 
-- Whether the clothes rails hang on the same brackets as the shelves; if not, add 5 brackets (฿275).
+- Whether the clothes rails hang on the same brackets as the shelves; if not, add 6 brackets (฿330).
 - Wall plugs and screws for the brick (about 4 per upright) are sold separately — whether IKEA's technicians bring them.
 - The truck delivery fee to Si Racha.
