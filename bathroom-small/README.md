@@ -50,7 +50,7 @@ Before anything else.
 
 Remove **everything else**, the old ceiling included: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
 
-Take the old basin's wall brackets off with the basin — they have rusted.
+Take the old basin's wall brackets off with the basin — they have rusted. The new basin covers the old holes.
 
 ### 3. Ceiling
 
