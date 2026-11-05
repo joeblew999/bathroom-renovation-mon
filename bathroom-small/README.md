@@ -2,7 +2,7 @@
 
 Renovate the existing bathroom, keeping it the same size: no new walls, the door stays where it is.
 
-Two teams: the **tiler** does the tiling (phase 3); the **builder** does everything else.
+Two teams: the **tiler** does the tiling (phase 4); the **builder** does everything else.
 
 ## Size
 
@@ -19,9 +19,10 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | # | Phase | Who | What |
 |---|---|---|---|
 | 1 | Strip out | Builder | Protect what stays, then remove the rest |
-| 2 | Ceiling | Builder | New ceiling, then painting |
-| 3 | Tiling | **Tiler** | Floor and step |
-| 4 | Fit-out | Builder | Fittings, then the new door |
+| 2 | Ceiling | Builder | New ceiling |
+| 3 | Painting | Builder | Ceiling, walls, window frame and security screen |
+| 4 | Tiling | **Tiler** | Floor and step |
+| 5 | Fit-out | Builder | Fittings, then the new door |
 
 ### 1. Strip out
 
@@ -29,8 +30,8 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 1. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
 2. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
 3. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
-4. **Take the old door off.** The frame stays; the new door goes in last (phase 4).
-5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 2, then goes back on.
+4. **Take the old door off.** The frame stays; the new door goes in last (phase 5).
+5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 3, then goes back on.
 
 The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
 
@@ -47,17 +48,12 @@ The plastic and tape stay on for the whole job and come off only when the job is
 
 ### 2. Ceiling
 
-A new flush gypsum ceiling, then painting the ceiling, the walls, the window frame and the window's steel security screen.
+A new flush gypsum ceiling.
 
 **Steps**
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
 2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
 3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
-4. **Paint:** the trims, shower and water heater are already taped out (phase 1). With the white paint already on site — clean first, then paint:
-   - the ceiling and the walls;
-   - the window frame;
-   - the steel security screen, **off the wall** (it came off in phase 1), painted on its own.
-5. **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — this ends phase 2, before the tiling.
 
 **Materials** (HomePro, prices checked 2026-10-31)
 
@@ -72,7 +68,18 @@ A new flush gypsum ceiling, then painting the ceiling, the walls, the window fra
 | [BY TORA wall plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | for fixing the wall angle | ฿65 | ฿65 |
 | | | | | **Total** | **฿898** |
 
-### 3. Tiling
+### 3. Painting
+
+The trims, shower and water heater are already taped out (phase 1). With the white paint already on site:
+
+1. **Clean** the ceiling, the walls, the window frame and the security screen.
+2. **Paint:**
+   - the ceiling and the walls;
+   - the window frame;
+   - the steel security screen, **off the wall** (it came off in phase 1), painted on its own.
+3. **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — before the tiling.
+
+### 4. Tiling
 
 **Done by the tiler** — a separate team from the builder.
 
@@ -96,7 +103,7 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 - **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
-### 4. Fit-out
+### 5. Fit-out
 
 Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already bought, on site**.
 
