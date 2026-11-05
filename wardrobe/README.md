@@ -16,6 +16,7 @@ The alternative: [IKEA version](ikea.md).
 
 | | มม. / mm |
 |---|---|
+| ห้อง / Room | **3,000 × 3,000** |
 | ความกว้าง ผนังถึงผนัง / Width, wall to wall | **3,000** |
 | พื้นถึงฝ้า / Floor to ceiling | **2,800** |
 | ความลึก ผนังหลังถึงราวผ้าม่าน / Depth, back wall to curtain track | **650** |

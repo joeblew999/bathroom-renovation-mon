@@ -8,6 +8,7 @@ An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's B
 
 | | mm |
 |---|---|
+| Room | **3,000 × 3,000** |
 | Width, wall to wall | **3,000** |
 | Floor to ceiling | **2,800** |
 | Shelf depth | **400** |
