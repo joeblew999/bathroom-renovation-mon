@@ -133,9 +133,9 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 
 ### 5. ปูกระเบื้อง / Tiling
 
-**ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ที่ตำแหน่งเดิม และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป
+**ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป
 
-**Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new drain grate in the same spot as the old one, and tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step.
+**Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, and tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step.
 
 **กระเบื้อง / Tiles** (500 × 500 มม. กล่องละ 4 แผ่น / 500 × 500 mm, 4 to a box):
 - พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**
