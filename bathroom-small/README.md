@@ -236,9 +236,9 @@ To-buy prices checked on HomePro 2026-11-05.
 
 **Basin:** its rim (top edge) **900 mm above the new tiled floor**. Line the basin's drain up with the existing drain outlet in the wall.
 
-**กระจก:** กึ่งกลางตรงกับอ่าง จุดกึ่งกลางกระจก **สูง 1,600 มม. จากพื้นกระเบื้องใหม่**
+**กระจก:** กึ่งกลางตรงกับอ่าง จุดกึ่งกลางกระจก **สูง 1,600 มม. จากพื้นกระเบื้องใหม่** กระจกคร่อมขอบบนกระเบื้องผนังและคิ้วพลาสติก — **หนุนด้านหลังกระจกส่วนที่อยู่เหนือกระเบื้องให้ยื่นออกเท่ากัน** เพื่อให้กระจกตั้งตรง ไม่โยก
 
-**Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor**.
+**Mirror:** centred on the basin, its centre **1,600 mm above the new tiled floor**. The mirror crosses the top of the wall tiles and their plastic edge trim, so **pack out the back of the mirror where it is above the tiles, to the same depth**, so it hangs plumb and doesn't rock.
 
 **ราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดตั้ง**หลังติดชักโครกแล้ว** — เจ้าของบ้านจะกำหนดตำแหน่งตอนนั้น
 
