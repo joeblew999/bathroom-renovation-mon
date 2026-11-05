@@ -12,9 +12,9 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 
 Renovate the existing bathroom. The room size is not changing.
 
-ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 5) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
+**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 5) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
 
-Two teams: the **tiler** does the tiling (phase 5); the **builder** does everything else.
+The **owner** does the preparation (phase 1). Two teams: the **tiler** does the tiling (phase 5); the **builder** does everything else.
 
 ## ขนาด / Size
 
@@ -32,7 +32,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | ขั้นตอน / Phase | ใคร / Who | งาน / What |
 |---|---|---|---|
-| 1 | เตรียมงาน / Preparation | ผู้รับเหมา / Builder | ถอดเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the screen, clean the trims, protect what stays |
+| 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the screen, clean the trims, protect what stays |
 | 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | รื้อที่เหลือ / Remove the rest |
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
 | 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
