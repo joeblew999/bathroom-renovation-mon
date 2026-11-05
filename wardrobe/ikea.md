@@ -27,9 +27,9 @@ Facing the wardrobe:
 | ≈1,700 | shelf | | |
 | ≈1,480 | **mesh basket** | | |
 | ≈1,310 | **mesh basket** | | |
-| ≈1,150 | | shelf | |
 | ≈1,140 | **mesh basket** | | |
-| ≈1,100 | | clothes rail — trousers | |
+| ≈1,050 | | shelf | |
+| ≈1,000 | | clothes rail — trousers | |
 | ≈970 | **mesh basket** | | |
 | ≈800 | **mesh basket** | | |
 | ≈630 | **mesh basket** | | |
@@ -37,7 +37,7 @@ Facing the wardrobe:
 
 The shelf-and-basket bay is on the **left, next to the room's door**, as it's the one used most. Shelves only up high, where baskets don't work (2,250 and 1,700, above eye level — boxes, folded stacks). Below them, 6 mesh baskets (15 cm deep, on the same brackets as the shelves) sit from about 1,480 down to 480 — the height you can see into and reach: 6 in a row, about 170 apart, just enough to pull each one out. About 480 is left clear below them for shoes. The installer sets each at the nearest slot in the uprights.
 
-Heights are from the floor. The uprights run from **300 to 2,300**. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,450–1,550, so from the right bay's rail it ends about 650–750 above the floor; trousers in the middle bay end about 400. The heights can be changed later: the brackets click into the uprights with no tools.
+Heights are from the floor. The uprights run from **300 to 2,300**. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,450–1,550, so from the right bay's rail it ends about 650–750 above the floor; in the middle bay, shirts and jackets get 1,150 from the top rail to the middle shelf, and trousers hang from 1,000, ending about 300 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
 
 ## Parts (IKEA Thailand)
 

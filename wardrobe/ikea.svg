@@ -22,10 +22,10 @@
 <line x1="369.0" y1="200.0" x2="561.0" y2="200.0" stroke="#c0392b" stroke-width="3"/>
 <rect x="395.0" y="204.0" width="140.0" height="250.0" fill="#f3d9d5" opacity="0.6"/>
 <text x="465.0" y="333.0" text-anchor="middle" fill="#7a2a20" font-size="11">shirts</text>
-<rect x="367.0" y="462.5" width="196.0" height="4" fill="#4a6fa5"/>
-<line x1="369.0" y1="475.0" x2="561.0" y2="475.0" stroke="#c0392b" stroke-width="3"/>
-<rect x="395.0" y="479.0" width="140.0" height="175.0" fill="#f3d9d5" opacity="0.6"/>
-<text x="465.0" y="570.5" text-anchor="middle" fill="#7a2a20" font-size="11">trousers</text>
+<rect x="367.0" y="487.5" width="196.0" height="4" fill="#4a6fa5"/>
+<line x1="369.0" y1="500.0" x2="561.0" y2="500.0" stroke="#c0392b" stroke-width="3"/>
+<rect x="395.0" y="504.0" width="140.0" height="175.0" fill="#f3d9d5" opacity="0.6"/>
+<text x="465.0" y="595.5" text-anchor="middle" fill="#7a2a20" font-size="11">trousers</text>
 <rect x="567.0" y="187.5" width="196.0" height="4" fill="#4a6fa5"/>
 <line x1="569.0" y1="200.0" x2="761.0" y2="200.0" stroke="#c0392b" stroke-width="3"/>
 <rect x="595.0" y="204.0" width="140.0" height="375.0" fill="#f3d9d5" opacity="0.6"/>
@@ -44,10 +44,10 @@
 <text x="849.0" y="384.0" font-size="10">1,480</text>
 <line x1="840.0" y1="592.5" x2="846.0" y2="592.5" stroke="#333"/>
 <text x="849.0" y="596.5" font-size="10">630</text>
-<line x1="840.0" y1="462.5" x2="846.0" y2="462.5" stroke="#333"/>
-<text x="849.0" y="458.5" font-size="10">1,150</text>
-<line x1="840.0" y1="475.0" x2="846.0" y2="475.0" stroke="#333"/>
-<text x="849.0" y="483.0" font-size="10">1,100</text>
+<line x1="840.0" y1="487.5" x2="846.0" y2="487.5" stroke="#333"/>
+<text x="849.0" y="483.5" font-size="10">1,050</text>
+<line x1="840.0" y1="500.0" x2="846.0" y2="500.0" stroke="#333"/>
+<text x="849.0" y="508.0" font-size="10">1,000</text>
 <line x1="840.0" y1="675.0" x2="846.0" y2="675.0" stroke="#333"/>
 <text x="849.0" y="679.0" font-size="10">300 upright foot</text>
 <line x1="840.0" y1="750.0" x2="846.0" y2="750.0" stroke="#333"/>
