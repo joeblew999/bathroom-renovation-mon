@@ -8,7 +8,7 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 
 | # | Item | Pick | HomePro SKU | Qty | Price |
 |---|---|---|---|---|---|
-| 1 | TV, 55" | [LG 55UA7350PSB, 4K LED, webOS](https://www.homepro.co.th/p/1290864) | 1290864 | 1 | ฿10,990 |
+| 1 | TV, 55", wall in bedroom 1 | [LG 55UA7350PSB, 4K LED, webOS](https://www.homepro.co.th/p/1290864) | 1290864 | 1 | ฿10,990 |
 | 2 | TV wall bracket | [Movada PTB-188FX, fixed, 40–90"](https://www.homepro.co.th/p/1264704) | 1264704 | 1 | ฿790 |
 | 3 | Bracket installation | [HomePro service ติดตั้งขาแขวนทีวี](https://www.homepro.co.th/p/7001463) | 7001463 | 1 | ฿500 |
 | 4 | Fridge, black, fits 600 mm | [Haier HRF-185MN, 2-door, 6.6 cu ft, no inverter](https://www.homepro.co.th/p/1291917) | 1291917 | 1 | ฿5,990 |
@@ -19,7 +19,7 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 
 ## Before ordering
 
-- [ ] **TV:** decide where it hangs; there must be a power socket there.
+- [ ] **TV:** goes on the wall in bedroom 1 — decide exactly where; there must be a power socket there.
 - [ ] **Fridge:** the space is 600 mm wide; the fridge is 548 mm wide, 565 mm deep, 1,355 mm high — check the depth and height too, and leave a gap round it for air.
 - [ ] **Cooktop:** a wall socket near the benchtop (not an extension lead — it draws 2,800 W).
 - [ ] **Office cable:** LINK's page doesn't say "RJ45 both ends"; check the plugs on the pack.
@@ -42,7 +42,7 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 ### Ethernet cables
 | Cable | From | To | Route |
 |---|---|---|---|
-| 20 m | Wi-Fi box, bedroom 2 | TV | Up into the suspended ceiling, across to the TV, down the wall. The spare 8 m is looped in the ceiling. |
+| 20 m | Wi-Fi box, bedroom 2 | TV, bedroom 1 | Up into the suspended ceiling in bedroom 2, across into the ceiling of bedroom 1, down the wall to the TV. The spare 8 m is looped in the ceiling. |
 | 3 m | Wi-Fi box, bedroom 2 | Computer on the office desk, bedroom 2 | Along the wall. |
 
 - 12 m was what the TV run needs, but HomePro has no 12 m: its sizes are 1, 5, 10, 15 and 20 m, and the 15 m was out of stock.
