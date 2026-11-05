@@ -27,12 +27,14 @@ Facing the wardrobe:
 | ≈1,700 | | | shelf |
 | ≈1,150 | | shelf | shelf |
 | ≈1,100 | | clothes rail — trousers | |
-| ≈870 | | | **mesh basket** |
-| ≈585 | | | **mesh basket** |
+| ≈1,120 | | | **mesh basket** |
+| ≈950 | | | **mesh basket** |
+| ≈780 | | | **mesh basket** |
+| ≈610 | | | **mesh basket** |
 | ≈300 | **shoe shelf** | **shoe shelf** | **shoe shelf** |
 | Floor | baskets, boots | baskets, boots | baskets, boots |
 
-The right bay lines up with the middle bay at 2,250, 1,150 and 300. Above 1,150 one shelf sits halfway (550 gaps); below it two 15 cm deep mesh baskets split the gap to the shoe shelf into three (about 285 apart), on the same brackets as the shelves.
+The right bay lines up with the middle bay at 2,250, 1,150 and 300. Above 1,150 one shelf sits halfway (550 gaps). Below it, 4 mesh baskets (15 cm deep, on the same brackets as the shelves) stack about 170 apart — just enough to pull each one out — with about 160 clear for shoes above the shoe shelf. The installer sets each at the nearest slot in the uprights.
 
 Heights are from the floor. The uprights run from **300 to 2,300**. The shoe shelf at 300 runs across all three bays in one line. A maxi dress hangs about 1,450–1,550, so from the left rail it ends about 650–750 above the floor, clear of the shoe shelf; trousers in the middle bay end about 400. The heights can be changed later: the brackets click into the uprights with no tools.
 
@@ -43,10 +45,10 @@ Heights are from the floor. The uprights run from **300 to 2,300**. The shoe she
 | Wall upright | [BOAXEL, white, 200 cm](https://www.ikea.com/th/en/p/boaxel-wall-upright-white-60453569/) | 604.535.69 | 4 | To buy | ฿300 | ฿1,200 |
 | Mounting rail | [BOAXEL, white, 182 cm](https://www.ikea.com/th/en/p/boaxel-mounting-rail-white-80474274/) — cut the second to fit | 804.742.74 | 2 | To buy | ฿150 | ฿300 |
 | Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 9 | To buy | ฿450 | ฿4,050 |
-| Mesh basket 80 × 40 × 15 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-mesh-basket-white-10459955/) | 104.599.55 | 2 | To buy | ฿400 | ฿800 |
-| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 17 | To buy | ฿55 | ฿935 |
+| Mesh basket 80 × 40 × 15 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-mesh-basket-white-10459955/) | 104.599.55 | 4 | To buy | ฿400 | ฿1,600 |
+| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 21 | To buy | ฿55 | ฿1,155 |
 | Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 3 | To buy | ฿125 | ฿375 |
-| | | | | **To buy** | | **฿7,660** |
+| | | | | **To buy** | | **฿8,680** |
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
@@ -56,7 +58,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
-| Assembly | 7% of the regular price | ≈฿536 |
+| Assembly | 7% of the regular price | ≈฿608 |
 | Wall mounting | ฿50 per 4 holes | ≈฿200–300 (16–24 holes, estimate) |
 | Truck delivery | — | not yet checked |
 
@@ -66,9 +68,9 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 
 | | |
 |---|---|
-| Parts | ฿7,660 |
-| Assembly and wall mounting | ≈฿735–835 |
-| **Total** | **≈฿8,395–8,495** + delivery |
+| Parts | ฿8,680 |
+| Assembly and wall mounting | ≈฿810–910 |
+| **Total** | **≈฿9,490–9,590** + delivery |
 
 ## Check before ordering
 
