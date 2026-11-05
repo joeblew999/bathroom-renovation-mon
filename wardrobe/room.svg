@@ -1,33 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 680" width="730" height="680" font-family="Helvetica, Arial, sans-serif" font-size="11">
-<rect width="730" height="680" fill="#fff"/>
-<text x="70" y="26" font-size="15" font-weight="bold">Bedroom 2 — plan (mm), 3,000 × 3,000</text>
-<text x="70" y="44" font-size="11" fill="#555">Seen from above. Wardrobe wall at the top; the door wall at the bottom.</text>
-<rect x="70.0" y="90.0" width="510.00000000000006" height="510.00000000000006" fill="#fafafa" stroke="#222" stroke-width="4"/>
-<line x1="580.0" y1="260.0" x2="580.0" y2="430.0" stroke="#7fb3d5" stroke-width="8"/>
-<text x="588.0" y="345.0" fill="#2e6f9e">window</text><text x="588.0" y="358.0" fill="#888" font-size="9">position not measured</text>
-<line x1="95.5" y1="600.0" x2="231.5" y2="600.0" stroke="#fff" stroke-width="6"/>
-<path d="M95.5 600.0 L95.5 464.0 A136.0 136.0 0 0 1 231.5 600.0" fill="none" stroke="#999" stroke-dasharray="4 3"/>
-<text x="163.5" y="616.0" text-anchor="middle">door</text><text x="163.5" y="628.0" text-anchor="middle" fill="#888" font-size="9">width and swing not measured</text>
-<rect x="119.30000000000001" y="90.0" width="411.40000000000003" height="68.0" fill="#dfe7f2" stroke="#4a6fa5"/>
-<line x1="121.0" y1="90.0" x2="121.0" y2="158.0" stroke="#4a6fa5"/>
-<text x="189.0" y="129.1" text-anchor="middle" font-size="10">full length</text>
-<line x1="257.0" y1="90.0" x2="257.0" y2="158.0" stroke="#4a6fa5"/>
-<text x="325.0" y="129.1" text-anchor="middle" font-size="10">2 levels</text>
-<line x1="393.0" y1="90.0" x2="393.0" y2="158.0" stroke="#4a6fa5"/>
-<text x="461.0" y="129.1" text-anchor="middle" font-size="10">shelves, baskets</text>
-<text x="325.0" y="84.0" text-anchor="middle" font-size="10" fill="#4a6fa5">IKEA BOAXEL wardrobe, 2,420 × 400</text>
-<line x1="70.0" y1="183.5" x2="580.0" y2="183.5" stroke="#b07cc6" stroke-width="2" stroke-dasharray="6 3"/>
-<text x="80.2" y="179.5" fill="#8e44ad" font-size="10">curtain track, 550 out</text>
-<rect x="391.3" y="183.5" width="139.4" height="76.5" fill="none" stroke="#e67e22" stroke-dasharray="4 3"/>
-<text x="461.0" y="230.0" text-anchor="middle" fill="#d35400" font-size="10">keep clear —</text><text x="461.0" y="242.0" text-anchor="middle" fill="#d35400" font-size="10">pull baskets out</text>
-<rect x="444.0" y="285.5" width="136.0" height="204.00000000000003" fill="#cfa77a" stroke="#7a5230"/>
-<text x="512.0" y="387.5" text-anchor="middle" font-size="10">office table</text><text x="512.0" y="400.5" text-anchor="middle" font-size="10">1,200 × 800</text>
-<circle cx="393.0" cy="387.5" r="39.1" fill="#c8b8a6" stroke="#7a5230"/>
-<text x="393.0" y="391.5" text-anchor="middle" font-size="9">stool</text>
-<rect x="274.0" y="557.5" width="255.00000000000003" height="42.5" fill="#a9c5a0" stroke="#4d7a44"/>
-<text x="401.5" y="581.3" text-anchor="middle" font-size="10">double bed, standing on edge</text>
-<rect x="274.0" y="260.0" width="255.00000000000003" height="340.0" fill="none" stroke="#4d7a44" stroke-dasharray="6 4"/>
-<text x="265.5" y="345.0" text-anchor="end" fill="#4d7a44" font-size="10">bed laid down for</text><text x="265.5" y="358.0" text-anchor="end" fill="#4d7a44" font-size="10">guests (table and stool</text><text x="265.5" y="371.0" text-anchor="end" fill="#4d7a44" font-size="10">out to the living room)</text>
-<line x1="70.0" y1="645.0" x2="580.0" y2="645.0" stroke="#333"/><text x="325.0" y="641.0" text-anchor="middle">3,000</text>
-<line x1="690.0" y1="90.0" x2="690.0" y2="600.0" stroke="#333"/><text x="694.0" y="345.0" font-size="11">3,000</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 760" width="810" height="760" font-family="Helvetica, Arial, sans-serif" font-size="11">
+<rect width="810" height="760" fill="#fff"/>
+<text x="150" y="26" font-size="15" font-weight="bold">Bedroom 2 — plan (mm), 3,000 × 3,000</text>
+<text x="150" y="44" font-size="11" fill="#555">Seen from above. Wardrobe wall at the top; door in the left wall, window in the right wall.</text>
+<rect x="150.0" y="170.0" width="510.00000000000006" height="510.00000000000006" fill="#fafafa" stroke="#222" stroke-width="4"/>
+<line x1="660.0" y1="340.0" x2="660.0" y2="510.0" stroke="#7fb3d5" stroke-width="8"/>
+<text x="668.0" y="425.0" fill="#2e6f9e">window</text><text x="668.0" y="438.0" fill="#888" font-size="9">position not measured</text>
+<line x1="150.0" y1="518.5" x2="150.0" y2="654.5" stroke="#fff" stroke-width="6"/>
+<path d="M150.0 518.5 L286.0 518.5 A136.0 136.0 0 0 1 150.0 654.5" fill="none" stroke="#999" stroke-dasharray="4 3"/>
+<text x="142.0" y="586.5" text-anchor="end">door</text><text x="142.0" y="599.5" text-anchor="end" fill="#888" font-size="9">position, width</text><text x="142.0" y="611.5" text-anchor="end" fill="#888" font-size="9">and swing not measured</text>
+<rect x="199.3" y="170.0" width="411.40000000000003" height="68.0" fill="#dfe7f2" stroke="#4a6fa5"/>
+<line x1="201.0" y1="170.0" x2="201.0" y2="238.0" stroke="#4a6fa5"/>
+<text x="269.0" y="209.1" text-anchor="middle" font-size="10">full length</text>
+<line x1="337.0" y1="170.0" x2="337.0" y2="238.0" stroke="#4a6fa5"/>
+<text x="405.0" y="209.1" text-anchor="middle" font-size="10">2 levels</text>
+<line x1="473.0" y1="170.0" x2="473.0" y2="238.0" stroke="#4a6fa5"/>
+<text x="541.0" y="209.1" text-anchor="middle" font-size="10">shelves, baskets</text>
+<text x="405.0" y="164.0" text-anchor="middle" font-size="10" fill="#4a6fa5">IKEA BOAXEL wardrobe, 2,420 × 400</text>
+<line x1="150.0" y1="263.5" x2="660.0" y2="263.5" stroke="#b07cc6" stroke-width="2" stroke-dasharray="6 3"/>
+<text x="160.2" y="259.5" fill="#8e44ad" font-size="10">curtain track, 550 out</text>
+<rect x="471.3" y="263.5" width="139.4" height="76.5" fill="none" stroke="#e67e22" stroke-dasharray="4 3"/>
+<text x="541.0" y="310.0" text-anchor="middle" fill="#d35400" font-size="10">keep clear —</text><text x="541.0" y="322.0" text-anchor="middle" fill="#d35400" font-size="10">pull baskets out</text>
+<rect x="524.0" y="365.5" width="136.0" height="204.00000000000003" fill="#cfa77a" stroke="#7a5230"/>
+<text x="592.0" y="467.5" text-anchor="middle" font-size="10">office table</text><text x="592.0" y="480.5" text-anchor="middle" font-size="10">1,200 × 800</text>
+<circle cx="473.0" cy="467.5" r="39.1" fill="#c8b8a6" stroke="#7a5230"/>
+<text x="473.0" y="471.5" text-anchor="middle" font-size="9">stool</text>
+<rect x="354.0" y="637.5" width="255.00000000000003" height="42.5" fill="#a9c5a0" stroke="#4d7a44"/>
+<text x="481.5" y="661.3" text-anchor="middle" font-size="10">double bed, standing on edge</text>
+<rect x="354.0" y="340.0" width="255.00000000000003" height="340.0" fill="none" stroke="#4d7a44" stroke-dasharray="6 4"/>
+<text x="345.5" y="425.0" text-anchor="end" fill="#4d7a44" font-size="10">bed laid down for</text><text x="345.5" y="438.0" text-anchor="end" fill="#4d7a44" font-size="10">guests (table and stool</text><text x="345.5" y="451.0" text-anchor="end" fill="#4d7a44" font-size="10">out to the living room)</text>
+<line x1="150.0" y1="725.0" x2="660.0" y2="725.0" stroke="#333"/><text x="405.0" y="721.0" text-anchor="middle">3,000</text>
+<line x1="770.0" y1="170.0" x2="770.0" y2="680.0" stroke="#333"/><text x="774.0" y="425.0" font-size="11">3,000</text>
 </svg>
