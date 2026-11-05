@@ -8,6 +8,10 @@ Date: 5 Nov 2026
 
 An open wardrobe in bedroom 2, 3 m wide wall to wall, with a curtain in front: 6 steel rails (3 pairs) with no centre support, their ends set into the brick walls, and plywood shelves on the rails.
 
+ทางเลือก: [แบบ IKEA](ikea.md)
+
+The alternative: [IKEA version](ikea.md).
+
 ## ขนาด / Size
 
 | | มม. / mm |
