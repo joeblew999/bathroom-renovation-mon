@@ -19,7 +19,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 1 | Strip out | Remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
 | 2 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
 | 3 | Tiling | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
-| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
+| 4 | Fit-out | Fit the toilet, basin (with a new stop valve), tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
 
 ### 1. Strip out
 
@@ -95,6 +95,12 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 | Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) | Ø 60 cm | 1319896 | ฿429 |
 | Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) | 62 × 14.5 × 23 cm | 1215163 | ฿799 |
 | | | | **Total (already paid)** | **฿7,322** |
+
+**To buy for the basin:** a new stop valve under the basin, replacing the old one.
+
+| Item | Product | HomePro SKU | Price |
+|---|---|---|---|
+| Basin stop valve | [HOEN stop valve HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | ฿155 |
 
 Where each one goes in this room: to set out.
 
