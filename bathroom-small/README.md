@@ -42,3 +42,19 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 | | | | | **Total** | **฿898** |
 
 Same quantities as the main quote: the smaller room still needs 2 sheets, 4 C-channel lengths and 4 wall-angle lengths.
+
+## 2. Fittings
+
+The same fittings as the main quote — **all already bought** (`materials.toml`, status "procured"). They all go into this room.
+
+| Fitting | Product | Size (W × H × D) | HomePro SKU | Price paid |
+|---|---|---|---|---|
+| Toilet | [MOYA 1-piece toilet 323, 3/6 L, white](https://www.homepro.co.th/p/1170662) | 37.5 × 70 × 69 cm | 1170662 | ฿3,490 |
+| Basin | [MOYA wall-hung basin 179, white](https://www.homepro.co.th/p/1249118) | 60 × 13 × 31 cm | 1249118 | ฿1,190 |
+| Basin tap | [MOYA basin tap 832-1](https://www.homepro.co.th/p/1254863) | | 1254863 | ฿929 |
+| Basin trap | [KARAT bottle trap KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | | 1225658 | ฿485 |
+| Mirror | [MOYA round mirror HLP004](https://www.homepro.co.th/p/1319896) | Ø 60 cm | 1319896 | ฿429 |
+| Towel rail | [LUZERN shelf with towel rail AS-5012S, chrome](https://www.homepro.co.th/p/1215163) | 62 × 14.5 × 23 cm | 1215163 | ฿799 |
+| | | | **Total (already paid)** | **฿7,322** |
+
+Where each one goes in this room: to set out.
