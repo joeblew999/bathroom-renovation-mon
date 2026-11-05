@@ -65,7 +65,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 | Wall mounting | ฿50 per 4 holes | ≈฿500 (about 40 holes) |
 | Truck delivery | from ฿299, by delivery area | from ฿299 — the exact fee for Si Racha shows at checkout |
 
-From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-service/services/assembly) and [delivery](https://www.ikea.com/th/en/customer-service/services/delivery) pages, checked 2026-11-05. The 200 cm uprights are too long for parcel delivery (1.5 m limit), so it comes by truck anyway. Questions: LINE @IKEAThailand, 9:00–21:30.
+From IKEA Thailand's [assembly service](https://www.ikea.com/th/en/customer-service/services/assembly) and [delivery](https://www.ikea.com/th/en/customer-service/services/delivery) pages, checked 2026-11-05. The 200 cm uprights are too long for parcel delivery (1.5 m limit), so it comes by truck anyway. Questions: LINE **@IKEAThailand** — [line.me/R/ti/p/@IKEAThailand](https://line.me/R/ti/p/@IKEAThailand) — 9:00–21:30.
 
 ## Total
 
