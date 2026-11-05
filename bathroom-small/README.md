@@ -23,7 +23,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 ### 1. Strip out
 
-Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light and pull out its cable, then the whole old ceiling, tiles and grid — **except these, which stay**:
+Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
 
 | Stays | |
 |---|---|
@@ -40,7 +40,7 @@ The same build as the main quote's new ceiling (`phases.toml` phase `build_ceili
 
 **Steps**
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
-2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish.
+2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
 3. **Joints:** tape and fill every joint and screw head smooth.
 4. **Paint:** the ceiling, the walls and the window's steel protector, with the white paint already on site.
 
