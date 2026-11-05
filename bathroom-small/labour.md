@@ -13,10 +13,10 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 1. Preparation | Owner | — | — |
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
-| 4. Painting | Builder | ฿451 | ฿550 |
+| 4. Painting | Builder | ฿441 | ฿538 |
 | 5. Tiling | Tiler | ฿700 | ฿854 |
 | 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
-| **Total** | | **฿3,271** | **฿3,989** |
+| **Total** | | **฿3,261** | **฿3,977** |
 
 These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
@@ -44,11 +44,11 @@ The book's rates include a primer coat and 2 finish coats.
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
 | Ceiling, emulsion, inside | 2.8.1, p. 13 | 3.45 m² | ฿31 | ฿107 |
-| Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.5 m² | ฿31 | ฿326 |
+| Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.2 m² | ฿31 | ฿316 |
 | Security screen and window frame, anti-rust paint | 2.8.3, p. 13 | 0.5 m² | ฿36 | ฿18 |
-| | | | | **฿451** |
+| | | | | **฿441** |
 
-Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) = **10.5 m²**. The window isn't taken off.
+Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) and the window, which is above the tiles (0.40 × 0.60 m = 0.24 m²) = **10.2 m²**.
 
 Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is painted on both faces = 0.48 m², which rounds to **0.5 m²**, frame included.
 
