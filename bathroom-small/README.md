@@ -18,7 +18,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 |---|---|---|
 | 1 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
 | 2 | Strip out | Remove everything else in the bathroom |
-| 3 | Tiling | Tile the room |
+| 3 | Tiling | Grey floor tiles, the drain, and the step's riser up to the existing pink edge trim |
 | 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; **last**, the new door |
 
 ### 1. Ceiling
@@ -53,7 +53,24 @@ Remove everything in the bathroom. Details to fill in.
 
 ### 3. Tiling
 
-Details to fill in.
+The floor in the grey tiles, the new drain grate, and the riser (the upright face) of the floor step — tiled up to meet the **existing pink plastic edge trim on top of the step**, which stays.
+
+**How many tiles** (500 × 500 mm, 4 to a box):
+- Floor 2,500 × 1,380 mm: 5 tiles along × 3 rows (the third row cut to 380 mm) = **15 tiles**.
+- Step riser: 1,380 mm long, cut in strips from **1 tile**.
+- Allow **2 tiles** for cuts and breakage → **18 tiles**, 5 boxes (20 tiles).
+- **3 boxes (12 tiles) are already on site** (main quote's materials list) → **buy 2 more boxes**.
+
+| Item | Product | SKU | Buy | Price |
+|---|---|---|---|---|
+| Grey floor tiles | [TARA Stone Blast 50 × 50 cm, grey, shade H07, matt, rectified](https://www.homepro.co.th/p/1292488) | 1292488 | 2 boxes (3 already on site) | ฿418 |
+| Floor drain grate | [DEXZON plastic square 10 × 10 cm, 4", anti-odour](https://www.homepro.co.th/p/1240420) | 1240420 | already bought | — |
+| Tile adhesive | [Crocodile Gold, 20 kg](https://www.homepro.co.th/p/14428) | 14428 | 1 bag (estimate for 3.45 m² plus the riser) | ฿799 |
+| Grout | [Crocodile Premium Plus, 1 kg, granite grey](https://www.homepro.co.th/p/138786) | 138786 | 1 bag (estimate) | ฿63 |
+| | | | **Total to buy** | **฿1,280** |
+
+- **Same shade:** the 2 new boxes must be **shade H07**, the same as the 3 on site — check the box labels.
+- Products and prices from `materials.toml` (prices checked 2026-10-31). Adhesive and grout amounts are estimates for this room, not from the main quote.
 
 ### 4. Fit-out
 
