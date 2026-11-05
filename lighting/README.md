@@ -10,4 +10,6 @@ Everything is in [2026-11-05-01-lighting.md](2026-11-05-01-lighting.md):
 - **Part 1 — for the electrician** (Thai and English): the 8 lights, where each goes, which bulbs, how it fixes, and the product links.
 - **Part 2 — for Gerard:** the orders with order numbers, tracking and Gmail searches, what to check, and the products — on one screen.
 
+The labour, priced from the Comptroller General's rates, is in [labour.md](labour.md).
+
 This is separate from the bathroom quote: nothing in the build reads it.

@@ -90,7 +90,7 @@ On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci
 | `.github/workflows/pages.yml` | GitHub's build: `mise run root:setup`, `mise run root:ci` (`root:check-mise`, `quote:check`, then `quote:fuzz`), then publish |
 | `etl/`, `web/` | The trial of the quote's data as SQLite, and its web app on Cloudflare (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
 | `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
-| `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README; not used by the build |
+| `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README, and the labour priced from the Comptroller General's rates (`labour.md`); not used by the build |
 | `appliances/` | The house's appliances and office furniture (TV and wall bracket, fridge, induction cooktop, Ethernet cables, office table and stool): the picks from HomePro, the options looked at, and the order once placed; not used by the build |
 | `wardrobe/` | The open wardrobe in bedroom 2, 3 m wide: 6 steel rails in 3 pairs set into pockets in the brick walls, with plywood shelves on U blocks — layout, the builders' steps and the HomePro materials (`README.md`); and the IKEA BOAXEL version, parts and installation (`ikea.md`); not used by the build |
 | `bathroom-small/` | A separate, smaller job: renovating the existing bathroom at its current size (no new wall), written for the builders; its own README, and the labour priced from the Comptroller General's rates (`labour.md`); not used by the build |
