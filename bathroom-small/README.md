@@ -19,7 +19,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 1 | Strip out | Remove everything, the old ceiling included, except the floor tiles, shower, water heater, soap holder and toilet paper holder |
 | 2 | Ceiling | New gypsum ceiling, then paint the ceiling, walls and window's steel protector |
 | 3 | Tiling | Grey tiles on top of the old floor tiles, the drain, and the step's riser up to the existing pink edge trim |
-| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; **last**, the new door |
+| 4 | Fit-out | Fit the toilet, basin, tap, trap, mirror and towel rail; a stainless hose on the water heater; **last**, the new door |
 
 ### 1. Strip out
 
@@ -97,6 +97,14 @@ Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already 
 | | | | **Total (already paid)** | **฿7,322** |
 
 Where each one goes in this room: to set out.
+
+**Water heater hose.** Replace the existing 1 m black plastic hose between the electric water heater and its existing stop tap with a stainless one (the heater and stop tap stay):
+
+| Item | Product | HomePro SKU | Price |
+|---|---|---|---|
+| Hose | [WSP KN40 stainless hot/cold supply hose, 40" (about 1 m), 304 stainless with EPDM inner](https://www.homepro.co.th/p/1174720) | 1174720 | ฿149 |
+
+Check the nut sizes on the heater and the stop tap against the hose's ends before fitting.
 
 **Last: the door.** A new door, hinges and handle, **70 cm wide** to match the existing 700 mm door. HomePro, checked 2026-11-05:
 
