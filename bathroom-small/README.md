@@ -49,7 +49,10 @@ A new flush gypsum ceiling, then painting the ceiling, the walls, the window fra
 1. **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls — the span is short, so no hanger wire.
 2. **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
 3. **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
-4. **Paint:** with the white paint already on site — clean first, then paint:
+4. **Get ready to paint:**
+   - Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
+   - Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
+5. **Paint:** with the white paint already on site — clean first, then paint:
    - the ceiling and the walls;
    - the window frame;
    - the steel security screen, **off the wall**, painted on its own; put it back on the window only when the paint is dry.
