@@ -90,6 +90,7 @@ On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci
 | `.github/workflows/pages.yml` | GitHub's build: `mise run root:setup`, `mise run root:ci` (`root:check-mise`, `quote:check`, then `quote:fuzz`), then publish |
 | `etl/`, `web/` | The trial of the quote's data as SQLite, and its web app on Cloudflare (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
 | `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
+| `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README; not used by the build |
 | `sources/` | Copies of the outside documents figures are read from, named by the document's own date — the Comptroller General's labour rate book, `2026-06-26-cgd-w480-labour-rates.pdf` |
 | `CLAUDE.md`, `AGENTS.md` | Point Claude, and other AI agents, to this README |
 
