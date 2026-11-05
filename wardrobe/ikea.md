@@ -11,6 +11,7 @@ An open wardrobe in bedroom 2, 3 m wide, with a curtain in front, using IKEA's B
 | Width, wall to wall | **3,000** |
 | Floor to ceiling | **2,800** |
 | Shelf depth | **400** |
+| Curtain track, from the back wall | **550** |
 
 ## Layout
 
@@ -22,8 +23,10 @@ Facing the wardrobe:
 
 | | Left bay — shelves and baskets | Middle bay — 2 levels | Right bay — full length |
 |---|---|---|---|
-| ≈2,250 | shelf | shelf | shelf |
-| ≈2,200 | clothes rail — handbags, short things | clothes rail — shirts, jackets | clothes rail — dresses, long coats |
+| ≈2,250 | shelf | shelf | |
+| ≈2,200 | clothes rail — handbags, short things | clothes rail — shirts, jackets | |
+| ≈2,100 | | | shelf |
+| ≈2,050 | | | clothes rail — dresses, long coats |
 | ≈1,700 | shelf | | |
 | ≈1,480 | **mesh basket** | | |
 | ≈1,310 | **mesh basket** | | |
@@ -38,7 +41,7 @@ Facing the wardrobe:
 
 The shelf-and-basket bay is on the **left, next to the room's door**, as it's the one used most. Shelves only up high, where baskets don't work (2,250 and 1,700, above eye level — boxes, folded stacks). Below them, 7 mesh baskets (15 cm deep, on the same brackets as the shelves) run from about 1,480 down to 310, the bottom one just above the foot of the uprights — about 170 apart, just enough to pull each one out. About 310 is left clear below them for shoes. The installer sets each at the nearest slot in the uprights.
 
-Heights are from the floor. The uprights run from **300 to 2,300**. All the shoes go on the floor, under every bay. A maxi dress hangs about 1,450–1,550, so from the right bay's rail it ends about 650–750 above the floor; in the middle bay, shirts and jackets get 1,150 from the top rail to the middle shelf, and trousers hang from 1,000, ending about 300 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
+Heights are from the floor. The uprights run from **300 to 2,300**. All the shoes go on the floor, under every bay. The right bay is set 150 lower (shelf 2,100, rail 2,050) so it is an easy reach for a 173 cm person; a maxi dress hangs about 1,550–1,600, so it ends about 450–500 above the floor; in the middle bay, shirts and jackets get 1,150 from the top rail to the middle shelf, and trousers hang from 1,000, ending about 300 above the floor, clear of the shoes. The heights can be changed later: the brackets click into the uprights with no tools.
 
 ## Parts (IKEA Thailand)
 
@@ -48,9 +51,9 @@ Heights are from the floor. The uprights run from **300 to 2,300**. All the shoe
 | Mounting rail | [BOAXEL, white, 182 cm](https://www.ikea.com/th/en/p/boaxel-mounting-rail-white-80474274/) — cut the second to fit | 804.742.74 | 2 | To buy | ฿150 | ฿300 |
 | Shelf 80 × 40 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-shelf-white-80453554/) | 804.535.54 | 5 | To buy | ฿450 | ฿2,250 |
 | Mesh basket 80 × 40 × 15 | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-mesh-basket-white-10459955/) | 104.599.55 | 7 | To buy | ฿400 | ฿2,800 |
-| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 22 | To buy | ฿55 | ฿1,210 |
+| Bracket, 40 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-bracket-white-40453513/) | 404.535.13 | 23 | To buy | ฿55 | ฿1,265 |
 | Clothes rail, 80 cm | [BOAXEL, white](https://www.ikea.com/th/en/p/boaxel-clothes-rail-white-50453517/) | 504.535.17 | 4 | To buy | ฿125 | ฿500 |
-| | | | | **To buy** | | **฿8,260** |
+| | | | | **To buy** | | **฿8,315** |
 
 Prices checked on IKEA Thailand 2026-11-05; every part "Available for delivery".
 
@@ -60,7 +63,7 @@ IKEA installs it. It comes only with truck delivery; the technicians arrive the 
 
 | | IKEA's rate | For this wardrobe |
 |---|---|---|
-| Assembly | 7% of the regular price | ≈฿578 |
+| Assembly | 7% of the regular price | ≈฿582 |
 | Wall mounting | ฿50 per 4 holes | ≈฿200–300 (16–24 holes, estimate) |
 | Truck delivery | — | not yet checked |
 
@@ -70,12 +73,12 @@ From [IKEA Thailand's assembly service page](https://www.ikea.com/th/en/customer
 
 | | |
 |---|---|
-| Parts | ฿8,260 |
-| Assembly and wall mounting | ≈฿780–880 |
-| **Total** | **≈฿9,040–9,140** + delivery |
+| Parts | ฿8,315 |
+| Assembly and wall mounting | ≈฿785–885 |
+| **Total** | **≈฿9,100–9,200** + delivery |
 
 ## Check before ordering
 
-- Whether the clothes rails hang on the same brackets as the shelves; if not, add 6 brackets (฿330).
+- Whether the clothes rails hang on the same brackets as the shelves; if not, add 7 brackets (฿385).
 - Wall plugs and screws for the brick (about 4 per upright) are sold separately — whether IKEA's technicians bring them.
 - The truck delivery fee to Si Racha.
