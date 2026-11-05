@@ -19,7 +19,7 @@ TV, fridge, cooktop and network cables for the house, all from HomePro.
 
 ## Before ordering
 
-- [ ] **TV:** goes on the wall in bedroom 1 — decide exactly where; there must be a power socket there.
+- [x] **TV:** goes on the wall in bedroom 1; there's a power socket there (per Gerard, 2026-11-05).
 - [ ] **Fridge:** the space is 600 mm wide; the fridge is 548 mm wide, 565 mm deep, 1,355 mm high — check the depth and height too, and leave a gap round it for air.
 - [ ] **Cooktop:** a wall socket near the benchtop (not an extension lead — it draws 2,800 W).
 - [ ] **Office cable:** LINK's page doesn't say "RJ45 both ends"; check the plugs on the pack.
