@@ -32,12 +32,12 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | ขั้นตอน / Phase | ใคร / Who | งาน / What |
 |---|---|---|---|
-| 1 | เตรียมงาน / Preparation | ผู้รับเหมา / Builder | ถอดประตูและเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the door and screen, clean the trims, protect what stays |
+| 1 | เตรียมงาน / Preparation | ผู้รับเหมา / Builder | ถอดเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the screen, clean the trims, protect what stays |
 | 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | รื้อที่เหลือ / Remove the rest |
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
 | 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
 | 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป / Floor and step |
-| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ แล้วประตูใหม่ / Fittings, then the new door |
+| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ / Fittings |
 
 ### 1. เตรียมงาน / Preparation
 
@@ -45,13 +45,9 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 Before anything else.
 
-**ถอดออก / Take off:**
-1. **ประตูเดิมและบานพับ** — ถอดก่อน เพื่อให้มีที่ทำงาน วงกบเก็บไว้ ประตูใหม่ติดตั้งเป็นอย่างสุดท้าย (ขั้นที่ 6)
+**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับ
 
-   **The old door and its hinges** — first, so there is room to work. The frame stays; the new door goes in last (phase 6).
-2. **เหล็กดัดหน้าต่าง** — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับ
-
-   **The window's steel security screen** — keep it safe; it is painted in phase 4 and goes back on.
+**Take off:** the window's steel security screen — keep it safe; it is painted in phase 4 and goes back on.
 
 **ล้าง:** คิ้วพลาสติกสีชมพู/ม่วงของกระเบื้องทั้งหมดในห้องน้ำ — มีสีเก่าและคราบสกปรกติดอยู่
 
@@ -71,6 +67,7 @@ Before anything else.
 | กระเบื้องพื้น / Floor tiles | ห้ามรื้อ — ปูกระเบื้องใหม่ทับ / don't lift them — the new tiles go on top |
 | วาล์วและสายน้ำดีชักโครก / Toilet stop valve and hose | เก็บไว้ — ใช้กับชักโครกใหม่ / keep — they go on the new toilet |
 | สายฉีดชำระ / Bidet spray and its hose | หุ้มพลาสติก / wrap in plastic |
+| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ไม่ต้องถอด อยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / leave as it is (see "Door" at the end) |
 
 ### 2. รื้อถอน / Strip out
 
@@ -181,9 +178,9 @@ Prices checked 2026-10-31.
 
 ### 6. ติดตั้ง / Fit-out
 
-อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และ**สุดท้าย** ประตูใหม่
+อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า และสายเครื่องทำน้ำอุ่น
 
-The basin with its mirror, the toilet with its towel rail, the water heater's hose, and **last**, the new door.
+The basin with its mirror, the toilet with its towel rail, and the water heater's hose.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
@@ -199,12 +196,8 @@ The basin with its mirror, the toilet with its towel rail, the water heater's ho
 | ชั้นวางพร้อมราวแขวนผ้า / Shelf with towel rail | [LUZERN AS-5012S, chrome, 62 × 14.5 × 23 cm](https://www.homepro.co.th/p/1215163) | 1215163 | 1 | **ซื้อแล้ว อยู่หน้างาน / Bought, on site** | ฿799 | ฿799 |
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
 | สายฝักบัวสแตนเลส / Stainless shower hose | [HAFELE 495.60.109, 304 stainless, 120 cm](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
-| **ประตู / Door** | | | | | | |
-| ประตูห้องน้ำ WPC (ไม้สังเคราะห์) เจาะรูลูกบิดแล้ว / WPC bathroom door, pre-drilled for the knob | [MODERNWOOD MWPC01, 70 × 200 cm, hazelnut](https://www.homepro.co.th/p/1313511) | 1313511 | 1 | ต้องซื้อ / To buy | ฿2,790 | ฿2,790 |
-| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 pcs](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
-| ลูกบิดห้องน้ำ / Bathroom knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
 | | | | | **ซื้อแล้ว / Bought** | | **฿7,322** |
-| | | | | **ต้องซื้อ / To buy** | | **฿3,892** |
+| | | | | **ต้องซื้อ / To buy** | | **฿504** |
 
 ราคาของที่ต้องซื้อ ตรวจสอบที่โฮมโปร 2026-11-05
 
@@ -230,27 +223,50 @@ Where each of the others goes in this room: to set out.
 
 **Water heater hose:** replaces the old black plastic one between the stop tap and the heater. Check its ½" nuts fit both ends.
 
-**สุดท้าย ประตู:** ประตูใหม่ บานพับ และลูกบิด วงกบเดิมใช้ต่อ ประตูเดิมขนาด **700 × 1,950 มม.** ประตูใหม่ 70 × 200 ซม. จึงต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ
+## ประตู / Door
 
-**Last: the door.** The new door, hinges and handle; the existing frame stays. The old door is **700 × 1,950 mm** and the new one is 70 × 200 cm, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
+**ประตูเดิมอยู่ที่เดิม** ไม่ต้องถอด ประตูเดิมขนาด **700 × 1,950 มม.** พื้นใหม่จะสูงขึ้น (กระเบื้อง + กาว) — หลังปูกระเบื้อง ตรวจว่าประตูเดิมยังเปิดปิดได้ ไม่ครูดพื้น
+
+**The existing door stays** as it is. It is **700 × 1,950 mm**. The new floor will be higher (tile + adhesive) — after tiling, check the old door still opens and closes without scraping the floor.
+
+### ทางเลือก: ประตูใหม่ — ขอความเห็นช่าง / Option: a new door — your view, please
+
+ยังไม่ได้ซื้อ ขอความเห็นและราคาจากช่างก่อน:
+
+Not bought yet — we'd like the builder's view and price first:
+
+| รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
+|---|---|---|---|---|---|---|
+| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, pre-drilled for the knob | [AZLE WB2, 70 × 200 cm, brown](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | ทางเลือก / Option | ฿1,990 | ฿1,990 |
+| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 pcs](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ทางเลือก / Option | ฿199 | ฿199 |
+| ลูกบิดห้องน้ำ / Bathroom knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ทางเลือก / Option | ฿399 | ฿399 |
+| | | | | **ทางเลือก / Option** | | **฿2,588** |
+
+ราคาตรวจสอบที่โฮมโปร 2026-11-05
+
+Prices checked on HomePro 2026-11-05.
+
+**การตัด:** ประตูใหม่สูง 200 ซม. ต้อง**ตัดด้านบน**ให้สูง **1,950 มม. ลบด้วยพื้นที่สูงขึ้น (ความหนากระเบื้องใหม่ + กาว)** — วัดความหนากระเบื้องจากกล่องที่หน้างาน ตัดออก = 50 มม. + กระเบื้อง + กาว ตัดแล้วขัดขอบเบาๆ
+
+**Cutting:** the new door is 200 cm high, so **cut the top** to make it **1,950 mm minus the floor rise (new tile + adhesive)** — measure a tile from the boxes on site. Cut off = 50 mm + tile + adhesive. Gently sand the cut edge.
 
 **บานพับ:** ถ้าได้ ให้ใช้ตำแหน่งบานพับเดิมบนวงกบ — ถ่ายตำแหน่งจากวงกบลงบนประตูใหม่ (หลังตัดแล้ว และเผื่อช่องว่างเหนือพื้น) ถ้ารูสกรูเดิมบนวงกบหลวม ให้อุดรูแล้วเจาะใหม่
 
 **Hinges:** where possible, use the old hinge positions on the frame — mark them from the frame onto the new door (after it is cut, allowing the gap above the floor). If the old screw holes in the frame are loose, plug them and drill again.
 
-**ตรวจก่อนซื้อประตู:**
-- ขนาดบานพับเดิม และระยะจากหัววงกบถึงบานพับแต่ละตัว
-- ประตู MODERNWOOD เซาะร่องบานพับมาแล้วหรือไม่ และตำแหน่งอยู่ที่ไหน
-- ประตูเป็นเนื้อตันหรือมีโครงด้านใน — ตัดด้านบนได้กี่ มม. และยึดสกรูบานพับได้ตรงไหน
-
-**Check before buying the door:**
-- the old hinges' size, and the distance from the top of the frame to each hinge;
-- whether the MODERNWOOD door comes with hinge recesses already cut, and where;
-- whether the door is solid or has a frame inside — how much can be cut off the top, and where hinge screws will hold.
-
 **แผ่นรับสลัก (ที่วงกบ):** ใช้แผ่นรับสลักเดิมที่อยู่บนวงกบ แขวนประตูก่อน ถ้าสลักลูกบิดใหม่ไม่ตรง (เพราะตัดประตูและพื้นสูงขึ้น) ให้ย้ายแผ่นรับสลักให้ตรง และอุดร่องเดิม
 
 **Strike plate (on the frame):** reuse the existing strike plate on the frame. Hang the door first; if the new knob's latch doesn't line up (the door is cut and the floor is higher), move the strike plate to meet it and fill the old recess.
+
+**คำถามถึงช่าง:**
+- ประตู UPVC นี้ข้างในกลวง — ตัดด้านบนประมาณ 65 มม. ได้หรือไม่
+- ถ้าไม่ได้ ช่างแนะนำประตูแบบไหน
+- ราคาค่าติดตั้ง
+
+**Questions for the builder:**
+- This UPVC door is hollow inside — can its top be cut by about 65 mm?
+- If not, what door would you suggest?
+- Your price to fit it.
 
 ---
 
