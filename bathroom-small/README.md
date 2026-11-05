@@ -2,7 +2,7 @@
 
 Renovate the existing bathroom. The room size is not changing.
 
-Two teams: the **tiler** does the tiling (phase 4); the **builder** does everything else.
+Two teams: the **tiler** does the tiling (phase 5); the **builder** does everything else.
 
 ## Size
 
@@ -18,24 +18,27 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 
 | # | Phase | Who | What |
 |---|---|---|---|
-| 1 | Strip out | Builder | Protect what stays, then remove the rest |
-| 2 | Ceiling | Builder | New ceiling |
-| 3 | Painting | Builder | Ceiling, walls, window frame and security screen |
-| 4 | Tiling | **Tiler** | Floor and step |
-| 5 | Fit-out | Builder | Fittings, then the new door |
+| 1 | Preparation | Builder | Door off, clean, tape out and protect what stays |
+| 2 | Strip out | Builder | Remove the rest |
+| 3 | Ceiling | Builder | New ceiling |
+| 4 | Painting | Builder | Ceiling, walls, window frame and security screen |
+| 5 | Tiling | **Tiler** | Floor and step |
+| 6 | Fit-out | Builder | Fittings, then the new door |
 
-### 1. Strip out
+### 1. Preparation
 
-**First, before anything else:**
-1. **Take the old door off** first, so there is room to work. The frame stays; the new door goes in last (phase 5).
+Before anything else:
+1. **Take the old door off** first, so there is room to work. The frame stays; the new door goes in last (phase 6).
 2. Clean **all the pink/purple plastic tile edge trims in the bathroom** properly — they have old paint and dirt on them.
 3. Tape along the pink plastic edge trim on top of the existing wall tiles, so no paint gets on it or the tiles.
 4. Wrap the shower, water heater, soap holder and toilet paper holder in plastic, and **tape the shower and the water heater out** at the wall — no paint on them.
-5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 3, then goes back on.
+5. **Take the window's steel security screen off** and keep it safe — it is painted off the wall in phase 4, then goes back on.
 
 The plastic and tape stay on for the whole job and come off only when the job is done, so everything is protected through the strip out, ceiling, painting, tiling and fit-out.
 
-**Then** remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
+### 2. Strip out
+
+Remove **everything** in the bathroom — including the old ceiling: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid — **except these, which stay**:
 
 | Stays | |
 |---|---|
@@ -46,7 +49,7 @@ The plastic and tape stay on for the whole job and come off only when the job is
 | Toilet paper holder | the existing one |
 
 
-### 2. Ceiling
+### 3. Ceiling
 
 A new flush gypsum ceiling.
 
@@ -68,7 +71,7 @@ A new flush gypsum ceiling.
 | [BY TORA wall plugs with screws, no. 7, pack of 50](https://www.homepro.co.th/p/1064892) | 1064892 | 1 pack | for fixing the wall angle | ฿65 | ฿65 |
 | | | | | **Total** | **฿898** |
 
-### 3. Painting
+### 4. Painting
 
 The trims, shower and water heater are already taped out (phase 1). With the white paint already on site:
 
@@ -79,7 +82,7 @@ The trims, shower and water heater are already taped out (phase 1). With the whi
    - the steel security screen, **off the wall** (it came off in phase 1), painted on its own.
 3. **Screen back on:** when the paint on the screen and the window frame is dry, fix the screen back on the window — before the tiling.
 
-### 4. Tiling
+### 5. Tiling
 
 **Done by the tiler** — a separate team from the builder.
 
@@ -103,7 +106,7 @@ The new grey tiles go **on top of the old floor tiles** — the old ones stay. T
 - **Same shade:** the new box must be **shade H07**, the same as the 3 on site — check the box label.
 - Prices checked 2026-10-31. Adhesive and grout amounts are estimates.
 
-### 5. Fit-out
+### 6. Fit-out
 
 Fit the toilet, basin, basin tap, trap, mirror and towel rail — **all already bought, on site**.
 
