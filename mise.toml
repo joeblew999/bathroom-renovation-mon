@@ -42,8 +42,7 @@ run = 'uv sync --locked && python repo.py setup'
 
 [tasks."root:check-mise"]
 description = "mise-check on this very file (mise_test.go): each task one line, its usage passed by name, no POSIX shell syntax, so every task runs on macOS, Linux and Windows"
-env = { MISE_FILE = "mise.toml" }
-run = 'go test . -run "^TestMise$" -count=1 -v'
+run = 'go test . -run "^TestRootMise$" -count=1 -v'
 
 [tasks."root:ci"]
 description = "The structure check, quote:check, then quote:fuzz. Exactly what GitHub runs on every push to main"
