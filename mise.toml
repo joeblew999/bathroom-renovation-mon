@@ -9,13 +9,13 @@ idiomatic_version_file_enable_tools = ["go"]   # go.mod's toolchain line is the 
 npm.package_manager = "aube"                   # npm: tools (wrangler, cf) are installed with aube, the package manager web/ uses too
 
 [tools]
-python = "3.13.18"
-uv = "0.13.6"              # installs the Python packages, exactly as uv.lock pins them
+python = "3.13.18"         # within pyproject.toml's requires-python (==3.13.*): uv sets a newer one aside for a Python of its own
+uv = "0.13.7"              # installs the Python packages, exactly as uv.lock pins them
 node = "26.13.0"           # the one JavaScript runtime (wrangler, cf, the web app's TypeScript); aube installs the packages
 # aube installs web/'s npm packages (package.json, aube-lock.yaml, build approvals in aube-workspace.yaml) and mise's npm:
 # tools. Pinned through mise's aqua backend: its default backend fails to install 2.9.0 (a 404 fetching aube's skill file)
 "aqua:aubepkg/aube" = "2.9.0"
-"npm:wrangler" = "4.156.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
+"npm:wrangler" = "4.158.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
 "npm:cf" = "1.0.0-beta.27" # Cloudflare's CLI: logs in by device code (per project) and provisions the account — the D1
                            # database with read replication. A beta, so pinned exactly
 
