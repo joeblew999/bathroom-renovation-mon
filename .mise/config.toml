@@ -13,4 +13,4 @@ minimum_release_age_excludes = ["github:joeblew999/mise-check"]
 use_versions_host = false
 
 [tools]
-"github:joeblew999/mise-check" = "0.4.34"
+"github:joeblew999/mise-check" = "0.4.35"

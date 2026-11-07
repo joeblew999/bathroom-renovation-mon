@@ -96,12 +96,16 @@ The shared machinery is mise-check's packages, imported at the release `.mise/co
 4. **No task wraps mise-check's.** A tool's template has no task that runs `mise-check`: its init calls
    `toolfiles.MiseCheckInit(dir)`, which runs mise-check's own init in the repo, at the release of mise-check the tool
    is built with (its go.mod's), so the tool's users run `mise run mise-check:<command>` themselves.
-5. **Its README opens with the problem.** Right after its title and badges, a paragraph starting `**The problem.**`
+5. **No task is numbered.** Every task is `<namespace>:<command>`. The order a repo meets them is in the walk (the
+   root's end-to-end test runs the template's tasks by name, in a person's order, held to the tasks file by
+   `walk.CheckSteps`), the docs page and what `mise run <namespace>` says next, never in names.
+6. **Its README opens with the problem.** Right after its title and badges, a paragraph starting `**The problem.**`
    (what's hard without it), then one starting `**What <name> does.**` (how it solves it). Every repo's does, a tool's
    or an app's: `mise-check:check` reports a README.md without both in the 30 lines after its title.
-6. **misecheck holds it to these.** Its test of its root mise file calls `misecheck.CheckToolRepo(t, ".")` beside
+7. **misecheck holds it to these.** Its test of its root mise file calls `misecheck.CheckToolRepo(t, ".")` beside
    `Check`, which fails on a missing `root:ci` or `root:verify`, a ci.yml that runs anything else or on tags or every
-   branch, a README without its two openings, and a template task that runs mise-check, each saying what to change.
+   branch, a README without its two openings, and a template task that runs mise-check, each saying what to change;
+   `Check` itself fails a numbered task, in any mise file, and `mise-check:check` runs it on every repo's.
 
 ## The tasks
 
@@ -235,7 +239,9 @@ var myWalk = walk.Walk[*myRepo]{Steps: steps, New: newRepo, Of: func(r walk.Repo
 
 func TestWalkTemplate(t *testing.T) { myWalk.Template(t, "templates") }
 func TestWalkNewRepo(t *testing.T)   { myWalk.NewRepo(t) }
-func TestSteps(t *testing.T)         { walk.CheckSteps(t, "templates/.mise/tasks/mytool.toml", steps) }
+func TestSteps(t *testing.T) {
+	walk.CheckSteps(t, "templates/.mise/tasks/mytool.toml", steps, map[string]string{"mytool:show-help": "it only prints the commands"})
+}
 ```
 
 Which repo is the test's name: `Template` walks your template where it is, `NewRepo` a new repo made from nothing by
@@ -253,16 +259,18 @@ run = 'go test . -run "^TestWalkNewRepo$" -count=1 -v{% if usage.version %} -arg
 | `-version` | The release a new repo is made at (default this checkout's build) |
 | `-stage` | How far to walk, when your steps have stages (default the first) |
 
-For a tool whose steps are numbered in the order a repo takes them (mise-cloudflare's `cloudflare:03-init` to
-`15-clean`), `CheckSteps` fails unless your steps are exactly your mise file's numbered tasks, in their order; a tool
-with few steps (mise-check's `init`, `check`, `show`) needs no numbers, and no `TestSteps`. Either way, misecheck
-(`GoCallers`) checks that every task name your steps use is a task. When the repo walked needs something its own mise
+No task is numbered: every task is `<namespace>:<command>`, and misecheck fails one named `<namespace>:03-<command>`.
+The order a repo meets its tasks is the walk's, your steps in a person's order, and the docs page's and what
+`mise run <namespace>` says next, never the tasks' names. `CheckSteps` holds the steps to your tasks file: each step
+is a task of it, and every task of it is a step or in the map of tasks not walked, each with why, so a task added,
+renamed or removed, and the walk says so. misecheck (`GoCallers`) checks that every task name your steps use is a
+task. When the repo walked needs something its own mise
 files can't give it, cut off from the repo around it, `Prepare` adds it (mise-check's own gives its template, a folder of
 its module with no `go.mod` of its own, that module's Go).
 
 ## What misecheck checks, in full
 
-Every task: its `run` and `usage` are each one line; it declares its flags and arguments in mise's `usage` and passes
+Every task: its name is `<namespace>:<command>`, never numbered (`<namespace>:03-<command>`); its `run` and `usage` are each one line; it declares its flags and arguments in mise's `usage` and passes
 each by name with mise's templates (`{% if usage.yes %} --yes{% endif %}`); its run has no POSIX shell syntax
 (`${…}`, `$name`, `NAME=value cmd`), which Windows' cmd doesn't read.
 
