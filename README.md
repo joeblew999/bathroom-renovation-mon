@@ -1,6 +1,10 @@
 # Bathroom renovation quote
 
-A quote for the builder, in Thai and English: the work, the materials list, the labour and the drawings. It is published as:
+**The problem.** A quote a Thai builder can construct a bathroom from has to agree with itself, in Thai and in English: the scope of works, the materials list, the labour and the drawings. Kept by hand, one change has to be made in many places at once: a different tile changes the tile counts, the boxes to buy, the labour priced by the m², the tile joints every hole must stay clear of on the elevations, and the Thai as well as the English. A design mistake — an electrical fitting in the shower's electrical zones without the IP rating it needs, a fitting in the door's swing, too few tile boxes — is found on site, where it is dear to put right. And a price or a labour rate whose source nobody wrote down can't be checked again when it changes.
+
+**What bathroom-renovation-mon does.** It makes the quote from data, every fact written once: the work in `phases.toml`, every product in `materials.toml`, the room in `room.toml` and the labour in `labour.toml`, every word in Thai and English. The code works out what follows from the room (where each wall and item is, the tile counts, the quantities the labour is priced by), draws the floor plan and the elevations, and builds one web page and the same page as a PDF. Every build checks the data, and checks the design as an architect and a builder would: the setting out and clashes, the clearances, the wet areas, whether enough is ordered, and whether every drawing reads clearly. A design problem is never published: on every push to `main`, GitHub runs the same mise tasks as here and publishes only if they pass. Every price, labour rate and norm says where it came from and when.
+
+The quote is published as:
 
 - Web page: **https://joeblew999.github.io/bathroom-renovation-mon/**
 - PDF: **https://joeblew999.github.io/bathroom-renovation-mon/bathroom-renovation-quote.pdf**
@@ -44,7 +48,7 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 
 ## Commands
 
-`mise tasks` lists every command (they are in `mise.toml`). Only `mise` needs to be installed; on a new machine, run `mise run root:setup` first.
+`mise tasks` lists every command (they are in `mise.toml`, and mise-check's own in `.mise/tasks/mise-check.toml`). Only `mise` needs to be installed; on a new machine, run `mise run root:setup` first.
 
 Every task has one structure, held by [mise-check](https://github.com/joeblew999/mise-check) (`mise run root:check-mise`, part of `root:ci` and `root:publish`): it is named `namespace:task`; its `run` and `usage` are each one line; the flags and arguments it takes are declared in its `usage` and passed by name; and its `run` has no POSIX shell syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code: `repo.py`, `etl/`, `web/`.
 
@@ -85,11 +89,12 @@ On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci
 | `test_pipeline.py` | The tests: `mise run quote:test` measures the drawings in Chromium only in the tests about them; `mise run quote:fuzz` measures them in every test |
 | `mise.toml` | The commands, and the pinned tools |
 | `repo.py` | The repo's chores as code, so each task stays one line: setting up, linting, publishing |
-| `go.mod`, `go.sum`, `mise_test.go` | mise-check, pinned, and the one-line test `mise run root:check-mise` runs on `mise.toml` (Go runs only this) |
+| `go.mod`, `go.sum`, `mise_test.go` | mise-check's packages, pinned at the release `.mise/config.toml` pins its binary at, and the one-line test `mise run root:check-mise` runs on `mise.toml` (Go runs only this) |
+| `.mise/`, `.github/workflows/mise-check.yml`, `.claude/`, `docs/mise-check/` | mise-check's files, written by `mise-check init` (`mise run mise-check:init` writes them again): its pin and its tasks (`mise run mise-check` says what's done and what to run next; `mise run mise-check:update` moves every pin), the workflow that runs `mise run mise-check:verify` on every push and pull request, its Claude Code hook and skill, and its page, `docs/mise-check/README.md` |
 | `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run root:setup` installs exactly the lock |
 | `.github/workflows/pages.yml` | GitHub's build: `mise run root:setup`, `mise run root:ci` (`root:check-mise`, `quote:check`, then `quote:fuzz`), then publish |
 | `etl/`, `web/` | The trial of the quote's data as SQLite, and its web app on Cloudflare (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
-| `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md` |
+| `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md`; and `docs/mise-check/`, mise-check's |
 | `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README, and the labour priced from the Comptroller General's rates (`labour.md`); not used by the build |
 | `appliances/` | The house's appliances and office furniture (TV and wall bracket, fridge, induction cooktop, Ethernet cables, office table and stool): the picks from HomePro, the options looked at, and the order once placed; not used by the build |
 | `wardrobe/` | The open wardrobe in bedroom 2, 3 m wide: 6 steel rails in 3 pairs set into pockets in the brick walls, with plywood shelves on U blocks — layout, the builders' steps and the HomePro materials (`README.md`); and the IKEA BOAXEL version, parts and installation (`ikea.md`); not used by the build |
