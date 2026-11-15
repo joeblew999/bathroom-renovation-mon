@@ -2,6 +2,8 @@
 
 Date: 5 Nov 2026
 
+**Not needed now.** By 15 Nov 2026 all the lights were installed except the living room's track light, which waits for its 1 m track (see [the lighting plan](2026-11-05-01-lighting.md)). No electrician is booked, so this price is kept only as a record.
+
 A reference price for the electrician fitting the 8 lights in [the lighting plan](2026-11-05-01-lighting.md), to hold his quote against. Everything is bought, bulbs included, so there are no materials in it.
 
 The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569), the same book as the bathroom quotes. Its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf), and it was read 2026-11-05. The rates are bare labour, so **Factor F 1.2199** is added on top for the electrician's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Each new light replaces an old one on an existing switched light point, so there is no cable, switch or box to price. The bathroom's old light comes down in the [small bathroom](../bathroom-small/README.md) strip-out, so it is not counted here.
