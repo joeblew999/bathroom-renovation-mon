@@ -274,8 +274,8 @@ Before you paint: tape along the edges of the tiles and the skirting, and cover 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
 | สีรองพื้นปูนใหม่ / Primer for new plaster | TOA Hydro Quick, 1 gallon (35 m²) <https://www.homepro.co.th/p/1090811> | 1090811 | 1 | ต้องซื้อ / To buy | ฿830 | ฿830 |
-| สีขาวกันเชื้อรา กึ่งเงา / White anti-mould paint, semi-gloss | Dulux EasyCare Plus, base A, 3 L (15 m²) <https://www.homepro.co.th/p/1029544> | 1029544 | 2 (1 กระป๋องต่อรอบ / 1 can a coat) | ต้องซื้อ / To buy | ฿800 | ฿1,600 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,430** |
+| สีขาวกันเชื้อรา กึ่งเงา สำเร็จรูป ไม่ต้องผสมสี (สีภายนอก ทนความชื้น) / White anti-mould paint, semi-gloss, ready-mixed, no tinting (exterior grade, stands up to damp) | TOA SuperShield SG100, white, 1 gallon (35 m²) <https://www.homepro.co.th/p/93054> | 93054 | 1 (พอ 2 รอบ / enough for 2 coats) | ต้องซื้อ / To buy | ฿1,280 | ฿1,280 |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,110** |
 
 ราคาเช็ค 16 พ.ย. 2569
 
