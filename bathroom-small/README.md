@@ -362,11 +362,11 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 
 ### สรุป / The short answer
 
-- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿8,400**
+- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿8,500**
 - **ราคาจริงน่าจะสูงกว่านี้** บัญชีนี้ตั้งราคาสำหรับงานใหญ่ ไม่ได้รวมเวลารอระหว่างแต่ละครั้ง หรือการเข้างาน 6 ครั้งสำหรับห้องเล็ก
 - **คิดเป็นรายวัน:** งานนี้ประมาณ **8.5 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 8.5 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
 
-- **The government rate book puts the labour at about ฿8,400.**
+- **The government rate book puts the labour at about ฿8,500.**
 - **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 6 times for a small room.
 - **By the day:** the job is about **8.5 working days**, often with a helper. A fair price is about 8.5 day rates (plus the helper's), plus the fee for dumping the rubble.
 
