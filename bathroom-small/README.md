@@ -10,9 +10,9 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 
 ## งานนี้คืออะไร / What the job is
 
-ปรับปรุงห้องน้ำเดิม ขนาดห้องเท่าเดิม ช่างปูกระเบื้องทำงานทั้งหมด
+ปรับปรุงห้องน้ำเดิม ขนาดห้องเท่าเดิม ช่างปูกระเบื้องทำงานทั้งหมด **ค่าแรงอย่างเดียว เจ้าของบ้านซื้อวัสดุทั้งหมด** (ของทุกอย่างในตารางในเอกสารนี้)
 
-We are redoing the existing bathroom. The room stays the same size. The tiler does all the work.
+We are redoing the existing bathroom. The room stays the same size. The tiler does all the work. **Labour only: the owner buys all the materials** (everything in the tables in this document).
 
 เมื่อเสร็จแล้ว:
 - **พื้น:** กระเบื้องสีเทาใหม่ ปูทับกระเบื้องเดิม
@@ -27,6 +27,18 @@ When it's finished:
 - **The other 3 walls:** smooth plaster, painted white, with a 10 cm strip of grey tile along the bottom (a skirting).
 - **Ceiling and light:** as they are. Don't touch them.
 - **Toilet, basin, mirror and door:** new.
+
+## ขอใบเสนอราคา / Please quote
+
+กรุณาเสนอราคา**ค่าแรงอย่างเดียว**:
+1. ราคาเหมารวมทั้งงาน หรือค่าแรงต่อวัน และจำนวนวัน (ช่างและลูกมือ)
+2. ค่าทิ้งเศษวัสดุ แยกต่างหาก
+3. เริ่มงานได้เมื่อไร และใช้เวลากี่วัน
+
+Please quote for **labour only**:
+1. One price for the whole job, or your day rate and how many days (you and any helper).
+2. The fee for dumping the rubble, as a separate item.
+3. When you could start, and how long it will take.
 
 ## ขนาดห้อง / Room size
 
@@ -300,10 +312,6 @@ Prices checked on HomePro 5 Nov 2026.
 **ที่รับสลักบนวงกบ:** แขวนประตูก่อน ถ้าสลักลูกบิดไม่ตรงกับที่รับสลักเดิม ให้ย้ายที่รับสลักให้ตรง แล้วอุดรอยเดิม
 
 **Latch plate on the frame:** hang the door first. If the knob's latch doesn't meet the old latch plate, move the plate to meet it and fill the old hole.
-
-**คำถามถึงช่าง:** ราคาค่าใส่ประตู (ตัด แขวน ใส่ลูกบิด)
-
-**Question for the tiler:** your price to fit the door (cut it, hang it, fit the knob).
 
 ---
 
