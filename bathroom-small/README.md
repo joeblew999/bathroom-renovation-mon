@@ -53,7 +53,7 @@ Several steps have to dry before the next one, so the work comes in visits:
 | ครั้ง / Visit | ใคร / Who | งาน / Work | แล้วรอ / Then wait |
 |---|---|---|---|
 | 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
-| 2 | ช่างปูกระเบื้อง / Tiler | รื้อถอน แล้วฉาบปูน (ขั้นที่ 2–3) / Strip out, then plaster (phases 2–3) | ปูนฉาบแห้ง ตามที่เขียนบนถุงกาวปูกระเบื้อง / the plaster dries, as on the tile adhesive's bag |
+| 2 | ช่างปูกระเบื้อง / Tiler | รื้อถอน แล้วฉาบปูน (ขั้นที่ 2–3) / Strip out, then plaster (phases 2–3) | ปูนฉาบแห้ง — ดูบนถุงกาวปูกระเบื้องว่าปูนฉาบใหม่ต้องทิ้งไว้กี่วันก่อนปูกระเบื้อง / the plaster dries — check on the tile adhesive's bag how many days new plaster needs before tiling |
 | 3 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 4) / Lay the tiles (phase 4) | กาวบ่มตัว (ขั้นที่ 4) / the adhesive cures (phase 4) |
 | 4 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 4) / Grout (phase 4) | ยาแนวแห้ง / the grout sets |
 | 5 | ช่างปูกระเบื้อง / Tiler | ทาสี (ขั้นที่ 5) / Paint (phase 5) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
@@ -144,13 +144,13 @@ Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drai
 
 Start painting (phase 5) only once the grout has set.
 
-**ผนังฝักบัว / The shower wall:** ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า 2,500 มม. สูง **2,000 มม. จากพื้นกระเบื้องใหม่** = 4 แถวเต็ม ไม่ต้องตัดแถวบน ปิดขอบบนด้วยคิ้ว PVC สีเทา **ให้ร่องยาแนวผนังตรงกับร่องยาแนวพื้น** ตามผนังนี้ (กระเบื้องขนาดเดียวกัน)
+**ผนังฝักบัว / The shower wall:** ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า 2,500 มม. สูง **2,000 มม. จากพื้นกระเบื้องใหม่** = 4 แถวเต็ม ไม่ต้องตัดแถวบน ปิดขอบบนด้วยคิ้ว PVC สีเทา **ให้ร่องยาแนวผนังตรงกับร่องยาแนวพื้น** ตามผนังนี้ (กระเบื้องขนาดเดียวกัน) **พื้นมีสเต็ปสูง 50 มม. ขวางห้อง:** วัด 2,000 มม. และเริ่มแถวแรกจากพื้นด้านที่สูง ส่วนผนังด้านพื้นต่ำ ใต้แถวแรก ปิดด้วยแผ่นตัดสูง 50 มม. (จากแผ่นสำรอง) ให้แนวร่องแนวนอนตรงกันตลอดผนัง
 
-The long wall with the shower and the basin, 2,500 mm, tiled **2,000 mm high from the new tiled floor** = 4 full rows, no cut row at the top. Finish the top edge with the grey PVC trim. **Line the wall joints up with the floor joints** along this wall (the tiles are the same size).
+The long wall with the shower and the basin, 2,500 mm, tiled **2,000 mm high from the new tiled floor** = 4 full rows, no cut row at the top. Finish the top edge with the grey PVC trim. **Line the wall joints up with the floor joints** along this wall (the tiles are the same size). **The floor has a 50 mm step across the room:** measure the 2,000 mm and start the first row from the higher floor; where the wall runs down to the lower floor, fill under the first row with a 50 mm strip cut from a spare tile, so the horizontal joints run level along the whole wall.
 
-**บัวเชิงผนัง / Skirting:** สูง 100 มม. ตามผนังที่ทาสีทั้ง 3 ด้าน: ผนังหน้าต่าง 1,380 มม. ผนังด้านยาวอีกด้าน 2,500 มม. ผนังประตู 680 มม. (หักประตู 700 มม.) = **4.56 ม.** ชนกระเบื้องผนังฝักบัวที่มุม และจบที่วงกบประตู
+**บัวเชิงผนัง / Skirting:** สูง 100 มม. ตามผนังที่ทาสีทั้ง 3 ด้าน: ผนังหน้าต่าง 1,380 มม. ผนังด้านยาวอีกด้าน 2,500 มม. ผนังประตู 680 มม. (หักประตู 700 มม.) = **4.56 ม.** ชนกระเบื้องผนังฝักบัวที่มุม และจบที่วงกบประตู ตรงสเต็ป บัวเชิงผนังลดระดับตามพื้น
 
-100 mm high, along the 3 painted walls: the window wall 1,380 mm, the other long wall 2,500 mm, and the door wall 680 mm (less the 700 mm door) = **4.56 m**. It butts against the shower wall's tiles at the corners and stops at the door frame.
+100 mm high, along the 3 painted walls: the window wall 1,380 mm, the other long wall 2,500 mm, and the door wall 680 mm (less the 700 mm door) = **4.56 m**. It butts against the shower wall's tiles at the corners and stops at the door frame. At the step, it steps down with the floor.
 
 **กระเบื้อง / Tiles** (500 × 500 มม. กล่องละ 4 แผ่น / 500 × 500 mm, 4 to a box):
 - พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**
@@ -165,9 +165,9 @@ The long wall with the shower and the basin, 2,500 mm, tiled **2,000 mm high fro
 - บัวเชิงผนัง 4.56 ม.: แผ่นหนึ่งตัดได้ 5 ชิ้น ชิ้นละ 100 × 500 มม. = **2 แผ่น**
 
   Skirting 4.56 m: each tile cuts into 5 strips of 100 × 500 mm = **2 tiles**.
-- รวม 37 แผ่น มี 10 กล่อง (40 แผ่น): **เหลือสำรอง 3 แผ่น**
+- รวม 37 แผ่น มี 10 กล่อง (40 แผ่น): **เหลือสำรอง 3 แผ่น** — แผ่นตัด 50 มม. ใต้แถวแรกของผนังฝักบัวตัดจากแผ่นสำรอง 1 แผ่น
 
-  37 tiles in all; with 10 boxes (40 tiles) there are **3 spare**.
+  37 tiles in all; with 10 boxes (40 tiles) there are **3 spare** — the 50 mm strip under the shower wall's first row is cut from 1 of them.
 
 **วิธีทำ / How:**
 - ใช้กาวซีเมนต์ปูกระเบื้อง ไม่ใช้ปูนทราย
@@ -274,9 +274,9 @@ To-buy prices checked on HomePro 2026-11-05.
 
 Where each of the others goes in this room: to set out.
 
-**เครื่องทำน้ำอุ่นและฝักบัว:** ติดกลับบนกระเบื้องผนังที่ตำแหน่งเดิม เจาะด้วยดอกเจาะกระเบื้อง ต่อน้ำ แล้วต่อไฟ เปิดเบรกเกอร์เมื่อต่อเสร็จและตรวจแล้วเท่านั้น
+**เครื่องทำน้ำอุ่นและฝักบัว:** ติดกลับที่ตำแหน่งเดิม ถ้าเจาะบนกระเบื้องใช้ดอกเจาะกระเบื้อง ต่อน้ำ แล้วต่อไฟ เปิดเบรกเกอร์เมื่อต่อเสร็จและตรวจแล้วเท่านั้น
 
-**Water heater and shower:** back on the tiled wall where they were, drilled with a tile bit. Connect the water, then the power; switch the breaker back on only once it is all connected and checked.
+**Water heater and shower:** back where they were; where they fix through the tiles, drill with a tile bit. Connect the water, then the power; switch the breaker back on only once it is all connected and checked.
 
 **สายเครื่องทำน้ำอุ่น:** แทนสายพลาสติกสีดำเดิม ระหว่างวาล์วกับเครื่องทำน้ำอุ่น ตรวจว่าเกลียว ½" เข้ากันได้ทั้งสองด้าน
 

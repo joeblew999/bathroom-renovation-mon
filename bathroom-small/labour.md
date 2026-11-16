@@ -17,9 +17,11 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 5. Painting | Tiler | ฿474 | ฿578 |
 | 6. Fit-out, and the door | Tiler | ฿1,576 | ฿1,923 |
 | Water heater refitted (HomePro's service price, already with its overheads, so no Factor F) | Tiler | | ฿500 |
-| **Total** | | **฿5,508** | **฿7,219** |
+| **Total** | | **฿5,508** (+ the ฿500 heater) | **฿7,219** |
 
-These are government reference rates, worked out per unit of work. The tiler will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
+These are government reference rates, worked out per unit of work for large jobs, so they come out low for a job this small. They don't pay for the waits between visits, or for each visit's travel and setting up. The tiler will most likely price it by the day or as a lump sum. The items under "Not priced yet" are still to be added.
+
+**To check his price by the day:** the job is about 7 working days over the 5 visits — strip out and plaster 2, lay the tiles 2, grout ½, paint 1, fit-out and the door 1½ — often with a helper. A fair lump sum is about 7 of his day rates (and his helper's), plus the dumping fee.
 
 ## The phases
 
