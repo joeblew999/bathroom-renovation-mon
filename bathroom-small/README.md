@@ -12,9 +12,9 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 
 Renovate the existing bathroom. The room size is not changing.
 
-**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) **ช่างปูกระเบื้อง**ทำงานอื่นทั้งหมด
+**ช่างปูกระเบื้อง**ทำงานทั้งหมด
 
-The **owner** does the preparation (phase 1). The **tiler** does everything else.
+The **tiler** does all the work.
 
 ## ขนาด / Size
 
@@ -35,69 +35,57 @@ Floor area: 2.5 × 1.38 = **3.45 m²**.
 
 The long wall with the shower and the basin is tiled grey, 2.0 m high. The other 3 walls are plastered and painted, with a 10 cm grey tile skirting. All the old wall tiles come off.
 
-| # | ขั้นตอน / Phase | ใคร / Who | งาน / What |
-|---|---|---|---|
-| 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ป้องกันของที่เก็บไว้ / Take off the screen, protect what stays |
-| 2 | รื้อถอน / Strip out | ช่างปูกระเบื้อง / Tiler | ถอดของบนผนังเก็บไว้ รื้อกระเบื้องผนังเดิมทั้งหมด / Take the wall fittings off and keep them, strip all the old wall tiles |
-| 3 | ฉาบปูน / Plastering | ช่างปูกระเบื้อง / Tiler | ฉาบผนังที่รื้อกระเบื้องออก / Plaster the walls the tiles came off |
-| 4 | ปูกระเบื้อง / Tiling | ช่างปูกระเบื้อง / Tiler | พื้น สเต็ป ผนังฝักบัว และบัวเชิงผนัง 2 ครั้ง: ปู แล้วยาแนว / Floor, step, shower wall and skirting, 2 visits: lay, then grout |
-| 5 | ทาสี / Painting | ช่างปูกระเบื้อง / Tiler | ผนัง วงกบหน้าต่าง และเหล็กดัด / Walls, window frame and security screen |
-| 6 | ติดตั้ง / Fit-out | ช่างปูกระเบื้อง / Tiler | ของบนผนังกลับที่เดิม สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / The wall fittings back on, the fittings, the security screen, then the new door |
+| # | ขั้นตอน / Phase | งาน / What |
+|---|---|---|
+| 1 | รื้อถอน / Strip out | ถอดเหล็กดัดและของบนผนังเก็บไว้ รื้อกระเบื้องผนังเดิมทั้งหมด / Take the security screen and the wall fittings off and keep them, strip all the old wall tiles |
+| 2 | ฉาบปูน / Plastering | ฉาบผนังที่รื้อกระเบื้องออก / Plaster the walls the tiles came off |
+| 3 | ปูกระเบื้อง / Tiling | พื้น สเต็ป ผนังฝักบัว และบัวเชิงผนัง 2 ครั้ง: ปู แล้วยาแนว / Floor, step, shower wall and skirting, 2 visits: lay, then grout |
+| 4 | ทาสี / Painting | ผนัง วงกบหน้าต่าง และเหล็กดัด / Walls, window frame and security screen |
+| 5 | ติดตั้ง / Fit-out | ของบนผนังกลับที่เดิม สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / The wall fittings back on, the fittings, the security screen, then the new door |
 
-### ใครมาเมื่อไร / Who comes when
+### เข้างานเมื่อไร / Visits
 
 งานหลายอย่างต้องรอให้แห้งก่อนทำขั้นต่อไป จึงแบ่งเป็นหลายครั้ง:
 
 Several steps have to dry before the next one, so the work comes in visits:
 
-| ครั้ง / Visit | ใคร / Who | งาน / Work | แล้วรอ / Then wait |
-|---|---|---|---|
-| 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
-| 2 | ช่างปูกระเบื้อง / Tiler | รื้อถอน แล้วฉาบปูน (ขั้นที่ 2–3) / Strip out, then plaster (phases 2–3) | ปูนฉาบแห้ง — ดูบนถุงกาวปูกระเบื้องว่าปูนฉาบใหม่ต้องทิ้งไว้กี่วันก่อนปูกระเบื้อง / the plaster dries — check on the tile adhesive's bag how many days new plaster needs before tiling |
-| 3 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 4) / Lay the tiles (phase 4) | กาวบ่มตัว (ขั้นที่ 4) / the adhesive cures (phase 4) |
-| 4 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 4) / Grout (phase 4) | ยาแนวแห้ง / the grout sets |
-| 5 | ช่างปูกระเบื้อง / Tiler | ทาสี (ขั้นที่ 5) / Paint (phase 5) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
-| 6 | ช่างปูกระเบื้อง / Tiler | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
-| 7 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
+| ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait |
+|---|---|---|
+| 1 | รื้อถอน แล้วฉาบปูน (ขั้นที่ 1–2) / Strip out, then plaster (phases 1–2) | ปูนฉาบแห้ง — ดูบนถุงกาวปูกระเบื้องว่าปูนฉาบใหม่ต้องทิ้งไว้กี่วันก่อนปูกระเบื้อง / the plaster dries — check on the tile adhesive's bag how many days new plaster needs before tiling |
+| 2 | ปูกระเบื้อง (ขั้นที่ 3) / Lay the tiles (phase 3) | กาวบ่มตัว (ขั้นที่ 3) / the adhesive cures (phase 3) |
+| 3 | ยาแนว (ขั้นที่ 3) / Grout (phase 3) | ยาแนวแห้ง / the grout sets |
+| 4 | ทาสี (ขั้นที่ 4) / Paint (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
+| 5 | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 5) / Fit-out, the security screen back on, then the new door (phase 5) | — |
 
-### 1. เตรียมงาน / Preparation
+### 1. รื้อถอน / Strip out
 
-ทำก่อนทุกอย่าง
+**ไม่ต้องรื้อ:**
 
-Before anything else.
+**Leave these:**
 
-**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 5 แล้วติดกลับในขั้นที่ 6
-
-**Take off:** the window's steel security screen — keep it safe; it is painted in phase 5 and goes back on in phase 6.
-
-**ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน **เจ้าของบ้านแกะออกเอง**เมื่องานเสร็จ:
-
-**Protect what stays.** The tape and plastic stay on for the whole job; **the owner takes them off** when the job is done:
-
-| เก็บไว้ / Stays | วิธีป้องกัน / Protect it |
+| อยู่ที่เดิม / Stays | หมายเหตุ / Note |
 |---|---|
 | กระเบื้องพื้น / Floor tiles | ห้ามรื้อ — ปูกระเบื้องใหม่ทับ / don't lift them — the new tiles go on top |
-| วาล์วและสายน้ำดีชักโครก / Toilet stop valve and hose | เก็บไว้ — ใช้กับชักโครกใหม่ / keep — they go on the new toilet |
-| ฝ้าเพดานและโคมไฟ IKEA KÄRRNOCKA / Ceiling and its IKEA KÄRRNOCKA light | ไม่ต้องทำอะไร — ฝ้าและโคมอยู่ตามเดิม / leave them — the ceiling and the light stay as they are |
-| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ใช้ไปก่อนจนใส่ประตูใหม่ (ขั้นที่ 6) วงกบอยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / use it until the new door goes in (phase 6); the frame stays (see "Door" at the end) |
+| วาล์วและสายน้ำดีชักโครก / Toilet stop valve and hose | ใช้กับชักโครกใหม่ / they go on the new toilet |
+| ฝ้าเพดานและโคมไฟ IKEA KÄRRNOCKA / Ceiling and its IKEA KÄRRNOCKA light | ไม่ต้องทำอะไร หุ้มโคมด้วยพลาสติกระหว่างทำงาน / leave them; wrap the light in plastic while you work |
+| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ใช้ไปก่อนจนใส่ประตูใหม่ (ขั้นที่ 5) วงกบอยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / use it until the new door goes in (phase 5); the frame stays (see "Door" at the end) |
 
-### 2. รื้อถอน / Strip out
+**ถอดออกและเก็บไว้** ติดกลับในขั้นที่ 5:
 
-**ถอดออกและเก็บไว้** ติดกลับในขั้นที่ 6:
-
-**Take off and keep** — they go back on in phase 6:
+**Take off and keep** — they go back on in phase 5:
 
 | ถอดและเก็บไว้ / Take off and keep | หมายเหตุ / Note |
 |---|---|
+| เหล็กดัดหน้าต่าง / Window security screen | ทาสีในขั้นที่ 4 / it is painted in phase 4 |
 | เครื่องทำน้ำอุ่น / Water heater | **ปิดเบรกเกอร์ก่อน** ปิดน้ำ แล้วถอดออก หุ้มปลายสายไฟให้ปลอดภัย / **switch its breaker off first**, turn the water off, then take it down; make the cable end safe |
 | ฝักบัวและราว / Shower and its rail | |
 | ที่วางสบู่ / Soap holder | |
 | ที่ใส่กระดาษชำระ / Toilet paper holder | |
 | สายฉีดชำระและที่แขวน / Bidet spray and its holder | |
 
-แล้วรื้อ**ทุกอย่างที่เหลือ** ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ:
+แล้วรื้อ**ทุกอย่างที่เหลือ**:
 
-Then remove **everything else**. Everything in the "Stays" table (phase 1) stays:
+Then remove **everything else**:
 
 - **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน สูง 1.4 ม. พร้อมคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนสเต็ป รื้อถึงเนื้อผนัง ระวังท่อน้ำที่ผนัง
 
@@ -106,7 +94,7 @@ Then remove **everything else**. Everything in the "Stays" table (phase 1) stays
 
   The old toilet and basin — take the old basin's wall brackets off with it; they have rusted.
 
-### 3. ฉาบปูน / Plastering
+### 2. ฉาบปูน / Plastering
 
 ฉาบผนังที่รื้อกระเบื้องออกทั้ง 4 ด้าน (ประมาณ 9.9 ตร.ม.) ให้เรียบและได้แนวเดียวกับผนังเหนือขึ้นไป — ผนังฝักบัวต้องเรียบ เพื่อปูกระเบื้องได้ตรง ผนังอื่นต้องเรียบ เพื่อทาสี ฉาบรอบท่อน้ำที่ออกจากผนังให้เรียบร้อย
 
@@ -120,7 +108,7 @@ Plaster the walls the tiles came off, all 4 (about 9.9 m²), flat and flush with
 
 Price checked 2026-11-16 (the page shows ฿79–185 by delivery area; this uses the highest).
 
-### 4. ปูกระเบื้อง / Tiling
+### 3. ปูกระเบื้อง / Tiling
 
 ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม ปูลูกตั้งสเต็ป (ด้านตั้ง) และปิดขอบสเต็ปด้วยคิ้ว PVC สีเทา แล้วปูผนังฝักบัวและบัวเชิงผนัง
 
@@ -136,9 +124,9 @@ Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drai
 2. **Let the adhesive cure 24–48 hours**, depending on the temperature (the adhesive's product page, in the table below). Keep off the floor.
 3. **Visit 2 — grout.**
 
-เริ่มทาสี (ขั้นที่ 5) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
+เริ่มทาสี (ขั้นที่ 4) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
 
-Start painting (phase 5) only once the grout has set.
+Start painting (phase 4) only once the grout has set.
 
 **ผนังฝักบัว / The shower wall:** ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า 2,500 มม. สูง **2,000 มม. จากพื้นกระเบื้องใหม่** = 4 แถวเต็ม ไม่ต้องตัดแถวบน ปิดขอบบนด้วยคิ้ว PVC สีเทา **ให้ร่องยาแนวผนังตรงกับร่องยาแนวพื้น** ตามผนังนี้ (กระเบื้องขนาดเดียวกัน) **พื้นมีสเต็ปสูง 50 มม. ขวางห้อง:** วัด 2,000 มม. และเริ่มแถวแรกจากพื้นด้านที่สูง ส่วนผนังด้านพื้นต่ำ ใต้แถวแรก ปิดด้วยแผ่นตัดสูง 50 มม. (จากแผ่นสำรอง) ให้แนวร่องแนวนอนตรงกันตลอดผนัง
 
@@ -194,7 +182,7 @@ The long wall with the shower and the basin, 2,500 mm, tiled **2,000 mm high fro
 
 Prices checked 2026-10-31.
 
-### 5. ทาสี / Painting
+### 4. ทาสี / Painting
 
 ติดเทปกันเปื้อนที่ขอบกระเบื้องและบัวเชิงผนัง และคลุมพื้นใหม่ก่อนทาสี
 
@@ -223,11 +211,11 @@ Tape off the tile edges and the skirting, and cover the new floor, before painti
 
 Prices checked 2026-11-16.
 
-### 6. ติดตั้ง / Fit-out
+### 5. ติดตั้ง / Fit-out
 
-ติดของที่ถอดเก็บไว้ในขั้นที่ 2 กลับ (เครื่องทำน้ำอุ่น ฝักบัวและราว ที่วางสบู่ ที่ใส่กระดาษชำระ สายฉีดชำระ) อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และติดเหล็กดัดกลับที่หน้าต่าง
+ติดของที่ถอดเก็บไว้ในขั้นที่ 1 กลับ (เครื่องทำน้ำอุ่น ฝักบัวและราว ที่วางสบู่ ที่ใส่กระดาษชำระ สายฉีดชำระ) อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และติดเหล็กดัดกลับที่หน้าต่าง
 
-The things kept in phase 2 back on (the water heater, the shower and its rail, the soap holder, the toilet paper holder, the bidet spray), the basin with its mirror, the toilet with its towel rail, the water heater's hose, and the security screen back on the window.
+The things kept in phase 1 back on (the water heater, the shower and its rail, the soap holder, the toilet paper holder, the bidet spray), the basin with its mirror, the toilet with its towel rail, the water heater's hose, and the security screen back on the window.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
@@ -280,9 +268,9 @@ Where each of the others goes in this room: to set out.
 
 ## ประตู / Door
 
-**ใส่ประตูใหม่เป็นงานสุดท้าย** (ขั้นที่ 6) หลังปูกระเบื้องเสร็จ **วงกบเดิมอยู่ที่เดิม** ถอดประตูเดิมและบานพับเดิมออกตอนใส่ประตูใหม่ ช่องประตูเดิม **700 × 1,950 มม.**
+**ใส่ประตูใหม่เป็นงานสุดท้าย** (ขั้นที่ 5) หลังปูกระเบื้องเสร็จ **วงกบเดิมอยู่ที่เดิม** ถอดประตูเดิมและบานพับเดิมออกตอนใส่ประตูใหม่ ช่องประตูเดิม **700 × 1,950 มม.**
 
-**The new door goes in last** (phase 6), after tiling. **The existing frame stays.** Take the old door and hinges off when the new door goes in. The existing door is **700 × 1,950 mm**.
+**The new door goes in last** (phase 5), after tiling. **The existing frame stays.** Take the old door and hinges off when the new door goes in. The existing door is **700 × 1,950 mm**.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
