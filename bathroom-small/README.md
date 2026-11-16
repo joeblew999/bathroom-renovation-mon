@@ -50,9 +50,9 @@ Please quote for **labour only**:
 | หน้าต่าง / Window | **400 × 600** |
 | ประตู / Door | **700 × 1,950** |
 
-พื้นมีขั้นสูง 50 มม. ขวางห้อง
+พื้นมีขั้นสูง 50 มม. ที่ประตู พื้นส่วนอื่นในห้องระดับเดียวกันทั้งหมด
 
-The floor has a 50 mm step across the room.
+There is a 50 mm step at the door. The rest of the floor is all one level.
 
 ## ก่อนเริ่มงาน — ช่างตรวจประตู / Before the job starts — the tiler checks the door
 
@@ -144,17 +144,15 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **ครั้งที่ 2 — ปู ตามลำดับนี้:**
 1. **พื้น:** ปูทับกระเบื้องเดิม ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม
-2. **ขั้น:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+2. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
 3. **ผนังฝักบัว:** 4 แถวเต็ม สูง 2 เมตร ปิดขอบบนด้วยคิ้ว PVC สีเทา ให้ร่องกระเบื้องผนังตรงกับร่องกระเบื้องพื้น
-   - **ตรงที่พื้นมีขั้น:** เริ่มแถวแรกจากพื้นด้านที่สูงกว่า ด้านที่พื้นต่ำกว่า ให้ตัดกระเบื้องเป็นแถบสูง 50 มม. ใส่ใต้แถวแรก แถวกระเบื้องจะได้ตรงกันทั้งผนัง
-4. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม ตรงขั้นให้ลดระดับลงตามพื้น หยุดที่วงกบประตู
+4. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดที่วงกบประตู
 
 **Visit 2 — lay, in this order:**
 1. **Floor:** lay it on top of the old tiles. Put the new drain grate (10 × 10 cm) where the old one was.
-2. **Step:** tile the front face of the step (50 mm high), then fit the grey plastic edge strip along the step's edge.
+2. **The step at the door:** tile the front face of the step (50 mm high), then fit the grey plastic edge strip along the step's edge.
 3. **Shower wall:** 4 full rows, 2 m high, with the grey plastic edge strip along the top. Line the wall's grout lines up with the floor's.
-   - **Where the floor steps down:** start the first row from the higher part of the floor. On the lower part, cut a 50 mm strip of tile to fill the gap under the first row. That keeps every row straight along the whole wall.
-4. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. At the step it drops down with the floor. Stop it at the door frame.
+4. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it at the door frame.
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
@@ -184,9 +182,9 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | บัวเชิงผนัง / Skirting | แผ่นละ 5 แถบ / 5 strips from each tile | 2 |
 | **รวม / Total** | | **37** |
 
-10 กล่องมี 40 แผ่น เหลือสำรอง 3 แผ่น แถบ 50 มม. ใต้ผนังฝักบัวตัดจากแผ่นสำรอง
+10 กล่องมี 40 แผ่น เหลือสำรอง 3 แผ่น
 
-10 boxes hold 40 tiles, so 3 are spare. The 50 mm strip under the shower wall is cut from a spare.
+10 boxes hold 40 tiles, so 3 are spare.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
