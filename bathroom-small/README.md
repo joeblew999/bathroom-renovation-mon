@@ -315,17 +315,15 @@ Prices checked on HomePro: the set 16 Nov 2026, the knob 5 Nov 2026. The set's p
 3. Screw the frame into the doorway, upright and square. Fill the gap round it with foam, then seal it with silicone.
 4. Hang the door, drill it for the knob, and fit the knob.
 
-## ค่าแรงอ้างอิง — สำหรับเจ้าของบ้านเท่านั้น / Labour reference — for the owner only
+## ค่าแรง / Labour
 
-**ตัดส่วนนี้ออกก่อนส่งให้ช่าง**
-
-**Cut this section off before sending this to the tiler.** It's a guide price for his labour, so you can tell whether his quote is fair. It covers his work only; you buy the materials.
+A guide price for the labour, from the government's rate book. Labour only: the owner buys the materials.
 
 ### The short answer
 
 - **The government rate book puts the labour at about ฿7,500.**
-- **Expect his real price to be higher.** The book's rates are set for big jobs. It doesn't pay for the waiting between visits, or for him coming back 6 times for a small room.
-- **A better check is by the day.** The job is about **7½ working days**, often with a helper. A fair price is about 7½ of his day rates (plus his helper's), plus the fee for dumping the rubble.
+- **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 6 times for a small room.
+- **By the day:** the job is about **7½ working days**, often with a helper. A fair price is about 7½ day rates (plus the helper's), plus the fee for dumping the rubble.
 
 | Visit | Work | Days |
 |---|---|---|
