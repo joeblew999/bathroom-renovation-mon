@@ -15,16 +15,16 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 We are redoing the existing bathroom. The room stays the same size. The tiler does all the work. **Labour only: the owner buys all the materials** (everything in the tables in this document).
 
 เมื่อเสร็จแล้ว:
-- **พื้น:** กระเบื้องสีเทาใหม่ ปูทับกระเบื้องเดิม
-- **ผนังฝักบัว** (ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า): กระเบื้องสีเทา สูง 2 เมตร
-- **ผนังอีก 3 ด้าน:** ฉาบเรียบ ทาสีขาว มีกระเบื้องสีเทาแถบล่างสูง 10 ซม. (บัวเชิงผนัง)
+- **พื้น:** กระเบื้องสีเทาใหม่ ปูทับกระเบื้องพื้นเดิมได้เลย
+- **ผนังฝักบัว** (ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า): รื้อกระเบื้องเดิมออก แล้วปูกระเบื้องสีเทาใหม่ สูง 2 เมตร
+- **ผนังอีก 3 ด้าน:** รื้อกระเบื้องเดิมออก ฉาบเรียบ ทาสีขาว และปูกระเบื้องสีเทาใหม่เป็นแถบล่างสูง 10 ซม. (บัวเชิงผนัง)
 - **ฝ้าเพดานและโคมไฟ:** เหมือนเดิม ไม่ต้องทำอะไร
 - **ชักโครก อ่างล้างหน้า กระจก และประตู:** ของใหม่
 
 When it's finished:
-- **Floor:** new grey tiles, laid on top of the old ones.
-- **Shower wall** (the long wall with the shower and the basin): grey tiles, 2 m high.
-- **The other 3 walls:** smooth plaster, painted white, with a 10 cm strip of grey tile along the bottom (a skirting).
+- **Floor:** new grey tiles, laid straight over the old floor tiles.
+- **Shower wall** (the long wall with the shower and the basin): old tiles off, then new grey tiles, 2 m high.
+- **The other 3 walls:** old tiles off, then smooth plaster, painted white, with a 10 cm strip of new grey tile along the bottom (a skirting).
 - **Ceiling and light:** as they are. Don't touch them.
 - **Toilet, basin, mirror and door:** new.
 
@@ -87,13 +87,13 @@ Some things have to dry before the next step, so the work comes in 5 visits:
 ## ครั้งที่ 1 — รื้อของเก่า / Visit 1 — Take the old things out
 
 **ห้ามรื้อสิ่งเหล่านี้:**
-- กระเบื้องพื้น — กระเบื้องใหม่ปูทับ
+- กระเบื้องพื้นเดิม — กระเบื้องพื้นใหม่ปูทับ
 - วาล์วน้ำและสายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 - ฝ้าเพดานและโคมไฟ — หุ้มโคมด้วยถุงพลาสติกระหว่างทำงาน
 - ประตูเดิม — ใช้ไปก่อนจนถึงครั้งที่ 5 วงกบประตูอยู่ที่เดิมตลอด
 
 **Don't remove these:**
-- The floor tiles. The new tiles go on top.
+- The old floor tiles. The new floor tiles are laid over them.
 - The toilet's water valve and hose. They go on the new toilet.
 - The ceiling and the light. Wrap the light in a plastic bag while you work.
 - The old door. Keep using it until visit 5. The door frame stays for good.
