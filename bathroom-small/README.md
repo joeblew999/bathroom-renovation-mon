@@ -80,7 +80,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 | ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait for |
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงกันซึม / the plaster to dry, as the waterproofing bag says |
-| 2 | ใส่วงกบประตูใหม่ แล้วทากันซึม / Fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
+| 2 | ฉาบบางทับปูนเดิม ใส่วงกบประตูใหม่ แล้วทากันซึม / Skim the old plaster, fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
 | 3 | ปูผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตู แล้วปูพื้น / Tile the shower wall, the skirting and the step at the door, then the floor | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
 | 4 | ยาแนว / Grout | ยาแนวแห้ง / the grout to set |
 | 5 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
@@ -106,6 +106,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน (สูง 1.4 ม.) และคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนขั้น รื้อจนถึงเนื้อผนัง ระวังท่อน้ำในผนัง
 - ชักโครกและอ่างล้างหน้าเดิม พร้อมขาแขวนอ่างที่เป็นสนิม
 - ประตูและวงกบเดิม ระวังไม่ให้กระทบคานทับหลังด้านบน
+- **สีเดิมบนผนังฝักบัว** จากความสูง 1.4 ม. ถึง 2 ม. (เหนือกระเบื้องเดิม): ขัดออกจนถึงเนื้อปูน กันซึมและกาวปูกระเบื้องไม่ยึดติดกับสี
 
 **Don't remove these:**
 - The old floor tiles. The new floor tiles are laid over them.
@@ -125,6 +126,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - **All the old wall tiles** on all 4 walls (they go up 1.4 m), and every pink plastic edge strip, on the walls and on the step. Go down to the bare wall. Watch out for the water pipes in the wall.
 - The old toilet and basin, with the basin's rusty wall brackets.
 - The old door and its frame. Take care not to disturb the beam over the doorway.
+- **The old paint on the shower wall** from 1.4 m up to 2 m (above where the old tiles were): grind it back to bare plaster. Waterproofing and tile adhesive don't stick to paint.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
@@ -151,17 +153,19 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 ## ครั้งที่ 2 — วงกบประตูและกันซึม / Visit 2 — Door frame and waterproofing
 
 เมื่อปูนฉาบแห้งแล้ว:
-1. **กำหนดระดับพื้นใหม่** พร้อมความลาด (ดู "ความลาดเอียงของพื้น" ในครั้งที่ 3) แล้วขีดไว้ที่ผนัง
-2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม (ซิลิโคนทับในครั้งที่ 6) ติดเทปป้องกันวงกบไว้จนจบงาน
-3. **กันซึม:** ทาซีเมนต์กันซึม 2 รอบ (รอบที่สองทาขวางรอบแรก รอให้รอบแรกแห้งตามที่เขียนบนถุง)
+1. **ฉาบบาง** ผนังอีก 3 ด้าน ส่วนเหนือ 1.4 ม. ถึงเพดาน (ประมาณ 6.7 ตร.ม.) ปูนเดิมตรงนี้ผิวหยาบและทาสีไว้ ขัดสีเดิมให้ด้านก่อน แล้วฉาบบางทับ ให้เรียบเสมอกับปูนฉาบใหม่ด้านล่าง ผนังทั้งด้านจะได้ผิวเดียวกัน ไม่เห็นรอยต่อหลังทาสี
+2. **กำหนดระดับพื้นใหม่** พร้อมความลาด (ดู "ความลาดเอียงของพื้น" ในครั้งที่ 3) แล้วขีดไว้ที่ผนัง
+3. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม (ซิลิโคนทับในครั้งที่ 6) ติดเทปป้องกันวงกบไว้จนจบงาน
+4. **กันซึม:** ทาซีเมนต์กันซึม 2 รอบ (รอบที่สองทาขวางรอบแรก รอให้รอบแรกแห้งตามที่เขียนบนถุง)
    - **ผนังฝักบัว:** เต็มผนัง สูงถึงแนวกระเบื้อง 2 เมตร
    - **พื้น:** เต็มพื้น ทาทับกระเบื้องเดิม และทาขึ้นผนังอีก 3 ด้านสูง 15 ซม. ถึงขาวงกบประตู
    - **มุมผนังชนผนัง มุมผนังชนพื้น รอบท่อน้ำ และรอบท่อระบายน้ำ:** ฝังตาข่ายไฟเบอร์ในรอบแรก
 
 When the plaster is dry:
-1. **Work out the new floor's height** with its slope (see "The floor's slope" in visit 3), and mark it on the walls.
-2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam. (It gets its silicone in visit 6.) Tape over the frame to protect it until the end of the job.
-3. **Waterproofing:** 2 coats of waterproofing cement, the second across the first. Let the first dry as the bag says.
+1. **Skim coat** the other 3 walls above 1.4 m, up to the ceiling (about 6.7 m²). The old plaster there is rough and painted. Sand the old paint dull first, then skim over it, smooth and flush with the new plaster below, so each wall has one finish and no line shows through the paint.
+2. **Work out the new floor's height** with its slope (see "The floor's slope" in visit 3), and mark it on the walls.
+3. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam. (It gets its silicone in visit 6.) Tape over the frame to protect it until the end of the job.
+4. **Waterproofing:** 2 coats of waterproofing cement, the second across the first. Let the first dry as the bag says.
    - **Shower wall:** the whole wall, up to the 2 m tile line.
    - **Floor:** the whole floor, over the old tiles, and 15 cm up the other 3 walls, up to the door frame's legs.
    - **Wall-to-wall corners, wall-to-floor corners, round the water pipes and round the drain:** bed fibre mesh into the first coat.
@@ -173,13 +177,14 @@ When the plaster is dry:
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
 | ซีเมนต์กันซึม / Waterproofing cement | Crocodile FLEX SHIELD, 20 kg, grey <https://www.homepro.co.th/p/271155> | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| ซีเมนต์ฉาบบาง / Skim coat | ลูกดิ่ง CP051, 20 kg, grey <https://www.homepro.co.th/p/1169502> | 1169502 | 1 ถุง (20–25 ตร.ม. หนา 1–2 มม.) / 1 bag (20–25 m², 1–2 mm thick) | ต้องซื้อ / To buy | ฿209 | ฿209 |
 | วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | AZLE UPVC frame, 70 × 200 cm, white <https://www.homepro.co.th/p/1017131> | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
 | ตาข่ายไฟเบอร์ / Fibre mesh | Crocodile fibre mesh, 0.2 × 10 m <https://www.homepro.co.th/p/1271924> | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,019** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,228** |
 
-ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) วงกบ 16 พ.ย. 2569 ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
+ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) วงกบและซีเมนต์ฉาบบาง 16 พ.ย. 2569 ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
 
-Prices checked 31 Oct 2026 (the same products as the main bathroom); the frame 16 Nov 2026. Check on the bag that 1 bag covers about 9 m² in 2 coats.
+Prices checked 31 Oct 2026 (the same products as the main bathroom); the frame and the skim coat 16 Nov 2026. Check on the bag that 1 bag covers about 9 m² in 2 coats.
 
 ## ครั้งที่ 3 และ 4 — ปูกระเบื้อง / Visits 3 and 4 — Tiling
 
@@ -377,18 +382,18 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 
 ### สรุป / The short answer
 
-- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿8,500**
+- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿9,300**
 - **ราคาจริงน่าจะสูงกว่านี้** บัญชีนี้ตั้งราคาสำหรับงานใหญ่ ไม่ได้รวมเวลารอระหว่างแต่ละครั้ง หรือการเข้างาน 6 ครั้งสำหรับห้องเล็ก
-- **คิดเป็นรายวัน:** งานนี้ประมาณ **8.5 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 8.5 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
+- **คิดเป็นรายวัน:** งานนี้ประมาณ **9 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 9 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
 
-- **The government rate book puts the labour at about ฿8,500.**
+- **The government rate book puts the labour at about ฿9,300.**
 - **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 6 times for a small room.
-- **By the day:** the job is about **8.5 working days**, often with a helper. A fair price is about 8.5 day rates (plus the helper's), plus the fee for dumping the rubble.
+- **By the day:** the job is about **9 working days**, often with a helper. A fair price is about 9 day rates (plus the helper's), plus the fee for dumping the rubble.
 
 | ครั้ง / Visit | งาน / Work | วัน / Days |
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster | 2 |
-| 2 | ใส่วงกบประตู แล้วทากันซึม / Fit the door frame, then waterproof | 1 |
+| 2 | ฉาบบาง ใส่วงกบประตู แล้วทากันซึม / Skim coat, fit the door frame, then waterproof | 1.5 |
 | 3 | ปูผนังฝักบัวและบัวเชิงผนัง แล้วปูพื้น / Tile the shower wall and the skirting, then the floor | 2.5 |
 | 4 | ยาแนว / Grout | 0.5 |
 | 5 | ทาสี / Paint | 1 |
@@ -408,12 +413,12 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 |---|---|---|---|
 | 1 | รื้อของเก่า / Take the old things out | ฿886 | ฿1,081 |
 | 1 | ฉาบผนัง / Plaster the walls | ฿950 | ฿1,159 |
-| 2 | วงกบประตู และกันซึม / The door frame, and waterproofing | ฿795 | ฿970 |
+| 2 | ฉาบบาง วงกบประตู และกันซึม / Skim coat, the door frame, and waterproofing | ฿1,438 | ฿1,754 |
 | 3–4 | ปูกระเบื้อง และยาแนว / Tiling, and grout | ฿1,712 | ฿2,088 |
 | 5 | ทาสี / Painting | ฿474 | ฿578 |
 | 6 | ติดตั้งทั้งหมด แขวนประตู และซิลิโคน / Fitting everything, hanging the door, and the silicone | ฿1,778 | ฿2,169 |
 | 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวมทั้งหมด / Total** | | **฿8,545** |
+| | **รวมทั้งหมด / Total** | | **฿9,329** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -434,13 +439,14 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 |---|---|---|---|---|
 | ฉาบผนังส่วนที่รื้อกระเบื้องออก / Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 ต่อ ตร.ม. / a m² | ฿950 |
 
-#### ครั้งที่ 2 — วงกบประตู และกันซึม / Visit 2 — the door frame, and waterproofing
+#### ครั้งที่ 2 — ฉาบบาง วงกบประตู และกันซึม / Visit 2 — skim coat, the door frame, and waterproofing
 
 | งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
+| ฉาบบางผนัง 3 ด้าน เหนือ 1.4 ม. (บัญชีไม่มีรายการฉาบบาง ใช้อัตราฉาบปูนผนัง) / Skim coat, 3 walls above 1.4 m (the book has no skim-coat item, so its wall-plastering rate) | 2.3.1.2, p. 8 | 6.7 m² | ฿96 ต่อ ตร.ม. / a m² | ฿643 |
 | ติดตั้งวงกบประตูใหม่ (0.70 × 2.0 ม.) / Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 ต่อ ตร.ม. / a m² | ฿144 |
 | ทากันซึม (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของค่าวัสดุ ฿2,169) / Waterproofing (not in the book, so the book's rule: 30% of its materials, ฿2,169) | note 1, p. 45 | 30% | ฿2,169 | ฿651 |
-| **รวม / Total** | | | | **฿795** |
+| **รวม / Total** | | | | **฿1,438** |
 
 #### ครั้งที่ 3 และ 4 — ปูกระเบื้อง และยาแนว / Visits 3 and 4 — tiling, and grout
 
@@ -494,6 +500,7 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 - **ค่าทิ้งเศษวัสดุ** อัตราในบัญชีรวมค่าขนออกแล้ว แต่ไม่รวมค่าทิ้ง ตอนนี้มีเศษมากขึ้นจากกระเบื้องผนังเดิม
 - **ถอดของบนผนัง** ตอนเริ่มงาน: เหล็กดัด เครื่องทำน้ำอุ่น ฝักบัวและราว ที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระ
 - **อุดรูสกรู** ในผนังส่วนบนก่อนทาสี
+- **ขัดสีเดิมออกจากผนังฝักบัว** ระหว่าง 1.4 ม. ถึง 2 ม.
 - **งานประตูเพิ่มเติม:** ตัดขาวงกบและบานประตูใหม่ให้พอดี
 
 The book has no rate for these:
@@ -501,6 +508,7 @@ The book has no rate for these:
 - **Dumping the rubble.** The book's rates include carrying it away, but not the dump's fee. There's more rubble now, with the old wall tiles.
 - **Taking the wall fittings down** at the start: the security screen, the water heater, the shower and rail, the soap holder, the toilet paper holder and the bidet spray holder.
 - **Filling the screw holes** in the upper walls before painting.
+- **Grinding the old paint off the shower wall** between 1.4 m and 2 m.
 - **The extra door work:** cutting the new frame's legs and the door down to fit.
 
 ---
