@@ -253,8 +253,8 @@ en = "**Main wall:** wall joints lined up with the floor joints, every tile faci
 
 [[phase.step]]
 id = "door_end_tiles"
-th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา · มุมนอกทั้ง 2 มุมของเสาในห้องน้ำ จบด้วยคิ้วกระเบื้อง PVC สีเดียวกับกระเบื้อง ฝังในกาวซีเมนต์ขณะปู · ปูกระเบื้องชนวงกบ เว้นร่องประมาณ 3 มม. แล้วยิงซิลิโคนสีขาวกันน้ำ — ขอบตัดของกระเบื้องซ่อนอยู่ชิดวงกบ"
-en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column · finish the column's 2 external corners in the bathroom with PVC tile trims in the tile's colour, set into the adhesive as the tiles are laid · tile up to the frame, leaving a joint of about 3 mm, and seal it with white sanitary silicone — the cut tile edge stays hidden against the frame"
+th = "**ผนังด้านประตู:** ตัดผนังข้างประตูและหน้าเสาจากกระเบื้องแผ่นเดียวกันในแต่ละแถว ให้ลายต่อเนื่องรอบเสา · มุมนอกทั้ง 2 มุมของเสาในห้องน้ำ จบด้วยคิ้วกระเบื้อง PVC สีเดียวกับกระเบื้อง ฝังในกาวซีเมนต์ขณะปู · ปูกระเบื้องชนวงกบ เว้นร่องประมาณ 3 มม. ไว้ยิงซิลิโคนในขั้น {phase:fit_out} — ขอบตัดของกระเบื้องซ่อนอยู่ชิดวงกบ"
+en = "**Door end:** cut the wall beside the door and the column face from the same tile in each row, so the pattern runs round the column · finish the column's 2 external corners in the bathroom with PVC tile trims in the tile's colour, set into the adhesive as the tiles are laid · tile up to the frame, leaving a joint of about 3 mm for its silicone in phase {phase:fit_out} — the cut tile edge stays hidden against the frame"
 
 [[phase.step]]
 id = "step_tiles"
@@ -273,8 +273,8 @@ en = "**Drain:** set the drain grate on the existing pipe, level with the new ti
 
 [[phase.step]]
 id = "grout"
-th = "ปูพื้นเป็นอย่างสุดท้าย ห้ามเหยียบจนแห้ง แล้วยาแนว"
-en = "The floor goes last: keep off it until it has set, then grout"
+th = "ปูพื้นเป็นอย่างสุดท้าย ห้ามเหยียบจนแห้ง แล้วยาแนว · เว้นไม่ยาแนวที่รอยต่อพื้นกับผนังทุกด้าน และมุมผนังกับผนัง (รวมมุมเสา) — มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก ยิงซิลิโคนในขั้น {phase:fit_out}"
+en = "The floor goes last: keep off it until it has set, then grout · leave the floor-to-wall joints all round and the wall-to-wall corners (the column's too) ungrouted — they move, and grout there cracks; they get silicone in phase {phase:fit_out}"
 
 [[phase]]
 id = "paint_walls"
@@ -325,6 +325,11 @@ en = "Fit the wall lamps (main wall drawing)"
 id = "plate"
 th = "ติดตั้งชุดสวิตช์พร้อมปลั๊กเดิม (สวิตช์ควบคุมโคมไฟผนัง) และเบรกเกอร์เครื่องทำน้ำอุ่นเดิม ที่ผนังใหม่ด้านห้องนั่งเล่น"
 en = "Refit the existing switch-and-socket plate (the switch now controls the wall lamps) and the water-heater breaker on the living-room face of the new wall"
+
+[[phase.step]]
+id = "silicone"
+th = "ยิงซิลิโคนเป็นงานสุดท้าย หลังทาสีและติดตั้งทุกอย่างแล้ว ใช้ซิลิโคนไร้กรดกันเชื้อรา สีเดียวกับกระเบื้องที่ชน: รอยต่อพื้นกับผนังทุกด้าน · มุมผนังกับผนังและมุมเสา สูงถึงขอบบนกระเบื้อง · รอบฐานชักโครก · ตามขอบอ่างล้างหน้าที่ชนผนัง · สีขาวรอบวงกบประตู ทั้งสองด้านของผนัง"
+en = "Silicone goes last, once the painting and all the fitting are done: neutral, anti-mould sanitary silicone in the colour of the tile it meets — the floor-to-wall joints all round · the wall-to-wall corners and the column's, up to the top of the tiles · round the toilet's base · along the basin where it meets the wall · white round the door frame, on both faces of the wall"
 
 [[phase]]
 id = "hand_over"
