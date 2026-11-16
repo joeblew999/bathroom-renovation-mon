@@ -125,9 +125,9 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 
 ## ครั้งที่ 1 (ต่อ) — ฉาบผนัง / Visit 1 (continued) — Plaster the walls
 
-ฉาบผนังทุกด้านที่รื้อกระเบื้องออก (ประมาณ 9.9 ตร.ม.) ให้เรียบและเสมอกับผนังด้านบน ผนังฝักบัวต้องเรียบตรง เพื่อให้กระเบื้องปูได้ตรง ฉาบรอบท่อน้ำให้เรียบร้อย
+ฉาบผนังทุกด้านที่รื้อกระเบื้องออก (ประมาณ 9.9 ตร.ม.) ให้เรียบและเสมอกับผนังด้านบน ผนังฝักบัวต้องเรียบตรง เพื่อให้กระเบื้องปูได้ตรง ฉาบรอบท่อน้ำให้เรียบร้อย ฉาบซ่อมขอบช่องประตูตรงที่รื้อวงกบเดิมออกด้วย ให้เรียบและได้ฉาก วงกบใหม่จะใส่ในครั้งที่ 2
 
-Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and level with the wall above. The shower wall must be really flat, so the tiles go on straight. Finish neatly around the water pipes.
+Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and level with the wall above. The shower wall must be really flat, so the tiles go on straight. Finish neatly around the water pipes. Also make good the sides of the doorway where the old frame came out, smooth and square: the new frame goes into it in visit 2.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
