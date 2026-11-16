@@ -181,9 +181,9 @@ Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on th
 1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว (ที่มา <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor> ตรวจสอบ 1 พ.ย. 2569)
 
 **ครั้งที่ 3 — ผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตูก่อน แล้วพื้น:**
-1. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
-2. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม ขอบล่างวางตามเส้นระดับพื้นใหม่ที่ขีดไว้ในครั้งที่ 2 (หนุนด้วยลิ่ม) หยุดชนวงกบประตูใหม่
-3. **ขั้นที่ประตู:** พร้อมกับบัวเชิงผนัง ปูด้านตั้งของขั้น (สูง 50 มม.) ตัดจากเศษกระเบื้องบัวเชิงผนัง แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+1. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC เหลี่ยมสีเทา
+2. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม ขอบล่างวางตามเส้นระดับพื้นใหม่ที่ขีดไว้ในครั้งที่ 2 (หนุนด้วยลิ่ม) หยุดชนวงกบประตูใหม่ ปิดขอบบนด้วยคิ้ว PVC เหลี่ยมสีเทา เหมือนผนังฝักบัว
+3. **ขั้นที่ประตู:** พร้อมกับบัวเชิงผนัง ปูด้านตั้งของขั้น (สูง 50 มม.) ตัดจากเศษกระเบื้องบัวเชิงผนัง ที่ขอบบนของขั้น กระเบื้องด้านตั้งชนกระเบื้องบนขั้นเป็นมุมนอก ใช้คิ้ว PVC โค้งสีเทา ปีกคิ้วอยู่หลังกระเบื้องด้านตั้ง (กระเบื้องบนขั้นเป็นของเดิม)
 4. **พื้น:** ปูทับกันซึม ตามความลาดใหม่ ชนกระเบื้องผนังฝักบัว บัวเชิงผนัง ด้านตั้งของขั้น และขาวงกบ ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
@@ -202,9 +202,9 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray (source <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor>, checked 1 Nov 2026).
 
 **Visit 3 — the shower wall, the skirting and the step first, then the floor:**
-1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
-2. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Set its bottom edge on the new floor line marked in visit 2, packed up on wedges. Stop it against the new door frame.
-3. **The step at the door:** along with the skirting, tile the step's front face (50 mm high), cut from the skirting tiles' offcuts, then fit the grey plastic edge strip along its edge.
+1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the square grey plastic edge strip.
+2. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Set its bottom edge on the new floor line marked in visit 2, packed up on wedges. Stop it against the new door frame. Finish its top with the square grey plastic edge strip, the same as the shower wall.
+3. **The step at the door:** along with the skirting, tile the step's front face (50 mm high), cut from the skirting tiles' offcuts, At the step's top edge the face tile meets the tile on top of the step at an outside corner: finish it with the rounded grey plastic trim, its flange behind the face tile (the tile on top of the step stays as it is).
 4. **Floor:** lay it over the waterproofing, with the new slope, butting up against the shower wall tiles, the skirting, the step's face and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
@@ -237,14 +237,15 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | ตะแกรงท่อระบายน้ำกันกลิ่น / Floor drain grate (stops smells) | DEXZON 10 × 10 cm, 4" <https://www.homepro.co.th/p/1240420> | 1240420 | 1 | **มีแล้ว / Have it** | ฿119 | ฿119 |
 | กาวปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (works over old tiles) | Crocodile Gold 20 kg <https://www.homepro.co.th/p/14428> | 14428 | ประมาณ 3 ถุง / about 3 bags | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
 | ยาแนว สีเทา / Grout, grey | Crocodile Premium Plus 1 kg, coral grey <https://www.homepro.co.th/p/138784> | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
-| คิ้ว PVC สีเทา (ขอบบนผนังฝักบัว และขอบขั้น) / Grey plastic edge strip (top of the shower wall, and the step's edge) | TARA PVC 10 mm, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 3 เส้น / 3 strips | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
+| คิ้ว PVC เหลี่ยม สีเทา (ขอบบนผนังฝักบัว 2.5 ม. และขอบบนบัวเชิงผนัง 4.56 ม.) / Square grey plastic edge strip (top of the shower wall, 2.5 m, and top of the skirting, 4.56 m) | TARA PVC 10 mm, square, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 4 เส้น / 4 strips | ต้องซื้อ / To buy | ฿97.60 | ฿390 |
+| คิ้ว PVC โค้ง สีเทา (มุมนอกที่ขอบขั้น 0.7 ม.) / Rounded grey plastic trim (the step's outside corner, 0.7 m) | TARA PVC 10 mm, rounded, 2 m, grey <https://www.homepro.co.th/p/1248284> | 1248284 | 1 เส้น / 1 strip | ต้องซื้อ / To buy | ฿106.40 | ฿106 |
 | ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง) / Anti-mould silicone, grey (floor-to-wall corners) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,567** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,770** |
 
-ราคาเช็ค 31 ต.ค. 2569 ซิลิโคนเช็ค 16 พ.ย. 2569 (หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
+ราคาเช็ค 31 ต.ค. 2569 ซิลิโคนและคิ้วโค้งเช็ค 16 พ.ย. 2569 (หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
 
-Prices checked 31 Oct 2026; the silicone 16 Nov 2026 (its page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
+Prices checked 31 Oct 2026; the silicone and the rounded trim 16 Nov 2026 (its page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
 
 ## ครั้งที่ 5 — ทาสี / Visit 5 — Painting
 
