@@ -72,18 +72,19 @@ The new door is a **UPVC door-and-frame set**, 70 × 200 cm. The old door and fr
 
 ## ลำดับงาน / The order of work
 
-งานบางอย่างต้องรอให้แห้งก่อน จึงแบ่งเป็น 6 ครั้ง:
+งานบางอย่างต้องรอให้แห้งก่อน จึงแบ่งเป็น 7 ครั้ง:
 
-Some things have to dry before the next step, so the work comes in 6 visits:
+Some things have to dry before the next step, so the work comes in 7 visits:
 
 | ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait for |
 |---|---|---|
-| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้งก่อนปูกระเบื้อง — ดูจำนวนวันบนถุงกาวปูกระเบื้อง / the plaster to dry before tiling — the tile adhesive bag says how many days |
-| 2 | ใส่วงกบประตูใหม่ ปูผนังฝักบัว แล้วปูพื้นและขั้นที่ประตู / Fit the new door frame, tile the shower wall, then the floor and the step at the door | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
-| 3 | ปูบัวเชิงผนัง / Tile the skirting | กาวแห้ง / the adhesive to set |
-| 4 | ยาแนว / Grout all the tiles | ยาแนวแห้ง / the grout to set |
-| 5 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
-| 6 | ติดตั้งของทั้งหมด แล้วแขวนบานประตูใหม่ / Fit everything, then hang the new door | — |
+| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงกันซึม / the plaster to dry, as the waterproofing bag says |
+| 2 | ใส่วงกบประตูใหม่ แล้วทากันซึม / Fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
+| 3 | ปูผนังฝักบัว แล้วปูพื้นและขั้นที่ประตู / Tile the shower wall, then the floor and the step at the door | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
+| 4 | ปูบัวเชิงผนัง / Tile the skirting | กาวแห้ง / the adhesive to set |
+| 5 | ยาแนว แล้วยิงซิลิโคนที่มุม / Grout, then silicone the corners | ยาแนวและซิลิโคนแห้ง / the grout and silicone to set |
+| 6 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
+| 7 | ติดตั้งของทั้งหมด แล้วแขวนบานประตูใหม่ / Fit everything, then hang the new door | — |
 
 ## ครั้งที่ 1 — รื้อของเก่า / Visit 1 — Take the old things out
 
@@ -92,8 +93,8 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - วาล์วน้ำและสายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 - ฝ้าเพดานและโคมไฟ — หุ้มโคมด้วยถุงพลาสติกระหว่างทำงาน
 
-**ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 6):
-- เหล็กดัดหน้าต่าง (จะทาสีในครั้งที่ 5)
+**ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 7):
+- เหล็กดัดหน้าต่าง (จะทาสีในครั้งที่ 6)
 - เครื่องทำน้ำอุ่น — **ปิดเบรกเกอร์ก่อน** ปิดน้ำ แล้วถอดออก พันเทปปลายสายไฟ
 - ฝักบัวและราวฝักบัว
 - ที่วางสบู่
@@ -110,8 +111,8 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - The toilet's water valve and hose. They go on the new toilet.
 - The ceiling and the light. Wrap the light in a plastic bag while you work.
 
-**Take off and keep safe** (they go back on in visit 6):
-- The window's steel security screen. It gets painted in visit 5.
+**Take off and keep safe** (they go back on in visit 7):
+- The window's steel security screen. It gets painted in visit 6.
 - The water heater. **Switch its breaker off first**, turn off the water, then take it down. Tape over the bare wire ends.
 - The shower and its rail.
 - The soap holder.
@@ -137,7 +138,39 @@ Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and 
 
 Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delivery area; this uses the highest.
 
-## ครั้งที่ 2, 3 และ 4 — ปูกระเบื้อง / Visits 2, 3 and 4 — Tiling
+## ครั้งที่ 2 — วงกบประตูและกันซึม / Visit 2 — Door frame and waterproofing
+
+เมื่อปูนฉาบแห้งแล้ว:
+1. **กำหนดระดับพื้นใหม่** พร้อมความลาด (ดู "ความลาดเอียงของพื้น" ในครั้งที่ 3) แล้วขีดไว้ที่ผนัง
+2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคน ติดเทปป้องกันวงกบไว้จนจบงาน
+3. **กันซึม:** ทาซีเมนต์กันซึม 2 รอบ (รอบที่สองทาขวางรอบแรก รอให้รอบแรกแห้งตามที่เขียนบนถุง)
+   - **ผนังฝักบัว:** เต็มผนัง สูงถึงแนวกระเบื้อง 2 เมตร
+   - **พื้น:** เต็มพื้น ทาทับกระเบื้องเดิม และทาขึ้นผนังอีก 3 ด้านสูง 15 ซม. ถึงขาวงกบประตู
+   - **มุมผนังชนผนัง มุมผนังชนพื้น รอบท่อน้ำ และรอบท่อระบายน้ำ:** ฝังตาข่ายไฟเบอร์ในรอบแรก
+
+When the plaster is dry:
+1. **Work out the new floor's height** with its slope (see "The floor's slope" in visit 3), and mark it on the walls.
+2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam, then seal it with silicone. Tape over the frame to protect it until the end of the job.
+3. **Waterproofing:** 2 coats of waterproofing cement, the second across the first. Let the first dry as the bag says.
+   - **Shower wall:** the whole wall, up to the 2 m tile line.
+   - **Floor:** the whole floor, over the old tiles, and 15 cm up the other 3 walls, up to the door frame's legs.
+   - **Wall-to-wall corners, wall-to-floor corners, round the water pipes and round the drain:** bed fibre mesh into the first coat.
+
+**แล้ว:** รอให้กันซึมแห้งก่อนปูกระเบื้อง ตามที่เขียนบนถุง
+
+**Then:** let the waterproofing dry before tiling, as the bag says.
+
+| ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
+|---|---|---|---|---|---|---|
+| ซีเมนต์กันซึม / Waterproofing cement | [Crocodile FLEX SHIELD, 20 kg, grey](https://www.homepro.co.th/p/271155) | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| ตาข่ายไฟเบอร์ / Fibre mesh | [Crocodile fibre mesh, 0.2 × 10 m](https://www.homepro.co.th/p/1271924) | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,169** |
+
+ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
+
+Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on the bag that 1 bag covers about 9 m² in 2 coats.
+
+## ครั้งที่ 3, 4 และ 5 — ปูกระเบื้อง / Visits 3, 4 and 5 — Tiling
 
 ใช้กระเบื้องสีเทาแบบเดียวกันทั้งหมด ขนาด 50 × 50 ซม. กล่องละ 4 แผ่น
 
@@ -145,18 +178,16 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว ([ที่มา](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor) ตรวจสอบ 1 พ.ย. 2569)
 
-**ครั้งที่ 2 — วงกบประตู ผนังฝักบัว แล้วพื้น:**
-1. **กำหนดระดับพื้นใหม่** พร้อมความลาด แล้วขีดไว้ที่ผนัง
-2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคน ติดเทปป้องกันวงกบไว้จนจบงาน
-3. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
-4. **พื้น:** ปูทับกระเบื้องเดิม ตามความลาดใหม่ ชนกระเบื้องผนังและขาวงกบ ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
-5. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+**ครั้งที่ 3 — ผนังฝักบัวก่อน แล้วพื้น:**
+1. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
+2. **พื้น:** ปูทับกันซึม ตามความลาดใหม่ ชนกระเบื้องผนังและขาวงกบ ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
+3. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
-**ครั้งที่ 3 — บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. บนพื้นใหม่ ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดชนวงกบประตูใหม่
+**ครั้งที่ 4 — บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. บนพื้นใหม่ ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดชนวงกบประตูใหม่
 
-**ครั้งที่ 4 — ยาแนว:** ยาแนวทุกร่อง รวมมุมที่พื้นชนผนังและบัวเชิงผนัง **ห้ามใช้ซิลิโคน**
+**ครั้งที่ 5 — ยาแนว แล้วซิลิโคน:** ยาแนวร่องกระเบื้องทุกร่อง แต่**เว้นมุม**ที่พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง และตามขั้นที่ประตู เมื่อยาแนวแห้ง ยิงซิลิโคนสีเทากันเชื้อราที่มุมเหล่านี้ (มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก)
 
 **วิธีปู:**
 - ใช้กาวซีเมนต์สำหรับปูกระเบื้อง ไม่ใช้ปูนทราย
@@ -169,18 +200,16 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray ([source](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor), checked 1 Nov 2026).
 
-**Visit 2 — the door frame, the shower wall, then the floor:**
-1. **Work out the new floor's height** with its slope, and mark it on the walls.
-2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam, then seal it with silicone. Tape over the frame to protect it until the end of the job.
-3. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
-4. **Floor:** lay it over the old tiles, with the new slope, butting up against the wall tiles and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
-5. **The step at the door:** tile its front face (50 mm high), then fit the grey plastic edge strip along its edge.
+**Visit 3 — the shower wall first, then the floor:**
+1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
+2. **Floor:** lay it over the waterproofing, with the new slope, butting up against the wall tiles and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
+3. **The step at the door:** tile its front face (50 mm high), then fit the grey plastic edge strip along its edge.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
-**Visit 3 — skirting:** a 10 cm strip of tile, standing on the new floor, along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it against the new door frame.
+**Visit 4 — skirting:** a 10 cm strip of tile, standing on the new floor, along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it against the new door frame.
 
-**Visit 4 — grout:** fill every joint, including where the floor meets the walls and the skirting. **No silicone.**
+**Visit 5 — grout, then silicone:** grout every tile joint, but **leave open the corners** where the floor meets the shower wall and the skirting, and along the step at the door. When the grout has set, fill those corners with grey anti-mould silicone. (Those corners move slightly, and grout there cracks.)
 
 **How:**
 - Use cement tile adhesive, not sand-and-cement mortar.
@@ -209,14 +238,15 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | กาวปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (works over old tiles) | [Crocodile Gold 20 kg](https://www.homepro.co.th/p/14428) | 14428 | ประมาณ 3 ถุง / about 3 bags | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
 | ยาแนว สีเทา / Grout, grey | [Crocodile Premium Plus 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
 | คิ้ว PVC สีเทา (ขอบบนผนังฝักบัว และขอบขั้น) / Grey plastic edge strip (top of the shower wall, and the step's edge) | [TARA PVC 10 mm, 2 m, grey](https://www.homepro.co.th/p/1298008) | 1298008 | 3 เส้น / 3 strips | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
+| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง) / Anti-mould silicone, grey (floor-to-wall corners) | [SISTA S19, 300 ml, grey](https://www.homepro.co.th/p/1120475) | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,279** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,567** |
 
-ราคาเช็ค 31 ต.ค. 2569
+ราคาเช็ค 31 ต.ค. 2569 ซิลิโคนเช็ค 16 พ.ย. 2569 (หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
 
-Prices checked 31 Oct 2026.
+Prices checked 31 Oct 2026; the silicone 16 Nov 2026 (its page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
 
-## ครั้งที่ 5 — ทาสี / Visit 5 — Painting
+## ครั้งที่ 6 — ทาสี / Visit 6 — Painting
 
 ก่อนทาสี: ติดเทปที่ขอบกระเบื้องและบัวเชิงผนัง แล้วคลุมพื้นใหม่
 
@@ -242,7 +272,7 @@ Before you paint: tape along the edges of the tiles and the skirting, and cover 
 
 Prices checked 16 Nov 2026.
 
-## ครั้งที่ 6 — ติดตั้ง / Visit 6 — Fitting everything
+## ครั้งที่ 7 — ติดตั้ง / Visit 7 — Fitting everything
 
 **ติดของเดิมกลับ** (ที่ถอดเก็บไว้ในครั้งที่ 1):
 - **เครื่องทำน้ำอุ่นและฝักบัว:** ที่เดิม ถ้าต้องเจาะกระเบื้องใช้ดอกเจาะกระเบื้อง ต่อน้ำก่อน แล้วต่อไฟ **เปิดเบรกเกอร์เมื่อต่อเสร็จและตรวจแล้วเท่านั้น** เปลี่ยนสายน้ำพลาสติกสีดำเดิมเป็นสายสแตนเลสใหม่ (ดูว่าเกลียว ½" เข้ากันได้ทั้งสองด้าน)
@@ -289,7 +319,7 @@ Prices checked 16 Nov 2026.
 
 To-buy prices checked on HomePro 5 Nov 2026.
 
-## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
+## ครั้งที่ 7 (ต่อ) — ประตูใหม่ / Visit 7 (continued) — The new door
 
 ซื้อชุดประตูก่อนครั้งที่ 2: วงกบใส่ในครั้งที่ 2 บานประตูแขวนเป็นงานสุดท้าย
 
@@ -303,14 +333,14 @@ Buy the set before visit 2: the frame goes in at visit 2, and the door is hung l
 
 ราคาเช็คที่โฮมโปร: ชุดประตู 16 พ.ย. 2569 ลูกบิด 5 พ.ย. 2569 หน้าสินค้าชุดประตูไม่ได้บอกว่ามีบานพับมาด้วยหรือไม่ — ถ้าไม่มี ซื้อ [บานพับสแตนเลส YALE 304](https://www.homepro.co.th/p/1123585) ฿199
 
-**แขวนประตู (ครั้งที่ 6):**
+**แขวนประตู (ครั้งที่ 7):**
 1. แกะเทปป้องกันออกจากวงกบ
 2. ตัดบานประตูให้สั้นลงเท่ากับที่ตัดขาวงกบ ขัดขอบ แล้วปิดส่วนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
 3. แขวนประตู เจาะรูลูกบิด แล้วใส่ลูกบิด
 
 Prices checked on HomePro: the set 16 Nov 2026, the knob 5 Nov 2026. The set's page doesn't say whether hinges come with it. If they don't, buy [YALE 304 stainless hinges](https://www.homepro.co.th/p/1123585), ฿199.
 
-**Hanging the door (visit 6):**
+**Hanging the door (visit 7):**
 1. Take the protective tape off the frame.
 2. Cut the door shorter by the same amount the frame's legs were cut. Sand the cut, then close the open edge with a PVC strip or silicone.
 3. Hang the door, drill it for the knob, and fit the knob.
@@ -323,22 +353,23 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 
 ### สรุป / The short answer
 
-- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿7,500**
-- **ราคาจริงน่าจะสูงกว่านี้** บัญชีนี้ตั้งราคาสำหรับงานใหญ่ ไม่ได้รวมเวลารอระหว่างแต่ละครั้ง หรือการเข้างาน 6 ครั้งสำหรับห้องเล็ก
-- **คิดเป็นรายวัน:** งานนี้ประมาณ **7.5 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 7.5 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
+- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿8,400**
+- **ราคาจริงน่าจะสูงกว่านี้** บัญชีนี้ตั้งราคาสำหรับงานใหญ่ ไม่ได้รวมเวลารอระหว่างแต่ละครั้ง หรือการเข้างาน 7 ครั้งสำหรับห้องเล็ก
+- **คิดเป็นรายวัน:** งานนี้ประมาณ **8.5 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 8.5 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
 
-- **The government rate book puts the labour at about ฿7,500.**
-- **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 6 times for a small room.
-- **By the day:** the job is about **7.5 working days**, often with a helper. A fair price is about 7.5 day rates (plus the helper's), plus the fee for dumping the rubble.
+- **The government rate book puts the labour at about ฿8,400.**
+- **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 7 times for a small room.
+- **By the day:** the job is about **8.5 working days**, often with a helper. A fair price is about 8.5 day rates (plus the helper's), plus the fee for dumping the rubble.
 
 | ครั้ง / Visit | งาน / Work | วัน / Days |
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster | 2 |
-| 2 | ใส่วงกบประตู ปูผนังฝักบัว แล้วปูพื้น / Fit the door frame, tile the shower wall, then the floor | 2 |
-| 3 | ปูบัวเชิงผนัง / Tile the skirting | 0.5 |
-| 4 | ยาแนว / Grout | 0.5 |
-| 5 | ทาสี / Paint | 1 |
-| 6 | ติดตั้งทั้งหมด และประตูใหม่ / Fit everything, and the new door | 1.5 |
+| 2 | ใส่วงกบประตู แล้วทากันซึม / Fit the door frame, then waterproof | 1 |
+| 3 | ปูผนังฝักบัว แล้วปูพื้น / Tile the shower wall, then the floor | 2 |
+| 4 | ปูบัวเชิงผนัง / Tile the skirting | 0.5 |
+| 5 | ยาแนว แล้วซิลิโคน / Grout, then silicone | 0.5 |
+| 6 | ทาสี / Paint | 1 |
+| 7 | ติดตั้งทั้งหมด และประตูใหม่ / Fit everything, and the new door | 1.5 |
 
 ### ราคาตามบัญชีค่าแรงงาน แยกตามครั้ง / The rate book's price, visit by visit
 
@@ -354,11 +385,12 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 |---|---|---|---|
 | 1 | รื้อของเก่า / Take the old things out | ฿886 | ฿1,081 |
 | 1 | ฉาบผนัง / Plaster the walls | ฿950 | ฿1,159 |
-| 2–4 | วงกบประตู และปูกระเบื้อง / The door frame, and tiling | ฿1,856 | ฿2,264 |
-| 5 | ทาสี / Painting | ฿474 | ฿578 |
-| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,576 | ฿1,923 |
-| 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวมทั้งหมด / Total** | | **฿7,505** |
+| 2 | วงกบประตู และกันซึม / The door frame, and waterproofing | ฿795 | ฿970 |
+| 3–5 | ปูกระเบื้อง และซิลิโคน / Tiling, and silicone | ฿1,798 | ฿2,193 |
+| 6 | ทาสี / Painting | ฿474 | ฿578 |
+| 7 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,576 | ฿1,923 |
+| 7 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
+| | **รวมทั้งหมด / Total** | | **฿8,404** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -379,18 +411,26 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 |---|---|---|---|---|
 | ฉาบผนังส่วนที่รื้อกระเบื้องออก / Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 ต่อ ตร.ม. / a m² | ฿950 |
 
-#### ครั้งที่ 2, 3 และ 4 — วงกบประตู และปูกระเบื้อง / Visits 2, 3 and 4 — the door frame, and tiling
+#### ครั้งที่ 2 — วงกบประตู และกันซึม / Visit 2 — the door frame, and waterproofing
 
 | งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
 | ติดตั้งวงกบประตูใหม่ (0.70 × 2.0 ม.) / Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 ต่อ ตร.ม. / a m² | ฿144 |
+| ทากันซึม (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของค่าวัสดุ ฿2,169) / Waterproofing (not in the book, so the book's rule: 30% of its materials, ฿2,169) | note 1, p. 45 | 30% | ฿2,169 | ฿651 |
+| **รวม / Total** | | | | **฿795** |
+
+#### ครั้งที่ 3, 4 และ 5 — ปูกระเบื้อง และซิลิโคน / Visits 3, 4 and 5 — tiling, and silicone
+
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
+|---|---|---|---|---|
 | ปูกระเบื้องพื้น รวมด้านตั้งของขั้น / Floor tiles, including the step's front face | 2.4.6, p. 10 | 3.5 m² | ฿178 ต่อ ตร.ม. / a m² | ฿623 |
 | ติดตะแกรงท่อระบายน้ำ / The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
 | กระเบื้องผนังฝักบัว 2.5 × 2.0 ม. / Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 ต่อ ตร.ม. / a m² | ฿920 |
 | บัวเชิงผนัง 4.56 ม. × 10 ซม. / Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 ต่อ ตร.ม. / a m² | ฿92 |
-| **รวม / Total** | | | | **฿1,856** |
+| ยิงซิลิโคนที่มุม (ไม่มีในบัญชี: 30% ของค่าวัสดุ ฿288) / Silicone in the corners (not in the book: 30% of its materials, ฿288) | note 1, p. 45 | 30% | ฿288 | ฿86 |
+| **รวม / Total** | | | | **฿1,798** |
 
-#### ครั้งที่ 5 — ทาสี / Visit 5 — painting
+#### ครั้งที่ 6 — ทาสี / Visit 6 — painting
 
 อัตราทาสีในบัญชีรวมสีรองพื้น 1 รอบ และสีทับหน้า 2 รอบ
 
@@ -406,7 +446,7 @@ The book's painting rate includes a primer coat and 2 top coats.
 
 Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²), the window (0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**. The screen is painted on both sides: 2 × 0.24 m² = about **0.5 m²**.
 
-#### ครั้งที่ 6 — ติดตั้งทั้งหมด และแขวนประตู / Visit 6 — fitting everything, and hanging the door
+#### ครั้งที่ 7 — ติดตั้งทั้งหมด และแขวนประตู / Visit 7 — fitting everything, and hanging the door
 
 | งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
