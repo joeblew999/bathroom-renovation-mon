@@ -37,7 +37,7 @@ The long wall with the shower and the basin is tiled grey, 2.0 m high. The other
 
 | # | ขั้นตอน / Phase | ใคร / Who | งาน / What |
 |---|---|---|---|
-| 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ล้างคิ้วบนสเต็ป ป้องกันของที่เก็บไว้ / Take off the screen, clean the step's trim, protect what stays |
+| 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ป้องกันของที่เก็บไว้ / Take off the screen, protect what stays |
 | 2 | รื้อถอน / Strip out | ช่างปูกระเบื้อง / Tiler | ถอดของบนผนังเก็บไว้ รื้อกระเบื้องผนังเดิมทั้งหมด / Take the wall fittings off and keep them, strip all the old wall tiles |
 | 3 | ฉาบปูน / Plastering | ช่างปูกระเบื้อง / Tiler | ฉาบผนังที่รื้อกระเบื้องออก / Plaster the walls the tiles came off |
 | 4 | ปูกระเบื้อง / Tiling | ช่างปูกระเบื้อง / Tiler | พื้น สเต็ป ผนังฝักบัว และบัวเชิงผนัง 2 ครั้ง: ปู แล้วยาแนว / Floor, step, shower wall and skirting, 2 visits: lay, then grout |
@@ -70,10 +70,6 @@ Before anything else.
 
 **Take off:** the window's steel security screen — keep it safe; it is painted in phase 5 and goes back on in phase 6.
 
-**ล้าง:** คิ้วพลาสติกสีชมพู/ม่วงบนสเต็ป — มีสีเก่าและคราบสกปรกติดอยู่ (คิ้วบนผนังรื้อออกพร้อมกระเบื้องในขั้นที่ 2)
-
-**Clean:** the pink/purple plastic edge trim on top of the step — it has old paint and dirt on it. (The trims on the walls come off with the tiles in phase 2.)
-
 **ป้องกันของที่เก็บไว้** เทปและพลาสติกติดไว้ตลอดงาน **เจ้าของบ้านแกะออกเอง**เมื่องานเสร็จ:
 
 **Protect what stays.** The tape and plastic stay on for the whole job; **the owner takes them off** when the job is done:
@@ -103,9 +99,9 @@ Before anything else.
 
 Then remove **everything else**. Everything in the "Stays" table (phase 1) stays:
 
-- **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน สูง 1.4 ม. พร้อมคิ้วพลาสติกสีชมพูบนผนัง รื้อถึงเนื้อผนัง ระวังท่อน้ำที่ผนัง
+- **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน สูง 1.4 ม. พร้อมคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนสเต็ป รื้อถึงเนื้อผนัง ระวังท่อน้ำที่ผนัง
 
-  **All the old wall tiles**, on all 4 walls, 1.4 m high, with the pink plastic trims on the walls, down to the bare wall. Mind the pipes in the wall.
+  **All the old wall tiles**, on all 4 walls, 1.4 m high, with all the pink plastic trims, on the walls and on the step, down to the bare wall. Mind the pipes in the wall.
 - ชักโครกและอ่างล้างหน้าเดิม — ถอดขาแขวนอ่างเดิมออกพร้อมอ่าง เป็นสนิมแล้ว
 
   The old toilet and basin — take the old basin's wall brackets off with it; they have rusted.
@@ -126,9 +122,9 @@ Price checked 2026-11-16 (the page shows ฿79–185 by delivery area; this uses
 
 ### 4. ปูกระเบื้อง / Tiling
 
-ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม ปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป แล้วปูผนังฝักบัวและบัวเชิงผนัง
+ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม ปูลูกตั้งสเต็ป (ด้านตั้ง) และปิดขอบสเต็ปด้วยคิ้ว PVC สีเทา แล้วปูผนังฝักบัวและบัวเชิงผนัง
 
-Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step, then the shower wall and the skirting.
+Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, tile the step's riser (its upright face) and finish the step's edge with the grey PVC trim, then the shower wall and the skirting.
 
 **ปูกระเบื้อง 2 ครั้ง:**
 1. **ครั้งที่ 1 — ปู:** พื้น ลูกตั้งสเต็ป และตะแกรงท่อระบายน้ำ แล้วผนังฝักบัวและบัวเชิงผนัง
@@ -190,9 +186,9 @@ The long wall with the shower and the basin, 2,500 mm, tiled **2,000 mm high fro
 | ตะแกรงท่อระบายน้ำกันกลิ่น / Anti-odour floor drain grate | [DEXZON 10 × 10 cm, 4"](https://www.homepro.co.th/p/1240420) | 1240420 | 1 | **ซื้อแล้ว / Bought** | ฿119 | ฿119 |
 | กาวซีเมนต์ปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (suits tiling over old tiles) | [Crocodile Gold 20 kg](https://www.homepro.co.th/p/14428) | 14428 | 3 ถุง (ประมาณ) / 3 bags (estimate) | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
 | ยาแนว สีเทาปะการัง / Grout, coral grey | [Crocodile Premium Plus 1 kg](https://www.homepro.co.th/p/138784) | 138784 | 2 ถุง (ประมาณ) / 2 bags (estimate) | ต้องซื้อ / To buy | ฿63 | ฿126 |
-| คิ้วกระเบื้อง สีเทา (ขอบบนผนังฝักบัว) / Tile trim, grey (the shower wall's top edge) | [TARA PVC 10 mm, 2 m, square edge, grey](https://www.homepro.co.th/p/1298008) | 1298008 | 2 เส้น / 2 lengths | ต้องซื้อ / To buy | ฿97.60 | ฿195 |
+| คิ้วกระเบื้อง สีเทา (ขอบบนผนังฝักบัว และขอบสเต็ป) / Tile trim, grey (the shower wall's top edge, and the step's edge) | [TARA PVC 10 mm, 2 m, square edge, grey](https://www.homepro.co.th/p/1298008) | 1298008 | 3 เส้น / 3 lengths | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
 | | | | | **ซื้อแล้ว / Bought** | | **฿746** |
-| | | | | **ต้องซื้อ / To buy** | | **฿4,181** |
+| | | | | **ต้องซื้อ / To buy** | | **฿4,279** |
 
 ราคาตรวจสอบ 2026-10-31
 
