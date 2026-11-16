@@ -7,16 +7,17 @@ This is a guide price for the tiler's work on the [small bathroom](README.md), s
 ## The short answer
 
 - **The government rate book puts the labour at about ฿7,200.**
-- **Expect his real price to be higher.** The book's rates are set for big jobs. It doesn't pay for the waiting between visits, or for him coming back 5 times for a small room.
-- **A better check is by the day.** The job is about **7 working days**, often with a helper. A fair price is about 7 of his day rates (plus his helper's), plus the fee for dumping the rubble.
+- **Expect his real price to be higher.** The book's rates are set for big jobs. It doesn't pay for the waiting between visits, or for him coming back 6 times for a small room.
+- **A better check is by the day.** The job is about **7½ working days**, often with a helper. A fair price is about 7½ of his day rates (plus his helper's), plus the fee for dumping the rubble.
 
 | Visit | Work | Days |
 |---|---|---|
 | 1 | Take the old things out, then plaster | 2 |
-| 2 | Lay the tiles | 2 |
-| 3 | Grout | ½ |
-| 4 | Paint | 1 |
-| 5 | Fit everything, and the new door | 1½ |
+| 2 | Tile the shower wall, then the floor | 2 |
+| 3 | Tile the skirting | ½ |
+| 4 | Grout | ½ |
+| 5 | Paint | 1 |
+| 6 | Fit everything, and the new door | 1½ |
 
 ## The rate book's price, visit by visit
 
@@ -28,10 +29,10 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 |---|---|---|---|
 | 1 | Take the old things out | ฿796 | ฿971 |
 | 1 | Plaster the walls | ฿950 | ฿1,159 |
-| 2–3 | Tiling | ฿1,712 | ฿2,088 |
-| 4 | Painting | ฿474 | ฿578 |
-| 5 | Fitting everything, and the door | ฿1,576 | ฿1,923 |
-| 5 | Putting the water heater back (HomePro's own price, already includes their overheads) | | ฿500 |
+| 2–4 | Tiling | ฿1,712 | ฿2,088 |
+| 5 | Painting | ฿474 | ฿578 |
+| 6 | Fitting everything, and the door | ฿1,576 | ฿1,923 |
+| 6 | Putting the water heater back (HomePro's own price, already includes their overheads) | | ฿500 |
 | | **Total** | | **฿7,219** |
 
 ### Visit 1 — take the old things out
@@ -50,7 +51,7 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 |---|---|---|---|---|
 | Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 a m² | ฿950 |
 
-### Visits 2 and 3 — tiling
+### Visits 2, 3 and 4 — tiling
 
 | Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
@@ -60,7 +61,7 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 | Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 a m² | ฿92 |
 | | | | | **฿1,712** |
 
-### Visit 4 — painting
+### Visit 5 — painting
 
 The book's painting rate includes a primer coat and 2 top coats.
 
@@ -72,7 +73,7 @@ The book's painting rate includes a primer coat and 2 top coats.
 
 Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²), the window (0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**. The screen is painted on both sides: 2 × 0.24 m² = about **0.5 m²**.
 
-### Visit 5 — fitting everything, and the door
+### Visit 6 — fitting everything, and the door
 
 | Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
