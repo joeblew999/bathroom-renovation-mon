@@ -1,92 +1,98 @@
-# Small bathroom — labour
+# Small bathroom — what the labour should cost
 
-Date: 5 Nov 2026
+Date: 5 Nov 2026 (updated 16 Nov 2026)
 
-A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the tiler's quote against: the tiler does all the work. The materials are the owner's and are not in it.
+This is a guide price for the tiler's work on the [small bathroom](README.md), so you can tell whether his quote is fair. It covers his work only. You buy the materials, so they're not in it.
 
-The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the tiler's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor, and 2.8 m to the ceiling. The ceiling and its light stay as they are, so there is no ceiling work.
+## The short answer
 
-## Summary
+- **The government rate book puts the labour at about ฿7,200.**
+- **Expect his real price to be higher.** The book's rates are set for big jobs. It doesn't pay for the waiting between visits, or for him coming back 5 times for a small room.
+- **A better check is by the day.** The job is about **7 working days**, often with a helper. A fair price is about 7 of his day rates (plus his helper's), plus the fee for dumping the rubble.
 
-| Phase | Who | Bare labour | With Factor F |
+| Visit | Work | Days |
+|---|---|---|
+| 1 | Take the old things out, then plaster | 2 |
+| 2 | Lay the tiles | 2 |
+| 3 | Grout | ½ |
+| 4 | Paint | 1 |
+| 5 | Fit everything, and the new door | 1½ |
+
+## The rate book's price, visit by visit
+
+The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). Each line below gives its item number and page in the book.
+
+The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 1 Nov 2026). The right-hand column includes that.
+
+| Visit | Work | Bare wages | With overheads and profit |
 |---|---|---|---|
-| 1. Strip out | Tiler | ฿796 | ฿971 |
-| 2. Plastering | Tiler | ฿950 | ฿1,159 |
-| 3. Tiling | Tiler, 2 visits | ฿1,712 | ฿2,088 |
-| 4. Painting | Tiler | ฿474 | ฿578 |
-| 5. Fit-out, and the door | Tiler | ฿1,576 | ฿1,923 |
-| Water heater refitted (HomePro's service price, already with its overheads, so no Factor F) | Tiler | | ฿500 |
-| **Total** | | **฿5,508** (+ the ฿500 heater) | **฿7,219** |
+| 1 | Take the old things out | ฿796 | ฿971 |
+| 1 | Plaster the walls | ฿950 | ฿1,159 |
+| 2–3 | Tiling | ฿1,712 | ฿2,088 |
+| 4 | Painting | ฿474 | ฿578 |
+| 5 | Fitting everything, and the door | ฿1,576 | ฿1,923 |
+| 5 | Putting the water heater back (HomePro's own price, already includes their overheads) | | ฿500 |
+| | **Total** | | **฿7,219** |
 
-These are government reference rates, worked out per unit of work for large jobs, so they come out low for a job this small. They don't pay for the waits between visits, or for each visit's travel and setting up. The tiler will most likely price it by the day or as a lump sum. The items under "Not priced yet" are still to be added.
+### Visit 1 — take the old things out
 
-**To check his price by the day:** the job is about 7 working days over the 5 visits — strip out and plaster 2, lay the tiles 2, grout ½, paint 1, fit-out and the door 1½ — often with a helper. A fair lump sum is about 7 of his day rates (and his helper's), plus the dumping fee.
-
-## The phases
-
-### 1. Strip out
-
-| Work | Book item | Qty | Rate | Labour |
+| Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
-| Remove the old toilet and the old basin | 2.9.37, p. 15 | 2 | ฿220 | ฿440 |
-| Strip the old wall tiles, all 4 walls, carried away | 2.9.14, p. 14 | 9.9 m² | ฿36 | ฿356 |
+| Remove the old toilet and basin | 2.9.37, p. 15 | 2 | ฿220 each | ฿440 |
+| Strip the old wall tiles and take them away | 2.9.14, p. 14 | 9.9 m² | ฿36 a m² | ฿356 |
 | | | | | **฿796** |
 
-Old wall tiles: 1.4 m high, 7.76 m round the room = 10.86 m², less the door (0.70 × 1.4 m = 0.98 m²) = **9.9 m²**.
+The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the doorway (0.98 m²) = **9.9 m²**.
 
-### 2. Plastering
+### Visit 1 — plaster the walls
 
-| Work | Book item | Qty | Rate | Labour |
+| Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
-| Interior wall plaster, where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 | ฿950 |
+| Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 a m² | ฿950 |
 
-### 3. Tiling
+### Visits 2 and 3 — tiling
 
-| Work | Book item | Qty | Rate | Labour |
+| Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
-| Floor tiling, 18 × 18" to 24 × 24" (the tiles are 50 × 50 cm), with the step riser | 2.4.6, p. 10 | 3.5 m² | ฿178 | ฿623 |
-| Set the floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
-| Wall tiling, 18 × 18" and up: the shower wall, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 | ฿920 |
-| Wall tiling, 18 × 18" and up: the skirting, 4.56 m × 0.1 m | 2.3.1.3, p. 8 | 0.5 m² | ฿184 | ฿92 |
+| Floor tiles, including the step's front face | 2.4.6, p. 10 | 3.5 m² | ฿178 a m² | ฿623 |
+| The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
+| Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 a m² | ฿920 |
+| Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 a m² | ฿92 |
 | | | | | **฿1,712** |
 
-### 4. Painting
+### Visit 4 — painting
 
-The book's rates include a primer coat and 2 finish coats.
+The book's painting rate includes a primer coat and 2 top coats.
 
-| Work | Book item | Qty | Rate | Labour |
+| Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
-| Walls above the tiles and the skirting, emulsion, inside | 2.8.1, p. 13 | 14.7 m² | ฿31 | ฿456 |
-| Security screen and window frame, anti-rust paint | 2.8.3, p. 13 | 0.5 m² | ฿36 | ฿18 |
+| The walls above the tiles and skirting | 2.8.1, p. 13 | 14.7 m² | ฿31 a m² | ฿456 |
+| The window's security screen and frame | 2.8.3, p. 13 | 0.5 m² | ฿36 a m² | ฿18 |
 | | | | | **฿474** |
 
-Walls: 7.76 m round the room × 2.8 m = 21.73 m², less the door (0.70 × 1.95 m = 1.37 m²), the window (0.40 × 0.60 m = 0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**.
+Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²), the window (0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**. The screen is painted on both sides: 2 × 0.24 m² = about **0.5 m²**.
 
-Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is painted on both faces = 0.48 m², which rounds to **0.5 m²**, frame included.
+### Visit 5 — fitting everything, and the door
 
-### 5. Fit-out, and the door
-
-| Work | Book item | Qty | Rate | Labour |
+| Work | Book item | How much | Rate | Cost |
 |---|---|---|---|---|
-| Install the toilet | 2.6.1, p. 12 | 1 | ฿461 | ฿461 |
-| Install the basin with its tap and trap, complete | 2.6.6, p. 12 | 1 | ฿461 | ฿461 |
-| Install the stop valve | 2.6.26, p. 12 | 1 | ฿36 | ฿36 |
-| Fix the mirror and the shelf with towel rail, screw-fixed | 2.6.13, p. 12 | 2 | ฿72 | ฿144 |
-| Refit the shower and its rail, with its valve | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
-| Refit the soap holder, the toilet paper holder and the bidet spray's holder, screw-fixed | 2.6.13, p. 12 | 3 | ฿72 | ฿216 |
-| Water heater hose: not in the book, so 30% of its materials (฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
-| Hang the new door, ready-made, with hinges and knob (0.70 × 1.95 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 | ฿108 |
+| Fit the toilet | 2.6.1, p. 12 | 1 | ฿461 | ฿461 |
+| Fit the basin with its tap and drain pipe | 2.6.6, p. 12 | 1 | ฿461 | ฿461 |
+| Fit the water valve | 2.6.26, p. 12 | 1 | ฿36 | ฿36 |
+| Screw up the mirror and the shelf with towel rail | 2.6.13, p. 12 | 2 | ฿72 each | ฿144 |
+| Put the shower and its rail back | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
+| Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 each | ฿216 |
+| Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
+| Hang the new door with its hinges and knob (0.70 × 1.95 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 a m² | ฿108 |
 | | | | | **฿1,576** |
 
-The door rate is for hanging a ready-made leaf. Cutting the top off isn't priced separately.
+**Putting the water heater back:** HomePro's installation service, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). It's a shop price that already includes their overheads, so the × 1.2199 isn't added.
 
-**The water heater** goes back on its existing water and power, priced from HomePro's installation service, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 2026-11-01, as in the main quote's `labour.toml`). It is a shop's price, not a bare rate, so Factor F isn't added to it.
+## Not in the price — ask the tiler
 
-## Not priced yet
+The book has no rate for these:
 
-These have no rate in the book, so ask the tiler for a price:
-
-- **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it — now with the old wall tiles too.
-- **Taking the wall fittings off** at the strip-out: the security screen, the water heater, the shower and its rail, the soap holder, the toilet paper holder and the bidet spray's holder.
-- **Filling** the screw holes in the old wall above the tile line before painting.
-- **The door, beyond hanging it:** taking the old door off (the book only has a door removed with its frame), cutting and capping the top of the new one, moving the strike plate, and plugging the old hinge holes.
+- **Dumping the rubble.** The book's rates include carrying it away, but not the dump's fee. There's more rubble now, with the old wall tiles.
+- **Taking the wall fittings down** at the start: the security screen, the water heater, the shower and rail, the soap holder, the toilet paper holder and the bidet spray holder.
+- **Filling the screw holes** in the upper walls before painting.
+- **The extra door work:** taking the old door off, cutting the new door's top and closing it, moving the latch plate, and filling the old hinge holes.
