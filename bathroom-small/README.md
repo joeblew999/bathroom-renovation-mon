@@ -15,7 +15,7 @@ Location: Google Maps <https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA>
 เมื่อเสร็จแล้ว:
 - **พื้น:** กระเบื้องสีเทาใหม่ ปูทับกระเบื้องพื้นเดิมได้เลย
 - **ผนังฝักบัว** (ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า): รื้อกระเบื้องเดิมออก แล้วปูกระเบื้องสีเทาใหม่ สูง 2 เมตร
-- **ผนังอีก 3 ด้าน:** รื้อกระเบื้องเดิมออก ฉาบเรียบ ทาสีขาว และปูกระเบื้องสีเทาใหม่เป็นแถบล่างสูง 10 ซม. (บัวเชิงผนัง)
+- **ผนังอีก 3 ด้าน:** รื้อกระเบื้องเดิมออก ฉาบใหม่ด้านล่าง ฉาบบางทับปูนเดิมด้านบน ให้เรียบทั้งผนัง ทาสีขาว และปูกระเบื้องสีเทาใหม่เป็นแถบล่างสูง 10 ซม. (บัวเชิงผนัง)
 - **ฝ้าเพดานและโคมไฟ:** เหมือนเดิม ไม่ต้องทำอะไร
 - **ชักโครก อ่างล้างหน้า กระจก และประตู:** ของใหม่
 
@@ -24,7 +24,7 @@ We are redoing the existing bathroom. The room stays the same size. The tiler do
 When it's finished:
 - **Floor:** new grey tiles, laid straight over the old floor tiles.
 - **Shower wall** (the long wall with the shower and the basin): old tiles off, then new grey tiles, 2 m high.
-- **The other 3 walls:** old tiles off, then smooth plaster, painted white, with a 10 cm strip of new grey tile along the bottom (a skirting).
+- **The other 3 walls:** old tiles off, new plaster below and a skim coat over the old plaster above, smooth all over, painted white, with a 10 cm strip of new grey tile along the bottom (a skirting).
 - **Ceiling and light:** as they are. Don't touch them.
 - **Toilet, basin, mirror and door:** new.
 
@@ -79,7 +79,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 
 | ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait for |
 |---|---|---|
-| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงกันซึม / the plaster to dry, as the waterproofing bag says |
+| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงฉาบบางและถุงกันซึม / the plaster to dry, as the skim coat and waterproofing bags say |
 | 2 | ฉาบบางทับปูนเดิม ใส่วงกบประตูใหม่ แล้วทากันซึม / Skim the old plaster, fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
 | 3 | ปูผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตู แล้วปูพื้น / Tile the shower wall, the skirting and the step at the door, then the floor | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
 | 4 | ยาแนว / Grout | ยาแนวแห้ง / the grout to set |
@@ -150,7 +150,7 @@ Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and 
 
 Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delivery area; this uses the highest.
 
-## ครั้งที่ 2 — วงกบประตูและกันซึม / Visit 2 — Door frame and waterproofing
+## ครั้งที่ 2 — ฉาบบาง วงกบประตู และกันซึม / Visit 2 — Skim coat, door frame and waterproofing
 
 เมื่อปูนฉาบแห้งแล้ว:
 1. **ฉาบบาง** ผนังอีก 3 ด้าน ส่วนเหนือ 1.4 ม. ถึงเพดาน (ประมาณ 6.7 ตร.ม.) ปูนเดิมตรงนี้ผิวหยาบและทาสีไว้ ขัดสีเดิมให้ด้านก่อน แล้วฉาบบางทับ ให้เรียบเสมอกับปูนฉาบใหม่ด้านล่าง ผนังทั้งด้านจะได้ผิวเดียวกัน ไม่เห็นรอยต่อหลังทาสี
@@ -218,7 +218,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 **Visit 3 — the shower wall, the skirting and the step first, then the floor:**
 1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the square grey plastic edge strip.
 2. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Set its bottom edge on the new floor line marked in visit 2, packed up on wedges. Stop it against the new door frame. Finish its top with the square grey plastic edge strip, the same as the shower wall.
-3. **The step at the door:** along with the skirting, tile the step's front face (50 mm high), cut from the skirting tiles' offcuts, At the step's top edge the face tile meets the tile on top of the step at an outside corner: finish it with the rounded grey plastic trim, its flange behind the face tile (the tile on top of the step stays as it is).
+3. **The step at the door:** along with the skirting, tile the step's front face (50 mm high), cut from the skirting tiles' offcuts. At the step's top edge the face tile meets the tile on top of the step at an outside corner: finish it with the rounded grey plastic trim, its flange behind the face tile (the tile on top of the step stays as it is).
 4. **Floor:** lay it over the waterproofing, with the new slope, butting up against the shower wall tiles, the skirting, the step's face and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
@@ -265,14 +265,14 @@ Prices checked 31 Oct 2026; the rounded trim 16 Nov 2026.
 ก่อนทาสี: ติดเทปที่ขอบกระเบื้องและบัวเชิงผนัง แล้วคลุมพื้นใหม่
 
 1. **ทำความสะอาด** ผนัง วงกบหน้าต่าง และเหล็กดัด
-2. **อุดรูสกรู** ในผนังส่วนบน แล้วขัดให้เรียบ
+2. **อุดรูสกรู** ที่ยังเหลือในผนังเหนือกระเบื้อง แล้วขัดให้เรียบ
 3. **ผนัง** (ประมาณ 14.7 ตร.ม.): สีรองพื้นสำหรับปูนใหม่ 1 รอบ แล้วสีขาวทาภายนอก TOA 4 Seasons ที่มีอยู่ 2 รอบ
 4. **วงกบหน้าต่างและเหล็กดัด:** ใช้สีขาวที่มีอยู่แล้ว ทาเหล็กดัดตอนที่ยังถอดอยู่
 
 Before you paint: tape along the edges of the tiles and the skirting, and cover the new floor.
 
 1. **Clean** the walls, the window frame and the security screen.
-2. **Fill the screw holes** in the upper walls, and sand them smooth.
+2. **Fill any screw holes** still left in the walls above the tiles, and sand them smooth.
 3. **Walls** (about 14.7 m²): 1 coat of primer for new plaster, then 2 coats of the white TOA 4 Seasons exterior paint that's on site.
 4. **Window frame and security screen:** use the white paint that's already here. Paint the screen while it's still off the wall.
 
@@ -297,7 +297,7 @@ Prices checked 16 Nov 2026.
 - **วาล์วน้ำ:** ถอดปลั๊กอุดออก แล้วใส่วาล์วใหม่ทั้ง 3 ตัว ของชักโครก ของอ่างล้างหน้า และของเครื่องทำน้ำอุ่น พันเทปเกลียว ถ้าปลายท่ออยู่ลึกกว่าผิวผนังใหม่ ใส่ข้อต่อยืดให้วาล์วชิดผนังพอดี แล้วบอกเจ้าของบ้านว่าต้องซื้ออะไร
 - **อ่างล้างหน้า:** ขอบบนอ่างสูง **900 มม. จากพื้นใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อเดิมที่ผนัง
 - **กระจก:** อยู่กึ่งกลางอ่าง จุดกึ่งกลางกระจกสูง **1,600 มม. จากพื้นใหม่** เจาะกระเบื้องด้วยดอกเจาะกระเบื้อง ไม่เจาะตรงร่องยาแนว
-- **ชักโครก:** พื้นใหม่สูงขึ้น ท่อน้ำทิ้งที่พื้นจึงต่ำกว่าพื้นเล็กน้อย ตรวจว่าชักโครกต่อกับท่อแน่นไม่รั่ว ใช้แหวนยางในกล่องชักโครก ถ้ายังไม่ถึงท่อ ใช้ข้อต่อเสริมความสูง
+- **ชักโครก:** พื้นใหม่สูงขึ้น ท่อน้ำทิ้งที่พื้นจึงต่ำกว่าพื้นเล็กน้อย ตรวจว่าชักโครกต่อกับท่อแน่นไม่รั่ว ใช้แหวนยางในกล่องชักโครก ถ้ายังไม่ถึงท่อ ใช้ข้อต่อเสริมความสูง ต่อน้ำเข้าชักโครกด้วยสายน้ำเดิมที่เก็บไว้ในครั้งที่ 1
 - **ชั้นวางพร้อมราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดหลังติดชักโครกแล้ว เจ้าของบ้านจะบอกตำแหน่ง
 - ของอื่นๆ: ตกลงตำแหน่งกันที่หน้างาน
 
@@ -314,7 +314,7 @@ Prices checked 16 Nov 2026.
 - **Water valves:** take the plugs out and screw in the 3 new valves, the toilet's, the basin's and the water heater's, with thread tape. If a pipe end now sits behind the new wall face, fit an extension so the valve sits tight to the wall, and tell the owner what to buy.
 - **Basin:** its top edge **900 mm above the new floor**. Line its drain up with the old drain hole in the wall.
 - **Mirror:** centred over the basin, with its middle **1,600 mm above the new floor**. Drill the tiles with a tile bit, never through a grout line.
-- **Toilet:** the new floor is higher, so the drain pipe in the floor now ends a little below it. Make sure the toilet seals onto the pipe with no leak. Use the rubber ring that comes in the toilet's box. If that doesn't reach, use a raised connector.
+- **Toilet:** the new floor is higher, so the drain pipe in the floor now ends a little below it. Make sure the toilet seals onto the pipe with no leak. Use the rubber ring that comes in the toilet's box. If that doesn't reach, use a raised connector. Connect its water with the hose kept from visit 1.
 - **Shelf with towel rail:** above the toilet, to its right. Fit it after the toilet is in; the owner will show you exactly where.
 - Anything else: agree where it goes on site.
 
@@ -394,7 +394,7 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster | 2 |
 | 2 | ฉาบบาง ใส่วงกบประตู แล้วทากันซึม / Skim coat, fit the door frame, then waterproof | 1.5 |
-| 3 | ปูผนังฝักบัวและบัวเชิงผนัง แล้วปูพื้น / Tile the shower wall and the skirting, then the floor | 2.5 |
+| 3 | ปูผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตู แล้วปูพื้น / Tile the shower wall, the skirting and the step, then the floor | 2.5 |
 | 4 | ยาแนว / Grout | 0.5 |
 | 5 | ทาสี / Paint | 1 |
 | 6 | ติดตั้งทั้งหมด ประตูใหม่ และซิลิโคน / Fit everything, the new door, and the silicone | 1.5 |
@@ -474,7 +474,7 @@ The book's painting rate includes a primer coat and 2 top coats.
 
 Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²), the window (0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**. The screen is painted on both sides: 2 × 0.24 m² = about **0.5 m²**.
 
-#### ครั้งที่ 6 — ติดตั้งทั้งหมด และแขวนประตู / Visit 6 — fitting everything, and hanging the door
+#### ครั้งที่ 6 — ติดตั้งทั้งหมด แขวนประตู และซิลิโคน / Visit 6 — fitting everything, hanging the door, and the silicone
 
 | งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
