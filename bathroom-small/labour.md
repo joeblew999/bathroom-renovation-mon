@@ -4,19 +4,18 @@ Date: 5 Nov 2026
 
 A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the builder's and the tiler's quotes against. The materials are the owner's and are not in it.
 
-The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the builder's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor and ceiling, and 2.8 m to the ceiling.
+The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the builder's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor, and 2.8 m to the ceiling. The ceiling and its light stay as they are, so there is no ceiling work.
 
 ## Summary
 
 | Phase | Who | Bare labour | With Factor F |
 |---|---|---|---|
 | 1. Preparation | Owner | — | — |
-| 2. Strip out | Builder | ฿566 | ฿690 |
-| 3. Ceiling | Builder | ฿266 | ฿324 |
-| 4. Painting, and the light back | Builder | ฿610 | ฿744 |
-| 5. Tiling | Tiler, 2 visits | ฿700 | ฿854 |
-| 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
-| **Total** | | **฿3,430** | **฿4,183** |
+| 2. Strip out | Builder | ฿440 | ฿537 |
+| 3. Painting | Builder | ฿334 | ฿407 |
+| 4. Tiling | Tiler, 2 visits | ฿700 | ฿854 |
+| 5. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
+| **Total** | | **฿2,762** | **฿3,369** |
 
 These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
@@ -26,34 +25,23 @@ These are government reference rates, worked out per unit of work. The builder w
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
-| Take down the old ceiling, tiles and grid (T-bar ceiling) | 2.9.8, p. 14 | 3.45 m² | ฿26 | ฿90 |
-| Take down the KÄRRNOCKA ceiling light and keep it (its cable stays) | 2.9.39, p. 15 | 1 | ฿36 | ฿36 |
 | Remove the old toilet and the old basin | 2.9.37, p. 15 | 2 | ฿220 | ฿440 |
-| | | | | **฿566** |
 
-### 3. Ceiling
+### 3. Painting
 
-| Work | Book item | Qty | Rate | Labour |
-|---|---|---|---|---|
-| Galvanised steel frame and gypsum board, joints finished | 2.2.3, p. 7 | 3.45 m² | ฿77 | ฿266 |
-
-### 4. Painting, and the light back
-
-The book's rates include a primer coat and 2 finish coats. The light goes back once the paint is dry. The book has no item for a surface ceiling lamp that takes bulbs, so it uses the nearest, the bulb lamp in item 4.58, as the [lighting labour](../lighting/labour.md) does.
+The book's rates include a primer coat and 2 finish coats.
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
-| Ceiling, emulsion, inside | 2.8.1, p. 13 | 3.45 m² | ฿31 | ฿107 |
 | Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.2 m² | ฿31 | ฿316 |
 | Security screen and window frame, anti-rust paint | 2.8.3, p. 13 | 0.5 m² | ฿36 | ฿18 |
-| Refit the KÄRRNOCKA ceiling light (3 × E27) on the new ceiling | 4.58, bulb lamp (incandescent, CFL), p. 40 | 1 | ฿169 | ฿169 |
-| | | | | **฿610** |
+| | | | | **฿334** |
 
 Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) and the window, which is above the tiles (0.40 × 0.60 m = 0.24 m²) = **10.2 m²**.
 
 Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is painted on both faces = 0.48 m², which rounds to **0.5 m²**, frame included.
 
-### 5. Tiling
+### 4. Tiling
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
@@ -61,7 +49,7 @@ Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is paint
 | Set the floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
 | | | | | **฿700** |
 
-### 6. Fit-out, and the door
+### 5. Fit-out, and the door
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
