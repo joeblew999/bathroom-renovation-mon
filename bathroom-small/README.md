@@ -57,19 +57,19 @@ There is a 50 mm step at the door. The rest of the floor is all one level.
 
 ## ก่อนเริ่มงาน — ช่างตรวจประตู / Before the job starts — the tiler checks the door
 
-ประตูใหม่เป็น**ชุดประตูพร้อมวงกบ** UPVC ขนาด 70 × 200 ซม. วงกบและประตูเดิมรื้อออก คานทับหลังเหนือประตูอยู่ที่เดิม ช่องใต้คานเตี้ยกว่าชุดประตูใหม่ จึงต้องตัดขาวงกบด้านล่าง และตัดบานประตูเท่ากัน
+ประตูใหม่เป็น**วงกบ UPVC และบานประตู UPVC** ของ AZLE ขนาด 70 × 200 ซม. วงกบลึก 10 ซม. เท่ากับผนัง (100 มม.) วงกบและประตูเดิมรื้อออก คานทับหลังเหนือประตูอยู่ที่เดิม ช่องใต้คานเตี้ยกว่าวงกบใหม่ จึงต้องตัดขาวงกบด้านล่าง และตัดบานประตูเท่ากัน
 
 **ก่อนเริ่มงาน ช่างต้อง:**
 1. วัดจากระดับพื้นใหม่ (พื้นเดิม + กระเบื้องและกาว ประมาณ 15 มม.) ถึงใต้คานทับหลัง นี่คือความสูงที่วงกบใหม่สูงได้มากสุด
-2. ดูชุดประตูที่จะซื้อ ([ASARA A812](https://www.homepro.co.th/p/1321683) หรือรุ่นอื่น) แล้วยืนยันว่าตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง และวงกบหนาพอกับผนัง (100 มม.) — หน้าเว็บไม่ได้บอกความหนาวงกบ
-3. ถ้าไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อชุดไหน
+2. ดูวงกบและบานประตูที่จะซื้อ ([AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep](https://www.homepro.co.th/p/1017131) และ [AZLE PSW2 UPVC door, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774)) แล้วยืนยันว่าบานประตูใส่วงกบนี้ได้ ตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง
+3. ถ้าไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อรุ่นไหน
 
-The new door is a **UPVC door-and-frame set**, 70 × 200 cm. The old door and frame come out. The beam over the doorway stays, and the gap under it is lower than the new set, so the frame's legs are cut shorter at the bottom, and the door by the same amount.
+The new door is an **AZLE UPVC frame and UPVC door**, 70 × 200 cm. The frame is 10 cm deep, the same as the wall (100 mm). The old door and frame come out. The beam over the doorway stays, and the gap under it is lower than the new frame, so the frame's legs are cut shorter at the bottom, and the door by the same amount.
 
 **Before the job starts, the tiler:**
 1. Measures from where the new floor will be (the old floor plus about 15 mm of tile and adhesive) up to the underside of the beam over the doorway. That's the most height the new frame can have.
-2. Looks at the set we plan to buy ([ASARA A812](https://www.homepro.co.th/p/1321683), or another) and confirms the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid; and that the frame is as deep as the wall is thick (100 mm). The product page doesn't give the frame's depth.
-3. If it can't, tells the owner which set to buy instead.
+2. Looks at the frame and door we plan to buy ([AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep](https://www.homepro.co.th/p/1017131) and [AZLE PSW2 UPVC door, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774)) and confirms the door fits that frame, the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid.
+3. If not, tells the owner which to buy instead.
 
 ## ลำดับงาน / The order of work
 
@@ -322,29 +322,31 @@ To-buy prices checked on HomePro 5 Nov 2026.
 
 ## ครั้งที่ 7 (ต่อ) — ประตูใหม่ / Visit 7 (continued) — The new door
 
-ซื้อชุดประตูก่อนครั้งที่ 2: วงกบใส่ในครั้งที่ 2 บานประตูแขวนเป็นงานสุดท้าย
+ซื้อวงกบและประตูก่อนครั้งที่ 2: วงกบใส่ในครั้งที่ 2 บานประตูแขวนเป็นงานสุดท้าย
 
-Buy the set before visit 2: the frame goes in at visit 2, and the door is hung last.
+Buy the frame and door before visit 2: the frame goes in at visit 2, and the door is hung last.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ชุดประตูห้องน้ำพร้อมวงกบ UPVC ไม่เจาะรูลูกบิด / UPVC bathroom door with its frame, not drilled for a knob | [ASARA A812, 70 × 200 cm, white](https://www.homepro.co.th/p/1321683) | 1321683 | 1 ชุด / 1 set | ต้องซื้อ / To buy | ฿1,690 | ฿1,690 |
+| วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | [AZLE UPVC frame, 70 × 200 cm, white](https://www.homepro.co.th/p/1017131) | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
+| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, drilled for the knob | [AZLE PSW2, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774) | 1240774 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 in a pack](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
 | ลูกบิดห้องน้ำ / Bathroom door knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,089** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,438** |
 
-ราคาเช็คที่โฮมโปร: ชุดประตู 16 พ.ย. 2569 ลูกบิด 5 พ.ย. 2569 หน้าสินค้าชุดประตูไม่ได้บอกว่ามีบานพับมาด้วยหรือไม่ — ถ้าไม่มี ซื้อ [บานพับสแตนเลส YALE 304](https://www.homepro.co.th/p/1123585) ฿199
+ราคาเช็คที่โฮมโปร: วงกบและประตู 16 พ.ย. 2569 ลูกบิดและบานพับ 5 พ.ย. 2569
 
 **แขวนประตู (ครั้งที่ 7):**
 1. แกะเทปป้องกันออกจากวงกบ
 2. ตัดบานประตูให้สั้นลงเท่ากับที่ตัดขาวงกบ ขัดขอบ แล้วปิดส่วนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
-3. แขวนประตู เจาะรูลูกบิด แล้วใส่ลูกบิด
+3. แขวนประตูด้วยบานพับ แล้วใส่ลูกบิด (ประตูเจาะรูลูกบิดมาแล้ว)
 
-Prices checked on HomePro: the set 16 Nov 2026, the knob 5 Nov 2026. The set's page doesn't say whether hinges come with it. If they don't, buy [YALE 304 stainless hinges](https://www.homepro.co.th/p/1123585), ฿199.
+Prices checked on HomePro: the frame and door 16 Nov 2026, the knob and hinges 5 Nov 2026.
 
 **Hanging the door (visit 7):**
 1. Take the protective tape off the frame.
 2. Cut the door shorter by the same amount the frame's legs were cut. Sand the cut, then close the open edge with a PVC strip or silicone.
-3. Hang the door, drill it for the knob, and fit the knob.
+3. Hang the door on the hinges, then fit the knob (the door comes drilled for it).
 
 ## ค่าแรง / Labour
 
@@ -472,14 +474,14 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 - **ค่าทิ้งเศษวัสดุ** อัตราในบัญชีรวมค่าขนออกแล้ว แต่ไม่รวมค่าทิ้ง ตอนนี้มีเศษมากขึ้นจากกระเบื้องผนังเดิม
 - **ถอดของบนผนัง** ตอนเริ่มงาน: เหล็กดัด เครื่องทำน้ำอุ่น ฝักบัวและราว ที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระ
 - **อุดรูสกรู** ในผนังส่วนบนก่อนทาสี
-- **งานประตูเพิ่มเติม:** ตัดขาวงกบและบานประตูใหม่ให้พอดี และเจาะรูลูกบิด
+- **งานประตูเพิ่มเติม:** ตัดขาวงกบและบานประตูใหม่ให้พอดี
 
 The book has no rate for these:
 
 - **Dumping the rubble.** The book's rates include carrying it away, but not the dump's fee. There's more rubble now, with the old wall tiles.
 - **Taking the wall fittings down** at the start: the security screen, the water heater, the shower and rail, the soap holder, the toilet paper holder and the bidet spray holder.
 - **Filling the screw holes** in the upper walls before painting.
-- **The extra door work:** cutting the new frame's legs and the door down to fit, and drilling the door for the knob.
+- **The extra door work:** cutting the new frame's legs and the door down to fit.
 
 ---
 
