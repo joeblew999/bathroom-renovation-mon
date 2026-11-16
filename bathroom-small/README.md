@@ -102,7 +102,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - สายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 
 **แล้วรื้อออก:**
-- **วาล์วน้ำทั้ง 3 ตัว** ของชักโครก ของอ่างล้างหน้า และของเครื่องทำน้ำอุ่น ไม่อย่างนั้นรื้อกระเบื้องและฉาบรอบท่อไม่ได้ **ปิดน้ำที่มิเตอร์ก่อน** ถอดวาล์วออก แล้วขันปลั๊กอุดเข้าปลายท่อทั้ง 3 จุด จะได้เปิดน้ำใช้ระหว่างทำงานได้
+- **วาล์วน้ำทั้ง 3 ตัว** ของชักโครก ของอ่างล้างหน้า และของเครื่องทำน้ำอุ่น (อยู่ใต้หน้าต่าง) ไม่อย่างนั้นรื้อกระเบื้องและฉาบรอบท่อไม่ได้ **ปิดน้ำที่มิเตอร์ก่อน** ถอดวาล์วออก แล้วขันปลั๊กอุดเข้าปลายท่อทั้ง 3 จุด จะได้เปิดน้ำใช้ระหว่างทำงานได้
 - **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน (สูง 1.4 ม.) และคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนขั้น รื้อจนถึงเนื้อผนัง ระวังท่อน้ำในผนัง
 - ชักโครกและอ่างล้างหน้าเดิม พร้อมขาแขวนอ่างที่เป็นสนิม
 - ประตูและวงกบเดิม ระวังไม่ให้กระทบคานทับหลังด้านบน
@@ -121,7 +121,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - The toilet's water hose. It goes on the new toilet.
 
 **Then take out:**
-- **All 3 water valves**: the toilet's, the basin's and the water heater's. Otherwise the tiles round the pipes can't come off and the wall can't be plastered there. **Turn the water off at the meter first.** Take the valves off, then screw a plug into each pipe end, so the water can go back on while you work.
+- **All 3 water valves**: the toilet's, the basin's and the water heater's (it's under the window). Otherwise the tiles round the pipes can't come off and the wall can't be plastered there. **Turn the water off at the meter first.** Take the valves off, then screw a plug into each pipe end, so the water can go back on while you work.
 - **All the old wall tiles** on all 4 walls (they go up 1.4 m), and every pink plastic edge strip, on the walls and on the step. Go down to the bare wall. Watch out for the water pipes in the wall.
 - The old toilet and basin, with the basin's rusty wall brackets.
 - The old door and its frame. Take care not to disturb the beam over the doorway.
