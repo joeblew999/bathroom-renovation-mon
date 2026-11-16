@@ -90,7 +90,6 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 
 **ห้ามรื้อสิ่งเหล่านี้:**
 - กระเบื้องพื้นเดิม — กระเบื้องพื้นใหม่ปูทับ
-- วาล์วน้ำและสายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 - ฝ้าเพดานและโคมไฟ — หุ้มโคมด้วยถุงพลาสติกระหว่างทำงาน
 
 **ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 6):
@@ -100,15 +99,16 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - ที่วางสบู่
 - ที่ใส่กระดาษชำระ
 - สายฉีดชำระและที่แขวน
+- สายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 
 **แล้วรื้อออก:**
+- **วาล์วน้ำทั้งสองตัว** ของชักโครกและของอ่างล้างหน้า ไม่อย่างนั้นรื้อกระเบื้องและฉาบรอบท่อไม่ได้ **ปิดน้ำที่มิเตอร์ก่อน** ถอดวาล์วออก แล้วขันปลั๊กอุดเข้าปลายท่อทั้งสองจุด จะได้เปิดน้ำใช้ระหว่างทำงานได้
 - **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน (สูง 1.4 ม.) และคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนขั้น รื้อจนถึงเนื้อผนัง ระวังท่อน้ำในผนัง
 - ชักโครกและอ่างล้างหน้าเดิม พร้อมขาแขวนอ่างที่เป็นสนิม
 - ประตูและวงกบเดิม ระวังไม่ให้กระทบคานทับหลังด้านบน
 
 **Don't remove these:**
 - The old floor tiles. The new floor tiles are laid over them.
-- The toilet's water valve and hose. They go on the new toilet.
 - The ceiling and the light. Wrap the light in a plastic bag while you work.
 
 **Take off and keep safe** (they go back on in visit 6):
@@ -118,8 +118,10 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - The soap holder.
 - The toilet paper holder.
 - The bidet spray and its holder.
+- The toilet's water hose. It goes on the new toilet.
 
 **Then take out:**
+- **Both water valves**, the toilet's and the basin's. Otherwise the tiles round the pipes can't come off and the wall can't be plastered there. **Turn the water off at the meter first.** Take the valves off, then screw a plug into each pipe end, so the water can go back on while you work.
 - **All the old wall tiles** on all 4 walls (they go up 1.4 m), and every pink plastic edge strip, on the walls and on the step. Go down to the bare wall. Watch out for the water pipes in the wall.
 - The old toilet and basin, with the basin's rusty wall brackets.
 - The old door and its frame. Take care not to disturb the beam over the doorway.
@@ -278,6 +280,7 @@ Prices checked 16 Nov 2026.
 - เหล็กดัดหน้าต่าง
 
 **ติดของใหม่:**
+- **วาล์วน้ำ:** ถอดปลั๊กอุดออก แล้วใส่วาล์วใหม่ทั้งสองตัว ของชักโครกและของอ่างล้างหน้า พันเทปเกลียว ถ้าปลายท่ออยู่ลึกกว่าผิวผนังใหม่ ใส่ข้อต่อยืดให้วาล์วชิดผนังพอดี แล้วบอกเจ้าของบ้านว่าต้องซื้ออะไร
 - **อ่างล้างหน้า:** ขอบบนอ่างสูง **900 มม. จากพื้นใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อเดิมที่ผนัง
 - **กระจก:** อยู่กึ่งกลางอ่าง จุดกึ่งกลางกระจกสูง **1,600 มม. จากพื้นใหม่** เจาะกระเบื้องด้วยดอกเจาะกระเบื้อง ไม่เจาะตรงร่องยาแนว
 - **ชักโครก:** พื้นใหม่สูงขึ้น ท่อน้ำทิ้งที่พื้นจึงต่ำกว่าพื้นเล็กน้อย ตรวจว่าชักโครกต่อกับท่อแน่นไม่รั่ว ใช้แหวนยางในกล่องชักโครก ถ้ายังไม่ถึงท่อ ใช้ข้อต่อเสริมความสูง
@@ -290,6 +293,7 @@ Prices checked 16 Nov 2026.
 - The window's security screen.
 
 **Fit the new things:**
+- **Water valves:** take the plugs out and screw in the 2 new valves, the toilet's and the basin's, with thread tape. If a pipe end now sits behind the new wall face, fit an extension so the valve sits tight to the wall, and tell the owner what to buy.
 - **Basin:** its top edge **900 mm above the new floor**. Line its drain up with the old drain hole in the wall.
 - **Mirror:** centred over the basin, with its middle **1,600 mm above the new floor**. Drill the tiles with a tile bit, never through a grout line.
 - **Toilet:** the new floor is higher, so the drain pipe in the floor now ends a little below it. Make sure the toilet seals onto the pipe with no leak. Use the rubber ring that comes in the toilet's box. If that doesn't reach, use a raised connector.
@@ -298,11 +302,13 @@ Prices checked 16 Nov 2026.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
+| **วาล์วน้ำ / Water valves** | | | | | | |
+| วาล์วน้ำ ชักโครกและอ่างล้างหน้า (แทนตัวเดิม) / Water valves, toilet and basin (replace the old ones) | [HOEN HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | 2 | ต้องซื้อ / To buy | ฿155 | ฿310 |
+| ปลั๊กอุดปลายท่อ ระหว่างทำงาน / Plugs for the pipe ends while you work | [Thai Water Pipe ½" PVC male plug](https://www.homepro.co.th/p/85336) | 85336 | 2 | ต้องซื้อ / To buy | ฿5 | ฿10 |
 | **อ่างล้างหน้า / Basin** | | | | | | |
 | อ่างล้างหน้าแขวนผนัง / Wall-hung basin | [MOYA 179, white, 60 × 13 × 31 cm](https://www.homepro.co.th/p/1249118) | 1249118 | 1 | **มีแล้ว / Have it** | ฿1,190 | ฿1,190 |
 | ก๊อกอ่างล้างหน้า / Basin tap | [MOYA 832-1](https://www.homepro.co.th/p/1254863) | 1254863 | 1 | **มีแล้ว / Have it** | ฿929 | ฿929 |
 | ท่อน้ำทิ้งใต้อ่าง / Drain pipe under the basin | [KARAT KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | 1225658 | 1 | **มีแล้ว / Have it** | ฿485 | ฿485 |
-| วาล์วน้ำ (แทนตัวเดิม) / Water valve (replaces the old one) | [HOEN HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | 1 | ต้องซื้อ / To buy | ฿155 | ฿155 |
 | สายน้ำ จากวาล์วถึงก๊อก / Water hose, valve to tap | [MOYA MY-SSB20, stainless, 20"](https://www.homepro.co.th/p/1028226) | 1028226 | 1 | ต้องซื้อ / To buy | ฿90 | ฿90 |
 | กระจกกลม / Round mirror | [MOYA HLP004, Ø 60 cm](https://www.homepro.co.th/p/1319896) | 1319896 | 1 | **มีแล้ว / Have it** | ฿429 | ฿429 |
 | **ชักโครก / Toilet** | | | | | | |
@@ -311,11 +317,11 @@ Prices checked 16 Nov 2026.
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
 | สายน้ำสแตนเลส / Stainless water hose | [HAFELE 495.60.109, 304 stainless, 120 cm](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿7,322** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿504** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿669** |
 
-ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569
+ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569 ปลั๊กอุด 16 พ.ย. 2569
 
-To-buy prices checked on HomePro 5 Nov 2026.
+To-buy prices checked on HomePro 5 Nov 2026, the plugs 16 Nov 2026.
 
 ## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
@@ -387,9 +393,9 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | 2 | วงกบประตู และกันซึม / The door frame, and waterproofing | ฿795 | ฿970 |
 | 3–4 | ปูกระเบื้อง และซิลิโคน / Tiling, and silicone | ฿1,798 | ฿2,193 |
 | 5 | ทาสี / Painting | ฿474 | ฿578 |
-| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,576 | ฿1,923 |
+| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,612 | ฿1,966 |
 | 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวมทั้งหมด / Total** | | **฿8,404** |
+| | **รวมทั้งหมด / Total** | | **฿8,447** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -451,13 +457,13 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 |---|---|---|---|---|
 | ติดตั้งชักโครก / Fit the toilet | 2.6.1, p. 12 | 1 | ฿461 | ฿461 |
 | ติดตั้งอ่างล้างหน้า พร้อมก๊อกและท่อน้ำทิ้ง / Fit the basin with its tap and drain pipe | 2.6.6, p. 12 | 1 | ฿461 | ฿461 |
-| ติดตั้งวาล์วน้ำ / Fit the water valve | 2.6.26, p. 12 | 1 | ฿36 | ฿36 |
+| ติดตั้งวาล์วน้ำ ชักโครกและอ่างล้างหน้า / Fit the water valves, toilet and basin | 2.6.26, p. 12 | 2 | ฿36 ต่อตัว / each | ฿72 |
 | ติดกระจก และชั้นวางพร้อมราวแขวนผ้า / Screw up the mirror and the shelf with towel rail | 2.6.13, p. 12 | 2 | ฿72 ต่อชิ้น / each | ฿144 |
 | ติดฝักบัวและราวกลับ / Put the shower and its rail back | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
 | ติดที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระกลับ / Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 ต่อชิ้น / each | ฿216 |
 | ติดสายน้ำใหม่ของเครื่องทำน้ำอุ่น (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของราคาของ ฿259) / Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
-| **รวม / Total** | | | | **฿1,576** |
+| **รวม / Total** | | | | **฿1,612** |
 
 **ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
