@@ -188,7 +188,7 @@ Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on th
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
-**ครั้งที่ 4 — ยาแนว แล้วซิลิโคน:** ยาแนวร่องกระเบื้องทุกร่อง แต่**เว้นมุม**ที่พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง และตามขั้นที่ประตู เมื่อยาแนวแห้ง ยิงซิลิโคนสีเทากันเชื้อราที่มุมเหล่านี้ (มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก)
+**ครั้งที่ 4 — ยาแนว แล้วซิลิโคน:** ยาแนวร่องกระเบื้องทุกร่อง แต่**เว้นมุม**ที่พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง ตามขั้นที่ประตู และมุมตั้งที่ปลายทั้งสองข้างของผนังฝักบัว (กระเบื้องชนผนังฉาบ สูง 2 ม.) เมื่อยาแนวแห้ง ยิงซิลิโคนสีเทากันเชื้อราที่มุมเหล่านี้ (มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก)
 
 **วิธีปู:**
 - ใช้กาวซีเมนต์สำหรับปูกระเบื้อง ไม่ใช้ปูนทราย
@@ -209,7 +209,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
-**Visit 4 — grout, then silicone:** grout every tile joint, but **leave open the corners** where the floor meets the shower wall and the skirting, and along the step at the door. When the grout has set, fill those corners with grey anti-mould silicone. (Those corners move slightly, and grout there cracks.)
+**Visit 4 — grout, then silicone:** grout every tile joint, but **leave open the corners** where the floor meets the shower wall and the skirting, along the step at the door, and the upright corners at both ends of the shower wall (where its tiles meet the plaster, 2 m high). When the grout has set, fill those corners with grey anti-mould silicone. (Those corners move slightly, and grout there cracks.)
 
 **How:**
 - Use cement tile adhesive, not sand-and-cement mortar.
@@ -239,7 +239,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | ยาแนว สีเทา / Grout, grey | Crocodile Premium Plus 1 kg, coral grey <https://www.homepro.co.th/p/138784> | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
 | คิ้ว PVC เหลี่ยม สีเทา (ขอบบนผนังฝักบัว 2.5 ม. และขอบบนบัวเชิงผนัง 4.56 ม.) / Square grey plastic edge strip (top of the shower wall, 2.5 m, and top of the skirting, 4.56 m) | TARA PVC 10 mm, square, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 4 เส้น / 4 strips | ต้องซื้อ / To buy | ฿97.60 | ฿390 |
 | คิ้ว PVC โค้ง สีเทา (มุมนอกที่ขอบขั้น 0.7 ม.) / Rounded grey plastic trim (the step's outside corner, 0.7 m) | TARA PVC 10 mm, rounded, 2 m, grey <https://www.homepro.co.th/p/1248284> | 1248284 | 1 เส้น / 1 strip | ต้องซื้อ / To buy | ฿106.40 | ฿106 |
-| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง) / Anti-mould silicone, grey (floor-to-wall corners) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
+| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง และมุมที่ปลายผนังฝักบัว) / Anti-mould silicone, grey (floor-to-wall corners, and the shower wall's end corners) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,770** |
 
