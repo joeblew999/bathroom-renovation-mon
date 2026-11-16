@@ -12,9 +12,9 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 
 Renovate the existing bathroom. The room size is not changing.
 
-**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 5) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
+**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 4) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
 
-The **owner** does the preparation (phase 1). Two teams: the **tiler** does the tiling (phase 5); the **builder** does everything else.
+The **owner** does the preparation (phase 1). Two teams: the **tiler** does the tiling (phase 4); the **builder** does everything else.
 
 ## ขนาด / Size
 
@@ -25,9 +25,9 @@ The **owner** does the preparation (phase 1). Two teams: the **tiler** does the 
 | ความสูงฝ้า / Ceiling height | **2,800** |
 | หน้าต่าง / Window | **400 × 600** |
 
-พื้นที่พื้นและฝ้า: 2.5 × 1.38 = **3.45 ตร.ม.**
+พื้นที่พื้น: 2.5 × 1.38 = **3.45 ตร.ม.**
 
-Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
+Floor area: 2.5 × 1.38 = **3.45 m²**.
 
 ## ลำดับงาน / The work, in order
 
@@ -35,10 +35,9 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 |---|---|---|---|
 | 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the screen, clean the trims, protect what stays |
 | 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | รื้อที่เหลือ / Remove the rest |
-| 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
-| 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด แล้วติดโคมไฟกลับ / Ceiling, walls, window frame and security screen, then refit the light |
-| 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
-| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / Fittings, the security screen, then the new door |
+| 3 | ทาสี / Painting | ผู้รับเหมา / Builder | ผนัง วงกบหน้าต่าง และเหล็กดัด / Walls, window frame and security screen |
+| 4 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
+| 5 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / Fittings, the security screen, then the new door |
 
 ### ใครมาเมื่อไร / Who comes when
 
@@ -49,13 +48,11 @@ Several steps have to dry before the next one, so the work comes in visits:
 | ครั้ง / Visit | ใคร / Who | งาน / Work | แล้วรอ / Then wait |
 |---|---|---|---|
 | 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
-| 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วโครงและแผ่นฝ้า ฉาบรอยต่อรอบแรก (ขั้นที่ 2–3) / Strip out, then the ceiling frame and board, first joint coat (phases 2–3) | ผงฉาบแห้ง ตามที่เขียนบนถุง / the jointing compound dries, as on its bag |
-| 3 | ผู้รับเหมา / Builder | ฉาบรอยต่อเพิ่มถ้าจำเป็น แล้วขัด (ขั้นที่ 3) / More joint coats if needed, then sand (phase 3) | ตามที่เขียนบนถุง / as on the bag |
-| 4 | ผู้รับเหมา / Builder | ทาสีฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด แล้วติดโคมไฟกลับ (ขั้นที่ 4) / Paint the ceiling, walls, window frame and security screen, then refit the light (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
-| 5 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 5) / Lay the tiles (phase 5) | กาวบ่มตัว (ขั้นที่ 5) / the adhesive cures (phase 5) |
-| 6 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 5) / Grout (phase 5) | ยาแนวแห้ง / the grout sets |
-| 7 | ผู้รับเหมา / Builder | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
-| 8 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
+| 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วทาสีผนัง วงกบหน้าต่าง และเหล็กดัด (ขั้นที่ 2–3) / Strip out, then paint the walls, window frame and security screen (phases 2–3) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
+| 3 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 4) / Lay the tiles (phase 4) | กาวบ่มตัว (ขั้นที่ 4) / the adhesive cures (phase 4) |
+| 4 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 4) / Grout (phase 4) | ยาแนวแห้ง / the grout sets |
+| 5 | ผู้รับเหมา / Builder | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 5) / Fit-out, the security screen back on, then the new door (phase 5) | — |
+| 6 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
 
 ### 1. เตรียมงาน / Preparation
 
@@ -63,9 +60,9 @@ Several steps have to dry before the next one, so the work comes in visits:
 
 Before anything else.
 
-**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 4 แล้วติดกลับในขั้นที่ 6
+**ถอดออก:** เหล็กดัดหน้าต่าง — เก็บไว้ให้ดี จะทาสีในขั้นที่ 3 แล้วติดกลับในขั้นที่ 5
 
-**Take off:** the window's steel security screen — keep it safe; it is painted in phase 4 and goes back on in phase 6.
+**Take off:** the window's steel security screen — keep it safe; it is painted in phase 3 and goes back on in phase 5.
 
 **ล้าง:** คิ้วพลาสติกสีชมพู/ม่วงของกระเบื้องทั้งหมดในห้องน้ำ — มีสีเก่าและคราบสกปรกติดอยู่
 
@@ -85,71 +82,36 @@ Before anything else.
 | กระเบื้องพื้น / Floor tiles | ห้ามรื้อ — ปูกระเบื้องใหม่ทับ / don't lift them — the new tiles go on top |
 | วาล์วและสายน้ำดีชักโครก / Toilet stop valve and hose | เก็บไว้ — ใช้กับชักโครกใหม่ / keep — they go on the new toilet |
 | สายฉีดชำระ / Bidet spray and its hose | หุ้มพลาสติก / wrap in plastic |
-| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ใช้ไปก่อนจนใส่ประตูใหม่ (ขั้นที่ 6) วงกบอยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / use it until the new door goes in (phase 6); the frame stays (see "Door" at the end) |
+| ฝ้าเพดานและโคมไฟ IKEA KÄRRNOCKA / Ceiling and its IKEA KÄRRNOCKA light | ไม่ต้องทำอะไร — ฝ้าและโคมอยู่ตามเดิม / leave them — the ceiling and the light stay as they are |
+| ประตู วงกบ บานพับ และลูกบิดเดิม / Existing door, frame, hinges and knob | ใช้ไปก่อนจนใส่ประตูใหม่ (ขั้นที่ 5) วงกบอยู่ที่เดิม (ดู "ประตู" ท้ายเอกสาร) / use it until the new door goes in (phase 5); the frame stays (see "Door" at the end) |
 
 ### 2. รื้อถอน / Strip out
 
-รื้อ**ทุกอย่างที่เหลือ** รวมฝ้าเดิม: ถอดโคมเพดาน IKEA KÄRRNOCKA ที่เพิ่งติดตั้งออก**อย่างระมัดระวัง และเก็บไว้** พร้อมหลอดไฟและสกรู — จะติดกลับที่ฝ้าใหม่ในขั้นที่ 4 (**เก็บสายไฟไว้ที่เดิม**) แล้วรื้อฝ้าเดิมทั้งหมด ทั้งแผ่นและโครง ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ
+รื้อ**ทุกอย่างที่เหลือ** ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ
 
-Remove **everything else**, the old ceiling included: take down the IKEA KÄRRNOCKA ceiling light, which is new, **carefully, and keep it** with its bulbs and screws — it goes back on the new ceiling in phase 4 (**leave its cable in place**), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
+Remove **everything else**. Everything in the "Stays" table (phase 1) stays.
 
 ถอดขาแขวนอ่างล้างหน้าเดิมออกพร้อมอ่าง — เป็นสนิมแล้ว อ่างใหม่ปิดรูเดิมได้
 
 Take the old basin's wall brackets off with the basin — they have rusted. The new basin covers the old holes.
 
-### 3. ฝ้าเพดาน / Ceiling
-
-ฝ้ายิปซัมฉาบเรียบใหม่
-
-A new flush gypsum ceiling.
-
-1. **โครง:** ฉากริมเหล็กชุบกัลวาไนซ์รอบห้องที่ความสูงฝ้าเดิม (2,800 มม.) โครงซีไลน์ขวางห้อง (ช่วง 1,380 มม.) ระยะห่าง 40 ซม. วางบนฉากริมทั้งสองผนังยาว
-
-   **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls.
-2. **แผ่น:** ยึดแผ่นยิปซัมกันชื้นเต็มฝ้า ให้ฉาบเรียบ — เจาะนำสายไฟโคมเพดานออกตรงตำแหน่งโคม และให้มีโครงซีไลน์อยู่เหนือตำแหน่งโคม เพื่อให้สกรูยึดโคมเข้าโครงเหล็ก ไม่ใช่ยึดแผ่นยิปซัมอย่างเดียว
-
-   **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes, and have a C-channel over that spot, so the light's screws go into the steel frame, not the board alone.
-3. **รอยต่อ:** ติดเทปและฉาบทุกรอยต่อและหัวสกรูให้เรียบ — **รวมมุมฝ้าชนผนังรอบห้อง (7.76 ม.)**: พับเทปเข้ามุมแล้วฉาบ เพื่อไม่ให้แตกร้าว
-
-   **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
-
-**วัสดุ / Materials** (โฮมโปร ราคาตรวจสอบ 2026-10-31 / HomePro, prices checked 2026-10-31)
-
-| รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
-|---|---|---|---|---|---|---|
-| แผ่นยิปซัมกันชื้น / Moisture-resistant gypsum board | [DURAONE 120 × 240 × 0.9 cm](https://www.homepro.co.th/p/1110611) | 1110611 | 2 แผ่น / 2 sheets | ต้องซื้อ / To buy | ฿245 | ฿490 |
-| โครงซีไลน์ / C-channel | [SANKI 4 m](https://www.homepro.co.th/p/1110231) | 1110231 | 4 เส้น / 4 lengths | ต้องซื้อ / To buy | ฿29 | ฿116 |
-| ฉากริม / Wall angle | [SANKI 2.44 m](https://www.homepro.co.th/p/1110271) | 1110271 | 4 เส้น / 4 lengths | ต้องซื้อ / To buy | ฿16 | ฿64 |
-| สกรูยิปซัม / Drywall screws | [TPI 6 × 1"](https://www.homepro.co.th/p/1110148) | 1110148 | 1 กล่อง / 1 box | ต้องซื้อ / To buy | ฿89 | ฿89 |
-| ผงฉาบรอยต่อ / Jointing compound | [DURAONE 1 kg](https://www.homepro.co.th/p/1110109) | 1110109 | 2 ถุง / 2 bags | ต้องซื้อ / To buy | ฿16 | ฿32 |
-| เทปปิดรอยต่อ / Joint tape | [PYRAMID 1", 3 rolls](https://www.homepro.co.th/p/1024381) | 1024381 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿42 | ฿42 |
-| พุกพร้อมสกรู / Wall plugs with screws | [BY TORA no. 7, 50 pcs](https://www.homepro.co.th/p/1064892) | 1064892 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿65 | ฿65 |
-| | | | | **ต้องซื้อ / To buy** | | **฿898** |
-
-ตรวจความยาวม้วนเทปบนแพ็ค ว่าพอสำหรับรอยต่อแผ่นและมุมรอบห้อง 7.76 ม.
-
-Check the roll length on the tape pack covers the board joints and the 7.76 m corner round the room.
-
-### 4. ทาสี / Painting
+### 3. ทาสี / Painting
 
 ของที่เก็บไว้ป้องกันแล้ว (ขั้นที่ 1) ใช้สีขาวที่มีอยู่หน้างาน:
 
 Everything that stays is already protected (phase 1). With the white paint already on site:
 
-1. **ทำความสะอาด** ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด
+1. **ทำความสะอาด** ผนัง วงกบหน้าต่าง และเหล็กดัด
 
-   **Clean** the ceiling, the walls, the window frame and the security screen.
+   **Clean** the walls, the window frame and the security screen.
 2. **อุดรู:** อุดรูสกรูในผนัง (ประมาณ 8 รู) แล้วขัดให้เรียบ
 
    **Fill holes:** fill the screw holes in the walls (about 8) and sand them smooth.
-3. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
+3. **ทาสี** ผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
 
-   **Paint** the ceiling and the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
-4. **ติดโคมไฟกลับ:** เมื่อสีแห้ง ต่อสายและยึดโคม KÄRRNOCKA (เก็บไว้ในขั้นที่ 2) เข้ากับฝ้าใหม่ ยึดสกรูเข้าโครงซีไลน์ แล้วใส่หลอดไฟ
+   **Paint** the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
 
-   **Refit the light:** when the paint is dry, connect the KÄRRNOCKA (kept in phase 2) and screw it to the new ceiling, into the C-channel, then put the bulbs back in.
-
-### 5. ปูกระเบื้อง / Tiling
+### 4. ปูกระเบื้อง / Tiling
 
 **ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม และปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป
 
@@ -165,9 +127,9 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 2. **Let the adhesive cure 24–48 hours**, depending on the temperature (the adhesive's product page, in the table below). Keep off the floor.
 3. **Visit 2 — grout.**
 
-ผู้รับเหมาเริ่มงานติดตั้ง (ขั้นที่ 6) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
+ผู้รับเหมาเริ่มงานติดตั้ง (ขั้นที่ 5) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
 
-The builder starts the fit-out (phase 6) only once the grout has set.
+The builder starts the fit-out (phase 5) only once the grout has set.
 
 **กระเบื้อง / Tiles** (500 × 500 มม. กล่องละ 4 แผ่น / 500 × 500 mm, 4 to a box):
 - พื้น 2,500 × 1,380 มม.: ยาว 5 แผ่น × 3 แถว แถวที่ 3 ตัดเหลือ 380 มม. = **15 แผ่น**
@@ -208,7 +170,7 @@ The builder starts the fit-out (phase 6) only once the grout has set.
 
 Prices checked 2026-10-31.
 
-### 6. ติดตั้ง / Fit-out
+### 5. ติดตั้ง / Fit-out
 
 อ่างล้างหน้าพร้อมกระจก ชักโครกพร้อมราวแขวนผ้า สายเครื่องทำน้ำอุ่น และติดเหล็กดัดกลับที่หน้าต่าง
 
@@ -261,9 +223,9 @@ Where each of the others goes in this room: to set out.
 
 ## ประตู / Door
 
-**ใส่ประตูใหม่เป็นงานสุดท้าย** (ขั้นที่ 6) หลังปูกระเบื้องเสร็จ **วงกบเดิมอยู่ที่เดิม** ถอดประตูเดิมและบานพับเดิมออกตอนใส่ประตูใหม่ ช่องประตูเดิม **700 × 1,950 มม.**
+**ใส่ประตูใหม่เป็นงานสุดท้าย** (ขั้นที่ 5) หลังปูกระเบื้องเสร็จ **วงกบเดิมอยู่ที่เดิม** ถอดประตูเดิมและบานพับเดิมออกตอนใส่ประตูใหม่ ช่องประตูเดิม **700 × 1,950 มม.**
 
-**The new door goes in last** (phase 6), after tiling. **The existing frame stays.** Take the old door and hinges off when the new door goes in. The existing door is **700 × 1,950 mm**.
+**The new door goes in last** (phase 5), after tiling. **The existing frame stays.** Take the old door and hinges off when the new door goes in. The existing door is **700 × 1,950 mm**.
 
 | รายการ / Item | สินค้า / Product | SKU | จำนวน / How many | สถานะ / Status | ต่อหน่วย / Each | รวม / Total |
 |---|---|---|---|---|---|---|
