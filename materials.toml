@@ -1177,7 +1177,27 @@ sku = "1157215"
   [[entry.line]]
   work_section = "waterproofing_tiles"
   status = "procure"
-  n = 1
+  n = 3
+  note_th = "ชนกระเบื้องขาว และรอบวงกบประตู"
+  note_en = "against the white tiles, and round the door frame"
+
+[[entry]]
+id = "silicone_grey"
+th = "ซิลิโคน SISTA"
+detail_th = "S19 300 มล. สีเทา ไร้กรด กันเชื้อรา"
+en = "SISTA silicone"
+detail_en = "S19, 300 ml, grey, neutral, anti-fungal"
+unit = "tube"
+price = 144
+approx = true
+shop = "homepro"
+sku = "1120475"
+  [[entry.line]]
+  work_section = "waterproofing_tiles"
+  status = "procure"
+  n = 2
+  note_th = "ชนกระเบื้องเทา ชักโครก และอ่างล้างหน้า · หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้"
+  note_en = "against the grey tiles, the toilet and the basin · its page shows it out of stock: any grey, neutral, anti-fungal silicone will do"
 
 [[entry]]
 id = "m300_mortar"

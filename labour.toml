@@ -723,3 +723,10 @@ count = ["shower"]
 rate = "screw_fixed"
 work_section = "fit_out"
 count = ["mirror", "shelf", "roll_holder"]
+
+[[line]]
+rate = "not_listed"
+work_section = "fit_out"
+of_products = ["silicone", "silicone_grey"]
+note_th = "ยิงซิลิโคนทั้งหมด เป็นงานสุดท้าย"
+note_en = "all the silicone, last of all"
