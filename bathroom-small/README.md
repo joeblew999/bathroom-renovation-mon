@@ -317,96 +317,121 @@ Prices checked on HomePro: the set 16 Nov 2026, the knob 5 Nov 2026. The set's p
 
 ## ค่าแรง / Labour
 
+ราคาค่าแรงอ้างอิง จากบัญชีค่าแรงงานของราชการ ค่าแรงอย่างเดียว เจ้าของบ้านซื้อวัสดุเอง
+
 A guide price for the labour, from the government's rate book. Labour only: the owner buys the materials.
 
-### The short answer
+### สรุป / The short answer
+
+- **ตามบัญชีค่าแรงงานของราชการ ค่าแรงประมาณ ฿7,500**
+- **ราคาจริงน่าจะสูงกว่านี้** บัญชีนี้ตั้งราคาสำหรับงานใหญ่ ไม่ได้รวมเวลารอระหว่างแต่ละครั้ง หรือการเข้างาน 6 ครั้งสำหรับห้องเล็ก
+- **คิดเป็นรายวัน:** งานนี้ประมาณ **7.5 วันทำงาน** มักมีลูกมือ ราคาที่เหมาะสมคือค่าแรงประมาณ 7.5 วัน (รวมลูกมือ) บวกค่าทิ้งเศษวัสดุ
 
 - **The government rate book puts the labour at about ฿7,500.**
 - **A real quote will likely be higher.** The book's rates are set for big jobs. They don't pay for the waiting between visits, or for coming back 6 times for a small room.
-- **By the day:** the job is about **7½ working days**, often with a helper. A fair price is about 7½ day rates (plus the helper's), plus the fee for dumping the rubble.
+- **By the day:** the job is about **7.5 working days**, often with a helper. A fair price is about 7.5 day rates (plus the helper's), plus the fee for dumping the rubble.
 
-| Visit | Work | Days |
+| ครั้ง / Visit | งาน / Work | วัน / Days |
 |---|---|---|
-| 1 | Take the old things out, then plaster | 2 |
-| 2 | Tile the shower wall, then the floor | 2 |
-| 3 | Tile the skirting | ½ |
-| 4 | Grout | ½ |
-| 5 | Paint | 1 |
-| 6 | Fit everything, and the new door | 1½ |
+| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster | 2 |
+| 2 | ปูผนังฝักบัว แล้วปูพื้น / Tile the shower wall, then the floor | 2 |
+| 3 | ปูบัวเชิงผนัง / Tile the skirting | 0.5 |
+| 4 | ยาแนว / Grout | 0.5 |
+| 5 | ทาสี / Paint | 1 |
+| 6 | ติดตั้งทั้งหมด และประตูใหม่ / Fit everything, and the new door | 1.5 |
 
-### The rate book's price, visit by visit
+### ราคาตามบัญชีค่าแรงงาน แยกตามครั้ง / The rate book's price, visit by visit
+
+อัตราค่าแรงจากบัญชีค่าแรงงานของกรมบัญชีกลาง (กค 0433.2/ว 480 ลงวันที่ 26 มิ.ย. 2569) เล่มเดียวกับที่ใช้ในใบเสนอราคาห้องน้ำหลัก สำเนาอยู่ใน [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf) ทุกบรรทัดบอกเลขรายการและหน้าในบัญชี
 
 The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). Each line below gives its item number and page in the book.
 
+อัตราในบัญชีเป็นค่าแรงเปล่า ผู้รับเหมาบวกค่าดำเนินการและกำไร ซึ่งราชการกำหนดไว้ที่ **× 1.2199** สำหรับงานขนาดนี้ ("Factor F" [ตาราง ว481](https://www.yotathai.com/factorf/building/adv15-retain10) ตรวจสอบ 1 พ.ย. 2569) คอลัมน์ขวาสุดรวมส่วนนี้แล้ว
+
 The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 1 Nov 2026). The right-hand column includes that.
 
-| Visit | Work | Bare wages | With overheads and profit |
+| ครั้ง / Visit | งาน / Work | ค่าแรงเปล่า / Bare wages | รวมค่าดำเนินการและกำไร / With overheads and profit |
 |---|---|---|---|
-| 1 | Take the old things out | ฿886 | ฿1,081 |
-| 1 | Plaster the walls | ฿950 | ฿1,159 |
-| 2–4 | Tiling | ฿1,712 | ฿2,088 |
-| 5 | Painting | ฿474 | ฿578 |
-| 6 | Fitting everything, and the door | ฿1,720 | ฿2,098 |
-| 6 | Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **Total** | | **฿7,504** |
+| 1 | รื้อของเก่า / Take the old things out | ฿886 | ฿1,081 |
+| 1 | ฉาบผนัง / Plaster the walls | ฿950 | ฿1,159 |
+| 2–4 | ปูกระเบื้อง / Tiling | ฿1,712 | ฿2,088 |
+| 5 | ทาสี / Painting | ฿474 | ฿578 |
+| 6 | ติดตั้งทั้งหมด และประตู / Fitting everything, and the door | ฿1,720 | ฿2,098 |
+| 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
+| | **รวม / Total** | | **฿7,504** |
 
-#### Visit 1 — take the old things out
+#### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
-| Work | Book item | How much | Rate | Cost |
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
-| Remove the old toilet and basin | 2.9.37, p. 15 | 2 | ฿220 each | ฿440 |
-| Strip the old wall tiles and take them away | 2.9.14, p. 14 | 9.9 m² | ฿36 a m² | ฿356 |
-| Take out the old door with its frame | 2.9.29, p. 15 | 1 | ฿90 | ฿90 |
+| รื้อชักโครกและอ่างล้างหน้าเดิม / Remove the old toilet and basin | 2.9.37, p. 15 | 2 | ฿220 ต่อชิ้น / each | ฿440 |
+| รื้อกระเบื้องผนังเดิม ขนออก / Strip the old wall tiles and take them away | 2.9.14, p. 14 | 9.9 m² | ฿36 ต่อ ตร.ม. / a m² | ฿356 |
+| รื้อประตูพร้อมวงกบเดิม / Take out the old door with its frame | 2.9.29, p. 15 | 1 | ฿90 | ฿90 |
 | | | | | **฿886** |
+
+กระเบื้องเดิมสูง 1.4 ม. รอบห้อง 7.76 ม. = 10.86 ตร.ม. หักช่องประตู (0.98 ตร.ม.) = **9.9 ตร.ม.**
 
 The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the doorway (0.98 m²) = **9.9 m²**.
 
-#### Visit 1 — plaster the walls
+#### ครั้งที่ 1 — ฉาบผนัง / Visit 1 — plaster the walls
 
-| Work | Book item | How much | Rate | Cost |
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
-| Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 a m² | ฿950 |
+| ฉาบผนังส่วนที่รื้อกระเบื้องออก / Plaster the walls where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 ต่อ ตร.ม. / a m² | ฿950 |
 
-#### Visits 2, 3 and 4 — tiling
+#### ครั้งที่ 2, 3 และ 4 — ปูกระเบื้อง / Visits 2, 3 and 4 — tiling
 
-| Work | Book item | How much | Rate | Cost |
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
-| Floor tiles, including the step's front face | 2.4.6, p. 10 | 3.5 m² | ฿178 a m² | ฿623 |
-| The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
-| Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 a m² | ฿920 |
-| Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 a m² | ฿92 |
+| ปูกระเบื้องพื้น รวมด้านตั้งของขั้น / Floor tiles, including the step's front face | 2.4.6, p. 10 | 3.5 m² | ฿178 ต่อ ตร.ม. / a m² | ฿623 |
+| ติดตะแกรงท่อระบายน้ำ / The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
+| กระเบื้องผนังฝักบัว 2.5 × 2.0 ม. / Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 ต่อ ตร.ม. / a m² | ฿920 |
+| บัวเชิงผนัง 4.56 ม. × 10 ซม. / Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 ต่อ ตร.ม. / a m² | ฿92 |
 | | | | | **฿1,712** |
 
-#### Visit 5 — painting
+#### ครั้งที่ 5 — ทาสี / Visit 5 — painting
+
+อัตราทาสีในบัญชีรวมสีรองพื้น 1 รอบ และสีทับหน้า 2 รอบ
 
 The book's painting rate includes a primer coat and 2 top coats.
 
-| Work | Book item | How much | Rate | Cost |
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
-| The walls above the tiles and skirting | 2.8.1, p. 13 | 14.7 m² | ฿31 a m² | ฿456 |
-| The window's security screen and frame | 2.8.3, p. 13 | 0.5 m² | ฿36 a m² | ฿18 |
+| ผนังเหนือกระเบื้องและบัวเชิงผนัง / The walls above the tiles and skirting | 2.8.1, p. 13 | 14.7 m² | ฿31 ต่อ ตร.ม. / a m² | ฿456 |
+| เหล็กดัดและวงกบหน้าต่าง / The window's security screen and frame | 2.8.3, p. 13 | 0.5 m² | ฿36 ต่อ ตร.ม. / a m² | ฿18 |
 | | | | | **฿474** |
+
+ผนัง: รอบห้อง 7.76 ม. × สูง 2.8 ม. = 21.73 ตร.ม. หักประตู (1.37 ตร.ม.) หน้าต่าง (0.24 ตร.ม.) กระเบื้องผนังฝักบัว (5.0 ตร.ม.) และบัวเชิงผนัง (0.46 ตร.ม.) = **14.7 ตร.ม.** เหล็กดัดทาสองด้าน: 2 × 0.24 ตร.ม. = ประมาณ **0.5 ตร.ม.**
 
 Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²), the window (0.24 m²), the shower wall's tiles (5.0 m²) and the skirting (0.46 m²) = **14.7 m²**. The screen is painted on both sides: 2 × 0.24 m² = about **0.5 m²**.
 
-#### Visit 6 — fitting everything, and the door
+#### ครั้งที่ 6 — ติดตั้งทั้งหมด และประตู / Visit 6 — fitting everything, and the door
 
-| Work | Book item | How much | Rate | Cost |
+| งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
-| Fit the toilet | 2.6.1, p. 12 | 1 | ฿461 | ฿461 |
-| Fit the basin with its tap and drain pipe | 2.6.6, p. 12 | 1 | ฿461 | ฿461 |
-| Fit the water valve | 2.6.26, p. 12 | 1 | ฿36 | ฿36 |
-| Screw up the mirror and the shelf with towel rail | 2.6.13, p. 12 | 2 | ฿72 each | ฿144 |
-| Put the shower and its rail back | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
-| Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 each | ฿216 |
-| Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
-| Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 a m² | ฿144 |
-| Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 a m² | ฿108 |
+| ติดตั้งชักโครก / Fit the toilet | 2.6.1, p. 12 | 1 | ฿461 | ฿461 |
+| ติดตั้งอ่างล้างหน้า พร้อมก๊อกและท่อน้ำทิ้ง / Fit the basin with its tap and drain pipe | 2.6.6, p. 12 | 1 | ฿461 | ฿461 |
+| ติดตั้งวาล์วน้ำ / Fit the water valve | 2.6.26, p. 12 | 1 | ฿36 | ฿36 |
+| ติดกระจก และชั้นวางพร้อมราวแขวนผ้า / Screw up the mirror and the shelf with towel rail | 2.6.13, p. 12 | 2 | ฿72 ต่อชิ้น / each | ฿144 |
+| ติดฝักบัวและราวกลับ / Put the shower and its rail back | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
+| ติดที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระกลับ / Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 ต่อชิ้น / each | ฿216 |
+| ติดสายน้ำใหม่ของเครื่องทำน้ำอุ่น (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของราคาของ ฿259) / Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
+| ติดตั้งวงกบประตูใหม่ (0.70 × 2.0 ม.) / Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 ต่อ ตร.ม. / a m² | ฿144 |
+| แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
 | | | | | **฿1,720** |
+
+**ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569 เหมือนใน `labour.toml` ของใบเสนอราคาหลัก) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
 **Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
 
-### Not in the price — ask the tiler
+### ไม่รวมในราคานี้ — ถามช่าง / Not in the price — ask the tiler
+
+บัญชีค่าแรงงานไม่มีอัตราสำหรับงานเหล่านี้:
+
+- **ค่าทิ้งเศษวัสดุ** อัตราในบัญชีรวมค่าขนออกแล้ว แต่ไม่รวมค่าทิ้ง ตอนนี้มีเศษมากขึ้นจากกระเบื้องผนังเดิม
+- **ถอดของบนผนัง** ตอนเริ่มงาน: เหล็กดัด เครื่องทำน้ำอุ่น ฝักบัวและราว ที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระ
+- **อุดรูสกรู** ในผนังส่วนบนก่อนทาสี
+- **งานประตูเพิ่มเติม:** ตัดขาวงกบและบานประตูใหม่ให้พอดี และเจาะรูลูกบิด
 
 The book has no rate for these:
 
