@@ -2,11 +2,11 @@
 
 วันที่: 5 พ.ย. 2569 (แก้ไข 16 พ.ย. 2569)
 
-ที่ตั้ง: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
+ที่ตั้ง: Google Maps <https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA>
 
 Date: 5 Nov 2026 (updated 16 Nov 2026)
 
-Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
+Location: Google Maps <https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA>
 
 ## งานนี้คืออะไร / What the job is
 
@@ -61,14 +61,14 @@ There is a 50 mm step at the door. The rest of the floor is all one level.
 
 **ก่อนเริ่มงาน ช่างต้อง:**
 1. วัดจากระดับพื้นใหม่ (พื้นเดิม + กระเบื้องและกาว ประมาณ 15 มม.) ถึงใต้คานทับหลัง นี่คือความสูงที่วงกบใหม่สูงได้มากสุด
-2. ดูวงกบและบานประตูที่จะซื้อ ([AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep](https://www.homepro.co.th/p/1017131) และ [AZLE PSW2 UPVC door, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774)) แล้วยืนยันว่าบานประตูใส่วงกบนี้ได้ ตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง
+2. ดูวงกบและบานประตูที่จะซื้อ (AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep <https://www.homepro.co.th/p/1017131> และ AZLE PSW2 UPVC door, 70 × 200 cm, white <https://www.homepro.co.th/p/1240774>) แล้วยืนยันว่าบานประตูใส่วงกบนี้ได้ ตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง
 3. ถ้าไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อรุ่นไหน
 
 The new door is an **AZLE UPVC frame and UPVC door**, 70 × 200 cm. The frame is 10 cm deep, the same as the wall (100 mm). The old door and frame come out. The beam over the doorway stays, and the gap under it is lower than the new frame, so the frame's legs are cut shorter at the bottom, and the door by the same amount.
 
 **Before the job starts, the tiler:**
 1. Measures from where the new floor will be (the old floor plus about 15 mm of tile and adhesive) up to the underside of the beam over the doorway. That's the most height the new frame can have.
-2. Looks at the frame and door we plan to buy ([AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep](https://www.homepro.co.th/p/1017131) and [AZLE PSW2 UPVC door, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774)) and confirms the door fits that frame, the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid.
+2. Looks at the frame and door we plan to buy (AZLE UPVC frame, 70 × 200 cm, white, 10 cm deep <https://www.homepro.co.th/p/1017131> and AZLE PSW2 UPVC door, 70 × 200 cm, white <https://www.homepro.co.th/p/1240774>) and confirms the door fits that frame, the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid.
 3. If not, tells the owner which to buy instead.
 
 ## ลำดับงาน / The order of work
@@ -134,7 +134,7 @@ Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and 
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ปูนฉาบสำเร็จรูป / Ready-mixed plaster | [TPI M200, 50 kg](https://www.homepro.co.th/p/1109514) | 1109514 | ประมาณ 4 ถุง / about 4 bags | ต้องซื้อ / To buy | ฿185 | ฿740 |
+| ปูนฉาบสำเร็จรูป / Ready-mixed plaster | TPI M200, 50 kg <https://www.homepro.co.th/p/1109514> | 1109514 | ประมาณ 4 ถุง / about 4 bags | ต้องซื้อ / To buy | ฿185 | ฿740 |
 
 ราคาเช็ค 16 พ.ย. 2569 หน้าเว็บแสดง ฿79–185 แล้วแต่พื้นที่จัดส่ง ใช้ราคาสูงสุด
 
@@ -164,8 +164,8 @@ When the plaster is dry:
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ซีเมนต์กันซึม / Waterproofing cement | [Crocodile FLEX SHIELD, 20 kg, grey](https://www.homepro.co.th/p/271155) | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
-| ตาข่ายไฟเบอร์ / Fibre mesh | [Crocodile fibre mesh, 0.2 × 10 m](https://www.homepro.co.th/p/1271924) | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
+| ซีเมนต์กันซึม / Waterproofing cement | Crocodile FLEX SHIELD, 20 kg, grey <https://www.homepro.co.th/p/271155> | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| ตาข่ายไฟเบอร์ / Fibre mesh | Crocodile fibre mesh, 0.2 × 10 m <https://www.homepro.co.th/p/1271924> | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,169** |
 
 ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
@@ -178,7 +178,7 @@ Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on th
 
 **ความลาดเอียงของพื้น:** พื้นเดิมลาดไปท่อระบายน้ำน้อยเกินไป พื้นใหม่ต้องลาดมากขึ้น อย่างน้อย **1 ต่อ 80** ไปทางท่อระบายน้ำ (ทุก 80 ซม. ลดลง 1 ซม.) ทำความลาดด้วยชั้นกาวใต้กระเบื้องพื้น หนาที่ผนัง บางที่ท่อระบายน้ำ ถ้าต้องหนากว่าที่ถุงกาวกำหนด ให้บอกเจ้าของบ้านว่าต้องซื้ออะไรเพิ่ม
 
-1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว ([ที่มา](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor) ตรวจสอบ 1 พ.ย. 2569)
+1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว (ที่มา <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor> ตรวจสอบ 1 พ.ย. 2569)
 
 **ครั้งที่ 3 — ผนังฝักบัวและบัวเชิงผนังก่อน แล้วพื้น:**
 1. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
@@ -199,7 +199,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **The floor's slope:** the old floor doesn't slope enough to the drain. Give the new floor a steeper slope: at least **1 in 80** towards the drain (1 cm down for every 80 cm). Build it up in the adhesive under the floor tiles: thicker at the walls, thinner at the drain. If that needs a thicker bed than the adhesive bag allows, tell the owner what else to buy.
 
-1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray ([source](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor), checked 1 Nov 2026).
+1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray (source <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor>, checked 1 Nov 2026).
 
 **Visit 3 — the shower wall and the skirting first, then the floor:**
 1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
@@ -232,13 +232,13 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| กระเบื้องสีเทา / Grey tiles | [TARA Stone Blast 50 × 50 cm, H07, matt](https://www.homepro.co.th/p/1292488) | 1292488 | 3 กล่อง / 3 boxes | **มีแล้ว / Have it** | ฿209 | ฿627 |
-| กระเบื้องสีเทา / Grey tiles | [TARA Stone Blast 50 × 50 cm, H07, matt](https://www.homepro.co.th/p/1292488) | 1292488 | 7 กล่อง / 7 boxes | ต้องซื้อ / To buy | ฿209 | ฿1,463 |
-| ตะแกรงท่อระบายน้ำกันกลิ่น / Floor drain grate (stops smells) | [DEXZON 10 × 10 cm, 4"](https://www.homepro.co.th/p/1240420) | 1240420 | 1 | **มีแล้ว / Have it** | ฿119 | ฿119 |
-| กาวปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (works over old tiles) | [Crocodile Gold 20 kg](https://www.homepro.co.th/p/14428) | 14428 | ประมาณ 3 ถุง / about 3 bags | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
-| ยาแนว สีเทา / Grout, grey | [Crocodile Premium Plus 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
-| คิ้ว PVC สีเทา (ขอบบนผนังฝักบัว และขอบขั้น) / Grey plastic edge strip (top of the shower wall, and the step's edge) | [TARA PVC 10 mm, 2 m, grey](https://www.homepro.co.th/p/1298008) | 1298008 | 3 เส้น / 3 strips | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
-| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง) / Anti-mould silicone, grey (floor-to-wall corners) | [SISTA S19, 300 ml, grey](https://www.homepro.co.th/p/1120475) | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
+| กระเบื้องสีเทา / Grey tiles | TARA Stone Blast 50 × 50 cm, H07, matt <https://www.homepro.co.th/p/1292488> | 1292488 | 3 กล่อง / 3 boxes | **มีแล้ว / Have it** | ฿209 | ฿627 |
+| กระเบื้องสีเทา / Grey tiles | TARA Stone Blast 50 × 50 cm, H07, matt <https://www.homepro.co.th/p/1292488> | 1292488 | 7 กล่อง / 7 boxes | ต้องซื้อ / To buy | ฿209 | ฿1,463 |
+| ตะแกรงท่อระบายน้ำกันกลิ่น / Floor drain grate (stops smells) | DEXZON 10 × 10 cm, 4" <https://www.homepro.co.th/p/1240420> | 1240420 | 1 | **มีแล้ว / Have it** | ฿119 | ฿119 |
+| กาวปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (works over old tiles) | Crocodile Gold 20 kg <https://www.homepro.co.th/p/14428> | 14428 | ประมาณ 3 ถุง / about 3 bags | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
+| ยาแนว สีเทา / Grout, grey | Crocodile Premium Plus 1 kg, coral grey <https://www.homepro.co.th/p/138784> | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
+| คิ้ว PVC สีเทา (ขอบบนผนังฝักบัว และขอบขั้น) / Grey plastic edge strip (top of the shower wall, and the step's edge) | TARA PVC 10 mm, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 3 เส้น / 3 strips | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
+| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง) / Anti-mould silicone, grey (floor-to-wall corners) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,567** |
 
@@ -264,8 +264,8 @@ Before you paint: tape along the edges of the tiles and the skirting, and cover 
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| สีรองพื้นปูนใหม่ / Primer for new plaster | [TOA Hydro Quick, 1 gallon (35 m²)](https://www.homepro.co.th/p/1090811) | 1090811 | 1 | ต้องซื้อ / To buy | ฿830 | ฿830 |
-| สีขาวกันเชื้อรา กึ่งเงา / White anti-mould paint, semi-gloss | [Dulux EasyCare Plus, base A, 3 L (15 m²)](https://www.homepro.co.th/p/1029544) | 1029544 | 2 (1 กระป๋องต่อรอบ / 1 can a coat) | ต้องซื้อ / To buy | ฿800 | ฿1,600 |
+| สีรองพื้นปูนใหม่ / Primer for new plaster | TOA Hydro Quick, 1 gallon (35 m²) <https://www.homepro.co.th/p/1090811> | 1090811 | 1 | ต้องซื้อ / To buy | ฿830 | ฿830 |
+| สีขาวกันเชื้อรา กึ่งเงา / White anti-mould paint, semi-gloss | Dulux EasyCare Plus, base A, 3 L (15 m²) <https://www.homepro.co.th/p/1029544> | 1029544 | 2 (1 กระป๋องต่อรอบ / 1 can a coat) | ต้องซื้อ / To buy | ฿800 | ฿1,600 |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,430** |
 
 ราคาเช็ค 16 พ.ย. 2569
@@ -303,19 +303,19 @@ Prices checked 16 Nov 2026.
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
 | **วาล์วน้ำ / Water valves** | | | | | | |
-| วาล์วน้ำ ชักโครก อ่างล้างหน้า และเครื่องทำน้ำอุ่น (แทนตัวเดิม) / Water valves, toilet, basin and water heater (replace the old ones) | [HOEN HT-011](https://www.homepro.co.th/p/1040989) | 1040989 | 3 | ต้องซื้อ / To buy | ฿155 | ฿465 |
-| ปลั๊กอุดปลายท่อ ระหว่างทำงาน / Plugs for the pipe ends while you work | [Thai Water Pipe ½" PVC male plug](https://www.homepro.co.th/p/85336) | 85336 | 3 | ต้องซื้อ / To buy | ฿5 | ฿15 |
+| วาล์วน้ำ ชักโครก อ่างล้างหน้า และเครื่องทำน้ำอุ่น (แทนตัวเดิม) / Water valves, toilet, basin and water heater (replace the old ones) | HOEN HT-011 <https://www.homepro.co.th/p/1040989> | 1040989 | 3 | ต้องซื้อ / To buy | ฿155 | ฿465 |
+| ปลั๊กอุดปลายท่อ ระหว่างทำงาน / Plugs for the pipe ends while you work | Thai Water Pipe ½" PVC male plug <https://www.homepro.co.th/p/85336> | 85336 | 3 | ต้องซื้อ / To buy | ฿5 | ฿15 |
 | **อ่างล้างหน้า / Basin** | | | | | | |
-| อ่างล้างหน้าแขวนผนัง / Wall-hung basin | [MOYA 179, white, 60 × 13 × 31 cm](https://www.homepro.co.th/p/1249118) | 1249118 | 1 | **มีแล้ว / Have it** | ฿1,190 | ฿1,190 |
-| ก๊อกอ่างล้างหน้า / Basin tap | [MOYA 832-1](https://www.homepro.co.th/p/1254863) | 1254863 | 1 | **มีแล้ว / Have it** | ฿929 | ฿929 |
-| ท่อน้ำทิ้งใต้อ่าง / Drain pipe under the basin | [KARAT KA-02-112-50, 25 cm](https://www.homepro.co.th/p/1225658) | 1225658 | 1 | **มีแล้ว / Have it** | ฿485 | ฿485 |
-| สายน้ำ จากวาล์วถึงก๊อก / Water hose, valve to tap | [MOYA MY-SSB20, stainless, 20"](https://www.homepro.co.th/p/1028226) | 1028226 | 1 | ต้องซื้อ / To buy | ฿90 | ฿90 |
-| กระจกกลม / Round mirror | [MOYA HLP004, Ø 60 cm](https://www.homepro.co.th/p/1319896) | 1319896 | 1 | **มีแล้ว / Have it** | ฿429 | ฿429 |
+| อ่างล้างหน้าแขวนผนัง / Wall-hung basin | MOYA 179, white, 60 × 13 × 31 cm <https://www.homepro.co.th/p/1249118> | 1249118 | 1 | **มีแล้ว / Have it** | ฿1,190 | ฿1,190 |
+| ก๊อกอ่างล้างหน้า / Basin tap | MOYA 832-1 <https://www.homepro.co.th/p/1254863> | 1254863 | 1 | **มีแล้ว / Have it** | ฿929 | ฿929 |
+| ท่อน้ำทิ้งใต้อ่าง / Drain pipe under the basin | KARAT KA-02-112-50, 25 cm <https://www.homepro.co.th/p/1225658> | 1225658 | 1 | **มีแล้ว / Have it** | ฿485 | ฿485 |
+| สายน้ำ จากวาล์วถึงก๊อก / Water hose, valve to tap | MOYA MY-SSB20, stainless, 20" <https://www.homepro.co.th/p/1028226> | 1028226 | 1 | ต้องซื้อ / To buy | ฿90 | ฿90 |
+| กระจกกลม / Round mirror | MOYA HLP004, Ø 60 cm <https://www.homepro.co.th/p/1319896> | 1319896 | 1 | **มีแล้ว / Have it** | ฿429 | ฿429 |
 | **ชักโครก / Toilet** | | | | | | |
-| ชักโครกชิ้นเดียว / Toilet, 1 piece | [MOYA 323, 3/6 L, white, 37.5 × 70 × 69 cm](https://www.homepro.co.th/p/1170662) | 1170662 | 1 | **มีแล้ว / Have it** | ฿3,490 | ฿3,490 |
-| ชั้นวางพร้อมราวแขวนผ้า / Shelf with towel rail | [LUZERN AS-5012S, chrome, 62 × 14.5 × 23 cm](https://www.homepro.co.th/p/1215163) | 1215163 | 1 | **มีแล้ว / Have it** | ฿799 | ฿799 |
+| ชักโครกชิ้นเดียว / Toilet, 1 piece | MOYA 323, 3/6 L, white, 37.5 × 70 × 69 cm <https://www.homepro.co.th/p/1170662> | 1170662 | 1 | **มีแล้ว / Have it** | ฿3,490 | ฿3,490 |
+| ชั้นวางพร้อมราวแขวนผ้า / Shelf with towel rail | LUZERN AS-5012S, chrome, 62 × 14.5 × 23 cm <https://www.homepro.co.th/p/1215163> | 1215163 | 1 | **มีแล้ว / Have it** | ฿799 | ฿799 |
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
-| สายน้ำสแตนเลส / Stainless water hose | [HAFELE 495.60.109, 304 stainless, 120 cm](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
+| สายน้ำสแตนเลส / Stainless water hose | HAFELE 495.60.109, 304 stainless, 120 cm <https://www.homepro.co.th/p/1164269> | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿7,322** |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿829** |
 
@@ -331,10 +331,10 @@ Buy the frame and door before visit 2: the frame goes in at visit 2, and the doo
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | [AZLE UPVC frame, 70 × 200 cm, white](https://www.homepro.co.th/p/1017131) | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
-| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, drilled for the knob | [AZLE PSW2, 70 × 200 cm, white](https://www.homepro.co.th/p/1240774) | 1240774 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
-| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 in a pack](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
-| ลูกบิดห้องน้ำ / Bathroom door knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
+| วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | AZLE UPVC frame, 70 × 200 cm, white <https://www.homepro.co.th/p/1017131> | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
+| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, drilled for the knob | AZLE PSW2, 70 × 200 cm, white <https://www.homepro.co.th/p/1240774> | 1240774 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| บานพับสแตนเลส / Stainless hinges | YALE 304, 4 × 3", 3 in a pack <https://www.homepro.co.th/p/1123585> | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
+| ลูกบิดห้องน้ำ / Bathroom door knob | SOLEX 9500 SS-BK, stainless <https://www.homepro.co.th/p/89869> | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
 | **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,438** |
 
 ราคาเช็คที่โฮมโปร: วงกบและประตู 16 พ.ย. 2569 ลูกบิดและบานพับ 5 พ.ย. 2569
@@ -378,13 +378,13 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 
 ### ราคาตามบัญชีค่าแรงงาน แยกตามครั้ง / The rate book's price, visit by visit
 
-อัตราค่าแรงจากบัญชีค่าแรงงานของกรมบัญชีกลาง (กค 0433.2/ว 480 ลงวันที่ 26 มิ.ย. 2569) เล่มเดียวกับที่ใช้ในใบเสนอราคาห้องน้ำหลัก สำเนาอยู่ใน [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf) ทุกบรรทัดบอกเลขรายการและหน้าในบัญชี
+อัตราค่าแรงจากบัญชีค่าแรงงานของกรมบัญชีกลาง (กค 0433.2/ว 480 ลงวันที่ 26 มิ.ย. 2569) เล่มเดียวกับที่ใช้ในใบเสนอราคาห้องน้ำหลัก สำเนาอยู่ใน `sources/` <https://github.com/joeblew999/bathroom-renovation-mon/blob/main/sources/2026-06-26-cgd-w480-labour-rates.pdf> ทุกบรรทัดบอกเลขรายการและหน้าในบัญชี
 
-อัตราในบัญชีเป็นค่าแรงเปล่า ผู้รับเหมาบวกค่าดำเนินการและกำไร ซึ่งราชการกำหนดไว้ที่ **× 1.2199** สำหรับงานขนาดนี้ ("Factor F" [ตาราง ว481](https://www.yotathai.com/factorf/building/adv15-retain10) ตรวจสอบ 1 พ.ย. 2569) คอลัมน์ขวาสุดรวมส่วนนี้แล้ว
+อัตราในบัญชีเป็นค่าแรงเปล่า ผู้รับเหมาบวกค่าดำเนินการและกำไร ซึ่งราชการกำหนดไว้ที่ **× 1.2199** สำหรับงานขนาดนี้ ("Factor F" ตาราง ว481 <https://www.yotathai.com/factorf/building/adv15-retain10> ตรวจสอบ 1 พ.ย. 2569) คอลัมน์ขวาสุดรวมส่วนนี้แล้ว
 
-The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). Each line below gives its item number and page in the book.
+The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in `sources/` <https://github.com/joeblew999/bathroom-renovation-mon/blob/main/sources/2026-06-26-cgd-w480-labour-rates.pdf>. Each line below gives its item number and page in the book.
 
-The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 1 Nov 2026). The right-hand column includes that.
+The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", table ว481 <https://www.yotathai.com/factorf/building/adv15-retain10>, checked 1 Nov 2026). The right-hand column includes that.
 
 | ครั้ง / Visit | งาน / Work | ค่าแรงเปล่า / Bare wages | รวมค่าดำเนินการและกำไร / With overheads and profit |
 |---|---|---|---|
@@ -465,9 +465,9 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
 | **รวม / Total** | | | | **฿1,648** |
 
-**ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
+**ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร 277997 <https://www.homepro.co.th/p/277997> ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
-**Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
+**Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, 277997 <https://www.homepro.co.th/p/277997>, ฿500 (checked 1 Nov 2026). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
 
 ### ไม่รวมในราคานี้ — ถามช่าง / Not in the price — ask the tiler
 
