@@ -207,8 +207,8 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | กาวปูกระเบื้อง (ปูทับกระเบื้องเดิมได้) / Tile adhesive (works over old tiles) | [Crocodile Gold 20 kg](https://www.homepro.co.th/p/14428) | 14428 | ประมาณ 3 ถุง / about 3 bags | ต้องซื้อ / To buy | ฿799 | ฿2,397 |
 | ยาแนว สีเทา / Grout, grey | [Crocodile Premium Plus 1 kg, coral grey](https://www.homepro.co.th/p/138784) | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
 | คิ้ว PVC สีเทา (ขอบบนผนังฝักบัว และขอบขั้น) / Grey plastic edge strip (top of the shower wall, and the step's edge) | [TARA PVC 10 mm, 2 m, grey](https://www.homepro.co.th/p/1298008) | 1298008 | 3 เส้น / 3 strips | ต้องซื้อ / To buy | ฿97.60 | ฿293 |
-| | | | | **มีแล้ว / Have it** | | **฿746** |
-| | | | | **ต้องซื้อ / To buy** | | **฿4,279** |
+| **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,279** |
 
 ราคาเช็ค 31 ต.ค. 2569
 
@@ -234,7 +234,7 @@ Before you paint: tape along the edges of the tiles and the skirting, and cover 
 |---|---|---|---|---|---|---|
 | สีรองพื้นปูนใหม่ / Primer for new plaster | [TOA Hydro Quick, 1 gallon (35 m²)](https://www.homepro.co.th/p/1090811) | 1090811 | 1 | ต้องซื้อ / To buy | ฿830 | ฿830 |
 | สีขาวกันเชื้อรา กึ่งเงา / White anti-mould paint, semi-gloss | [Dulux EasyCare Plus, base A, 3 L (15 m²)](https://www.homepro.co.th/p/1029544) | 1029544 | 2 (1 กระป๋องต่อรอบ / 1 can a coat) | ต้องซื้อ / To buy | ฿800 | ฿1,600 |
-| | | | | **ต้องซื้อ / To buy** | | **฿2,430** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,430** |
 
 ราคาเช็ค 16 พ.ย. 2569
 
@@ -280,8 +280,8 @@ Prices checked 16 Nov 2026.
 | ชั้นวางพร้อมราวแขวนผ้า / Shelf with towel rail | [LUZERN AS-5012S, chrome, 62 × 14.5 × 23 cm](https://www.homepro.co.th/p/1215163) | 1215163 | 1 | **มีแล้ว / Have it** | ฿799 | ฿799 |
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
 | สายน้ำสแตนเลส / Stainless water hose | [HAFELE 495.60.109, 304 stainless, 120 cm](https://www.homepro.co.th/p/1164269) | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
-| | | | | **มีแล้ว / Have it** | | **฿7,322** |
-| | | | | **ต้องซื้อ / To buy** | | **฿504** |
+| **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿7,322** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿504** |
 
 ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569
 
@@ -297,7 +297,7 @@ The door-and-frame set goes in last.
 |---|---|---|---|---|---|---|
 | ชุดประตูห้องน้ำพร้อมวงกบ UPVC ไม่เจาะรูลูกบิด / UPVC bathroom door with its frame, not drilled for a knob | [ASARA A812, 70 × 200 cm, white](https://www.homepro.co.th/p/1321683) | 1321683 | 1 ชุด / 1 set | ต้องซื้อ / To buy | ฿1,690 | ฿1,690 |
 | ลูกบิดห้องน้ำ / Bathroom door knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
-| | | | | **ต้องซื้อ / To buy** | | **฿2,089** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,089** |
 
 ราคาเช็คที่โฮมโปร: ชุดประตู 16 พ.ย. 2569 ลูกบิด 5 พ.ย. 2569 หน้าสินค้าชุดประตูไม่ได้บอกว่ามีบานพับมาด้วยหรือไม่ — ถ้าไม่มี ซื้อ [บานพับสแตนเลส YALE 304](https://www.homepro.co.th/p/1123585) ฿199
 
@@ -358,7 +358,7 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | 5 | ทาสี / Painting | ฿474 | ฿578 |
 | 6 | ติดตั้งทั้งหมด และประตู / Fitting everything, and the door | ฿1,720 | ฿2,098 |
 | 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวม / Total** | | **฿7,504** |
+| | **รวมทั้งหมด / Total** | | **฿7,504** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -367,7 +367,7 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | รื้อชักโครกและอ่างล้างหน้าเดิม / Remove the old toilet and basin | 2.9.37, p. 15 | 2 | ฿220 ต่อชิ้น / each | ฿440 |
 | รื้อกระเบื้องผนังเดิม ขนออก / Strip the old wall tiles and take them away | 2.9.14, p. 14 | 9.9 m² | ฿36 ต่อ ตร.ม. / a m² | ฿356 |
 | รื้อประตูพร้อมวงกบเดิม / Take out the old door with its frame | 2.9.29, p. 15 | 1 | ฿90 | ฿90 |
-| | | | | **฿886** |
+| **รวม / Total** | | | | **฿886** |
 
 กระเบื้องเดิมสูง 1.4 ม. รอบห้อง 7.76 ม. = 10.86 ตร.ม. หักช่องประตู (0.98 ตร.ม.) = **9.9 ตร.ม.**
 
@@ -387,7 +387,7 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 | ติดตะแกรงท่อระบายน้ำ / The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
 | กระเบื้องผนังฝักบัว 2.5 × 2.0 ม. / Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 ต่อ ตร.ม. / a m² | ฿920 |
 | บัวเชิงผนัง 4.56 ม. × 10 ซม. / Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 ต่อ ตร.ม. / a m² | ฿92 |
-| | | | | **฿1,712** |
+| **รวม / Total** | | | | **฿1,712** |
 
 #### ครั้งที่ 5 — ทาสี / Visit 5 — painting
 
@@ -399,7 +399,7 @@ The book's painting rate includes a primer coat and 2 top coats.
 |---|---|---|---|---|
 | ผนังเหนือกระเบื้องและบัวเชิงผนัง / The walls above the tiles and skirting | 2.8.1, p. 13 | 14.7 m² | ฿31 ต่อ ตร.ม. / a m² | ฿456 |
 | เหล็กดัดและวงกบหน้าต่าง / The window's security screen and frame | 2.8.3, p. 13 | 0.5 m² | ฿36 ต่อ ตร.ม. / a m² | ฿18 |
-| | | | | **฿474** |
+| **รวม / Total** | | | | **฿474** |
 
 ผนัง: รอบห้อง 7.76 ม. × สูง 2.8 ม. = 21.73 ตร.ม. หักประตู (1.37 ตร.ม.) หน้าต่าง (0.24 ตร.ม.) กระเบื้องผนังฝักบัว (5.0 ตร.ม.) และบัวเชิงผนัง (0.46 ตร.ม.) = **14.7 ตร.ม.** เหล็กดัดทาสองด้าน: 2 × 0.24 ตร.ม. = ประมาณ **0.5 ตร.ม.**
 
@@ -418,7 +418,7 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | ติดสายน้ำใหม่ของเครื่องทำน้ำอุ่น (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของราคาของ ฿259) / Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
 | ติดตั้งวงกบประตูใหม่ (0.70 × 2.0 ม.) / Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 ต่อ ตร.ม. / a m² | ฿144 |
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
-| | | | | **฿1,720** |
+| **รวม / Total** | | | | **฿1,720** |
 
 **ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569 เหมือนใน `labour.toml` ของใบเสนอราคาหลัก) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
