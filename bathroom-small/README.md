@@ -81,7 +81,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงกันซึม / the plaster to dry, as the waterproofing bag says |
 | 2 | ใส่วงกบประตูใหม่ แล้วทากันซึม / Fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
-| 3 | ปูผนังฝักบัวและบัวเชิงผนัง แล้วปูพื้นและขั้นที่ประตู / Tile the shower wall and the skirting, then the floor and the step at the door | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
+| 3 | ปูผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตู แล้วปูพื้น / Tile the shower wall, the skirting and the step at the door, then the floor | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
 | 4 | ยาแนว แล้วยิงซิลิโคนที่มุม / Grout, then silicone the corners | ยาแนวและซิลิโคนแห้ง / the grout and silicone to set |
 | 5 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
 | 6 | ติดตั้งของทั้งหมด แล้วแขวนบานประตูใหม่ / Fit everything, then hang the new door | — |
@@ -180,11 +180,11 @@ Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on th
 
 1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว (ที่มา <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor> ตรวจสอบ 1 พ.ย. 2569)
 
-**ครั้งที่ 3 — ผนังฝักบัวและบัวเชิงผนังก่อน แล้วพื้น:**
+**ครั้งที่ 3 — ผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตูก่อน แล้วพื้น:**
 1. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
 2. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม ขอบล่างวางตามเส้นระดับพื้นใหม่ที่ขีดไว้ในครั้งที่ 2 (หนุนด้วยลิ่ม) หยุดชนวงกบประตูใหม่
-3. **พื้น:** ปูทับกันซึม ตามความลาดใหม่ ชนกระเบื้องผนังฝักบัว บัวเชิงผนัง และขาวงกบ ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
-4. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+3. **ขั้นที่ประตู:** พร้อมกับบัวเชิงผนัง ปูด้านตั้งของขั้น (สูง 50 มม.) ตัดจากเศษกระเบื้องบัวเชิงผนัง แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+4. **พื้น:** ปูทับกันซึม ตามความลาดใหม่ ชนกระเบื้องผนังฝักบัว บัวเชิงผนัง ด้านตั้งของขั้น และขาวงกบ ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
@@ -201,11 +201,11 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray (source <https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor>, checked 1 Nov 2026).
 
-**Visit 3 — the shower wall and the skirting first, then the floor:**
+**Visit 3 — the shower wall, the skirting and the step first, then the floor:**
 1. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
 2. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Set its bottom edge on the new floor line marked in visit 2, packed up on wedges. Stop it against the new door frame.
-3. **Floor:** lay it over the waterproofing, with the new slope, butting up against the shower wall tiles, the skirting and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
-4. **The step at the door:** tile its front face (50 mm high), then fit the grey plastic edge strip along its edge.
+3. **The step at the door:** along with the skirting, tile the step's front face (50 mm high), cut from the skirting tiles' offcuts, then fit the grey plastic edge strip along its edge.
+4. **Floor:** lay it over the waterproofing, with the new slope, butting up against the shower wall tiles, the skirting, the step's face and the frame's legs. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
@@ -221,7 +221,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | ที่ / Where | ขนาด / Size | แผ่น / Tiles |
 |---|---|---|
 | พื้น / Floor | 5 แผ่น × 3 แถว (แถวสุดท้ายตัดเหลือ 38 ซม.) / 5 tiles × 3 rows (last row cut to 38 cm) | 15 |
-| ด้านตั้งของขั้น / Step face | ตัดจากเศษแถวสุดท้ายของพื้น / cut from the floor's leftover pieces | 0 |
+| ด้านตั้งของขั้น / Step face | ตัดจากเศษกระเบื้องบัวเชิงผนัง / cut from the skirting tiles' offcuts | 0 |
 | ผนังฝักบัว / Shower wall | 5 แผ่น × 4 แถว / 5 tiles × 4 rows | 20 |
 | บัวเชิงผนัง / Skirting | แผ่นละ 5 แถบ / 5 strips from each tile | 2 |
 | **รวม / Total** | | **37** |
