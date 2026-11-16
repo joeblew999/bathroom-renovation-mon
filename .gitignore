@@ -3,21 +3,17 @@ out/
 # Tooling
 .venv/
 __pycache__/
-# The working database and anything exported from D1 — the seed files are the data; live data is never committed
+# The working database — the seed files are the data; the working copy is never committed
 .work/
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
-# wrangler's local copy of D1
-.wrangler/
-# the web app's packages (web:setup installs them from web/package-lock.json)
-node_modules/
-# cf's per-project cache: which Cloudflare account this clone's login uses (each developer's own; no token in it)
-.cloudflare/
 # Go test caches and editor files
 *.test
 *.out
 .DS_Store
+# Installed packages
+node_modules/
 # mise's override for one machine: mise-check's own checkout pins its build there (local)
 .mise/config.local.toml

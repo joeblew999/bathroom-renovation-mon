@@ -50,7 +50,7 @@ This is a real bathroom: an architect designs it, and a Thai builder constructs 
 
 `mise tasks` lists every command (they are in `mise.toml`, and mise-check's own in `.mise/tasks/mise-check.toml`). Only `mise` needs to be installed; on a new machine, run `mise run root:setup` first.
 
-Every task has one structure, held by [mise-check](https://github.com/joeblew999/mise-check) (`mise run root:check-mise`, part of `root:ci` and `root:publish`): it is named `namespace:task`; its `run` and `usage` are each one line; the flags and arguments it takes are declared in its `usage` and passed by name; and its `run` has no POSIX shell syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code: `repo.py`, `etl/`, `web/`.
+Every task has one structure, held by [mise-check](https://github.com/joeblew999/mise-check) (`mise run root:check-mise`, part of `root:ci` and `root:publish`): it is named `namespace:task`; its `run` and `usage` are each one line; the flags and arguments it takes are declared in its `usage` and passed by name; and its `run` has no POSIX shell syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code: `repo.py`, `etl/`. The quote is Python only.
 
 ## How the quote is made
 
@@ -89,11 +89,10 @@ On every push to `main`, GitHub runs `mise run root:setup` and `mise run root:ci
 | `test_pipeline.py` | The tests: `mise run quote:test` measures the drawings in Chromium only in the tests about them; `mise run quote:fuzz` measures them in every test |
 | `mise.toml` | The commands, and the pinned tools |
 | `repo.py` | The repo's chores as code, so each task stays one line: setting up, linting, publishing |
-| `go.mod`, `go.sum`, `mise_test.go` | mise-check's packages, pinned at the release `.mise/config.toml` pins its binary at, and the one-line test `mise run root:check-mise` runs on `mise.toml` (Go runs only this) |
 | `.mise/`, `.github/workflows/mise-check.yml`, `.claude/`, `docs/mise-check/` | mise-check's files, written by `mise-check init` (`mise run mise-check:init` writes them again): its pin and its tasks (`mise run mise-check` says what's done and what to run next; `mise run mise-check:update` moves every pin), the workflow that runs `mise run mise-check:verify` on every push and pull request, its Claude Code hook and skill, and its page, `docs/mise-check/README.md` |
 | `pyproject.toml`, `uv.lock` | The Python packages, pinned exactly; `mise run root:setup` installs exactly the lock |
 | `.github/workflows/pages.yml` | GitHub's build: `mise run root:setup`, `mise run root:ci` (`root:check-mise`, `quote:check`, then `quote:fuzz`), then publish |
-| `etl/`, `web/` | The trial of the quote's data as SQLite, and its web app on Cloudflare (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
+| `etl/` | The trial of the quote's data as SQLite, kept on this machine (plan: `docs/2026-11-02-01-sqlite-data.md`); not used by the build |
 | `docs/` | Plans, one file each, named `YYYY-MM-DD-NN-slug.md`; and `docs/mise-check/`, mise-check's |
 | `lighting/` | The house's light fittings order (bedrooms, kitchen, bathroom ceiling, living room, eaves): what goes where, the orders and the installation; its own README, and the labour priced from the Comptroller General's rates (`labour.md`); not used by the build |
 | `appliances/` | The house's appliances and office furniture (TV and wall bracket, fridge, induction cooktop, Ethernet cables, office table and stool): the picks from HomePro, the options looked at, and the order once placed; not used by the build |

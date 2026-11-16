@@ -2,22 +2,11 @@
 # `mise tasks` lists the commands; `mise run root:setup` once, then `mise run quote:build`.
 # Its structure is held by mise-check (`mise run root:check-mise`, part of root:ci and root:publish): each task's run and
 # usage are one line, its flags and arguments are declared in its usage and passed by name, and no run has POSIX shell
-# syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code (repo.py, etl/, web/).
-
-[settings]
-idiomatic_version_file_enable_tools = ["go"]   # go.mod's toolchain line is the Go pin (Go runs only the structure check)
-npm.package_manager = "aube"                   # npm: tools (wrangler, cf) are installed with aube, the package manager web/ uses too
+# syntax — so every task runs the same on macOS, Linux and Windows. Longer logic is code (repo.py, etl/).
 
 [tools]
 python = "3.13.18"         # within pyproject.toml's requires-python (==3.13.*): uv sets a newer one aside for a Python of its own
 uv = "0.13.7"              # installs the Python packages, exactly as uv.lock pins them
-node = "26.13.0"           # the one JavaScript runtime (wrangler, cf, the web app's TypeScript); aube installs the packages
-# aube installs web/'s npm packages (package.json, aube-lock.yaml, build approvals in aube-workspace.yaml) and mise's npm:
-# tools. Pinned through mise's aqua backend: its default backend fails to install 2.9.0 (a 404 fetching aube's skill file)
-"aqua:aubepkg/aube" = "2.9.0"
-"npm:wrangler" = "4.158.0" # Cloudflare's tool for D1: migrations, its local copy, push and export
-"npm:cf" = "1.0.0-beta.27" # Cloudflare's CLI: logs in by device code (per project) and provisions the account — the D1
-                           # database with read replication. A beta, so pinned exactly
 
 # SQLite's own tools from sqlite.org — sqlite3 (dumps and loads the data files), sqldiff (compares two databases).
 # No ready-made download exists for Linux on ARM.
@@ -32,7 +21,6 @@ macos-x64 = { url = "https://www.sqlite.org/2026/sqlite-tools-osx-x64-3540100.zi
 
 [env]
 _.python.venv = { path = ".venv", create = true }
-CF_ACCESS_EMAILS = "gedw99@gmail.com"   # who Cloudflare Access lets into the web app (comma-separated), when it's on
 
 # ---------- the repo ----------
 
@@ -41,8 +29,8 @@ description = "Install the Python packages (exactly as uv.lock pins them) and th
 run = 'uv sync --locked && python repo.py setup'
 
 [tasks."root:check-mise"]
-description = "mise-check on this very file (mise_test.go): each task one line, its usage passed by name, no POSIX shell syntax, so every task runs on macOS, Linux and Windows"
-run = 'go test . -run "^TestRootMise$" -count=1 -v'
+description = "mise-check on this repo's mise files: each task one line, its usage passed by name, no POSIX shell syntax, so every task runs on macOS, Linux and Windows"
+run = 'mise-check check'
 
 [tasks."root:ci"]
 description = "The structure check, quote:check, then quote:fuzz. Exactly what GitHub runs on every push to main"
@@ -129,33 +117,10 @@ description = "Check the schema with sqlite3: every foreign key has an index (.l
 dir = "etl"
 run = 'python edit.py lint'
 
-[tasks."db:migration"]
-description = "Start a new migration, numbered after the last (a schema change is always a new migration)"
-dir = "etl"
-usage = 'arg "<name>" help="what it does, in a few words joined by underscores"'
-run = 'wrangler d1 migrations create bathroom-quote "{{usage.name}}" --config wrangler.toml'
-
 [tasks."db:migrate"]
 description = "Run on the working database each migration it hasn't had; then db:save writes the seed files in the new shape"
 dir = "etl"
 run = 'python edit.py migrate'
-
-[tasks."db:push"]
-description = "Cloudflare D1: apply the migrations it hasn't had, then make its data exactly the seed files, and check it there"
-dir = "etl"
-depends = ["db:status"]
-run = 'python d1.py push --remote && python d1.py check --remote'
-
-[tasks."db:pull"]
-description = "Cloudflare D1: show how it differs from the seed files, and take its data into the working database (never committed until db:save)"
-dir = "etl"
-run = 'python d1.py pull --remote'
-
-[tasks."db:show-d1"]
-description = "Cloudflare D1: run a query and print the rows"
-dir = "etl"
-usage = 'arg "<sql>" help="the query: SELECT * FROM room_show_fitting"'
-run = 'python d1.py show --remote "{{usage.sql}}"'
 
 [tasks."etl:run"]
 description = "The trial: read the TOML files, write the migrations and the seed files (out/etl/), and check them"
@@ -172,75 +137,3 @@ description = "The trial: break copies of the seed files and the working databas
 dir = "etl"
 run = 'python prove.py'
 
-[tasks."etl:d1"]
-description = "The trial on wrangler's local D1, from a fresh one: push, check, pull; SQLite's features on all three engines; left holding the seed files"
-dir = "etl"
-run = 'python d1.py trial'
-
-[tasks."etl:show-d1"]
-description = "The trial on wrangler's local D1 (after etl:d1): run a query and print the rows, as db:show-d1 does on Cloudflare"
-dir = "etl"
-usage = 'arg "<sql>" help="the query: SELECT * FROM room_show_fitting"'
-run = 'python d1.py show --local "{{usage.sql}}"'
-
-# ---------- the web app: a Hono Worker with HTMX 4, on the same D1 (web/; the Worker is `main` in etl/wrangler.toml) ----------
-
-[tasks."web:setup"]
-description = "Install the web app's packages with aube, exactly as web/aube-lock.yaml pins them: it fails if the lockfile and package.json disagree, and on any dependency build script not reviewed (web/aube-workspace.yaml)"
-dir = "web"
-run = 'aube install --frozen-lockfile'
-
-[tasks."web:check"]
-description = "Type-check the web app (TypeScript, with Cloudflare's Workers types)"
-dir = "web"
-run = 'aube exec tsc -p .'
-
-[tasks."web:dev"]
-description = "Serve the web app on wrangler's local D1 (after etl:d1): http://127.0.0.1:8787"
-dir = "etl"
-run = 'wrangler dev --config wrangler.toml --ip 127.0.0.1 --port 8787'
-
-[tasks."web:test"]
-description = "The web app end to end: wrangler on local D1, Chromium clicking through it, the change pulled back and saved"
-depends = ["web:check"]
-dir = "web"
-run = 'python test_web.py'
-
-[tasks."web:deploy"]
-description = "Put the web app on Cloudflare, on the real D1 — refused while Access is off; then checks the address sends a visitor to the Access login"
-dir = "etl"
-usage = 'flag "--public" help="deploy even with Access off: open to anyone with the address"'
-run = 'python cloudflare.py deploy{% if usage.public %} --public{% endif %}'
-
-# ---------- Cloudflare: logins, provisioning and Access, from here, for any developer (nothing kept in the repo) ----------
-
-[tasks."cf:login"]
-description = "Log in to Cloudflare by device code — cf (bound to this repo), then wrangler: each prints one link, the code already in it, to approve from any device"
-dir = "etl"
-run = 'python cloudflare.py login'
-
-[tasks."cf:whoami"]
-description = "Show who cf and wrangler are logged in to Cloudflare as"
-dir = "etl"
-run = 'cf auth whoami && wrangler whoami'
-
-[tasks."cf:provision"]
-description = "Make sure the D1 database exists with read replication on, and write its id into etl/wrangler.toml"
-dir = "etl"
-usage = 'flag "--dry-run" help="show the requests cf would make, and change nothing"'
-run = 'python cloudflare.py provision{% if usage.dry_run %} --dry-run{% endif %}'
-
-[tasks."cf:access-on"]
-description = "Put Cloudflare Access in front of the web app: only the emails in CF_ACCESS_EMAILS can open it"
-dir = "etl"
-run = 'python cloudflare.py access on'
-
-[tasks."cf:access-off"]
-description = "Take Cloudflare Access away from the web app: anyone with the address can open it"
-dir = "etl"
-run = 'python cloudflare.py access off'
-
-[tasks."cf:access-status"]
-description = "Say whether Cloudflare Access is in front of the web app, and who it lets in"
-dir = "etl"
-run = 'python cloudflare.py access status'
