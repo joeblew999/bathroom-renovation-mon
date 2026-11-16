@@ -49,6 +49,7 @@ Please quote for **labour only**:
 | ความสูงถึงฝ้า / Height to the ceiling | **2,800** |
 | หน้าต่าง / Window | **400 × 600** |
 | ประตู / Door | **700 × 1,950** |
+| ความหนาผนัง / Wall thickness | **100** |
 
 พื้นมีขั้นสูง 50 มม. ที่ประตู พื้นส่วนอื่นในห้องระดับเดียวกันทั้งหมด
 
@@ -60,14 +61,14 @@ There is a 50 mm step at the door. The rest of the floor is all one level.
 
 **ก่อนเริ่มงาน ช่างต้อง:**
 1. วัดจากระดับพื้นใหม่ (พื้นเดิม + กระเบื้องและกาว ประมาณ 15 มม.) ถึงใต้คานทับหลัง นี่คือความสูงที่วงกบใหม่สูงได้มากสุด
-2. ดูชุดประตูที่จะซื้อ ([ASARA A812](https://www.homepro.co.th/p/1321683) หรือรุ่นอื่น) แล้วยืนยันว่าตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง
+2. ดูชุดประตูที่จะซื้อ ([ASARA A812](https://www.homepro.co.th/p/1321683) หรือรุ่นอื่น) แล้วยืนยันว่าตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง และวงกบหนาพอกับผนัง (100 มม.) — หน้าเว็บไม่ได้บอกความหนาวงกบ
 3. ถ้าไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อชุดไหน
 
 The new door is a **UPVC door-and-frame set**, 70 × 200 cm. The old door and frame come out. The beam over the doorway stays, and the gap under it is lower than the new set, so the frame's legs are cut shorter at the bottom, and the door by the same amount.
 
 **Before the job starts, the tiler:**
 1. Measures from where the new floor will be (the old floor plus about 15 mm of tile and adhesive) up to the underside of the beam over the doorway. That's the most height the new frame can have.
-2. Looks at the set we plan to buy ([ASARA A812](https://www.homepro.co.th/p/1321683), or another) and confirms the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid.
+2. Looks at the set we plan to buy ([ASARA A812](https://www.homepro.co.th/p/1321683), or another) and confirms the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid; and that the frame is as deep as the wall is thick (100 mm). The product page doesn't give the frame's depth.
 3. If it can't, tells the owner which set to buy instead.
 
 ## ลำดับงาน / The order of work
