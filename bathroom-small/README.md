@@ -153,7 +153,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
-**ครั้งที่ 3 — บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. บนพื้นใหม่ ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดที่วงกบประตู
+**ครั้งที่ 3 — บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. บนพื้นใหม่ ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดที่ขอบช่องประตู (วงกบใหม่ใส่ในครั้งที่ 6)
 
 **ครั้งที่ 4 — ยาแนว:** ยาแนวทุกร่อง รวมมุมที่พื้นชนผนังและบัวเชิงผนัง **ห้ามใช้ซิลิโคน**
 
@@ -176,7 +176,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
-**Visit 3 — skirting:** a 10 cm strip of tile, standing on the new floor, along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it at the door frame.
+**Visit 3 — skirting:** a 10 cm strip of tile, standing on the new floor, along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it at the edge of the doorway (the new frame goes in at visit 6).
 
 **Visit 4 — grout:** fill every joint, including where the floor meets the walls and the skirting. **No silicone.**
 
