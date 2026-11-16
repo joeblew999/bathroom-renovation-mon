@@ -143,7 +143,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 **ความลาดเอียงของพื้น:** พื้นเดิมลาดไปท่อระบายน้ำน้อยเกินไป พื้นใหม่ต้องลาดมากขึ้น อย่างน้อย **1 ต่อ 80** ไปทางท่อระบายน้ำ (ทุก 80 ซม. ลดลง 1 ซม.) ทำความลาดด้วยชั้นกาวใต้กระเบื้องพื้น หนาที่ผนัง บางที่ท่อระบายน้ำ ถ้าต้องหนากว่าที่ถุงกาวกำหนด ให้บอกเจ้าของบ้านว่าต้องซื้ออะไรเพิ่ม
 
-1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว เหมือนในใบเสนอราคาห้องน้ำหลัก (`room.toml`) ตรวจสอบ 1 พ.ย. 2569
+1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว ([ที่มา](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor) ตรวจสอบ 1 พ.ย. 2569)
 
 **ครั้งที่ 2 — ผนังฝักบัวก่อน แล้วพื้น:**
 1. **กำหนดระดับพื้นใหม่** พร้อมความลาด แล้วขีดไว้ที่ผนัง
@@ -166,7 +166,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **The floor's slope:** the old floor doesn't slope enough to the drain. Give the new floor a steeper slope: at least **1 in 80** towards the drain (1 cm down for every 80 cm). Build it up in the adhesive under the floor tiles: thicker at the walls, thinner at the drain. If that needs a thicker bed than the adhesive bag allows, tell the owner what else to buy.
 
-1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray, as in the main bathroom quote (`room.toml`), checked 1 Nov 2026.
+1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray ([source](https://www.thisisconstruction.com.au/knowledge-articles/what-is-the-fall-requirement-for-a-shower-floor), checked 1 Nov 2026).
 
 **Visit 2 — the shower wall first, then the floor:**
 1. **Work out the new floor's height** with its slope, and mark it on the walls.
@@ -420,9 +420,9 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
 | **รวม / Total** | | | | **฿1,720** |
 
-**ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569 เหมือนใน `labour.toml` ของใบเสนอราคาหลัก) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
+**ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร [277997](https://www.homepro.co.th/p/277997) ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
-**Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
+**Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
 
 ### ไม่รวมในราคานี้ — ถามช่าง / Not in the price — ask the tiler
 
