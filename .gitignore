@@ -9,6 +9,9 @@ __pycache__/
 *.db-journal
 *.db-wal
 *.db-shm
+# Cloudflare's tools' local files: wrangler's state and caches, cf's account cache — never committed
+.wrangler/
+.cloudflare/
 # Go test caches and editor files
 *.test
 *.out
