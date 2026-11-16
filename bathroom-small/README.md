@@ -12,9 +12,9 @@ Location: [Google Maps](https://maps.app.goo.gl/9hs6e2uQi3Ah5gwDA)
 
 Renovate the existing bathroom. The room size is not changing.
 
-**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) ช่าง 2 ทีม: **ช่างปูกระเบื้อง** ทำงานปูกระเบื้อง (ขั้นที่ 4) **ผู้รับเหมา** ทำงานอื่นทั้งหมด
+**เจ้าของบ้าน**ทำงานเตรียม (ขั้นที่ 1) **ช่างปูกระเบื้อง**ทำงานอื่นทั้งหมด
 
-The **owner** does the preparation (phase 1). Two teams: the **tiler** does the tiling (phase 4); the **builder** does everything else.
+The **owner** does the preparation (phase 1). The **tiler** does everything else.
 
 ## ขนาด / Size
 
@@ -38,11 +38,11 @@ The long wall with the shower and the basin is tiled grey, 2.0 m high. The other
 | # | ขั้นตอน / Phase | ใคร / Who | งาน / What |
 |---|---|---|---|
 | 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ล้างคิ้วบนสเต็ป ป้องกันของที่เก็บไว้ / Take off the screen, clean the step's trim, protect what stays |
-| 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | ถอดของบนผนังเก็บไว้ รื้อกระเบื้องผนังเดิมทั้งหมด / Take the wall fittings off and keep them, strip all the old wall tiles |
-| 3 | ฉาบปูน / Plastering | ผู้รับเหมา / Builder | ฉาบผนังที่รื้อกระเบื้องออก / Plaster the walls the tiles came off |
-| 4 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้น สเต็ป ผนังฝักบัว และบัวเชิงผนัง 2 ครั้ง: ปู แล้วยาแนว / Floor, step, shower wall and skirting, 2 visits: lay, then grout |
-| 5 | ทาสี / Painting | ผู้รับเหมา / Builder | ผนัง วงกบหน้าต่าง และเหล็กดัด / Walls, window frame and security screen |
-| 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | ของบนผนังกลับที่เดิม สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / The wall fittings back on, the fittings, the security screen, then the new door |
+| 2 | รื้อถอน / Strip out | ช่างปูกระเบื้อง / Tiler | ถอดของบนผนังเก็บไว้ รื้อกระเบื้องผนังเดิมทั้งหมด / Take the wall fittings off and keep them, strip all the old wall tiles |
+| 3 | ฉาบปูน / Plastering | ช่างปูกระเบื้อง / Tiler | ฉาบผนังที่รื้อกระเบื้องออก / Plaster the walls the tiles came off |
+| 4 | ปูกระเบื้อง / Tiling | ช่างปูกระเบื้อง / Tiler | พื้น สเต็ป ผนังฝักบัว และบัวเชิงผนัง 2 ครั้ง: ปู แล้วยาแนว / Floor, step, shower wall and skirting, 2 visits: lay, then grout |
+| 5 | ทาสี / Painting | ช่างปูกระเบื้อง / Tiler | ผนัง วงกบหน้าต่าง และเหล็กดัด / Walls, window frame and security screen |
+| 6 | ติดตั้ง / Fit-out | ช่างปูกระเบื้อง / Tiler | ของบนผนังกลับที่เดิม สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / The wall fittings back on, the fittings, the security screen, then the new door |
 
 ### ใครมาเมื่อไร / Who comes when
 
@@ -53,11 +53,11 @@ Several steps have to dry before the next one, so the work comes in visits:
 | ครั้ง / Visit | ใคร / Who | งาน / Work | แล้วรอ / Then wait |
 |---|---|---|---|
 | 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
-| 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วฉาบปูน (ขั้นที่ 2–3) / Strip out, then plaster (phases 2–3) | ปูนฉาบแห้ง ตามที่เขียนบนถุงกาวปูกระเบื้อง / the plaster dries, as on the tile adhesive's bag |
+| 2 | ช่างปูกระเบื้อง / Tiler | รื้อถอน แล้วฉาบปูน (ขั้นที่ 2–3) / Strip out, then plaster (phases 2–3) | ปูนฉาบแห้ง ตามที่เขียนบนถุงกาวปูกระเบื้อง / the plaster dries, as on the tile adhesive's bag |
 | 3 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 4) / Lay the tiles (phase 4) | กาวบ่มตัว (ขั้นที่ 4) / the adhesive cures (phase 4) |
 | 4 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 4) / Grout (phase 4) | ยาแนวแห้ง / the grout sets |
-| 5 | ผู้รับเหมา / Builder | ทาสี (ขั้นที่ 5) / Paint (phase 5) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
-| 6 | ผู้รับเหมา / Builder | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
+| 5 | ช่างปูกระเบื้อง / Tiler | ทาสี (ขั้นที่ 5) / Paint (phase 5) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
+| 6 | ช่างปูกระเบื้อง / Tiler | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
 | 7 | เจ้าของบ้าน / Owner | แกะเทปและพลาสติกออก / Tape and plastic off | — |
 
 ### 1. เตรียมงาน / Preparation
@@ -126,23 +126,23 @@ Price checked 2026-11-16 (the page shows ฿79–185 by delivery area; this uses
 
 ### 4. ปูกระเบื้อง / Tiling
 
-**ช่างปูกระเบื้องทำ** ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม ปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป แล้วปูผนังฝักบัวและบัวเชิงผนัง
+ปูพื้น**ทับกระเบื้องพื้นเดิม** ติดตะแกรงท่อระบายน้ำใหม่ 100 × 100 มม. ที่ตำแหน่งเดิม ปูลูกตั้งสเต็ป (ด้านตั้ง) ขึ้นไปชนคิ้วพลาสติกสีชมพูเดิมบนสเต็ป แล้วปูผนังฝักบัวและบัวเชิงผนัง
 
-**Done by the tiler.** Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step, then the shower wall and the skirting.
+Tile the floor **on top of the old floor tiles**, set the new 100 × 100 mm drain grate in the same spot as the old one, tile the step's riser (its upright face) up to the existing pink plastic edge trim on top of the step, then the shower wall and the skirting.
 
-**ช่างปูกระเบื้องเข้างาน 2 ครั้ง:**
+**ปูกระเบื้อง 2 ครั้ง:**
 1. **ครั้งที่ 1 — ปู:** พื้น ลูกตั้งสเต็ป และตะแกรงท่อระบายน้ำ แล้วผนังฝักบัวและบัวเชิงผนัง
 2. **บ่มกาว 24–48 ชั่วโมง** ตามอุณหภูมิ (หน้าสินค้ากาวในตารางด้านล่าง) ห้ามเดินบนพื้น
 3. **ครั้งที่ 2 — ยาแนว**
 
-**The tiler comes twice:**
+**Tiling takes 2 visits:**
 1. **Visit 1 — lay:** the floor, the step riser and the drain grate, then the shower wall and the skirting.
 2. **Let the adhesive cure 24–48 hours**, depending on the temperature (the adhesive's product page, in the table below). Keep off the floor.
 3. **Visit 2 — grout.**
 
-ผู้รับเหมาเริ่มทาสี (ขั้นที่ 5) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
+เริ่มทาสี (ขั้นที่ 5) ได้เมื่อยาแนวแห้งแล้วเท่านั้น
 
-The builder starts painting (phase 5) only once the grout has set.
+Start painting (phase 5) only once the grout has set.
 
 **ผนังฝักบัว / The shower wall:** ผนังด้านยาวที่มีฝักบัวและอ่างล้างหน้า 2,500 มม. สูง **2,000 มม. จากพื้นกระเบื้องใหม่** = 4 แถวเต็ม ไม่ต้องตัดแถวบน ปิดขอบบนด้วยคิ้ว PVC สีเทา **ให้ร่องยาแนวผนังตรงกับร่องยาแนวพื้น** ตามผนังนี้ (กระเบื้องขนาดเดียวกัน)
 
@@ -321,7 +321,7 @@ Prices checked on HomePro 2026-11-05.
 
 **คำถามถึงช่าง:** ราคาค่าติดตั้งประตู (ตัด แขวน ใส่ลูกบิด)
 
-**Question for the builder:** your price to fit the door (cut, hang, fit the knob).
+**Question for the tiler:** your price to fit the door (cut, hang, fit the knob).
 
 ---
 

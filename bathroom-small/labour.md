@@ -2,24 +2,24 @@
 
 Date: 5 Nov 2026
 
-A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the builder's and the tiler's quotes against. The materials are the owner's and are not in it.
+A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the tiler's quote against: the tiler does all the work after the owner's preparation. The materials are the owner's and are not in it.
 
-The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the builder's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor, and 2.8 m to the ceiling. The ceiling and its light stay as they are, so there is no ceiling work.
+The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the tiler's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor, and 2.8 m to the ceiling. The ceiling and its light stay as they are, so there is no ceiling work.
 
 ## Summary
 
 | Phase | Who | Bare labour | With Factor F |
 |---|---|---|---|
 | 1. Preparation | Owner | — | — |
-| 2. Strip out | Builder | ฿796 | ฿971 |
-| 3. Plastering | Builder | ฿950 | ฿1,159 |
+| 2. Strip out | Tiler | ฿796 | ฿971 |
+| 3. Plastering | Tiler | ฿950 | ฿1,159 |
 | 4. Tiling | Tiler, 2 visits | ฿1,712 | ฿2,088 |
-| 5. Painting | Builder | ฿474 | ฿578 |
-| 6. Fit-out, and the door | Builder | ฿1,576 | ฿1,923 |
-| Water heater refitted (HomePro's service price, already with its overheads, so no Factor F) | Builder | | ฿500 |
+| 5. Painting | Tiler | ฿474 | ฿578 |
+| 6. Fit-out, and the door | Tiler | ฿1,576 | ฿1,923 |
+| Water heater refitted (HomePro's service price, already with its overheads, so no Factor F) | Tiler | | ฿500 |
 | **Total** | | **฿5,508** | **฿7,219** |
 
-These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
+These are government reference rates, worked out per unit of work. The tiler will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
 ## The phases
 
@@ -83,7 +83,7 @@ The door rate is for hanging a ready-made leaf. Cutting the top off isn't priced
 
 ## Not priced yet
 
-These have no rate in the book, so ask the builder for a price:
+These have no rate in the book, so ask the tiler for a price:
 
 - **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it — now with the old wall tiles too.
 - **Taking the wall fittings off** at the strip-out: the water heater, the shower and its rail, the soap holder, the toilet paper holder and the bidet spray's holder.
