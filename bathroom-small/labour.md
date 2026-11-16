@@ -13,10 +13,10 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 | 1. Preparation | Owner | — | — |
 | 2. Strip out | Builder | ฿566 | ฿690 |
 | 3. Ceiling | Builder | ฿266 | ฿324 |
-| 4. Painting | Builder | ฿441 | ฿538 |
+| 4. Painting, and the light back | Builder | ฿610 | ฿744 |
 | 5. Tiling | Tiler, 2 visits | ฿700 | ฿854 |
 | 6. Fit-out, and the door | Builder | ฿1,288 | ฿1,571 |
-| **Total** | | **฿3,261** | **฿3,977** |
+| **Total** | | **฿3,430** | **฿4,183** |
 
 These are government reference rates, worked out per unit of work. The builder will most likely price a job this small by the day or as a lump sum. The items under "Not priced yet" are still to be added.
 
@@ -27,7 +27,7 @@ These are government reference rates, worked out per unit of work. The builder w
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
 | Take down the old ceiling, tiles and grid (T-bar ceiling) | 2.9.8, p. 14 | 3.45 m² | ฿26 | ฿90 |
-| Take down the ceiling light (its cable stays) | 2.9.39, p. 15 | 1 | ฿36 | ฿36 |
+| Take down the KÄRRNOCKA ceiling light and keep it (its cable stays) | 2.9.39, p. 15 | 1 | ฿36 | ฿36 |
 | Remove the old toilet and the old basin | 2.9.37, p. 15 | 2 | ฿220 | ฿440 |
 | | | | | **฿566** |
 
@@ -37,16 +37,17 @@ These are government reference rates, worked out per unit of work. The builder w
 |---|---|---|---|---|
 | Galvanised steel frame and gypsum board, joints finished | 2.2.3, p. 7 | 3.45 m² | ฿77 | ฿266 |
 
-### 4. Painting
+### 4. Painting, and the light back
 
-The book's rates include a primer coat and 2 finish coats.
+The book's rates include a primer coat and 2 finish coats. The light goes back once the paint is dry. The book has no item for a surface ceiling lamp that takes bulbs, so it uses the nearest, the bulb lamp in item 4.58, as the [lighting labour](../lighting/labour.md) does.
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
 | Ceiling, emulsion, inside | 2.8.1, p. 13 | 3.45 m² | ฿31 | ฿107 |
 | Walls above the tiles, emulsion, inside | 2.8.1, p. 13 | 10.2 m² | ฿31 | ฿316 |
 | Security screen and window frame, anti-rust paint | 2.8.3, p. 13 | 0.5 m² | ฿36 | ฿18 |
-| | | | | **฿441** |
+| Refit the KÄRRNOCKA ceiling light (3 × E27) on the new ceiling | 4.58, bulb lamp (incandescent, CFL), p. 40 | 1 | ฿169 | ฿169 |
+| | | | | **฿610** |
 
 Walls: the wall tiles go up about 1.4 m, so 7.76 m round the room × (2.8 − 1.4) m = 10.86 m², less the door above the tiles (0.70 × 0.55 m = 0.39 m²) and the window, which is above the tiles (0.40 × 0.60 m = 0.24 m²) = **10.2 m²**.
 

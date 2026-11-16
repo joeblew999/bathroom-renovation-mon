@@ -36,7 +36,7 @@ Floor and ceiling area: 2.5 × 1.38 = **3.45 m²**.
 | 1 | เตรียมงาน / Preparation | **เจ้าของบ้าน / Owner** | ถอดเหล็กดัด ล้างคิ้ว ป้องกันของที่เก็บไว้ / Take off the screen, clean the trims, protect what stays |
 | 2 | รื้อถอน / Strip out | ผู้รับเหมา / Builder | รื้อที่เหลือ / Remove the rest |
 | 3 | ฝ้าเพดาน / Ceiling | ผู้รับเหมา / Builder | ฝ้าใหม่ / New ceiling |
-| 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด / Ceiling, walls, window frame and security screen |
+| 4 | ทาสี / Painting | ผู้รับเหมา / Builder | ฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด แล้วติดโคมไฟกลับ / Ceiling, walls, window frame and security screen, then refit the light |
 | 5 | ปูกระเบื้อง / Tiling | **ช่างปูกระเบื้อง / Tiler** | พื้นและสเต็ป 2 ครั้ง: ปู แล้วยาแนว / Floor and step, 2 visits: lay, then grout |
 | 6 | ติดตั้ง / Fit-out | ผู้รับเหมา / Builder | สุขภัณฑ์และอุปกรณ์ เหล็กดัด แล้วประตูใหม่ / Fittings, the security screen, then the new door |
 
@@ -51,7 +51,7 @@ Several steps have to dry before the next one, so the work comes in visits:
 | 1 | เจ้าของบ้าน / Owner | เตรียมงาน (ขั้นที่ 1) / Preparation (phase 1) | — |
 | 2 | ผู้รับเหมา / Builder | รื้อถอน แล้วโครงและแผ่นฝ้า ฉาบรอยต่อรอบแรก (ขั้นที่ 2–3) / Strip out, then the ceiling frame and board, first joint coat (phases 2–3) | ผงฉาบแห้ง ตามที่เขียนบนถุง / the jointing compound dries, as on its bag |
 | 3 | ผู้รับเหมา / Builder | ฉาบรอยต่อเพิ่มถ้าจำเป็น แล้วขัด (ขั้นที่ 3) / More joint coats if needed, then sand (phase 3) | ตามที่เขียนบนถุง / as on the bag |
-| 4 | ผู้รับเหมา / Builder | ทาสีฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด (ขั้นที่ 4) / Paint the ceiling, walls, window frame and security screen (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
+| 4 | ผู้รับเหมา / Builder | ทาสีฝ้า ผนัง วงกบหน้าต่าง และเหล็กดัด แล้วติดโคมไฟกลับ (ขั้นที่ 4) / Paint the ceiling, walls, window frame and security screen, then refit the light (phase 4) | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint dries, as on its can |
 | 5 | ช่างปูกระเบื้อง / Tiler | ปูกระเบื้อง (ขั้นที่ 5) / Lay the tiles (phase 5) | กาวบ่มตัว (ขั้นที่ 5) / the adhesive cures (phase 5) |
 | 6 | ช่างปูกระเบื้อง / Tiler | ยาแนว (ขั้นที่ 5) / Grout (phase 5) | ยาแนวแห้ง / the grout sets |
 | 7 | ผู้รับเหมา / Builder | ติดตั้ง ติดเหล็กดัดกลับ แล้วประตูใหม่ (ขั้นที่ 6) / Fit-out, the security screen back on, then the new door (phase 6) | — |
@@ -89,9 +89,9 @@ Before anything else.
 
 ### 2. รื้อถอน / Strip out
 
-รื้อ**ทุกอย่างที่เหลือ** รวมฝ้าเดิม: ถอดโคมไฟเพดาน (**เก็บสายไฟไว้ที่เดิม** — โคมใหม่จะต่อกับสายนี้ภายหลัง) แล้วรื้อฝ้าเดิมทั้งหมด ทั้งแผ่นและโครง ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ
+รื้อ**ทุกอย่างที่เหลือ** รวมฝ้าเดิม: ถอดโคมเพดาน IKEA KÄRRNOCKA ที่เพิ่งติดตั้งออก**อย่างระมัดระวัง และเก็บไว้** พร้อมหลอดไฟและสกรู — จะติดกลับที่ฝ้าใหม่ในขั้นที่ 4 (**เก็บสายไฟไว้ที่เดิม**) แล้วรื้อฝ้าเดิมทั้งหมด ทั้งแผ่นและโครง ของในตาราง "เก็บไว้" (ขั้นที่ 1) ไม่ต้องรื้อ
 
-Remove **everything else**, the old ceiling included: take down the ceiling light (**leave its cable in place** — the new light goes on that cable later), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
+Remove **everything else**, the old ceiling included: take down the IKEA KÄRRNOCKA ceiling light, which is new, **carefully, and keep it** with its bulbs and screws — it goes back on the new ceiling in phase 4 (**leave its cable in place**), then the whole old ceiling, tiles and grid. Everything in the "Stays" table (phase 1) stays.
 
 ถอดขาแขวนอ่างล้างหน้าเดิมออกพร้อมอ่าง — เป็นสนิมแล้ว อ่างใหม่ปิดรูเดิมได้
 
@@ -106,9 +106,9 @@ A new flush gypsum ceiling.
 1. **โครง:** ฉากริมเหล็กชุบกัลวาไนซ์รอบห้องที่ความสูงฝ้าเดิม (2,800 มม.) โครงซีไลน์ขวางห้อง (ช่วง 1,380 มม.) ระยะห่าง 40 ซม. วางบนฉากริมทั้งสองผนังยาว
 
    **Frame:** galvanised steel wall angle round the room at the old ceiling height (2,800 mm); C-channels across the room (the 1,380 mm span) at 40 cm centres, resting on the wall angle on both long walls.
-2. **แผ่น:** ยึดแผ่นยิปซัมกันชื้นเต็มฝ้า ให้ฉาบเรียบ — เจาะนำสายไฟโคมเพดานออกตรงตำแหน่งโคม
+2. **แผ่น:** ยึดแผ่นยิปซัมกันชื้นเต็มฝ้า ให้ฉาบเรียบ — เจาะนำสายไฟโคมเพดานออกตรงตำแหน่งโคม และให้มีโครงซีไลน์อยู่เหนือตำแหน่งโคม เพื่อให้สกรูยึดโคมเข้าโครงเหล็ก ไม่ใช่ยึดแผ่นยิปซัมอย่างเดียว
 
-   **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes.
+   **Board:** screw up moisture-resistant gypsum board over the whole ceiling, for a flush finish — bring the ceiling light's cable out through the board where the light goes, and have a C-channel over that spot, so the light's screws go into the steel frame, not the board alone.
 3. **รอยต่อ:** ติดเทปและฉาบทุกรอยต่อและหัวสกรูให้เรียบ — **รวมมุมฝ้าชนผนังรอบห้อง (7.76 ม.)**: พับเทปเข้ามุมแล้วฉาบ เพื่อไม่ให้แตกร้าว
 
    **Joints:** tape and fill every joint and screw head smooth — **including the corner where the ceiling meets the walls, all round the room (7.76 m)**: fold the tape into the corner and fill it, so it doesn't crack.
@@ -145,6 +145,9 @@ Everything that stays is already protected (phase 1). With the white paint alrea
 3. **ทาสี** ฝ้าและผนัง วงกบหน้าต่าง และเหล็กดัด — ทาเหล็กดัด**แยกต่างหาก ไม่ติดผนัง** (ถอดออกในขั้นที่ 1)
 
    **Paint** the ceiling and the walls, the window frame, and the security screen — the screen **off the wall**, on its own (it came off in phase 1).
+4. **ติดโคมไฟกลับ:** เมื่อสีแห้ง ต่อสายและยึดโคม KÄRRNOCKA (เก็บไว้ในขั้นที่ 2) เข้ากับฝ้าใหม่ ยึดสกรูเข้าโครงซีไลน์ แล้วใส่หลอดไฟ
+
+   **Refit the light:** when the paint is dry, connect the KÄRRNOCKA (kept in phase 2) and screw it to the new ceiling, into the C-channel, then put the bulbs back in.
 
 ### 5. ปูกระเบื้อง / Tiling
 
