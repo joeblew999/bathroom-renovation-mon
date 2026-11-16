@@ -42,6 +42,22 @@ When it's finished:
 
 The floor has a 50 mm step across the room.
 
+## ก่อนเริ่มงาน — ช่างตรวจประตู / Before the job starts — the tiler checks the door
+
+ประตูใหม่สูง 2,000 มม. แต่ช่องประตูเดิมสูงแค่ประมาณ 1,950 มม. และพื้นใหม่จะทำให้เตี้ยลงอีกประมาณ 15 มม. วงกบเดิมและคานทับหลังอยู่ที่เดิม จึงต้องตัดประตูใหม่ด้านบนออกประมาณ 65 มม.
+
+The new door is 2,000 mm tall, but the old doorway is only about 1,950 mm, and the new floor will make it about 15 mm lower again. The old frame and the beam over the door stay, so about 65 mm has to be cut off the top of the new door.
+
+**ก่อนเริ่มงาน ช่างต้อง:**
+1. วัดช่องประตูเดิม จากพื้นถึงด้านบนของวงกบ
+2. ดูประตูที่จะซื้อ ([AZLE WB2](https://www.homepro.co.th/p/1259829) หรือรุ่นอื่น) แล้วยืนยันว่าตัดด้านบนออก 65 มม. ได้ โดยประตูยังแข็งแรง
+3. ถ้าตัดไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อประตูรุ่นไหน
+
+**Before the job starts, the tiler:**
+1. Measures the old doorway, from the floor to the top of the frame.
+2. Looks at the door we plan to buy ([AZLE WB2](https://www.homepro.co.th/p/1259829), or another) and confirms about 65 mm can come off its top and it will still be solid.
+3. If it can't, tells the owner which door to buy instead.
+
 ## ลำดับงาน / The order of work
 
 งานบางอย่างต้องรอให้แห้งก่อน จึงแบ่งเป็น 5 ครั้ง:
@@ -269,9 +285,9 @@ Prices checked on HomePro 5 Nov 2026.
 
 **The new door is too tall, so cut the top off.** The new door is 2,000 mm tall and the opening is 1,950 mm. The new floor makes the opening a bit lower again. So cut off 50 mm, plus however much the floor went up (about 15 mm, so about 65 mm in all). Measure after the floor is laid. Sand the cut edge, then close the open top with a PVC strip or silicone.
 
-**ก่อนซื้อ ถามโฮมโปร:** ประตูนี้ข้างในกลวง ตัดด้านบนได้มากสุดกี่มม.? (เราต้องตัดประมาณ 65 มม.) ถ้าตัดไม่ได้ ถามว่าแนะนำรุ่นไหน
+**ประตูที่จะซื้อ:** ช่างตรวจก่อนเริ่มงาน (ดู "ก่อนเริ่มงาน" ด้านบน)
 
-**Before buying, ask HomePro:** this door is hollow inside. How much can be cut off the top? (We need about 65 mm.) If that's too much, ask which door they'd suggest.
+**Which door to buy:** the tiler checks this before the job starts (see "Before the job starts" at the top).
 
 **ความหนา:** ประตูใหม่หนา 35 มม. ประตูเดิม 38 มม. ใส่วงกบเดิมได้ หนัก 7.3 กก. ใส่กุญแจฝังไม่ได้ (โฮมโปร เช็ค 5 พ.ย. 2569)
 
