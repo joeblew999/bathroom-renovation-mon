@@ -239,9 +239,9 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | ยาแนว สีเทา / Grout, grey | Crocodile Premium Plus 1 kg, coral grey <https://www.homepro.co.th/p/138784> | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
 | คิ้ว PVC เหลี่ยม สีเทา (ขอบบนผนังฝักบัว 2.5 ม. และขอบบนบัวเชิงผนัง 4.56 ม.) / Square grey plastic edge strip (top of the shower wall, 2.5 m, and top of the skirting, 4.56 m) | TARA PVC 10 mm, square, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 4 เส้น / 4 strips | ต้องซื้อ / To buy | ฿97.60 | ฿390 |
 | คิ้ว PVC โค้ง สีเทา (มุมนอกที่ขอบขั้น 0.7 ม.) / Rounded grey plastic trim (the step's outside corner, 0.7 m) | TARA PVC 10 mm, rounded, 2 m, grey <https://www.homepro.co.th/p/1248284> | 1248284 | 1 เส้น / 1 strip | ต้องซื้อ / To buy | ฿106.40 | ฿106 |
-| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง และมุมที่ปลายผนังฝักบัว) / Anti-mould silicone, grey (floor-to-wall corners, and the shower wall's end corners) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 2 หลอด / 2 tubes | ต้องซื้อ / To buy | ฿144 | ฿288 |
+| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง มุมที่ปลายผนังฝักบัว และรอบชักโครกกับอ่างล้างหน้าในครั้งที่ 6) / Anti-mould silicone, grey (floor-to-wall corners, the shower wall's end corners, and round the toilet and basin in visit 6) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 3 หลอด / 3 tubes | ต้องซื้อ / To buy | ฿144 | ฿432 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,770** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,914** |
 
 ราคาเช็ค 31 ต.ค. 2569 ซิลิโคนและคิ้วโค้งเช็ค 16 พ.ย. 2569 (หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
 
@@ -285,6 +285,7 @@ Prices checked 16 Nov 2026.
 - **อ่างล้างหน้า:** ขอบบนอ่างสูง **900 มม. จากพื้นใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อเดิมที่ผนัง
 - **กระจก:** อยู่กึ่งกลางอ่าง จุดกึ่งกลางกระจกสูง **1,600 มม. จากพื้นใหม่** เจาะกระเบื้องด้วยดอกเจาะกระเบื้อง ไม่เจาะตรงร่องยาแนว
 - **ชักโครก:** พื้นใหม่สูงขึ้น ท่อน้ำทิ้งที่พื้นจึงต่ำกว่าพื้นเล็กน้อย ตรวจว่าชักโครกต่อกับท่อแน่นไม่รั่ว ใช้แหวนยางในกล่องชักโครก ถ้ายังไม่ถึงท่อ ใช้ข้อต่อเสริมความสูง
+- **ซิลิโคน:** ยิงซิลิโคนสีเทากันเชื้อรารอบฐานชักโครก และตามขอบอ่างล้างหน้าที่ชนผนัง
 - **ชั้นวางพร้อมราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดหลังติดชักโครกแล้ว เจ้าของบ้านจะบอกตำแหน่ง
 - ของอื่นๆ: ตกลงตำแหน่งกันที่หน้างาน
 
@@ -298,6 +299,7 @@ Prices checked 16 Nov 2026.
 - **Basin:** its top edge **900 mm above the new floor**. Line its drain up with the old drain hole in the wall.
 - **Mirror:** centred over the basin, with its middle **1,600 mm above the new floor**. Drill the tiles with a tile bit, never through a grout line.
 - **Toilet:** the new floor is higher, so the drain pipe in the floor now ends a little below it. Make sure the toilet seals onto the pipe with no leak. Use the rubber ring that comes in the toilet's box. If that doesn't reach, use a raised connector.
+- **Silicone:** run grey anti-mould silicone round the base of the toilet, and along the basin where it meets the wall.
 - **Shelf with towel rail:** above the toilet, to its right. Fit it after the toilet is in; the owner will show you exactly where.
 - Anything else: agree where it goes on site.
 
@@ -394,9 +396,9 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | 2 | วงกบประตู และกันซึม / The door frame, and waterproofing | ฿795 | ฿970 |
 | 3–4 | ปูกระเบื้อง และซิลิโคน / Tiling, and silicone | ฿1,798 | ฿2,193 |
 | 5 | ทาสี / Painting | ฿474 | ฿578 |
-| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,648 | ฿2,010 |
+| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,691 | ฿2,063 |
 | 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวมทั้งหมด / Total** | | **฿8,491** |
+| | **รวมทั้งหมด / Total** | | **฿8,544** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -464,7 +466,8 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | ติดที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระกลับ / Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 ต่อชิ้น / each | ฿216 |
 | ติดสายน้ำใหม่ของเครื่องทำน้ำอุ่น (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของราคาของ ฿259) / Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
-| **รวม / Total** | | | | **฿1,648** |
+| ยิงซิลิโคนรอบชักโครกและอ่างล้างหน้า (ไม่มีในบัญชี: 30% ของค่าวัสดุ 1 หลอด ฿144) / Silicone round the toilet and basin (not in the book: 30% of its materials, 1 tube, ฿144) | note 1, p. 45 | 30% | ฿144 | ฿43 |
+| **รวม / Total** | | | | **฿1,691** |
 
 **ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร 277997 <https://www.homepro.co.th/p/277997> ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
