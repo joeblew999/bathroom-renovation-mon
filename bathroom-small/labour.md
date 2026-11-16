@@ -6,7 +6,7 @@ This is a guide price for the tiler's work on the [small bathroom](README.md), s
 
 ## The short answer
 
-- **The government rate book puts the labour at about ฿7,200.**
+- **The government rate book puts the labour at about ฿7,500.**
 - **Expect his real price to be higher.** The book's rates are set for big jobs. It doesn't pay for the waiting between visits, or for him coming back 6 times for a small room.
 - **A better check is by the day.** The job is about **7½ working days**, often with a helper. A fair price is about 7½ of his day rates (plus his helper's), plus the fee for dumping the rubble.
 
@@ -27,13 +27,13 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 
 | Visit | Work | Bare wages | With overheads and profit |
 |---|---|---|---|
-| 1 | Take the old things out | ฿796 | ฿971 |
+| 1 | Take the old things out | ฿886 | ฿1,081 |
 | 1 | Plaster the walls | ฿950 | ฿1,159 |
 | 2–4 | Tiling | ฿1,712 | ฿2,088 |
 | 5 | Painting | ฿474 | ฿578 |
-| 6 | Fitting everything, and the door | ฿1,576 | ฿1,923 |
+| 6 | Fitting everything, and the door | ฿1,720 | ฿2,098 |
 | 6 | Putting the water heater back (HomePro's own price, already includes their overheads) | | ฿500 |
-| | **Total** | | **฿7,219** |
+| | **Total** | | **฿7,504** |
 
 ### Visit 1 — take the old things out
 
@@ -41,7 +41,8 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 |---|---|---|---|---|
 | Remove the old toilet and basin | 2.9.37, p. 15 | 2 | ฿220 each | ฿440 |
 | Strip the old wall tiles and take them away | 2.9.14, p. 14 | 9.9 m² | ฿36 a m² | ฿356 |
-| | | | | **฿796** |
+| Take out the old door with its frame | 2.9.29, p. 15 | 1 | ฿90 | ฿90 |
+| | | | | **฿886** |
 
 The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the doorway (0.98 m²) = **9.9 m²**.
 
@@ -84,8 +85,9 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | Put the shower and its rail back | 2.6.10, p. 12 | 1 | ฿72 | ฿72 |
 | Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 each | ฿216 |
 | Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
-| Hang the new door with its hinges and knob (0.70 × 1.95 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 a m² | ฿108 |
-| | | | | **฿1,576** |
+| Fit the new door frame (0.70 × 2.0 m) | 2.5.2, p. 11 | 1.4 m² | ฿103 a m² | ฿144 |
+| Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 a m² | ฿108 |
+| | | | | **฿1,720** |
 
 **Putting the water heater back:** HomePro's installation service, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). It's a shop price that already includes their overheads, so the × 1.2199 isn't added.
 
@@ -96,4 +98,4 @@ The book has no rate for these:
 - **Dumping the rubble.** The book's rates include carrying it away, but not the dump's fee. There's more rubble now, with the old wall tiles.
 - **Taking the wall fittings down** at the start: the security screen, the water heater, the shower and rail, the soap holder, the toilet paper holder and the bidet spray holder.
 - **Filling the screw holes** in the upper walls before painting.
-- **The extra door work:** taking the old door off, cutting the new door's top and closing it, moving the latch plate, and filling the old hinge holes.
+- **The extra door work:** cutting the new frame's legs and the door down to fit, and drilling the door for the knob.

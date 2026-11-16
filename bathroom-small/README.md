@@ -56,19 +56,19 @@ There is a 50 mm step at the door. The rest of the floor is all one level.
 
 ## ก่อนเริ่มงาน — ช่างตรวจประตู / Before the job starts — the tiler checks the door
 
-ประตูใหม่สูง 2,000 มม. แต่ช่องประตูเดิมสูงแค่ประมาณ 1,950 มม. และพื้นใหม่จะทำให้เตี้ยลงอีกประมาณ 15 มม. วงกบเดิมและคานทับหลังอยู่ที่เดิม จึงต้องตัดประตูใหม่ด้านบนออกประมาณ 65 มม.
+ประตูใหม่เป็น**ชุดประตูพร้อมวงกบ** UPVC ขนาด 70 × 200 ซม. วงกบและประตูเดิมรื้อออก คานทับหลังเหนือประตูอยู่ที่เดิม ช่องใต้คานเตี้ยกว่าชุดประตูใหม่ จึงต้องตัดขาวงกบด้านล่าง และตัดบานประตูเท่ากัน
 
-The new door is 2,000 mm tall, but the old doorway is only about 1,950 mm, and the new floor will make it about 15 mm lower again. The old frame and the beam over the door stay, so about 65 mm has to be cut off the top of the new door.
+The new door is a **UPVC door-and-frame set**, 70 × 200 cm. The old door and frame come out. The beam over the doorway stays, and the gap under it is lower than the new set, so the frame's legs are cut shorter at the bottom, and the door by the same amount.
 
 **ก่อนเริ่มงาน ช่างต้อง:**
-1. วัดช่องประตูเดิม จากพื้นถึงด้านบนของวงกบ
-2. ดูประตูที่จะซื้อ ([AZLE WB2](https://www.homepro.co.th/p/1259829) หรือรุ่นอื่น) แล้วยืนยันว่าตัดด้านบนออก 65 มม. ได้ โดยประตูยังแข็งแรง
-3. ถ้าตัดไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อประตูรุ่นไหน
+1. วัดจากระดับพื้นใหม่ (พื้นเดิม + กระเบื้องและกาว ประมาณ 15 มม.) ถึงใต้คานทับหลัง นี่คือความสูงที่วงกบใหม่สูงได้มากสุด
+2. ดูชุดประตูที่จะซื้อ ([ASARA A812](https://www.homepro.co.th/p/1321683) หรือรุ่นอื่น) แล้วยืนยันว่าตัดขาวงกบได้พอ และตัดบานประตูได้เท่ากัน โดยประตูยังแข็งแรง
+3. ถ้าไม่ได้ ให้บอกเจ้าของบ้านว่าควรซื้อชุดไหน
 
 **Before the job starts, the tiler:**
-1. Measures the old doorway, from the floor to the top of the frame.
-2. Looks at the door we plan to buy ([AZLE WB2](https://www.homepro.co.th/p/1259829), or another) and confirms about 65 mm can come off its top and it will still be solid.
-3. If it can't, tells the owner which door to buy instead.
+1. Measures from where the new floor will be (the old floor plus about 15 mm of tile and adhesive) up to the underside of the beam over the doorway. That's the most height the new frame can have.
+2. Looks at the set we plan to buy ([ASARA A812](https://www.homepro.co.th/p/1321683), or another) and confirms the frame's legs can be cut down enough, and the door by the same amount, and it will still be solid.
+3. If it can't, tells the owner which set to buy instead.
 
 ## ลำดับงาน / The order of work
 
@@ -91,13 +91,11 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - กระเบื้องพื้นเดิม — กระเบื้องพื้นใหม่ปูทับ
 - วาล์วน้ำและสายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 - ฝ้าเพดานและโคมไฟ — หุ้มโคมด้วยถุงพลาสติกระหว่างทำงาน
-- ประตูเดิม — ใช้ไปก่อนจนถึงครั้งที่ 6 วงกบประตูอยู่ที่เดิมตลอด
 
 **Don't remove these:**
 - The old floor tiles. The new floor tiles are laid over them.
 - The toilet's water valve and hose. They go on the new toilet.
 - The ceiling and the light. Wrap the light in a plastic bag while you work.
-- The old door. Keep using it until visit 6. The door frame stays for good.
 
 **ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 6):
 - เหล็กดัดหน้าต่าง (จะทาสีในครั้งที่ 5)
@@ -118,10 +116,12 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 **แล้วรื้อออก:**
 - **กระเบื้องผนังเดิมทั้งหมด** ทั้ง 4 ด้าน (สูง 1.4 ม.) และคิ้วพลาสติกสีชมพูทั้งหมด ทั้งบนผนังและบนขั้น รื้อจนถึงเนื้อผนัง ระวังท่อน้ำในผนัง
 - ชักโครกและอ่างล้างหน้าเดิม พร้อมขาแขวนอ่างที่เป็นสนิม
+- ประตูและวงกบเดิม ระวังไม่ให้กระทบคานทับหลังด้านบน
 
 **Then take out:**
 - **All the old wall tiles** on all 4 walls (they go up 1.4 m), and every pink plastic edge strip, on the walls and on the step. Go down to the bare wall. Watch out for the water pipes in the wall.
 - The old toilet and basin, with the basin's rusty wall brackets.
+- The old door and its frame. Take care not to disturb the beam over the doorway.
 
 ## ครั้งที่ 1 (ต่อ) — ฉาบผนัง / Visit 1 (continued) — Plaster the walls
 
@@ -289,32 +289,31 @@ To-buy prices checked on HomePro 5 Nov 2026.
 
 ## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
-ประตูใหม่ใส่เป็นงานสุดท้าย
+ชุดประตูพร้อมวงกบใส่เป็นงานสุดท้าย
 
-The new door goes in last.
+The door-and-frame set goes in last.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / Plastic (UPVC) bathroom door, drilled for the knob | [AZLE WB2, 70 × 200 cm, brown](https://www.homepro.co.th/p/1259829) | 1259829 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
-| บานพับสแตนเลส / Stainless hinges | [YALE 304, 4 × 3", 3 in a pack](https://www.homepro.co.th/p/1123585) | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
+| ชุดประตูห้องน้ำพร้อมวงกบ UPVC ไม่เจาะรูลูกบิด / UPVC bathroom door with its frame, not drilled for a knob | [ASARA A812, 70 × 200 cm, white](https://www.homepro.co.th/p/1321683) | 1321683 | 1 ชุด / 1 set | ต้องซื้อ / To buy | ฿1,690 | ฿1,690 |
 | ลูกบิดห้องน้ำ / Bathroom door knob | [SOLEX 9500 SS-BK, stainless](https://www.homepro.co.th/p/89869) | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
-| | | | | **ต้องซื้อ / To buy** | | **฿2,588** |
+| | | | | **ต้องซื้อ / To buy** | | **฿2,089** |
 
-ราคาเช็คที่โฮมโปร 5 พ.ย. 2569
+ราคาเช็คที่โฮมโปร: ชุดประตู 16 พ.ย. 2569 ลูกบิด 5 พ.ย. 2569 หน้าสินค้าชุดประตูไม่ได้บอกว่ามีบานพับมาด้วยหรือไม่ — ถ้าไม่มี ซื้อ [บานพับสแตนเลส YALE 304](https://www.homepro.co.th/p/1123585) ฿199
 
-Prices checked on HomePro 5 Nov 2026.
+Prices checked on HomePro: the set 16 Nov 2026, the knob 5 Nov 2026. The set's page doesn't say whether hinges come with it. If they don't, buy [YALE 304 stainless hinges](https://www.homepro.co.th/p/1123585), ฿199.
 
 **ใส่ประตู:**
-1. ถอดประตูเดิมและบานพับออก วงกบเดิมอยู่ที่เดิม
-2. ตัดด้านบนประตูใหม่ให้พอดีช่อง (ดู "ก่อนเริ่มงาน") ขัดขอบ แล้วปิดด้านบนด้วยแผ่น PVC หรือซิลิโคน
-3. แขวนประตูที่ตำแหน่งบานพับเดิม ถ้ารูสกรูหลวม อุดแล้วเจาะใหม่
-4. ใส่ลูกบิด ถ้าสลักไม่ตรงที่รับสลักบนวงกบ ย้ายที่รับสลักแล้วอุดรอยเดิม
+1. ตัดขาวงกบด้านล่างให้วงกบตั้งบนพื้นใหม่ได้พอดีใต้คานทับหลัง
+2. ตัดบานประตูให้สั้นลงเท่ากัน ขัดขอบ แล้วปิดส่วนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
+3. ยึดวงกบในช่องประตูด้วยสกรู ให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคน
+4. แขวนประตู เจาะรูลูกบิด แล้วใส่ลูกบิด
 
 **Fitting the door:**
-1. Take off the old door and its hinges. The old frame stays.
-2. Cut the new door's top to fit the opening (see "Before the job starts"). Sand the cut, then close the open top with a PVC strip or silicone.
-3. Hang it on the old hinge positions. If the old screw holes are loose, fill them and drill again.
-4. Fit the knob. If the latch doesn't meet the latch plate on the frame, move the plate and fill the old hole.
+1. Cut the frame's legs at the bottom so it stands on the new floor and fits under the beam.
+2. Cut the door shorter by the same amount. Sand the cut, then close the open edge with a PVC strip or silicone.
+3. Screw the frame into the doorway, upright and square. Fill the gap round it with foam, then seal it with silicone.
+4. Hang the door, drill it for the knob, and fit the knob.
 
 ---
 
