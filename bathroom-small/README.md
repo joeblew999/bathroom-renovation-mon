@@ -144,7 +144,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 เมื่อปูนฉาบแห้งแล้ว:
 1. **กำหนดระดับพื้นใหม่** พร้อมความลาด (ดู "ความลาดเอียงของพื้น" ในครั้งที่ 3) แล้วขีดไว้ที่ผนัง
-2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคน ติดเทปป้องกันวงกบไว้จนจบงาน
+2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคนสีขาวทั้งสองด้านของผนัง ติดเทปป้องกันวงกบไว้จนจบงาน
 3. **กันซึม:** ทาซีเมนต์กันซึม 2 รอบ (รอบที่สองทาขวางรอบแรก รอให้รอบแรกแห้งตามที่เขียนบนถุง)
    - **ผนังฝักบัว:** เต็มผนัง สูงถึงแนวกระเบื้อง 2 เมตร
    - **พื้น:** เต็มพื้น ทาทับกระเบื้องเดิม และทาขึ้นผนังอีก 3 ด้านสูง 15 ซม. ถึงขาวงกบประตู
@@ -152,7 +152,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 When the plaster is dry:
 1. **Work out the new floor's height** with its slope (see "The floor's slope" in visit 3), and mark it on the walls.
-2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam, then seal it with silicone. Tape over the frame to protect it until the end of the job.
+2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam, then seal it with white silicone, on both sides of the wall. Tape over the frame to protect it until the end of the job.
 3. **Waterproofing:** 2 coats of waterproofing cement, the second across the first. Let the first dry as the bag says.
    - **Shower wall:** the whole wall, up to the 2 m tile line.
    - **Floor:** the whole floor, over the old tiles, and 15 cm up the other 3 walls, up to the door frame's legs.
@@ -166,11 +166,12 @@ When the plaster is dry:
 |---|---|---|---|---|---|---|
 | ซีเมนต์กันซึม / Waterproofing cement | Crocodile FLEX SHIELD, 20 kg, grey <https://www.homepro.co.th/p/271155> | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
 | ตาข่ายไฟเบอร์ / Fibre mesh | Crocodile fibre mesh, 0.2 × 10 m <https://www.homepro.co.th/p/1271924> | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,169** |
+| ซิลิโคนกันเชื้อรา สีขาว (รอบวงกบประตู) / Anti-mould silicone, white (round the door frame) | 3M acid-free, 300 ml, white <https://www.homepro.co.th/p/284491> | 284491 | 1 หลอด / 1 tube | ต้องซื้อ / To buy | ฿355 | ฿355 |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,524** |
 
-ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
+ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ซิลิโคนสีขาว 16 พ.ย. 2569 ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
 
-Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on the bag that 1 bag covers about 9 m² in 2 coats.
+Prices checked 31 Oct 2026 (the same products as the main bathroom); the white silicone 16 Nov 2026. Check on the bag that 1 bag covers about 9 m² in 2 coats.
 
 ## ครั้งที่ 3 และ 4 — ปูกระเบื้อง / Visits 3 and 4 — Tiling
 
