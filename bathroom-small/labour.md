@@ -32,7 +32,7 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | 2–4 | Tiling | ฿1,712 | ฿2,088 |
 | 5 | Painting | ฿474 | ฿578 |
 | 6 | Fitting everything, and the door | ฿1,720 | ฿2,098 |
-| 6 | Putting the water heater back (HomePro's own price, already includes their overheads) | | ฿500 |
+| 6 | Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
 | | **Total** | | **฿7,504** |
 
 ### Visit 1 — take the old things out
@@ -89,7 +89,7 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 a m² | ฿108 |
 | | | | | **฿1,720** |
 
-**Putting the water heater back:** HomePro's installation service, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). It's a shop price that already includes their overheads, so the × 1.2199 isn't added.
+**Putting the water heater back:** the tiler does it. The rate book has no line for it, so it's priced from what HomePro charges to fit one, [277997](https://www.homepro.co.th/p/277997), ฿500 (checked 1 Nov 2026, as in the main quote's `labour.toml`). That's a shop price that already includes overheads, so the × 1.2199 isn't added.
 
 ## Not in the price — ask the tiler
 
