@@ -173,12 +173,13 @@ When the plaster is dry:
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
 | ซีเมนต์กันซึม / Waterproofing cement | Crocodile FLEX SHIELD, 20 kg, grey <https://www.homepro.co.th/p/271155> | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
+| วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | AZLE UPVC frame, 70 × 200 cm, white <https://www.homepro.co.th/p/1017131> | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
 | ตาข่ายไฟเบอร์ / Fibre mesh | Crocodile fibre mesh, 0.2 × 10 m <https://www.homepro.co.th/p/1271924> | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,169** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,019** |
 
-ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
+ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) วงกบ 16 พ.ย. 2569 ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
 
-Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on the bag that 1 bag covers about 9 m² in 2 coats.
+Prices checked 31 Oct 2026 (the same products as the main bathroom); the frame 16 Nov 2026. Check on the bag that 1 bag covers about 9 m² in 2 coats.
 
 ## ครั้งที่ 3 และ 4 — ปูกระเบื้อง / Visits 3 and 4 — Tiling
 
@@ -343,26 +344,25 @@ To-buy prices checked on HomePro 5 Nov 2026, the silicone 16 Nov 2026 (the grey 
 
 ## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
-ซื้อวงกบและประตูก่อนครั้งที่ 2: วงกบใส่ในครั้งที่ 2 บานประตูแขวนเป็นงานสุดท้าย
+วงกบซื้อสำหรับครั้งที่ 2 (อยู่ในรายการของครั้งที่ 2) บานประตู บานพับ และลูกบิดซื้อสำหรับครั้งที่ 6
 
-Buy the frame and door before visit 2: the frame goes in at visit 2, and the door is hung last.
+The frame is bought for visit 2 (it's on visit 2's list). The door, hinges and knob are bought for visit 6.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
-| วงกบประตู UPVC ลึก 10 ซม. / UPVC door frame, 10 cm deep | AZLE UPVC frame, 70 × 200 cm, white <https://www.homepro.co.th/p/1017131> | 1017131 | 1 | ต้องซื้อ / To buy | ฿850 | ฿850 |
 | ประตูห้องน้ำ UPVC เจาะรูลูกบิดแล้ว / UPVC bathroom door, drilled for the knob | AZLE PSW2, 70 × 200 cm, white <https://www.homepro.co.th/p/1240774> | 1240774 | 1 | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
 | บานพับสแตนเลส / Stainless hinges | YALE 304, 4 × 3", 3 in a pack <https://www.homepro.co.th/p/1123585> | 1123585 | 1 แพ็ค / 1 pack | ต้องซื้อ / To buy | ฿199 | ฿199 |
 | ลูกบิดห้องน้ำ / Bathroom door knob | SOLEX 9500 SS-BK, stainless <https://www.homepro.co.th/p/89869> | 89869 | 1 | ต้องซื้อ / To buy | ฿399 | ฿399 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿3,438** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,588** |
 
-ราคาเช็คที่โฮมโปร: วงกบและประตู 16 พ.ย. 2569 ลูกบิดและบานพับ 5 พ.ย. 2569
+ราคาเช็คที่โฮมโปร: ประตู 16 พ.ย. 2569 ลูกบิดและบานพับ 5 พ.ย. 2569
 
 **แขวนประตู (ครั้งที่ 6):**
 1. แกะเทปป้องกันออกจากวงกบ
 2. ตัดบานประตูให้สั้นลงเท่ากับที่ตัดขาวงกบ ขัดขอบ แล้วปิดส่วนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
 3. แขวนประตูด้วยบานพับ แล้วใส่ลูกบิด (ประตูเจาะรูลูกบิดมาแล้ว)
 
-Prices checked on HomePro: the frame and door 16 Nov 2026, the knob and hinges 5 Nov 2026.
+Prices checked on HomePro: the door 16 Nov 2026, the knob and hinges 5 Nov 2026.
 
 **Hanging the door (visit 6):**
 1. Take the protective tape off the frame.
