@@ -233,11 +233,7 @@
 
 อัตราค่าแรงจากบัญชีค่าแรงงานของกรมบัญชีกลาง (กค 0433.2/ว 480 ลงวันที่ 26 มิ.ย. 2569) เล่มเดียวกับที่ใช้ในใบเสนอราคาห้องน้ำหลัก สำเนาอยู่ใน [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf) ทุกบรรทัดบอกเลขรายการและหน้าในบัญชี
 
-The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). Each line below gives its item number and page in the book.
-
 อัตราในบัญชีเป็นค่าแรงเปล่า ผู้รับเหมาบวกค่าดำเนินการและกำไร ซึ่งราชการกำหนดไว้ที่ **× 1.2199** สำหรับงานขนาดนี้ ("Factor F" [ตาราง ว481](https://www.yotathai.com/factorf/building/adv15-retain10) ตรวจสอบ 1 พ.ย. 2569) คอลัมน์ขวาสุดรวมส่วนนี้แล้ว
-
-The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 1 Nov 2026). The right-hand column includes that.
 
 | ครั้ง | งาน | ค่าแรงเปล่า | รวมค่าดำเนินการและกำไร |
 |---|---|---|---|
@@ -544,6 +540,10 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 | 6 | Fit everything, and the new door | 1.5 |
 
 ### The rate book's price, visit by visit
+
+The rates come from the Comptroller General's labour rate book (กค 0433.2/ว 480, dated 26 June 2569). It's the same book the main bathroom quote uses, and a copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). Each line below gives its item number and page in the book.
+
+The book's rates are bare wages. A contractor adds his overheads and profit on top, which the government sets at **× 1.2199** for a job this size ("Factor F", [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 1 Nov 2026). The right-hand column includes that.
 
 | Visit | Work | Bare wages | With overheads and profit |
 |---|---|---|---|
