@@ -82,9 +82,9 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง ตามที่เขียนบนถุงกันซึม / the plaster to dry, as the waterproofing bag says |
 | 2 | ใส่วงกบประตูใหม่ แล้วทากันซึม / Fit the new door frame, then waterproof | กันซึมแห้ง ตามที่เขียนบนถุง / the waterproofing to dry, as on the bag |
 | 3 | ปูผนังฝักบัว บัวเชิงผนัง และขั้นที่ประตู แล้วปูพื้น / Tile the shower wall, the skirting and the step at the door, then the floor | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
-| 4 | ยาแนว แล้วยิงซิลิโคนที่มุม / Grout, then silicone the corners | ยาแนวและซิลิโคนแห้ง / the grout and silicone to set |
+| 4 | ยาแนว / Grout | ยาแนวแห้ง / the grout to set |
 | 5 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
-| 6 | ติดตั้งของทั้งหมด แล้วแขวนบานประตูใหม่ / Fit everything, then hang the new door | — |
+| 6 | ติดตั้งของทั้งหมด แขวนบานประตูใหม่ แล้วยิงซิลิโคนทั้งหมด / Fit everything, hang the new door, then all the silicone | — |
 
 ## ครั้งที่ 1 — รื้อของเก่า / Visit 1 — Take the old things out
 
@@ -144,7 +144,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 เมื่อปูนฉาบแห้งแล้ว:
 1. **กำหนดระดับพื้นใหม่** พร้อมความลาด (ดู "ความลาดเอียงของพื้น" ในครั้งที่ 3) แล้วขีดไว้ที่ผนัง
-2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม แล้วยาซิลิโคนสีขาวทั้งสองด้านของผนัง ติดเทปป้องกันวงกบไว้จนจบงาน
+2. **วงกบประตูใหม่:** ตัดขาวงกบด้านล่างให้วงกบตั้งที่ระดับพื้นใหม่ได้พอดีใต้คานทับหลัง ยึดด้วยสกรูให้ได้ดิ่งและได้ฉาก อุดช่องว่างรอบวงกบด้วยโฟม (ซิลิโคนทับในครั้งที่ 6) ติดเทปป้องกันวงกบไว้จนจบงาน
 3. **กันซึม:** ทาซีเมนต์กันซึม 2 รอบ (รอบที่สองทาขวางรอบแรก รอให้รอบแรกแห้งตามที่เขียนบนถุง)
    - **ผนังฝักบัว:** เต็มผนัง สูงถึงแนวกระเบื้อง 2 เมตร
    - **พื้น:** เต็มพื้น ทาทับกระเบื้องเดิม และทาขึ้นผนังอีก 3 ด้านสูง 15 ซม. ถึงขาวงกบประตู
@@ -152,7 +152,7 @@ Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delive
 
 When the plaster is dry:
 1. **Work out the new floor's height** with its slope (see "The floor's slope" in visit 3), and mark it on the walls.
-2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam, then seal it with white silicone, on both sides of the wall. Tape over the frame to protect it until the end of the job.
+2. **New door frame:** cut the frame's legs at the bottom so it stands at the new floor height and fits under the beam. Screw it in, upright and square. Fill the gap round it with foam. (It gets its silicone in visit 6.) Tape over the frame to protect it until the end of the job.
 3. **Waterproofing:** 2 coats of waterproofing cement, the second across the first. Let the first dry as the bag says.
    - **Shower wall:** the whole wall, up to the 2 m tile line.
    - **Floor:** the whole floor, over the old tiles, and 15 cm up the other 3 walls, up to the door frame's legs.
@@ -166,12 +166,11 @@ When the plaster is dry:
 |---|---|---|---|---|---|---|
 | ซีเมนต์กันซึม / Waterproofing cement | Crocodile FLEX SHIELD, 20 kg, grey <https://www.homepro.co.th/p/271155> | 271155 | ประมาณ 1 ถุง / about 1 bag | ต้องซื้อ / To buy | ฿1,990 | ฿1,990 |
 | ตาข่ายไฟเบอร์ / Fibre mesh | Crocodile fibre mesh, 0.2 × 10 m <https://www.homepro.co.th/p/1271924> | 1271924 | 1 ม้วน / 1 roll | ต้องซื้อ / To buy | ฿179 | ฿179 |
-| ซิลิโคนกันเชื้อรา สีขาว (รอบวงกบประตู) / Anti-mould silicone, white (round the door frame) | 3M acid-free, 300 ml, white <https://www.homepro.co.th/p/284491> | 284491 | 1 หลอด / 1 tube | ต้องซื้อ / To buy | ฿355 | ฿355 |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,524** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿2,169** |
 
-ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ซิลิโคนสีขาว 16 พ.ย. 2569 ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
+ราคาเช็ค 31 ต.ค. 2569 (เหมือนกับห้องน้ำหลัก) ดูบนถุงว่า 1 ถุงพอสำหรับประมาณ 9 ตร.ม. ทา 2 รอบหรือไม่
 
-Prices checked 31 Oct 2026 (the same products as the main bathroom); the white silicone 16 Nov 2026. Check on the bag that 1 bag covers about 9 m² in 2 coats.
+Prices checked 31 Oct 2026 (the same products as the main bathroom). Check on the bag that 1 bag covers about 9 m² in 2 coats.
 
 ## ครั้งที่ 3 และ 4 — ปูกระเบื้อง / Visits 3 and 4 — Tiling
 
@@ -189,7 +188,7 @@ Prices checked 31 Oct 2026 (the same products as the main bathroom); the white s
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
-**ครั้งที่ 4 — ยาแนว แล้วซิลิโคน:** ยาแนวร่องกระเบื้องทุกร่อง แต่**เว้นมุม**ที่พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง ตามขั้นที่ประตู และมุมตั้งที่ปลายทั้งสองข้างของผนังฝักบัว (กระเบื้องชนผนังฉาบ สูง 2 ม.) เมื่อยาแนวแห้ง ยิงซิลิโคนสีเทากันเชื้อราที่มุมเหล่านี้ (มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก)
+**ครั้งที่ 4 — ยาแนว:** ยาแนวร่องกระเบื้องทุกร่อง แต่**เว้นมุม**ที่พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง ตามขั้นที่ประตู และมุมตั้งที่ปลายทั้งสองข้างของผนังฝักบัว (กระเบื้องชนผนังฉาบ สูง 2 ม.) มุมเหล่านี้ยิงซิลิโคนในครั้งที่ 6 หลังทาสี (มุมเหล่านี้ขยับตัวได้ ยาแนวจะแตก)
 
 **วิธีปู:**
 - ใช้กาวซีเมนต์สำหรับปูกระเบื้อง ไม่ใช้ปูนทราย
@@ -210,7 +209,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
-**Visit 4 — grout, then silicone:** grout every tile joint, but **leave open the corners** where the floor meets the shower wall and the skirting, along the step at the door, and the upright corners at both ends of the shower wall (where its tiles meet the plaster, 2 m high). When the grout has set, fill those corners with grey anti-mould silicone. (Those corners move slightly, and grout there cracks.)
+**Visit 4 — grout:** grout every tile joint, but **leave open the corners** where the floor meets the shower wall and the skirting, along the step at the door, and the upright corners at both ends of the shower wall (where its tiles meet the plaster, 2 m high). Those corners get silicone in visit 6, after the painting. (They move slightly, and grout there cracks.)
 
 **How:**
 - Use cement tile adhesive, not sand-and-cement mortar.
@@ -240,13 +239,12 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 | ยาแนว สีเทา / Grout, grey | Crocodile Premium Plus 1 kg, coral grey <https://www.homepro.co.th/p/138784> | 138784 | ประมาณ 2 ถุง / about 2 bags | ต้องซื้อ / To buy | ฿63 | ฿126 |
 | คิ้ว PVC เหลี่ยม สีเทา (ขอบบนผนังฝักบัว 2.5 ม. และขอบบนบัวเชิงผนัง 4.56 ม.) / Square grey plastic edge strip (top of the shower wall, 2.5 m, and top of the skirting, 4.56 m) | TARA PVC 10 mm, square, 2 m, grey <https://www.homepro.co.th/p/1298008> | 1298008 | 4 เส้น / 4 strips | ต้องซื้อ / To buy | ฿97.60 | ฿390 |
 | คิ้ว PVC โค้ง สีเทา (มุมนอกที่ขอบขั้น 0.7 ม.) / Rounded grey plastic trim (the step's outside corner, 0.7 m) | TARA PVC 10 mm, rounded, 2 m, grey <https://www.homepro.co.th/p/1248284> | 1248284 | 1 เส้น / 1 strip | ต้องซื้อ / To buy | ฿106.40 | ฿106 |
-| ซิลิโคนกันเชื้อรา สีเทา (มุมพื้นชนผนัง มุมที่ปลายผนังฝักบัว และรอบชักโครกกับอ่างล้างหน้าในครั้งที่ 6) / Anti-mould silicone, grey (floor-to-wall corners, the shower wall's end corners, and round the toilet and basin in visit 6) | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 3 หลอด / 3 tubes | ต้องซื้อ / To buy | ฿144 | ฿432 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿746** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,914** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿4,482** |
 
-ราคาเช็ค 31 ต.ค. 2569 ซิลิโคนและคิ้วโค้งเช็ค 16 พ.ย. 2569 (หน้าเว็บแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
+ราคาเช็ค 31 ต.ค. 2569 คิ้วโค้งเช็ค 16 พ.ย. 2569
 
-Prices checked 31 Oct 2026; the silicone and the rounded trim 16 Nov 2026 (its page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
+Prices checked 31 Oct 2026; the rounded trim 16 Nov 2026.
 
 ## ครั้งที่ 5 — ทาสี / Visit 5 — Painting
 
@@ -286,9 +284,12 @@ Prices checked 16 Nov 2026.
 - **อ่างล้างหน้า:** ขอบบนอ่างสูง **900 มม. จากพื้นใหม่** ให้ท่อน้ำทิ้งของอ่างตรงกับรูท่อเดิมที่ผนัง
 - **กระจก:** อยู่กึ่งกลางอ่าง จุดกึ่งกลางกระจกสูง **1,600 มม. จากพื้นใหม่** เจาะกระเบื้องด้วยดอกเจาะกระเบื้อง ไม่เจาะตรงร่องยาแนว
 - **ชักโครก:** พื้นใหม่สูงขึ้น ท่อน้ำทิ้งที่พื้นจึงต่ำกว่าพื้นเล็กน้อย ตรวจว่าชักโครกต่อกับท่อแน่นไม่รั่ว ใช้แหวนยางในกล่องชักโครก ถ้ายังไม่ถึงท่อ ใช้ข้อต่อเสริมความสูง
-- **ซิลิโคน:** ยิงซิลิโคนสีเทากันเชื้อรารอบฐานชักโครก และตามขอบอ่างล้างหน้าที่ชนผนัง
 - **ชั้นวางพร้อมราวแขวนผ้า:** เหนือชักโครก ทางขวา ติดหลังติดชักโครกแล้ว เจ้าของบ้านจะบอกตำแหน่ง
 - ของอื่นๆ: ตกลงตำแหน่งกันที่หน้างาน
+
+**ซิลิโคน เป็นงานสุดท้าย** (ซิลิโคนกันเชื้อรา หลังทาสีและติดตั้งทุกอย่างแล้ว):
+- **สีเทา:** มุมที่เว้นไว้ตอนยาแนว — พื้นชนผนังฝักบัว พื้นชนบัวเชิงผนัง ตามขั้นที่ประตู และมุมตั้งที่ปลายทั้งสองข้างของผนังฝักบัว — แล้วรอบฐานชักโครก และตามขอบอ่างล้างหน้าที่ชนผนัง
+- **สีขาว:** รอบวงกบประตู ทั้งสองด้านของผนัง
 
 **Put the old things back** (the ones kept from visit 1):
 - **Water heater and shower:** back where they were. If you drill through tiles, use a tile drill bit. Connect the water first, then the power. **Switch the breaker on only once it's all connected and checked.** Swap the old black plastic water hose for the new stainless one; check its ½" nuts fit both ends.
@@ -300,9 +301,12 @@ Prices checked 16 Nov 2026.
 - **Basin:** its top edge **900 mm above the new floor**. Line its drain up with the old drain hole in the wall.
 - **Mirror:** centred over the basin, with its middle **1,600 mm above the new floor**. Drill the tiles with a tile bit, never through a grout line.
 - **Toilet:** the new floor is higher, so the drain pipe in the floor now ends a little below it. Make sure the toilet seals onto the pipe with no leak. Use the rubber ring that comes in the toilet's box. If that doesn't reach, use a raised connector.
-- **Silicone:** run grey anti-mould silicone round the base of the toilet, and along the basin where it meets the wall.
 - **Shelf with towel rail:** above the toilet, to its right. Fit it after the toilet is in; the owner will show you exactly where.
 - Anything else: agree where it goes on site.
+
+**Silicone, last of all** (anti-mould, once the painting and all the fitting are done):
+- **Grey:** the corners left open at grouting (where the floor meets the shower wall and the skirting, along the step at the door, and up both ends of the shower wall), then round the base of the toilet, and along the basin where it meets the wall.
+- **White:** round the door frame, on both sides of the wall.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
@@ -320,12 +324,15 @@ Prices checked 16 Nov 2026.
 | ชั้นวางพร้อมราวแขวนผ้า / Shelf with towel rail | LUZERN AS-5012S, chrome, 62 × 14.5 × 23 cm <https://www.homepro.co.th/p/1215163> | 1215163 | 1 | **มีแล้ว / Have it** | ฿799 | ฿799 |
 | **เครื่องทำน้ำอุ่น / Water heater** | | | | | | |
 | สายน้ำสแตนเลส / Stainless water hose | HAFELE 495.60.109, 304 stainless, 120 cm <https://www.homepro.co.th/p/1164269> | 1164269 | 1 | ต้องซื้อ / To buy | ฿259 | ฿259 |
+| **ซิลิโคน / Silicone** | | | | | | |
+| ซิลิโคนกันเชื้อรา สีเทา / Anti-mould silicone, grey | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 3 หลอด / 3 tubes | ต้องซื้อ / To buy | ฿144 | ฿432 |
+| ซิลิโคนกันเชื้อรา สีขาว (รอบวงกบประตู) / Anti-mould silicone, white (round the door frame) | 3M acid-free, 300 ml, white <https://www.homepro.co.th/p/284491> | 284491 | 1 หลอด / 1 tube | ต้องซื้อ / To buy | ฿355 | ฿355 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿7,322** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿829** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿1,616** |
 
-ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569 ปลั๊กอุด 16 พ.ย. 2569
+ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569 ปลั๊กอุดและซิลิโคน 16 พ.ย. 2569 (หน้าซิลิโคนสีเทาแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
 
-To-buy prices checked on HomePro 5 Nov 2026, the plugs 16 Nov 2026.
+To-buy prices checked on HomePro 5 Nov 2026, the plugs and the silicone 16 Nov 2026 (the grey silicone's page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
 
 ## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
@@ -376,9 +383,9 @@ A guide price for the labour, from the government's rate book. Labour only: the 
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster | 2 |
 | 2 | ใส่วงกบประตู แล้วทากันซึม / Fit the door frame, then waterproof | 1 |
 | 3 | ปูผนังฝักบัวและบัวเชิงผนัง แล้วปูพื้น / Tile the shower wall and the skirting, then the floor | 2.5 |
-| 4 | ยาแนว แล้วซิลิโคน / Grout, then silicone | 0.5 |
+| 4 | ยาแนว / Grout | 0.5 |
 | 5 | ทาสี / Paint | 1 |
-| 6 | ติดตั้งทั้งหมด และประตูใหม่ / Fit everything, and the new door | 1.5 |
+| 6 | ติดตั้งทั้งหมด ประตูใหม่ และซิลิโคน / Fit everything, the new door, and the silicone | 1.5 |
 
 ### ราคาตามบัญชีค่าแรงงาน แยกตามครั้ง / The rate book's price, visit by visit
 
@@ -395,11 +402,11 @@ The book's rates are bare wages. A contractor adds his overheads and profit on t
 | 1 | รื้อของเก่า / Take the old things out | ฿886 | ฿1,081 |
 | 1 | ฉาบผนัง / Plaster the walls | ฿950 | ฿1,159 |
 | 2 | วงกบประตู และกันซึม / The door frame, and waterproofing | ฿795 | ฿970 |
-| 3–4 | ปูกระเบื้อง และซิลิโคน / Tiling, and silicone | ฿1,798 | ฿2,193 |
+| 3–4 | ปูกระเบื้อง และยาแนว / Tiling, and grout | ฿1,712 | ฿2,088 |
 | 5 | ทาสี / Painting | ฿474 | ฿578 |
-| 6 | ติดตั้งทั้งหมด และแขวนประตู / Fitting everything, and hanging the door | ฿1,691 | ฿2,063 |
+| 6 | ติดตั้งทั้งหมด แขวนประตู และซิลิโคน / Fitting everything, hanging the door, and the silicone | ฿1,778 | ฿2,169 |
 | 6 | ติดเครื่องทำน้ำอุ่นกลับ (ใช้ราคาค่าติดตั้งของโฮมโปร ซึ่งรวมค่าดำเนินการแล้ว) / Putting the water heater back (priced from HomePro's fitting price, which already includes overheads) | | ฿500 |
-| | **รวมทั้งหมด / Total** | | **฿8,544** |
+| | **รวมทั้งหมด / Total** | | **฿8,545** |
 
 #### ครั้งที่ 1 — รื้อของเก่า / Visit 1 — take the old things out
 
@@ -428,7 +435,7 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 | ทากันซึม (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของค่าวัสดุ ฿2,169) / Waterproofing (not in the book, so the book's rule: 30% of its materials, ฿2,169) | note 1, p. 45 | 30% | ฿2,169 | ฿651 |
 | **รวม / Total** | | | | **฿795** |
 
-#### ครั้งที่ 3 และ 4 — ปูกระเบื้อง และซิลิโคน / Visits 3 and 4 — tiling, and silicone
+#### ครั้งที่ 3 และ 4 — ปูกระเบื้อง และยาแนว / Visits 3 and 4 — tiling, and grout
 
 | งาน / Work | รายการในบัญชี / Book item | จำนวน / How much | อัตรา / Rate | ค่าแรง / Cost |
 |---|---|---|---|---|
@@ -436,8 +443,7 @@ The old tiles go 1.4 m up the walls, 7.76 m round the room: 10.86 m², less the 
 | ติดตะแกรงท่อระบายน้ำ / The floor drain grate | 2.6.25, p. 12 | 1 | ฿77 | ฿77 |
 | กระเบื้องผนังฝักบัว 2.5 × 2.0 ม. / Shower wall tiles, 2.5 × 2.0 m | 2.3.1.3, p. 8 | 5.0 m² | ฿184 ต่อ ตร.ม. / a m² | ฿920 |
 | บัวเชิงผนัง 4.56 ม. × 10 ซม. / Skirting tiles, 4.56 m × 10 cm | 2.3.1.3, p. 8 | 0.5 m² | ฿184 ต่อ ตร.ม. / a m² | ฿92 |
-| ยิงซิลิโคนที่มุม (ไม่มีในบัญชี: 30% ของค่าวัสดุ ฿288) / Silicone in the corners (not in the book: 30% of its materials, ฿288) | note 1, p. 45 | 30% | ฿288 | ฿86 |
-| **รวม / Total** | | | | **฿1,798** |
+| **รวม / Total** | | | | **฿1,712** |
 
 #### ครั้งที่ 5 — ทาสี / Visit 5 — painting
 
@@ -467,8 +473,8 @@ Walls: 7.76 m round the room × 2.8 m high = 21.73 m², less the door (1.37 m²)
 | ติดที่วางสบู่ ที่ใส่กระดาษชำระ และที่แขวนสายฉีดชำระกลับ / Put the soap holder, toilet paper holder and bidet spray holder back | 2.6.13, p. 12 | 3 | ฿72 ต่อชิ้น / each | ฿216 |
 | ติดสายน้ำใหม่ของเครื่องทำน้ำอุ่น (ไม่มีในบัญชี ใช้กฎของบัญชี: 30% ของราคาของ ฿259) / Fit the water heater's new hose (not in the book, so the book's rule: 30% of the part's price, ฿259) | note 1, p. 45 | 30% | ฿259 | ฿78 |
 | แขวนประตูใหม่ พร้อมบานพับและลูกบิด (0.70 × 2.0 ม.) / Hang the new door with its hinges and knob (0.70 × 2.0 m) | 2.5.3, p. 11 | 1.4 m² | ฿77 ต่อ ตร.ม. / a m² | ฿108 |
-| ยิงซิลิโคนรอบชักโครกและอ่างล้างหน้า (ไม่มีในบัญชี: 30% ของค่าวัสดุ 1 หลอด ฿144) / Silicone round the toilet and basin (not in the book: 30% of its materials, 1 tube, ฿144) | note 1, p. 45 | 30% | ฿144 | ฿43 |
-| **รวม / Total** | | | | **฿1,691** |
+| ยิงซิลิโคนสีเทาทั้งหมด (ไม่มีในบัญชี: 30% ของค่าวัสดุ 3 หลอด ฿432) / All the grey silicone (not in the book: 30% of its materials, 3 tubes, ฿432) | note 1, p. 45 | 30% | ฿432 | ฿130 |
+| **รวม / Total** | | | | **฿1,778** |
 
 **ติดเครื่องทำน้ำอุ่นกลับ:** ช่างเป็นคนทำ บัญชีค่าแรงงานไม่มีรายการนี้ จึงใช้ราคาค่าติดตั้งของโฮมโปร 277997 <https://www.homepro.co.th/p/277997> ฿500 (ตรวจสอบ 1 พ.ย. 2569) เป็นราคาร้านที่รวมค่าดำเนินการแล้ว จึงไม่คูณ 1.2199
 
