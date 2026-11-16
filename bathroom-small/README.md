@@ -72,17 +72,18 @@ The new door is 2,000 mm tall, but the old doorway is only about 1,950 mm, and t
 
 ## ลำดับงาน / The order of work
 
-งานบางอย่างต้องรอให้แห้งก่อน จึงแบ่งเป็น 5 ครั้ง:
+งานบางอย่างต้องรอให้แห้งก่อน จึงแบ่งเป็น 6 ครั้ง:
 
-Some things have to dry before the next step, so the work comes in 5 visits:
+Some things have to dry before the next step, so the work comes in 6 visits:
 
 | ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait for |
 |---|---|---|
 | 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง — ถุงกาวปูกระเบื้องบอกว่าต้องรอกี่วัน / the plaster to dry — the tile adhesive bag says how many days |
-| 2 | ปูกระเบื้อง / Lay the tiles | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
-| 3 | ยาแนว / Grout the tiles | ยาแนวแห้ง / the grout to set |
-| 4 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
-| 5 | ติดตั้งของทั้งหมด แล้วใส่ประตูใหม่ / Fit everything, then hang the new door | — |
+| 2 | ปูผนังฝักบัว แล้วปูพื้นและขั้นที่ประตู / Tile the shower wall, then the floor and the step at the door | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
+| 3 | ปูบัวเชิงผนัง / Tile the skirting | กาวแห้ง / the adhesive to set |
+| 4 | ยาแนว / Grout all the tiles | ยาแนวแห้ง / the grout to set |
+| 5 | ทาสี / Paint | สีแห้ง ตามที่เขียนบนกระป๋อง / the paint to dry, as on the can |
+| 6 | ติดตั้งของทั้งหมด แล้วใส่ประตูใหม่ / Fit everything, then hang the new door | — |
 
 ## ครั้งที่ 1 — รื้อของเก่า / Visit 1 — Take the old things out
 
@@ -90,24 +91,24 @@ Some things have to dry before the next step, so the work comes in 5 visits:
 - กระเบื้องพื้นเดิม — กระเบื้องพื้นใหม่ปูทับ
 - วาล์วน้ำและสายน้ำของชักโครก — ใช้ต่อกับชักโครกใหม่
 - ฝ้าเพดานและโคมไฟ — หุ้มโคมด้วยถุงพลาสติกระหว่างทำงาน
-- ประตูเดิม — ใช้ไปก่อนจนถึงครั้งที่ 5 วงกบประตูอยู่ที่เดิมตลอด
+- ประตูเดิม — ใช้ไปก่อนจนถึงครั้งที่ 6 วงกบประตูอยู่ที่เดิมตลอด
 
 **Don't remove these:**
 - The old floor tiles. The new floor tiles are laid over them.
 - The toilet's water valve and hose. They go on the new toilet.
 - The ceiling and the light. Wrap the light in a plastic bag while you work.
-- The old door. Keep using it until visit 5. The door frame stays for good.
+- The old door. Keep using it until visit 6. The door frame stays for good.
 
-**ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 5):
-- เหล็กดัดหน้าต่าง (จะทาสีในครั้งที่ 4)
+**ถอดออกแล้วเก็บไว้ให้ดี** (ติดกลับในครั้งที่ 6):
+- เหล็กดัดหน้าต่าง (จะทาสีในครั้งที่ 5)
 - เครื่องทำน้ำอุ่น — **ปิดเบรกเกอร์ก่อน** ปิดน้ำ แล้วถอดออก พันเทปปลายสายไฟ
 - ฝักบัวและราวฝักบัว
 - ที่วางสบู่
 - ที่ใส่กระดาษชำระ
 - สายฉีดชำระและที่แขวน
 
-**Take off and keep safe** (they go back on in visit 5):
-- The window's steel security screen. It gets painted in visit 4.
+**Take off and keep safe** (they go back on in visit 6):
+- The window's steel security screen. It gets painted in visit 5.
 - The water heater. **Switch its breaker off first**, turn off the water, then take it down. Tape over the bare wire ends.
 - The shower and its rail.
 - The soap holder.
@@ -136,31 +137,43 @@ Plaster every wall where the tiles came off (about 9.9 m²). Make it smooth and 
 
 Price checked 16 Nov 2026. The website shows ฿79–185 depending on the delivery area; this uses the highest.
 
-## ครั้งที่ 2 และ 3 — ปูกระเบื้อง / Visits 2 and 3 — Tiling
+## ครั้งที่ 2, 3 และ 4 — ปูกระเบื้อง / Visits 2, 3 and 4 — Tiling
 
 ใช้กระเบื้องสีเทาแบบเดียวกันทั้งหมด ขนาด 50 × 50 ซม. กล่องละ 4 แผ่น
 
 The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
-**ครั้งที่ 2 — ปู ตามลำดับนี้:**
-1. **พื้น:** ปูทับกระเบื้องเดิม ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม
-2. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
-3. **ผนังฝักบัว:** 4 แถวเต็ม สูง 2 เมตร ปิดขอบบนด้วยคิ้ว PVC สีเทา ให้ร่องกระเบื้องผนังตรงกับร่องกระเบื้องพื้น
-4. **บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดที่วงกบประตู
+**ความลาดเอียงของพื้น:** พื้นเดิมลาดไปท่อระบายน้ำน้อยเกินไป พื้นใหม่ต้องลาดมากขึ้น อย่างน้อย **1 ต่อ 80** ไปทางท่อระบายน้ำ (ทุก 80 ซม. ลดลง 1 ซม.) ทำความลาดด้วยชั้นกาวใต้กระเบื้องพื้น หนาที่ผนัง บางที่ท่อระบายน้ำ ถ้าต้องหนากว่าที่ถุงกาวกำหนด ให้บอกเจ้าของบ้านว่าต้องซื้ออะไรเพิ่ม
 
-**Visit 2 — lay, in this order:**
-1. **Floor:** lay it on top of the old tiles. Put the new drain grate (10 × 10 cm) where the old one was.
-2. **The step at the door:** tile the front face of the step (50 mm high), then fit the grey plastic edge strip along the step's edge.
-3. **Shower wall:** 4 full rows, 2 m high, with the grey plastic edge strip along the top. Line the wall's grout lines up with the floor's.
-4. **Skirting:** a 10 cm strip of tile along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it at the door frame.
+**The floor's slope:** the old floor doesn't slope enough to the drain. Give the new floor a steeper slope: at least **1 in 80** towards the drain (1 cm down for every 80 cm). Build it up in the adhesive under the floor tiles: thicker at the walls, thinner at the drain. If that needs a thicker bed than the adhesive bag allows, tell the owner what else to buy.
+
+1 ต่อ 80: มาตรฐานออสเตรเลีย AS 3740 สำหรับพื้นห้องน้ำที่ไม่มีขอบกั้นฝักบัว เหมือนในใบเสนอราคาห้องน้ำหลัก (`room.toml`) ตรวจสอบ 1 พ.ย. 2569
+
+1 in 80: the Australian standard AS 3740 for a shower floor with no separate shower tray, as in the main bathroom quote (`room.toml`), checked 1 Nov 2026.
+
+**ครั้งที่ 2 — ผนังฝักบัวก่อน แล้วพื้น:**
+1. **กำหนดระดับพื้นใหม่** พร้อมความลาด แล้วขีดไว้ที่ผนัง
+2. **ผนังฝักบัว:** ปูจากล่างขึ้นบน 4 แถวเต็ม สูง 2 เมตร แถวล่างสุดต้อง**ได้ระดับ** — พื้นเดิมลาด ให้หนุนด้วยลิ่มจนได้ระดับ ขอบล่างของแถวแรกอยู่ที่ระดับพื้นใหม่ตรงจุดที่ต่ำที่สุดตามผนังนี้ ปิดขอบบนด้วยคิ้ว PVC สีเทา
+3. **พื้น:** ปูทับกระเบื้องเดิม ตามความลาดใหม่ ชนกระเบื้องผนัง ใส่ตะแกรงท่อระบายน้ำใหม่ (10 × 10 ซม.) ที่เดิม ให้อยู่จุดต่ำสุด ปูจากด้านในออกมาทางประตู
+4. **ขั้นที่ประตู:** ปูด้านตั้งของขั้น (สูง 50 มม.) แล้วติดคิ้ว PVC สีเทาที่ขอบขั้น
+
+**Visit 2 — the shower wall first, then the floor:**
+1. **Work out the new floor's height** with its slope, and mark it on the walls.
+2. **Shower wall:** tile from the bottom up, 4 full rows, 2 m high. The bottom row must be **level**: the old floor slopes, so pack it up on wedges until it is. Set the bottom of the first row at the new floor's height at its lowest point along this wall. Finish the top with the grey plastic edge strip.
+3. **Floor:** lay it over the old tiles, with the new slope, butting up against the wall tiles. Put the new drain grate (10 × 10 cm) where the old one was, at the lowest point. Work from the far end towards the door.
+4. **The step at the door:** tile its front face (50 mm high), then fit the grey plastic edge strip along its edge.
 
 **แล้ว:** รอกาวแห้ง 24–48 ชั่วโมง ห้ามเดินบนพื้น
 
 **Then:** let the adhesive set for 24–48 hours. Keep off the floor.
 
-**ครั้งที่ 3 — ยาแนว:** ยาแนวทุกร่อง รวมมุมที่พื้นชนผนังและบัวเชิงผนัง **ห้ามใช้ซิลิโคน**
+**ครั้งที่ 3 — บัวเชิงผนัง:** แถบกระเบื้องสูง 10 ซม. บนพื้นใหม่ ตามโคนผนังอีก 3 ด้าน (รวม 4.56 ม.) ตัดจากกระเบื้องแผ่นเต็ม หยุดที่วงกบประตู
 
-**Visit 3 — grout:** fill every joint, including where the floor meets the walls and the skirting. **No silicone.**
+**Visit 3 — skirting:** a 10 cm strip of tile, standing on the new floor, along the bottom of the other 3 walls (4.56 m in all), cut from whole tiles. Stop it at the door frame.
+
+**ครั้งที่ 4 — ยาแนว:** ยาแนวทุกร่อง รวมมุมที่พื้นชนผนังและบัวเชิงผนัง **ห้ามใช้ซิลิโคน**
+
+**Visit 4 — grout:** fill every joint, including where the floor meets the walls and the skirting. **No silicone.**
 
 **วิธีปู:**
 - ใช้กาวซีเมนต์สำหรับปูกระเบื้อง ไม่ใช้ปูนทราย
@@ -201,7 +214,7 @@ The same grey tile is used everywhere: 50 × 50 cm, 4 to a box.
 
 Prices checked 31 Oct 2026.
 
-## ครั้งที่ 4 — ทาสี / Visit 4 — Painting
+## ครั้งที่ 5 — ทาสี / Visit 5 — Painting
 
 ก่อนทาสี: ติดเทปที่ขอบกระเบื้องและบัวเชิงผนัง แล้วคลุมพื้นใหม่
 
@@ -227,7 +240,7 @@ Before you paint: tape along the edges of the tiles and the skirting, and cover 
 
 Prices checked 16 Nov 2026.
 
-## ครั้งที่ 5 — ติดตั้ง / Visit 5 — Fitting everything
+## ครั้งที่ 6 — ติดตั้ง / Visit 6 — Fitting everything
 
 **ติดของเดิมกลับ** (ที่ถอดเก็บไว้ในครั้งที่ 1):
 - **เครื่องทำน้ำอุ่นและฝักบัว:** ที่เดิม ถ้าต้องเจาะกระเบื้องใช้ดอกเจาะกระเบื้อง ต่อน้ำก่อน แล้วต่อไฟ **เปิดเบรกเกอร์เมื่อต่อเสร็จและตรวจแล้วเท่านั้น** เปลี่ยนสายน้ำพลาสติกสีดำเดิมเป็นสายสแตนเลสใหม่ (ดูว่าเกลียว ½" เข้ากันได้ทั้งสองด้าน)
@@ -274,7 +287,7 @@ Prices checked 16 Nov 2026.
 
 To-buy prices checked on HomePro 5 Nov 2026.
 
-## ครั้งที่ 5 (ต่อ) — ประตูใหม่ / Visit 5 (continued) — The new door
+## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
 ประตูใหม่ใส่เป็นงานสุดท้าย
 
