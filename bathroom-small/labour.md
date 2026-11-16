@@ -2,7 +2,7 @@
 
 Date: 5 Nov 2026
 
-A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the tiler's quote against: the tiler does all the work after the owner's preparation. The materials are the owner's and are not in it.
+A reference price for the labour on the [small bathroom](README.md), phase by phase, to hold the tiler's quote against: the tiler does all the work. The materials are the owner's and are not in it.
 
 The rates come from the Comptroller General's labour rate book, กค 0433.2/ว 480 (26/06/2569). It's the same book the main bathroom quote uses, and its copy is kept in [`sources/`](../sources/2026-06-26-cgd-w480-labour-rates.pdf). The rates were read 2026-11-05, and each one gives its item and page in the book. They are bare labour, so **Factor F 1.2199** is added on top for the tiler's overhead, profit and interest (building work, up to 0.5 million baht, without VAT; [table ว481](https://www.yotathai.com/factorf/building/adv15-retain10), checked 2026-11-01). Quantities come from the room size in the README: 2,500 × 1,380 mm, so 3.45 m² of floor, and 2.8 m to the ceiling. The ceiling and its light stay as they are, so there is no ceiling work.
 
@@ -10,12 +10,11 @@ The rates come from the Comptroller General's labour rate book, กค 0433.2/�
 
 | Phase | Who | Bare labour | With Factor F |
 |---|---|---|---|
-| 1. Preparation | Owner | — | — |
-| 2. Strip out | Tiler | ฿796 | ฿971 |
-| 3. Plastering | Tiler | ฿950 | ฿1,159 |
-| 4. Tiling | Tiler, 2 visits | ฿1,712 | ฿2,088 |
-| 5. Painting | Tiler | ฿474 | ฿578 |
-| 6. Fit-out, and the door | Tiler | ฿1,576 | ฿1,923 |
+| 1. Strip out | Tiler | ฿796 | ฿971 |
+| 2. Plastering | Tiler | ฿950 | ฿1,159 |
+| 3. Tiling | Tiler, 2 visits | ฿1,712 | ฿2,088 |
+| 4. Painting | Tiler | ฿474 | ฿578 |
+| 5. Fit-out, and the door | Tiler | ฿1,576 | ฿1,923 |
 | Water heater refitted (HomePro's service price, already with its overheads, so no Factor F) | Tiler | | ฿500 |
 | **Total** | | **฿5,508** (+ the ฿500 heater) | **฿7,219** |
 
@@ -25,7 +24,7 @@ These are government reference rates, worked out per unit of work for large jobs
 
 ## The phases
 
-### 2. Strip out
+### 1. Strip out
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
@@ -35,13 +34,13 @@ These are government reference rates, worked out per unit of work for large jobs
 
 Old wall tiles: 1.4 m high, 7.76 m round the room = 10.86 m², less the door (0.70 × 1.4 m = 0.98 m²) = **9.9 m²**.
 
-### 3. Plastering
+### 2. Plastering
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
 | Interior wall plaster, where the tiles came off | 2.3.1.2, p. 8 | 9.9 m² | ฿96 | ฿950 |
 
-### 4. Tiling
+### 3. Tiling
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
@@ -51,7 +50,7 @@ Old wall tiles: 1.4 m high, 7.76 m round the room = 10.86 m², less the door (0.
 | Wall tiling, 18 × 18" and up: the skirting, 4.56 m × 0.1 m | 2.3.1.3, p. 8 | 0.5 m² | ฿184 | ฿92 |
 | | | | | **฿1,712** |
 
-### 5. Painting
+### 4. Painting
 
 The book's rates include a primer coat and 2 finish coats.
 
@@ -65,7 +64,7 @@ Walls: 7.76 m round the room × 2.8 m = 21.73 m², less the door (0.70 × 1.95 m
 
 Security screen: the window is 400 × 600 mm = 0.24 m², and the screen is painted on both faces = 0.48 m², which rounds to **0.5 m²**, frame included.
 
-### 6. Fit-out, and the door
+### 5. Fit-out, and the door
 
 | Work | Book item | Qty | Rate | Labour |
 |---|---|---|---|---|
@@ -88,6 +87,6 @@ The door rate is for hanging a ready-made leaf. Cutting the top off isn't priced
 These have no rate in the book, so ask the tiler for a price:
 
 - **The disposal fee.** The strip-out rates already include carrying everything away ("carried away"), but not the fee for dumping it — now with the old wall tiles too.
-- **Taking the wall fittings off** at the strip-out: the water heater, the shower and its rail, the soap holder, the toilet paper holder and the bidet spray's holder.
+- **Taking the wall fittings off** at the strip-out: the security screen, the water heater, the shower and its rail, the soap holder, the toilet paper holder and the bidet spray's holder.
 - **Filling** the screw holes in the old wall above the tile line before painting.
 - **The door, beyond hanging it:** taking the old door off (the book only has a door removed with its frame), cutting and capping the top of the new one, moving the strike plate, and plugging the old hinge holes.
