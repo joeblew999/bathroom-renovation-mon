@@ -261,14 +261,14 @@ Prices checked 31 Oct 2026; the rounded trim 16 Nov 2026.
 
 1. **ทำความสะอาด** ผนัง วงกบหน้าต่าง และเหล็กดัด
 2. **อุดรูสกรู** ในผนังส่วนบน แล้วขัดให้เรียบ
-3. **ผนัง** (ประมาณ 14.7 ตร.ม.): สีรองพื้นสำหรับปูนใหม่ 1 รอบ แล้วสีกันเชื้อรา 2 รอบ
+3. **ผนัง** (ประมาณ 14.7 ตร.ม.): สีรองพื้นสำหรับปูนใหม่ 1 รอบ แล้วสีขาวทาภายนอก TOA 4 Seasons ที่มีอยู่ 2 รอบ
 4. **วงกบหน้าต่างและเหล็กดัด:** ใช้สีขาวที่มีอยู่แล้ว ทาเหล็กดัดตอนที่ยังถอดอยู่
 
 Before you paint: tape along the edges of the tiles and the skirting, and cover the new floor.
 
 1. **Clean** the walls, the window frame and the security screen.
 2. **Fill the screw holes** in the upper walls, and sand them smooth.
-3. **Walls** (about 14.7 m²): 1 coat of primer for new plaster, then 2 coats of the anti-mould paint.
+3. **Walls** (about 14.7 m²): 1 coat of primer for new plaster, then 2 coats of the white TOA 4 Seasons exterior paint that's on site.
 4. **Window frame and security screen:** use the white paint that's already here. Paint the screen while it's still off the wall.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
