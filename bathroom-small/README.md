@@ -1,10 +1,6 @@
-# ปรับปรุงห้องน้ำ / Bathroom renovation
+# ปรับปรุงห้องน้ำ
 
-[ภาษาไทย](#th) · [English](#en)
-
-<a id="th"></a>
-
-# ภาษาไทย
+(English below)
 
 วันที่: 5 พ.ย. 2569 (แก้ไข 16 พ.ย. 2569)
 
@@ -312,9 +308,7 @@
 
 ---
 
-<a id="en"></a>
-
-# English
+# Bathroom renovation
 
 Date: 5 Nov 2026 (updated 16 Nov 2026)
 
