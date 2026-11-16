@@ -126,6 +126,14 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 - The old toilet and basin, with the basin's rusty wall brackets.
 - The old door and its frame. Take care not to disturb the beam over the doorway.
 
+| ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
+|---|---|---|---|---|---|---|
+| ปลั๊กอุดปลายท่อ ระหว่างทำงาน / Plugs for the pipe ends while you work | Thai Water Pipe ½" PVC male plug <https://www.homepro.co.th/p/85336> | 85336 | 3 | ต้องซื้อ / To buy | ฿5 | ฿15 |
+
+ราคาเช็ค 16 พ.ย. 2569
+
+Price checked 16 Nov 2026.
+
 ## ครั้งที่ 1 (ต่อ) — ฉาบผนัง / Visit 1 (continued) — Plaster the walls
 
 ฉาบผนังทุกด้านที่รื้อกระเบื้องออก (ประมาณ 9.9 ตร.ม.) ให้เรียบและเสมอกับผนังด้านบน ผนังฝักบัวต้องเรียบตรง เพื่อให้กระเบื้องปูได้ตรง ฉาบรอบท่อน้ำให้เรียบร้อย ฉาบซ่อมขอบช่องประตูตรงที่รื้อวงกบเดิมออกด้วย ให้เรียบและได้ฉาก วงกบใหม่จะใส่ในครั้งที่ 2
@@ -312,7 +320,6 @@ Prices checked 16 Nov 2026.
 |---|---|---|---|---|---|---|
 | **วาล์วน้ำ / Water valves** | | | | | | |
 | วาล์วน้ำ ชักโครก อ่างล้างหน้า และเครื่องทำน้ำอุ่น (แทนตัวเดิม) / Water valves, toilet, basin and water heater (replace the old ones) | HOEN HT-011 <https://www.homepro.co.th/p/1040989> | 1040989 | 3 | ต้องซื้อ / To buy | ฿155 | ฿465 |
-| ปลั๊กอุดปลายท่อ ระหว่างทำงาน / Plugs for the pipe ends while you work | Thai Water Pipe ½" PVC male plug <https://www.homepro.co.th/p/85336> | 85336 | 3 | ต้องซื้อ / To buy | ฿5 | ฿15 |
 | **อ่างล้างหน้า / Basin** | | | | | | |
 | อ่างล้างหน้าแขวนผนัง / Wall-hung basin | MOYA 179, white, 60 × 13 × 31 cm <https://www.homepro.co.th/p/1249118> | 1249118 | 1 | **มีแล้ว / Have it** | ฿1,190 | ฿1,190 |
 | ก๊อกอ่างล้างหน้า / Basin tap | MOYA 832-1 <https://www.homepro.co.th/p/1254863> | 1254863 | 1 | **มีแล้ว / Have it** | ฿929 | ฿929 |
@@ -328,11 +335,11 @@ Prices checked 16 Nov 2026.
 | ซิลิโคนกันเชื้อรา สีเทา / Anti-mould silicone, grey | SISTA S19, 300 ml, grey <https://www.homepro.co.th/p/1120475> | 1120475 | 3 หลอด / 3 tubes | ต้องซื้อ / To buy | ฿144 | ฿432 |
 | ซิลิโคนกันเชื้อรา สีขาว (รอบวงกบประตู) / Anti-mould silicone, white (round the door frame) | 3M acid-free, 300 ml, white <https://www.homepro.co.th/p/284491> | 284491 | 1 หลอด / 1 tube | ต้องซื้อ / To buy | ฿355 | ฿355 |
 | **รวมของที่มีแล้ว / Total already bought** | | | | | | **฿7,322** |
-| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿1,616** |
+| **รวมของที่ต้องซื้อ / Total to buy** | | | | | | **฿1,601** |
 
-ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569 ปลั๊กอุดและซิลิโคน 16 พ.ย. 2569 (หน้าซิลิโคนสีเทาแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
+ราคาของที่ต้องซื้อ เช็คที่โฮมโปร 5 พ.ย. 2569 ซิลิโคน 16 พ.ย. 2569 (หน้าซิลิโคนสีเทาแสดงว่าสินค้าหมด ใช้ซิลิโคนไร้กรดกันเชื้อราสีเทายี่ห้ออื่นได้)
 
-To-buy prices checked on HomePro 5 Nov 2026, the plugs and the silicone 16 Nov 2026 (the grey silicone's page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
+To-buy prices checked on HomePro 5 Nov 2026, the silicone 16 Nov 2026 (the grey silicone's page shows it out of stock; any grey, acid-free, anti-mould silicone will do).
 
 ## ครั้งที่ 6 (ต่อ) — ประตูใหม่ / Visit 6 (continued) — The new door
 
