@@ -278,9 +278,9 @@ To-buy prices checked on HomePro 5 Nov 2026.
 
 ## ครั้งที่ 5 (ต่อ) — ประตูใหม่ / Visit 5 (continued) — The new door
 
-ประตูใหม่ใส่เป็นงานสุดท้าย **วงกบเดิมอยู่ที่เดิม** ถอดแค่บานประตูเดิมและบานพับออก
+ประตูใหม่ใส่เป็นงานสุดท้าย
 
-The new door goes in last. **The old door frame stays.** Only the old door and its hinges come off.
+The new door goes in last.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
 |---|---|---|---|---|---|---|
@@ -293,25 +293,17 @@ The new door goes in last. **The old door frame stays.** Only the old door and i
 
 Prices checked on HomePro 5 Nov 2026.
 
-**ประตูใหม่สูงเกิน ต้องตัดด้านบน:** ประตูใหม่สูง 2,000 มม. ช่องประตูสูง 1,950 มม. และพื้นใหม่ทำให้ช่องเตี้ยลงอีก ตัดด้านบนออก 50 มม. บวกความสูงที่พื้นเพิ่มขึ้น (ประมาณ 15 มม. รวมประมาณ 65 มม.) วัดหลังปูพื้นเสร็จ ขัดขอบที่ตัด แล้วปิดด้านบนที่เปิดด้วยแผ่น PVC หรือซิลิโคน
+**ใส่ประตู:**
+1. ถอดประตูเดิมและบานพับออก วงกบเดิมอยู่ที่เดิม
+2. ตัดด้านบนประตูใหม่ให้พอดีช่อง (ดู "ก่อนเริ่มงาน") ขัดขอบ แล้วปิดด้านบนด้วยแผ่น PVC หรือซิลิโคน
+3. แขวนประตูที่ตำแหน่งบานพับเดิม ถ้ารูสกรูหลวม อุดแล้วเจาะใหม่
+4. ใส่ลูกบิด ถ้าสลักไม่ตรงที่รับสลักบนวงกบ ย้ายที่รับสลักแล้วอุดรอยเดิม
 
-**The new door is too tall, so cut the top off.** The new door is 2,000 mm tall and the opening is 1,950 mm. The new floor makes the opening a bit lower again. So cut off 50 mm, plus however much the floor went up (about 15 mm, so about 65 mm in all). Measure after the floor is laid. Sand the cut edge, then close the open top with a PVC strip or silicone.
-
-**ประตูที่จะซื้อ:** ช่างตรวจก่อนเริ่มงาน (ดู "ก่อนเริ่มงาน" ด้านบน)
-
-**Which door to buy:** the tiler checks this before the job starts (see "Before the job starts" at the top).
-
-**ความหนา:** ประตูใหม่หนา 35 มม. ประตูเดิม 38 มม. ใส่วงกบเดิมได้ หนัก 7.3 กก. ใส่กุญแจฝังไม่ได้ (โฮมโปร เช็ค 5 พ.ย. 2569)
-
-**Thickness:** the new door is 35 mm thick and the old one 38 mm, so it fits the old frame. It weighs 7.3 kg and can't take a built-in lock (HomePro, checked 5 Nov 2026).
-
-**บานพับ:** ใช้ตำแหน่งบานพับเดิมบนวงกบถ้าได้ ถ้ารูสกรูเดิมหลวม อุดแล้วเจาะใหม่
-
-**Hinges:** use the old hinge positions on the frame if you can. If the old screw holes are loose, fill them and drill again.
-
-**ที่รับสลักบนวงกบ:** แขวนประตูก่อน ถ้าสลักลูกบิดไม่ตรงกับที่รับสลักเดิม ให้ย้ายที่รับสลักให้ตรง แล้วอุดรอยเดิม
-
-**Latch plate on the frame:** hang the door first. If the knob's latch doesn't meet the old latch plate, move the plate to meet it and fill the old hole.
+**Fitting the door:**
+1. Take off the old door and its hinges. The old frame stays.
+2. Cut the new door's top to fit the opening (see "Before the job starts"). Sand the cut, then close the open top with a PVC strip or silicone.
+3. Hang it on the old hinge positions. If the old screw holes are loose, fill them and drill again.
+4. Fit the knob. If the latch doesn't meet the latch plate on the frame, move the plate and fill the old hole.
 
 ---
 
