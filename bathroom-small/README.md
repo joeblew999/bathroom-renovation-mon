@@ -78,7 +78,7 @@ Some things have to dry before the next step, so the work comes in 6 visits:
 
 | ครั้ง / Visit | งาน / Work | แล้วรอ / Then wait for |
 |---|---|---|
-| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้ง — ถุงกาวปูกระเบื้องบอกว่าต้องรอกี่วัน / the plaster to dry — the tile adhesive bag says how many days |
+| 1 | รื้อของเก่า แล้วฉาบผนัง / Take the old things out, then plaster the walls | ปูนฉาบแห้งก่อนปูกระเบื้อง — ดูจำนวนวันบนถุงกาวปูกระเบื้อง / the plaster to dry before tiling — the tile adhesive bag says how many days |
 | 2 | ปูผนังฝักบัว แล้วปูพื้นและขั้นที่ประตู / Tile the shower wall, then the floor and the step at the door | กาวแห้ง 24–48 ชม. ห้ามเดินบนพื้น / the adhesive to set, 24–48 hours — keep off the floor |
 | 3 | ปูบัวเชิงผนัง / Tile the skirting | กาวแห้ง / the adhesive to set |
 | 4 | ยาแนว / Grout all the tiles | ยาแนวแห้ง / the grout to set |
@@ -220,14 +220,14 @@ Prices checked 31 Oct 2026.
 
 1. **ทำความสะอาด** ผนัง วงกบหน้าต่าง และเหล็กดัด
 2. **อุดรูสกรู** ในผนังส่วนบน แล้วขัดให้เรียบ
-3. **ผนัง** (ประมาณ 14.7 ตร.ม.): สีรองพื้นสำหรับปูนใหม่ 1 รอบ (TOA Hydro Quick ทาได้หลังฉาบ 2 วัน) แล้วสีกันเชื้อรา 2 รอบ
+3. **ผนัง** (ประมาณ 14.7 ตร.ม.): สีรองพื้นสำหรับปูนใหม่ 1 รอบ แล้วสีกันเชื้อรา 2 รอบ
 4. **วงกบหน้าต่างและเหล็กดัด:** ใช้สีขาวที่มีอยู่แล้ว ทาเหล็กดัดตอนที่ยังถอดอยู่
 
 Before you paint: tape along the edges of the tiles and the skirting, and cover the new floor.
 
 1. **Clean** the walls, the window frame and the security screen.
 2. **Fill the screw holes** in the upper walls, and sand them smooth.
-3. **Walls** (about 14.7 m²): 1 coat of primer made for new plaster (TOA Hydro Quick can go on 2 days after plastering), then 2 coats of the anti-mould paint.
+3. **Walls** (about 14.7 m²): 1 coat of primer for new plaster, then 2 coats of the anti-mould paint.
 4. **Window frame and security screen:** use the white paint that's already here. Paint the screen while it's still off the wall.
 
 | ของ / Item | สินค้า / Product | รหัสโฮมโปร / HomePro code | จำนวน / How many | มีแล้ว? / Have it? | ราคา / Each | รวม / Total |
